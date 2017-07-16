@@ -553,15 +553,16 @@
                                 <Grid HorizontalAlignment="Stretch"
                                         VerticalAlignment="Stretch"
                                         Margin="19,0,0,0">
-                                    <Ellipse HorizontalAlignment="Left" 
-                                            Width="28"
-                                            Margin="8.5,0,0,0"
-                                            Height="28"
-                                            VerticalAlignment="Center" >
-                                        <Ellipse.Fill>
-                                            <ImageBrush Stretch="UniformToFill" ImageSource="{x:Bind SoundByteService.CurrentUser, Converter={StaticResource ArtworkImageSourceConverter}, Mode=OneWay}" />
-                                        </Ellipse.Fill>
-                                    </Ellipse>
+                                    <controls:RoundImageEx HorizontalAlignment="Left" 
+                                                           Source="{x:Bind SoundByteService.CurrentUser, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"  
+                                                           Width="28"
+                                                           IsCacheEnabled="True"
+                                                           PlaceholderSource="ms-appx:///Assets/PlaceholderBackground.png"
+                                                           PlaceholderStretch="UniformToFill"
+                                                           Margin="8.5,0,0,0"
+                                                           CornerRadius="14"
+                                                           Height="28"
+                                                           VerticalAlignment="Center"  />
 
                                     <TextBlock Text="{x:Bind SoundByteService.CurrentUser.Username, Mode=OneWay}"
                                                 FontWeight="Normal" 

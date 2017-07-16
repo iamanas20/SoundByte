@@ -15,11 +15,17 @@
         <DataTemplate x:Key="TrackLikeView" x:DataType="endpoints:Notification">
             <Grid>
                 <!-- The users who liked the track image -->
-                <Ellipse Margin="45,45,0,0" Width="40" Height="40" VerticalAlignment="Top" HorizontalAlignment="Left" Canvas.ZIndex="5">
-                    <Ellipse.Fill>
-                        <ImageBrush ImageSource="{x:Bind User, Converter={StaticResource ArtworkImageSourceConverter}, Mode=OneWay}" />
-                    </Ellipse.Fill>
-                </Ellipse>
+                <controls:RoundImageEx Margin="45,45,0,0" 
+                                       Width="40" 
+                                       Height="40" 
+                                       Source="{x:Bind User, Converter={StaticResource ArtworkConverter}, Mode=OneWay}" 
+                                       VerticalAlignment="Top" 
+                                       IsCacheEnabled="True"
+                                       CornerRadius="20"
+                                       PlaceholderSource="ms-appx:///Assets/PlaceholderBackground.png"
+                                       PlaceholderStretch="UniformToFill"
+                                       HorizontalAlignment="Left" 
+                                       Canvas.ZIndex="5" />
                 <!-- The track that has been liked iamge -->
                 <controls:ImageEx Margin="10" Width="80" Height="80" Source="{x:Bind Track, Converter={StaticResource ArtworkConverter}, Mode=OneWay}" VerticalAlignment="Top" HorizontalAlignment="Left" Stretch="Uniform"  />
                 <!-- The message and track title -->
@@ -51,11 +57,17 @@
         <DataTemplate x:Key="PlaylistLikeView" x:DataType="endpoints:Notification">
             <Grid>
                 <!-- The users who liked the track image -->
-                <Ellipse Margin="45,45,0,0" Width="40" Height="40" VerticalAlignment="Top" HorizontalAlignment="Left" Canvas.ZIndex="5">
-                    <Ellipse.Fill>
-                        <ImageBrush ImageSource="{x:Bind User, Converter={StaticResource ArtworkImageSourceConverter}, Mode=OneWay}" />
-                    </Ellipse.Fill>
-                </Ellipse>
+                <controls:RoundImageEx Margin="45,45,0,0" 
+                                       Width="40" 
+                                       Height="40" 
+                                       VerticalAlignment="Top" 
+                                       CornerRadius="20"
+                                       Source="{x:Bind User, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"  
+                                       IsCacheEnabled="True"
+                                       PlaceholderSource="ms-appx:///Assets/PlaceholderBackground.png"
+                                       PlaceholderStretch="UniformToFill"
+                                       HorizontalAlignment="Left" 
+                                       Canvas.ZIndex="5" />
                 <!-- The track that has been liked iamge -->
                 <controls:ImageEx Margin="10" Width="80" Height="80" Source="{x:Bind Playlist, Converter={StaticResource ArtworkConverter}, Mode=OneWay}" VerticalAlignment="Top" HorizontalAlignment="Left" Stretch="Uniform"  />
                 <!-- The message and track title -->
@@ -82,11 +94,18 @@
         <!-- View for comment post -->
         <DataTemplate x:Key="TrackCommentView" x:DataType="endpoints:Notification">
             <Grid>
-                <Ellipse Margin="45,45,0,0" Width="40" Height="40" VerticalAlignment="Top" HorizontalAlignment="Left" Canvas.ZIndex="5">
-                    <Ellipse.Fill>
-                        <ImageBrush ImageSource="{x:Bind User, Converter={StaticResource ArtworkImageSourceConverter}, Mode=OneWay}" />
-                    </Ellipse.Fill>
-                </Ellipse>
+                <controls:RoundImageEx Margin="45,45,0,0" 
+                                       Width="40" 
+                                       Source="{x:Bind User, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"  
+                                       Height="40" 
+                                       VerticalAlignment="Top" 
+                                       IsCacheEnabled="True"
+                                       CornerRadius="20"
+                                       PlaceholderSource="ms-appx:///Assets/PlaceholderBackground.png"
+                                       PlaceholderStretch="UniformToFill"
+                                       HorizontalAlignment="Left" 
+                                       Canvas.ZIndex="5" />
+
                 <controls:ImageEx Margin="10" Width="80" Height="80" Source="{x:Bind Comment.Track, Converter={StaticResource ArtworkConverter}, Mode=OneWay}" VerticalAlignment="Top" HorizontalAlignment="Left" Stretch="Uniform" />
 
                 <StackPanel Margin="105,5,5,5" VerticalAlignment="Center">
@@ -121,11 +140,16 @@
         <!-- User follow current user view -->
         <DataTemplate x:Key="UserFollowView" x:DataType="endpoints:Notification">
             <Grid>
-                <Ellipse Margin="10" Width="80" Height="80" VerticalAlignment="Top" HorizontalAlignment="Left">
-                    <Ellipse.Fill>
-                        <ImageBrush ImageSource="{x:Bind User, Converter={StaticResource ArtworkImageSourceConverter}, Mode=OneWay}" />
-                    </Ellipse.Fill>
-                </Ellipse>
+                <controls:RoundImageEx Margin="10" 
+                                       Source="{x:Bind User, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
+                                       Width="80" 
+                                       Height="80" 
+                                       VerticalAlignment="Top" 
+                                       HorizontalAlignment="Left"
+                                       CornerRadius="40"
+                                       IsCacheEnabled="True"
+                                       PlaceholderSource="ms-appx:///Assets/PlaceholderBackground.png"
+                                       PlaceholderStretch="UniformToFill" />
 
                 <StackPanel Margin="105,5,5,5" VerticalAlignment="Center">
                     <StackPanel Orientation="Horizontal">

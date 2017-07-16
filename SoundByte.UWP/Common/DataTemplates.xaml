@@ -144,4 +144,33 @@
             <TextBlock Text="{x:Bind Country, Mode=OneWay}" FontSize="12" Opacity="0.6" TextAlignment="Center" FontWeight="SemiBold" />
         </StackPanel>
     </DataTemplate>
+
+    <!-- Clean hyperlinks without underline -->
+    <DataTemplate x:Key="HyperlinkClean">
+        <TextBlock Text="{Binding}" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="AppIcon">
+        <TextBlock Text="{Binding}" 
+                   FontSize="38" 
+                   FontFamily="Segoe MDL2 Assets" 
+                   TextAlignment="Center" 
+                   TextLineBounds="Tight" 
+                   CharacterSpacing="1" 
+                   OpticalMarginAlignment="None"  
+                   VerticalAlignment="Center" 
+                   HorizontalAlignment="Center" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="SmallAppIcon">
+        <TextBlock Text="{Binding}" 
+                   FontSize="22" 
+                   FontFamily="Segoe MDL2 Assets" 
+                   TextAlignment="Center" 
+                   TextLineBounds="Tight" 
+                   CharacterSpacing="1" 
+                   OpticalMarginAlignment="None" 
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Center" />
+    </DataTemplate>
 </ResourceDictionary>

@@ -392,11 +392,16 @@
                             <Button BorderThickness="0" BorderBrush="{x:Null}" Padding="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Margin="0,10,0,0" Click="{x:Bind ViewModel.GoToUserProfile}" Height="70" VerticalAlignment="Top" RequestedTheme="Dark">
                                 <Button.Content>
                                     <Grid>
-                                        <Ellipse Margin="10,0,0,0" Width="50" Height="50" VerticalAlignment="Center" HorizontalAlignment="Left" >
-                                            <Ellipse.Fill>
-                                                <ImageBrush ImageSource="{x:Bind Path=ViewModel.Service.CurrentTrack.User, Converter={StaticResource ArtworkImageSourceConverter}, Mode=OneWay}" />
-                                            </Ellipse.Fill>
-                                        </Ellipse>
+                                        <controls:RoundImageEx Source="{x:Bind Path=ViewModel.Service.CurrentTrack.User, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"  
+                                                               Margin="10,0,0,0" 
+                                                               Width="50" 
+                                                               Height="50" 
+                                                               CornerRadius="25"
+                                                               IsCacheEnabled="True"
+                                                               PlaceholderSource="ms-appx:///Assets/PlaceholderBackground.png"
+                                                               PlaceholderStretch="UniformToFill"
+                                                               VerticalAlignment="Center" 
+                                                               HorizontalAlignment="Left" />
 
                                         <StackPanel Orientation="Vertical" Margin="70,10,0,10">
                                             <TextBlock Text="{x:Bind Path=ViewModel.Service.CurrentTrack.User.Username, Mode=OneWay}" HorizontalAlignment="Left" Margin="0,0,0,2" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="17" Opacity="1" FontWeight="SemiBold"/>
@@ -436,12 +441,17 @@
                         </ListView.ItemContainerStyle>
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <Grid BorderThickness="0"  Margin="0,5" BorderBrush="{x:Null}" Padding="0" RequestedTheme="Dark">
-                                    <Ellipse Width="48" Height="48" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,10,0,0" >
-                                        <Ellipse.Fill>
-                                            <ImageBrush ImageSource="{Binding User, Converter={StaticResource ArtworkImageSourceConverter}, Mode=OneWay}" />
-                                        </Ellipse.Fill>
-                                    </Ellipse>
+                                <Grid BorderThickness="0" Margin="0,5" BorderBrush="{x:Null}" Padding="0" RequestedTheme="Dark">
+                                    <controls:RoundImageEx IsCacheEnabled="True"
+                                                           PlaceholderSource="ms-appx:///Assets/PlaceholderBackground.png"
+                                                           PlaceholderStretch="UniformToFill"
+                                                           Width="48" 
+                                                           Height="48"
+                                                           VerticalAlignment="Top" 
+                                                           CornerRadius="24"
+                                                           Source="{Binding User, Converter={StaticResource ArtworkConverter}, Mode=OneWay}" 
+                                                           HorizontalAlignment="Left" 
+                                                           Margin="10,10,0,0"/>
 
                                     <StackPanel Padding="0,5" Margin="0" VerticalAlignment="Top" HorizontalAlignment="Stretch">
                                         <TextBlock Height="25" Margin="70,7,10,0"  TextWrapping="WrapWholeWords" Text="{Binding User.Username}" FontSize="16" FontWeight="Bold" Opacity="0.8" HorizontalAlignment="Left" VerticalAlignment="Top" />

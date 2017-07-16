@@ -1,0 +1,89 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:brushes="using:UICompositionAnimations.Brushes"
+    xmlns:lights="using:UICompositionAnimations.Lights">
+
+    <!-- App specific themes -->
+    <ResourceDictionary.ThemeDictionaries>
+        <!-- Dark -->
+        <ResourceDictionary x:Key="Dark">
+            <!-- Shell Colors -->
+            <Color x:Key="ShellNavigationBackgroundColor">#FF2B2B2B</Color>
+            <Color x:Key="ShellBackgroundColor">#FF1F1F1F</Color>
+            <!-- Grey Background Color -->
+            <SolidColorBrush x:Key="SecondaryBackgroundColor" Color="#0DFFFFFF" />
+        </ResourceDictionary>
+        <!-- Light -->
+        <ResourceDictionary x:Key="Light">
+            <!-- Shell Colors -->
+            <Color x:Key="ShellNavigationBackgroundColor">#FFE8E8E8</Color>
+            <Color x:Key="ShellBackgroundColor">#FFF8F8F8</Color>
+            <!-- Grey Background Color -->
+            <SolidColorBrush x:Key="SecondaryBackgroundColor" Color="#15000000" />
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>
+
+    <!-- Shell Brushes -->
+    <SolidColorBrush x:Key="ShellNavigationBackground" Color="{ThemeResource ShellNavigationBackgroundColor}" />
+    <SolidColorBrush x:Key="ShellBackground" Color="{ThemeResource ShellBackgroundColor}" />
+
+    <!-- Used to store the accent color -->
+    <SolidColorBrush x:Key="AppBarColor" />
+
+    <!-- Used for hover effects over button -->
+    <brushes:LightingBrush x:Key="ButtonLightingBrush"
+                           SpecularShine=".01"
+                           SpecularAmount=".01"
+                           DiffuseAmount="0.3"
+                           Opacity=".5"
+                           lights:PointerPositionSpotLight.IsTarget="True"/>
+    
+    <!-- Border lighting effect when hover near button  -->
+    <brushes:LightingBrush x:Key="ButtonBorderLightingBrush"
+                           SpecularShine=".1"
+                           SpecularAmount=".1"
+                           DiffuseAmount=".8"
+                           Opacity="0.8"
+                           lights:PointerPositionSpotLight.IsTarget="True"/>
+
+    <!-- Lighting effect that is shown when the user presses a button -->
+    <brushes:LightingBrush x:Key="ButtonPressedLightingBrush"
+                           SpecularShine=".01"
+                           SpecularAmount=".01"
+                           DiffuseAmount="1.5"
+                           Opacity=".4"
+                           lights:PointerPositionSpotLight.IsTarget="True"/>
+
+    <!-- Used for full screen track bluring (now playing page + xbox overlay -->
+    <brushes:CustomAcrylicBrush x:Key="BackgroundTrackBlurBrush"
+                                Mode="InAppBlur"
+                                BlurAmount="28"
+                                Tint="#FF000000"
+                                TintMix="0.6"
+                                NoiseTextureUri="/Assets/Misc/lightnoise.png"/>
+
+    <!-- Blur used for menua and combox boxs  -->
+    <brushes:CustomAcrylicBrush x:Key="ComboBoxbackgroundBlur"
+                                Mode="InAppBlur"
+                                BlurAmount="18"
+                                Tint="{StaticResource ShellNavigationBackgroundColor}"
+                                TintMix="0.5"
+                                NoiseTextureUri="/Assets/Misc/lightnoise.png"/>
+
+    <!-- Blur used for the background of content dialogs -->
+    <brushes:CustomAcrylicBrush x:Key="ContentDialogBackgroundBrush"
+                                Mode="InAppBlur"
+                                BlurAmount="18"
+                                Tint="{StaticResource ShellNavigationBackgroundColor}"
+                                TintMix="0.6"
+                                NoiseTextureUri="/Assets/Misc/lightnoise.png"/>
+
+    <!-- Backdrop acrylic blur used for app main page (seen through nav menu and titlebar) -->
+    <brushes:CustomAcrylicBrush x:Key="AppHostBackgroundBrush"
+                                Mode="HostBackdrop"
+                                BlurAmount="12"
+                                Tint="{StaticResource ShellNavigationBackgroundColor}"  
+                                TintMix="0.7"
+                                NoiseTextureUri="/Assets/Misc/lightnoise.png"/>
+</ResourceDictionary>

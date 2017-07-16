@@ -26,17 +26,20 @@
                                                   OffsetY="0"
                                                   Color="#FF333333">
                             <StackPanel Background="{ThemeResource ShellNavigationBackground}"  Orientation="Horizontal" Padding="15" HorizontalAlignment="Left">
-                                <controls:DropShadowPanel Height="100" Width="100" HorizontalAlignment="Left"
+                                <controls:DropShadowPanel  HorizontalAlignment="Left"
                                                           BlurRadius="8"
                                                           ShadowOpacity="0.85"
                                                           OffsetX="0"
                                                           OffsetY="0"
                                                           Color="Black">
-                                    <Ellipse  >
-                                        <Ellipse.Fill>
-                                            <ImageBrush ImageSource="{x:Bind Service.CurrentUser, Converter={StaticResource ArtworkImageSourceConverter}, Mode=OneWay}"  Stretch="UniformToFill" />
-                                        </Ellipse.Fill>
-                                    </Ellipse>
+                                    <controls:RoundImageEx Source="{x:Bind Service.CurrentUser, Converter={StaticResource ArtworkConverter}, Mode=OneWay}" 
+                                                           Height="100" 
+                                                           Width="100" 
+                                                           IsCacheEnabled="True"
+                                                           PlaceholderSource="ms-appx:///Assets/PlaceholderBackground.png"
+                                                           PlaceholderStretch="UniformToFill" 
+                                                           CornerRadius="50"
+                                                           Stretch="UniformToFill"/>
                                 </controls:DropShadowPanel>
 
                                 <StackPanel VerticalAlignment="Center" Margin="20,0">
