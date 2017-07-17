@@ -649,13 +649,11 @@
                         VerticalContentAlignment="Center"
                         HorizontalContentAlignment="Left" Style="{StaticResource NowPlayingButtonStyle}">
                     <Grid>
-                        <controls:DropShadowPanel Height="44" 
-                                                  Width="44" 
-                                                  HorizontalAlignment="Left" 
+                        <controls:DropShadowPanel HorizontalAlignment="Left" 
                                                   OffsetX="0"
                                                   OffsetY="5"
                                                   BlurRadius="35"
-                                                  ShadowOpacity="0.6"
+                                                  ShadowOpacity="0.8"
                                                   Color="Black"
                                                   Margin="20,10,10,10">
                             <controls:ImageEx IsCacheEnabled="True" 
@@ -704,6 +702,7 @@
                                    FontSize="14" />
 
                         <Slider Grid.Column="1" 
+                                Style="{StaticResource MainSliderStyle}"
                                 ThumbToolTipValueConverter="{StaticResource SliderValueConverter}" 
                                 VerticalAlignment="Center" 
                                 PointerCaptureLost="{x:Bind Service.PlayingSliderChange}" 
