@@ -35,6 +35,7 @@
 
         <!-- Track View -->
         <Grid x:Name="TrackView"
+              Visibility="Collapsed"
               Height="170"
               HorizontalAlignment="Stretch"
               Margin="0,5,0,5"
@@ -100,11 +101,11 @@
                         Canvas.ZIndex="5"
                         VerticalAlignment="Bottom"
                         Margin="180,30,0,20">
-                
+
                 <!-- Plays -->
                 <TextBlock Text="&#xE768;" 
                            FontFamily="Segoe MDL2 Assets" 
-                           Margin="0,4,6,0" 
+                           Margin="0,4,8,0" 
                            FontSize="14" 
                            Opacity="0.8" />
                 <TextBlock Text="{x:Bind Path=Track.PlaybackCount, Converter={StaticResource FormattedValueConverter}, Mode=OneWay}" 
@@ -118,7 +119,7 @@
                 <!-- Likes -->
                 <TextBlock Text="&#xE006;" 
                            FontFamily="Segoe MDL2 Assets"
-                           Margin="15,4,6,0" 
+                           Margin="15,4,8,0" 
                            FontSize="14" 
                            Opacity="0.8" />
                 <TextBlock Text="{x:Bind Path=Track.LikesCount, Converter={StaticResource FormattedValueConverter}, Mode=OneWay}" 
@@ -128,9 +129,9 @@
                            FontSize="15" 
                            Opacity="0.8" 
                            FontWeight="SemiBold"/>
-                
+
             </StackPanel>
-            
+
             <!-- Right Content -->
             <StackPanel Orientation="Vertical" 
                         VerticalAlignment="Top"
@@ -142,8 +143,8 @@
                            Opacity="0.7" 
                            TextAlignment="Right"
                            FontWeight="SemiBold" />
-                
-                
+
+
                 <TextBlock Text="{x:Bind Track.Duration, Mode=OneWay, Converter={StaticResource TimeStampConverter}}" 
                            Margin="0,1,0,0"
                            TextAlignment="Right"
@@ -167,88 +168,135 @@
         </Grid>
 
         <!-- Playlist View -->
-        <control:DropShadowPanel x:Name="PlaylistView"
-                                 BlurRadius="25"
-                                 Height="180"
-                                 HorizontalAlignment="Stretch"
-                                 Margin="0,10,0,10"
-                                 Visibility="Collapsed"
-                                 ShadowOpacity="0.8"
-                                 OffsetY="5"
-                                 Color="Black"
-                                 OffsetX="0"
-                                 x:DeferLoadStrategy="Lazy">
-            <Grid>
-                <!-- Transparent element that covers background canvas, makes image darker so white text and icons are easy to see -->
-                <Grid Canvas.ZIndex="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  />
-                <!-- Background Image -->
-                <control:ImageEx Source="{x:Bind Path=Playlist, Converter={StaticResource ArtworkConverter}, Mode=OneWay}" 
-                                 IsCacheEnabled="True"
-                                 PlaceholderSource="ms-appx:///Assets/PlaceholderBackground.png"
-                                 PlaceholderStretch="UniformToFill"
-                                 VerticalAlignment="Center"
-                                 HorizontalAlignment="Center"
-                                 Canvas.ZIndex="1"
-                                 IsHitTestVisible="False"
-                                 Stretch="UniformToFill">
 
-                </control:ImageEx>
-                <!-- Item Image -->
-                <control:DropShadowPanel Canvas.ZIndex="5"
+        <Grid x:Name="PlaylistView"
+                  Height="170"
+                  Margin="0,5,0,5"
+                  x:DeferLoadStrategy="Lazy"
+                  HorizontalAlignment="Stretch">
+
+            <!-- Item Image -->
+            <control:DropShadowPanel Canvas.ZIndex="5"
                                          HorizontalAlignment="Left"
-                                         BlurRadius="35"
-                                         ShadowOpacity="0.9"
+                                         BlurRadius="15"
+                                         ShadowOpacity="0.8"
                                          OffsetX="0"
                                          IsTabStop="False"
                                          IsHitTestVisible="False"
                                          Margin="10"
                                          OffsetY="5"
                                          Color="Black">
-                    <Grid>
-                        <control:ImageEx Source="{x:Bind Path=Playlist, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"  
+                <control:ImageEx Source="{x:Bind Path=Playlist, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"  
                                          PlaceholderSource="ms-appx:///Assets/PlaceholderBackground.png"
                                          IsCacheEnabled="True"
                                          PlaceholderStretch="UniformToFill"
-                                         Width="160" 
-                                         Height="160" 
+                                         Width="148" 
+                                         Height="148" 
                                          VerticalAlignment="Stretch"
                                          HorizontalAlignment="Stretch"
                                          IsHitTestVisible="False"
                                          Stretch="Uniform" />
-                        <TextBlock Text="&#xE8FD;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10" Foreground="White" />
+            </control:DropShadowPanel>
 
-                        <Grid RequestedTheme="Dark" Background="#66000000" Padding="5" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-                            <TextBlock RequestedTheme="Dark" Text="{x:Bind Playlist.Duration, Mode=OneWay, Converter={StaticResource TimeStampConverter}}" FontSize="12" FontWeight="SemiLight" />
-                        </Grid>
-
-                    </Grid>
-                </control:DropShadowPanel>
-                <!-- Basic Item Detail -->
-                <StackPanel Orientation="Vertical" 
+            <!-- Basic Item Detail -->
+            <StackPanel Orientation="Vertical" 
                             HorizontalAlignment="Left"
                             Canvas.ZIndex="5"
-                            Margin="190,20,0,20">
-                    <TextBlock RequestedTheme="Dark" Text="{x:Bind Playlist.Title, Mode=OneWay}" FontSize="22" Margin="0,0,0,2" TextWrapping="NoWrap" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
-                    <TextBlock RequestedTheme="Dark" Text="{x:Bind Playlist.User.Username, Mode=OneWay}" FontSize="16" Opacity="0.8" FontWeight="Normal" />
+                            Margin="180,30,0,30">
 
-                    <TextBlock RequestedTheme="Dark" Text="{x:Bind Created, Mode=OneWay, Converter={StaticResource ModernDateTimeConverter}}" FontSize="15" Opacity="0.6" FontWeight="SemiLight" Margin="0,8,0,5" />
+                <!-- Holds the 'reported by' / 'posted by text' -->
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Created by" 
+                                   FontSize="16" 
+                                   Opacity="0.7"
+                                   FontWeight="SemiLight" />
 
-                    <!-- Tracks -->
-                    <StackPanel Orientation="Horizontal"  Margin="0,6,0,0">
-                        <TextBlock RequestedTheme="Dark" Text="&#xEA69;" FontFamily="Segoe MDL2 Assets" Margin="0,4,6,0" FontSize="14" Opacity="0.8" />
-                        <TextBlock RequestedTheme="Dark" Text="{x:Bind Path=Playlist.TrackCount, Converter={StaticResource FormattedValueConverter}, Mode=OneWay}" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="15" Opacity="0.8" FontWeight="SemiLight"/>
-                        <TextBlock RequestedTheme="Dark" Text="Tracks" Margin="5,0,0,0" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="15" Opacity="0.8" FontWeight="SemiLight"/>
-                    </StackPanel>
-
-                    <!-- Likes -->
-                    <StackPanel Orientation="Horizontal"  Margin="0,5,0,0">
-                        <TextBlock RequestedTheme="Dark" Text="&#xE006;" FontFamily="Segoe MDL2 Assets" Margin="0,4,6,0" FontSize="14" Opacity="0.8" />
-                        <TextBlock RequestedTheme="Dark" Text="{x:Bind Path=Playlist.LikesCount, Converter={StaticResource FormattedValueConverter}, Mode=OneWay}" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="15" Opacity="0.8" FontWeight="SemiLight"/>
-                        <TextBlock RequestedTheme="Dark" Text="Likes" Margin="5,0,0,0" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="15" Opacity="0.8" FontWeight="SemiLight"/>
-                    </StackPanel>
+                    <TextBlock Text="{x:Bind Playlist.User.Username, Mode=OneWay}"
+                                   FontSize="16" 
+                                   FontWeight="SemiBold"
+                                   Opacity="0.8" 
+                                   Margin="3,0,0,0"/>
                 </StackPanel>
 
-            </Grid>
-        </control:DropShadowPanel>
+                <!-- Playlist title -->
+                <TextBlock Text="{x:Bind Playlist.Title, Mode=OneWay}" 
+                               FontSize="24" 
+                               Margin="0,14,0,2" 
+                               Opacity="0.8"
+                               TextWrapping="NoWrap"
+                               FontWeight="SemiBold" 
+                               TextTrimming="CharacterEllipsis" />
+            </StackPanel>
+
+            <!-- Extended Detail -->
+            <StackPanel Orientation="Horizontal" 
+                            HorizontalAlignment="Left"
+                            Canvas.ZIndex="5"
+                            VerticalAlignment="Bottom"
+                            Margin="180,30,0,20">
+
+                <!-- Tracks -->
+                <TextBlock Text="&#xEA69;" 
+                           FontFamily="Segoe MDL2 Assets"
+                           Margin="0,4,8,0" 
+                           FontSize="14" 
+                           Opacity="0.8" />
+                <TextBlock Text="{x:Bind Path=Playlist.TrackCount, Converter={StaticResource FormattedValueConverter}, Mode=OneWay}" 
+                           HorizontalAlignment="Left" 
+                           TextWrapping="Wrap" 
+                           VerticalAlignment="Top"
+                           FontSize="15" 
+                           Opacity="0.8" 
+                           FontWeight="SemiBold"/>
+
+                <!-- Likes -->
+                <TextBlock Text="&#xE006;" 
+                           FontFamily="Segoe MDL2 Assets"
+                           Margin="15,4,8,0" 
+                           FontSize="14"
+                           Opacity="0.8" />
+                <TextBlock Text="{x:Bind Path=Playlist.LikesCount, Converter={StaticResource FormattedValueConverter}, Mode=OneWay}" 
+                           HorizontalAlignment="Left"
+                           TextWrapping="Wrap" 
+                           VerticalAlignment="Top" 
+                           FontSize="15" 
+                           Opacity="0.8" 
+                           FontWeight="SemiBold"/>
+            </StackPanel>
+
+            <!-- Right Content -->
+            <StackPanel Orientation="Vertical" 
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Right"
+                        Canvas.ZIndex="5"
+                        Margin="30">
+                <TextBlock Text="{x:Bind Created, Mode=OneWay, Converter={StaticResource ModernDateTimeConverter}}" 
+                           FontSize="16" 
+                           Opacity="0.7" 
+                           TextAlignment="Right"
+                           FontWeight="SemiBold" />
+
+
+                <TextBlock Text="{x:Bind Playlist.Duration, Mode=OneWay, Converter={StaticResource TimeStampConverter}}" 
+                           Margin="0,1,0,0"
+                           TextAlignment="Right"
+                           FontSize="16" 
+                           Opacity="0.6" 
+                           FontStyle="Italic"
+                           FontWeight="SemiLight" />
+
+            </StackPanel>
+
+            <!-- Extended Right Detail -->
+            <StackPanel Orientation="Horizontal" 
+                        HorizontalAlignment="Right"
+                        Canvas.ZIndex="5"
+                        VerticalAlignment="Bottom"
+                        Margin="30,30,30,10">
+                <userControls:SoundByteButton Glyph="&#xE72D;" Label="Share"  Margin="0,0,0,0" Click="{x:Bind SharePlaylist}" />
+
+            </StackPanel>
+
+        </Grid>
     </Grid>
 </UserControl>

@@ -44,7 +44,7 @@
                            SpecularShine=".1"
                            SpecularAmount=".1"
                            DiffuseAmount=".8"
-                           Opacity="0.8"
+                           Opacity="1"
                            lights:PointerPositionSpotLight.IsTarget="True"/>
 
     <!-- Lighting effect that is shown when the user presses a button -->

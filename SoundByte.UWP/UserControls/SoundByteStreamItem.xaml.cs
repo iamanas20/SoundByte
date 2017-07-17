@@ -8,6 +8,7 @@
 //*********************************************************
 
 using System;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using SoundByte.UWP.Dialogs;
 
@@ -73,6 +74,11 @@ namespace SoundByte.UWP.UserControls
         public async void ShareTrack()
         {
             await new ShareDialog(Track).ShowAsync();
+        }
+
+        public async void SharePlaylist()
+        {
+            await new MessageDialog("Not yet supported.").ShowAsync();
         }
 
         public async void AddTrackToPlaylist()

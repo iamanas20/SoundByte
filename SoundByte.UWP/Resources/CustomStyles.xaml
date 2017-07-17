@@ -106,7 +106,7 @@
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <ControlTemplate TargetType="Thumb">
-                                            <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" CornerRadius="20"/>
+                                            <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" CornerRadius="0"/>
                                         </ControlTemplate>
                                     </Setter.Value>
                                 </Setter>
@@ -197,12 +197,12 @@
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="18"/>
                                 </Grid.RowDefinitions>
-                                <Rectangle x:Name="HorizontalTrackRect" Grid.ColumnSpan="3" Fill="{TemplateBinding Background}" Height="3px" Grid.Row="1"/>
-                                <Rectangle x:Name="HorizontalDecreaseRect" Fill="{ThemeResource SystemControlHighlightAccentBrush}" Grid.Row="1"/>
+                                <Rectangle RadiusX="2" RadiusY="2"  x:Name="HorizontalTrackRect" Grid.ColumnSpan="3" Fill="{TemplateBinding Background}" Height="4px" Grid.Row="1" Opacity="0.5" />
+                                <Rectangle RadiusX="2" RadiusY="2" x:Name="HorizontalDecreaseRect" Fill="{ThemeResource AppBarItemForegroundThemeBrush}" Grid.Row="1" Opacity="0.6" />
                                 <TickBar x:Name="TopTickBar" Grid.ColumnSpan="3" Fill="{ThemeResource SystemControlForegroundBaseMediumLowBrush}" Height="{ThemeResource SliderOutsideTickBarThemeHeight}" Margin="0,0,0,4" Visibility="Collapsed" VerticalAlignment="Bottom"/>
-                                <TickBar x:Name="HorizontalInlineTickBar" Grid.ColumnSpan="3" Fill="{ThemeResource SystemControlBackgroundAltHighBrush}" Height="3px" Grid.Row="1" Visibility="Collapsed"/>
+                                <TickBar x:Name="HorizontalInlineTickBar" Grid.ColumnSpan="3" Fill="{ThemeResource SystemControlBackgroundAltHighBrush}" Height="4px" Grid.Row="1" Visibility="Collapsed"/>
                                 <TickBar x:Name="BottomTickBar" Grid.ColumnSpan="3" Fill="{ThemeResource SystemControlForegroundBaseMediumLowBrush}" Height="{ThemeResource SliderOutsideTickBarThemeHeight}" Margin="0,4,0,0" Grid.Row="2" Visibility="Collapsed" VerticalAlignment="Top"/>
-                                <Thumb x:Name="HorizontalThumb" AutomationProperties.AccessibilityView="Raw" Background="{ThemeResource SystemControlHighlightAccentBrush}" Grid.Column="1" DataContext="{TemplateBinding Value}" Height="20" Grid.Row="0" Grid.RowSpan="3" Style="{StaticResource SliderThumbStyle}" Width="20"/>
+                                <Thumb x:Name="HorizontalThumb" AutomationProperties.AccessibilityView="Raw" Background="{ThemeResource AppBarItemForegroundThemeBrush}" Opacity="0.0" Grid.Column="1" DataContext="{TemplateBinding Value}" Height="4" Grid.Row="0" Grid.RowSpan="3" Style="{StaticResource SliderThumbStyle}" Width="0"/>
                             </Grid>
                             <Grid x:Name="VerticalTemplate" MinWidth="44" Visibility="Collapsed">
                                 <Grid.ColumnDefinitions>
