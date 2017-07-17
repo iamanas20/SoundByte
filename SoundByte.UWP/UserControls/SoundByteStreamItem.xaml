@@ -42,15 +42,15 @@
 
             <!-- Item Image -->
             <control:DropShadowPanel Canvas.ZIndex="5"
-                                         HorizontalAlignment="Left"
-                                         BlurRadius="15"
-                                         ShadowOpacity="0.8"
-                                         OffsetX="0"
-                                         IsTabStop="False"
-                                         IsHitTestVisible="False"
-                                         Margin="10"
-                                         OffsetY="5"
-                                         Color="Black">
+                                     HorizontalAlignment="Left"
+                                     BlurRadius="15"
+                                     ShadowOpacity="0.8"
+                                     OffsetX="0"
+                                     IsTabStop="False"
+                                     IsHitTestVisible="False"
+                                     Margin="10"
+                                     OffsetY="5"
+                                     Color="Black">
                 <control:ImageEx Width="148" 
                                  Height="148" 
                                  IsCacheEnabled="True"
@@ -68,35 +68,28 @@
                         VerticalAlignment="Top"
                         HorizontalAlignment="Left"
                         Canvas.ZIndex="5"
-                        Margin="180,20,0,20">
+                        Margin="180,30,0,30">
 
                 <!-- Holds the 'reported by' / 'posted by text' -->
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="Posted by" 
-                               FontSize="14" 
+                               FontSize="16" 
                                Opacity="0.7"
                                FontWeight="SemiLight" />
 
                     <TextBlock Text="{x:Bind Track.User.Username, Mode=OneWay}"
-                               FontSize="14" 
+                               FontSize="16" 
                                FontWeight="SemiBold"
                                Opacity="0.8" 
                                Margin="3,0,0,0"/>
                 </StackPanel>
 
-                <!-- User who uploaded this track -->
-                <TextBlock Text="{x:Bind Track.User.Username, Mode=OneWay}" 
-                            Margin="0,14,0,0"
-                            FontSize="16" 
-                            Opacity="0.6" 
-                            FontWeight="Normal" />
-
                 <!-- track title -->
                 <TextBlock Text="{x:Bind Track.Title, Mode=OneWay}" 
                            FontSize="24" 
-                           Margin="0,0,0,2" 
+                           Margin="0,14,0,2" 
                            Opacity="0.8"
-                           TextWrapping="NoWrap" 
+                           TextWrapping="NoWrap"
                            FontWeight="SemiBold" 
                            TextTrimming="CharacterEllipsis" />
             </StackPanel>
@@ -106,7 +99,7 @@
                         HorizontalAlignment="Left"
                         Canvas.ZIndex="5"
                         VerticalAlignment="Bottom"
-                        Margin="180,20,0,20">
+                        Margin="180,30,0,20">
                 
                 <!-- Plays -->
                 <TextBlock Text="&#xE768;" 
@@ -143,20 +136,21 @@
                         VerticalAlignment="Top"
                         HorizontalAlignment="Right"
                         Canvas.ZIndex="5"
-                        Margin="20">
+                        Margin="30">
                 <TextBlock Text="{x:Bind Created, Mode=OneWay, Converter={StaticResource ModernDateTimeConverter}}" 
-                           FontSize="14" 
+                           FontSize="16" 
                            Opacity="0.7" 
                            TextAlignment="Right"
-                           FontWeight="SemiLight" />
+                           FontWeight="SemiBold" />
                 
                 
                 <TextBlock Text="{x:Bind Track.Duration, Mode=OneWay, Converter={StaticResource TimeStampConverter}}" 
-                           Margin="0,14,0,0"
+                           Margin="0,1,0,0"
                            TextAlignment="Right"
                            FontSize="16" 
                            Opacity="0.6" 
-                           FontWeight="Normal" />
+                           FontStyle="Italic"
+                           FontWeight="SemiLight" />
 
             </StackPanel>
 
@@ -165,7 +159,7 @@
                         HorizontalAlignment="Right"
                         Canvas.ZIndex="5"
                         VerticalAlignment="Bottom"
-                        Margin="20,20,20,10">
+                        Margin="30,30,30,10">
                 <userControls:SoundByteButton Glyph="&#xE72D;" Label="Share"  Margin="0,0,25,0" Click="{x:Bind ShareTrack}" />
                 <userControls:SoundByteButton Glyph="&#xE142;" Label="Add to Playlist"  Margin="0,0,0,0" Click="{x:Bind AddTrackToPlaylist}" />
 

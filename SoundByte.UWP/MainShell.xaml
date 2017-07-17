@@ -706,7 +706,7 @@
                                 ThumbToolTipValueConverter="{StaticResource SliderValueConverter}" 
                                 VerticalAlignment="Center" 
                                 PointerCaptureLost="{x:Bind Service.PlayingSliderChange}" 
-                                Margin="30,9,30,0" 
+                                Margin="30,8,30,0" 
                                 Value="{x:Bind Service.CurrentTimeValue, Mode=TwoWay}" 
                                 Maximum="{x:Bind Service.MaxTimeValue, Mode=OneWay}" />
 

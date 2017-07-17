@@ -433,25 +433,6 @@ namespace SoundByte.UWP.Services
             });
         }
 
-        public async void ShowCompactView()
-        {
-            var newView = CoreApplication.CreateNewView();
-            var compactViewId = 0;
-
-            await newView.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            {
-                var frame = new Frame();
-                frame.Navigate(typeof(Views.Overlay));
-
-                Window.Current.Content = frame;
-                Window.Current.Activate();
-
-                compactViewId = ApplicationView.GetForCurrentView().Id;
-            });
-
-            await ApplicationViewSwitcher.TryShowAsViewModeAsync(compactViewId, ApplicationViewMode.CompactOverlay);
-        }
-
         private static async Task<string> GetCorrectApiKey()
         {
             return await Task.Run(async () =>
@@ -538,22 +519,17 @@ namespace SoundByte.UWP.Services
                         if (track.ServiceType == ServiceType.SoundCloud)
                         {
                             // Create the media source from the Uri
-                            source = MediaSource.CreateFromUri(
-                                new Uri("http://api.soundcloud.com/tracks/" + track.Id + "/stream?client_id=" +
-                                        apiKey));
+                            source = MediaSource.CreateFromUri(new Uri("http://api.soundcloud.com/tracks/" + track.Id + "/stream?client_id=" + apiKey));
                         }
                         else if (track.ServiceType == ServiceType.Fanburst)
                         {
                             // Create the media source from the Uri
-                            source = MediaSource.CreateFromUri(
-                                new Uri("https://api.fanburst.com/tracks/" + track.Id + "/stream?client_id=" + Common.ServiceKeys.FanburstClientId));
+                            source = MediaSource.CreateFromUri(new Uri("https://api.fanburst.com/tracks/" + track.Id + "/stream?client_id=" + Common.ServiceKeys.FanburstClientId));
                         }
                         else
                         {
                             // Create the media source from the Uri
-                            source = MediaSource.CreateFromUri(
-                                new Uri("http://api.soundcloud.com/tracks/" + track.Id + "/stream?client_id=" +
-                                        apiKey));
+                            source = MediaSource.CreateFromUri(new Uri("http://api.soundcloud.com/tracks/" + track.Id + "/stream?client_id=" + apiKey));
                         }
 
                         // So we can access the item later
@@ -569,9 +545,7 @@ namespace SoundByte.UWP.Services
                         displayProperties.Type = MediaPlaybackType.Music;
                         displayProperties.MusicProperties.Title = track.Title;
                         displayProperties.MusicProperties.Artist = track.User.Username;
-                        displayProperties.Thumbnail =
-                            RandomAccessStreamReference.CreateFromUri(
-                                new Uri(ArtworkConverter.ConvertObjectToImage(track)));
+                        displayProperties.Thumbnail = RandomAccessStreamReference.CreateFromUri(new Uri(ArtworkConverter.ConvertObjectToImage(track)));
 
                         // Apply the properties
                         playbackItem.ApplyDisplayProperties(displayProperties);
@@ -608,17 +582,16 @@ namespace SoundByte.UWP.Services
 
             var keepTrying = 0;
 
-            while (keepTrying < 50)
+            while (keepTrying < 100)
             {
                 try
                 {
                     // find the index of the track in the playlist
-                    var index = _playbackList.Items.ToList()
-                        .FindIndex(item => (string)item.Source.CustomProperties["SoundByteItem.ID"] == startingItem.Id);
+                    var index = _playbackList.Items.ToList().FindIndex(item => (string)item.Source.CustomProperties["SoundByteItem.ID"] == startingItem.Id);
 
                     if (index == -1)
                     {
-                        await Task.Delay(200);
+                        await Task.Delay(50);
                         keepTrying++;
                         continue;
                     }
@@ -748,7 +721,7 @@ namespace SoundByte.UWP.Services
 
             var pageTimer = new DispatcherTimer
             {
-                Interval = TimeSpan.FromMilliseconds(500)
+                Interval = TimeSpan.FromMilliseconds(1000)
             };
 
             _tileUpdater = TileUpdateManager.CreateTileUpdaterForApplication("App");

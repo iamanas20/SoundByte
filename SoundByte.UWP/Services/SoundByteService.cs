@@ -368,50 +368,53 @@ namespace SoundByte.UWP.Services
 
             try
             {
-                // Create the client
-                using (var client = new HttpClient(new HttpBaseProtocolFilter { AutomaticDecompression = true }))
+                return await Task.Run(async () =>
                 {
-                    // Setup the request readers for user agent
-                    // and requested data type.
-                    client.DefaultRequestHeaders.UserAgent.Add(new HttpProductInfoHeaderValue("SoundByte", Package.Current.Id.Version.Major + "." + Package.Current.Id.Version.Minor + "." + Package.Current.Id.Version.Build));
-                    client.DefaultRequestHeaders.Accept.Add(new HttpMediaTypeWithQualityHeaderValue("application/json"));
-
-                    // Auth headers for when the user is logged in
-                    if (IsSoundCloudAccountConnected)
-                        client.DefaultRequestHeaders.Authorization = new HttpCredentialsHeaderValue("OAuth", SoundCloudToken.AccessToken);
-
-                    // escape the url
-                    var escapedUri = new Uri(Uri.EscapeUriString(requestUri));
-
-                    // Full the body content if it is null
-                    if (bodyContent == null)
-                        bodyContent = new HttpStringContent(string.Empty);
-
-                    // Get the URL
-                    using (var webRequest = await client.PostAsync(escapedUri, bodyContent))
+                    // Create the client
+                    using (var client = new HttpClient(new HttpBaseProtocolFilter { AutomaticDecompression = true }))
                     {
-                        // Throw exception if the request failed
-                        if (webRequest.StatusCode != HttpStatusCode.Ok)
-                            throw new SoundByteException("Connection Error", webRequest.ReasonPhrase, "\uEB63");
+                        // Setup the request readers for user agent
+                        // and requested data type.
+                        client.DefaultRequestHeaders.UserAgent.Add(new HttpProductInfoHeaderValue("SoundByte", Package.Current.Id.Version.Major + "." + Package.Current.Id.Version.Minor + "." + Package.Current.Id.Version.Build));
+                        client.DefaultRequestHeaders.Accept.Add(new HttpMediaTypeWithQualityHeaderValue("application/json"));
 
-                        // Get the body of the request as a stream
-                        using (var webStream = await webRequest.Content.ReadAsInputStreamAsync())
+                        // Auth headers for when the user is logged in
+                        if (IsSoundCloudAccountConnected)
+                            client.DefaultRequestHeaders.Authorization = new HttpCredentialsHeaderValue("OAuth", SoundCloudToken.AccessToken);
+
+                        // escape the url
+                        var escapedUri = new Uri(Uri.EscapeUriString(requestUri));
+
+                        // Full the body content if it is null
+                        if (bodyContent == null)
+                            bodyContent = new HttpStringContent(string.Empty);
+
+                        // Get the URL
+                        using (var webRequest = await client.PostAsync(escapedUri, bodyContent))
                         {
-                            // Read the stream
-                            using (var streamReader = new StreamReader(webStream.AsStreamForRead()))
+                            // Throw exception if the request failed
+                            if (webRequest.StatusCode != HttpStatusCode.Ok)
+                                throw new SoundByteException("Connection Error", webRequest.ReasonPhrase, "\uEB63");
+
+                            // Get the body of the request as a stream
+                            using (var webStream = await webRequest.Content.ReadAsInputStreamAsync())
                             {
-                                // Get the text from the stream
-                                using (var textReader = new JsonTextReader(streamReader))
+                                // Read the stream
+                                using (var streamReader = new StreamReader(webStream.AsStreamForRead()))
                                 {
-                                    // Used to get the data from JSON
-                                    var serializer = new JsonSerializer { NullValueHandling = NullValueHandling.Ignore };
-                                    // Return the data
-                                    return serializer.Deserialize<T>(textReader);
+                                    // Get the text from the stream
+                                    using (var textReader = new JsonTextReader(streamReader))
+                                    {
+                                        // Used to get the data from JSON
+                                        var serializer = new JsonSerializer { NullValueHandling = NullValueHandling.Ignore };
+                                        // Return the data
+                                        return serializer.Deserialize<T>(textReader);
+                                    }
                                 }
                             }
                         }
                     }
-                }
+                });   
             }
             catch (TaskCanceledException)
             {
@@ -572,42 +575,45 @@ namespace SoundByte.UWP.Services
 
             try
             {
-                // Create the client
-                using (var client = new HttpClient(new HttpBaseProtocolFilter { AutomaticDecompression = true }))
+                return await Task.Run(async () =>
                 {
-                    // Setup the request readers for user agent
-                    // and requested data type.
-                    client.DefaultRequestHeaders.UserAgent.Add(new HttpProductInfoHeaderValue("SoundByte", Package.Current.Id.Version.Major + "." + Package.Current.Id.Version.Minor + "." + Package.Current.Id.Version.Build));
-                    client.DefaultRequestHeaders.Accept.Add(new HttpMediaTypeWithQualityHeaderValue("application/json"));
-
-                    // escape the url
-                    var escapedUri = new Uri(Uri.EscapeUriString(requestUri));
-
-                    // Get the URL
-                    using (var webRequest = await client.GetAsync(escapedUri))
+                    // Create the client
+                    using (var client = new HttpClient(new HttpBaseProtocolFilter { AutomaticDecompression = true }))
                     {
-                        // Throw exception if the request failed
-                        if (webRequest.StatusCode != HttpStatusCode.Ok)
-                            throw new SoundByteException("Connection Error", webRequest.ReasonPhrase, "\uEB63");
+                        // Setup the request readers for user agent
+                        // and requested data type.
+                        client.DefaultRequestHeaders.UserAgent.Add(new HttpProductInfoHeaderValue("SoundByte", Package.Current.Id.Version.Major + "." + Package.Current.Id.Version.Minor + "." + Package.Current.Id.Version.Build));
+                        client.DefaultRequestHeaders.Accept.Add(new HttpMediaTypeWithQualityHeaderValue("application/json"));
 
-                        // Get the body of the request as a stream
-                        using (var webStream = await webRequest.Content.ReadAsInputStreamAsync())
+                        // escape the url
+                        var escapedUri = new Uri(Uri.EscapeUriString(requestUri));
+
+                        // Get the URL
+                        using (var webRequest = await client.GetAsync(escapedUri))
                         {
-                            // Read the stream
-                            using (var streamReader = new StreamReader(webStream.AsStreamForRead()))
+                            // Throw exception if the request failed
+                            if (webRequest.StatusCode != HttpStatusCode.Ok)
+                                throw new SoundByteException("Connection Error", webRequest.ReasonPhrase, "\uEB63");
+
+                            // Get the body of the request as a stream
+                            using (var webStream = await webRequest.Content.ReadAsInputStreamAsync())
                             {
-                                // Get the text from the stream
-                                using (var textReader = new JsonTextReader(streamReader))
+                                // Read the stream
+                                using (var streamReader = new StreamReader(webStream.AsStreamForRead()))
                                 {
-                                    // Used to get the data from JSON
-                                    var serializer = new JsonSerializer { NullValueHandling = NullValueHandling.Ignore };
-                                    // Return the data
-                                    return serializer.Deserialize<T>(textReader);
+                                    // Get the text from the stream
+                                    using (var textReader = new JsonTextReader(streamReader))
+                                    {
+                                        // Used to get the data from JSON
+                                        var serializer = new JsonSerializer { NullValueHandling = NullValueHandling.Ignore };
+                                        // Return the data
+                                        return serializer.Deserialize<T>(textReader);
+                                    }
                                 }
                             }
                         }
                     }
-                }
+                });
             }
             catch (TaskCanceledException)
             {
@@ -679,57 +685,62 @@ namespace SoundByte.UWP.Services
 
             try
             {
-                // Create the client
-                using (var client = new HttpClient(new HttpBaseProtocolFilter { AutomaticDecompression = true }))
+                return await Task.Run(async () =>
                 {
-                    // Setup the request readers for user agent
-                    // and requested data type.
-                    client.DefaultRequestHeaders.UserAgent.Add(new HttpProductInfoHeaderValue("SoundByte", Package.Current.Id.Version.Major + "." + Package.Current.Id.Version.Minor + "." + Package.Current.Id.Version.Build));
-                    client.DefaultRequestHeaders.Accept.Add(new HttpMediaTypeWithQualityHeaderValue("application/json"));
-
-                    // Auth headers for when the user is logged in
-                    // Different for each service
-                    switch (service)
+                    // Create the client
+                    using (var client = new HttpClient(new HttpBaseProtocolFilter { AutomaticDecompression = true }))
                     {
-                        case ServiceType.SoundCloud:
-                            if (IsSoundCloudAccountConnected)
-                                client.DefaultRequestHeaders.Authorization = new HttpCredentialsHeaderValue("OAuth", SoundCloudToken.AccessToken);
-                            break;
+                        // Setup the request readers for user agent
+                        // and requested data type.
+                        client.DefaultRequestHeaders.UserAgent.Add(new HttpProductInfoHeaderValue("SoundByte", Package.Current.Id.Version.Major + "." + Package.Current.Id.Version.Minor + "." + Package.Current.Id.Version.Build));
+                        client.DefaultRequestHeaders.Accept.Add(new HttpMediaTypeWithQualityHeaderValue("application/json"));
 
-                        case ServiceType.Fanburst:
-                            if (IsFanBurstAccountConnected)
-                                client.DefaultRequestHeaders.Authorization = new HttpCredentialsHeaderValue("OAuth", FanburstToken.AccessToken);
-                            break;
-                    }
-
-                    // escape the url
-                    var escapedUri = new Uri(Uri.EscapeUriString(requestUri));
-
-                    // Get the URL
-                    using (var webRequest = await client.GetAsync(escapedUri))
-                    {
-                        // Throw exception if the request failed
-                        if (webRequest.StatusCode != HttpStatusCode.Ok)
-                            throw new SoundByteException("Connection Error", webRequest.ReasonPhrase, "\uEB63");
-
-                        // Get the body of the request as a stream
-                        using (var webStream = await webRequest.Content.ReadAsInputStreamAsync())
+                        // Auth headers for when the user is logged in
+                        // Different for each service
+                        switch (service)
                         {
-                            // Read the stream
-                            using (var streamReader = new StreamReader(webStream.AsStreamForRead()))
+                            case ServiceType.SoundCloud:
+                                if (IsSoundCloudAccountConnected)
+                                    client.DefaultRequestHeaders.Authorization = new HttpCredentialsHeaderValue("OAuth", SoundCloudToken.AccessToken);
+                                break;
+
+                            case ServiceType.Fanburst:
+                                if (IsFanBurstAccountConnected)
+                                    client.DefaultRequestHeaders.Authorization = new HttpCredentialsHeaderValue("OAuth", FanburstToken.AccessToken);
+                                break;
+                        }
+
+                        // escape the url
+                        var escapedUri = new Uri(Uri.EscapeUriString(requestUri));
+
+
+                        // Get the URL
+                        using (var webRequest = await client.GetAsync(escapedUri))
+                        {
+                            // Throw exception if the request failed
+                            if (webRequest.StatusCode != HttpStatusCode.Ok)
+                                throw new SoundByteException("Connection Error", webRequest.ReasonPhrase, "\uEB63");
+
+                            // Get the body of the request as a stream
+                            using (var webStream = await webRequest.Content.ReadAsInputStreamAsync())
                             {
-                                // Get the text from the stream
-                                using (var textReader = new JsonTextReader(streamReader))
+                                // Read the stream
+                                using (var streamReader = new StreamReader(webStream.AsStreamForRead()))
                                 {
-                                    // Used to get the data from JSON
-                                    var serializer = new JsonSerializer { NullValueHandling = NullValueHandling.Ignore };
-                                    // Return the data
-                                    return serializer.Deserialize<T>(textReader);
+                                    // Get the text from the stream
+                                    using (var textReader = new JsonTextReader(streamReader))
+                                    {
+                                        // Used to get the data from JSON
+                                        var serializer = new JsonSerializer { NullValueHandling = NullValueHandling.Ignore };
+                                        // Return the data
+                                        return serializer.Deserialize<T>(textReader);
+                                    }
                                 }
                             }
                         }
                     }
-                }
+                });
+
             }
             catch (TaskCanceledException)
             {
@@ -762,28 +773,31 @@ namespace SoundByte.UWP.Services
 
             try
             {
-                // Create the client
-                using (var client = new HttpClient(new HttpBaseProtocolFilter { AutomaticDecompression = true }))
+                return await Task.Run(async () =>
                 {
-                    // Setup the request readers for user agent
-                    // and requested data type.
-                    client.DefaultRequestHeaders.UserAgent.Add(new HttpProductInfoHeaderValue("SoundByte", Package.Current.Id.Version.Major + "." + Package.Current.Id.Version.Minor + "." + Package.Current.Id.Version.Build));
-                    client.DefaultRequestHeaders.Accept.Add(new HttpMediaTypeWithQualityHeaderValue("application/json"));
-
-                    // Auth headers for when the user is logged in
-                    if (IsSoundCloudAccountConnected)
-                        client.DefaultRequestHeaders.Authorization = new HttpCredentialsHeaderValue("OAuth", SoundCloudToken.AccessToken);
-
-                    // escape the url
-                    var escapedUri = new Uri(Uri.EscapeUriString(requestUri));
-
-                    // Get the URL
-                    using (var webRequest = await client.DeleteAsync(escapedUri))
+                    // Create the client
+                    using (var client = new HttpClient(new HttpBaseProtocolFilter { AutomaticDecompression = true }))
                     {
-                        // Return if successful
-                        return webRequest.StatusCode == HttpStatusCode.Ok;
+                        // Setup the request readers for user agent
+                        // and requested data type.
+                        client.DefaultRequestHeaders.UserAgent.Add(new HttpProductInfoHeaderValue("SoundByte", Package.Current.Id.Version.Major + "." + Package.Current.Id.Version.Minor + "." + Package.Current.Id.Version.Build));
+                        client.DefaultRequestHeaders.Accept.Add(new HttpMediaTypeWithQualityHeaderValue("application/json"));
+
+                        // Auth headers for when the user is logged in
+                        if (IsSoundCloudAccountConnected)
+                            client.DefaultRequestHeaders.Authorization = new HttpCredentialsHeaderValue("OAuth", SoundCloudToken.AccessToken);
+
+                        // escape the url
+                        var escapedUri = new Uri(Uri.EscapeUriString(requestUri));
+
+                        // Get the URL
+                        using (var webRequest = await client.DeleteAsync(escapedUri))
+                        {
+                            // Return if successful
+                            return webRequest.StatusCode == HttpStatusCode.Ok;
+                        }
                     }
-                }
+                });      
             }
             catch (Exception)
             {
@@ -807,35 +821,38 @@ namespace SoundByte.UWP.Services
 
             try
             {
-                // Create the client
-                using (var client = new HttpClient(new HttpBaseProtocolFilter { AutomaticDecompression = true }))
+                return await Task.Run(async () =>
                 {
-                    // Setup the request readers for user agent
-                    // and requested data type.
-                    client.DefaultRequestHeaders.UserAgent.Add(new HttpProductInfoHeaderValue("SoundByte", Package.Current.Id.Version.Major + "." + Package.Current.Id.Version.Minor + "." + Package.Current.Id.Version.Build));
-                    client.DefaultRequestHeaders.Accept.Add(new HttpMediaTypeWithQualityHeaderValue("application/json"));
-
-                    // Auth headers for when the user is logged in
-                    if (IsSoundCloudAccountConnected)
+                    // Create the client
+                    using (var client = new HttpClient(new HttpBaseProtocolFilter { AutomaticDecompression = true }))
                     {
-                        client.DefaultRequestHeaders.Authorization = new HttpCredentialsHeaderValue("OAuth", SoundCloudToken.AccessToken);
-                        requestUri += "&oauth_token=" + SoundCloudToken.AccessToken;
+                        // Setup the request readers for user agent
+                        // and requested data type.
+                        client.DefaultRequestHeaders.UserAgent.Add(new HttpProductInfoHeaderValue("SoundByte", Package.Current.Id.Version.Major + "." + Package.Current.Id.Version.Minor + "." + Package.Current.Id.Version.Build));
+                        client.DefaultRequestHeaders.Accept.Add(new HttpMediaTypeWithQualityHeaderValue("application/json"));
+
+                        // Auth headers for when the user is logged in
+                        if (IsSoundCloudAccountConnected)
+                        {
+                            client.DefaultRequestHeaders.Authorization = new HttpCredentialsHeaderValue("OAuth", SoundCloudToken.AccessToken);
+                            requestUri += "&oauth_token=" + SoundCloudToken.AccessToken;
+                        }
+
+                        // escape the url
+                        var escapedUri = new Uri(Uri.EscapeUriString(requestUri));
+
+                        // Get the URL
+                        using (var webRequest = await client.GetAsync(escapedUri))
+                        {
+                            // lol, why soundcloud. why do I have to do this??
+                            if (webRequest.StatusCode == HttpStatusCode.Unauthorized)
+                                return true;
+
+                            // Return if the resource exists
+                            return webRequest.IsSuccessStatusCode;
+                        }
                     }
-
-                    // escape the url
-                    var escapedUri = new Uri(Uri.EscapeUriString(requestUri));
-
-                    // Get the URL
-                    using (var webRequest = await client.GetAsync(escapedUri))
-                    {
-                        // lol, why soundcloud. why do I have to do this??
-                        if (webRequest.StatusCode == HttpStatusCode.Unauthorized)
-                            return true;
-
-                        // Return if the resource exists
-                        return webRequest.IsSuccessStatusCode;
-                    }
-                }
+                }); 
             }
             catch (Exception)
             {
@@ -860,32 +877,35 @@ namespace SoundByte.UWP.Services
 
             try
             {
-                // Create the client
-                using (var client = new HttpClient(new HttpBaseProtocolFilter { AutomaticDecompression = true }))
+                return await Task.Run(async () =>
                 {
-                    // Setup the request readers for user agent
-                    // and requested data type.
-                    client.DefaultRequestHeaders.UserAgent.Add(new HttpProductInfoHeaderValue("SoundByte", Package.Current.Id.Version.Major + "." + Package.Current.Id.Version.Minor + "." + Package.Current.Id.Version.Build));
-                    client.DefaultRequestHeaders.Accept.Add(new HttpMediaTypeWithQualityHeaderValue("application/json"));
-
-                    // Auth headers for when the user is logged in
-                    if (IsSoundCloudAccountConnected)
-                        client.DefaultRequestHeaders.Authorization = new HttpCredentialsHeaderValue("OAuth", SoundCloudToken.AccessToken);
-
-                    // escape the url
-                    var escapedUri = new Uri(Uri.EscapeUriString(requestUri));
-
-                    // Full the body content if it is null
-                    if (bodyContent == null)
-                        bodyContent = new HttpStringContent(string.Empty);
-
-                    // Get the URL
-                    using (var webRequest = await client.PutAsync(escapedUri, bodyContent))
+                    // Create the client
+                    using (var client = new HttpClient(new HttpBaseProtocolFilter { AutomaticDecompression = true }))
                     {
-                        // Return if tsuccessful
-                        return webRequest.IsSuccessStatusCode;
+                        // Setup the request readers for user agent
+                        // and requested data type.
+                        client.DefaultRequestHeaders.UserAgent.Add(new HttpProductInfoHeaderValue("SoundByte", Package.Current.Id.Version.Major + "." + Package.Current.Id.Version.Minor + "." + Package.Current.Id.Version.Build));
+                        client.DefaultRequestHeaders.Accept.Add(new HttpMediaTypeWithQualityHeaderValue("application/json"));
+
+                        // Auth headers for when the user is logged in
+                        if (IsSoundCloudAccountConnected)
+                            client.DefaultRequestHeaders.Authorization = new HttpCredentialsHeaderValue("OAuth", SoundCloudToken.AccessToken);
+
+                        // escape the url
+                        var escapedUri = new Uri(Uri.EscapeUriString(requestUri));
+
+                        // Full the body content if it is null
+                        if (bodyContent == null)
+                            bodyContent = new HttpStringContent(string.Empty);
+
+                        // Get the URL
+                        using (var webRequest = await client.PutAsync(escapedUri, bodyContent))
+                        {
+                            // Return if tsuccessful
+                            return webRequest.IsSuccessStatusCode;
+                        }
                     }
-                }
+                });     
             }
             catch (Exception)
             {

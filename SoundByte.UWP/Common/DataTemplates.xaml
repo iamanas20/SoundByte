@@ -15,8 +15,8 @@
 
 
             <controls:DropShadowPanel VerticalAlignment="Top"
-                                      BlurRadius="25"
-                                      ShadowOpacity="0.6"
+                                      BlurRadius="15"
+                                      ShadowOpacity="0.8"
                                       OffsetX="0"
                                       OffsetY="5"
                                       IsTabStop="False"
@@ -77,8 +77,8 @@
             
             <controls:DropShadowPanel x:Name="ShadowPanel"   
                                       VerticalAlignment="Top"
-                                      BlurRadius="25"
-                                      ShadowOpacity="0.6"
+                                      BlurRadius="15"
+                                      ShadowOpacity="0.8"
                                       OffsetX="0"
                                       IsTabStop="False"
                                       IsHitTestVisible="False"
@@ -120,8 +120,8 @@
             <controls:DropShadowPanel Width="190" 
                                       Height="190" 
                                       VerticalAlignment="Top"
-                                      BlurRadius="25"
-                                      ShadowOpacity="0.6"
+                                      BlurRadius="15"
+                                      ShadowOpacity="0.8"
                                       OffsetX="0"
                                       OffsetY="5"
                                       IsTabStop="False"
