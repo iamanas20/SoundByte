@@ -205,23 +205,31 @@ namespace SoundByte.UWP.Services
         /// <summary>
         /// Go forward one track
         /// </summary>
-        public void SkipNext()
+        public async void SkipNext()
         {
             // Tell the controls that we are changing song
             Player.SystemMediaTransportControls.PlaybackStatus = MediaPlaybackStatus.Changing;
+            
             // Move to the next item
-            _playbackList.MoveNext();
+            await Task.Run(() =>
+            {
+                _playbackList.MoveNext();
+            });
         }
 
         /// <summary>
         /// Go backwards one track
         /// </summary>
-        public void SkipPrevious()
+        public async void SkipPrevious()
         {
             // Tell the controls that we are changing song
             Player.SystemMediaTransportControls.PlaybackStatus = MediaPlaybackStatus.Changing;
+
             // Move to the previous item
-            _playbackList.MovePrevious();
+            await Task.Run(() =>
+            {
+                _playbackList.MovePrevious();
+            });
         }
 
         #endregion

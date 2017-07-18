@@ -12,7 +12,6 @@ using System.Collections.Generic;
 using System.Numerics;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
-using Windows.ApplicationModel.Background;
 using Windows.Globalization;
 using Windows.Networking.PushNotifications;
 using Windows.Services.Store;
@@ -25,8 +24,12 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Microsoft.Azure.Mobile;
+using Microsoft.Azure.Mobile.Analytics;
+using Microsoft.Azure.Mobile.Push;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Helpers;
+using Microsoft.Toolkit.Uwp.UI.Animations;
 using Microsoft.WindowsAzure.Messaging;
 using SoundByte.UWP.Dialogs;
 using SoundByte.UWP.Helpers;
@@ -175,7 +178,7 @@ namespace SoundByte.UWP
             await HandleProtocolAsync(path);
 
             // Test Version and tell user app upgraded
-            await HandleNewAppVersion();
+            HandleNewAppVersion();
 
             // Clear the unread badge
             BadgeUpdateManager.CreateBadgeUpdaterForApplication().Clear();
@@ -199,18 +202,6 @@ namespace SoundByte.UWP
 
             try
             {
-                // Create and register the notification task
-                BackgroundExecutionManager.RemoveAccess();
-                await BackgroundExecutionManager.RequestAccessAsync();
-                BackgroundTaskHelper.Register("SoundByte_BackgroundTask", new TimeTrigger(15, false));
-            }
-            catch
-            {
-                // ignored
-            }
-
-            try
-            {
                 // Create our notification channel and also supply the client id as a
                 // tag, this can then be used to send targeted messages. We also supply the 
                 // app version and device type.
@@ -226,6 +217,7 @@ namespace SoundByte.UWP
                     SystemInformation.ApplicationVersion.ToString(),
                     login
                 });
+
             }
             catch
             {
@@ -233,7 +225,7 @@ namespace SoundByte.UWP
             }
         }
 
-        private async Task HandleNewAppVersion()
+        private void HandleNewAppVersion()
         {
             var currentAppVersionString = Package.Current.Id.Version.Major + "." + Package.Current.Id.Version.Minor + "." + Package.Current.Id.Version.Build;
 
@@ -256,15 +248,9 @@ namespace SoundByte.UWP
             }
 
             // If the stored app version is null, this is the users first time,
-            if (string.IsNullOrEmpty(storedAppVersionString))
-            {
-                App.NavigateTo(typeof(WelcomeView));
-            }
-            else
-            {
-                // Show update dialog
-                await new AppUpdateDialog().ShowAsync();
-            }
+            ShowInAppNotification(string.IsNullOrEmpty(storedAppVersionString)
+                ? "Welcome to SoundByte! IF you encounter any issues, or have any questions, click the 'Settings' button then 'About' to get in contact with us."
+                : "SoundByte was just updated! There are many new and exciting features waiting for you. Why not take a peek?");
         }
 
         #region Protocol
@@ -636,6 +622,60 @@ namespace SoundByte.UWP
         ///     updating the UI for sidebar
         /// </summary>
         private bool BlockNavigation { get; set; }
+
+        /// <summary>
+        /// Shows an in app notification
+        /// </summary>
+        /// <param name="text">Text to display</param>
+        public void ShowInAppNotification(string text)
+        {
+            // Get the compositor for this window
+            var compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
+
+            // Create a visual element that we will apply the shadow to and attach 
+            // to the ShellFrameShadow element.
+            var notificationShadowVisual = compositor.CreateSpriteVisual();
+
+            // Apply the shadow effects
+            var notificationShadow = compositor.CreateDropShadow();
+            notificationShadow.Offset = new Vector3(0, 3, 0);
+            notificationShadow.BlurRadius = 35;
+            notificationShadow.Color = new Color { A = 210, R = 0, G = 0, B = 0 };
+
+            // Set the element visual
+            notificationShadowVisual.Shadow = notificationShadow;
+            ElementCompositionPreview.SetElementChildVisual(NotificationPaneShadow, notificationShadowVisual);
+
+            // Get the shell frame for animation purposes
+            var notificationVisual = ElementCompositionPreview.GetElementVisual(NotificationPane);
+
+            var notificationSizeAnimation = compositor.CreateExpressionAnimation("notificationVisual.Size");
+            notificationSizeAnimation.SetReferenceParameter("notificationVisual", notificationVisual);
+            notificationShadowVisual.StartAnimation("Size", notificationSizeAnimation);
+
+            NotificationPane.Opacity = 0;
+            NotificationPaneShadow.Opacity = 0;
+            NotificationPane.Visibility = Visibility.Visible;
+            NotificationPaneShadow.Visibility = Visibility.Visible;
+            NotificationText.Text = text;
+
+            NotificationPane.Fade(1, 150).Start();
+            NotificationPaneShadow.Fade(1, 150).Start();
+        }
+
+        public void CloseInAppNotification()
+        {
+            var animation = NotificationPane.Fade(0, 150);
+            animation.Completed += (sender, args) =>
+            {
+                NotificationPane.Visibility = Visibility.Collapsed;
+                NotificationPaneShadow.Visibility = Visibility.Collapsed;
+
+                NotificationText.Text = string.Empty;
+            };
+
+            animation.Start();
+        }
 
         /// <summary>
         ///     Get the root frame, if no root frame exists,

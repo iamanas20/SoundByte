@@ -47,16 +47,15 @@ namespace SoundByte.UWP.Services
                 AnalyticsManager.Current.IsDebug = false;
                 GoogleAnalyticsClient = AnalyticsManager.Current.CreateTracker(Common.ServiceKeys.GoogleAnalyticsTrackerId);
 
-                // Used for crash reporting
-                HockeyClient.Current.Configure(Common.ServiceKeys.HockeyAppClientId);
-
                 // Azure Mobile Aalytics and push support
                 MobileCenter.Start(Common.ServiceKeys.AzureMobileCenterClientId, typeof(Analytics), typeof(Push));
+
+                // Used for crash reporting
+                HockeyClient.Current.Configure(Common.ServiceKeys.HockeyAppClientId);  
 
 #if DEBUG
                 // Disable this on debug
                 AnalyticsManager.Current.AppOptOut = true;
-                AsyncHelper.RunSync(async () => await MobileCenter.SetEnabledAsync(false));
 #endif
             }
             catch
