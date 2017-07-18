@@ -16,11 +16,11 @@
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <PackageCertificateKeyFile>SoundCloudPlayer.UWP_StoreKey.pfx</PackageCertificateKeyFile>
+    <PackageCertificateKeyFile>SoundByte.UWP_TemporaryKey.pfx</PackageCertificateKeyFile>
     <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
     <AppxBundle>Always</AppxBundle>
-    <AppxBundlePlatforms>x86|x64</AppxBundlePlatforms>
-    <PackageCertificateThumbprint>6DC3C44B8F4F0B1140A2A52BDC381EDBECEA0DA2</PackageCertificateThumbprint>
+    <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
+    <PackageCertificateThumbprint>E267974D0DC0CC6BC38EBAACE09E7C4AFA28924F</PackageCertificateThumbprint>
     <AppxPackageDir>E:\OneDrive\Shared\SoundByte\</AppxPackageDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
@@ -134,10 +134,8 @@
     <Content Include="Assets\Wide310x150Logo.scale-100.png" />
     <Content Include="Assets\Wide310x150Logo.scale-400.png" />
     <Content Include="Assets\build_info.json" />
-    <None Include="Package.StoreAssociation.xml" />
     <None Include="project.json" />
-    <None Include="SoundCloud.UWP_TemporaryKey.pfx" />
-    <None Include="SoundCloudPlayer.UWP_StoreKey.pfx" />
+    <None Include="SoundByte.UWP_TemporaryKey.pfx" />
     <PRIResource Include="Strings\nl\Resources.resw" />
     <PRIResource Include="Strings\fr\Resources.resw" />
     <PRIResource Include="Strings\en-US\Resources.resw">
@@ -293,6 +291,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\SplashScreen.scale-100.png" />
+    <None Include="Package.StoreAssociation.xml" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
     <Content Include="Assets\Square150x150Logo.scale-200.png" />
