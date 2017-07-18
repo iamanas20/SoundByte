@@ -55,7 +55,7 @@ namespace SoundByte.UWP.Views
         /// <summary>
         /// Setup the view model, passing in the navigation events.
         /// </summary>
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             // Setup view model
             ViewModel.SetupModel();
