@@ -8,9 +8,14 @@
 //*********************************************************
 
 using System;
+using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
+using Microsoft.Toolkit.Uwp;
+using SoundByte.Core.API.Endpoints;
 using SoundByte.UWP.Dialogs;
+using SoundByte.UWP.Services;
 
 namespace SoundByte.UWP.UserControls
 {
@@ -25,9 +30,12 @@ namespace SoundByte.UWP.UserControls
         // When this was created
         public static readonly DependencyProperty CreatedProperty = DependencyProperty.Register("Created", typeof(string), typeof(SoundByteStreamItem), null);
         // The track object
-        public static readonly DependencyProperty TrackProperty = DependencyProperty.Register("Track", typeof(Core.API.Endpoints.Track), typeof(SoundByteStreamItem), null);
+        public static readonly DependencyProperty TrackProperty = DependencyProperty.Register("Track", typeof(Track), typeof(SoundByteStreamItem), null);
         // The playlist object
-        public static readonly DependencyProperty PlaylistProperty = DependencyProperty.Register("Playlist", typeof(Core.API.Endpoints.Playlist), typeof(SoundByteStreamItem), null);
+        public static readonly DependencyProperty PlaylistProperty = DependencyProperty.Register("Playlist", typeof(Playlist), typeof(SoundByteStreamItem), null);
+
+        public ObservableCollection<Track> ItemPlaylist { get; } = new ObservableCollection<Track>();
+
         #endregion
 
         #region Getters and Setters
@@ -52,9 +60,9 @@ namespace SoundByte.UWP.UserControls
         /// <summary>
         /// The track object 
         /// </summary>
-        public Core.API.Endpoints.Track Track
+        public Track Track
         {
-            get { return GetValue(TrackProperty) as Core.API.Endpoints.Track; }
+            get { return GetValue(TrackProperty) as Track; }
             set
             {
                 SetValue(TrackProperty, value);
@@ -64,9 +72,9 @@ namespace SoundByte.UWP.UserControls
         /// <summary>
         /// The track object 
         /// </summary>
-        public Core.API.Endpoints.Playlist Playlist
+        public Playlist Playlist
         {
-            get { return GetValue(PlaylistProperty) as Core.API.Endpoints.Playlist; }
+            get { return GetValue(PlaylistProperty) as Playlist; }
             set { SetValue(PlaylistProperty, value); }
         }
         #endregion
@@ -86,6 +94,16 @@ namespace SoundByte.UWP.UserControls
             await new PlaylistDialog(Track).ShowAsync();
         }
 
+        private async Task LoadPlaylist()
+        {
+
+                await DispatcherHelper.ExecuteOnUIThreadAsync(async () =>
+                {
+                    var playlistTracks = (await SoundByteService.Current.GetAsync<Playlist>("/playlists/" + Playlist.Id)).Tracks;
+                    playlistTracks.ForEach(x => ItemPlaylist.Add(x));
+                });
+        }
+
         public SoundByteStreamItem()
         {
             // Load the xaml
@@ -93,8 +111,10 @@ namespace SoundByte.UWP.UserControls
 
             // Setup the even that is called when the data
             // context chanages.
-            DataContextChanged += delegate
+            DataContextChanged += async delegate
             {
+                ItemPlaylist.Clear();
+
                 // Switch through all the items
                 switch (TrackType)
                 {
@@ -105,6 +125,7 @@ namespace SoundByte.UWP.UserControls
                     case "playlist-repost":
                     case "playlist":
                         VisualStateManager.GoToState(this, "PlaylistItem", false);
+                        await LoadPlaylist();
                         break;
                 }
             };
