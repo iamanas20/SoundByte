@@ -33,6 +33,11 @@ namespace SoundByte.UWP.ViewModels
         private string _pinButtonIcon = "\uE718";
         // Text for the pin button
         private string _pinButtonText;
+
+        // Icon for the pin button
+        private string _likeButtonIcon = "\uE718";
+        // Text for the pin button
+        private string _likeButtonText;
         #endregion
 
         public PlaylistViewModel()
@@ -46,6 +51,8 @@ namespace SoundByte.UWP.ViewModels
             // Check if the models saved playlist is null
             if (newPlaylist != null && (Playlist == null || Playlist.Id != newPlaylist.Id))
             {
+                // Show the loading ring
+                App.IsLoading = true;
                 // Set the playlist
                 Playlist = newPlaylist;
                 // Clear any existing tracks
@@ -64,6 +71,17 @@ namespace SoundByte.UWP.ViewModels
                 {
                     PinButtonIcon = "\uE718";
                     PinButtonText = resources.GetString("AppBarUI_Pin_Raw");
+                }
+
+                //https://api-v2.soundcloud.com/users/42403925/playlist_likes/325739031?client_id=2t9loNQH90kzJcsFCODdigxfp325aq4z&app_version=1500455814
+
+                if (await SoundByteService.Current.ExistsAsync($"/e1/me/playlist_likes/{Playlist.Id}", false))
+                {
+                    LikeButtonText = "Unlike Playlist";
+                }
+                else
+                {
+                    LikeButtonText = "Like Playlist";
                 }
 
                 try
@@ -90,7 +108,10 @@ namespace SoundByte.UWP.ViewModels
                     App.IsLoading = false;
                     // Show the dialog
                     await noItemsDialog.ShowAsync();
-                }         
+                }
+
+                // Hide the loading ring
+                App.IsLoading = false;
             }
         }
 
@@ -138,6 +159,19 @@ namespace SoundByte.UWP.ViewModels
             }
         }
 
+        public string LikeButtonIcon
+        {
+            get => _likeButtonIcon;
+            set
+            {
+                if (value != _likeButtonIcon)
+                {
+                    _likeButtonIcon = value;
+                    UpdateProperty();
+                }
+            }
+        }
+
         public string PinButtonText
         {
             get => _pinButtonText;
@@ -149,6 +183,29 @@ namespace SoundByte.UWP.ViewModels
                     UpdateProperty();
                 }
             }
+        }
+
+        public string LikeButtonText
+        {
+            get => _likeButtonText;
+            set
+            {
+                if (value != _likeButtonText)
+                {
+                    _likeButtonText = value;
+                    UpdateProperty();
+                }
+            }
+        }
+
+        public async void ToggleLikePlaylist()
+        {
+            // Show the loading ring
+            App.IsLoading = true;
+            // Get the resource loader
+            var resources = ResourceLoader.GetForCurrentView();
+
+
         }
 
         /// <summary>

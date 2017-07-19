@@ -93,10 +93,9 @@
                       ViewChanged="MainScrollViewerViewChanged"
                       HorizontalAlignment="Stretch">
             <Grid>
-                <StackPanel Margin="50,0" x:Name="HeaderPanel" VerticalAlignment="Top">
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+                <Grid Margin="50,0" x:Name="HeaderPanel" VerticalAlignment="Top">
                         <!-- User Image -->
-                        <controls:DropShadowPanel HorizontalAlignment="Left"  Margin="0,50,0,0"
+                        <controls:DropShadowPanel HorizontalAlignment="Left"  Margin="20,50,0,0"
                                                   BlurRadius="25"
                                                   ShadowOpacity="0.7"
                                                   OffsetX="0"
@@ -117,9 +116,9 @@
                         </controls:DropShadowPanel>
 
                         <!-- Detail Section -->
-                        <StackPanel VerticalAlignment="Center" Margin="40,0,0,0">
+                        <StackPanel VerticalAlignment="Center" Margin="320,0,0,0">
                             <!-- Username -->
-                            <TextBlock Text="{x:Bind Path=ViewModel.User.Username, Mode=OneWay}" Opacity="0.8" FontSize="50" FontWeight="Bold" TextAlignment="Center" />
+                            <TextBlock Text="{x:Bind Path=ViewModel.User.Username, Mode=OneWay}" Opacity="0.8" FontSize="50" FontWeight="Bold" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" HorizontalAlignment="Stretch" />
                             <!-- Followers -->
                             <StackPanel Orientation="Horizontal"  Margin="0,15,0,0">
                                 <TextBlock Text="&#xE716;" FontFamily="Segoe MDL2 Assets" Margin="0,4,6,0" FontSize="14" Opacity="0.8" />
@@ -141,17 +140,16 @@
                                 <TextBlock Text="Playlists" Margin="5,0,0,0"  HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="15" Opacity="0.8" FontWeight="SemiLight"/>
                             </StackPanel>
                         </StackPanel>
-                    </StackPanel>
+                </Grid>
 
-                    <StackPanel Orientation="Horizontal" Margin="10,40,0,40">
+                    <StackPanel Orientation="Horizontal" Margin="65,330,0,0" VerticalAlignment="Top">
                         <elements:SoundByteButton Glyph="{x:Bind ViewModel.FollowUserIcon, Mode=OneWay}" Label="{x:Bind ViewModel.FollowUserText, Mode=OneWay}" Click="{x:Bind ViewModel.FollowUser}" IsEnabled="{x:Bind ViewModel.ShowFollowButton, Mode=OneWay}" Margin="0,0,25,0" />
                         <elements:SoundByteButton Glyph="{x:Bind ViewModel.PinButtonIcon, Mode=OneWay}" Label="{x:Bind ViewModel.PinButtonText, Mode=OneWay}" Click="{x:Bind ViewModel.PinUser}" Margin="0,0,25,0" />
                         <elements:SoundByteButton x:Name="UploadButton" Glyph="&#xE898;" Label="Upload Track" Click="{x:Bind UploadTrack}" Margin="0,0,25,0" />
-                    </StackPanel>
                 </StackPanel>
 
                 <!-- Main Page Pivot -->
-                <Pivot x:Name="MainPivot" Margin="50,400,50,0" SelectedItem="{x:Bind ViewModel.SelectedPivotItem, Mode=TwoWay}" SelectionChanged="MainPivot_OnSelectionChanged">
+                <Pivot x:Name="MainPivot" Margin="50,370,50,0" SelectedItem="{x:Bind ViewModel.SelectedPivotItem, Mode=TwoWay}" SelectionChanged="MainPivot_OnSelectionChanged">
                     <!-- About the user -->
                     <PivotItem x:Name="AboutPivot">
                         <PivotItem.Header>

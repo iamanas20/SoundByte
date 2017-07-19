@@ -14,17 +14,13 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
 using Windows.Media;
 using Windows.Media.Core;
 using Windows.Media.Playback;
 using Windows.Storage.Streams;
 using Windows.System;
-using Windows.UI.Core;
 using Windows.UI.Notifications;
-using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 using Microsoft.Toolkit.Uwp;
 using SoundByte.Core.API.Endpoints;
 using SoundByte.UWP.Converters;
@@ -445,6 +441,15 @@ namespace SoundByte.UWP.Services
         {
             return await Task.Run(async () =>
             {
+                // Prefer getting the key from the Grid Entertainment Website. More efficient
+                var geKey = await SoundByteService.Current.GridEntertainmentSoundByteGetPlaybackKey();
+
+                if (!string.IsNullOrEmpty(geKey))
+                    return geKey;
+
+                // Log this event so I know if the web service fails.
+                TelemetryService.Current.TrackEvent("Old Playback Key Method");
+
                 // Check if we have hit the soundcloud api limit
                 if (await SoundByteService.Current.ApiCheck("https://api.soundcloud.com/tracks/320126814/stream?client_id=" + Common.ServiceKeys.SoundCloudClientId))
                     return Common.ServiceKeys.SoundCloudClientId;

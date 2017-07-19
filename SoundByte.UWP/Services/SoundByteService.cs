@@ -528,6 +528,23 @@ namespace SoundByte.UWP.Services
             });
         }
 
+        public async Task<string> GridEntertainmentSoundByteGetPlaybackKey()
+        {
+            try
+            {
+                using (var client = new HttpClient(new HttpBaseProtocolFilter {AutomaticDecompression = true}))
+                {
+                    var key = await client.GetStringAsync(new Uri("https://gridentertainment.net/api/soundbyte/playback-key"));
+                    key = key.Trim('"');
+                    return key;
+                }
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
         public async Task<bool> ApiCheck(string url)
         {
             try
