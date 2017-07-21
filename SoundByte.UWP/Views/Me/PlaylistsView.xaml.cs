@@ -36,6 +36,8 @@ namespace SoundByte.UWP.Views.Me
 
         public void NavigatePlaylist(object sender, ItemClickEventArgs e)
         {
+
+
             App.NavigateTo(typeof(Playlist), e.ClickedItem as Core.API.Endpoints.Playlist);   
         }
     }
