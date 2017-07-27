@@ -8,266 +8,266 @@
     xmlns:converters="using:SoundByte.UWP.Converters"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity">
 
-  <Page.Resources>
-    <converters:SliderValueConverter x:Key="SliderValueConverter" />
-    <converters:NowPlayingVisibilityConverter x:Key="NullVisibilityConverter" />
+    <Page.Resources>
+        <converters:SliderValueConverter x:Key="SliderValueConverter" />
+        <converters:NowPlayingVisibilityConverter x:Key="NullVisibilityConverter" />
 
 
 
 
-    <Style TargetType="RadioButton" x:Key="NavigationButtonStyle">
-      <Setter Property="Background" Value="Transparent" />
-      <Setter Property="MinHeight" Value="{ThemeResource ListViewItemMinHeight}"/>
-      <Setter Property="MinWidth" Value="{ThemeResource SplitViewCompactPaneThemeLength}" />
-      <Setter Property="Template">
-        <Setter.Value>
-          <ControlTemplate TargetType="RadioButton">
+        <Style TargetType="RadioButton" x:Key="NavigationButtonStyle">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="MinHeight" Value="{ThemeResource ListViewItemMinHeight}"/>
+            <Setter Property="MinWidth" Value="{ThemeResource SplitViewCompactPaneThemeLength}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RadioButton">
 
-            <Grid x:Name="RootGrid" Background="Transparent" BorderThickness="1" BorderBrush="{StaticResource ButtonBorderLightingBrush}">
+                        <Grid x:Name="RootGrid" Background="Transparent" BorderThickness="1" BorderBrush="{StaticResource ButtonBorderLightingBrush}">
 
-              <VisualStateManager.VisualStateGroups>
-                <VisualStateGroup x:Name="Common">
-                  <VisualState x:Name="Normal" />
-                  <VisualState x:Name="PointerOver">
-                    <Storyboard>
-                      <ObjectAnimationUsingKeyFrames
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="Common">
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="PointerOver">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames
                           Storyboard.TargetName="RootGrid"
                           Storyboard.TargetProperty="Background">
-                        <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource ButtonLightingBrush}" />
-                      </ObjectAnimationUsingKeyFrames>
-                    </Storyboard>
-                  </VisualState>
-                  <VisualState x:Name="Pressed">
-                    <Storyboard>
-                      <PointerDownThemeAnimation Storyboard.TargetName="RootGrid"/>
-                      <ObjectAnimationUsingKeyFrames
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource ButtonLightingBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <PointerDownThemeAnimation Storyboard.TargetName="RootGrid"/>
+                                            <ObjectAnimationUsingKeyFrames
                           Storyboard.TargetName="RootGrid"
                           Storyboard.TargetProperty="Background">
-                        <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource ButtonPressedLightingBrush}" />
-                      </ObjectAnimationUsingKeyFrames>
-                    </Storyboard>
-                  </VisualState>
-                  <VisualState x:Name="Disabled" />
-                </VisualStateGroup>
-                <VisualStateGroup x:Name="CheckedStates">
-                  <VisualState x:Name="Checked">
-                    <Storyboard>
-                      <ColorAnimation Storyboard.TargetName="Brush" Storyboard.TargetProperty="Color" From="{Binding Path=Background}" To="{StaticResource SystemBaseHighColor}" Duration="0:0:0" FillBehavior="HoldEnd" />
-                    </Storyboard>
-                  </VisualState>
-                  <VisualState x:Name="Unchecked" />
-                  <VisualState x:Name="Indeterminate" />
-                </VisualStateGroup>
-              </VisualStateManager.VisualStateGroups>
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource ButtonPressedLightingBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled" />
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="CheckedStates">
+                                    <VisualState x:Name="Checked">
+                                        <Storyboard>
+                                            <ColorAnimation Storyboard.TargetName="Brush" Storyboard.TargetProperty="Color" From="{Binding Path=Background}" To="{StaticResource SystemBaseHighColor}" Duration="0:0:0" FillBehavior="HoldEnd" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Unchecked" />
+                                    <VisualState x:Name="Indeterminate" />
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
 
-              <Grid.RowDefinitions>
-                <RowDefinition Height="48" />
-              </Grid.RowDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="48" />
+                            </Grid.RowDefinitions>
 
-              <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="4" />
-                <ColumnDefinition Width="50" />
-                <ColumnDefinition Width="*"/>
-              </Grid.ColumnDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="4" />
+                                <ColumnDefinition Width="50" />
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
 
-              <Rectangle x:Name="SelectedIcon"
+                            <Rectangle x:Name="SelectedIcon"
                          Grid.Column="0"
                          Margin="0,8,0,8"
                          Width="4" >
-                <Rectangle.Fill>
-                  <SolidColorBrush x:Name="Brush" Color="{Binding Path=Background}" />
-                </Rectangle.Fill>
-              </Rectangle>
+                                <Rectangle.Fill>
+                                    <SolidColorBrush x:Name="Brush" Color="{Binding Path=Background}" />
+                                </Rectangle.Fill>
+                            </Rectangle>
 
-              <FontIcon x:Name="Icon" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Right" FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="{TemplateBinding Tag}" FontSize="21" />
-              <TextBlock x:Name="Text" FontWeight="Normal" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="35,8,8,8" Text="{TemplateBinding Content}" />
-            </Grid>
+                            <FontIcon x:Name="Icon" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Right" FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="{TemplateBinding Tag}" FontSize="21" />
+                            <TextBlock x:Name="Text" FontWeight="Normal" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="35,8,8,8" Text="{TemplateBinding Content}" />
+                        </Grid>
 
-          </ControlTemplate>
-        </Setter.Value>
-      </Setter>
-    </Style>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
-    <Style TargetType="Button" x:Name="MenuItemButtonStyle" x:Key="MenuItemButtonStyle">
-      <Setter Property="Background" Value="Transparent" />
-      <Setter Property="MinHeight" Value="{ThemeResource ListViewItemMinHeight}"/>
-      <Setter Property="MinWidth" Value="{ThemeResource SplitViewCompactPaneThemeLength}" />
-      <Setter Property="Template">
-        <Setter.Value>
-          <ControlTemplate TargetType="Button">
+        <Style TargetType="Button" x:Name="MenuItemButtonStyle" x:Key="MenuItemButtonStyle">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="MinHeight" Value="{ThemeResource ListViewItemMinHeight}"/>
+            <Setter Property="MinWidth" Value="{ThemeResource SplitViewCompactPaneThemeLength}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
 
-            <Grid x:Name="RootGrid" Background="Transparent"  BorderThickness="1" BorderBrush="{StaticResource ButtonBorderLightingBrush}">
-              <VisualStateManager.VisualStateGroups>
-                <VisualStateGroup x:Name="Common">
-                  <VisualState x:Name="Normal" />
-                  <VisualState x:Name="PointerOver">
-                    <Storyboard>
-                      <ObjectAnimationUsingKeyFrames
+                        <Grid x:Name="RootGrid" Background="Transparent"  BorderThickness="1" BorderBrush="{StaticResource ButtonBorderLightingBrush}">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="Common">
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="PointerOver">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames
                           Storyboard.TargetName="RootGrid"
                           Storyboard.TargetProperty="Background">
-                        <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource ButtonLightingBrush}" />
-                      </ObjectAnimationUsingKeyFrames>
-                    </Storyboard>
-                  </VisualState>
-                  <VisualState x:Name="Pressed">
-                    <Storyboard>
-                      <PointerDownThemeAnimation Storyboard.TargetName="RootGrid"/>
-                      <ObjectAnimationUsingKeyFrames
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource ButtonLightingBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <PointerDownThemeAnimation Storyboard.TargetName="RootGrid"/>
+                                            <ObjectAnimationUsingKeyFrames
                           Storyboard.TargetName="RootGrid"
                           Storyboard.TargetProperty="Background">
-                        <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource ButtonPressedLightingBrush}" />
-                      </ObjectAnimationUsingKeyFrames>
-                    </Storyboard>
-                  </VisualState>
-                  <VisualState x:Name="Disabled" />
-                </VisualStateGroup>
-                <VisualStateGroup x:Name="CheckedStates">
-                  <VisualState x:Name="Checked">
-                    <Storyboard>
-                      <ColorAnimation Storyboard.TargetName="Brush" Storyboard.TargetProperty="Color" From="{Binding Path=Background}" To="{StaticResource SystemAccentColor}" Duration="0:0:0" FillBehavior="HoldEnd" />
-                    </Storyboard>
-                  </VisualState>
-                  <VisualState x:Name="Unchecked" />
-                  <VisualState x:Name="Indeterminate" />
-                </VisualStateGroup>
-              </VisualStateManager.VisualStateGroups>
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource ButtonPressedLightingBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled" />
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="CheckedStates">
+                                    <VisualState x:Name="Checked">
+                                        <Storyboard>
+                                            <ColorAnimation Storyboard.TargetName="Brush" Storyboard.TargetProperty="Color" From="{Binding Path=Background}" To="{StaticResource SystemAccentColor}" Duration="0:0:0" FillBehavior="HoldEnd" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Unchecked" />
+                                    <VisualState x:Name="Indeterminate" />
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
 
 
-              <Grid.RowDefinitions>
-                <RowDefinition Height="48" />
-              </Grid.RowDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="48" />
+                            </Grid.RowDefinitions>
 
-              <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="4" />
-                <ColumnDefinition Width="50" />
-                <ColumnDefinition Width="*"/>
-              </Grid.ColumnDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="4" />
+                                <ColumnDefinition Width="50" />
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
 
-              <!-- use extra left margin to align the icon with NavigationButtonStyle'd controls -->
-              <FontIcon x:Name="Icon" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Right" FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="{TemplateBinding Tag}" FontSize="21" />
+                            <!-- use extra left margin to align the icon with NavigationButtonStyle'd controls -->
+                            <FontIcon x:Name="Icon" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Right" FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="{TemplateBinding Tag}" FontSize="21" />
 
-              <TextBlock x:Name="Text" FontWeight="Normal" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="35,8,8,8" Text="{TemplateBinding Content}" />
+                            <TextBlock x:Name="Text" FontWeight="Normal" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="35,8,8,8" Text="{TemplateBinding Content}" />
 
-            </Grid>
+                        </Grid>
 
-          </ControlTemplate>
-        </Setter.Value>
-      </Setter>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
 
-    </Style>
+        </Style>
 
-    <!-- Mobile Menu -->
-    <Style TargetType="RadioButton" x:Key="NavigationButtonStyleMobile">
-      <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundAccentBrush}" />
-      <Setter Property="MinHeight" Value="{ThemeResource ListViewItemMinHeight}"/>
-      <Setter Property="MinWidth" Value="{ThemeResource SplitViewCompactPaneThemeLength}" />
-      <Setter Property="Template">
-        <Setter.Value>
-          <ControlTemplate TargetType="RadioButton">
-            <Grid x:Name="RootGrid" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Transparent">
-              <VisualStateManager.VisualStateGroups>
-                <VisualStateGroup x:Name="Common">
-                  <VisualState x:Name="Normal">
-                    <Storyboard>
-                      <PointerUpThemeAnimation Storyboard.TargetName="RootGrid"/>
-                    </Storyboard>
-                  </VisualState>
-                  <VisualState x:Name="PointerOver">
-                    <Storyboard>
-                      <PointerUpThemeAnimation Storyboard.TargetName="RootGrid"/>
-                    </Storyboard>
-                  </VisualState>
-                  <VisualState x:Name="Pressed">
-                    <Storyboard>
-                      <PointerDownThemeAnimation Storyboard.TargetName="RootGrid"/>
-                    </Storyboard>
-                  </VisualState>
-                  <VisualState x:Name="Disabled" />
-                </VisualStateGroup>
-                <VisualStateGroup x:Name="CheckedStates">
-                  <VisualState x:Name="Checked">
-                    <Storyboard>
-                      <ColorAnimation Storyboard.TargetName="Icon" Storyboard.TargetProperty="(IconElement.Foreground).(SolidColorBrush.Color)" From="{Binding Source={StaticResource AppBarItemForegroundThemeBrush}, Path=Color}" To="{Binding Source={StaticResource SystemControlHighlightAccentBrush}, Path=Color}" Duration="0:0:0.3" FillBehavior="HoldEnd" />
-                      <ColorAnimation Storyboard.TargetName="Text" Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)" From="{Binding Source={StaticResource AppBarItemForegroundThemeBrush}, Path=Color}" To="{Binding Source={StaticResource SystemControlHighlightAccentBrush}, Path=Color}" Duration="0:0:0.3" FillBehavior="HoldEnd"  />
-                    </Storyboard>
-                  </VisualState>
-                  <VisualState x:Name="Unchecked" />
-                  <VisualState x:Name="Indeterminate" />
-                </VisualStateGroup>
-              </VisualStateManager.VisualStateGroups>
+        <!-- Mobile Menu -->
+        <Style TargetType="RadioButton" x:Key="NavigationButtonStyleMobile">
+            <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundAccentBrush}" />
+            <Setter Property="MinHeight" Value="{ThemeResource ListViewItemMinHeight}"/>
+            <Setter Property="MinWidth" Value="{ThemeResource SplitViewCompactPaneThemeLength}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RadioButton">
+                        <Grid x:Name="RootGrid" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Transparent">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="Common">
+                                    <VisualState x:Name="Normal">
+                                        <Storyboard>
+                                            <PointerUpThemeAnimation Storyboard.TargetName="RootGrid"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="PointerOver">
+                                        <Storyboard>
+                                            <PointerUpThemeAnimation Storyboard.TargetName="RootGrid"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <PointerDownThemeAnimation Storyboard.TargetName="RootGrid"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled" />
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="CheckedStates">
+                                    <VisualState x:Name="Checked">
+                                        <Storyboard>
+                                            <ColorAnimation Storyboard.TargetName="Icon" Storyboard.TargetProperty="(IconElement.Foreground).(SolidColorBrush.Color)" From="{Binding Source={StaticResource AppBarItemForegroundThemeBrush}, Path=Color}" To="{Binding Source={StaticResource SystemControlHighlightAccentBrush}, Path=Color}" Duration="0:0:0.3" FillBehavior="HoldEnd" />
+                                            <ColorAnimation Storyboard.TargetName="Text" Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)" From="{Binding Source={StaticResource AppBarItemForegroundThemeBrush}, Path=Color}" To="{Binding Source={StaticResource SystemControlHighlightAccentBrush}, Path=Color}" Duration="0:0:0.3" FillBehavior="HoldEnd"  />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Unchecked" />
+                                    <VisualState x:Name="Indeterminate" />
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
 
-              <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                <FontIcon Foreground="{ThemeResource AppBarItemForegroundThemeBrush}" x:Name="Icon" Opacity="0.9" FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="{TemplateBinding Tag}" FontSize="20" VerticalAlignment="Center" Margin="0,2,0,0" />
-                <TextBlock Foreground="{ThemeResource AppBarItemForegroundThemeBrush}" x:Name="Text" FontWeight="Normal" Opacity="0.9" Text="{TemplateBinding Content}" FontSize="12" TextAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Center" />
-              </StackPanel>
-            </Grid>
-          </ControlTemplate>
-        </Setter.Value>
-      </Setter>
+                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <FontIcon Foreground="{ThemeResource AppBarItemForegroundThemeBrush}" x:Name="Icon" Opacity="0.9" FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="{TemplateBinding Tag}" FontSize="20" VerticalAlignment="Center" Margin="0,2,0,0" />
+                                <TextBlock Foreground="{ThemeResource AppBarItemForegroundThemeBrush}" x:Name="Text" FontWeight="Normal" Opacity="0.9" Text="{TemplateBinding Content}" FontSize="12" TextAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
 
-    </Style>
-    <Style x:Key="UserButtonStyle" TargetType="Button">
-      <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
-      <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}"/>
-      <Setter Property="BorderBrush" Value="{StaticResource SystemControlForegroundTransparentBrush}" />
-      <Setter Property="BorderThickness" Value="{ThemeResource ButtonBorderThemeThickness}" />
-      <Setter Property="Padding" Value="8,4,8,4" />
-      <Setter Property="HorizontalAlignment" Value="Left" />
-      <Setter Property="VerticalAlignment" Value="Center" />
-      <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
-      <Setter Property="FontWeight" Value="Normal" />
-      <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
-      <Setter Property="UseSystemFocusVisuals" Value="True" />
-      <Setter Property="Template">
-        <Setter.Value>
-          <ControlTemplate TargetType="Button">
-            <Grid x:Name="RootGrid" Background="Transparent"  BorderThickness="0,1,0,1" BorderBrush="{StaticResource ButtonBorderLightingBrush}">
-              <VisualStateManager.VisualStateGroups>
-                <VisualStateGroup x:Name="CommonStates">
-                  <VisualState x:Name="Normal">
-                    <Storyboard>
-                      <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
-                    </Storyboard>
-                  </VisualState>
-                  <VisualState x:Name="PointerOver">
-                    <Storyboard>
-                      <ObjectAnimationUsingKeyFrames
+        </Style>
+        <Style x:Key="UserButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
+            <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource SystemControlForegroundTransparentBrush}" />
+            <Setter Property="BorderThickness" Value="{ThemeResource ButtonBorderThemeThickness}" />
+            <Setter Property="Padding" Value="8,4,8,4" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+            <Setter Property="FontWeight" Value="Normal" />
+            <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
+            <Setter Property="UseSystemFocusVisuals" Value="True" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid x:Name="RootGrid" Background="Transparent"  BorderThickness="0,1,0,1" BorderBrush="{StaticResource ButtonBorderLightingBrush}">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal">
+                                        <Storyboard>
+                                            <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="PointerOver">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames
                           Storyboard.TargetName="RootGrid"
                           Storyboard.TargetProperty="Background">
-                        <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource ButtonLightingBrush}" />
-                      </ObjectAnimationUsingKeyFrames>
-                      <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
-                    </Storyboard>
-                  </VisualState>
-                  <VisualState x:Name="Pressed">
-                    <Storyboard>
-                      <ObjectAnimationUsingKeyFrames
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource ButtonLightingBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames
                           Storyboard.TargetName="RootGrid"
                           Storyboard.TargetProperty="Background">
-                        <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource ButtonPressedLightingBrush}" />
-                      </ObjectAnimationUsingKeyFrames>
-                      <PointerDownThemeAnimation Storyboard.TargetName="RootGrid" />
-                    </Storyboard>
-                  </VisualState>
-                  <VisualState x:Name="Disabled">
-                    <Storyboard>
-                      <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource ButtonPressedLightingBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <PointerDownThemeAnimation Storyboard.TargetName="RootGrid" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
                           Storyboard.TargetProperty="Background">
-                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
-                      </ObjectAnimationUsingKeyFrames>
-                      <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
                           Storyboard.TargetProperty="Foreground">
-                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledBaseMediumLowBrush}" />
-                      </ObjectAnimationUsingKeyFrames>
-                      <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledBaseMediumLowBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
                           Storyboard.TargetProperty="BorderBrush">
-                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledTransparentBrush}" />
-                      </ObjectAnimationUsingKeyFrames>
-                    </Storyboard>
-                  </VisualState>
-                </VisualStateGroup>
-              </VisualStateManager.VisualStateGroups>
-              <ContentPresenter x:Name="ContentPresenter"
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledTransparentBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <ContentPresenter x:Name="ContentPresenter"
                   BorderBrush="{TemplateBinding BorderBrush}"
                   BorderThickness="{TemplateBinding BorderThickness}"
                   Content="{TemplateBinding Content}"
@@ -277,73 +277,73 @@
                   HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                   VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                   AutomationProperties.AccessibilityView="Raw"/>
-            </Grid>
-          </ControlTemplate>
-        </Setter.Value>
-      </Setter>
-    </Style>
-    <Style x:Key="NowPlayingButtonStyle" TargetType="Button">
-      <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
-      <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}"/>
-      <Setter Property="BorderBrush" Value="{StaticResource SystemControlForegroundTransparentBrush}" />
-      <Setter Property="BorderThickness" Value="{ThemeResource ButtonBorderThemeThickness}" />
-      <Setter Property="Padding" Value="8,4,8,4" />
-      <Setter Property="HorizontalAlignment" Value="Left" />
-      <Setter Property="VerticalAlignment" Value="Center" />
-      <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
-      <Setter Property="FontWeight" Value="Normal" />
-      <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
-      <Setter Property="UseSystemFocusVisuals" Value="True" />
-      <Setter Property="Template">
-        <Setter.Value>
-          <ControlTemplate TargetType="Button">
-            <Grid x:Name="RootGrid"  Background="Transparent"  BorderThickness="1" BorderBrush="{StaticResource ButtonBorderLightingBrush}">
-              <VisualStateManager.VisualStateGroups>
-                <VisualStateGroup x:Name="CommonStates">
-                  <VisualState x:Name="Normal">
-                    <Storyboard>
-                      <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
-                    </Storyboard>
-                  </VisualState>
-                  <VisualState x:Name="PointerOver">
-                    <Storyboard>
-                      <ObjectAnimationUsingKeyFrames
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="NowPlayingButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
+            <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource SystemControlForegroundTransparentBrush}" />
+            <Setter Property="BorderThickness" Value="{ThemeResource ButtonBorderThemeThickness}" />
+            <Setter Property="Padding" Value="8,4,8,4" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+            <Setter Property="FontWeight" Value="Normal" />
+            <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
+            <Setter Property="UseSystemFocusVisuals" Value="True" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid x:Name="RootGrid"  Background="Transparent"  BorderThickness="1" BorderBrush="{StaticResource ButtonBorderLightingBrush}">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal">
+                                        <Storyboard>
+                                            <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="PointerOver">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames
                           Storyboard.TargetName="RootGrid"
                           Storyboard.TargetProperty="Background">
-                        <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource ButtonLightingBrush}" />
-                      </ObjectAnimationUsingKeyFrames>
-                      <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
-                    </Storyboard>
-                  </VisualState>
-                  <VisualState x:Name="Pressed">
-                    <Storyboard>
-                      <ObjectAnimationUsingKeyFrames
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource ButtonLightingBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames
                           Storyboard.TargetName="RootGrid"
                           Storyboard.TargetProperty="Background">
-                        <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource ButtonPressedLightingBrush}" />
-                      </ObjectAnimationUsingKeyFrames>
-                      <PointerDownThemeAnimation Storyboard.TargetName="RootGrid" />
-                    </Storyboard>
-                  </VisualState>
-                  <VisualState x:Name="Disabled">
-                    <Storyboard>
-                      <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource ButtonPressedLightingBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <PointerDownThemeAnimation Storyboard.TargetName="RootGrid" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
                           Storyboard.TargetProperty="Background">
-                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
-                      </ObjectAnimationUsingKeyFrames>
-                      <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
                           Storyboard.TargetProperty="Foreground">
-                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledBaseMediumLowBrush}" />
-                      </ObjectAnimationUsingKeyFrames>
-                      <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledBaseMediumLowBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
                           Storyboard.TargetProperty="BorderBrush">
-                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledTransparentBrush}" />
-                      </ObjectAnimationUsingKeyFrames>
-                    </Storyboard>
-                  </VisualState>
-                </VisualStateGroup>
-              </VisualStateManager.VisualStateGroups>
-              <ContentPresenter x:Name="ContentPresenter"
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledTransparentBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <ContentPresenter x:Name="ContentPresenter"
                   BorderBrush="{TemplateBinding BorderBrush}"
                   BorderThickness="{TemplateBinding BorderThickness}"
                   Content="{TemplateBinding Content}"
@@ -353,19 +353,19 @@
                   HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                   VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                   AutomationProperties.AccessibilityView="Raw"/>
-            </Grid>
-          </ControlTemplate>
-        </Setter.Value>
-      </Setter>
-    </Style>
-  </Page.Resources>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
 
-  <Grid Background="{StaticResource AppHostBackgroundBrush}" x:Name="RootGrid">
+    <Grid Background="{StaticResource AppHostBackgroundBrush}" x:Name="RootGrid">
 
-    <!-- Xbox Specific Items -->
-    <Grid x:Name="XboxOnlyGrid" Visibility="Collapsed">
-      <!-- Xbox Blur Background -->
-      <controls:ImageEx IsCacheEnabled="True"
+        <!-- Xbox Specific Items -->
+        <Grid x:Name="XboxOnlyGrid" Visibility="Collapsed">
+            <!-- Xbox Blur Background -->
+            <controls:ImageEx IsCacheEnabled="True"
                         PlaceholderSource="/Assets/PlaceholderBackground.png"
                         Source="{x:Bind Service.CurrentTrack, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
                         HorizontalAlignment="Center"
@@ -374,46 +374,48 @@
                         PlaceholderStretch="UniformToFill"
                         IsTabStop="False"
                         IsHitTestVisible="False"
-                        Canvas.ZIndex="2">
-        <interactivity:Interaction.Behaviors>
-          <behaviors:Blur Value="30" Duration="0" Delay="0" AutomaticallyStart="True"/>
-        </interactivity:Interaction.Behaviors>
-      </controls:ImageEx>
+                        Canvas.ZIndex="2" />
+            
+            <Grid Canvas.ZIndex="3"
+                  HorizontalAlignment="Stretch"
+                  VerticalAlignment="Stretch"
+                  Background="{StaticResource BackgroundTrackBlurBrush}"
+                  IsHitTestVisible="False" />
 
-      <!-- Darken the Screen for xbox -->
-      <Grid Canvas.ZIndex="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#65000000"  />
-    </Grid>
+            <!-- Darken the Screen for xbox -->
+            <Grid Canvas.ZIndex="4" HorizontalAlignment="Stretch"  Background="#65000000"  />
+        </Grid>
 
-    <!-- Main Splitview, holds left pane navigation and right content,
+        <!-- Main Splitview, holds left pane navigation and right content,
              nowplaying bar is below the splitview -->
-    <SplitView x:Name="MainSplitView"
+        <SplitView x:Name="MainSplitView"
                IsPaneOpen="True"
                Background="Transparent"
                OpenPaneLength="350"
+               LightDismissOverlayMode="Off"
                PaneBackground="Transparent"
                DisplayMode="CompactInline"
                Margin="0,32,0,0"
                CompactPaneLength="84">
 
-      <!-- Navigation Pane -->
-      <SplitView.Pane>
-        <Grid>
+            <!-- Navigation Pane -->
+            <SplitView.Pane>
+                <Grid x:Name="SplitViewPaneGrid">
+                    <!-- Everything is max height -->
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
 
-          <!-- Everything is max height -->
-          <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-          </Grid.RowDefinitions>
-
-          <!-- The left hand side menu items -->
-          <ScrollViewer VerticalScrollBarVisibility="Auto"
+                    <!-- The left hand side menu items -->
+                    <ScrollViewer VerticalScrollBarVisibility="Auto"
                         Grid.Row="0"
                         x:Name="NavbarScrollViewer"
                         Canvas.ZIndex="10">
-            <!-- Stack all the objects on top of each other -->
-            <StackPanel>
+                        <!-- Stack all the objects on top of each other -->
+                        <StackPanel>
 
-              <Button x:Name="HamburgerButton"
+                            <Button x:Name="HamburgerButton"
                       FocusVisualPrimaryThickness="1"
                       FocusVisualSecondaryThickness="1"
                       FocusVisualMargin="1"
@@ -422,8 +424,8 @@
                       Tag="&#xE700;"
                       Click="HamburgerButton_Click" />
 
-              <!-- Stream Button -->
-              <RadioButton x:Name="HomeTab"
+                            <!-- Stream Button -->
+                            <RadioButton x:Name="HomeTab"
                            FocusVisualPrimaryThickness="1"
                            FocusVisualSecondaryThickness="1"
                            FocusVisualMargin="1"
@@ -434,11 +436,11 @@
                            Content="Home"
                            Checked="NavigateHome" />
 
-              <!-- The search box  -->
-              <sui:SearchBox x:Name="SearchTab" SearchSubmitted="SearchBox_SearchSubmitted" />
+                            <!-- The search box  -->
+                            <sui:SearchBox x:Name="SearchTab" SearchSubmitted="SearchBox_SearchSubmitted" />
 
-              <!-- Xbox Search Bar -->
-              <RadioButton x:Name="SearchXboxTab"
+                            <!-- Xbox Search Bar -->
+                            <RadioButton x:Name="SearchXboxTab"
                            FocusVisualPrimaryThickness="1"
                            FocusVisualSecondaryThickness="1"
                            FocusVisualMargin="1"
@@ -450,8 +452,8 @@
                            Content="Search"
                            Checked="NavigateSearch" />
 
-              <!-- User likes -->
-              <RadioButton x:Name="LikesTab"
+                            <!-- User likes -->
+                            <RadioButton x:Name="LikesTab"
                            FocusVisualPrimaryThickness="1"
                            FocusVisualSecondaryThickness="1"
                            FocusVisualMargin="1"
@@ -462,8 +464,8 @@
                            Content="Likes"
                            Checked="NavigateLikes" />
 
-              <!-- User sets -->
-              <RadioButton x:Name="SetsTab"
+                            <!-- User sets -->
+                            <RadioButton x:Name="SetsTab"
                            FocusVisualPrimaryThickness="1"
                            FocusVisualSecondaryThickness="1"
                            FocusVisualMargin="1"
@@ -474,8 +476,8 @@
                            Content="Playlists"
                            Checked="NavigateSets" />
 
-              <!-- User history -->
-              <RadioButton x:Name="HistoryTab"
+                            <!-- User history -->
+                            <RadioButton x:Name="HistoryTab"
                            FocusVisualPrimaryThickness="1"
                            FocusVisualSecondaryThickness="1"
                            FocusVisualMargin="1"
@@ -486,8 +488,8 @@
                            Content="History"
                            Checked="NavigateHistory" />
 
-              <!-- User notifications -->
-              <RadioButton x:Name="NotificationsTab"
+                            <!-- User notifications -->
+                            <RadioButton x:Name="NotificationsTab"
                            FocusVisualPrimaryThickness="1"
                            FocusVisualSecondaryThickness="1"
                            FocusVisualMargin="1"
@@ -498,8 +500,8 @@
                            Content="Notifications"
                            Checked="NavigateNotifications"  />
 
-              <!-- Navigate to the settings page -->
-              <RadioButton x:Name="DonateTab"
+                            <!-- Navigate to the settings page -->
+                            <RadioButton x:Name="DonateTab"
                            FocusVisualPrimaryThickness="1"
                            FocusVisualSecondaryThickness="1"
                            FocusVisualMargin="1"
@@ -510,8 +512,8 @@
                            Content="Donate"
                            Checked="NavigateDonate"  />
 
-              <!-- Navigate to the settings page -->
-              <RadioButton x:Name="SettingsTab"
+                            <!-- Navigate to the settings page -->
+                            <RadioButton x:Name="SettingsTab"
                            FocusVisualPrimaryThickness="1"
                            FocusVisualSecondaryThickness="1"
                            FocusVisualMargin="1"
@@ -522,8 +524,8 @@
                            Content="Settings"
                            Checked="NavigateSettings"  />
 
-              <!-- Let the user login to their account -->
-              <RadioButton x:Name="LoginTab"
+                            <!-- Let the user login to their account -->
+                            <RadioButton x:Name="LoginTab"
                            FocusVisualPrimaryThickness="1"
                            FocusVisualSecondaryThickness="1"
                            FocusVisualMargin="1"
@@ -534,8 +536,8 @@
                            Content="Login"
                            Checked="NavigateLogin" />
 
-              <!-- The users profile -->
-              <Button x:Name="UserButton"
+                            <!-- The users profile -->
+                            <Button x:Name="UserButton"
                       FocusVisualPrimaryThickness="1"
                       FocusVisualSecondaryThickness="1"
                       FocusVisualMargin="1"
@@ -548,10 +550,10 @@
                       Height="48"
                       HorizontalAlignment="Stretch"
                       Style="{StaticResource UserButtonStyle}">
-                <Grid HorizontalAlignment="Stretch"
+                                <Grid HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
                         Margin="19,0,0,0">
-                  <controls:RoundImageEx HorizontalAlignment="Left"
+                                    <controls:RoundImageEx HorizontalAlignment="Left"
                                          Source="{x:Bind SoundByteService.CurrentUser, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
                                          Width="28"
                                          IsCacheEnabled="True"
@@ -562,80 +564,79 @@
                                          Height="28"
                                          VerticalAlignment="Center"  />
 
-                  <TextBlock Text="{x:Bind SoundByteService.CurrentUser.Username, Mode=OneWay}"
+                                    <TextBlock Text="{x:Bind SoundByteService.CurrentUser.Username, Mode=OneWay}"
                               FontWeight="Normal"
                               TextTrimming="CharacterEllipsis"
                               VerticalAlignment="Center"
                               Opacity="1"
                               Margin="67,0,0,0"/>
+                                </Grid>
+                            </Button>
+                        </StackPanel>
+                    </ScrollViewer>
+
+                    <!-- We select this in code when the tab is not known -->
+                    <RadioButton Grid.Row="0" x:Name="UnknownTab" Visibility="Collapsed" GroupName="NavPaneButtons"  />
                 </Grid>
-              </Button>
-            </StackPanel>
-          </ScrollViewer>
+            </SplitView.Pane>
 
-          <!-- We select this in code when the tab is not known -->
-          <RadioButton Grid.Row="0" x:Name="UnknownTab" Visibility="Collapsed" GroupName="NavPaneButtons"  />
-        </Grid>
-      </SplitView.Pane>
-
-      <!-- Main Frame Content -->
-      <Grid>
-        <!-- Shadow for now playing bar -->
-        <Canvas x:Name="ShellFrameShadow"
+            <!-- Main Frame Content -->
+            <Grid>
+                <!-- Shadow for now playing bar -->
+                <Canvas x:Name="ShellFrameShadow"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
                 Canvas.ZIndex="5" />
 
-        <!-- Main Page Content will be rendered here -->
-        <Frame x:Name="ShellFrame"
+                <!-- Main Page Content will be rendered here -->
+                <Frame x:Name="ShellFrame"
                TabIndex="1"
                Background="{ThemeResource ShellBackground}"
                Navigated="ShellFrame_Navigated"
                HorizontalAlignment="Stretch"
                Canvas.ZIndex="10"
                Padding="0">
-        </Frame>
-      </Grid>
+                </Frame>
+            </Grid>
 
-    </SplitView>
+        </SplitView>
 
-    <!-- Bottom Navigation bar for mobile devices -->
-    <Grid x:Name="MobileNavigation"
+        <!-- Bottom Navigation bar for mobile devices -->
+        <Grid x:Name="MobileNavigation"
           Visibility="Collapsed"
           VerticalAlignment="Bottom"
           Height="64"
-          Canvas.ZIndex="55"
-          Background="{ThemeResource ShellNavigationBackground}">
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="*" />
-        <ColumnDefinition Width="*" />
-        <ColumnDefinition Width="*" />
-        <ColumnDefinition Width="*" />
-        <ColumnDefinition Width="*" />
-      </Grid.ColumnDefinitions>
+          Canvas.ZIndex="55">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
 
-      <RadioButton Grid.Column="0" Content="Home"   x:Name="MobileHomeTab"   Tag="&#xE80F;" GroupName="MobileNavPaneButtons" Style="{StaticResource NavigationButtonStyleMobile}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Checked="NavigateHome" />
-      <RadioButton Grid.Column="2" Content="Playing"  x:Name="NowPlayingTab"   Tag="&#xE102;" GroupName="MobileNavPaneButtons" Style="{StaticResource NavigationButtonStyleMobile}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Checked="NavigateCurrentPlaying" />
-      <RadioButton Grid.Column="3" Content="Search"   x:Name="MobileSearchTab" Tag="&#xE094;" GroupName="MobileNavPaneButtons" Style="{StaticResource NavigationButtonStyleMobile}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Checked="NavigateSearch" />
-      <RadioButton Grid.Column="4" Content="Menu"     x:Name="MenuMobileTab"   Tag="&#xE700;" GroupName="MobileNavPaneButtons" Style="{StaticResource NavigationButtonStyleMobile}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Checked="NavigateMobileNavView"  />
+            <RadioButton Grid.Column="0" Content="Home"   x:Name="MobileHomeTab"   Tag="&#xE80F;" GroupName="MobileNavPaneButtons" Style="{StaticResource NavigationButtonStyleMobile}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Checked="NavigateHome" />
+            <RadioButton Grid.Column="2" Content="Playing"  x:Name="NowPlayingTab"   Tag="&#xE102;" GroupName="MobileNavPaneButtons" Style="{StaticResource NavigationButtonStyleMobile}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Checked="NavigateCurrentPlaying" />
+            <RadioButton Grid.Column="3" Content="Search"   x:Name="MobileSearchTab" Tag="&#xE094;" GroupName="MobileNavPaneButtons" Style="{StaticResource NavigationButtonStyleMobile}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Checked="NavigateSearch" />
+            <RadioButton Grid.Column="4" Content="Menu"     x:Name="MenuMobileTab"   Tag="&#xE700;" GroupName="MobileNavPaneButtons" Style="{StaticResource NavigationButtonStyleMobile}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Checked="NavigateMobileNavView"  />
 
-      <RadioButton Grid.Column="0" x:Name="MobileUnkownTab"  GroupName="MobileNavPaneButtons" Visibility="Collapsed" Width="0" Height="0" Opacity="0" />
-    </Grid>
+            <RadioButton Grid.Column="0" x:Name="MobileUnkownTab"  GroupName="MobileNavPaneButtons" Visibility="Collapsed" Width="0" Height="0" Opacity="0" />
+        </Grid>
 
-    <!-- Desktop Now Playing Bar -->
-    <Grid x:Name="NowPlaying"
+        <!-- Desktop Now Playing Bar -->
+        <Grid x:Name="NowPlaying"
           VerticalAlignment="Bottom"
           Canvas.ZIndex="4"
           Height="64"
           HorizontalAlignment="Stretch">
 
-      <Grid>
-        <Grid.ColumnDefinitions>
-          <ColumnDefinition Width="350" />
-          <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="350" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
 
-        <Button Grid.Column="0"
+                <Button Grid.Column="0"
                 BorderBrush="{x:Null}"
                 Click="{x:Bind NavigateTrack}"
                 Padding="0"
@@ -646,60 +647,60 @@
                 HorizontalAlignment="Stretch"
                 VerticalContentAlignment="Center"
                 HorizontalContentAlignment="Left" Style="{StaticResource NowPlayingButtonStyle}">
-          <Grid>
-            <controls:DropShadowPanel HorizontalAlignment="Left"
+                    <Grid>
+                        <controls:DropShadowPanel HorizontalAlignment="Left"
                                       OffsetX="0"
                                       OffsetY="5"
                                       BlurRadius="25"
                                       ShadowOpacity="0.75"
                                       Color="Black"
                                       Margin="20,10,10,10">
-              <controls:ImageEx IsCacheEnabled="True"
+                            <controls:ImageEx IsCacheEnabled="True"
                                 Height="44"
                                 Width="44"
                                 PlaceholderSource="/Assets/PlaceholderBackground.png"
                                 Source="{x:Bind Service.CurrentTrack, Converter={StaticResource ArtworkConverter}, Mode=OneWay}" />
-            </controls:DropShadowPanel>
+                        </controls:DropShadowPanel>
 
-            <StackPanel Grid.Column="0" Margin="84,0,0,0" VerticalAlignment="Center">
-              <TextBlock Text="{x:Bind Service.CurrentTrack.Title, Mode=OneWay}"
+                        <StackPanel Grid.Column="0" Margin="84,0,0,0" VerticalAlignment="Center">
+                            <TextBlock Text="{x:Bind Service.CurrentTrack.Title, Mode=OneWay}"
                          FontSize="15"
                          FontWeight="SemiBold"
                          TextWrapping="NoWrap"
                          TextTrimming="CharacterEllipsis"
                          Margin="0,0,10,0"  />
-              <TextBlock Text="{x:Bind Service.CurrentTrack.User.Username, Mode=OneWay}"
+                            <TextBlock Text="{x:Bind Service.CurrentTrack.User.Username, Mode=OneWay}"
                          Opacity="0.7"
                          FontSize="12"
                          FontWeight="Normal"
                          TextWrapping="NoWrap"
                          TextTrimming="CharacterEllipsis"  />
-            </StackPanel>
-          </Grid>
-        </Button>
+                        </StackPanel>
+                    </Grid>
+                </Button>
 
-        <Grid Grid.Column="1">
-          <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
-          </Grid.ColumnDefinitions>
+                <Grid Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
 
-          <!-- Time -->
-          <Grid Margin="20,0" Grid.Column="1">
-            <Grid.ColumnDefinitions>
-              <ColumnDefinition Width="Auto" />
-              <ColumnDefinition Width="*" />
-              <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
+                    <!-- Time -->
+                    <Grid Margin="20,0" Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
 
-            <TextBlock Grid.Column="0"
+                        <TextBlock Grid.Column="0"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Left"
                        Text="{x:Bind Service.TimeListened, Mode=OneWay}"
                        Opacity="0.9"
                        FontSize="14" />
 
-            <Slider Grid.Column="1"
+                        <Slider Grid.Column="1"
                     Style="{StaticResource MainSliderStyle}"
                     ThumbToolTipValueConverter="{StaticResource SliderValueConverter}"
                     VerticalAlignment="Center"
@@ -708,75 +709,81 @@
                     Value="{x:Bind Service.CurrentTimeValue, Mode=TwoWay}"
                     Maximum="{x:Bind Service.MaxTimeValue, Mode=OneWay}" />
 
-            <TextBlock Grid.Column="2"
+                        <TextBlock Grid.Column="2"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Right"
                        Text="{x:Bind Service.TimeRemaining, Mode=OneWay}"
                        Opacity="0.9"
                        FontSize="14" />
-          </Grid>
+                    </Grid>
 
-          <!-- Controls -->
-          <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Grid.Column="0" Margin="0,0">
+                    <!-- Controls -->
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Grid.Column="0" Margin="0,0">
 
 
-            <Button Margin="5,0" Style="{StaticResource CircleButtonStyle}" Background="{x:Null}" Click="{x:Bind Service.SkipPrevious}" Width="42" Height="42">
-              <Button.Content>
-                <TextBlock OpticalMarginAlignment="TrimSideBearings" Text="&#xE892;"  FontWeight="Light" FontSize="20" FontFamily="Segoe MDL2 Assets" AutomationProperties.Name="Back" TextAlignment="Center"  />
-              </Button.Content>
-            </Button>
+                        <Button Margin="5,0" Style="{StaticResource CircleButtonStyle}" Background="{x:Null}" Click="{x:Bind Service.SkipPrevious}" Width="42" Height="42">
+                            <Button.Content>
+                                <TextBlock OpticalMarginAlignment="TrimSideBearings" Text="&#xE892;"  FontWeight="Light" FontSize="20" FontFamily="Segoe MDL2 Assets" AutomationProperties.Name="Back" TextAlignment="Center"  />
+                            </Button.Content>
+                        </Button>
 
-            <Button Margin="5,0" Style="{StaticResource CircleButtonStyle}" Background="{x:Null}" Click="{x:Bind Service.ChangePlaybackState}" Width="42" Height="42">
-              <Button.Content>
-                <TextBlock OpticalMarginAlignment="TrimSideBearings" Text="{x:Bind Service.PlayButtonContent, Mode=OneWay}"  FontWeight="Light" FontSize="20" FontFamily="Segoe MDL2 Assets" AutomationProperties.Name="Back" TextAlignment="Center"  />
-              </Button.Content>
-            </Button>
+                        <Button Margin="5,0" Style="{StaticResource CircleButtonStyle}" Background="{x:Null}" Click="{x:Bind Service.ChangePlaybackState}" Width="42" Height="42">
+                            <Button.Content>
+                                <TextBlock OpticalMarginAlignment="TrimSideBearings" Text="{x:Bind Service.PlayButtonContent, Mode=OneWay}"  FontWeight="Light" FontSize="20" FontFamily="Segoe MDL2 Assets" AutomationProperties.Name="Back" TextAlignment="Center"  />
+                            </Button.Content>
+                        </Button>
 
-            <Button Margin="5,0"  Style="{StaticResource CircleButtonStyle}" Background="{x:Null}" Click="{x:Bind Service.SkipNext}" Width="42" Height="42">
-              <Button.Content>
-                <TextBlock OpticalMarginAlignment="TrimSideBearings" Text="&#xE893;"  FontWeight="Light" FontSize="20" FontFamily="Segoe MDL2 Assets" AutomationProperties.Name="Next" TextAlignment="Center"  />
-              </Button.Content>
-            </Button>
+                        <Button Margin="5,0"  Style="{StaticResource CircleButtonStyle}" Background="{x:Null}" Click="{x:Bind Service.SkipNext}" Width="42" Height="42">
+                            <Button.Content>
+                                <TextBlock OpticalMarginAlignment="TrimSideBearings" Text="&#xE893;"  FontWeight="Light" FontSize="20" FontFamily="Segoe MDL2 Assets" AutomationProperties.Name="Next" TextAlignment="Center"  />
+                            </Button.Content>
+                        </Button>
 
-            <Button Margin="5,0" Style="{StaticResource CircleButtonStyle}" Background="{x:Null}" Width="42" Height="42">
-              <Button.Content>
-                <TextBlock OpticalMarginAlignment="TrimSideBearings" Text="{x:Bind Service.VolumeIcon, Mode=OneWay}"  FontWeight="Light" FontSize="20" FontFamily="Segoe MDL2 Assets" AutomationProperties.Name="Back" TextAlignment="Center"  />
-              </Button.Content>
-              <Button.Flyout>
-                <Flyout Placement="Top">
-                  <StackPanel Orientation="Horizontal" Width="205">
-                    <Button Width="41" Height="41" x:Name="MuteButton" Style="{StaticResource CircleButtonStyle}" Click="{x:Bind Service.ToggleMute}" VerticalAlignment="Center" Background="{x:Null}" Margin="0,0,10,0">
-                      <Button.Content>
-                        <TextBlock OpticalMarginAlignment="TrimSideBearings" Text="{x:Bind Service.VolumeIcon, Mode=OneWay}"  FontWeight="Light" FontSize="20" FontFamily="Segoe MDL2 Assets" AutomationProperties.Name="Next" TextAlignment="Center"  />
-                      </Button.Content>
-                    </Button>
-                    <Slider VerticalAlignment="Center" Orientation="Horizontal" Padding="0" Value="{x:Bind Service.MediaVolume, Mode=TwoWay}" Maximum="100" Minimum="0" Margin="0,0,0,-3" Width="105" Height="40"  />
-                    <TextBlock VerticalAlignment="Center" TextAlignment="Center" Padding="0" Text="{x:Bind Service.MediaVolume, Mode=OneWay}" Margin="15,0,0,0"/>
-                  </StackPanel>
-                </Flyout>
-              </Button.Flyout>
-            </Button>
+                        <Button Margin="5,0" Style="{StaticResource CircleButtonStyle}" Background="{x:Null}" Width="42" Height="42">
+                            <Button.Content>
+                                <TextBlock OpticalMarginAlignment="TrimSideBearings" Text="{x:Bind Service.VolumeIcon, Mode=OneWay}"  FontWeight="Light" FontSize="20" FontFamily="Segoe MDL2 Assets" AutomationProperties.Name="Back" TextAlignment="Center"  />
+                            </Button.Content>
+                            <Button.Flyout>
+                                <Flyout Placement="Top">
+                                    <StackPanel Orientation="Horizontal" Width="205">
+                                        <Button Width="41" Height="41" x:Name="MuteButton" Style="{StaticResource CircleButtonStyle}" Click="{x:Bind Service.ToggleMute}" VerticalAlignment="Center" Background="{x:Null}" Margin="0,0,10,0">
+                                            <Button.Content>
+                                                <TextBlock OpticalMarginAlignment="TrimSideBearings" Text="{x:Bind Service.VolumeIcon, Mode=OneWay}"  FontWeight="Light" FontSize="20" FontFamily="Segoe MDL2 Assets" AutomationProperties.Name="Next" TextAlignment="Center"  />
+                                            </Button.Content>
+                                        </Button>
+                                        <Slider VerticalAlignment="Center" Orientation="Horizontal" Padding="0" Value="{x:Bind Service.MediaVolume, Mode=TwoWay}" Maximum="100" Minimum="0" Margin="0,0,0,-3" Width="105" Height="40"  />
+                                        <TextBlock VerticalAlignment="Center" TextAlignment="Center" Padding="0" Text="{x:Bind Service.MediaVolume, Mode=OneWay}" Margin="15,0,0,0"/>
+                                    </StackPanel>
+                                </Flyout>
+                            </Button.Flyout>
+                        </Button>
 
-            <Button Margin="5,0" Style="{StaticResource CircleButtonStyle}" Background="{x:Null}" Click="{x:Bind Service.LikeTrack}" Width="42" Height="42">
-              <Button.Content>
-                <TextBlock OpticalMarginAlignment="TrimSideBearings" Text="{x:Bind Service.LikeIcon, Mode=OneWay}"  FontWeight="Light" FontSize="20" FontFamily="Segoe MDL2 Assets" AutomationProperties.Name="Next" TextAlignment="Center"  />
-              </Button.Content>
-            </Button>
-          </StackPanel>
+                        <Button Margin="5,0" Style="{StaticResource CircleButtonStyle}" Background="{x:Null}" Click="{x:Bind Service.LikeTrack}" Width="42" Height="42">
+                            <Button.Content>
+                                <TextBlock OpticalMarginAlignment="TrimSideBearings" Text="{x:Bind Service.LikeIcon, Mode=OneWay}"  FontWeight="Light" FontSize="20" FontFamily="Segoe MDL2 Assets" AutomationProperties.Name="Next" TextAlignment="Center"  />
+                            </Button.Content>
+                        </Button>
+
+                        <Button Margin="5,0"  Style="{StaticResource CircleButtonStyle}" Background="{x:Null}" Click="{x:Bind ShowCompactView}" Width="42" Height="42">
+                            <Button.Content>
+                                <TextBlock OpticalMarginAlignment="TrimSideBearings" Text="&#xE8BA;" FontWeight="Light" FontSize="20" FontFamily="Segoe MDL2 Assets" AutomationProperties.Name="Next" TextAlignment="Center"  />
+                            </Button.Content>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Grid>
         </Grid>
-      </Grid>
-    </Grid>
 
-    <Grid x:Name="NotificationPaneShadow"
+        <Grid x:Name="NotificationPaneShadow"
           VerticalAlignment="Top"
           HorizontalAlignment="Stretch"
           Canvas.ZIndex="90"
           Height="64"
           Visibility="Collapsed"/>
 
-    <!-- Notification pane shown at the top of the page. Usefull 
+        <!-- Notification pane shown at the top of the page. Usefull 
              for just updated notifications and developer messages -->
-    <Grid x:Name="NotificationPane"
+        <Grid x:Name="NotificationPane"
           VerticalAlignment="Top"
           HorizontalAlignment="Stretch"
           Canvas.ZIndex="100"
@@ -784,16 +791,16 @@
           Opacity="1"
           Height="64"
           Visibility="Collapsed">
-      <!-- Content -->
-      <StackPanel Orientation="Horizontal"
+            <!-- Content -->
+            <StackPanel Orientation="Horizontal"
                   HorizontalAlignment="Left"
                   VerticalAlignment="Center">
-        <TextBlock Margin="30,0"
+                <TextBlock Margin="30,0"
                    x:Name="NotificationText" />
-      </StackPanel>
+            </StackPanel>
 
-      <!-- Close button -->
-      <Button HorizontalAlignment="Right"
+            <!-- Close button -->
+            <Button HorizontalAlignment="Right"
               Background="Transparent"
               Style="{StaticResource NowPlayingButtonStyle}"
               BorderThickness="1"
@@ -802,12 +809,12 @@
               Width="64"
               Padding="0"
               Margin="0">
-        <TextBlock Text="&#xE894;" FontFamily="Segoe MDL2 Assets" AutomationProperties.Name="Close" Opacity="0.6" />
-      </Button>
-    </Grid>
+                <TextBlock Text="&#xE894;" FontFamily="Segoe MDL2 Assets" AutomationProperties.Name="Close" Opacity="0.6" />
+            </Button>
+        </Grid>
 
-    <!-- Is displayed when performing tasks that take a long time -->
-    <ProgressRing x:Name="LoadingRing"
+        <!-- Is displayed when performing tasks that take a long time -->
+        <ProgressRing x:Name="LoadingRing"
                   Canvas.ZIndex="500"
                   HorizontalAlignment="Center"
                   VerticalAlignment="Center"
@@ -817,5 +824,5 @@
                   IsActive="True"
                   Visibility="Collapsed"
                   Foreground="{ThemeResource SystemControlHighlightAccentBrush}" />
-  </Grid>
+    </Grid>
 </Page>

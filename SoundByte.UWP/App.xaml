@@ -21,7 +21,9 @@
             </ResourceDictionary.MergedDictionaries>
             <!-- The main page transition -->
             <TransitionCollection x:Key="MainTransition">
-                <EntranceThemeTransition IsStaggeringEnabled="True" />
+                <NavigationThemeTransition>
+                    <ContinuumNavigationTransitionInfo />
+                </NavigationThemeTransition>
             </TransitionCollection>
         </ResourceDictionary>
     </Application.Resources>

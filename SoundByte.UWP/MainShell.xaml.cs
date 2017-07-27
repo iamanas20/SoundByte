@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Numerics;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
+using Windows.ApplicationModel.Core;
 using Windows.Globalization;
 using Windows.Networking.PushNotifications;
 using Windows.Services.Store;
@@ -19,6 +20,7 @@ using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Notifications;
 using Windows.UI.Popups;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
@@ -39,6 +41,7 @@ using SoundByte.UWP.Views.Application;
 using SoundByte.UWP.Views.CoreApp;
 using SoundByte.UWP.Views.Me;
 using SoundByte.UWP.Views.Mobile;
+using UICompositionAnimations.Brushes;
 
 namespace SoundByte.UWP
 {
@@ -103,9 +106,12 @@ namespace SoundByte.UWP
             {
                 // Pane is hidden by default
                 MainSplitView.IsPaneOpen = false;
+                MainSplitView.DisplayMode = SplitViewDisplayMode.CompactOverlay;
+                MainSplitView.Margin = new Thickness(0);
 
-                // Show the search bar
+                // Show the search tab
                 SearchXboxTab.Visibility = Visibility.Visible;
+                SearchTab.Visibility = Visibility.Collapsed;
 
                 // Center all navigation icons
                 NavbarScrollViewer.VerticalAlignment = VerticalAlignment.Center;
@@ -113,22 +119,25 @@ namespace SoundByte.UWP
                 // Show background blur image
                 XboxOnlyGrid.Visibility = Visibility.Visible;
                 ShellFrame.Background = new SolidColorBrush(Colors.Transparent);
+
+                // Splitview pane gets background
+                SplitViewPaneGrid.Background = Application.Current.Resources["InAppBackgroundBrush"] as CustomAcrylicBrush;
             }
 
             // Mobile Specific stuff
             if (App.IsMobile)
             {
-                RootFrame.Margin = new Thickness {Left = 0, Right = 0, Top = 0, Bottom = 64};
+                // Apply a margin down the bottom where nav icons will be
+                RootFrame.Margin = new Thickness { Bottom = 64 };
+
+
                 MainSplitView.IsPaneOpen = false;
                 MainSplitView.CompactPaneLength = 0;
                 MobileNavigation.Visibility = Visibility.Visible;
                 NowPlaying.Visibility = Visibility.Collapsed;
             }
-            else
-            {
-                MobileNavigation.Visibility = Visibility.Collapsed;
-            }
-
+           
+            // Focus on the root frame
             RootFrame.Focus(FocusState.Programmatic);
         }
     
@@ -698,6 +707,28 @@ namespace SoundByte.UWP
         private void HamburgerButton_Click(object sender, RoutedEventArgs e)
         {
             MainSplitView.IsPaneOpen = !MainSplitView.IsPaneOpen;          
+        }
+
+        public async void ShowCompactView()
+        {
+            var newView = CoreApplication.CreateNewView();
+            var compactViewId = 0;
+
+            await newView.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                var frame = new Frame();
+                frame.Navigate(typeof(Overlay));
+
+                Window.Current.Content = frame;
+                Window.Current.Activate();
+
+                compactViewId = ApplicationView.GetForCurrentView().Id;
+            });
+
+            var compactOptions = ViewModePreferences.CreateDefault(ApplicationViewMode.CompactOverlay);
+            compactOptions.CustomSize = new Windows.Foundation.Size(360, 360);
+
+            await ApplicationViewSwitcher.TryShowAsViewModeAsync(compactViewId, ApplicationViewMode.CompactOverlay, compactOptions);
         }
     }
 }
