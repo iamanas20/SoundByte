@@ -375,15 +375,12 @@
                         IsTabStop="False"
                         IsHitTestVisible="False"
                         Canvas.ZIndex="2" />
-            
+
             <Grid Canvas.ZIndex="3"
                   HorizontalAlignment="Stretch"
                   VerticalAlignment="Stretch"
                   Background="{StaticResource BackgroundTrackBlurBrush}"
                   IsHitTestVisible="False" />
-
-            <!-- Darken the Screen for xbox -->
-            <Grid Canvas.ZIndex="4" HorizontalAlignment="Stretch"  Background="#65000000"  />
         </Grid>
 
         <!-- Main Splitview, holds left pane navigation and right content,

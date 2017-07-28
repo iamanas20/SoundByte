@@ -107,7 +107,7 @@ namespace SoundByte.UWP
                 // Pane is hidden by default
                 MainSplitView.IsPaneOpen = false;
                 MainSplitView.DisplayMode = SplitViewDisplayMode.CompactOverlay;
-                MainSplitView.Margin = new Thickness(0);
+                MainSplitView.Margin = new Thickness();
 
                 // Show the search tab
                 SearchXboxTab.Visibility = Visibility.Visible;
@@ -482,7 +482,7 @@ namespace SoundByte.UWP
                     AppViewBackButtonVisibility.Visible;
 
             // Update the UI depending if we are logged in or not
-            if (SoundByteService.Current.IsSoundCloudAccountConnected)
+            if (SoundByteService.Current.IsSoundCloudAccountConnected || SoundByteService.Current.IsFanBurstAccountConnected)
                 ShowLoginContent();
             else
                 ShowLogoutContent();
@@ -494,7 +494,6 @@ namespace SoundByte.UWP
                     MainSplitView.IsPaneOpen = false;
                     MainSplitView.CompactPaneLength = 0;
 
-                    LoadingRing.Margin = new Thickness { Left = 0, Right = 0, Top = 0, Bottom = 0 };
 
                     HideNowPlayingBar();
 
@@ -503,19 +502,16 @@ namespace SoundByte.UWP
                 }
                 else
                 {
-                    MainSplitView.IsPaneOpen = true;
                     MainSplitView.CompactPaneLength = 84;
 
                     if (Service.CurrentTrack == null)
                     {
-                        LoadingRing.Margin = new Thickness { Left = 350, Right = 0, Top = 32, Bottom = 0 };
 
                         HideNowPlayingBar();
 
                     }
                     else
                     {
-                        LoadingRing.Margin = new Thickness { Left = 350, Right = 0, Top = 32, Bottom = 64 };
                         ShowNowPlayingBar();
                     }
                 }
@@ -543,7 +539,9 @@ namespace SoundByte.UWP
         {
             UnknownTab.IsChecked = true;
             NowPlaying.Visibility = Visibility.Collapsed;
-            MainSplitView.Margin = new Thickness { Bottom = 0, Top = 32};
+
+            MainSplitView.Margin = App.IsXbox ? new Thickness { Bottom = 0, Top = 0 } : new Thickness { Bottom = 0, Top = 32 };
+
         }
 
         private void ShowNowPlayingBar()
