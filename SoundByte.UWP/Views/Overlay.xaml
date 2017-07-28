@@ -11,6 +11,7 @@
            <RowDefinition Height="*" />
            <RowDefinition Height="*" />
            <RowDefinition Height="*" />
+           <RowDefinition Height="*" />
        </Grid.RowDefinitions>
 
 
@@ -26,9 +27,9 @@
                 </Button.Content>
             </Button>
 
-            <Button Margin="5,0" Style="{StaticResource CircleButtonStyle}" Background="{x:Null}" Click="{x:Bind ViewModel.Service.ChangePlaybackState}" Width="42" Height="42">
+            <Button Margin="5,0" Style="{StaticResource CircleButtonStyle}" Background="{x:Null}" Click="{x:Bind ViewModel.Service.ChangePlaybackState}" Width="48" Height="48">
                 <Button.Content>
-                    <TextBlock OpticalMarginAlignment="TrimSideBearings" Text="{x:Bind PlayButtonContent, Mode=OneWay}"  FontWeight="Light" FontSize="20" FontFamily="Segoe MDL2 Assets" AutomationProperties.Name="Back" TextAlignment="Center"  />
+                    <TextBlock OpticalMarginAlignment="TrimSideBearings" Text="{x:Bind PlayButtonContent, Mode=OneWay}"  FontWeight="Light" FontSize="24" FontFamily="Segoe MDL2 Assets" AutomationProperties.Name="Back" TextAlignment="Center"  />
                 </Button.Content>
             </Button>
 
@@ -39,7 +40,7 @@
             </Button>
         </StackPanel>
 
-        <StackPanel Orientation="Vertical" Grid.Row="1" Grid.RowSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center"  Canvas.ZIndex="150">
+        <StackPanel Orientation="Vertical" Grid.Row="1" Grid.RowSpan="3" VerticalAlignment="Center" HorizontalAlignment="Center"  Canvas.ZIndex="150">
             <TextBlock x:Name="TrackTitle" 
                        FontSize="20"
                        Margin="10,0,10,10"
@@ -60,12 +61,12 @@
 
         
 
-        <Grid Background="#99000000" Canvas.ZIndex="50" Grid.Row="0" Grid.RowSpan="3"/>
+        <Grid Background="#99000000" Canvas.ZIndex="50" Grid.Row="0" Grid.RowSpan="4"/>
         
         <!-- Background Image -->
         <controls:ImageEx IsCacheEnabled="True" 
                           Grid.Row="0" 
-                          Grid.RowSpan="3"
+                          Grid.RowSpan="4"
                           PlaceholderSource="/Assets/PlaceholderBackground.png"
                           PlaceholderStretch="UniformToFill"
                           x:Name="BackgroundImage"

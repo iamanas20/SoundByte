@@ -561,12 +561,6 @@ namespace SoundByte.UWP
             UserButton.Visibility = Visibility.Visible;
 
             MobileHomeTab.IsEnabled = true;
-
-            if (App.IsXbox)
-            {
-                // Hide buttons we don't want to expose on the xbox version
-                SearchTab.Visibility = Visibility.Collapsed;
-            }
         }
 
         private void ShowLogoutContent()
@@ -579,11 +573,6 @@ namespace SoundByte.UWP
             LoginTab.Visibility = Visibility.Visible;
             UserButton.Visibility = Visibility.Collapsed;
             MobileHomeTab.IsEnabled = false;
-
-            if (App.IsXbox)
-            {
-                SearchTab.Visibility = Visibility.Collapsed;
-            }
         }
 
         #region Composition
@@ -717,7 +706,7 @@ namespace SoundByte.UWP
             });
 
             var compactOptions = ViewModePreferences.CreateDefault(ApplicationViewMode.CompactOverlay);
-            compactOptions.CustomSize = new Windows.Foundation.Size(240, 240);
+            compactOptions.CustomSize = new Windows.Foundation.Size(350, 150);
 
             await ApplicationViewSwitcher.TryShowAsViewModeAsync(compactViewId, ApplicationViewMode.CompactOverlay, compactOptions);
         }
