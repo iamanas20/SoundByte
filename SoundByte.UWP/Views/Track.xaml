@@ -134,40 +134,40 @@
 
         <!-- Background Image -->
         <controls:ImageEx IsCacheEnabled="True"
-                      x:Name="BackgroundImage"
-                      PlaceholderSource="/Assets/PlaceholderBackground.png"
-                      PlaceholderStretch="UniformToFill"
-                      Source="{x:Bind ViewModel.Service.CurrentTrack, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
-                      Stretch="UniformToFill"
-                      Margin="-20"
-                      IsTabStop="False"
-                      IsHitTestVisible="False"
-                      HorizontalAlignment="Center"
-                      VerticalAlignment="Center"
-                      Canvas.ZIndex="1" />
+                          x:Name="BackgroundImage"
+                          PlaceholderSource="/Assets/PlaceholderBackground.png"
+                          PlaceholderStretch="UniformToFill"
+                          Source="{x:Bind ViewModel.Service.CurrentTrack, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
+                          Stretch="UniformToFill"
+                          Margin="-40"
+                          IsTabStop="False"
+                          IsHitTestVisible="False"
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Center"
+                          Canvas.ZIndex="1" />
 
         <!-- Transparent element that covers background canvas, makes image darker so white text and icons are easy to see -->
         <Grid x:Name="Overlay"
-          Canvas.ZIndex="3"
-          HorizontalAlignment="Stretch"
-          VerticalAlignment="Stretch"
-          IsHitTestVisible="False">
+              Canvas.ZIndex="3"
+              Margin="-40"
+              HorizontalAlignment="Stretch"
+              VerticalAlignment="Stretch"
+              IsHitTestVisible="False">
             <Grid.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#CC000000" Offset="1"/>
+                    <GradientStop Color="#EE000000" Offset="1"/>
                     <GradientStop/>
                 </LinearGradientBrush>
             </Grid.Background>
         </Grid>
 
-        <!-- Reversed blur for overlay -->
-        <Grid x:Name="BlurOverlay"
-          Opacity="0"
-          Canvas.ZIndex="2"
-          HorizontalAlignment="Stretch"
-          VerticalAlignment="Stretch"
-          Background="{StaticResource BackgroundTrackBlurBrush}"
-          IsHitTestVisible="False" />
+        <!-- blur for overlay -->
+        <Grid Margin="-40"
+              Canvas.ZIndex="2"
+              HorizontalAlignment="Stretch"
+              VerticalAlignment="Stretch"
+              Background="{StaticResource BackgroundTrackBlurBrush}"
+              IsHitTestVisible="False" />
 
         <Grid x:Name="TrackInfoHolder" VerticalAlignment="Bottom" Canvas.ZIndex="10">
             <!-- track artwork -->

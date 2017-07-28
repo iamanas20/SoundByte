@@ -95,6 +95,8 @@ namespace SoundByte.UWP
         }
         #endregion
 
+        
+
         #region Key Events
         private void CoreWindowOnKeyUp(CoreWindow sender, KeyEventArgs args)
         {

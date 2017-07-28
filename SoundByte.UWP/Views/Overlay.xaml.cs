@@ -75,7 +75,7 @@ namespace SoundByte.UWP.Views
             BackgroundImage.Source = new BitmapImage(new Uri(ArtworkConverter.ConvertObjectToImage(ViewModel.Service.CurrentTrack)));
             TrackTitle.Text = ViewModel.Service.CurrentTrack.Title;
             TrackUser.Text = ViewModel.Service.CurrentTrack.User.Username;
-            BackgroundImage.Blur(8).Start();
+            BackgroundImage.Blur(18).Start();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

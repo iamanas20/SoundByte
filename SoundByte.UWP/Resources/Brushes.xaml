@@ -61,7 +61,7 @@
                                 BlurAmount="28"
                                 Tint="#FF000000"
                                 TintMix="0.6"
-                                NoiseTextureUri="/Assets/Misc/lightnoise.png"/>
+                                NoiseTextureUri="/Assets/Misc/noise.png"/>
 
     <!-- Blur used for menua and combox boxs  -->
     <brushes:CustomAcrylicBrush x:Key="ComboBoxbackgroundBlur"
@@ -93,5 +93,5 @@
                                 BlurAmount="32"
                                 Tint="Black"  
                                 TintMix="0.2"
-                                NoiseTextureUri="/Assets/Misc/lightnoise.png"/>
+                                NoiseTextureUri="/Assets/Misc/noise.png"/>
 </ResourceDictionary>
