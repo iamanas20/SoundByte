@@ -188,13 +188,13 @@ namespace SoundByte.UWP
         {
             get
             {
-                var loadingRing = (Window.Current.Content as MainShell)?.FindName("LoadingRing") as ProgressRing;
+                var loadingRing = (Window.Current?.Content as MainShell)?.FindName("LoadingRing") as ProgressBar;
                 return loadingRing?.Visibility == Visibility.Visible;
             }
 
             set
             {
-                var loadingRing = (Window.Current.Content as MainShell)?.FindName("LoadingRing") as ProgressRing;
+                var loadingRing = (Window.Current?.Content as MainShell)?.FindName("LoadingRing") as ProgressBar;
                 if (loadingRing != null)
                     loadingRing.Visibility = value ? Visibility.Visible : Visibility.Collapsed;
             }

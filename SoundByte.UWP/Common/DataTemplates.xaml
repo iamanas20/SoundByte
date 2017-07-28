@@ -8,10 +8,14 @@
 
     <!-- Playlist Item -->
     <DataTemplate x:Key="PlaylistItem" x:DataType="endpoints:Playlist">
-        <StackPanel Height="270" 
-                    Width="200"
+        <StackPanel Height="245" 
+                    Width="170"
                     Margin="5"
                     Orientation="Vertical">
+            <ToolTipService.ToolTip>
+                <TextBlock Text="{x:Bind Title, Mode=OneWay}"/>
+            </ToolTipService.ToolTip>
+
 
 
             <controls:DropShadowPanel VerticalAlignment="Top"
@@ -28,8 +32,8 @@
                                       IsCacheEnabled="True"
                                       PlaceholderSource="ms-appx:///Assets/PlaceholderBackground.png"
                                       PlaceholderStretch="UniformToFill"
-                                      Width="190" 
-                                      Height="190"
+                                      Width="160" 
+                                      Height="160"
                                       VerticalAlignment="Stretch"                 
                                       HorizontalAlignment="Stretch"
                                       Stretch="UniformToFill"
@@ -41,18 +45,22 @@
                     </Grid>
                 </Grid>
             </controls:DropShadowPanel>
-            <TextBlock Text="{x:Bind Title, Mode=OneWay}" Margin="0,0,0,4" TextAlignment="Center" FontSize="16" TextWrapping="Wrap" MaxHeight="50" TextTrimming="CharacterEllipsis" />
-            <TextBlock Text="{x:Bind User.Username, Mode=OneWay}" FontSize="12" Opacity="0.6" TextAlignment="Center" FontWeight="SemiBold" />
+            <TextBlock Text="{x:Bind Title, Mode=OneWay}" Margin="0,5,0,2" TextAlignment="Center" FontSize="15" TextWrapping="Wrap" MaxHeight="50" TextTrimming="CharacterEllipsis" />
+            <TextBlock Text="{x:Bind User.Username, Mode=OneWay}" FontSize="13" Opacity="0.6" TextAlignment="Center" FontWeight="SemiBold" />
         </StackPanel>
     </DataTemplate>
 
     <!-- Track Item -->
     <DataTemplate x:Key="TrackItem" x:DataType="endpoints:Track">
         <StackPanel x:Name="StackPanel"
-                    Height="270"
-                    Width="200"
+                    Height="245"
+                    Width="170"
                     Margin="5"
                     Orientation="Vertical">
+            <ToolTipService.ToolTip>
+                <TextBlock Text="{x:Bind Title, Mode=OneWay}"/>
+            </ToolTipService.ToolTip>
+
             <VisualStateManager.VisualStateGroups>
                 <VisualStateGroup>
                     <VisualState>
@@ -93,8 +101,8 @@
                                       VerticalAlignment="Stretch"
                                       HorizontalAlignment="Stretch"
                                       IsHitTestVisible="False"
-                                      Width="190" 
-                                      Height="190" 
+                                      Width="160" 
+                                      Height="160" 
                                       Stretch="Uniform" />
                     <TextBlock Text="&#xE768;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10" Foreground="White" />
 
@@ -105,8 +113,8 @@
             </controls:DropShadowPanel>
 
             <StackPanel Orientation="Vertical" x:Name="TitlePanel" Margin="0" VerticalAlignment="Top">
-                <TextBlock x:Name="TitleText" Text="{x:Bind Title, Mode=OneWay}" Margin="0,0,0,4" TextAlignment="Center" FontSize="16" TextWrapping="Wrap" MaxHeight="50" TextTrimming="CharacterEllipsis" />
-                <TextBlock x:Name="TitleDescription" Text="{x:Bind User.Username, Mode=OneWay}" FontSize="12" Opacity="0.6" TextAlignment="Center" FontWeight="SemiBold" />
+                <TextBlock x:Name="TitleText" Text="{x:Bind Title, Mode=OneWay}" Margin="0,5,0,2" TextAlignment="Center" FontSize="15" TextWrapping="Wrap" MaxHeight="50" TextTrimming="CharacterEllipsis" />  
+                <TextBlock x:Name="TitleDescription" Text="{x:Bind User.Username, Mode=OneWay}" FontSize="13" Opacity="0.6" TextAlignment="Center" FontWeight="SemiBold" />
             </StackPanel>
         </StackPanel>
     </DataTemplate>

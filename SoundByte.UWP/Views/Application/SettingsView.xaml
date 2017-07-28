@@ -376,12 +376,6 @@
                     </StackPanel>
                 </ScrollViewer>
             </PivotItem>
-
-            <PivotItem>
-                <PivotItem.Header>
-                    <TextBlock Text="Developer Messages" FontSize="18" Opacity="0.9" FontWeight="SemiBold" VerticalAlignment="Center" Padding="0,2" />
-                </PivotItem.Header>
-            </PivotItem>
         </Pivot>
     </Grid>
 </Page>

@@ -26,9 +26,6 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using Microsoft.Azure.Mobile;
-using Microsoft.Azure.Mobile.Analytics;
-using Microsoft.Azure.Mobile.Push;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.UI.Animations;
@@ -108,10 +105,6 @@ namespace SoundByte.UWP
                 MainSplitView.IsPaneOpen = false;
                 MainSplitView.DisplayMode = SplitViewDisplayMode.CompactOverlay;
                 MainSplitView.Margin = new Thickness();
-
-                // Show the search tab
-                SearchXboxTab.Visibility = Visibility.Visible;
-                SearchTab.Visibility = Visibility.Collapsed;
 
                 // Center all navigation icons
                 NavbarScrollViewer.VerticalAlignment = VerticalAlignment.Center;
@@ -455,7 +448,7 @@ namespace SoundByte.UWP
                     MobileUnkownTab.IsChecked = true;
                     break;
                 case "Search":
-                    SearchXboxTab.IsChecked = true;
+                    UnknownTab.IsChecked = true;
                     MobileSearchTab.IsChecked = true;
                     break;
                 case "AboutView":
@@ -724,7 +717,7 @@ namespace SoundByte.UWP
             });
 
             var compactOptions = ViewModePreferences.CreateDefault(ApplicationViewMode.CompactOverlay);
-            compactOptions.CustomSize = new Windows.Foundation.Size(360, 360);
+            compactOptions.CustomSize = new Windows.Foundation.Size(240, 240);
 
             await ApplicationViewSwitcher.TryShowAsViewModeAsync(compactViewId, ApplicationViewMode.CompactOverlay, compactOptions);
         }
