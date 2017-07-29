@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<VoiceCommands xmlns="http://schemas.microsoft.com/voicecommands/1.2">
+  <CommandSet xml:lang="en-us" Name="SoundByteCommandSet_en-us">
+    <AppName> SoundByte </AppName>
+    <Example> Play my likes using SoundByte </Example>
+
+    <Command Name="playUserLikes">
+      <Example> Play my likes on SoundByte </Example>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase"> play [my] likes </ListenFor>
+
+      <Feedback> Playing your likes </Feedback>
+      <Navigate />
+    </Command>
+
+    <Command Name="shufflePlayUserLikes">
+      <Example> Suffle My likes on SoundByte </Example>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase"> shuffle [play] [my] likes </ListenFor>
+      <Feedback> Shuffling your likes </Feedback>
+      <Navigate />
+    </Command>
+
+  </CommandSet>
+</VoiceCommands>

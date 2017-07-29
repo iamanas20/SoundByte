@@ -9,6 +9,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
@@ -32,9 +33,11 @@ using Microsoft.Toolkit.Uwp.UI.Animations;
 using Microsoft.WindowsAzure.Messaging;
 using SoundByte.UWP.Dialogs;
 using SoundByte.UWP.Helpers;
+using SoundByte.UWP.Models;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.Views;
 using SoundByte.UWP.Views.Application;
+using SoundByte.UWP.Views.CoreApp;
 using SoundByte.UWP.Views.Me;
 using SoundByte.UWP.Views.Mobile;
 using UICompositionAnimations.Brushes;
@@ -134,11 +137,25 @@ namespace SoundByte.UWP
             }
             else
             {
-                if (RootFrame.CanGoBack)
+                if (RootFrame.SourcePageType == typeof(BlankPage))
                 {
-                    RootFrame.GoBack();
+                    RootFrame.BackStack.Clear();
+                    RootFrame.Navigate(typeof(HomeView));
                     e.Handled = true;
-                } 
+                }
+                else
+                {
+                    if (RootFrame.CanGoBack)
+                    {
+                        RootFrame.GoBack();
+                        e.Handled = true;
+                    }
+                    else
+                    {
+                        RootFrame.Navigate(typeof(HomeView));
+                        e.Handled = true;
+                    }
+                }
             }
         }
 
@@ -175,6 +192,16 @@ namespace SoundByte.UWP
                 // if the update is mandatory or not).
                 if (updates.Count > 0)
                     await new PendingUpdateDialog().ShowAsync();
+            }
+            catch
+            {
+                // ignored
+            }
+
+            try
+            {
+                var vcdStorageFile = await Package.Current.InstalledLocation.GetFileAsync(@"SoundByteCommands.xml");
+                await Windows.ApplicationModel.VoiceCommands.VoiceCommandDefinitionManager.InstallCommandDefinitionsFromStorageFileAsync(vcdStorageFile);
             }
             catch
             {
@@ -242,6 +269,25 @@ namespace SoundByte.UWP
             {
                 try
                 {
+                    if (path == "playUserLikes" || path == "shufflePlayUserLikes")
+                    {
+                        // Navigate to the now playing screen
+                        RootFrame.Navigate(typeof(Track));
+
+                        // Get and load the user liked items
+                        var userLikes = new LikeModel(SoundByteService.CurrentUser);
+
+                        while (userLikes.HasMoreItems)
+                        {
+                            await userLikes.LoadMoreItemsAsync(500);
+                        }
+
+                        // Play the list of items
+                        await PlaybackService.Current.StartMediaPlayback(userLikes.ToList(), path, path == "shufflePlayUserLikes");
+
+                        return;
+                    }
+
                     var parser = DeepLinkParser.Create(path);
 
                     var section = parser.Root.Split('/')[0].ToLower();
@@ -444,7 +490,7 @@ namespace SoundByte.UWP
 
             RootFrame.Focus(FocusState.Keyboard);
 
-            if (!((Frame)sender).CanGoBack || ((Frame)sender).SourcePageType == typeof(MainShell))
+            if (((Frame)sender).SourcePageType == typeof(HomeView) || ((Frame)sender).SourcePageType == typeof(MainShell))
                 SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
                     AppViewBackButtonVisibility.Collapsed;
             else

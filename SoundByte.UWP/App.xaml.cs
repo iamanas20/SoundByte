@@ -476,6 +476,10 @@ namespace SoundByte.UWP
                     var toastArgs = e as IToastNotificationActivatedEventArgs;
                     if (toastArgs != null) path = toastArgs.Argument;
                     break;
+                case ActivationKind.VoiceCommand:
+                    var voiceArgs = e as VoiceCommandActivatedEventArgs;
+                    if (voiceArgs != null) path = voiceArgs.Result.RulePath[0];
+                    break;
             }
 
             // Create / Get the main shell
@@ -483,6 +487,9 @@ namespace SoundByte.UWP
 
             // Set the root shell as the window content
             Window.Current.Content = rootShell;
+
+            // Enable lights on all platforms except Xbox
+            Window.Current.Content.Lights.Add(new PointerPositionSpotLight { Active = !IsXbox });
 
             // If on xbox display the screen to the full width and height
             if (IsXbox)

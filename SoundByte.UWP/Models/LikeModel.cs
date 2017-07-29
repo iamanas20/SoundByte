@@ -89,10 +89,14 @@ namespace SoundByte.UWP.Models
                 {
                     try
                     {
+                        // At least 10 tracks at once
+                        if (count < 10)
+                            count = 10;
+
                         // Get the like tracks
                         var likeTracks = await SoundByteService.Current.GetAsync<TrackListHolder>($"/users/{User.Id}/favorites", new Dictionary<string, string>
                         {
-                            { "limit", "50" },
+                            { "limit", count.ToString() },
                             { "cursor", Token },
                             { "linked_partitioning", "1" }
                         });

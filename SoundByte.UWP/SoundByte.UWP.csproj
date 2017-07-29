@@ -135,6 +135,7 @@
     <Content Include="Assets\Wide310x150Logo.scale-100.png" />
     <Content Include="Assets\Wide310x150Logo.scale-400.png" />
     <Content Include="Assets\build_info.json" />
+    <Content Include="SoundByteCommands.xml" />
     <None Include="project.json" />
     <None Include="SoundByte.UWP_TemporaryKey.pfx" />
     <PRIResource Include="Strings\nl\Resources.resw" />
