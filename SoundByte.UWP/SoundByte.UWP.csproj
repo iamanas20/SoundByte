@@ -35,6 +35,7 @@
     <Prefer32Bit>true</Prefer32Bit>
     <DocumentationFile>bin\x86\Debug\SoundByte.UWP.xml</DocumentationFile>
     <RunCodeAnalysis>false</RunCodeAnalysis>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
@@ -146,7 +147,6 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Common\CompositionBrushBuilder.cs" />
     <Compile Include="Common\DataTemplates.cs" />
     <Compile Include="Common\ServiceKeys.cs" />
     <Compile Include="Converters\ArtworkConverter.cs" />

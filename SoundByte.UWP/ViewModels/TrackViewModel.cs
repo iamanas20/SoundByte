@@ -8,39 +8,41 @@
 //*********************************************************
 
 using System;
+using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation;
-using Windows.Graphics.Display;
+using Windows.Media;
 using Windows.Media.Playback;
-using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.StartScreen;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Animation;
 using SoundByte.UWP.Models;
-using Windows.UI.Xaml.Shapes;
-using Microsoft.Toolkit.Uwp.UI.Animations;
 using SoundByte.Core.API.Endpoints;
 using SoundByte.UWP.Converters;
 using SoundByte.UWP.Helpers;
 using SoundByte.UWP.Services;
+using Windows.Media.Audio;
+using Windows.Media.Capture;
+using Windows.Media.MediaProperties;
+using Windows.Media.Render;
+using Windows.Storage;
 
 namespace SoundByte.UWP.ViewModels
 {
     public class TrackViewModel : BaseViewModel
     {
         #region Private Variables
-
-       
         // The previous time that the waveform moved
         private double _previousTime;
         // The comment text box
@@ -49,8 +51,6 @@ namespace SoundByte.UWP.ViewModels
         private DispatcherTimer _pageTimer;
         // Used to block the timer when interacting with the slider value
         private bool _blockPageTimer;
-        private bool _isFullScreen;
-
         // The pin button text
         private string _pinButtonText = "Pin";
         // The like button text
@@ -146,40 +146,6 @@ namespace SoundByte.UWP.ViewModels
             }
         }
 
-        
-
-        /// <summary>
-        /// If true, we are allowed to perform waveform actions
-        /// such as creating and rendering the waveform.
-        /// </summary>
-        public bool IsWaveFormEnabled
-        {
-            get
-            {
-                return false;
-
-                // Get the parent page
-            //    var frame = Window.Current.Content as MainShell;
-                // If there is no frame, get out
-                // Get the page
-             //   var parentPage = frame?.RootFrame.Content as Page;
-              //  if (parentPage == null) return false;
-
-                // Get the two objects that must be on the page for the waveform
-                // to work.
-              //  var renderer = parentPage.FindName("WaveFormRenderer") as Canvas;
-              //  var translate = parentPage.FindName("WaveFormTanslate") as TranslateTransform;
-
-              //  return renderer != null && translate != null;
-            }
-        }
-
-        /// <summary>
-        /// Is the waveform ready to be translated.
-        /// Will be true if the waveform has been setup.
-        /// </summary>
-        public bool IsWaveFormReady { get; set; }
-
         /// <summary>
         /// The comment text for the comment box
         /// </summary>
@@ -196,9 +162,6 @@ namespace SoundByte.UWP.ViewModels
                 UpdateProperty();
             }
         }
-
-       
-
         #endregion
 
         #region Enter and Leave ViewModel Handlers
@@ -207,10 +170,7 @@ namespace SoundByte.UWP.ViewModels
         /// </summary>
         public void SetupModel()
         {
-            // Bind the event handlers
-         
-            Window.Current.SizeChanged += CurrentWindowSizeChanged;
-
+            // Bind the event handlers   
             // Timer Setup
             _pageTimer = new DispatcherTimer
             {
@@ -227,6 +187,8 @@ namespace SoundByte.UWP.ViewModels
             // Bind the method once we know a playback list exists
             if (PlaybackService.Current.PlaybackList != null)
                 PlaybackService.Current.PlaybackList.CurrentItemChanged += CurrentItemChanged;
+
+            //await InitWaveForm();
         }
 
         public void MakeFullScreen()
@@ -235,11 +197,6 @@ namespace SoundByte.UWP.ViewModels
                 ApplicationView.GetForCurrentView().TryEnterFullScreenMode();
             else
                 ApplicationView.GetForCurrentView().ExitFullScreenMode();
-        }
-
-        public async void Cast()
-        {
-            await new MessageDialog("Casting is currently not supported. Check back here soon!", "Not Supported").ShowAsync();
         }
 
         /// <summary>
@@ -254,7 +211,6 @@ namespace SoundByte.UWP.ViewModels
             if(PlaybackService.Current.PlaybackList != null)
                 PlaybackService.Current.PlaybackList.CurrentItemChanged -= CurrentItemChanged;
 
-            Window.Current.SizeChanged -= CurrentWindowSizeChanged;
             _pageTimer.Tick -= PlayingSliderUpdate;
         }
         #endregion
@@ -273,13 +229,6 @@ namespace SoundByte.UWP.ViewModels
 
                 if (Service.CurrentTrack == null)
                     return;
-
-                // Check if we can load the waveform
-                if (IsWaveFormEnabled)
-                {
-                    // Load the new waveform object
-                 //   await InitWaveForm();
-                }
 
                 // Set the pin button text
                 PinButtonText = TileService.Current.DoesTileExist("Track_" + Service.CurrentTrack.Id) ? "Unpin" : "Pin";
@@ -319,15 +268,7 @@ namespace SoundByte.UWP.ViewModels
                 PlaybackService.Current.Player.PlaybackSession.PlaybackState != MediaPlaybackState.Playing || 
                 PlaybackService.Current.Player.PlaybackSession.Position.Milliseconds <= 0)
                 return;
-
-            // Adjust the waveform
-            AdjustWaveform();
         }
-
-        /// <summary>
-        /// Adjusts the waveform when the user resizes the page
-        /// </summary>
-        private void CurrentWindowSizeChanged(object sender, WindowSizeChangedEventArgs e) => AdjustWaveform();
         #endregion
 
         #region Method Bindings
@@ -496,7 +437,6 @@ namespace SoundByte.UWP.ViewModels
             }
         }
 
-       
         /// <summary>
         /// Called when the user adjusts the playing slider
         /// </summary>
@@ -507,9 +447,6 @@ namespace SoundByte.UWP.ViewModels
 
             // Set the track position
             Service.PlayingSliderChange();
-            // Adjust the waveform position
-            AdjustWaveform();
-
             // Delay the unblock
             await Task.Delay(TimeSpan.FromSeconds(1));
 
@@ -600,201 +537,158 @@ namespace SoundByte.UWP.ViewModels
         #endregion
 
         #region Waveform Logic
+
+        public static byte[] ReadStream(Stream input)
+        {
+            var buffer = new byte[16 * 1024];
+            using (var ms = new MemoryStream())
+            {
+                int read;
+                while ((read = input.Read(buffer, 0, buffer.Length)) > 0)
+                {
+                    ms.Write(buffer, 0, read);
+                }
+                return ms.ToArray();
+            }
+        }
+
         /// <summary>
         /// Setup the waveform for use
         /// </summary>
         /// <returns></returns>
         public async Task InitWaveForm()
         {
-            // We are currently adjusting the
-            // wave form so tell other functions to
-            // not access it.
-            IsWaveFormReady = false;
+            //// First we must save the current audio file
 
-            // This variable is used to adjust
-            // spacing between waveform items
-            var widthPos = 0;
+            //// Open the cache folder
+            //var cacheFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("cache", CreationCollisionOption.OpenIfExists);
 
-            // If the waveform is not enabled on this
-            // view, or if the view is null, do not
-            // waste resources creating the waveform.
-            if (!IsWaveFormEnabled)
-                return;
+            //// Create a file
+            //var imageFile = await cacheFolder.CreateFileAsync(string.Format("{0}-TEMP.mp3", Service.CurrentTrack.Id), CreationCollisionOption.OpenIfExists);
 
-            // Get the parent page
-            var frame = Window.Current.Content as MainShell;
-            var parentPage = frame?.RootFrame.Content as Page;
+            //try
+            //{
+            //    var request = (HttpWebRequest)WebRequest.Create(Service.PlaybackList.CurrentItem.Source.Uri);
+            //    var response = await request.GetResponseAsync();
+            //    var stream = response.GetResponseStream();
+            //    await FileIO.WriteBytesAsync(imageFile, ReadStream(stream));
 
-            // Get the needed waveform object
-            var renderer = parentPage?.FindName("WaveFormRenderer") as Canvas;
-            if (renderer == null) return;
+            //    var settings = new AudioGraphSettings(Windows.Media.Render.AudioRenderCategory.Media);
+            //    var graph = await AudioGraph.CreateAsync(settings);
 
-            // Hide the renderer
-            renderer.Opacity = 0;
+            //    var t = await graph.Graph.CreateFileInputNodeAsync(imageFile);
 
-            // Clear all the old content from the waveform
-            renderer.Children.Clear();
+            //    var i = t;
+            //}
+            //catch (Exception e)
+            //{
+            //    Console.WriteLine(e);
+            //}
 
             try
             {
-                // Get the raw track waveform data 
-                // from the soundcloud API.
-                var trackWaveform = await SoundByteService.Current.GetAsync<WaveForm>(new Uri(Service.CurrentTrack.WaveformUri.Replace("png", "json")));
 
-                // We need an accurate
-                // measurement of the apps screen width
-                // (adjusted to the users scaling settings)
-                var appBounds = ApplicationView.GetForCurrentView().VisibleBounds;
-                var systemScaleFactor = DisplayInformation.GetForCurrentView().RawPixelsPerViewPixel;
-                var adjustedAppBounds = new Size(appBounds.Width * systemScaleFactor, appBounds.Height * systemScaleFactor);
+                // Initialize the led strip
+                //await this.pixelStrip.Begin();
 
-                // Set the canvas image, margin and height
-                renderer.Height = trackWaveform.Height / 2.25;
-                renderer.Margin = new Thickness { Top = trackWaveform.Height / 2.25, Left = adjustedAppBounds.Width / 2 };
+                var devices = await Windows.Devices.Enumeration.DeviceInformation.FindAllAsync(Windows.Media.Devices.MediaDevice.GetAudioRenderSelector());
 
-                // Compress the samples into a more
-                // manageable size.
-                trackWaveform.Samples = MathHelper.AverageOut(trackWaveform.Samples);
+                // Create graph
+                AudioGraphSettings settings = new AudioGraphSettings(AudioRenderCategory.Media);
+                settings.DesiredRenderDeviceAudioProcessing = Windows.Media.AudioProcessing.Default;
+                settings.QuantumSizeSelectionMode = QuantumSizeSelectionMode.ClosestToDesired;
 
-                // Loop through all the samples
-                // and render them in the canvas
-                foreach (var i in trackWaveform.Samples)
+                CreateAudioGraphResult result = await AudioGraph.CreateAsync(settings);
+                if (result.Status != AudioGraphCreationStatus.Success)
                 {
-                    // Create a new line object that represents
-                    // one sample
-                    var lineTop = new Line
-                    {
-                        Stroke = new SolidColorBrush(new Color { R = 255, G = 255, B = 255, A = 255 }),
-                        StrokeThickness = 1,
-                        X1 = widthPos,
-                        Y1 = -i / 1.25,
-                        X2 = widthPos,
-                        Y2 = 0
-                    };
-                    // Add to the canvas
-                    renderer.Children.Add(lineTop);
+                    // Cannot create graph
+                    return;
+                }
+                graph = result.Graph;
 
-                    var lineBottom = new Line
-                    {
-                        Stroke = new SolidColorBrush(new Color { R = 255, G = 255, B = 255, A = 155 }),
-                        StrokeThickness = 1,
-                        X1 = widthPos,
-                        Y1 = 0,
-                        X2 = widthPos,
-                        Y2 = i / 2.5
-                    };
-                    // Add to the canvas
-                    renderer.Children.Add(lineBottom);
-                    // Adjust the width position
-                    widthPos += (int)(lineTop.StrokeThickness * 2) + 3;
+                // Create a device input node using the default audio input device
+                var deviceInputNodeResult = await graph.CreateDeviceInputNodeAsync(MediaCategory.Other, graph.EncodingProperties, devices[0]);
+
+                if (deviceInputNodeResult.Status != AudioDeviceNodeCreationStatus.Success)
+                {
+                    return;
                 }
 
-                // The wave form is now ready to access
-                IsWaveFormReady = true;
+                var deviceInputNode = deviceInputNodeResult.DeviceInputNode;
+
+                frameOutputNode = graph.CreateFrameOutputNode();
+                deviceInputNode.AddOutgoingConnection(frameOutputNode);
+                frameOutputNode.Start();
+                graph.QuantumProcessed += AudioGraph_QuantumProcessed;
+
+                // Because we are using lowest latency setting, we need to handle device disconnection errors
+
+                graph.Start();
             }
-            catch
+            catch (Exception e)
             {
-                // The waveform failed to load, we do not
-                // use it this time
-                IsWaveFormReady = false;
+                Debug.WriteLine(e.ToString());
             }
 
-            // Create the animation used to fadein
-            // the waveform
-            var waveformOpacityInAnimation = new DoubleAnimation
-            {
-                From = 0,
-                To = 1,
-                Duration = TimeSpan.FromMilliseconds(300)
-            };
-            // Set the target and target property
-            Storyboard.SetTarget(waveformOpacityInAnimation, renderer);
-            Storyboard.SetTargetProperty(waveformOpacityInAnimation, new PropertyPath("WaveFormRenderer.Opacity").Path);
-            // Add animation and start it
-            var waveformRenderStoryboard = new Storyboard();
-            waveformRenderStoryboard.Stop();
-            waveformRenderStoryboard.Children.Clear();
-            waveformRenderStoryboard.Children.Add(waveformOpacityInAnimation);
-            await waveformRenderStoryboard.BeginAsync();
+
+
+
+
+
+
+            //    t.DeviceInputNode.ad
+
+            //    var test = await Service.PlaybackList.CurrentItem.Source.
+
+
+
+
+
         }
 
-        /// <summary>
-        /// Places the wave form object in the correct location depending
-        /// on the width of the screen, image and time of the song.
-        /// </summary>
-        private void AdjustWaveform()
+        private AudioGraph graph;
+
+        [ComImport]
+        [Guid("5B0D3235-4DBA-4D44-865E-8F1D0E4FD04D")]
+        [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+        unsafe interface IMemoryBufferByteAccess
         {
-            try
+            void GetBuffer(out byte* buffer, out uint capacity);
+        }
+
+
+        private AudioFrameOutputNode frameOutputNode;
+        private void AudioGraph_QuantumProcessed(AudioGraph sender, object args)
+        {
+            var frame = frameOutputNode.GetFrame();
+
+            ProcessFrameOutput(frame);
+        }
+
+        private unsafe void ProcessFrameOutput(AudioFrame frame)
+        {
+            using (AudioBuffer buffer = frame.LockBuffer(AudioBufferAccessMode.Write))
+            using (IMemoryBufferReference reference = buffer.CreateReference())
             {
-                // Only run if the waveform is ready
-                if (!IsWaveFormReady) return;
+                byte* dataInBytes;
+                uint capacityInBytes;
+                float* dataInFloat;
 
-                // If the waveform is not enabled on this
-                // view, or if the view is null, do not
-                // waste resources rendering the wave.
-                if (!IsWaveFormEnabled)
-                    return;
+                // Get the buffer from the AudioFrame
+                ((IMemoryBufferByteAccess) reference).GetBuffer(out dataInBytes, out capacityInBytes);
 
-                // Get the parent page
-                var frame = Window.Current.Content as MainShell;
-                var parentPage = frame?.RootFrame.Content as Page;
 
-                // Get the needed waveform object
-                var renderer = parentPage?.FindName("WaveFormRenderer") as Canvas;
-                if (renderer == null) return;
+                dataInFloat = (float*) dataInBytes;
+                float[] floats = new float[graph.SamplesPerQuantum];
 
-                // Get the needed translate object
-                var translate = parentPage.FindName("WaveFormTanslate") as TranslateTransform;
-                if (translate == null) return;
+                for (int i = 0; i < graph.SamplesPerQuantum; i++)
+                    floats[i] = dataInFloat[i];
 
-                // First of all we need an accurate
-                // measurement of the apps screen width
-                // (adjusted to the users scaling settings)
-                var appBounds = ApplicationView.GetForCurrentView().VisibleBounds;
-
-                // Adjust margin to center waveform in screen
-                var height = renderer.Margin.Top;
-                renderer.Margin = new Thickness { Top = height, Left = appBounds.Width / 2 };
-
-                // This value is calculated dynamically depending
-                // on the width of the screen, this value adjusts
-                // the offset so it is in correct time.
-                var offsetAdjustmentAmount = renderer.Width / PlaybackService.Current.Player.PlaybackSession.NaturalDuration.TotalSeconds;
-
-                // Calculate the amount to offset the image
-                // to the page.
-                var offsetAmount = offsetAdjustmentAmount * PlaybackService.Current.Player.PlaybackSession.Position.TotalSeconds;
-
-                // We need to reverse the direction
-                offsetAmount *= -1;
-
-                // Check if we should perform an instant animation
-                // Times when this is useful is when the user 
-                // manually changes the position of the track, or
-                // when the track changes.
-                var isInstantAnimation = _previousTime - PlaybackService.Current.Player.PlaybackSession.Position.TotalSeconds >= 2 || _previousTime - PlaybackService.Current.Player.PlaybackSession.Position.TotalSeconds <= -2;
-
-                _previousTime = PlaybackService.Current.Player.PlaybackSession.Position.TotalSeconds;
-                
-                var animationBoard = new Storyboard();
-                var posXAnimation = new DoubleAnimation
-                {
-                    To = offsetAmount,
-                    From = translate.X,
-                    Duration = isInstantAnimation ? TimeSpan.FromTicks(0) : TimeSpan.FromMilliseconds(500)
-                };
-                // Set the target and target property
-                Storyboard.SetTarget(posXAnimation, translate);
-                Storyboard.SetTargetProperty(posXAnimation, new PropertyPath("WaveFormTanslate.X").Path);
-                // Add the animation and start it
-                animationBoard.Children.Add(posXAnimation);
-                animationBoard.Begin();
-            }
-            catch
-            {
-                // TODO: Sort out null arg crash
+                System.Diagnostics.Debug.WriteLine(floats.ToList().Max());
             }
         }
+
+
         #endregion
 
 
