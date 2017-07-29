@@ -687,9 +687,6 @@ namespace SoundByte.UWP.Services
             get => _maxTimeValue;
             set
             {
-                if (_maxTimeValue == value)
-                    return;
-
                 _maxTimeValue = value;
                 UpdateProperty();
             }

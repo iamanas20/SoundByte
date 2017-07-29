@@ -1,11 +1,14 @@
-﻿//*********************************************************
-// Copyright (c) Dominic Maas. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THIS CODE IS PROVIDED *AS IS* WITHOUT WARRANTY OF
-// ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING ANY
-// IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR
-// PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
-//*********************************************************
+﻿/* |----------------------------------------------------------------|
+ * | Copyright (c) 2017, Grid Entertainment                         |
+ * | All Rights Reserved                                            |
+ * |                                                                |
+ * | This source code is to only be used for educational            |
+ * | purposes. Distribution of SoundByte source code in             |
+ * | any form outside this repository is forbidden. If you          |
+ * | would like to contribute to the SoundByte source code, you     |
+ * | are welcome.                                                   |
+ * |----------------------------------------------------------------|
+ */
 
 using System;
 using Newtonsoft.Json;
@@ -34,24 +37,24 @@ namespace SoundByte.Core.API.Endpoints
         /// User detail
         /// </summary>
         [JsonProperty("user")]
-        public Endpoints.User User { get; set; }
+        public User User { get; set; }
 
         /// <summary>
         /// track detail
         /// </summary>
         [JsonProperty("track")]
-        public Endpoints.Track Track { get; set; }
+        public Track Track { get; set; }
 
         /// <summary>
         /// Playlist detail
         /// </summary>
         [JsonProperty("playlist")]
-        public Endpoints.Playlist Playlist { get; set; }
+        public Playlist Playlist { get; set; }
 
         /// <summary>
         /// Comment detail
         /// </summary>
         [JsonProperty("comment")]
-        public Endpoints.Comment Comment { get; set; }
+        public Comment Comment { get; set; }
     }
 }

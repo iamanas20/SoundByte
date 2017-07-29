@@ -188,16 +188,6 @@ namespace SoundByte.UWP.ViewModels
             }
         }
 
-        public async void ToggleLikePlaylist()
-        {
-            // Show the loading ring
-            App.IsLoading = true;
-            // Get the resource loader
-            var resources = ResourceLoader.GetForCurrentView();
-
-
-        }
-
         /// <summary>
         /// Pins or unpins a playlist from the start
         /// menu / screen.

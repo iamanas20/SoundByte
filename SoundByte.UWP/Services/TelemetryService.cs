@@ -56,6 +56,8 @@ namespace SoundByte.UWP.Services
 #if DEBUG
                 // Disable this on debug
                 AnalyticsManager.Current.AppOptOut = true;
+                AnalyticsManager.Current.IsDebug = true;
+                AsyncHelper.RunSync(async () => { await MobileCenter.SetEnabledAsync(false); });
 #endif
             }
             catch
