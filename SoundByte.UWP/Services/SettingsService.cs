@@ -55,15 +55,6 @@ namespace SoundByte.UWP.Services
         public static int TrackLimitor => Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar") ? 40 : 60;
 
         /// <summary>
-        /// The apps accent color
-        /// </summary>
-        public string AppAccentColor
-        {
-            get => ReadSettingsValue(AppAcentColorKey) as string;
-            set => SaveSettingsValue(AppAcentColorKey, value, true);
-        }
-
-        /// <summary>
         /// Should the app use high quality images
         /// </summary>
         public bool IsHighQualityArtwork

@@ -28,9 +28,6 @@
     <SolidColorBrush x:Key="ShellNavigationBackground" Color="{ThemeResource ShellNavigationBackgroundColor}" />
     <SolidColorBrush x:Key="ShellBackground" Color="{ThemeResource ShellBackgroundColor}" />
 
-    <!-- Used to store the accent color -->
-    <SolidColorBrush x:Key="AppBarColor" />
-
     <!-- Used for hover effects over button -->
     <brushes:LightingBrush x:Key="ButtonLightingBrush"
                            SpecularShine=".01"

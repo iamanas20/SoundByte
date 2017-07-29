@@ -59,14 +59,6 @@
                         <Button x:Name="DisconnectFanBurstButton"  BorderThickness="1" Margin="0,25,0,0" Padding="15,8" BorderBrush="{ThemeResource SystemControlDisabledListMediumBrush}" FontSize="16" Click="{x:Bind ViewModel.DisconnectFanburstAccount}" Content="Disconnect Fanburst" Width="200" />
                         <Button x:Name="ConnectFanBurstButton" BorderThickness="1" Margin="0,15,0,40" Padding="15,8" BorderBrush="{ThemeResource SystemControlDisabledListMediumBrush}" FontSize="16" Click="{x:Bind ViewModel.ConnectFanburstAccount}" Content="Connect Fanburst" Width="200" />
 
-
-                        <TextBlock x:Uid="Settings_AccentColorLabel" FontSize="16" Margin="2,25,0,6" Opacity="0.8" />
-                        <ComboBox Padding="15,8" BorderThickness="1" BorderBrush="{ThemeResource SystemControlDisabledListMediumBrush}" x:Name="colorComboBox" SelectionChanged="colorComboBox_SelectionChanged" Width="200">
-                            <ComboBoxItem x:Uid="Settings_AccentColorSystemLabel"     x:Name="systemAccentColor"  />
-                            <ComboBoxItem x:Uid="Settings_AccentColorSoundcloudLabel" x:Name="orangeAccentColor"  />
-                            <ComboBoxItem x:Uid="Settings_AccentColorCustomLabel"     x:Name="customAccentColor"  />
-                        </ComboBox>
-
                         <TextBlock x:Uid="Settings_ThemeLabel" FontSize="16" Margin="2,30,0,6" Opacity="0.8" />
                         <ComboBox Padding="15,8" BorderThickness="1" BorderBrush="{ThemeResource SystemControlDisabledListMediumBrush}" x:Name="themeComboBox" SelectionChanged="AppThemeComboBoxChanged" Width="200">
                             <ComboBoxItem x:Uid="Settings_ThemeDefaultLabel" x:Name="defaultTheme" />

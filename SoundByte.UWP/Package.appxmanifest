@@ -24,7 +24,7 @@
             <uap:ShowOn Tile="square310x310Logo" />
           </uap:ShowNameOnTiles>
         </uap:DefaultTile>
-        <uap:SplashScreen Image="Assets\SplashScreen.png" BackgroundColor="#1F1F1F" />
+        <uap:SplashScreen Image="Assets\SplashScreen.png" BackgroundColor="transparent" />
         <uap:InitialRotationPreference>
           <uap:Rotation Preference="portrait" />
           <uap:Rotation Preference="landscape" />
@@ -45,6 +45,5 @@
     <Capability Name="internetClient" />
     <uap3:Capability Name="backgroundMediaPlayback" />
     <DeviceCapability Name="proximity" />
-    <DeviceCapability Name="microphone" />
   </Capabilities>
 </Package>

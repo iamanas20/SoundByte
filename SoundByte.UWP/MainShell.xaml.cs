@@ -60,7 +60,7 @@ namespace SoundByte.UWP
             InitializeComponent();
 
             // Set the accent color
-            AccentHelper.UpdateAccentColor();
+            AccentHelper.UpdateTitlebarStyle();
 
             // Amoled Magic
             if (App.IsMobile)

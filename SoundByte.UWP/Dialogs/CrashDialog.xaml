@@ -52,10 +52,10 @@
                          PlaceholderText="Contact Email (Optional)" />
 
 
-                <Button Content="Restart App" 
-                        x:Name="RestartButton"
+                <Button Content="Continue" 
+                        x:Name="ContinueButton"
                         Width="250"
-                        Click="SendAndCloseApp" 
+                        Click="SendAndContinue" 
                         Background="{ThemeResource SystemControlBackgroundAccentBrush}"
                         BorderBrush="{ThemeResource SystemControlBackgroundAccentBrush}"
                         Foreground="White"
@@ -64,11 +64,11 @@
                         Margin="0,35,0,0"
                         HorizontalAlignment="Center" />
 
-                <HyperlinkButton Content="Continue (Not Recommended)" 
+                <HyperlinkButton Content="Restart (Recommended)" 
                                  Margin="0,15,0,15"
                                  Foreground="{ThemeResource SystemControlPageTextBaseHighBrush}"
                                  ContentTemplate="{StaticResource HyperlinkClean}"
-                                 Click="SendAndContinue" 
+                                 Click="SendAndCloseApp" 
                                  HorizontalAlignment="Center" />
 
             </StackPanel>

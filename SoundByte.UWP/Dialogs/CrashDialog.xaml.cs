@@ -26,7 +26,7 @@ namespace SoundByte.UWP.Dialogs
         {
             InitializeComponent();
 
-            RestartButton.Focus(FocusState.Programmatic);
+            ContinueButton.Focus(FocusState.Programmatic);
             MoreInfo.Text = ex.Message;
 
             ProgressRing.Visibility = Visibility.Collapsed;

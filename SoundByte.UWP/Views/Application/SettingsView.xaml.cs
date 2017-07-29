@@ -156,34 +156,6 @@ namespace SoundByte.UWP.Views.Application
                 LanguageComboBox.SelectedItem = Language_English_US;
             }
 
-            // Get the apps accent color
-            var accentColorType = SettingsService.Current.AppAccentColor;
-            // Check if the settings value exists
-            if (!string.IsNullOrEmpty(accentColorType))
-            {
-                // Set the combo box to the respected color
-                switch (accentColorType)
-                {
-                    case "ACCENT":
-                        colorComboBox.SelectedItem = systemAccentColor;
-                        break;
-                    case "#FFB33940":
-                        colorComboBox.SelectedItem = systemAccentColor;
-                        SettingsService.Current.AppAccentColor = "ACCENT";
-                        break;
-                    case "#FFFF5500":
-                        colorComboBox.SelectedItem = orangeAccentColor;
-                        break;
-                    default:
-                        colorComboBox.SelectedItem = customAccentColor;
-                        break;
-                }
-            }
-            else
-            {
-                colorComboBox.SelectedItem = systemAccentColor;
-            }
-
             switch (SettingsService.Current.ApplicationThemeType)
             {
                 case AppTheme.Default:
@@ -202,29 +174,6 @@ namespace SoundByte.UWP.Views.Application
 
             // Enable combo boxes
             ViewModel.IsComboboxBlockingEnabled = false;
-        }
-
-        private async void colorComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (ViewModel.IsComboboxBlockingEnabled)
-                return;
-
-            var selectedItem = ((ComboBoxItem)(sender as ComboBox)?.SelectedItem)?.Content?.ToString();
-
-            switch (selectedItem)
-            {
-                case "SoundCloud Orange":
-                    SettingsService.Current.AppAccentColor = "#FFFF5500";
-                    AccentHelper.UpdateAccentColor();
-                    break;
-                case "System Accent":
-                    SettingsService.Current.AppAccentColor = "ACCENT";
-                    AccentHelper.UpdateAccentColor();
-                    break;
-                case "Custom":
-                    await new ColorDialog().ShowAsync();
-                    break;
-            }
         }
 
         private async void AppThemeComboBoxChanged(object sender, SelectionChangedEventArgs e)

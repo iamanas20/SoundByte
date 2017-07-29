@@ -1,6 +1,5 @@
 ﻿{
   "dependencies": {
-    "Coding4Fun.Toolkit.Controls": "2.1.8",
     "HockeySDK.UWP": "4.1.6",
     "Microsoft.Azure.Mobile.Analytics": "0.14.0",
     "Microsoft.Azure.Mobile.Push": "0.14.0",

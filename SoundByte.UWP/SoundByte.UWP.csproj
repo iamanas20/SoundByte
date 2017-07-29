@@ -156,9 +156,6 @@
     <Compile Include="Converters\DateTimeConverter.cs" />
     <Compile Include="Converters\SliderValueConverter.cs" />
     <Compile Include="Converters\TimeStampConverter.cs" />
-    <Compile Include="Dialogs\ColorDialog.xaml.cs">
-      <DependentUpon>ColorDialog.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Dialogs\CrashDialog.xaml.cs">
       <DependentUpon>CrashDialog.xaml</DependentUpon>
     </Compile>
@@ -310,10 +307,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Page>
-    <Page Include="Dialogs\ColorDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dialogs\CrashDialog.xaml">
       <SubType>Designer</SubType>

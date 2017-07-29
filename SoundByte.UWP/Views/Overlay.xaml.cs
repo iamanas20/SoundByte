@@ -70,7 +70,7 @@ namespace SoundByte.UWP.Views
             ViewModel.Service.PropertyChanged += Service_PropertyChanged;
 
             // Set the accent color
-            AccentHelper.UpdateAccentColor();
+            AccentHelper.UpdateTitlebarStyle();
 
             BackgroundImage.Source = new BitmapImage(new Uri(ArtworkConverter.ConvertObjectToImage(ViewModel.Service.CurrentTrack)));
             TrackTitle.Text = ViewModel.Service.CurrentTrack.Title;

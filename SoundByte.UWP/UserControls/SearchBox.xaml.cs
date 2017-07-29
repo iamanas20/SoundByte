@@ -10,6 +10,7 @@
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using SoundByte.UWP.Views;
 
 namespace SoundByte.UWP.UserControls
 {
@@ -76,6 +77,11 @@ namespace SoundByte.UWP.UserControls
             /// box
             /// </summary>
             public string Keyword { get; set; }
+        }
+
+        private void NavigateSearch(object sender, RoutedEventArgs e)
+        {
+            App.NavigateTo(typeof(Search));
         }
     }
 }

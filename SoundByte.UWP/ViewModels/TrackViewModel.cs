@@ -8,18 +8,12 @@
 //*********************************************************
 
 using System;
-using System.Diagnostics;
 using System.Globalization;
-using System.IO;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
-using Windows.Foundation;
-using Windows.Media;
 using Windows.Media.Playback;
 using Windows.UI.Core;
 using Windows.UI.Popups;
@@ -32,19 +26,12 @@ using SoundByte.Core.API.Endpoints;
 using SoundByte.UWP.Converters;
 using SoundByte.UWP.Helpers;
 using SoundByte.UWP.Services;
-using Windows.Media.Audio;
-using Windows.Media.Capture;
-using Windows.Media.MediaProperties;
-using Windows.Media.Render;
-using Windows.Storage;
 
 namespace SoundByte.UWP.ViewModels
 {
     public class TrackViewModel : BaseViewModel
     {
         #region Private Variables
-        // The previous time that the waveform moved
-        private double _previousTime;
         // The comment text box
         private string _commentText;
         // Timer to update the front page UI
@@ -151,7 +138,7 @@ namespace SoundByte.UWP.ViewModels
         /// </summary>
         public string CommentText
         {
-            get { return _commentText; }
+            get => _commentText;
 
             set
             {
@@ -187,8 +174,6 @@ namespace SoundByte.UWP.ViewModels
             // Bind the method once we know a playback list exists
             if (PlaybackService.Current.PlaybackList != null)
                 PlaybackService.Current.PlaybackList.CurrentItemChanged += CurrentItemChanged;
-
-            //await InitWaveForm();
         }
 
         public void MakeFullScreen()
@@ -277,8 +262,6 @@ namespace SoundByte.UWP.ViewModels
         /// Opens the share track UI if it exists
         /// </summary>
         public  async void ShareTrack() => await new Dialogs.ShareDialog(Service.CurrentTrack).ShowAsync();
-
-       
 
         /// <summary>
         /// Display the playlist picker if it exists
@@ -536,162 +519,6 @@ namespace SoundByte.UWP.ViewModels
 
         #endregion
 
-        #region Waveform Logic
-
-        public static byte[] ReadStream(Stream input)
-        {
-            var buffer = new byte[16 * 1024];
-            using (var ms = new MemoryStream())
-            {
-                int read;
-                while ((read = input.Read(buffer, 0, buffer.Length)) > 0)
-                {
-                    ms.Write(buffer, 0, read);
-                }
-                return ms.ToArray();
-            }
-        }
-
-        /// <summary>
-        /// Setup the waveform for use
-        /// </summary>
-        /// <returns></returns>
-        public async Task InitWaveForm()
-        {
-            //// First we must save the current audio file
-
-            //// Open the cache folder
-            //var cacheFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("cache", CreationCollisionOption.OpenIfExists);
-
-            //// Create a file
-            //var imageFile = await cacheFolder.CreateFileAsync(string.Format("{0}-TEMP.mp3", Service.CurrentTrack.Id), CreationCollisionOption.OpenIfExists);
-
-            //try
-            //{
-            //    var request = (HttpWebRequest)WebRequest.Create(Service.PlaybackList.CurrentItem.Source.Uri);
-            //    var response = await request.GetResponseAsync();
-            //    var stream = response.GetResponseStream();
-            //    await FileIO.WriteBytesAsync(imageFile, ReadStream(stream));
-
-            //    var settings = new AudioGraphSettings(Windows.Media.Render.AudioRenderCategory.Media);
-            //    var graph = await AudioGraph.CreateAsync(settings);
-
-            //    var t = await graph.Graph.CreateFileInputNodeAsync(imageFile);
-
-            //    var i = t;
-            //}
-            //catch (Exception e)
-            //{
-            //    Console.WriteLine(e);
-            //}
-
-            try
-            {
-
-                // Initialize the led strip
-                //await this.pixelStrip.Begin();
-
-                var devices = await Windows.Devices.Enumeration.DeviceInformation.FindAllAsync(Windows.Media.Devices.MediaDevice.GetAudioRenderSelector());
-
-                // Create graph
-                AudioGraphSettings settings = new AudioGraphSettings(AudioRenderCategory.Media);
-                settings.DesiredRenderDeviceAudioProcessing = Windows.Media.AudioProcessing.Default;
-                settings.QuantumSizeSelectionMode = QuantumSizeSelectionMode.ClosestToDesired;
-
-                CreateAudioGraphResult result = await AudioGraph.CreateAsync(settings);
-                if (result.Status != AudioGraphCreationStatus.Success)
-                {
-                    // Cannot create graph
-                    return;
-                }
-                graph = result.Graph;
-
-                // Create a device input node using the default audio input device
-                var deviceInputNodeResult = await graph.CreateDeviceInputNodeAsync(MediaCategory.Other, graph.EncodingProperties, devices[0]);
-
-                if (deviceInputNodeResult.Status != AudioDeviceNodeCreationStatus.Success)
-                {
-                    return;
-                }
-
-                var deviceInputNode = deviceInputNodeResult.DeviceInputNode;
-
-                frameOutputNode = graph.CreateFrameOutputNode();
-                deviceInputNode.AddOutgoingConnection(frameOutputNode);
-                frameOutputNode.Start();
-                graph.QuantumProcessed += AudioGraph_QuantumProcessed;
-
-                // Because we are using lowest latency setting, we need to handle device disconnection errors
-
-                graph.Start();
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e.ToString());
-            }
-
-
-
-
-
-
-
-            //    t.DeviceInputNode.ad
-
-            //    var test = await Service.PlaybackList.CurrentItem.Source.
-
-
-
-
-
-        }
-
-        private AudioGraph graph;
-
-        [ComImport]
-        [Guid("5B0D3235-4DBA-4D44-865E-8F1D0E4FD04D")]
-        [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-        unsafe interface IMemoryBufferByteAccess
-        {
-            void GetBuffer(out byte* buffer, out uint capacity);
-        }
-
-
-        private AudioFrameOutputNode frameOutputNode;
-        private void AudioGraph_QuantumProcessed(AudioGraph sender, object args)
-        {
-            var frame = frameOutputNode.GetFrame();
-
-            ProcessFrameOutput(frame);
-        }
-
-        private unsafe void ProcessFrameOutput(AudioFrame frame)
-        {
-            using (AudioBuffer buffer = frame.LockBuffer(AudioBufferAccessMode.Write))
-            using (IMemoryBufferReference reference = buffer.CreateReference())
-            {
-                byte* dataInBytes;
-                uint capacityInBytes;
-                float* dataInFloat;
-
-                // Get the buffer from the AudioFrame
-                ((IMemoryBufferByteAccess) reference).GetBuffer(out dataInBytes, out capacityInBytes);
-
-
-                dataInFloat = (float*) dataInBytes;
-                float[] floats = new float[graph.SamplesPerQuantum];
-
-                for (int i = 0; i < graph.SamplesPerQuantum; i++)
-                    floats[i] = dataInFloat[i];
-
-                System.Diagnostics.Debug.WriteLine(floats.ToList().Max());
-            }
-        }
-
-
-        #endregion
-
-
         #region Dispose Handlers
 
         public override void Dispose()
@@ -699,9 +526,6 @@ namespace SoundByte.UWP.ViewModels
             // Only clean if we are in the background
             if (!App.IsBackground)
                 return;
-
-            // Start Cleanup!
-            System.Diagnostics.Debug.WriteLine("We are cleaning this up!");
 
             CleanModel();
 

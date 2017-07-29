@@ -543,17 +543,17 @@
                                 <!-- Hold User Content -->
                                 <Grid HorizontalAlignment="Stretch"
                                       VerticalAlignment="Stretch"
-                                      Margin="19,0,0,0">
+                                      Margin="21.5,0,0,0">
                                     <!-- User Image -->
                                     <controls:RoundImageEx HorizontalAlignment="Left"
                                                            Source="{x:Bind SoundByteService.CurrentUser, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
-                                                           Width="28"
+                                                           Width="26"
                                                            IsCacheEnabled="True"
                                                            PlaceholderSource="ms-appx:///Assets/PlaceholderBackground.png"
                                                            PlaceholderStretch="UniformToFill"
                                                            Margin="8.5,0,0,0"
                                                            CornerRadius="14"
-                                                           Height="28"
+                                                           Height="26"
                                                            VerticalAlignment="Center"  />
                                     <!-- Username -->
                                     <TextBlock Text="{x:Bind SoundByteService.CurrentUser.Username, Mode=OneWay}"
