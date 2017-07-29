@@ -183,6 +183,8 @@ namespace SoundByte.UWP
         /// </summary>
         public static bool IsFullScreen => ApplicationView.GetForCurrentView().IsFullScreenMode;
 
+        public static Page CurrentFrame => (Window.Current?.Content as MainShell)?.RootFrame.Content as Page;
+
         /// <summary>
         ///     Is anything currently loading
         /// </summary>
@@ -500,9 +502,7 @@ namespace SoundByte.UWP
 
             // Handle all the activation protocols that could occure
             if (!string.IsNullOrEmpty(e.TileId))
-            {
                 path = e.Arguments;
-            }
 
             // Create / Get the main shell
             var rootShell = await CreateMainShellAsync(path);
@@ -514,10 +514,8 @@ namespace SoundByte.UWP
             // Set the root shell as the window content
             Window.Current.Content = rootShell;
 
-            Window.Current.Content.Lights.Add(new PointerPositionSpotLight
-            {
-               Active = true
-            });
+            // Enable lights on all platforms except Xbox
+            Window.Current.Content.Lights.Add(new PointerPositionSpotLight { Active = !IsXbox });
 
             // If on xbox display the screen to the full width and height
             if (IsXbox)

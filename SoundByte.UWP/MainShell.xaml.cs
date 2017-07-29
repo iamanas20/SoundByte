@@ -35,7 +35,6 @@ using SoundByte.UWP.Helpers;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.Views;
 using SoundByte.UWP.Views.Application;
-using SoundByte.UWP.Views.CoreApp;
 using SoundByte.UWP.Views.Me;
 using SoundByte.UWP.Views.Mobile;
 using UICompositionAnimations.Brushes;
@@ -62,14 +61,6 @@ namespace SoundByte.UWP
             // Set the accent color
             AccentHelper.UpdateTitlebarStyle();
 
-            // Amoled Magic
-            if (App.IsMobile)
-                Application.Current.Resources["ShellBackground"] = new SolidColorBrush(Application.Current.RequestedTheme == ApplicationTheme.Dark ? Colors.Black : Colors.White);
-
-            // Make xbox selection easy to see
-            if (App.IsXbox)
-                Application.Current.Resources["CircleButtonStyle"] = Application.Current.Resources["XboxCircleButtonStyle"];
-
             // When the page is loaded (after the following and xaml init)
             // we can perform the async work
             Loaded += async (sender, args) => await PerformAsyncWork(path);
@@ -77,7 +68,7 @@ namespace SoundByte.UWP
             // This is a dirty to show the now playing
             // bar when a track is played. This method
             // updates the required layout for the now
-            // playint bar.
+            // playing bar.
             Service.PropertyChanged += (sender, args) =>
             {
                 if (args.PropertyName != "CurrentTrack")
@@ -89,16 +80,13 @@ namespace SoundByte.UWP
                     ShowNowPlayingBar();
             };
 
-            // Create the blur for desktop
+            // Events for Desktop
             if (App.IsDesktop)
             {
                 CreateShellFrameShadow();
             }
-            else
-            {
-                HideNowPlayingBar();
-            }
 
+            // Events for Xbox
             if (App.IsXbox)
             {
                 // Pane is hidden by default
@@ -115,19 +103,23 @@ namespace SoundByte.UWP
 
                 // Splitview pane gets background
                 SplitViewPaneGrid.Background = Application.Current.Resources["InAppBackgroundBrush"] as CustomAcrylicBrush;
+
+                // Make xbox selection easy to see
+                Application.Current.Resources["CircleButtonStyle"] = Application.Current.Resources["XboxCircleButtonStyle"];
             }
 
-            // Mobile Specific stuff
+            // Events for Mobile
             if (App.IsMobile)
             {
+                // Amoled Magic
+                Application.Current.Resources["ShellBackground"] = new SolidColorBrush(Application.Current.RequestedTheme == ApplicationTheme.Dark ? Colors.Black : Colors.White);
+
                 // Apply a margin down the bottom where nav icons will be
                 RootFrame.Margin = new Thickness { Bottom = 64 };
-
 
                 MainSplitView.IsPaneOpen = false;
                 MainSplitView.CompactPaneLength = 0;
                 MobileNavigation.Visibility = Visibility.Visible;
-                NowPlaying.Visibility = Visibility.Collapsed;
             }
            
             // Focus on the root frame
@@ -146,21 +138,13 @@ namespace SoundByte.UWP
                 {
                     RootFrame.GoBack();
                     e.Handled = true;
-                }
-                else
-                {
-                    if (RootFrame.SourcePageType == typeof(HomeView)) return;
-
-                    RootFrame.Navigate(typeof(HomeView));
-                    e.Handled = true;
-                }
+                } 
             }
         }
 
         private async Task PerformAsyncWork(string path)
         {
             App.IsLoading = true;
-            App.NavigateTo(typeof(BlankPage));
 
             // Set the app language
             ApplicationLanguages.PrimaryLanguageOverride =
@@ -170,11 +154,6 @@ namespace SoundByte.UWP
 
             // Set the on back requested event
             SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
-
-            if (App.IsMobile)
-            {
-                await new MessageDialog("Please Note: SoundByte v2 for Windows Phone is still under active development. The reason why you have this update is because of limitations in the Windows Store. In order to release v2 to desktop and Xbox users, I must also release it to Windows Phone Users.\n\nI will continue to work on SoundByte for Windows Phone as time goes on.\n\nIf you encounter any issues, please contact me at dominic.maas@live.com.", "READ ME").ShowAsync();
-            }
 
             // Navigate to the first page
             await HandleProtocolAsync(path);
@@ -251,7 +230,7 @@ namespace SoundByte.UWP
 
             // If the stored app version is null, this is the users first time,
             ShowInAppNotification(string.IsNullOrEmpty(storedAppVersionString)
-                ? "Welcome to SoundByte! IF you encounter any issues, or have any questions, click the 'Settings' button then 'About' to get in contact with us."
+                ? "Welcome to SoundByte! If you encounter any issues, or have any questions, click the 'Settings' button then 'About' to get in contact with us."
                 : "SoundByte was just updated! There are many new and exciting features waiting for you. Why not take a peek?");
         }
 
@@ -338,8 +317,6 @@ namespace SoundByte.UWP
 
             RootFrame.Navigate(typeof(HistoryView));
         }
-
-     
 
         private void NavigateLikes(object sender, RoutedEventArgs e)
         {
@@ -467,7 +444,7 @@ namespace SoundByte.UWP
 
             RootFrame.Focus(FocusState.Keyboard);
 
-            if (((Frame)sender).SourcePageType == typeof(HomeView) || ((Frame)sender).SourcePageType == typeof(MainShell))
+            if (!((Frame)sender).CanGoBack || ((Frame)sender).SourcePageType == typeof(MainShell))
                 SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
                     AppViewBackButtonVisibility.Collapsed;
             else
@@ -487,11 +464,9 @@ namespace SoundByte.UWP
                     MainSplitView.IsPaneOpen = false;
                     MainSplitView.CompactPaneLength = 0;
 
-
                     HideNowPlayingBar();
 
                     MainSplitView.Margin = new Thickness { Bottom = 0, Top = 0 };
-
                 }
                 else
                 {
@@ -655,14 +630,12 @@ namespace SoundByte.UWP
         public void CloseInAppNotification()
         {
             var animation = NotificationPane.Fade(0, 150);
+            NotificationPaneShadow.Visibility = Visibility.Collapsed;
             animation.Completed += (sender, args) =>
             {
                 NotificationPane.Visibility = Visibility.Collapsed;
-                NotificationPaneShadow.Visibility = Visibility.Collapsed;
-
                 NotificationText.Text = string.Empty;
             };
-
             animation.Start();
         }
 

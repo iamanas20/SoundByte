@@ -65,6 +65,9 @@
             </CommandBar.PrimaryCommands>
         </CommandBar>
 
+        <uiElements:InfoPane x:Name="HistoryModelInfoPane" Canvas.ZIndex="50" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Visibility="Collapsed" />
+
+
         <GridView ItemClick="{x:Bind PlayItem}"
                   ItemsSource="{x:Bind HistoryModel}"
                   Padding="10,0"

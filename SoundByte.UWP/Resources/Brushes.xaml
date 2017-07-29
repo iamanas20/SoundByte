@@ -84,11 +84,10 @@
                                 TintMix="0.7"
                                 NoiseTextureUri="/Assets/Misc/lightnoise.png"/>
 
-    <!-- Backdrop acrylic blur used for app main page (seen through nav menu and titlebar) -->
     <brushes:CustomAcrylicBrush x:Key="InAppBackgroundBrush"
                                 Mode="InAppBlur"
-                                BlurAmount="32"
+                                BlurAmount="12"
                                 Tint="Black"  
-                                TintMix="0.2"
-                                NoiseTextureUri="/Assets/Misc/noise.png"/>
+                                TintMix="0.3"
+                                NoiseTextureUri="/Assets/Misc/lightnoise.png"/>
 </ResourceDictionary>

@@ -10,19 +10,16 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
 using Windows.Foundation;
-using Windows.UI.Popups;
 using Windows.UI.Xaml.Data;
 using Microsoft.Toolkit.Uwp;
-using Microsoft.Toolkit.Uwp.Helpers;
 using SoundByte.Core.API.Endpoints;
 using SoundByte.Core.API.Exceptions;
-using SoundByte.Core.API.Holders;
 using SoundByte.UWP.Services;
+using SoundByte.UWP.UserControls;
 
 namespace SoundByte.UWP.Models
 {
@@ -72,7 +69,10 @@ namespace SoundByte.UWP.Models
                     return new LoadMoreItemsResult { Count = 0 };
 
                 // We are loading
-                await DispatcherHelper.ExecuteOnUIThreadAsync(() => { App.IsLoading = true; });
+                await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
+                {
+                    (App.CurrentFrame?.FindName("FanburstSearchModelInfoPane") as InfoPane)?.ShowLoading();
+                });
 
                 // Get the resource loader
                 var resources = ResourceLoader.GetForViewIndependentUse();
@@ -133,9 +133,9 @@ namespace SoundByte.UWP.Models
                         Token = "eol";
 
                         // No items tell the user
-                        await DispatcherHelper.ExecuteOnUIThreadAsync(async () =>
+                        await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                         {
-                            await new MessageDialog(resources.GetString("SearchTrack_Content"), resources.GetString("SearchTrack_Header")).ShowAsync();
+                            (App.CurrentFrame?.FindName("FanburstSearchModelInfoPane") as InfoPane)?.ShowMessage(resources.GetString("SearchTrack_Header"), resources.GetString("SearchTrack_Content"), "", false);
                         });
                     }
                 }
@@ -148,14 +148,17 @@ namespace SoundByte.UWP.Models
                     Token = "eol";
 
                     // Exception, display error to the user
-                    await DispatcherHelper.ExecuteOnUIThreadAsync(async () =>
+                    await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                     {
-                        await new MessageDialog(ex.ErrorDescription, ex.ErrorTitle).ShowAsync();
+                        (App.CurrentFrame?.FindName("FanburstSearchModelInfoPane") as InfoPane)?.ShowMessage(ex.ErrorTitle, ex.ErrorDescription, ex.ErrorGlyph, true);
                     });
                 }
 
                 // We are not loading
-                await DispatcherHelper.ExecuteOnUIThreadAsync(() => { App.IsLoading = false; });
+                await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
+                {
+                    (App.CurrentFrame?.FindName("FanburstSearchModelInfoPane") as InfoPane)?.ClosePane();
+                });
 
                 // Return the result
                 return new LoadMoreItemsResult { Count = count };

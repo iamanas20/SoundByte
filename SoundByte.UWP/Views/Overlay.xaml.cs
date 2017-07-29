@@ -36,7 +36,7 @@ namespace SoundByte.UWP.Views
         // This method is called by the Set accessor of each property.
         // The CallerMemberName attribute that is applied to the optional propertyName
         // parameter causes the property name of the caller to be substituted as an argument.
-        protected void UpdateProperty([CallerMemberName] string propertyName = "")
+        void UpdateProperty([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
@@ -85,22 +85,25 @@ namespace SoundByte.UWP.Views
 
         private async void Service_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "CurrentTrack")
+            switch (e.PropertyName)
             {
-                await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                {
-                    BackgroundImage.Source = new BitmapImage(new Uri(ArtworkConverter.ConvertObjectToImage(ViewModel.Service.CurrentTrack)));
-                    TrackTitle.Text = ViewModel.Service.CurrentTrack.Title;
-                    TrackUser.Text = ViewModel.Service.CurrentTrack.User.Username;
+                case "CurrentTrack":
+                    await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    {
+                        BackgroundImage.Source = new BitmapImage(new Uri(ArtworkConverter.ConvertObjectToImage(ViewModel.Service.CurrentTrack)));
+                        TrackTitle.Text = ViewModel.Service.CurrentTrack.Title;
+                        TrackUser.Text = ViewModel.Service.CurrentTrack.User.Username;
 
-                });
-            }
-            else if (e.PropertyName == "PlayButtonContent")
-            {
-                await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                {
-                    PlayButtonContent = ViewModel.Service.PlayButtonContent;
-                });
+                    });
+                    break;
+                case "PlayButtonContent":
+                    await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    {
+                        PlayButtonContent = ViewModel.Service.PlayButtonContent;
+                    });
+                    break;
+                default:
+                    break;
             }
         }
     }

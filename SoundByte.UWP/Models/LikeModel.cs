@@ -22,6 +22,7 @@ using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Helpers;
 using SoundByte.Core.API.Endpoints;
 using SoundByte.UWP.Services;
+using SoundByte.UWP.UserControls;
 
 namespace SoundByte.UWP.Models
 {
@@ -75,7 +76,10 @@ namespace SoundByte.UWP.Models
             return Task.Run(async () =>
             {
                 // We are loading
-                await DispatcherHelper.ExecuteOnUIThreadAsync(() => { App.IsLoading = true; });
+                await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
+                {
+                    (App.CurrentFrame?.FindName("LikeModelInfoPane") as InfoPane)?.ShowLoading();
+                });
 
                 // Get the resource loader
                 var resources = ResourceLoader.GetForViewIndependentUse();
@@ -121,9 +125,9 @@ namespace SoundByte.UWP.Models
                             Token = "eol";
 
                             // No items tell the user
-                            await DispatcherHelper.ExecuteOnUIThreadAsync(async () =>
+                            await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                             {
-                                await new MessageDialog(resources.GetString("LikeTracks_Content"), resources.GetString("LikeTracks_Header")).ShowAsync();
+                                (App.CurrentFrame?.FindName("LikeModelInfoPane") as InfoPane)?.ShowMessage(resources.GetString("LikeTracks_Header"), resources.GetString("LikeTracks_Content"), "", false);
                             });
                         }
                     }
@@ -133,9 +137,9 @@ namespace SoundByte.UWP.Models
                         count = 0;
 
                         // Exception, display error to the user
-                        await DispatcherHelper.ExecuteOnUIThreadAsync(async () =>
+                        await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                         {
-                            await new MessageDialog(ex.ErrorDescription, ex.ErrorTitle).ShowAsync();
+                            (App.CurrentFrame?.FindName("LikeModelInfoPane") as InfoPane)?.ShowMessage(ex.ErrorTitle, ex.ErrorDescription, ex.ErrorGlyph, true);
                         });
                     }
                 }
@@ -147,15 +151,18 @@ namespace SoundByte.UWP.Models
                     // Reset the token
                     Token = "eol";
 
-                    await DispatcherHelper.ExecuteOnUIThreadAsync(async () =>
+                    // No items tell the user
+                    await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                     {
-                        await new MessageDialog(resources.GetString("ErrorControl_LoginFalse_Content"), resources.GetString("ErrorControl_LoginFalse_Header")).ShowAsync();
+                        (App.CurrentFrame?.FindName("LikeModelInfoPane") as InfoPane)?.ShowMessage(resources.GetString("ErrorControl_LoginFalse_Header"), resources.GetString("ErrorControl_LoginFalse_Content"), "", false);
                     });
-
                 }
 
                 // We are not loading
-                await DispatcherHelper.ExecuteOnUIThreadAsync(() => { App.IsLoading = false; });
+                await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
+                {
+                    (App.CurrentFrame?.FindName("LikeModelInfoPane") as InfoPane)?.ClosePane();
+                });
 
                 // Return the result
                 return new LoadMoreItemsResult { Count = count };

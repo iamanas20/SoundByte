@@ -163,6 +163,8 @@
 
         <!-- blur for overlay -->
         <Grid Margin="-40"
+              x:Name="BlurOverlay"
+              Opacity="0"
               Canvas.ZIndex="2"
               HorizontalAlignment="Stretch"
               VerticalAlignment="Stretch"

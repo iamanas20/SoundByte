@@ -19,6 +19,7 @@ using Windows.UI.Xaml.Controls;
 using SoundByte.Core.API.Endpoints;
 using SoundByte.UWP.Converters;
 using SoundByte.UWP.Services;
+using SoundByte.UWP.UserControls;
 
 namespace SoundByte.UWP.ViewModels
 {
@@ -52,7 +53,8 @@ namespace SoundByte.UWP.ViewModels
             if (newPlaylist != null && (Playlist == null || Playlist.Id != newPlaylist.Id))
             {
                 // Show the loading ring
-                App.IsLoading = true;
+                (App.CurrentFrame?.FindName("PlaylistInfoPane") as InfoPane)?.ShowLoading();
+
                 // Set the playlist
                 Playlist = newPlaylist;
                 // Clear any existing tracks
@@ -73,8 +75,6 @@ namespace SoundByte.UWP.ViewModels
                     PinButtonText = resources.GetString("AppBarUI_Pin_Raw");
                 }
 
-                //https://api-v2.soundcloud.com/users/42403925/playlist_likes/325739031?client_id=2t9loNQH90kzJcsFCODdigxfp325aq4z&app_version=1500455814
-
                 if (await SoundByteService.Current.ExistsAsync($"/e1/me/playlist_likes/{Playlist.Id}", false))
                 {
                     LikeButtonText = "Unlike Playlist";
@@ -87,31 +87,21 @@ namespace SoundByte.UWP.ViewModels
                 try
                 {
                     // Show the loading ring
-                    App.IsLoading = true;
+                    (App.CurrentFrame?.FindName("PlaylistInfoPane") as InfoPane)?.ShowLoading();
                     // Get the playlist tracks
                     var playlistTracks = (await SoundByteService.Current.GetAsync<Playlist>("/playlists/" + Playlist.Id)).Tracks;
                     playlistTracks.ForEach(x => Tracks.Add(x));
                     // Hide the loading ring
-                    App.IsLoading = false;
+                    (App.CurrentFrame?.FindName("PlaylistInfoPane") as InfoPane)?.ClosePane();
+
                 }
                 catch (Exception)
                 {
-                    // Create the error dialog
-                    var noItemsDialog = new ContentDialog
-                    {
-                        Title = "Could not load tracks",
-                        Content = new TextBlock { TextWrapping = TextWrapping.Wrap, Text = "Something went wrong when trying to load the tracks for this playlist, please make sure you are connected to the internet and then go back, and click on this playlist again." },
-                        IsPrimaryButtonEnabled = true,
-                        PrimaryButtonText = "Close"
-                    };
-                    // Hide the loading ring
-                    App.IsLoading = false;
-                    // Show the dialog
-                    await noItemsDialog.ShowAsync();
+                    (App.CurrentFrame?.FindName("PlaylistInfoPane") as InfoPane)?.ShowMessage("Could not load tracks", "Something went wrong when trying to load the tracks for this playlist, please make sure you are connected to the internet and then go back, and click on this playlist again.", "", false);
                 }
 
                 // Hide the loading ring
-                App.IsLoading = false;
+                (App.CurrentFrame?.FindName("PlaylistInfoPane") as InfoPane)?.ClosePane();
             }
         }
 

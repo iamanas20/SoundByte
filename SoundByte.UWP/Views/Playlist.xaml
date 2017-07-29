@@ -25,6 +25,8 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
 
+        <ui:InfoPane x:Name="PlaylistInfoPane" Margin="0,50,0,0"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Visibility="Collapsed" />
+
         <!-- Displays playlists -->
         <GridView x:Name="TracksView"
                   ItemsSource="{x:Bind ViewModel.Tracks}"

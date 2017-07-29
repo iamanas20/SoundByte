@@ -22,6 +22,7 @@ using Windows.UI.Xaml.Data;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Helpers;
 using SoundByte.UWP.Services;
+using SoundByte.UWP.UserControls;
 
 namespace SoundByte.UWP.Models
 {
@@ -63,17 +64,13 @@ namespace SoundByte.UWP.Models
             return Task.Run(async () =>
             {
                 if (string.IsNullOrEmpty(Query))
-                {
-                    await DispatcherHelper.ExecuteOnUIThreadAsync(async () =>
-                    {
-               //         await new MessageDialog("Type something to search for users on SoundCloud.", "Search Users").ShowAsync();
-                    });
-
                     return new LoadMoreItemsResult { Count = 0 };
-                }
 
                 // We are loading
-                await DispatcherHelper.ExecuteOnUIThreadAsync(() => { App.IsLoading = true; });
+                await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
+                {
+                    (App.CurrentFrame?.FindName("SearchUserModelInfoPane") as InfoPane)?.ShowLoading();
+                });
 
                 // Get the resource loader
                 var resources = ResourceLoader.GetForViewIndependentUse();
@@ -117,9 +114,9 @@ namespace SoundByte.UWP.Models
                         Token = "eol";
 
                         // No items tell the user
-                        await DispatcherHelper.ExecuteOnUIThreadAsync(async () =>
+                        await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                         {
-                            await new MessageDialog(resources.GetString("SearchUser_Content"), resources.GetString("SearchUser_Header")).ShowAsync();
+                            (App.CurrentFrame?.FindName("SearchUserModelInfoPane") as InfoPane)?.ShowMessage(resources.GetString("SearchUser_Header"), resources.GetString("SearchUser_Content"), "", false);
                         });
                     }
                 }
@@ -132,15 +129,18 @@ namespace SoundByte.UWP.Models
                     Token = "eol";
 
                     // Exception, display error to the user
-                    await DispatcherHelper.ExecuteOnUIThreadAsync(async () =>
+                    await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                     {
-                        await new MessageDialog(ex.ErrorDescription, ex.ErrorTitle).ShowAsync();
+                        (App.CurrentFrame?.FindName("SearchUserModelInfoPane") as InfoPane)?.ShowMessage(ex.ErrorTitle, ex.ErrorDescription, ex.ErrorGlyph, true);
                     });
                 }
 
 
                 // We are not loading
-                await DispatcherHelper.ExecuteOnUIThreadAsync(() => { App.IsLoading = false; });
+                await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
+                {
+                    (App.CurrentFrame?.FindName("SearchUserModelInfoPane") as InfoPane)?.ClosePane();
+                });
 
                 // Return the result
                 return new LoadMoreItemsResult { Count = count };

@@ -96,7 +96,7 @@
                                      Width="{TemplateBinding Width}" 
                                      Canvas.ZIndex="0" 
                                      BorderThickness="0" 
-                                     Padding="5,8,8,8"
+                                     Padding="2,8,8,8"
                                      FontWeight="Normal"
                                      BorderBrush="{x:Null}" 
                                      Background="Transparent" />
@@ -142,7 +142,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Grid x:Name="RootGrid" Background="Transparent" BorderThickness="1" BorderBrush="{StaticResource ButtonBorderLightingBrush}">
+                        <Grid x:Name="RootGrid" Background="Transparent" BorderThickness="1,1,1,1" BorderBrush="{StaticResource ButtonBorderLightingBrush}">
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup x:Name="CommonStates">
                                     <VisualState x:Name="Normal">
@@ -206,7 +206,7 @@
         <Button Grid.Column="0" 
                 Click="NavigateSearch"
                 Margin="0,0,0,0"
-                BorderThickness="1"
+                BorderThickness="1,1,1,1"
                 Padding="33,0,30,0"
                 VerticalAlignment="Stretch" 
                 FontFamily="{ThemeResource SymbolThemeFontFamily}"

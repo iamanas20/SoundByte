@@ -29,11 +29,10 @@
                         <Setter Target="Header.Margin" Value="50,0" />
                         <Setter Target="TextHeader.FontSize" Value="55" />
                         <Setter Target="TextHeader.Margin" Value="10,30,0,0"  />
-                        <Setter Target="MainPivot.Margin" Value="50,160,50,0"  />
+                        <Setter Target="MainPivot.Margin" Value="50,210,50,0"  />
                         <Setter Target="TextHeader.Opacity" Value="0.8" />
                         <Setter Target="DesktopCommandBar.Visibility" Value="Visible" />
                         <Setter Target="MobileGrid.Visibility" Value="Collapsed" />
-                        <Setter Target="MainSearchBox.Visibility" Value="Collapsed" />
                         <Setter Target="MobileCommandBar.Visibility" Value="Collapsed" />
                     </VisualState.Setters>
                 </VisualState>
@@ -64,6 +63,7 @@
         <StackPanel Margin="10,0" x:Name="Header">
             <TextBlock Opacity="0" x:Name="TextHeader" Text="Search" FontWeight="Bold" FontSize="25" Margin="0,18,0,0"/>
 
+            
             <!-- Main Search Bar -->
             <uiElements:SearchBox SearchSubmitted="{x:Bind ViewModel.Search}" 
                                 Height="38" 
@@ -87,7 +87,8 @@
                 </PivotItem.Header>
                 <Grid>
                     <!-- Used to display any errors that may occur when loading the content -->
-                    <uiElements:InfoPane Opacity="0" Canvas.ZIndex="20" x:Name="TracksError" Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                    <uiElements:InfoPane x:Name="SearchTrackModelInfoPane" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Visibility="Collapsed" Canvas.ZIndex="50" />
+
                     <!-- Displays searched tracks -->
                     <GridView x:Name="TracksView"
                               ItemsSource="{x:Bind Path=ViewModel.SearchTracks}"
@@ -110,7 +111,7 @@
                 </PivotItem.Header>
                 <Grid>
                     <!-- Used to display any errors that may occur when loading the content -->
-                    <uiElements:InfoPane Opacity="0" Canvas.ZIndex="20" x:Name="PlaylistsError" Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                    <uiElements:InfoPane x:Name="SearchPlaylistModelInfoPane" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Visibility="Collapsed" Canvas.ZIndex="50" />
                     <!-- Displays searched sets -->
                     <GridView x:Name="PlaylistsView"
                               ItemsSource="{x:Bind Path=ViewModel.SearchPlaylists}"
@@ -133,7 +134,7 @@
                 </PivotItem.Header>
                 <Grid>
                     <!-- Used to display any errors that may occur when loading the content -->
-                    <uiElements:InfoPane Opacity="0" Canvas.ZIndex="20" x:Name="PeopleError" Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                    <uiElements:InfoPane x:Name="SearchUserModelInfoPane" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Visibility="Collapsed" Canvas.ZIndex="50" />
                     <!-- Displays searched people -->
                     <GridView x:Name="PeopleView"
                               ItemsSource="{x:Bind Path=ViewModel.SearchUsers}"
@@ -156,7 +157,7 @@
                 </PivotItem.Header>
                 <Grid>
                     <!-- Used to display any errors that may occur when loading the content -->
-                    <uiElements:InfoPane Opacity="0" Canvas.ZIndex="20" x:Name="FanburstError" Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                    <uiElements:InfoPane x:Name="FanburstSearchModelInfoPane" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Visibility="Collapsed" Canvas.ZIndex="50" />
                     <!-- Displays searched tracks -->
                     <GridView x:Name="FanburstView"
                               ItemsSource="{x:Bind Path=ViewModel.FanburstTracks}"

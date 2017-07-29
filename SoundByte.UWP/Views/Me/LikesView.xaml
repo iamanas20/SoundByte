@@ -66,6 +66,8 @@
             </CommandBar.PrimaryCommands>
         </CommandBar>
 
+        <userControls:InfoPane Canvas.ZIndex="50" x:Name="LikeModelInfoPane" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Visibility="Collapsed" />
+
         <GridView ItemClick="{x:Bind PlayItem}"
                   ItemsSource="{x:Bind LikesModel}"
                   Padding="10,0"

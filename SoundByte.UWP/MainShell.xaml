@@ -616,6 +616,7 @@
               VerticalAlignment="Bottom"
               Canvas.ZIndex="4"
               Height="64"
+              Visibility="Collapsed"
               HorizontalAlignment="Stretch">
 
             <Grid>

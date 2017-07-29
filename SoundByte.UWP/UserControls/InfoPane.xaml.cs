@@ -60,6 +60,16 @@ namespace SoundByte.UWP.UserControls
         #endregion
 
         #region Methods
+
+        public void ShowLoading()
+        {
+            ShowMessage("Loading...", "Please Wait", "", false);
+
+            GlyphTextBlock.Visibility = Visibility.Collapsed;
+            LoadingRing.Visibility = Visibility.Visible;
+        }
+
+
         /// <summary>
         /// Shows a message on the screen
         /// </summary>
@@ -75,7 +85,13 @@ namespace SoundByte.UWP.UserControls
             Glyph = glyph;
 
             // Logic to show or hide the buton
-            CloseButton.Visibility = (showButton ? Visibility.Visible : Visibility.Collapsed);
+            CloseButton.Visibility = showButton ? Visibility.Visible : Visibility.Collapsed;
+
+            // Hide glyph if not provided
+            GlyphTextBlock.Visibility = string.IsNullOrEmpty(glyph) ? Visibility.Collapsed : Visibility.Visible;
+
+            // Hide loading ring
+            LoadingRing.Visibility = Visibility.Collapsed;
 
             // Show the control
             Visibility = Visibility.Visible;
@@ -85,7 +101,7 @@ namespace SoundByte.UWP.UserControls
         /// <summary>
         /// Closes the pane
         /// </summary>
-        private void ClosePane(object sender, RoutedEventArgs e)
+        public void ClosePane()
         {
             // Hide the pane
             Visibility = Visibility.Collapsed;

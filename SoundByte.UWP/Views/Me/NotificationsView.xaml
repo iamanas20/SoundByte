@@ -58,7 +58,8 @@
         </CommandBar>
 
         <!-- Used to display any errors that may occur when loading the content -->
-        <uiElements:InfoPane Margin="-12,0,-12,0" Opacity="0" Canvas.ZIndex="20" x:Name="NotificationsError" Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+        <uiElements:InfoPane Canvas.ZIndex="50" x:Name="NotificationModelInfoPane" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Visibility="Collapsed" />
+
         <!-- Displays Notifications -->
         <ListView ItemsSource="{x:Bind ViewModel.NotificationItems}"
                   ItemTemplate="{StaticResource NotificationItem}"
