@@ -149,12 +149,6 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Resources\DataTemplates.cs" />
-    <Compile Include="Converters\ArtworkConverter.cs" />
-    <Compile Include="Converters\FormattedValueConverter.cs" />
-    <Compile Include="Converters\NowPlayingVisibilityConverter.cs" />
-    <Compile Include="Converters\DateTimeConverter.cs" />
-    <Compile Include="Converters\SliderValueConverter.cs" />
-    <Compile Include="Converters\TimeStampConverter.cs" />
     <Compile Include="Dialogs\CrashDialog.xaml.cs">
       <DependentUpon>CrashDialog.xaml</DependentUpon>
     </Compile>

@@ -14,7 +14,7 @@ using System;
 using Windows.UI.Xaml.Data;
 using SoundByte.Core.Helpers;
 
-namespace SoundByte.UWP.Converters
+namespace SoundByte.Core.Converters
 {
     /// <summary>
     /// Used for now playing slider, shows human readable time

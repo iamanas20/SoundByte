@@ -26,9 +26,9 @@ using Windows.UI.Notifications;
 using Windows.UI.Xaml;
 using Microsoft.Toolkit.Uwp;
 using SoundByte.Core.API.Endpoints;
+using SoundByte.Core.Converters;
 using SoundByte.Core.Helpers;
 using SoundByte.Core.Services;
-using SoundByte.UWP.Converters;
 using User = SoundByte.Core.API.Endpoints.User;
 
 namespace SoundByte.UWP.Services

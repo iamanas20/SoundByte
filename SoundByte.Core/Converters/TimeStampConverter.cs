@@ -13,7 +13,7 @@
 using System;
 using Windows.UI.Xaml.Data;
 
-namespace SoundByte.UWP.Converters
+namespace SoundByte.Core.Converters
 {
     /// <summary>
     /// This class takes in a timespac and converts it into a human

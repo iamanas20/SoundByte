@@ -4,8 +4,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     NavigationCacheMode="Enabled"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:converters1="using:SoundByte.UWP.Converters"
-    xmlns:endpoints="using:SoundByte.Core.API.Endpoints">
+    xmlns:endpoints="using:SoundByte.Core.API.Endpoints"
+    xmlns:converters="using:SoundByte.Core.Converters">
     <Page.Transitions>
         <TransitionCollection>
             <NavigationThemeTransition>
@@ -15,7 +15,7 @@
     </Page.Transitions>
 
     <Page.Resources>
-        <converters1:SliderValueConverter x:Key="SliderValueConverter" />
+        <converters:SliderValueConverter x:Key="SliderValueConverter" />
         <!-- Related Items Template -->
         <DataTemplate x:DataType="endpoints:Track" x:Key="RelatedItemTemplate">
             <Grid HorizontalAlignment="Stretch" 

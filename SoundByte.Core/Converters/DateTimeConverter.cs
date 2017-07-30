@@ -15,7 +15,7 @@ using System.Globalization;
 using Windows.UI.Xaml.Data;
 using SoundByte.Core.Helpers;
 
-namespace SoundByte.UWP.Converters
+namespace SoundByte.Core.Converters
 {
     /// <summary>
     /// This class takes in a DateTime object and converts it into

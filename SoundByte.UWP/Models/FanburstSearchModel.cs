@@ -22,7 +22,6 @@ using Microsoft.Toolkit.Uwp;
 using SoundByte.Core.API.Endpoints;
 using SoundByte.Core.API.Exceptions;
 using SoundByte.Core.Services;
-using SoundByte.UWP.Services;
 using SoundByte.UWP.UserControls;
 
 namespace SoundByte.UWP.Models

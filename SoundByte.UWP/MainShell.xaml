@@ -4,14 +4,10 @@
     xmlns:sui="using:SoundByte.UWP.UserControls"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:converters="using:SoundByte.UWP.Converters">
+    xmlns:converters1="using:SoundByte.Core.Converters">
 
     <Page.Resources>
-        <converters:SliderValueConverter x:Key="SliderValueConverter" />
-        <converters:NowPlayingVisibilityConverter x:Key="NullVisibilityConverter" />
-
-
-
+        <converters1:SliderValueConverter x:Key="SliderValueConverter" />
 
         <Style TargetType="RadioButton" x:Key="NavigationButtonStyle">
             <Setter Property="Background" Value="Transparent" />

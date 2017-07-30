@@ -11,33 +11,31 @@
  */
 
 using System;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
+using SoundByte.Core.Helpers;
 
-namespace SoundByte.UWP.Converters
+namespace SoundByte.Core.Converters
 {
     /// <summary>
-    /// This converter is used to show or hide the now playing
-    /// UI depending on if an item is playing or we are on the
-    /// track page.
+    /// Converts a nullable into to a human readable string
     /// </summary>
-    public class NowPlayingVisibilityConverter : IValueConverter
+    public class FormattedValueConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            // Check to see if we are on the track page
-            var isTrackPage = ((MainShell) Window.Current.Content)?.RootFrame.CurrentSourcePageType == typeof(Views.Track);
+            // Get our value
+            var inValue = value as int?;
 
-            if (value == null || isTrackPage)
-                return Visibility.Collapsed;
-            
-            return Visibility.Visible;
+            // Does this null int have a value
+            if (inValue.HasValue)
+            {
+                // Return the actual value of 0 if there is none
+                return inValue.Value == 0 ? "0" : NumberFormatHelper.GetFormattedLargeNumber(inValue.Value);
+            }
+
+            return "0";
         }
 
-        /// <summary>
-        /// We can not convert back in this case
-        /// </summary>
-        /// <returns></returns>
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
             throw new NotImplementedException();

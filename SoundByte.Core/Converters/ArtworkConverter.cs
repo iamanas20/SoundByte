@@ -15,7 +15,7 @@ using Windows.UI.Xaml.Data;
 using SoundByte.Core.API.Endpoints;
 using SoundByte.Core.Services;
 
-namespace SoundByte.UWP.Converters
+namespace SoundByte.Core.Converters
 {
     /// <summary>
     /// The artwork converter is used to get the best quality
