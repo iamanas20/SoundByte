@@ -8,8 +8,8 @@
     <converters:ArtworkConverter x:Key="ArtworkConverter" />
         
     <converters:FormattedValueConverter x:Key="FormattedValueConverter" />
-    
-    <converters:ModernDateTimeConverter x:Key="ModernDateTimeConverter" />
+
+    <converters:DateTimeConverter x:Key="ModernDateTimeConverter" />
     
     <converters:TimeStampConverter x:Key="TimeStampConverter" />
 </ResourceDictionary>

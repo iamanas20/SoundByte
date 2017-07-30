@@ -1,11 +1,14 @@
-﻿//*********************************************************
-// Copyright (c) Dominic Maas. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THIS CODE IS PROVIDED *AS IS* WITHOUT WARRANTY OF
-// ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING ANY
-// IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR
-// PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
-//*********************************************************
+﻿/* |----------------------------------------------------------------|
+ * | Copyright (c) 2017, Grid Entertainment                         |
+ * | All Rights Reserved                                            |
+ * |                                                                |
+ * | This source code is to only be used for educational            |
+ * | purposes. Distribution of SoundByte source code in             |
+ * | any form outside this repository is forbidden. If you          |
+ * | would like to contribute to the SoundByte source code, you     |
+ * | are welcome.                                                   |
+ * |----------------------------------------------------------------|
+ */
 
 using System;
 using Windows.UI.Popups;
@@ -58,30 +61,32 @@ namespace SoundByte.UWP.Dialogs
             }
 
             // Get the base content
-            string selectedLicense = ((ComboBoxItem)(SearchLicense).SelectedItem).Content.ToString();
-            if (selectedLicense.ToLower() != "any")
+            var selectedLicense = ((ComboBoxItem)SearchLicense.SelectedItem)?.Content?.ToString();
+
+            if (!string.IsNullOrEmpty(selectedLicense) && selectedLicense.ToLower() != "any")
             {
                 selectedLicense = selectedLicense.ToLower().Replace(' ', '-');
                 filterArgs += "&license=" + System.Net.WebUtility.UrlEncode(selectedLicense);
             }
 
 
-            string selectedType = ((ComboBoxItem)(SearchType).SelectedItem).Content.ToString();
-            if (selectedType.ToLower() != "any")
+            var selectedType = ((ComboBoxItem)SearchType?.SelectedItem)?.Content?.ToString();
+
+            if (!string.IsNullOrEmpty(selectedType) && selectedType.ToLower() != "any")
             {
                 selectedType = selectedType.ToLower();
                 filterArgs += "&types=" + System.Net.WebUtility.UrlEncode(selectedType);
             }
 
-            if (!string.IsNullOrEmpty(SearchBPM.Text))
+            if (!string.IsNullOrEmpty(SearchBpm.Text))
             {
-                if (int.Parse(SearchBPM.Text) >= 10)
+                if (int.Parse(SearchBpm.Text) >= 10)
                 {
-                    filterArgs += "bpm[from]=" + (int.Parse(SearchBPM.Text) - 10) + "&bpm[to]=" + (int.Parse(SearchBPM.Text) + 10);
+                    filterArgs += "bpm[from]=" + (int.Parse(SearchBpm.Text) - 10) + "&bpm[to]=" + (int.Parse(SearchBpm.Text) + 10);
                 }
                 else
                 {
-                    filterArgs += "bpm[from]=0&bpm[to]=" + (int.Parse(SearchBPM.Text) + 10);
+                    filterArgs += "bpm[from]=0&bpm[to]=" + (int.Parse(SearchBpm.Text) + 10);
                 }
             }
 

@@ -1,11 +1,14 @@
-﻿//*********************************************************
-// Copyright (c) Dominic Maas. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THIS CODE IS PROVIDED *AS IS* WITHOUT WARRANTY OF
-// ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING ANY
-// IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR
-// PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
-//*********************************************************
+﻿/* |----------------------------------------------------------------|
+ * | Copyright (c) 2017, Grid Entertainment                         |
+ * | All Rights Reserved                                            |
+ * |                                                                |
+ * | This source code is to only be used for educational            |
+ * | purposes. Distribution of SoundByte source code in             |
+ * | any form outside this repository is forbidden. If you          |
+ * | would like to contribute to the SoundByte source code, you     |
+ * | are welcome.                                                   |
+ * |----------------------------------------------------------------|
+ */
 
 using System;
 using System.Collections.Generic;
@@ -28,8 +31,6 @@ namespace SoundByte.UWP.Dialogs
 
             ContinueButton.Focus(FocusState.Programmatic);
             MoreInfo.Text = ex.Message;
-
-            ProgressRing.Visibility = Visibility.Collapsed;
         }
 
         private async Task Send()
@@ -41,9 +42,7 @@ namespace SoundByte.UWP.Dialogs
             {
                 using (var httpClient = new HttpClient())
                 {
-                    string description;
-
-                    Description.Document.GetText(TextGetOptions.None, out description);
+                    Description.Document.GetText(TextGetOptions.None, out string description);
 
                     if (string.IsNullOrEmpty(Contact.Text))
                         Contact.Text = "default@gridentertainment.net";
@@ -71,7 +70,6 @@ namespace SoundByte.UWP.Dialogs
 
         private async void SendAndCloseApp(object sender, RoutedEventArgs e)
         {
-            ProgressRing.Visibility = Visibility.Visible;
             TelemetryService.Current.TrackEvent("Crash Dialog - Send and Close App");
             await Send();
             Application.Current.Exit();
@@ -79,7 +77,6 @@ namespace SoundByte.UWP.Dialogs
 
         private async void SendAndContinue(object sender, RoutedEventArgs e)
         {
-            ProgressRing.Visibility = Visibility.Visible;
             TelemetryService.Current.TrackEvent("Crash Dialog - Send and Continue");
             Hide();
             await Send();     

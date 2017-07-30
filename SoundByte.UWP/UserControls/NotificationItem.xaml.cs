@@ -1,11 +1,14 @@
-﻿//*********************************************************
-// Copyright (c) Dominic Maas. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THIS CODE IS PROVIDED *AS IS* WITHOUT WARRANTY OF
-// ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING ANY
-// IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR
-// PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
-//*********************************************************
+﻿/* |----------------------------------------------------------------|
+ * | Copyright (c) 2017, Grid Entertainment                         |
+ * | All Rights Reserved                                            |
+ * |                                                                |
+ * | This source code is to only be used for educational            |
+ * | purposes. Distribution of SoundByte source code in             |
+ * | any form outside this repository is forbidden. If you          |
+ * | would like to contribute to the SoundByte source code, you     |
+ * | are welcome.                                                   |
+ * |----------------------------------------------------------------|
+ */
 
 using Windows.UI.Xaml;
 
@@ -14,12 +17,12 @@ namespace SoundByte.UWP.UserControls
     public sealed partial class NotificationItem
     {
         #region Variables
-        public static readonly DependencyProperty _trackDataProperty = DependencyProperty.Register("TrackData", typeof(Core.API.Endpoints.Track), typeof(NotificationItem), null);
-        public static readonly DependencyProperty _playlistDataProperty = DependencyProperty.Register("PlaylistData", typeof(Core.API.Endpoints.Playlist), typeof(NotificationItem), null);
-        public static readonly DependencyProperty _userDataProperty = DependencyProperty.Register("UserData", typeof(Core.API.Endpoints.User), typeof(NotificationItem), null);
-        public static readonly DependencyProperty _commentProperty = DependencyProperty.Register("CommentData", typeof(Core.API.Endpoints.Comment), typeof(NotificationItem), null);
-        public static readonly DependencyProperty _creationProperty = DependencyProperty.Register("Creation", typeof(string), typeof(NotificationItem), null);
-        public static readonly DependencyProperty _collectionTypeProperty = DependencyProperty.Register("CollectionType", typeof(string), typeof(NotificationItem), null);
+        private static readonly DependencyProperty TrackDataProperty = DependencyProperty.Register("TrackData", typeof(Core.API.Endpoints.Track), typeof(NotificationItem), null);
+        private static readonly DependencyProperty PlaylistDataProperty = DependencyProperty.Register("PlaylistData", typeof(Core.API.Endpoints.Playlist), typeof(NotificationItem), null);
+        private static readonly DependencyProperty UserDataProperty = DependencyProperty.Register("UserData", typeof(Core.API.Endpoints.User), typeof(NotificationItem), null);
+        private static readonly DependencyProperty CommentProperty = DependencyProperty.Register("CommentData", typeof(Core.API.Endpoints.Comment), typeof(NotificationItem), null);
+        private static readonly DependencyProperty CreationProperty = DependencyProperty.Register("Creation", typeof(string), typeof(NotificationItem), null);
+        private static readonly DependencyProperty CollectionTypeProperty = DependencyProperty.Register("CollectionType", typeof(string), typeof(NotificationItem), null);
         #endregion
 
         #region Page Setup
@@ -64,8 +67,8 @@ namespace SoundByte.UWP.UserControls
         /// </summary>
         public Core.API.Endpoints.Track TrackData
         {
-            get { return GetValue(_trackDataProperty) as Core.API.Endpoints.Track; }
-            set { SetValue(_trackDataProperty, value); }
+            get => GetValue(TrackDataProperty) as Core.API.Endpoints.Track;
+            set => SetValue(TrackDataProperty, value);
         }
 
         /// <summary>
@@ -73,8 +76,8 @@ namespace SoundByte.UWP.UserControls
         /// </summary>
         public Core.API.Endpoints.Playlist PlaylistData
         {
-            get { return GetValue(_playlistDataProperty) as Core.API.Endpoints.Playlist; }
-            set { SetValue(_playlistDataProperty, value); }
+            get => GetValue(PlaylistDataProperty) as Core.API.Endpoints.Playlist;
+            set => SetValue(PlaylistDataProperty, value);
         }
 
         /// <summary>
@@ -82,8 +85,8 @@ namespace SoundByte.UWP.UserControls
         /// </summary>
         public Core.API.Endpoints.User UserData
         {
-            get { return GetValue(_userDataProperty) as Core.API.Endpoints.User; }
-            set { SetValue(_userDataProperty, value); }
+            get => GetValue(UserDataProperty) as Core.API.Endpoints.User;
+            set => SetValue(UserDataProperty, value);
         }
 
         /// <summary>
@@ -91,8 +94,8 @@ namespace SoundByte.UWP.UserControls
         /// </summary>
         public Core.API.Endpoints.Comment CommentData
         {
-            get { return GetValue(_commentProperty) as Core.API.Endpoints.Comment; }
-            set { SetValue(_commentProperty, value); }
+            get => GetValue(CommentProperty) as Core.API.Endpoints.Comment;
+            set => SetValue(CommentProperty, value);
         }
 
         /// <summary>
@@ -100,8 +103,8 @@ namespace SoundByte.UWP.UserControls
         /// </summary>
         public string Creation
         {
-            get { return GetValue(_creationProperty) as string; }
-            set { SetValue(_creationProperty, value); }
+            get => GetValue(CreationProperty) as string;
+            set => SetValue(CreationProperty, value);
         }
 
         /// <summary>
@@ -109,8 +112,8 @@ namespace SoundByte.UWP.UserControls
         /// </summary>
         public string CollectionType
         {
-            get { return GetValue(_collectionTypeProperty) as string; }
-            set { SetValue(_collectionTypeProperty, value); }
+            get => GetValue(CollectionTypeProperty) as string;
+            set => SetValue(CollectionTypeProperty, value);
         }
         #endregion
     }

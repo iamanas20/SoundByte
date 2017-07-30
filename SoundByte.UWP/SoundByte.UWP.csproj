@@ -12,7 +12,7 @@
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion>10.0.15063.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.15063.0</TargetPlatformMinVersion>
+    <TargetPlatformMinVersion>10.0.14393.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -35,7 +35,7 @@
     <Prefer32Bit>true</Prefer32Bit>
     <DocumentationFile>bin\x86\Debug\SoundByte.UWP.xml</DocumentationFile>
     <RunCodeAnalysis>false</RunCodeAnalysis>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
@@ -148,11 +148,10 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Common\DataTemplates.cs" />
-    <Compile Include="Common\ServiceKeys.cs" />
+    <Compile Include="Resources\DataTemplates.cs" />
+    <Compile Include="Services\ApiKeyService.cs" />
     <Compile Include="Converters\ArtworkConverter.cs" />
     <Compile Include="Converters\FormattedValueConverter.cs" />
-    <Compile Include="Converters\ModernDateTimeConverter.cs" />
     <Compile Include="Converters\NowPlayingVisibilityConverter.cs" />
     <Compile Include="Converters\DateTimeConverter.cs" />
     <Compile Include="Converters\SliderValueConverter.cs" />
@@ -175,12 +174,11 @@
     <Compile Include="Dialogs\ShareDialog.xaml.cs">
       <DependentUpon>ShareDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\AccentHelper.cs" />
+    <Compile Include="Helpers\TitlebarHelper.cs" />
     <Compile Include="Helpers\AsyncHelper.cs" />
     <Compile Include="Helpers\NumberFormatHelper.cs" />
     <Compile Include="Helpers\ImageHelper.cs" />
     <Compile Include="Helpers\JumplistHelper.cs" />
-    <Compile Include="Helpers\MathHelper.cs" />
     <Compile Include="Helpers\TextHelper.cs" />
     <Compile Include="MainShell.xaml.cs">
       <DependentUpon>MainShell.xaml</DependentUpon>
@@ -235,9 +233,6 @@
     </Compile>
     <Compile Include="Views\CoreApp\BlankPage.xaml.cs">
       <DependentUpon>BlankPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\CoreApp\WelcomeView.xaml.cs">
-      <DependentUpon>WelcomeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\General\WhatsNewView.xaml.cs">
       <DependentUpon>WhatsNewView.xaml</DependentUpon>
@@ -304,7 +299,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="Common\DataTemplates.xaml">
+    <Page Include="Resources\DataTemplates.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -382,10 +377,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CoreApp\BlankPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\CoreApp\WelcomeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

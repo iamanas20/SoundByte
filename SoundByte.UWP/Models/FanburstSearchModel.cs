@@ -1,11 +1,14 @@
-﻿//*********************************************************
-// Copyright (c) Dominic Maas. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THIS CODE IS PROVIDED *AS IS* WITHOUT WARRANTY OF
-// ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING ANY
-// IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR
-// PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
-//*********************************************************
+﻿/* |----------------------------------------------------------------|
+ * | Copyright (c) 2017, Grid Entertainment                         |
+ * | All Rights Reserved                                            |
+ * |                                                                |
+ * | This source code is to only be used for educational            |
+ * | purposes. Distribution of SoundByte source code in             |
+ * | any form outside this repository is forbidden. If you          |
+ * | would like to contribute to the SoundByte source code, you     |
+ * | are welcome.                                                   |
+ * |----------------------------------------------------------------|
+ */
 
 using System;
 using System.Collections.Generic;
@@ -23,7 +26,7 @@ using SoundByte.UWP.UserControls;
 
 namespace SoundByte.UWP.Models
 {
-    public class FanburstSearchModel : ObservableCollection<Core.API.Endpoints.Track>, ISupportIncrementalLoading
+    public class FanburstSearchModel : ObservableCollection<Track>, ISupportIncrementalLoading
     {
         /// <summary>
         /// The position of the track, will be 'eol'
@@ -35,11 +38,6 @@ namespace SoundByte.UWP.Models
         /// What we are searching the soundcloud API for
         /// </summary>
         public string Query { get; set; }
-
-        /// <summary>
-        /// Filter the search
-        /// </summary>
-        public string Filter { get; set; }
 
         /// <summary>
         /// Are there more items to load
@@ -82,7 +80,8 @@ namespace SoundByte.UWP.Models
                     // Search for matching tracks
                     var searchTracks = await SoundByteService.Current.GetAsync<List<dynamic>>(SoundByteService.ServiceType.Fanburst, "tracks/search", new Dictionary<string, string>
                     {
-                        { "query", WebUtility.UrlEncode(Query) }
+                        { "query", WebUtility.UrlEncode(Query) },
+                        { "count", count.ToString() }
                     });
 
                     // Parse uri for offset
@@ -150,7 +149,7 @@ namespace SoundByte.UWP.Models
                     // Exception, display error to the user
                     await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                     {
-                        (App.CurrentFrame?.FindName("FanburstSearchModelInfoPane") as InfoPane)?.ShowMessage(ex.ErrorTitle, ex.ErrorDescription, ex.ErrorGlyph, true);
+                        (App.CurrentFrame?.FindName("FanburstSearchModelInfoPane") as InfoPane)?.ShowMessage(ex.ErrorTitle, ex.ErrorDescription, ex.ErrorGlyph);
                     });
                 }
 

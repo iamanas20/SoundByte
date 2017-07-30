@@ -1,11 +1,14 @@
-﻿//*********************************************************
-// Copyright (c) Dominic Maas. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THIS CODE IS PROVIDED *AS IS* WITHOUT WARRANTY OF
-// ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING ANY
-// IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR
-// PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
-//*********************************************************
+﻿/* |----------------------------------------------------------------|
+ * | Copyright (c) 2017, Grid Entertainment                         |
+ * | All Rights Reserved                                            |
+ * |                                                                |
+ * | This source code is to only be used for educational            |
+ * | purposes. Distribution of SoundByte source code in             |
+ * | any form outside this repository is forbidden. If you          |
+ * | would like to contribute to the SoundByte source code, you     |
+ * | are welcome.                                                   |
+ * |----------------------------------------------------------------|
+ */
 
 using System;
 using System.Collections.Generic;
@@ -451,11 +454,11 @@ namespace SoundByte.UWP.Services
                 TelemetryService.Current.TrackEvent("Old Playback Key Method");
 
                 // Check if we have hit the soundcloud api limit
-                if (await SoundByteService.Current.ApiCheck("https://api.soundcloud.com/tracks/320126814/stream?client_id=" + Common.ServiceKeys.SoundCloudClientId))
-                    return Common.ServiceKeys.SoundCloudClientId;
+                if (await SoundByteService.Current.ApiCheck("https://api.soundcloud.com/tracks/320126814/stream?client_id=" + ApiKeyService.SoundCloudClientId))
+                    return ApiKeyService.SoundCloudClientId;
 
                 // Loop through all the backup keys
-                foreach (var key in Common.ServiceKeys.SoundCloudPlaybackClientIds)
+                foreach (var key in ApiKeyService.SoundCloudPlaybackClientIds)
                 {
                     if (await SoundByteService.Current.ApiCheck("https://api.soundcloud.com/tracks/320126814/stream?client_id=" + key))
                     {
@@ -463,7 +466,7 @@ namespace SoundByte.UWP.Services
                     }
                 }
 
-                return Common.ServiceKeys.SoundCloudClientId;
+                return ApiKeyService.SoundCloudClientId;
             });
         }
 
@@ -537,7 +540,7 @@ namespace SoundByte.UWP.Services
                         else if (track.ServiceType == ServiceType.Fanburst)
                         {
                             // Create the media source from the Uri
-                            source = MediaSource.CreateFromUri(new Uri("https://api.fanburst.com/tracks/" + track.Id + "/stream?client_id=" + Common.ServiceKeys.FanburstClientId));
+                            source = MediaSource.CreateFromUri(new Uri("https://api.fanburst.com/tracks/" + track.Id + "/stream?client_id=" + ApiKeyService.FanburstClientId));
                         }
                         else
                         {

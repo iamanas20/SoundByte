@@ -1,17 +1,18 @@
-﻿//*********************************************************
-// Copyright (c) Dominic Maas. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THIS CODE IS PROVIDED *AS IS* WITHOUT WARRANTY OF
-// ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING ANY
-// IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR
-// PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
-//*********************************************************
-
+﻿/* |----------------------------------------------------------------|
+ * | Copyright (c) 2017, Grid Entertainment                         |
+ * | All Rights Reserved                                            |
+ * |                                                                |
+ * | This source code is to only be used for educational            |
+ * | purposes. Distribution of SoundByte source code in             |
+ * | any form outside this repository is forbidden. If you          |
+ * | would like to contribute to the SoundByte source code, you     |
+ * | are welcome.                                                   |
+ * |----------------------------------------------------------------|
+ */
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Windows.UI.Core;
-using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using Microsoft.Toolkit.Uwp.UI.Animations;
@@ -25,7 +26,7 @@ namespace SoundByte.UWP.Views
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class Overlay : Page, INotifyPropertyChanged
+    public sealed partial class Overlay : INotifyPropertyChanged
     {
         public BaseViewModel ViewModel { get; } = new BaseViewModel();
 
@@ -70,7 +71,7 @@ namespace SoundByte.UWP.Views
             ViewModel.Service.PropertyChanged += Service_PropertyChanged;
 
             // Set the accent color
-            AccentHelper.UpdateTitlebarStyle();
+            TitlebarHelper.UpdateTitlebarStyle();
 
             BackgroundImage.Source = new BitmapImage(new Uri(ArtworkConverter.ConvertObjectToImage(ViewModel.Service.CurrentTrack)));
             TrackTitle.Text = ViewModel.Service.CurrentTrack.Title;
@@ -83,7 +84,7 @@ namespace SoundByte.UWP.Views
             TelemetryService.Current.TrackPage("Compact Overlay Page");
         }
 
-        private async void Service_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private async void Service_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {
@@ -101,8 +102,6 @@ namespace SoundByte.UWP.Views
                     {
                         PlayButtonContent = ViewModel.Service.PlayButtonContent;
                     });
-                    break;
-                default:
                     break;
             }
         }

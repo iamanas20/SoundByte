@@ -1,11 +1,14 @@
-﻿//*********************************************************
-// Copyright (c) Dominic Maas. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THIS CODE IS PROVIDED *AS IS* WITHOUT WARRANTY OF
-// ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING ANY
-// IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR
-// PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
-//*********************************************************
+﻿/* |----------------------------------------------------------------|
+ * | Copyright (c) 2017, Grid Entertainment                         |
+ * | All Rights Reserved                                            |
+ * |                                                                |
+ * | This source code is to only be used for educational            |
+ * | purposes. Distribution of SoundByte source code in             |
+ * | any form outside this repository is forbidden. If you          |
+ * | would like to contribute to the SoundByte source code, you     |
+ * | are welcome.                                                   |
+ * |----------------------------------------------------------------|
+ */
 
 using System;
 using System.Globalization;
@@ -504,7 +507,7 @@ namespace SoundByte.UWP.ViewModels
                 var json = "{\"comment\": {\"body\":\"" + comment.Body + "\", \"timestamp\": " + comment.Timestamp + "}}";
 
                 // Request the soundcloud API
-                var commentResponse =  await client.PostAsync("https://api.soundcloud.com/tracks/" + Service.CurrentTrack.Id + "/comments.json?oauth_token=" + SoundByteService.Current.SoundCloudToken.AccessToken + "&client_secret=" + Common.ServiceKeys.SoundCloudClientSecret + "&client_id" + Common.ServiceKeys.SoundCloudClientId, new System.Net.Http.StringContent(json, Encoding.UTF8, "application/json"));
+                var commentResponse =  await client.PostAsync("https://api.soundcloud.com/tracks/" + Service.CurrentTrack.Id + "/comments.json?oauth_token=" + SoundByteService.Current.SoundCloudToken.AccessToken + "&client_secret=" + ApiKeyService.SoundCloudClientSecret + "&client_id" + ApiKeyService.SoundCloudClientId, new System.Net.Http.StringContent(json, Encoding.UTF8, "application/json"));
 
                 // If we did not post the comment, return
                 if (!commentResponse.IsSuccessStatusCode) return;

@@ -1,11 +1,14 @@
-﻿//*********************************************************
-// Copyright (c) Dominic Maas. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THIS CODE IS PROVIDED *AS IS* WITHOUT WARRANTY OF
-// ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING ANY
-// IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR
-// PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
-//*********************************************************
+﻿/* |----------------------------------------------------------------|
+ * | Copyright (c) 2017, Grid Entertainment                         |
+ * | All Rights Reserved                                            |
+ * |                                                                |
+ * | This source code is to only be used for educational            |
+ * | purposes. Distribution of SoundByte source code in             |
+ * | any form outside this repository is forbidden. If you          |
+ * | would like to contribute to the SoundByte source code, you     |
+ * | are welcome.                                                   |
+ * |----------------------------------------------------------------|
+ */
 
 using Windows.UI.Xaml;
 
@@ -18,9 +21,9 @@ namespace SoundByte.UWP.UserControls
     public sealed partial class InfoPane
     {
         #region Binding Variables
-        private static readonly DependencyProperty _textProperty = DependencyProperty.Register("Text", typeof(string), typeof(InfoPane), null);
-        private static readonly DependencyProperty _glyphProperty = DependencyProperty.Register("Glyph", typeof(string), typeof(InfoPane), null);
-        private static readonly DependencyProperty _headerProperty = DependencyProperty.Register("Header", typeof(string), typeof(InfoPane), null);
+        private static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(string), typeof(InfoPane), null);
+        private static readonly DependencyProperty GlyphProperty = DependencyProperty.Register("Glyph", typeof(string), typeof(InfoPane), null);
+        private static readonly DependencyProperty HeaderProperty = DependencyProperty.Register("Header", typeof(string), typeof(InfoPane), null);
         #endregion
 
         #region Page Setup
@@ -36,8 +39,8 @@ namespace SoundByte.UWP.UserControls
         /// </summary>
         public string Header
         {
-            get => GetValue(_headerProperty) as string;
-            set => SetValue(_headerProperty, value);
+            get => GetValue(HeaderProperty) as string;
+            private set => SetValue(HeaderProperty, value);
         }
 
         /// <summary>
@@ -45,8 +48,8 @@ namespace SoundByte.UWP.UserControls
         /// </summary>
         public string Glyph
         {
-            get => GetValue(_glyphProperty) as string;
-            set => SetValue(_glyphProperty, value);
+            get => GetValue(GlyphProperty) as string;
+            private set => SetValue(GlyphProperty, value);
         }
 
         /// <summary>
@@ -54,8 +57,8 @@ namespace SoundByte.UWP.UserControls
         /// </summary>
         public string Text
         {
-            get => GetValue(_textProperty) as string;
-            set => SetValue(_textProperty, value);
+            get => GetValue(TextProperty) as string;
+            private set => SetValue(TextProperty, value);
         }
         #endregion
 

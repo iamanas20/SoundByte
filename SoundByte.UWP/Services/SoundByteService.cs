@@ -1,11 +1,14 @@
-﻿//*********************************************************
-// Copyright (c) Dominic Maas. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THIS CODE IS PROVIDED *AS IS* WITHOUT WARRANTY OF
-// ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING ANY
-// IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR
-// PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
-//*********************************************************
+﻿/* |----------------------------------------------------------------|
+ * | Copyright (c) 2017, Grid Entertainment                         |
+ * | All Rights Reserved                                            |
+ * |                                                                |
+ * | This source code is to only be used for educational            |
+ * | purposes. Distribution of SoundByte source code in             |
+ * | any form outside this repository is forbidden. If you          |
+ * | would like to contribute to the SoundByte source code, you     |
+ * | are welcome.                                                   |
+ * |----------------------------------------------------------------|
+ */
 
 using System;
 using System.Collections.Generic;
@@ -356,7 +359,7 @@ namespace SoundByte.UWP.Services
             endpoint = endpoint.TrimStart('/');
 
             // Start building the request URL
-            var requestUri = useV2Api ? $"https://api-v2.soundcloud.com/{endpoint}?client_id={Common.ServiceKeys.SoundCloudClientId}&client_secret={Common.ServiceKeys.SoundCloudClientSecret}" : $"https://api.soundcloud.com/{endpoint}?client_id={Common.ServiceKeys.SoundCloudClientId}&client_secret={Common.ServiceKeys.SoundCloudClientSecret}";
+            var requestUri = useV2Api ? $"https://api-v2.soundcloud.com/{endpoint}?client_id={ApiKeyService.SoundCloudClientId}&client_secret={ApiKeyService.SoundCloudClientSecret}" : $"https://api.soundcloud.com/{endpoint}?client_id={ApiKeyService.SoundCloudClientId}&client_secret={ApiKeyService.SoundCloudClientSecret}";
 
             // Check that there are optional params then loop through all 
             // the params and add them onto the request URL
@@ -685,10 +688,10 @@ namespace SoundByte.UWP.Services
             switch (service)
             {
                 case ServiceType.SoundCloud:
-                    requestUri = useV2Api ? $"https://api-v2.soundcloud.com/{endpoint}?client_id={Common.ServiceKeys.SoundCloudClientId}&client_secret={Common.ServiceKeys.SoundCloudClientSecret}" : $"https://api.soundcloud.com/{endpoint}?client_id={Common.ServiceKeys.SoundCloudClientId}&client_secret={Common.ServiceKeys.SoundCloudClientSecret}";
+                    requestUri = useV2Api ? $"https://api-v2.soundcloud.com/{endpoint}?client_id={ApiKeyService.SoundCloudClientId}&client_secret={ApiKeyService.SoundCloudClientSecret}" : $"https://api.soundcloud.com/{endpoint}?client_id={ApiKeyService.SoundCloudClientId}&client_secret={ApiKeyService.SoundCloudClientSecret}";
                     break;
                 case ServiceType.Fanburst:
-                    requestUri = $"https://api.fanburst.com/{endpoint}?client_id={Common.ServiceKeys.FanburstClientId}&client_secret={Common.ServiceKeys.FanburstClientSecret}";
+                    requestUri = $"https://api.fanburst.com/{endpoint}?client_id={ApiKeyService.FanburstClientId}&client_secret={ApiKeyService.FanburstClientSecret}";
                     break;
             }
 
@@ -786,7 +789,7 @@ namespace SoundByte.UWP.Services
             endpoint = endpoint.TrimStart('/');
 
             // Start building the request URL
-            var requestUri = useV2Api ? $"https://api-v2.soundcloud.com/{endpoint}?client_id={Common.ServiceKeys.SoundCloudClientId}&client_secret={Common.ServiceKeys.SoundCloudClientSecret}" : $"https://api.soundcloud.com/{endpoint}?client_id={Common.ServiceKeys.SoundCloudClientId}&client_secret={Common.ServiceKeys.SoundCloudClientSecret}";
+            var requestUri = useV2Api ? $"https://api-v2.soundcloud.com/{endpoint}?client_id={ApiKeyService.SoundCloudClientId}&client_secret={ApiKeyService.SoundCloudClientSecret}" : $"https://api.soundcloud.com/{endpoint}?client_id={ApiKeyService.SoundCloudClientId}&client_secret={ApiKeyService.SoundCloudClientSecret}";
 
             try
             {
@@ -834,7 +837,7 @@ namespace SoundByte.UWP.Services
             endpoint = endpoint.TrimStart('/');
 
             // Start building the request URL
-            var requestUri = useV2Api ? $"https://api-v2.soundcloud.com/{endpoint}?client_id={Common.ServiceKeys.SoundCloudClientId}&client_secret={Common.ServiceKeys.SoundCloudClientSecret}" : $"https://api.soundcloud.com/{endpoint}?client_id={Common.ServiceKeys.SoundCloudClientId}&client_secret={Common.ServiceKeys.SoundCloudClientSecret}";
+            var requestUri = useV2Api ? $"https://api-v2.soundcloud.com/{endpoint}?client_id={ApiKeyService.SoundCloudClientId}&client_secret={ApiKeyService.SoundCloudClientSecret}" : $"https://api.soundcloud.com/{endpoint}?client_id={ApiKeyService.SoundCloudClientId}&client_secret={ApiKeyService.SoundCloudClientSecret}";
 
             try
             {
@@ -890,7 +893,7 @@ namespace SoundByte.UWP.Services
             endpoint = endpoint.TrimStart('/');
 
             // Start building the request URL
-            var requestUri = useV2Api ? $"https://api-v2.soundcloud.com/{endpoint}?client_id={Common.ServiceKeys.SoundCloudClientId}&client_secret={Common.ServiceKeys.SoundCloudClientSecret}" : $"https://api.soundcloud.com/{endpoint}?client_id={Common.ServiceKeys.SoundCloudClientId}&client_secret={Common.ServiceKeys.SoundCloudClientSecret}";
+            var requestUri = useV2Api ? $"https://api-v2.soundcloud.com/{endpoint}?client_id={ApiKeyService.SoundCloudClientId}&client_secret={ApiKeyService.SoundCloudClientSecret}" : $"https://api.soundcloud.com/{endpoint}?client_id={ApiKeyService.SoundCloudClientId}&client_secret={ApiKeyService.SoundCloudClientSecret}";
 
             try
             {

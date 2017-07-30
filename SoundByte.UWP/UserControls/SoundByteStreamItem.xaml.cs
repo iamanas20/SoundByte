@@ -1,21 +1,21 @@
-﻿//*********************************************************
-// Copyright (c) Dominic Maas. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THIS CODE IS PROVIDED *AS IS* WITHOUT WARRANTY OF
-// ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING ANY
-// IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR
-// PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
-//*********************************************************
+﻿/* |----------------------------------------------------------------|
+ * | Copyright (c) 2017, Grid Entertainment                         |
+ * | All Rights Reserved                                            |
+ * |                                                                |
+ * | This source code is to only be used for educational            |
+ * | purposes. Distribution of SoundByte source code in             |
+ * | any form outside this repository is forbidden. If you          |
+ * | would like to contribute to the SoundByte source code, you     |
+ * | are welcome.                                                   |
+ * |----------------------------------------------------------------|
+ */
 
 using System;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
-using Microsoft.Toolkit.Uwp;
 using SoundByte.Core.API.Endpoints;
 using SoundByte.UWP.Dialogs;
-using SoundByte.UWP.Services;
 
 namespace SoundByte.UWP.UserControls
 {
@@ -26,15 +26,15 @@ namespace SoundByte.UWP.UserControls
     {
         #region Variables
         // What type of track this is
-        public static readonly DependencyProperty TrackTypeProperty = DependencyProperty.Register("TrackType", typeof(string), typeof(SoundByteStreamItem), null);
+        private static readonly DependencyProperty TrackTypeProperty = DependencyProperty.Register("TrackType", typeof(string), typeof(SoundByteStreamItem), null);
         // When this was created
-        public static readonly DependencyProperty CreatedProperty = DependencyProperty.Register("Created", typeof(string), typeof(SoundByteStreamItem), null);
+        private static readonly DependencyProperty CreatedProperty = DependencyProperty.Register("Created", typeof(string), typeof(SoundByteStreamItem), null);
         // The track object
-        public static readonly DependencyProperty TrackProperty = DependencyProperty.Register("Track", typeof(Track), typeof(SoundByteStreamItem), null);
+        private static readonly DependencyProperty TrackProperty = DependencyProperty.Register("Track", typeof(Track), typeof(SoundByteStreamItem), null);
         // The playlist object
-        public static readonly DependencyProperty PlaylistProperty = DependencyProperty.Register("Playlist", typeof(Playlist), typeof(SoundByteStreamItem), null);
+        private static readonly DependencyProperty PlaylistProperty = DependencyProperty.Register("Playlist", typeof(Playlist), typeof(SoundByteStreamItem), null);
 
-        public ObservableCollection<Track> ItemPlaylist { get; } = new ObservableCollection<Track>();
+        private ObservableCollection<Track> ItemPlaylist { get; } = new ObservableCollection<Track>();
 
         #endregion
 
@@ -94,16 +94,6 @@ namespace SoundByte.UWP.UserControls
             await new PlaylistDialog(Track).ShowAsync();
         }
 
-        private async Task LoadPlaylist()
-        {
-
-                await DispatcherHelper.ExecuteOnUIThreadAsync(async () =>
-                {
-                    var playlistTracks = (await SoundByteService.Current.GetAsync<Playlist>("/playlists/" + Playlist.Id)).Tracks;
-                    playlistTracks.ForEach(x => ItemPlaylist.Add(x));
-                });
-        }
-
         public SoundByteStreamItem()
         {
             // Load the xaml
@@ -111,7 +101,7 @@ namespace SoundByte.UWP.UserControls
 
             // Setup the even that is called when the data
             // context chanages.
-            DataContextChanged += async delegate
+            DataContextChanged += delegate
             {
                 ItemPlaylist.Clear();
 
@@ -125,7 +115,6 @@ namespace SoundByte.UWP.UserControls
                     case "playlist-repost":
                     case "playlist":
                         VisualStateManager.GoToState(this, "PlaylistItem", false);
-                        await LoadPlaylist();
                         break;
                 }
             };

@@ -1,15 +1,17 @@
-﻿//*********************************************************
-// Copyright (c) Dominic Maas. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THIS CODE IS PROVIDED *AS IS* WITHOUT WARRANTY OF
-// ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING ANY
-// IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR
-// PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
-//*********************************************************
+﻿/* |----------------------------------------------------------------|
+ * | Copyright (c) 2017, Grid Entertainment                         |
+ * | All Rights Reserved                                            |
+ * |                                                                |
+ * | This source code is to only be used for educational            |
+ * | purposes. Distribution of SoundByte source code in             |
+ * | any form outside this repository is forbidden. If you          |
+ * | would like to contribute to the SoundByte source code, you     |
+ * | are welcome.                                                   |
+ * |----------------------------------------------------------------|
+ */
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Windows.UI.StartScreen;
 using SoundByte.UWP.Dialogs;
@@ -47,27 +49,6 @@ namespace SoundByte.UWP.Services
 
         #region Public Methods
         /// <summary>
-        /// Gets all the pinned tiles, make sure you load the tiles first
-        /// </summary>
-        private Dictionary<string, SecondaryTile> GetTiles()
-        {
-            // Check that the tile list is not null
-            return _mPTileList ?? new Dictionary<string, SecondaryTile>();
-        }
-
-        /// <summary>
-        /// Gets all the tiles and returns their IDs
-        /// in a string list. Make sure you load the tiles
-        /// first.
-        /// </summary>
-        public IEnumerable<string> GetTileIDs()
-        {
-            // Loop through all the tiles
-            // Return the list
-            return GetTiles().Keys.ToList().Select(item => item.Split('_')[1]).ToList();
-        }
-
-        /// <summary>
         /// Removes all live tiles from the start menu
         /// or start screen
         /// </summary>
@@ -90,29 +71,23 @@ namespace SoundByte.UWP.Services
         /// <returns>True is successful</returns>
         public async Task<bool> RemoveAsync(string id)
         {
-            // The tile that we will access
-            SecondaryTile tile;
             // Check if tile exists and get it
-            if (_mPTileList.TryGetValue(id, out tile))
-            {
-                try
-                {
-                    // Request tile deletion
-                    var success = await tile.RequestDeleteAsync();
-                    // Remove the tile from the list
-                    _mPTileList.Remove(id);
-                    // Return weather the task was successful or not
-                    return success;
-                }
-                catch
-                {
-                    // There was some error, tile not removed
-                    return false;
-                }
-            }
+            if (!_mPTileList.TryGetValue(id, out SecondaryTile tile)) return true;
 
-            // Tile does not exist
-            return true;
+            try
+            {
+                // Request tile deletion
+                var success = await tile.RequestDeleteAsync();
+                // Remove the tile from the list
+                _mPTileList.Remove(id);
+                // Return weather the task was successful or not
+                return success;
+            }
+            catch
+            {
+                // There was some error, tile not removed
+                return false;
+            }
         }
 
         /// <summary>

@@ -1,11 +1,14 @@
-﻿//*********************************************************
-// Copyright (c) Dominic Maas. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THIS CODE IS PROVIDED *AS IS* WITHOUT WARRANTY OF
-// ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING ANY
-// IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR
-// PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
-//*********************************************************
+﻿/* |----------------------------------------------------------------|
+ * | Copyright (c) 2017, Grid Entertainment                         |
+ * | All Rights Reserved                                            |
+ * |                                                                |
+ * | This source code is to only be used for educational            |
+ * | purposes. Distribution of SoundByte source code in             |
+ * | any form outside this repository is forbidden. If you          |
+ * | would like to contribute to the SoundByte source code, you     |
+ * | are welcome.                                                   |
+ * |----------------------------------------------------------------|
+ */
 
 using System;
 using System.Collections.Generic;
@@ -23,7 +26,6 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Microsoft.Toolkit.Uwp;
 using SoundByte.UWP.Dialogs;
-using SoundByte.UWP.Helpers;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.Views;
 using SoundByte.UWP.Views.CoreApp;
@@ -52,8 +54,8 @@ namespace SoundByte.UWP
             // Check that we are not using the default theme,
             // if not change the requested theme to the users
             // picked theme.
-            if (!AccentHelper.IsDefaultTheme)
-                RequestedTheme = AccentHelper.ThemeType;
+            if (!SettingsService.Current.IsDefaultTheme)
+                RequestedTheme = SettingsService.Current.ThemeType;
 
             // Log when the app crashes
             CoreApplication.UnhandledErrorDetected += async (sender, args) =>

@@ -1,15 +1,19 @@
-﻿//*********************************************************
-// Copyright (c) Dominic Maas. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THIS CODE IS PROVIDED *AS IS* WITHOUT WARRANTY OF
-// ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING ANY
-// IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR
-// PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
-//*********************************************************
+﻿/* |----------------------------------------------------------------|
+ * | Copyright (c) 2017, Grid Entertainment                         |
+ * | All Rights Reserved                                            |
+ * |                                                                |
+ * | This source code is to only be used for educational            |
+ * | purposes. Distribution of SoundByte source code in             |
+ * | any form outside this repository is forbidden. If you          |
+ * | would like to contribute to the SoundByte source code, you     |
+ * | are welcome.                                                   |
+ * |----------------------------------------------------------------|
+ */
 
 using System;
 using System.Globalization;
 using Windows.Storage;
+using Windows.UI.Xaml;
 
 namespace SoundByte.UWP.Services
 {
@@ -41,12 +45,53 @@ namespace SoundByte.UWP.Services
         private const string PlaylistPostKey = "SoundByte_PlaylistPostEnabled";
         private const string PlaylistRepostKey = "SoundByte_PlaylistRepostEnabled";
         private const string NotificationGroupingKey = "SoundByte_NotificationGroupingEnabled";
-        private const string AppAcentColorKey = "SoundByte_AppAcentColor";
         private const string ArtworkQualityKey = "SoundByte_ArtworkQualityColor";
         private const string LanguageKey = "SoundByte_DefaultLanguage";
         #endregion
 
         #region Getter and Setters
+
+        /// <summary>
+        /// Is the app currently using the default system theme
+        /// </summary>
+        public bool IsDefaultTheme
+        {
+            get
+            {
+                switch (ApplicationThemeType)
+                {
+                    case AppTheme.Default:
+                        return true;
+                    case AppTheme.Dark:
+                        return false;
+                    case AppTheme.Light:
+                        return false;
+                    default:
+                        return true;
+                }
+            }
+        }
+
+        /// <summary>
+        /// The apps currently picked theme color
+        /// </summary>
+        public ApplicationTheme ThemeType
+        {
+            get
+            {
+                switch (ApplicationThemeType)
+                {
+                    case AppTheme.Dark:
+                        return ApplicationTheme.Dark;
+                    case AppTheme.Light:
+                        return ApplicationTheme.Light;
+                    case AppTheme.Default:
+                        return ApplicationTheme.Dark;
+                    default:
+                        return ApplicationTheme.Dark;
+                }
+            }
+        }
 
         /// <summary>
         /// How many items at once are we allowed to load

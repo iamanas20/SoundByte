@@ -10,22 +10,18 @@
  * |----------------------------------------------------------------|
  */
 
-using Windows.UI.Xaml;
-
-namespace SoundByte.UWP.StateTriggers
+namespace SoundByte.UWP.Resources
 {
-    public class DeviceStateTrigger : StateTriggerBase
+    /// <summary>
+    /// Contains data templates used by the track, 
+    /// playlist, and user items. Is needed to perform
+    /// x:Bind on an item with no class.
+    /// </summary>
+    public partial class DataTemplates
     {
-        private string _deviceFamily;
-
-        public string DeviceFamily
+        public DataTemplates()
         {
-            get => _deviceFamily;
-            set
-            {
-                _deviceFamily = value;
-                SetActive(_deviceFamily == Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily);
-            }
+            InitializeComponent();
         }
     }
 }

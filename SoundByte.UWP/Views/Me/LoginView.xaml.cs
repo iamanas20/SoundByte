@@ -1,11 +1,14 @@
-﻿//*********************************************************
-// Copyright (c) Dominic Maas. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THIS CODE IS PROVIDED *AS IS* WITHOUT WARRANTY OF
-// ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING ANY
-// IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR
-// PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
-//*********************************************************
+﻿/* |----------------------------------------------------------------|
+ * | Copyright (c) 2017, Grid Entertainment                         |
+ * | All Rights Reserved                                            |
+ * |                                                                |
+ * | This source code is to only be used for educational            |
+ * | purposes. Distribution of SoundByte source code in             |
+ * | any form outside this repository is forbidden. If you          |
+ * | would like to contribute to the SoundByte source code, you     |
+ * | are welcome.                                                   |
+ * |----------------------------------------------------------------|
+ */
 
 using System;
 using System.Collections.Generic;
@@ -63,8 +66,8 @@ namespace SoundByte.UWP.Views.Me
 
             // Create the URI
             var connectUri = new Uri(accountType == "soundcloud"
-                ? $"https://soundcloud.com/connect?scope=non-expiring&client_id={Common.ServiceKeys.SoundCloudClientId}&response_type=code&display=popup&redirect_uri={callback}&state={stateVerification}"
-                : $"https://fanburst.com/oauth/authorize?client_id={Common.ServiceKeys.FanburstClientId}&response_type=code&redirect_uri={callback}&state={stateVerification}");
+                ? $"https://soundcloud.com/connect?scope=non-expiring&client_id={ApiKeyService.SoundCloudClientId}&response_type=code&display=popup&redirect_uri={callback}&state={stateVerification}"
+                : $"https://fanburst.com/oauth/authorize?client_id={ApiKeyService.FanburstClientId}&response_type=code&redirect_uri={callback}&state={stateVerification}");
 
             // Navigate to the connect URI
             LoginWebView.Navigate(connectUri);
@@ -153,8 +156,8 @@ namespace SoundByte.UWP.Views.Me
                             // Get all the params
                             var parameters = new Dictionary<string, string>
                             {
-                                {"client_id", accountType == "soundcloud" ? Common.ServiceKeys.SoundCloudClientId : Common.ServiceKeys.FanburstClientId},
-                                {"client_secret", accountType == "soundcloud" ? Common.ServiceKeys.SoundCloudClientSecret :  Common.ServiceKeys.FanburstClientSecret},
+                                {"client_id", accountType == "soundcloud" ? ApiKeyService.SoundCloudClientId : ApiKeyService.FanburstClientId},
+                                {"client_secret", accountType == "soundcloud" ? ApiKeyService.SoundCloudClientSecret :  ApiKeyService.FanburstClientSecret},
                                 {"grant_type", "authorization_code"},
                                 {"redirect_uri", callback.ToString()},
                                 {"code", code}

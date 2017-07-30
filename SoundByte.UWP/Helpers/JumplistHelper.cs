@@ -1,14 +1,16 @@
-﻿//*********************************************************
-// Copyright (c) Dominic Maas. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THIS CODE IS PROVIDED *AS IS* WITHOUT WARRANTY OF
-// ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING ANY
-// IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR
-// PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
-//*********************************************************
+﻿/* |----------------------------------------------------------------|
+ * | Copyright (c) 2017, Grid Entertainment                         |
+ * | All Rights Reserved                                            |
+ * |                                                                |
+ * | This source code is to only be used for educational            |
+ * | purposes. Distribution of SoundByte source code in             |
+ * | any form outside this repository is forbidden. If you          |
+ * | would like to contribute to the SoundByte source code, you     |
+ * | are welcome.                                                   |
+ * |----------------------------------------------------------------|
+ */
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
@@ -20,49 +22,19 @@ namespace SoundByte.UWP.Helpers
     /// This class contains helper functions for creating
     /// and managing jumplists
     /// </summary>
-    public class JumplistHelper
+    public static class JumplistHelper
     {
         // The Systems jumplist
         private static JumpList _systemJumpList;
 
         /// <summary>
-        /// Gets a list of all the jumplists
-        /// if supported by the platform
-        /// </summary>
-        public static async Task<IList<JumpListItem>> GetItemsAsync()
-        {
-            // Check if jumplists are supported
-            if (!JumpList.IsSupported()) return new List<JumpListItem>();
-            // Load the jumplist items
-            _systemJumpList = await JumpList.LoadCurrentAsync();
-            // Return the items
-            return _systemJumpList.Items;
-        }
-
-        /// <summary>
-        /// Gets a list of all the jumplist IDs
-        /// if supported by the platform
-        /// <param name="groupName">The group to get</param>
-        /// </summary>
-        public static async Task<List<string>> GetJumpListIDsAsync(string groupName)
-        {
-            // Check if jumplists are supported
-            if (!JumpList.IsSupported()) return new List<string>();
-            // Get a list of jumplist items
-            var itemList = await GetItemsAsync();
-            // Return the list
-            return itemList.Where(x => x.GroupName == groupName).Select(x => x.Arguments).Select(item => item.Split('=')[1]).ToList();
-        }
-
-        /// <summary>
         /// Adds a recent item to the jumplist
         /// </summary>
-        /// <param name="args"></param>
-        /// <param name="name"></param>
-        /// <param name="description"></param>
-        /// <param name="grp"></param>
-        /// <param name="image"></param>
-        /// <returns></returns>
+        /// <param name="args">Arguments to pass when the app opens</param>
+        /// <param name="name">Name of the item</param>
+        /// <param name="description">Hover description</param>
+        /// <param name="grp">Grouping</param>
+        /// <param name="image">Image to display</param>
         public static async Task AddRecentAsync(string args, string name, string description, string grp, Uri image)
         {
             try
