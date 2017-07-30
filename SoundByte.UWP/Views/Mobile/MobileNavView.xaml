@@ -32,13 +32,9 @@
                                                           OffsetX="0"
                                                           OffsetY="0"
                                                           Color="Black">
-                                    <controls:RoundImageEx Source="{x:Bind Service.CurrentUser, Converter={StaticResource ArtworkConverter}, Mode=OneWay}" 
+                                    <Image Source="{x:Bind Service.CurrentUser, Converter={StaticResource ArtworkConverter}, Mode=OneWay}" 
                                                            Height="100" 
                                                            Width="100" 
-                                                           IsCacheEnabled="True"
-                                                           PlaceholderSource="ms-appx:///Assets/PlaceholderBackground.png"
-                                                           PlaceholderStretch="UniformToFill" 
-                                                           CornerRadius="50"
                                                            Stretch="UniformToFill"/>
                                 </controls:DropShadowPanel>
 

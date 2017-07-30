@@ -36,7 +36,7 @@
                   BorderThickness="1"
                   BorderBrush="{ThemeResource SystemControlHighlightAccentBrush}"
                   Height="128">
-                <controls:ImageEx Source="{x:Bind ImageUri}" 
+                <Image Source="{x:Bind ImageSource, Mode=OneWay}" 
                                   Width="128"
                                   Height="128"
                                   Stretch="UniformToFill" />

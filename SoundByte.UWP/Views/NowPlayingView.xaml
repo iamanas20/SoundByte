@@ -133,14 +133,11 @@
     <Grid Background="{ThemeResource ShellBackground}" x:Name="RootGrid">
 
         <!-- Background Image -->
-        <controls:ImageEx IsCacheEnabled="True"
+        <Image 
                           x:Name="BackgroundImage"
-                          PlaceholderSource="/Assets/PlaceholderBackground.png"
-                          PlaceholderStretch="UniformToFill"
                           Source="{x:Bind ViewModel.Service.CurrentTrack, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
                           Stretch="UniformToFill"
                           Margin="-40"
-                          IsTabStop="False"
                           IsHitTestVisible="False"
                           HorizontalAlignment="Center"
                           VerticalAlignment="Center"
@@ -185,13 +182,11 @@
                                       OffsetX="0"
                                       OffsetY="5"
                                       Color="Black">
-                <controls:ImageEx IsCacheEnabled="True"
+                <Image
                                   x:Name="ArtworkImage"
                                   Height="150"
                                   Width="150"
-                                  IsTabStop="False"
                                   IsHitTestVisible="False"
-                                  PlaceholderSource="/Assets/PlaceholderBackground.png"
                                   Source="{x:Bind Path=ViewModel.Service.CurrentTrack, Mode=OneWay, Converter={StaticResource ArtworkConverter}}" />
             </controls:DropShadowPanel>
 
@@ -391,14 +386,10 @@
                             <Button BorderThickness="0" BorderBrush="{x:Null}" Padding="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Margin="0,10,0,0" Click="{x:Bind ViewModel.GoToUserProfile}" Height="70" VerticalAlignment="Top" RequestedTheme="Dark">
                                 <Button.Content>
                                     <Grid>
-                                        <controls:RoundImageEx Source="{x:Bind Path=ViewModel.Service.CurrentTrack.User, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"  
+                                        <Image Source="{x:Bind Path=ViewModel.Service.CurrentTrack.User, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"  
                                                                Margin="10,0,0,0" 
                                                                Width="50" 
                                                                Height="50" 
-                                                               CornerRadius="25"
-                                                               IsCacheEnabled="True"
-                                                               PlaceholderSource="ms-appx:///Assets/PlaceholderBackground.png"
-                                                               PlaceholderStretch="UniformToFill"
                                                                VerticalAlignment="Center" 
                                                                HorizontalAlignment="Left" />
 
@@ -441,13 +432,10 @@
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <Grid BorderThickness="0" Margin="0,5" BorderBrush="{x:Null}" Padding="0" RequestedTheme="Dark">
-                                    <controls:RoundImageEx IsCacheEnabled="True"
-                                                           PlaceholderSource="ms-appx:///Assets/PlaceholderBackground.png"
-                                                           PlaceholderStretch="UniformToFill"
+                                    <Image 
                                                            Width="48" 
                                                            Height="48"
                                                            VerticalAlignment="Top" 
-                                                           CornerRadius="24"
                                                            Source="{Binding User, Converter={StaticResource ArtworkConverter}, Mode=OneWay}" 
                                                            HorizontalAlignment="Left" 
                                                            Margin="10,10,0,0"/>

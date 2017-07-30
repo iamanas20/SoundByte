@@ -12,6 +12,7 @@
 
 using System;
 using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Media.Imaging;
 using SoundByte.Core.API.Endpoints;
 using SoundByte.Core.Services;
 
@@ -151,8 +152,12 @@ namespace SoundByte.Core.Converters
         /// <returns></returns>
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            // Just call the static method
-            return ConvertObjectToImage(value);
+            var source = ConvertObjectToImage(value);
+
+            if (string.IsNullOrEmpty(source)) return null;
+
+            var image = new BitmapImage { UriSource = new Uri(source) };
+            return image;
         }
         #endregion
 

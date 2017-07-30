@@ -103,13 +103,9 @@
                                                   IsTabStop="False"
                                                   IsHitTestVisible="False"
                                                   Color="Black">
-                            <controls:RoundImageEx Source="{x:Bind Path=ViewModel.User, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"  
-                                                   IsCacheEnabled="True"
-                                                   PlaceholderSource="ms-appx:///Assets/PlaceholderBackground.png"
-                                                   PlaceholderStretch="UniformToFill"
+                            <Image Source="{x:Bind Path=ViewModel.User, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"  
                                                    VerticalAlignment="Stretch"
                                                    HorizontalAlignment="Stretch"
-                                                   CornerRadius="120"
                                                    IsHitTestVisible="False"
                                                    Height="240" Width="240"
                                                    Stretch="Uniform" />

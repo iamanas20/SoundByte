@@ -38,10 +38,7 @@
                                       Color="Black">
                 <Grid>
                     <!-- Playlist image, supports caching -->
-                    <controls:ImageEx Source="{x:Bind Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
-                                      IsCacheEnabled="True"
-                                      PlaceholderSource="ms-appx:///Assets/PlaceholderBackground.png"
-                                      PlaceholderStretch="UniformToFill"
+                    <Image Source="{x:Bind Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
                                       Width="160" 
                                       Height="160"
                                       VerticalAlignment="Stretch"                 
@@ -120,10 +117,7 @@
                                       OffsetY="5"
                                       Color="Black">
                 <Grid>
-                    <controls:ImageEx Source="{x:Bind Converter={StaticResource ArtworkConverter}, Mode=OneWay}"  
-                                      IsCacheEnabled="True"
-                                      PlaceholderSource="ms-appx:///Assets/PlaceholderBackground.png"
-                                      PlaceholderStretch="UniformToFill"
+                    <Image Source="{x:Bind Converter={StaticResource ArtworkConverter}, Mode=OneWay}"  
                                       VerticalAlignment="Stretch"
                                       HorizontalAlignment="Stretch"
                                       IsHitTestVisible="False"
@@ -183,13 +177,9 @@
                                       IsHitTestVisible="False"
                                       Margin="5,5,5,8"
                                       Color="Black">
-                <controls:RoundImageEx Source="{x:Bind Converter={StaticResource ArtworkConverter}, Mode=OneWay}"  
-                                       IsCacheEnabled="True"
-                                       PlaceholderSource="ms-appx:///Assets/PlaceholderBackground.png"
-                                       PlaceholderStretch="UniformToFill"
+                <Image Source="{x:Bind Converter={StaticResource ArtworkConverter}, Mode=OneWay}"  
                                        VerticalAlignment="Stretch"
                                        HorizontalAlignment="Stretch"
-                                       CornerRadius="95"
                                        IsHitTestVisible="False"
                                        Width="190" 
                                        Height="190" 

@@ -117,10 +117,9 @@
                                           ShadowOpacity="0.8"
                                           Color="Black"
                                           Margin="20,10,10,10">
-                    <controls:ImageEx IsCacheEnabled="True"
+                    <Image 
                                       Height="44"
                                       Width="44"
-                                      PlaceholderSource="/Assets/PlaceholderBackground.png"
                                       Source="{x:Bind Service.CurrentTrack, Converter={StaticResource ArtworkConverter}, Mode=OneWay}" />
                 </controls:DropShadowPanel>
 

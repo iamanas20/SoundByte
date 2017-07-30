@@ -292,16 +292,12 @@
         <!-- Xbox Specific Items -->
         <Grid x:Name="XboxOnlyGrid" Visibility="Collapsed">
             <!-- Background current track image -->
-            <controls:ImageEx IsCacheEnabled="True"
-                        PlaceholderSource="/Assets/PlaceholderBackground.png"
-                        Source="{x:Bind Service.CurrentTrack, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Stretch="UniformToFill"
-                        PlaceholderStretch="UniformToFill"
-                        IsTabStop="False"
-                        IsHitTestVisible="False"
-                        Canvas.ZIndex="2" />
+            <Image Source="{x:Bind Service.CurrentTrack, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Stretch="UniformToFill"
+                   IsHitTestVisible="False"
+                   Canvas.ZIndex="2" />
             <!-- Blur the background image -->
             <Grid Canvas.ZIndex="3"
                   HorizontalAlignment="Stretch"
@@ -465,14 +461,10 @@
                                       VerticalAlignment="Stretch"
                                       Margin="21.5,0,0,0">
                                     <!-- User Image -->
-                                    <controls:RoundImageEx HorizontalAlignment="Left"
+                                    <Image HorizontalAlignment="Left"
                                                            Source="{x:Bind SoundByteService.CurrentUser, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
                                                            Width="26"
-                                                           IsCacheEnabled="True"
-                                                           PlaceholderSource="ms-appx:///Assets/PlaceholderBackground.png"
-                                                           PlaceholderStretch="UniformToFill"
                                                            Margin="8.5,0,0,0"
-                                                           CornerRadius="14"
                                                            Height="26"
                                                            VerticalAlignment="Center"  />
                                     <!-- Username -->
@@ -504,8 +496,7 @@
                        TabIndex="1"
                        Navigated="ShellFrame_Navigated"
                        HorizontalAlignment="Stretch"
-                       Canvas.ZIndex="10"
-                       Padding="0" />
+                       Canvas.ZIndex="10" />
             </Grid>
         </SplitView>
 

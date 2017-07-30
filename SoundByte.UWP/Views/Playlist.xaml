@@ -55,7 +55,7 @@
                                                   OffsetX="0"
                                                   OffsetY="5"
                                                   Color="Black">
-                                        <controls:ImageEx IsCacheEnabled="True" 
+                                        <Image 
                                                           Canvas.ZIndex="1" 
                                                           Width="240"
                                                           Height="240"

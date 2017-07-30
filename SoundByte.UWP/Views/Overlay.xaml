@@ -64,11 +64,9 @@
         <Grid Background="#99000000" Canvas.ZIndex="50" Grid.Row="0" Grid.RowSpan="4"/>
         
         <!-- Background Image -->
-        <controls:ImageEx IsCacheEnabled="True" 
+        <Image 
                           Grid.Row="0" 
                           Grid.RowSpan="4"
-                          PlaceholderSource="/Assets/PlaceholderBackground.png"
-                          PlaceholderStretch="UniformToFill"
                           x:Name="BackgroundImage"
                           Stretch="UniformToFill" 
                           Margin="-20"

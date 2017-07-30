@@ -16,6 +16,7 @@ using Windows.UI.StartScreen;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 using SoundByte.Core.Helpers;
 
 namespace SoundByte.Core.Dialogs
@@ -30,12 +31,15 @@ namespace SoundByte.Core.Dialogs
 
         public Uri ImageUri { get; set; }
 
+        public BitmapImage ImageSource { get; set; }
+
         public PinTileDialog(string tileId, string title, string param, Uri imageUri)
         {
             TileId = tileId;
             TileTitle = title;
             Param = param;
             ImageUri = imageUri;
+            ImageSource = new BitmapImage(ImageUri);
 
             InitializeComponent();
         }
