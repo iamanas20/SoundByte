@@ -110,11 +110,27 @@
     <Compile Include="Converters\FormattedValueConverter.cs" />
     <Compile Include="Converters\SliderValueConverter.cs" />
     <Compile Include="Converters\TimeStampConverter.cs" />
+    <Compile Include="Dialogs\CrashDialog.xaml.cs">
+      <DependentUpon>CrashDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\FilterDialog.xaml.cs">
+      <DependentUpon>FilterDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\PendingUpdateDialog.xaml.cs">
+      <DependentUpon>PendingUpdateDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\PinTileDialog.xaml.cs">
       <DependentUpon>PinTileDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\PlaylistDialog.xaml.cs">
+      <DependentUpon>PlaylistDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\ShareDialog.xaml.cs">
+      <DependentUpon>ShareDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Helpers\AsyncHelper.cs" />
     <Compile Include="Helpers\CompositionHelper.cs" />
+    <Compile Include="Helpers\CrashHelper.cs" />
     <Compile Include="Helpers\DeviceHelper.cs" />
     <Compile Include="Helpers\ImageHelper.cs" />
     <Compile Include="Helpers\JumplistHelper.cs" />
@@ -137,7 +153,27 @@
     </SDKReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Dialogs\CrashDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Dialogs\FilterDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Dialogs\PendingUpdateDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Dialogs\PinTileDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Dialogs\PlaylistDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Dialogs\ShareDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

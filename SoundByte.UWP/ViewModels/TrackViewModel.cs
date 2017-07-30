@@ -27,6 +27,7 @@ using Windows.UI.Xaml.Controls;
 using SoundByte.UWP.Models;
 using SoundByte.Core.API.Endpoints;
 using SoundByte.Core.Converters;
+using SoundByte.Core.Dialogs;
 using SoundByte.Core.Helpers;
 using SoundByte.Core.Services;
 using SoundByte.UWP.Services;
@@ -265,12 +266,12 @@ namespace SoundByte.UWP.ViewModels
         /// <summary>
         /// Opens the share track UI if it exists
         /// </summary>
-        public  async void ShareTrack() => await new Dialogs.ShareDialog(Service.CurrentTrack).ShowAsync();
+        public  async void ShareTrack() => await new ShareDialog(Service.CurrentTrack).ShowAsync();
 
         /// <summary>
         /// Display the playlist picker if it exists
         /// </summary>
-        public async void DisplayPlaylist() => await new Dialogs.PlaylistDialog(Service.CurrentTrack).ShowAsync();
+        public async void DisplayPlaylist() => await new PlaylistDialog(Service.CurrentTrack).ShowAsync();
 
         /// <summary>
         /// Toggle if we should shuffle the playlist
@@ -528,7 +529,7 @@ namespace SoundByte.UWP.ViewModels
         public override void Dispose()
         {
             // Only clean if we are in the background
-            if (!App.IsBackground)
+            if (!DeviceHelper.IsBackground)
                 return;
 
             CleanModel();

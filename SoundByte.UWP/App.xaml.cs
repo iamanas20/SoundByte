@@ -15,18 +15,14 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
-using Windows.ApplicationModel.Core;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
-using Microsoft.Toolkit.Uwp;
 using SoundByte.Core.Helpers;
 using SoundByte.Core.Services;
-using SoundByte.UWP.Dialogs;
-using SoundByte.UWP.Services;
 using SoundByte.UWP.Views;
 using SoundByte.UWP.Views.CoreApp;
 using UICompositionAnimations.Lights;
@@ -38,9 +34,9 @@ namespace SoundByte.UWP
         #region App Setup
 
         /// <summary>
-        ///     This is the main class for this app. This function is the first function
-        ///     called and it setups the app analytic (If in release mode), components,
-        ///     requested theme and event handlers.
+        /// This is the main class for this app. This function is the first function
+        /// called and it setups the app analytic (If in release mode), components,
+        /// requested theme and event handlers.
         /// </summary>
         public App()
         {
@@ -57,28 +53,8 @@ namespace SoundByte.UWP
             if (!SettingsService.Current.IsDefaultTheme)
                 RequestedTheme = SettingsService.Current.ThemeType;
 
-            // Log when the app crashes
-            CoreApplication.UnhandledErrorDetected += async (sender, args) =>
-            {
-                try
-                {
-                    args.UnhandledError.Propagate();
-                }
-                catch (Exception e)
-                {
-                    // Show the exception UI
-                    await HandleAppCrashAsync(e);
-                }
-            };
-
-            // Log when the app crashes
-            Current.UnhandledException += async (sender, args) =>
-            {
-                // We have handled this exception
-                args.Handled = true;
-                // Show the exception UI
-                await HandleAppCrashAsync(args.Exception);
-            };
+            // Handle App Crashes
+            CrashHelper.HandleAppCrashes(Current);
 
             // Enter and Leaving background handlers
             EnteredBackground += AppEnteredBackground;
@@ -114,9 +90,9 @@ namespace SoundByte.UWP
                 case VirtualKey.F12:
                     // Send hit
                     TelemetryService.Current.TrackEvent("Debug Action");
-                    
+
                     // Artifically decrease memory usage, app will be dead after this
-                    IsBackground = true;
+                    DeviceHelper.IsBackground = true;
                     ReduceMemoryUsage();
                     break;
                 case VirtualKey.GamepadView:
@@ -137,8 +113,8 @@ namespace SoundByte.UWP
 
         #region Static App Helpers
         /// <summary>
-        ///  Navigate to a certain page using the main shells
-        ///  rootfrom navigate method
+        /// Navigate to a certain page using the main shells
+        /// rootfrom navigate method
         /// </summary>
         public static void NavigateTo(Type page, object param = null) => (Window.Current.Content as MainShell)?.RootFrame.Navigate(page, param);
         
@@ -157,16 +133,11 @@ namespace SoundByte.UWP
         /// Stops the back event from being called, allowing for manual overiding
         /// </summary>
         public static bool OverrideBackEvent { get; set; }
-
-        /// <summary>
-        ///     Is the app currently in the background.
-        /// </summary>
-        public static bool IsBackground { get; set; }
     
         public static Page CurrentFrame => (Window.Current?.Content as MainShell)?.RootFrame.Content as Page;
 
         /// <summary>
-        ///     Is anything currently loading
+        /// Is anything currently loading
         /// </summary>
         public static bool IsLoading
         {
@@ -185,29 +156,6 @@ namespace SoundByte.UWP
         }
         #endregion
 
-        #region App Crash Helpers
-        private async Task HandleAppCrashAsync(Exception ex)
-        {
-            // Track the error
-            TelemetryService.Current.TrackException(ex);
-
-            try
-            {
-                if (!IsBackground)
-                {
-                    await DispatcherHelper.ExecuteOnUIThreadAsync(async () =>
-                    {
-                        await new CrashDialog(ex).ShowAsync();
-                    });
-                }
-            }
-            catch
-            {
-                // Blank Catch
-            }
-        }
-        #endregion
-
         #region Background Handlers
 
         /// <summary>
@@ -219,7 +167,7 @@ namespace SoundByte.UWP
             TelemetryService.Current.TrackEvent("Leave Background");
 
             // Mark the transition out of the background state
-            IsBackground = false;
+            DeviceHelper.IsBackground = false;
 
             // Restore view content if it was previously unloaded
             if (Window.Current.Content == null)
@@ -248,7 +196,7 @@ namespace SoundByte.UWP
             TelemetryService.Current.TrackEvent("Enter Background");
 
             // Update the variable
-            IsBackground = true;
+            DeviceHelper.IsBackground = true;
         }
 
         #endregion
@@ -256,15 +204,15 @@ namespace SoundByte.UWP
         #region Memory Handlers
 
         /// <summary>
-        ///     Raised when the memory limit for the app is changing, such as when the app
-        ///     enters the background.
+        /// Raised when the memory limit for the app is changing, such as when the app
+        /// enters the background.
         /// </summary>
         /// <remarks>
-        ///     If the app is using more than the new limit, it must reduce memory within 2 seconds
-        ///     on some platforms in order to avoid being suspended or terminated.
-        ///     While some platforms will allow the application
-        ///     to continue running over the limit, reducing usage in the time
-        ///     allotted will enable the best experience across the broadest range of devices.
+        /// If the app is using more than the new limit, it must reduce memory within 2 seconds
+        /// on some platforms in order to avoid being suspended or terminated.
+        /// While some platforms will allow the application
+        /// to continue running over the limit, reducing usage in the time
+        /// allotted will enable the best experience across the broadest range of devices.
         /// </remarks>
         private void MemoryManager_AppMemoryUsageLimitChanging(object sender, AppMemoryUsageLimitChangingEventArgs e)
         {
@@ -349,7 +297,7 @@ namespace SoundByte.UWP
             // in background mode and still has a view with content
             // then the view can be released to save memory and
             // can be recreated again later when leaving the background.
-            if (IsBackground && Window.Current != null && Window.Current.Content != null)
+            if (DeviceHelper.IsBackground && Window.Current != null && Window.Current.Content != null)
             {
                 VisualTreeHelper.DisconnectChildrenRecursive(Window.Current.Content);
 
@@ -382,7 +330,7 @@ namespace SoundByte.UWP
             TelemetryService.Current.TrackEvent("Memory Collection Completed", new Dictionary<string, string>()
             {
                 { "cleaned_memory", diffMemUsage + "kb" },
-                { "is_background", IsBackground.ToString() },
+                { "is_background", DeviceHelper.IsBackground.ToString() },
                 { "remove_ui", removeUi.ToString() },
             });
 

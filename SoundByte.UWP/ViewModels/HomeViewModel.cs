@@ -16,6 +16,7 @@ using System.Linq;
 using Windows.UI.Popups;
 using Windows.UI.Xaml.Controls;
 using SoundByte.Core.API.Endpoints;
+using SoundByte.Core.Helpers;
 using SoundByte.UWP.Services;
 
 namespace SoundByte.UWP.ViewModels
@@ -164,7 +165,7 @@ namespace SoundByte.UWP.ViewModels
         public override void Dispose()
         {
             // Only clean if we are in the background
-            if (!App.IsBackground)
+            if (!DeviceHelper.IsBackground)
                 return;
 
             GC.Collect();

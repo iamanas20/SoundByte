@@ -21,10 +21,9 @@ using Windows.UI.Xaml.Media;
 using Windows.Web.Http;
 using SoundByte.Core.API.Endpoints;
 using SoundByte.Core.Services;
-using SoundByte.UWP.Services;
 using UnicodeEncoding = Windows.Storage.Streams.UnicodeEncoding;
 
-namespace SoundByte.UWP.Dialogs
+namespace SoundByte.Core.Dialogs
 {
     /// <summary>
     /// Allows the user to add and remove items to and from

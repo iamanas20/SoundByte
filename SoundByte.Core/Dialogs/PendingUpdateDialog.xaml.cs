@@ -15,9 +15,8 @@ using Windows.Services.Store;
 using Windows.UI.Xaml;
 using Microsoft.Toolkit.Uwp;
 using SoundByte.Core.Services;
-using SoundByte.UWP.Services;
 
-namespace SoundByte.UWP.Dialogs
+namespace SoundByte.Core.Dialogs
 {
     public sealed partial class PendingUpdateDialog
     {

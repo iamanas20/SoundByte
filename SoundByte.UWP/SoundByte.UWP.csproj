@@ -149,21 +149,6 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Resources\DataTemplates.cs" />
-    <Compile Include="Dialogs\CrashDialog.xaml.cs">
-      <DependentUpon>CrashDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Dialogs\FilterDialog.xaml.cs">
-      <DependentUpon>FilterDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Dialogs\PendingUpdateDialog.xaml.cs">
-      <DependentUpon>PendingUpdateDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Dialogs\PlaylistDialog.xaml.cs">
-      <DependentUpon>PlaylistDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Dialogs\ShareDialog.xaml.cs">
-      <DependentUpon>ShareDialog.xaml</DependentUpon>
-    </Compile>
     <Compile Include="MainShell.xaml.cs">
       <DependentUpon>MainShell.xaml</DependentUpon>
     </Compile>
@@ -282,26 +267,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Page>
-    <Page Include="Dialogs\CrashDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Dialogs\FilterDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Dialogs\PendingUpdateDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Dialogs\PlaylistDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Dialogs\ShareDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MainShell.xaml">
       <SubType>Designer</SubType>

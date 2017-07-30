@@ -14,9 +14,8 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.UI.Xaml;
 using SoundByte.Core.API.Endpoints;
 using SoundByte.Core.Services;
-using SoundByte.UWP.Services;
 
-namespace SoundByte.UWP.Dialogs
+namespace SoundByte.Core.Dialogs
 {
     public sealed partial class ShareDialog
     {

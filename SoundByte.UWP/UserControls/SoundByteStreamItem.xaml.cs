@@ -14,7 +14,7 @@ using System;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using SoundByte.Core.API.Endpoints;
-using SoundByte.UWP.Dialogs;
+using SoundByte.Core.Dialogs;
 
 namespace SoundByte.UWP.UserControls
 {

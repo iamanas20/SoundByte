@@ -15,7 +15,7 @@ using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace SoundByte.UWP.Dialogs
+namespace SoundByte.Core.Dialogs
 {
     public sealed partial class FilterDialog
     {

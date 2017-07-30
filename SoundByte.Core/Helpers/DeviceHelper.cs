@@ -21,23 +21,28 @@ namespace SoundByte.Core.Helpers
     public static class DeviceHelper
     {
         /// <summary>
-        ///     Is the app running on xbox
+        /// Is the app running on xbox
         /// </summary>
         public static bool IsXbox => AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Xbox";
 
         /// <summary>
-        ///     Is the app runnning on a phone
+        /// Is the app runnning on a phone
         /// </summary>
         public static bool IsMobile => AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Mobile";
 
         /// <summary>
-        ///     Is the app running on desktop
+        /// Is the app running on desktop
         /// </summary>
         public static bool IsDesktop => AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Desktop";
 
         /// <summary>
-        ///     Is the application fullscreen.
+        /// Is the application fullscreen.
         /// </summary>
         public static bool IsDeviceFullScreen => ApplicationView.GetForCurrentView().IsFullScreenMode;
+
+        /// <summary>
+        /// Is the app currently in the background.
+        /// </summary>
+        public static bool IsBackground { get; set; }
     }
 }
