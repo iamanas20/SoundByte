@@ -6,10 +6,10 @@
     <!-- Used throughout app to determine the highest quality artwork to 
          return (depending on the attached object -->
     <converters:ArtworkConverter x:Key="ArtworkConverter" />
-
     <converters:FormattedValueConverter x:Key="FormattedValueConverter" />
-
     <converters:DateTimeConverter x:Key="ModernDateTimeConverter" />
-
     <converters:TimeStampConverter x:Key="TimeStampConverter" />
+    <converters:SliderValueConverter x:Key="SliderValueConverter" />
+    <converters:BoolToFontWeightConverter x:Key="BoolToFontWeightConverter" />
+
 </ResourceDictionary>

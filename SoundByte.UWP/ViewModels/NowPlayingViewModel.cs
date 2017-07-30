@@ -11,18 +11,13 @@
  */
 
 using System;
-using System.Globalization;
 using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Media.Playback;
 using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.StartScreen;
 using Windows.UI.ViewManagement;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using SoundByte.UWP.Models;
 using SoundByte.Core.API.Endpoints;
@@ -34,25 +29,17 @@ using SoundByte.UWP.Services;
 
 namespace SoundByte.UWP.ViewModels
 {
-    public class TrackViewModel : BaseViewModel
+    public class NowPlayingViewModel : BaseViewModel
     {
         #region Private Variables
         // The comment text box
         private string _commentText;
-        // Timer to update the front page UI
-        private DispatcherTimer _pageTimer;
-        // Used to block the timer when interacting with the slider value
-        private bool _blockPageTimer;
         // The pin button text
         private string _pinButtonText = "Pin";
         // The like button text
         private string _likeButtonText = "Like";
         // The repost button text
         private string _repostButtonText = "Repost";
-        // The repeat button style
-        private Windows.UI.Text.FontWeight _repeatButtonWeight = new Windows.UI.Text.FontWeight { Weight = 400};
-        // The shuffle button style
-        private Windows.UI.Text.FontWeight _shuffleButtonWeight = new Windows.UI.Text.FontWeight { Weight = 400 };
         #endregion
 
         #region Models
@@ -61,35 +48,6 @@ namespace SoundByte.UWP.ViewModels
         #endregion
 
         #region Getters and Setters
-
-        /// <summary>
-        /// The repeat button weight
-        /// </summary>
-        public Windows.UI.Text.FontWeight RepeatButtonWeight
-        {
-            get => _repeatButtonWeight;
-            set
-            {
-                _repeatButtonWeight = value;
-                UpdateProperty();
-            }
-        }
-
-        /// <summary>
-        /// The shuffle button weight
-        /// </summary>
-        public Windows.UI.Text.FontWeight ShuffleButtonWeight
-        {
-            get => _shuffleButtonWeight;
-            set
-            {
-                _shuffleButtonWeight = value;
-                UpdateProperty();
-            }
-        }
-
-       
-
         /// <summary>
         /// The text on the pin button
         /// </summary>
@@ -162,20 +120,6 @@ namespace SoundByte.UWP.ViewModels
         /// </summary>
         public void SetupModel()
         {
-            // Bind the event handlers   
-            // Timer Setup
-            _pageTimer = new DispatcherTimer
-            {
-                Interval = TimeSpan.FromMilliseconds(500)
-            };
-
-            // Setup the tick event
-            _pageTimer.Tick += PlayingSliderUpdate;
-
-            // If the timer is ready, start it
-            if (!_pageTimer.IsEnabled)
-                _pageTimer.Start();
-
             // Bind the method once we know a playback list exists
             if (PlaybackService.Current.PlaybackList != null)
                 PlaybackService.Current.PlaybackList.CurrentItemChanged += CurrentItemChanged;
@@ -194,14 +138,9 @@ namespace SoundByte.UWP.ViewModels
         /// </summary>
         public void CleanModel()
         {
-            // Stop the timer
-            _pageTimer.Stop();
-
             // Unbind the events
             if(PlaybackService.Current.PlaybackList != null)
                 PlaybackService.Current.PlaybackList.CurrentItemChanged -= CurrentItemChanged;
-
-            _pageTimer.Tick -= PlayingSliderUpdate;
         }
         #endregion
 
@@ -239,65 +178,13 @@ namespace SoundByte.UWP.ViewModels
                     await JumplistHelper.AddRecentAsync("soundbyte://core/track?id=" + Service.CurrentTrack.Id, Service.CurrentTrack.Title, "Play " + Service.CurrentTrack.Title + " by " + Service.CurrentTrack.User.Username + ".", "Recent Plays", tempImage);
             });
         }
-
-        /// <summary>
-        /// Timer method that is run to make sure the UI is kept up to date
-        /// </summary>
-        private async void PlayingSliderUpdate(object sender, object e)
-        {
-            // If the update is blocked, do not run this time
-            if (_blockPageTimer)
-            {
-                await Task.Delay(TimeSpan.FromSeconds(1));
-                return;
-            }   
-
-            // Only call the following if the player exists, is playing
-            // and the time is greater then 0.
-            if (PlaybackService.Current.Player == null || 
-                PlaybackService.Current.Player.PlaybackSession.PlaybackState != MediaPlaybackState.Playing || 
-                PlaybackService.Current.Player.PlaybackSession.Position.Milliseconds <= 0)
-                return;
-        }
         #endregion
 
         #region Method Bindings
-
-        /// <summary>
-        /// Opens the share track UI if it exists
-        /// </summary>
-        public  async void ShareTrack() => await new ShareDialog(Service.CurrentTrack).ShowAsync();
-
         /// <summary>
         /// Display the playlist picker if it exists
         /// </summary>
         public async void DisplayPlaylist() => await new PlaylistDialog(Service.CurrentTrack).ShowAsync();
-
-        /// <summary>
-        /// Toggle if we should shuffle the playlist
-        /// </summary>
-        public void ToggleShuffle()
-        {
-            // Switch the shuffle functionality
-            PlaybackService.Current.PlaybackList.ShuffleEnabled = !PlaybackService.Current.PlaybackList.ShuffleEnabled;
-            // If the track should shuffle
-            ShuffleButtonWeight = PlaybackService.Current.PlaybackList.ShuffleEnabled ? new Windows.UI.Text.FontWeight { Weight = 600 } : new Windows.UI.Text.FontWeight { Weight = 400 };
-            // Track Event
-            TelemetryService.Current.TrackEvent("Toggle Shuffle");
-        }
-
-        /// <summary>
-        /// Toggle if we should repeat the current track
-        /// </summary>
-        public void ToggleRepeat()
-        {
-            // Switch the repeat functionality
-            PlaybackService.Current.Player.IsLoopingEnabled = !PlaybackService.Current.Player.IsLoopingEnabled;
-            // If the track should repeat
-            RepeatButtonWeight = PlaybackService.Current.Player.IsLoopingEnabled ? new Windows.UI.Text.FontWeight { Weight = 600 } : new Windows.UI.Text.FontWeight { Weight = 400 };
-            // Track Event
-            TelemetryService.Current.TrackEvent("Toggle Repeat");
-        }
 
         /// <summary>
         /// Navigate to the selected track in the playlist
@@ -426,23 +313,6 @@ namespace SoundByte.UWP.ViewModels
         }
 
         /// <summary>
-        /// Called when the user adjusts the playing slider
-        /// </summary>
-        public async void PlayingSliderChange()
-        {
-            // Block timer updates
-            _blockPageTimer = true;
-
-            // Set the track position
-            Service.PlayingSliderChange();
-            // Delay the unblock
-            await Task.Delay(TimeSpan.FromSeconds(1));
-
-            // Unblock timer update
-            _blockPageTimer = false;
-        }
-
-        /// <summary>
         /// Called when the user taps on a comment.
         /// This method changes the current position of the track
         /// to the comment time.
@@ -480,48 +350,6 @@ namespace SoundByte.UWP.ViewModels
             // Navigate to the user page
             App.NavigateTo(typeof(Views.UserView), currentUser);
         }
-
-        /// <summary>
-        /// Post a comment
-        /// </summary>
-        public async void PostComment()
-        {
-            // Only perform this action if the user has typed something
-            if (string.IsNullOrEmpty(CommentText))
-                return;
-
-            // Create a new comment object
-            var comment = new Comment
-            {
-                Body = CommentText,
-                Timestamp = PlaybackService.Current.Player.PlaybackSession.Position.TotalMilliseconds.ToString(CultureInfo.InvariantCulture),
-                User = SoundByteService.Current.CurrentUser
-            };
-
-            // Clear the comment box
-            CommentText = string.Empty;
-
-
-            // Create an http client to post the comment
-            using (var client = new HttpClient())
-            {
-                // Create the json for the comment
-                var json = "{\"comment\": {\"body\":\"" + comment.Body + "\", \"timestamp\": " + comment.Timestamp + "}}";
-
-                // Request the soundcloud API
-                var commentResponse =  await client.PostAsync("https://api.soundcloud.com/tracks/" + Service.CurrentTrack.Id + "/comments.json?oauth_token=" + SoundByteService.Current.SoundCloudToken.AccessToken + "&client_secret=" + ApiKeyService.SoundCloudClientSecret + "&client_id" + ApiKeyService.SoundCloudClientId, new System.Net.Http.StringContent(json, Encoding.UTF8, "application/json"));
-
-                // If we did not post the comment, return
-                if (!commentResponse.IsSuccessStatusCode) return;
-
-                // Track the event
-                TelemetryService.Current.TrackEvent("Post Comment");
-
-                // Insert into the list
-                CommentItems.Insert(0, comment);
-            }
-        }
-
         #endregion
 
         #region Dispose Handlers
@@ -533,10 +361,6 @@ namespace SoundByte.UWP.ViewModels
                 return;
 
             CleanModel();
-
-            CommentItems.RefreshItems();
-
-            GC.Collect();
         }
         #endregion
     }

@@ -12,6 +12,7 @@
 
 using System;
 using Newtonsoft.Json;
+using SoundByte.Core.Dialogs;
 
 namespace SoundByte.Core.API.Endpoints
 {
@@ -28,8 +29,19 @@ namespace SoundByte.Core.API.Endpoints
     [JsonObject]
     public class Track : BaseTrack
     {
+        #region Privates
         // Allows the user object to be updated
         private User _user;
+        #endregion
+
+        #region Methods
+        /// <summary>
+        /// Open the share dialog for this track
+        /// </summary>
+        public async void ShareTrack() => await new ShareDialog(this).ShowAsync();
+
+        #endregion
+
 
         /// <summary>
         /// The user who posted this track

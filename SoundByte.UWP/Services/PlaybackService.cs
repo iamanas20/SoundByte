@@ -776,5 +776,56 @@ namespace SoundByte.UWP.Services
             // Set the maximum value
             MaxTimeValue = Player.PlaybackSession.NaturalDuration.TotalSeconds;
         }
+
+
+
+        //// --------------------------------- NEXT GEN v2.1 ITEMS --------------------------------- ////
+
+
+        public void ToggleRepeat()
+        {
+            IsRepeatEnabled = !IsRepeatEnabled;
+
+            TelemetryService.Current.TrackEvent("Toggle Repeat");
+        }
+
+        public void ToggleShuffle()
+        {
+            IsShuffleEnabled = !IsShuffleEnabled;
+
+            TelemetryService.Current.TrackEvent("Toggle Shuffle");
+        }
+
+        /// <summary>
+        /// Are tracks shuffled
+        /// </summary>
+        public bool IsShuffleEnabled
+        {
+            get => PlaybackList.ShuffleEnabled;
+            set
+            {
+                if (PlaybackList.ShuffleEnabled == value)
+                    return;
+
+                PlaybackList.ShuffleEnabled = value;
+                UpdateProperty();
+            }
+        }
+
+        /// <summary>
+        /// Is the song going to repeat when finished
+        /// </summary>
+        public bool IsRepeatEnabled
+        {
+            get => Player.IsLoopingEnabled;
+            set
+            {
+                if (Player.IsLoopingEnabled == value)
+                    return;
+
+                Player.IsLoopingEnabled = value;
+                UpdateProperty();
+            }
+        }
     }
 }

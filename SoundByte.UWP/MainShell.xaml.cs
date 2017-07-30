@@ -17,20 +17,19 @@ using System.Numerics;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Background;
-using Windows.ApplicationModel.Core;
 using Windows.Globalization;
 using Windows.Services.Store;
 using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Notifications;
 using Windows.UI.Popups;
-using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Microsoft.Toolkit.Uwp;
-using Microsoft.Toolkit.Uwp.UI.Animations;
+using NotificationsExtensions;
+using NotificationsExtensions.Toasts;
 using SoundByte.Core.Dialogs;
 using SoundByte.Core.Helpers;
 using SoundByte.Core.Services;
@@ -78,7 +77,7 @@ namespace SoundByte.UWP
                 if (args.PropertyName != "CurrentTrack")
                     return;
 
-                if (Service.CurrentTrack == null || !DeviceHelper.IsDesktop || RootFrame.CurrentSourcePageType == typeof(Track))
+                if (Service.CurrentTrack == null || !DeviceHelper.IsDesktop || RootFrame.CurrentSourcePageType == typeof(NowPlayingView))
                     HideNowPlayingBar();
                 else
                     ShowNowPlayingBar();
@@ -242,10 +241,34 @@ namespace SoundByte.UWP
                     return;
             }
 
-            // If the stored app version is null, this is the users first time,
-            ShowInAppNotification(string.IsNullOrEmpty(storedAppVersionString)
-                ? "Welcome to SoundByte! If you encounter any issues, or have any questions, click the 'Settings' button then 'About' to get in contact with us."
-                : "SoundByte was just updated! There are many new and exciting features waiting for you. Why not take a peek?");
+            // Generate a notification
+            var toastContent = new ToastContent
+            {
+                Visual = new ToastVisual
+                {
+                    BindingGeneric = new ToastBindingGeneric
+                    {
+                        Children =
+                        {
+                            new AdaptiveText
+                            {
+                                Text = "SoundByte"
+                            },
+
+                            new AdaptiveText
+                            {
+                                Text = string.IsNullOrEmpty(storedAppVersionString)
+                                    ? "Welcome to SoundByte! If you encounter any issues, or have any questions, click the 'Settings' button then 'About' to get in contact with us."
+                                    : "SoundByte was just updated! There are many new and exciting features waiting for you. Why not take a peek?"
+                            },
+                        }
+                    }
+                }
+            };
+
+            // Show the notification
+            var toast = new ToastNotification(toastContent.GetXml()) { ExpirationTime = DateTime.Now.AddMinutes(30) };
+            ToastNotificationManager.CreateToastNotifier().Show(toast);
         }
 
         #region Protocol
@@ -259,7 +282,7 @@ namespace SoundByte.UWP
                     if (path == "playUserLikes" || path == "shufflePlayUserLikes")
                     {
                         // Navigate to the now playing screen
-                        RootFrame.Navigate(typeof(Track));
+                        RootFrame.Navigate(typeof(NowPlayingView));
 
                         // Get and load the user liked items
                         var userLikes = new LikeModel(SoundByteService.CurrentUser);
@@ -362,7 +385,7 @@ namespace SoundByte.UWP
         {
             if (BlockNavigation) return;
 
-            RootFrame.Navigate(typeof(Track));
+            RootFrame.Navigate(typeof(NowPlayingView));
         }
 
         private void NavigateLogin(object sender, RoutedEventArgs e)
@@ -406,7 +429,7 @@ namespace SoundByte.UWP
 
             if (PlaybackService.Current.CurrentTrack != null)
             {
-                RootFrame.Navigate(typeof(Track));
+                RootFrame.Navigate(typeof(NowPlayingView));
             }
             else
             {
@@ -425,7 +448,7 @@ namespace SoundByte.UWP
                     HomeTab.IsChecked = true;
                     MobileHomeTab.IsChecked = true;
                     break;
-                case "Track":
+                case "NowPlayingView":
                     UnknownTab.IsChecked = true;
                     NowPlayingTab.IsChecked = true;
                     break;
@@ -492,7 +515,7 @@ namespace SoundByte.UWP
 
             if (DeviceHelper.IsDesktop)
             {
-                if (((Frame)sender).SourcePageType.Name == "Track")
+                if (((Frame)sender).SourcePageType == typeof(NowPlayingView))
                 {
                     MainSplitView.IsPaneOpen = false;
                     MainSplitView.CompactPaneLength = 0;
@@ -520,7 +543,7 @@ namespace SoundByte.UWP
 
             if (DeviceHelper.IsXbox)
             {
-                if (((Frame)sender).SourcePageType.Name == "Track")
+                if (((Frame)sender).SourcePageType == typeof(NowPlayingView))
                 {
                     MainSplitView.IsPaneOpen = false;
                     MainSplitView.CompactPaneLength = 0;
@@ -592,36 +615,6 @@ namespace SoundByte.UWP
         private bool BlockNavigation { get; set; }
 
         /// <summary>
-        /// Shows an in app notification
-        /// </summary>
-        /// <param name="text">Text to display</param>
-        public void ShowInAppNotification(string text)
-        {
-            NotificationPane.CreateElementShadow(new Vector3(0, 3, 0), 35, new Color { A = 210, R = 0, G = 0, B = 0 }, NotificationPaneShadow);
-
-            NotificationPane.Opacity = 0;
-            NotificationPaneShadow.Opacity = 0;
-            NotificationPane.Visibility = Visibility.Visible;
-            NotificationPaneShadow.Visibility = Visibility.Visible;
-            NotificationText.Text = text;
-
-            NotificationPane.Fade(1, 150).Start();
-            NotificationPaneShadow.Fade(1, 150).Start();
-        }
-
-        public void CloseInAppNotification()
-        {
-            var animation = NotificationPane.Fade(0, 150);
-            NotificationPaneShadow.Visibility = Visibility.Collapsed;
-            animation.Completed += (sender, args) =>
-            {
-                NotificationPane.Visibility = Visibility.Collapsed;
-                NotificationText.Text = string.Empty;
-            };
-            animation.Start();
-        }
-
-        /// <summary>
         ///     Get the root frame, if no root frame exists,
         ///     we wait 150ms and call the getter again.
         /// </summary>
@@ -642,28 +635,6 @@ namespace SoundByte.UWP
         private void HamburgerButton_Click(object sender, RoutedEventArgs e)
         {
             MainSplitView.IsPaneOpen = !MainSplitView.IsPaneOpen;          
-        }
-
-        public async void ShowCompactView()
-        {
-            var newView = CoreApplication.CreateNewView();
-            var compactViewId = 0;
-
-            await newView.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            {
-                var frame = new Frame();
-                frame.Navigate(typeof(Overlay));
-
-                Window.Current.Content = frame;
-                Window.Current.Activate();
-
-                compactViewId = ApplicationView.GetForCurrentView().Id;
-            });
-
-            var compactOptions = ViewModePreferences.CreateDefault(ApplicationViewMode.CompactOverlay);
-            compactOptions.CustomSize = new Windows.Foundation.Size(350, 150);
-
-            await ApplicationViewSwitcher.TryShowAsViewModeAsync(compactViewId, ApplicationViewMode.CompactOverlay, compactOptions);
         }
     }
 }

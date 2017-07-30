@@ -19,7 +19,6 @@ using Windows.UI.Xaml.Navigation;
 using Microsoft.Toolkit.Uwp.UI.Animations;
 using SoundByte.Core.Helpers;
 using SoundByte.Core.Services;
-using SoundByte.UWP.Services;
 
 namespace SoundByte.UWP.Views
 {
@@ -27,15 +26,15 @@ namespace SoundByte.UWP.Views
     /// This page handles track playback and connection to
     /// the background audio task.
     /// </summary>
-    public sealed partial class Track
+    public sealed partial class NowPlayingView
     {
         // Main page view model
-        public ViewModels.TrackViewModel ViewModel { get; } = new ViewModels.TrackViewModel();
+        public ViewModels.NowPlayingViewModel ViewModel { get; } = new ViewModels.NowPlayingViewModel();
 
         /// <summary>
         /// Setup page and init the xaml
         /// </summary>
-        public Track()
+        public NowPlayingView()
         {
             InitializeComponent();
             // This page must be cached
@@ -61,6 +60,7 @@ namespace SoundByte.UWP.Views
         {
             // Setup view model
             ViewModel.SetupModel();
+            
             // Track Event
             TelemetryService.Current.TrackPage("Now Playing Page");
 
@@ -82,8 +82,6 @@ namespace SoundByte.UWP.Views
 
             // Hide the overlay for a new session
             HideOverlay();
-
-            // Override the back event button
 
             if (DeviceHelper.IsXbox)
                 FullScreenButton.Visibility = Visibility.Collapsed;

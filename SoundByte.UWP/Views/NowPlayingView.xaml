@@ -1,5 +1,5 @@
 ﻿<Page
-    x:Class="SoundByte.UWP.Views.Track"
+    x:Class="SoundByte.UWP.Views.NowPlayingView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     NavigationCacheMode="Enabled"
@@ -120,10 +120,10 @@
             </Setter>
         </Style>
         <MenuFlyout x:Key="MenuFlyout">
-            <MenuFlyoutItem Click="{x:Bind ViewModel.ShareTrack}"    Text="Share"/>
+            <MenuFlyoutItem Click="{x:Bind ViewModel.Service.CurrentTrack.ShareTrack}" Text="Share"/>
             <MenuFlyoutItem Click="{x:Bind ViewModel.DisplayPlaylist}" Text="Playlists"/>
-            <MenuFlyoutItem Click="{x:Bind ViewModel.ToggleShuffle}" Text="Shuffle" FontWeight="{x:Bind ViewModel.ShuffleButtonWeight, Mode=OneWay}" />
-            <MenuFlyoutItem Click="{x:Bind ViewModel.ToggleRepeat}"  Text="Repeat" FontWeight="{x:Bind ViewModel.RepeatButtonWeight, Mode=OneWay}"/>
+            <MenuFlyoutItem Click="{x:Bind ViewModel.Service.ToggleShuffle}" Text="Shuffle" FontWeight="{x:Bind ViewModel.Service.IsShuffleEnabled, Mode=OneWay, Converter={StaticResource BoolToFontWeightConverter}}" />
+            <MenuFlyoutItem Click="{x:Bind ViewModel.Service.ToggleRepeat}" Text="Repeat" FontWeight="{x:Bind ViewModel.Service.IsRepeatEnabled, Mode=OneWay, Converter={StaticResource BoolToFontWeightConverter}}"/>
             <MenuFlyoutSeparator Opacity="0.4" />
             <MenuFlyoutItem Click="{x:Bind ViewModel.PinTile}"       Text="{x:Bind ViewModel.PinButtonText, Mode=TwoWay}" />
             <MenuFlyoutItem Click="{x:Bind ViewModel.RepostTrack}"   Text="{x:Bind ViewModel.RepostButtonText, Mode=TwoWay}" />

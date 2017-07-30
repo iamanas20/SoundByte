@@ -3,12 +3,9 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:sui="using:SoundByte.UWP.UserControls"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:converters1="using:SoundByte.Core.Converters">
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls">
 
     <Page.Resources>
-        <converters1:SliderValueConverter x:Key="SliderValueConverter" />
-
         <Style TargetType="RadioButton" x:Key="NavigationButtonStyle">
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="MinHeight" Value="{ThemeResource ListViewItemMinHeight}"/>
@@ -200,6 +197,7 @@
             </Setter>
 
         </Style>
+        
         <Style x:Key="UserButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
             <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}"/>
@@ -276,82 +274,8 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <Style x:Key="NowPlayingButtonStyle" TargetType="Button">
-            <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
-            <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}"/>
-            <Setter Property="BorderBrush" Value="{StaticResource SystemControlForegroundTransparentBrush}" />
-            <Setter Property="BorderThickness" Value="{ThemeResource ButtonBorderThemeThickness}" />
-            <Setter Property="Padding" Value="8,4,8,4" />
-            <Setter Property="HorizontalAlignment" Value="Left" />
-            <Setter Property="VerticalAlignment" Value="Center" />
-            <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
-            <Setter Property="FontWeight" Value="Normal" />
-            <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
-            <Setter Property="UseSystemFocusVisuals" Value="True" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Grid x:Name="RootGrid"  Background="Transparent"  BorderThickness="1" BorderBrush="{StaticResource ButtonBorderLightingBrush}">
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup x:Name="CommonStates">
-                                    <VisualState x:Name="Normal">
-                                        <Storyboard>
-                                            <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
-                                        </Storyboard>
-                                    </VisualState>
-                                    <VisualState x:Name="PointerOver">
-                                        <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames
-                          Storyboard.TargetName="RootGrid"
-                          Storyboard.TargetProperty="Background">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource ButtonLightingBrush}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
-                                        </Storyboard>
-                                    </VisualState>
-                                    <VisualState x:Name="Pressed">
-                                        <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames
-                          Storyboard.TargetName="RootGrid"
-                          Storyboard.TargetProperty="Background">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource ButtonPressedLightingBrush}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <PointerDownThemeAnimation Storyboard.TargetName="RootGrid" />
-                                        </Storyboard>
-                                    </VisualState>
-                                    <VisualState x:Name="Disabled">
-                                        <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
-                          Storyboard.TargetProperty="Background">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
-                          Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledBaseMediumLowBrush}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
-                          Storyboard.TargetProperty="BorderBrush">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledTransparentBrush}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                        </Storyboard>
-                                    </VisualState>
-                                </VisualStateGroup>
-                            </VisualStateManager.VisualStateGroups>
-                            <ContentPresenter x:Name="ContentPresenter"
-                  BorderBrush="{TemplateBinding BorderBrush}"
-                  BorderThickness="{TemplateBinding BorderThickness}"
-                  Content="{TemplateBinding Content}"
-                  ContentTransitions="{TemplateBinding ContentTransitions}"
-                  ContentTemplate="{TemplateBinding ContentTemplate}"
-                  Padding="{TemplateBinding Padding}"
-                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                  AutomationProperties.AccessibilityView="Raw"/>
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
+        
+        
     </Page.Resources>
 
     <Grid Background="{StaticResource AppHostBackgroundBrush}" x:Name="RootGrid">
@@ -608,197 +532,10 @@
         </Grid>
 
         <!-- Desktop Now Playing Bar -->
-        <Grid x:Name="NowPlaying"
-              VerticalAlignment="Bottom"
-              Canvas.ZIndex="4"
-              Height="64"
-              Visibility="Collapsed"
-              HorizontalAlignment="Stretch">
-
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="350" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-
-                <Button Grid.Column="0"
-                        BorderBrush="{x:Null}"
-                        Click="{x:Bind NavigateTrack}"
-                        Padding="0"
-                        Margin="0"
-                        Background="Transparent"
-                        BorderThickness="0"
-                        VerticalAlignment="Stretch"
-                        HorizontalAlignment="Stretch"
-                        VerticalContentAlignment="Center"
-                        HorizontalContentAlignment="Left" Style="{StaticResource NowPlayingButtonStyle}">
-                    <Grid>
-                        <controls:DropShadowPanel HorizontalAlignment="Left"
-                                                  OffsetX="0"
-                                                  OffsetY="3"
-                                                  BlurRadius="15"
-                                                  ShadowOpacity="0.8"
-                                                  Color="Black"
-                                                  Margin="20,10,10,10">
-                            <controls:ImageEx IsCacheEnabled="True"
-                                              Height="44"
-                                              Width="44"
-                                              PlaceholderSource="/Assets/PlaceholderBackground.png"
-                                              Source="{x:Bind Service.CurrentTrack, Converter={StaticResource ArtworkConverter}, Mode=OneWay}" />
-                        </controls:DropShadowPanel>
-
-                        <StackPanel Grid.Column="0" Margin="84,0,0,0" VerticalAlignment="Center">
-                            <TextBlock Text="{x:Bind Service.CurrentTrack.Title, Mode=OneWay}"
-                                       FontSize="15"
-                                       FontWeight="SemiBold"
-                                       TextWrapping="NoWrap"
-                                       TextTrimming="CharacterEllipsis"
-                                       Margin="0,0,10,0"  />
-                            
-                            <TextBlock Text="{x:Bind Service.CurrentTrack.User.Username, Mode=OneWay}"
-                                       Opacity="0.7"
-                                       FontSize="12"
-                                       FontWeight="Normal"
-                                       TextWrapping="NoWrap"
-                                       TextTrimming="CharacterEllipsis"  />
-                        </StackPanel>
-                    </Grid>
-                </Button>
-
-                <Grid Grid.Column="1">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-
-                    <!-- Time -->
-                    <Grid Margin="20,0" Grid.Column="1">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-
-                        <TextBlock Grid.Column="0"
-                                   VerticalAlignment="Center"
-                                   HorizontalAlignment="Left"
-                                   Text="{x:Bind Service.TimeListened, Mode=OneWay}"
-                                   Opacity="0.9"
-                                   FontSize="14" />
-
-                        <Slider Grid.Column="1"
-                    Style="{StaticResource MainSliderStyle}"
-                    ThumbToolTipValueConverter="{StaticResource SliderValueConverter}"
-                    VerticalAlignment="Center"
-                    PointerCaptureLost="{x:Bind Service.PlayingSliderChange}"
-                    Margin="30,5,30,0"
-                    Value="{x:Bind Service.CurrentTimeValue, Mode=TwoWay}"
-                    Maximum="{x:Bind Service.MaxTimeValue, Mode=OneWay}" />
-
-                        <TextBlock Grid.Column="2"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Right"
-                       Text="{x:Bind Service.TimeRemaining, Mode=OneWay}"
-                       Opacity="0.9"
-                       FontSize="14" />
-                    </Grid>
-
-                    <!-- Controls -->
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Grid.Column="0" Margin="0,0">
-
-
-                        <Button Margin="5,0" Style="{StaticResource CircleButtonStyle}" Background="{x:Null}" Click="{x:Bind Service.SkipPrevious}" Width="42" Height="42">
-                            <Button.Content>
-                                <TextBlock OpticalMarginAlignment="TrimSideBearings" Text="&#xE892;"  FontWeight="Light" FontSize="20" FontFamily="Segoe MDL2 Assets" AutomationProperties.Name="Back" TextAlignment="Center"  />
-                            </Button.Content>
-                        </Button>
-
-                        <Button Margin="5,0" Style="{StaticResource CircleButtonStyle}" Background="{x:Null}" Click="{x:Bind Service.ChangePlaybackState}" Width="42" Height="42">
-                            <Button.Content>
-                                <TextBlock OpticalMarginAlignment="TrimSideBearings" Text="{x:Bind Service.PlayButtonContent, Mode=OneWay}"  FontWeight="Light" FontSize="20" FontFamily="Segoe MDL2 Assets" AutomationProperties.Name="Back" TextAlignment="Center"  />
-                            </Button.Content>
-                        </Button>
-
-                        <Button Margin="5,0"  Style="{StaticResource CircleButtonStyle}" Background="{x:Null}" Click="{x:Bind Service.SkipNext}" Width="42" Height="42">
-                            <Button.Content>
-                                <TextBlock OpticalMarginAlignment="TrimSideBearings" Text="&#xE893;"  FontWeight="Light" FontSize="20" FontFamily="Segoe MDL2 Assets" AutomationProperties.Name="Next" TextAlignment="Center"  />
-                            </Button.Content>
-                        </Button>
-
-                        <Button Margin="5,0" Style="{StaticResource CircleButtonStyle}" Background="{x:Null}" Width="42" Height="42">
-                            <Button.Content>
-                                <TextBlock OpticalMarginAlignment="TrimSideBearings" Text="{x:Bind Service.VolumeIcon, Mode=OneWay}"  FontWeight="Light" FontSize="20" FontFamily="Segoe MDL2 Assets" AutomationProperties.Name="Back" TextAlignment="Center"  />
-                            </Button.Content>
-                            <Button.Flyout>
-                                <Flyout Placement="Top">
-                                    <StackPanel Orientation="Horizontal" Width="205">
-                                        <Button Width="41" Height="41" x:Name="MuteButton" Style="{StaticResource CircleButtonStyle}" Click="{x:Bind Service.ToggleMute}" VerticalAlignment="Center" Background="{x:Null}" Margin="0,0,10,0">
-                                            <Button.Content>
-                                                <TextBlock OpticalMarginAlignment="TrimSideBearings" Text="{x:Bind Service.VolumeIcon, Mode=OneWay}"  FontWeight="Light" FontSize="20" FontFamily="Segoe MDL2 Assets" AutomationProperties.Name="Next" TextAlignment="Center"  />
-                                            </Button.Content>
-                                        </Button>
-                                        <Slider VerticalAlignment="Center" Orientation="Horizontal" Padding="0" Value="{x:Bind Service.MediaVolume, Mode=TwoWay}" Maximum="100" Minimum="0" Margin="0,0,0,-3" Width="105" Height="40"  />
-                                        <TextBlock VerticalAlignment="Center" TextAlignment="Center" Padding="0" Text="{x:Bind Service.MediaVolume, Mode=OneWay}" Margin="15,0,0,0"/>
-                                    </StackPanel>
-                                </Flyout>
-                            </Button.Flyout>
-                        </Button>
-
-                        <Button Margin="5,0" Style="{StaticResource CircleButtonStyle}" Background="{x:Null}" Click="{x:Bind Service.LikeTrack}" Width="42" Height="42">
-                            <Button.Content>
-                                <TextBlock OpticalMarginAlignment="TrimSideBearings" Text="{x:Bind Service.LikeIcon, Mode=OneWay}"  FontWeight="Light" FontSize="20" FontFamily="Segoe MDL2 Assets" AutomationProperties.Name="Next" TextAlignment="Center"  />
-                            </Button.Content>
-                        </Button>
-
-                        <Button Margin="5,0"  Style="{StaticResource CircleButtonStyle}" Background="{x:Null}" Click="{x:Bind ShowCompactView}" Width="42" Height="42">
-                            <Button.Content>
-                                <TextBlock OpticalMarginAlignment="TrimSideBearings" Text="&#xE8BA;" FontWeight="Light" FontSize="20" FontFamily="Segoe MDL2 Assets" AutomationProperties.Name="Next" TextAlignment="Center"  />
-                            </Button.Content>
-                        </Button>
-                    </StackPanel>
-                </Grid>
-            </Grid>
-        </Grid>
-
-        <Grid x:Name="NotificationPaneShadow"
-          VerticalAlignment="Top"
-          HorizontalAlignment="Stretch"
-          Canvas.ZIndex="90"
-          Height="64"
-          Visibility="Collapsed"/>
-
-        <!-- Notification pane shown at the top of the page. Usefull 
-             for just updated notifications and developer messages -->
-        <Grid x:Name="NotificationPane"
-          VerticalAlignment="Top"
-          HorizontalAlignment="Stretch"
-          Canvas.ZIndex="100"
-          Background="{ThemeResource ShellBackground}"
-          Opacity="1"
-          Height="64"
-          Visibility="Collapsed">
-            <!-- Content -->
-            <StackPanel Orientation="Horizontal"
-                  HorizontalAlignment="Left"
-                  VerticalAlignment="Center">
-                <TextBlock Margin="30,0"
-                   x:Name="NotificationText" />
-            </StackPanel>
-
-            <!-- Close button -->
-            <Button HorizontalAlignment="Right"
-              Background="Transparent"
-              Style="{StaticResource NowPlayingButtonStyle}"
-              BorderThickness="1"
-              Height="64"
-              Click="{x:Bind CloseInAppNotification}"
-              Width="64"
-              Padding="0"
-              Margin="0">
-                <TextBlock Text="&#xE894;" FontFamily="Segoe MDL2 Assets" AutomationProperties.Name="Close" Opacity="0.6" />
-            </Button>
-        </Grid>
-
-       
+        <sui:NowPlayingBar x:Name="NowPlaying"
+                        VerticalAlignment="Bottom" 
+                        Canvas.ZIndex="4"
+                        Visibility="Collapsed"
+                        HorizontalAlignment="Stretch" />
     </Grid>
 </Page>

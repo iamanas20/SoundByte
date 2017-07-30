@@ -15,6 +15,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.ApplicationModel.Core;
+using Windows.Foundation;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
@@ -73,7 +75,45 @@ namespace SoundByte.UWP
         }
         #endregion
 
+        #region View Events
+        /// <summary>
+        /// Open the compact overlay view
+        /// </summary>
+        /// <returns></returns>
+        public static async Task SwitchToCompactView()
+        {
+            var compactView = CoreApplication.CreateNewView();
+            var compactViewId = -1;
+
+            // Create a new window within the view
+            await compactView.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                // Create a new frame and navigate it to the overlay view
+                var overlayFrame = new Frame();
+                overlayFrame.Navigate(typeof(Overlay));
+
+                // Set the window content and activate it
+                Window.Current.Content = overlayFrame;
+                Window.Current.Activate();
+
+                // Get the Id back
+                compactViewId = ApplicationView.GetForCurrentView().Id;
+            });
+
+            // Make the overlay small
+            var compactOptions = ViewModePreferences.CreateDefault(ApplicationViewMode.CompactOverlay);
+            compactOptions.CustomSize = new Size(350, 150);
+
+            // Display as compact overlay
+            await ApplicationViewSwitcher.TryShowAsViewModeAsync(compactViewId, ApplicationViewMode.CompactOverlay, compactOptions);
+        }
+
+        #endregion
+
         #region Key Events
+
+
+
         private void CoreWindowOnKeyUp(CoreWindow sender, KeyEventArgs args)
         {
             switch (args.VirtualKey)
@@ -99,7 +139,7 @@ namespace SoundByte.UWP
                     // Send hit
                     TelemetryService.Current.TrackEvent("Xbox Playing Page");
                     // Navigate to the current playing track
-                    NavigateTo(typeof(Track));
+                    NavigateTo(typeof(NowPlayingView));
                     break;
                 case VirtualKey.GamepadY:
                     // Send hit
@@ -273,17 +313,17 @@ namespace SoundByte.UWP
         }
 
         /// <summary>
-        ///     Reduces application memory usage.
+        /// Reduces application memory usage.
         /// </summary>
         /// <remarks>
-        ///     When the app enters the background, receives a memory limit changing
-        ///     event, or receives a memory usage increased event, it can
-        ///     can optionally unload cached data or even its view content in
-        ///     order to reduce memory usage and the chance of being suspended.
-        ///     This must be called from multiple event handlers because an application may already
-        ///     be in a high memory usage state when entering the background, or it
-        ///     may be in a low memory usage state with no need to unload resources yet
-        ///     and only enter a higher state later.
+        /// When the app enters the background, receives a memory limit changing
+        /// event, or receives a memory usage increased event, it can
+        /// can optionally unload cached data or even its view content in
+        /// order to reduce memory usage and the chance of being suspended.
+        /// This must be called from multiple event handlers because an application may already
+        /// be in a high memory usage state when entering the background, or it
+        /// may be in a low memory usage state with no need to unload resources yet
+        /// and only enter a higher state later.
         /// </remarks>
         private void ReduceMemoryUsage()
         {
@@ -333,13 +373,12 @@ namespace SoundByte.UWP
                 { "is_background", DeviceHelper.IsBackground.ToString() },
                 { "remove_ui", removeUi.ToString() },
             });
-
         }
 
         #endregion
 
         /// <summary>
-        ///     Create the main app shell and load app logic
+        /// Create the main app shell and load app logic
         /// </summary>
         /// <returns>The main app shell</returns>
         private async Task<MainShell> CreateMainShellAsync(string path = null)
@@ -365,7 +404,7 @@ namespace SoundByte.UWP
 
         #region Launch / Activate Events
         /// <summary>
-        ///     Called when the app is activated.
+        /// Called when the app is activated.
         /// </summary>
         protected override async void OnActivated(IActivatedEventArgs e)
         {
@@ -407,8 +446,8 @@ namespace SoundByte.UWP
         }
 
         /// <summary>
-        ///     Invoked when the application is launched normally by the end user.  Other entry points
-        ///     will be used such as when the application is launched to open a specific file.
+        /// Invoked when the application is launched normally by the end user.  Other entry points
+        /// will be used such as when the application is launched to open a specific file.
         /// </summary>
         protected override async void OnLaunched(LaunchActivatedEventArgs e)
         {

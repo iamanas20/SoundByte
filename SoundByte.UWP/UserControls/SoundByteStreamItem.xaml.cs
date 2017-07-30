@@ -75,11 +75,6 @@ namespace SoundByte.UWP.UserControls
         }
         #endregion
 
-        public async void ShareTrack()
-        {
-            await new ShareDialog(Track).ShowAsync();
-        }
-
         public async void SharePlaylist()
         {
             await new MessageDialog("Not yet supported.").ShowAsync();
