@@ -25,9 +25,9 @@ using Windows.Web.Http.Headers;
 using Newtonsoft.Json;
 using SoundByte.Core.API.Endpoints;
 using SoundByte.Core.API.Exceptions;
-using SoundByte.UWP.Helpers;
+using SoundByte.Core.Helpers;
 
-namespace SoundByte.UWP.Services
+namespace SoundByte.Core.Services
 {
     public class SoundByteService
     {
@@ -206,7 +206,6 @@ namespace SoundByte.UWP.Services
                 catch
                 {
                     DisconnectService();
-                    App.NavigateTo(typeof(Views.HomeView));
                     return null;
                 }
 

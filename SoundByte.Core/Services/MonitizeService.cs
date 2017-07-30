@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 using Windows.Services.Store;
 using Windows.UI.Popups;
 
-namespace SoundByte.UWP.Services
+namespace SoundByte.Core.Services
 {
     public class MonitizeService
     {

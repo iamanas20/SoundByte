@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26403.7
+VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoundByte.Core", "SoundByte.Core\SoundByte.Core.csproj", "{FD743CA3-A8F6-4136-A50F-9DF134D3422E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoundByte.UWP", "SoundByte.UWP\SoundByte.UWP.csproj", "{52B496EF-B47C-4A78-A1CF-AF86DFF078AE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoundByte.Notifications", "SoundByte.Notifications\SoundByte.Notifications.csproj", "{1475A6DD-F6ED-46C3-8644-D86992C7EA9E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,6 +55,22 @@ Global
 		{52B496EF-B47C-4A78-A1CF-AF86DFF078AE}.Release|x86.ActiveCfg = Release|x86
 		{52B496EF-B47C-4A78-A1CF-AF86DFF078AE}.Release|x86.Build.0 = Release|x86
 		{52B496EF-B47C-4A78-A1CF-AF86DFF078AE}.Release|x86.Deploy.0 = Release|x86
+		{1475A6DD-F6ED-46C3-8644-D86992C7EA9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1475A6DD-F6ED-46C3-8644-D86992C7EA9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1475A6DD-F6ED-46C3-8644-D86992C7EA9E}.Debug|ARM.ActiveCfg = Debug|ARM
+		{1475A6DD-F6ED-46C3-8644-D86992C7EA9E}.Debug|ARM.Build.0 = Debug|ARM
+		{1475A6DD-F6ED-46C3-8644-D86992C7EA9E}.Debug|x64.ActiveCfg = Debug|x64
+		{1475A6DD-F6ED-46C3-8644-D86992C7EA9E}.Debug|x64.Build.0 = Debug|x64
+		{1475A6DD-F6ED-46C3-8644-D86992C7EA9E}.Debug|x86.ActiveCfg = Debug|x86
+		{1475A6DD-F6ED-46C3-8644-D86992C7EA9E}.Debug|x86.Build.0 = Debug|x86
+		{1475A6DD-F6ED-46C3-8644-D86992C7EA9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1475A6DD-F6ED-46C3-8644-D86992C7EA9E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1475A6DD-F6ED-46C3-8644-D86992C7EA9E}.Release|ARM.ActiveCfg = Release|ARM
+		{1475A6DD-F6ED-46C3-8644-D86992C7EA9E}.Release|ARM.Build.0 = Release|ARM
+		{1475A6DD-F6ED-46C3-8644-D86992C7EA9E}.Release|x64.ActiveCfg = Release|x64
+		{1475A6DD-F6ED-46C3-8644-D86992C7EA9E}.Release|x64.Build.0 = Release|x64
+		{1475A6DD-F6ED-46C3-8644-D86992C7EA9E}.Release|x86.ActiveCfg = Release|x86
+		{1475A6DD-F6ED-46C3-8644-D86992C7EA9E}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

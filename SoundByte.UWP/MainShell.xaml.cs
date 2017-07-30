@@ -16,9 +16,9 @@ using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
+using Windows.ApplicationModel.Background;
 using Windows.ApplicationModel.Core;
 using Windows.Globalization;
-using Windows.Networking.PushNotifications;
 using Windows.Services.Store;
 using Windows.UI;
 using Windows.UI.Core;
@@ -30,11 +30,10 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Microsoft.Toolkit.Uwp;
-using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.UI.Animations;
-using Microsoft.WindowsAzure.Messaging;
+using SoundByte.Core.Helpers;
+using SoundByte.Core.Services;
 using SoundByte.UWP.Dialogs;
-using SoundByte.UWP.Helpers;
 using SoundByte.UWP.Models;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.Views;
@@ -79,18 +78,18 @@ namespace SoundByte.UWP
                 if (args.PropertyName != "CurrentTrack")
                     return;
 
-                if (Service.CurrentTrack == null || !App.IsDesktop || RootFrame.CurrentSourcePageType == typeof(Track))
+                if (Service.CurrentTrack == null || !DeviceHelper.IsDesktop || RootFrame.CurrentSourcePageType == typeof(Track))
                     HideNowPlayingBar();
                 else
                     ShowNowPlayingBar();
             };
 
             // Create a shell frame shadow for mobile and desktop
-            if (App.IsDesktop || App.IsMobile)
+            if (DeviceHelper.IsDesktop || DeviceHelper.IsMobile)
                 ShellFrame.CreateElementShadow(new Vector3(0, 0, 0), 20, new Color { A = 52, R = 0, G = 0, B = 0 }, ShellFrameShadow);
 
             // Events for Xbox
-            if (App.IsXbox)
+            if (DeviceHelper.IsXbox)
             {
                 // Pane is hidden by default
                 MainSplitView.IsPaneOpen = false;
@@ -112,7 +111,7 @@ namespace SoundByte.UWP
             }
 
             // Events for Mobile
-            if (App.IsMobile)
+            if (DeviceHelper.IsMobile)
             {
                 // Amoled Magic
                 Application.Current.Resources["ShellBackground"] = new SolidColorBrush(Application.Current.RequestedTheme == ApplicationTheme.Dark ? Colors.Black : Colors.White);
@@ -200,6 +199,7 @@ namespace SoundByte.UWP
 
             try
             {
+                // Install Cortana Voice Commands
                 var vcdStorageFile = await Package.Current.InstalledLocation.GetFileAsync(@"SoundByteCommands.xml");
                 await Windows.ApplicationModel.VoiceCommands.VoiceCommandDefinitionManager.InstallCommandDefinitionsFromStorageFileAsync(vcdStorageFile);
             }
@@ -210,22 +210,9 @@ namespace SoundByte.UWP
 
             try
             {
-                // Create our notification channel and also supply the client id as a
-                // tag, this can then be used to send targeted messages. We also supply the 
-                // app version and device type.
-                var channel = await PushNotificationChannelManager.CreatePushNotificationChannelForApplicationAsync();
-                var hub = new NotificationHub("SoundByteAppNotificationHub", "Endpoint=sb://soundbyte.servicebus.windows.net/;SharedAccessKeyName=DefaultListenSharedAccessSignature;SharedAccessKey=WPV48GftvDYzvC26RuQ7laYROd677k6ducBRUaZ9G9o=");
-
-                // If the user logged in
-                var login = SoundByteService.Current.IsSoundCloudAccountConnected ? "login_true" : "login_false";
-
-                await hub.RegisterNativeAsync(channel.Uri, new[]
-                {
-                    SystemInformation.DeviceFamily,
-                    SystemInformation.ApplicationVersion.ToString(),
-                    login
-                });
-
+                // Register the background task
+                if (!BackgroundTaskHelper.IsBackgroundTaskRegistered("NotificationTask"))
+                    BackgroundTaskHelper.Register("NotificationTask", "SoundByte.Notifications.NotificationTask", new TimeTrigger(15, false));
             }
             catch
             {
@@ -503,7 +490,7 @@ namespace SoundByte.UWP
             else
                 ShowLogoutContent();
 
-            if (App.IsDesktop)
+            if (DeviceHelper.IsDesktop)
             {
                 if (((Frame)sender).SourcePageType.Name == "Track")
                 {
@@ -531,7 +518,7 @@ namespace SoundByte.UWP
                 }
             }
 
-            if (App.IsXbox)
+            if (DeviceHelper.IsXbox)
             {
                 if (((Frame)sender).SourcePageType.Name == "Track")
                 {
@@ -554,7 +541,7 @@ namespace SoundByte.UWP
             UnknownTab.IsChecked = true;
             NowPlaying.Visibility = Visibility.Collapsed;
 
-            MainSplitView.Margin = App.IsXbox ? new Thickness { Bottom = 0, Top = 0 } : new Thickness { Bottom = 0, Top = 32 };
+            MainSplitView.Margin = DeviceHelper.IsXbox ? new Thickness { Bottom = 0, Top = 0 } : new Thickness { Bottom = 0, Top = 32 };
 
         }
 

@@ -11,6 +11,7 @@
  */
 
 using Windows.UI.Xaml.Navigation;
+using SoundByte.Core.Services;
 using SoundByte.UWP.Services;
 
 namespace SoundByte.UWP.Views

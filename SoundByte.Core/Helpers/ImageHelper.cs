@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using Microsoft.Graphics.Canvas;
 
-namespace SoundByte.UWP.Helpers
+namespace SoundByte.Core.Helpers
 {
     /// <summary>
     /// This class contains helper methods for managing and

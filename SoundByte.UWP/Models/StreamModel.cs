@@ -22,6 +22,7 @@ using Windows.UI.Xaml.Data;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Helpers;
 using SoundByte.Core.API.Endpoints;
+using SoundByte.Core.Services;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.UserControls;
 

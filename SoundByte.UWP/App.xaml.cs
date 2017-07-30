@@ -16,15 +16,15 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Core;
-using Windows.Networking.Connectivity;
 using Windows.System;
-using Windows.System.Profile;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Microsoft.Toolkit.Uwp;
+using SoundByte.Core.Helpers;
+using SoundByte.Core.Services;
 using SoundByte.UWP.Dialogs;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.Views;
@@ -48,7 +48,7 @@ namespace SoundByte.UWP
             InitializeComponent();
 
             // We want to use the controler if on xbox
-            if (IsXbox)
+            if (DeviceHelper.IsXbox)
                 RequiresPointerMode = ApplicationRequiresPointerMode.WhenRequested;
 
             // Check that we are not using the default theme,
@@ -97,8 +97,6 @@ namespace SoundByte.UWP
         }
         #endregion
 
-        
-
         #region Key Events
         private void CoreWindowOnKeyUp(CoreWindow sender, KeyEventArgs args)
         {
@@ -108,7 +106,7 @@ namespace SoundByte.UWP
                     // Send hit
                     TelemetryService.Current.TrackEvent("Toggle FullScreen");
                     // Toggle between fullscreen or not
-                    if (!IsFullScreen)
+                    if (!DeviceHelper.IsDeviceFullScreen)
                         ApplicationView.GetForCurrentView().TryEnterFullScreenMode();
                     else
                         ApplicationView.GetForCurrentView().ExitFullScreenMode();
@@ -164,27 +162,7 @@ namespace SoundByte.UWP
         ///     Is the app currently in the background.
         /// </summary>
         public static bool IsBackground { get; set; }
-
-        /// <summary>
-        ///     Is the app running on xbox
-        /// </summary>
-        public static bool IsXbox => AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Xbox";
-
-        /// <summary>
-        ///     Is the app runnning on a phone
-        /// </summary>
-        public static bool IsMobile => AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Mobile";
-
-        /// <summary>
-        ///     Is the app running on desktop
-        /// </summary>
-        public static bool IsDesktop => AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Desktop";
-
-        /// <summary>
-        ///     Is the application fullscreen.
-        /// </summary>
-        public static bool IsFullScreen => ApplicationView.GetForCurrentView().IsFullScreenMode;
-
+    
         public static Page CurrentFrame => (Window.Current?.Content as MainShell)?.RootFrame.Content as Page;
 
         /// <summary>
@@ -205,27 +183,6 @@ namespace SoundByte.UWP
                     loadingRing.Visibility = value ? Visibility.Visible : Visibility.Collapsed;
             }
         }
-
-        /// <summary>
-        ///     Does the application currently have access to the internet.
-        /// </summary>
-        public static bool HasInternet
-        {
-            get
-            {
-                try
-                {
-                    var connectionProfile = NetworkInformation.GetInternetConnectionProfile();
-                    return connectionProfile != null &&
-                           connectionProfile.GetNetworkConnectivityLevel() == NetworkConnectivityLevel.InternetAccess;
-                }
-                catch (Exception)
-                {
-                    return false;
-                }
-            }
-        }
-
         #endregion
 
         #region App Crash Helpers
@@ -274,7 +231,7 @@ namespace SoundByte.UWP
                 Window.Current.Content = rootShell;
 
                 // If on xbox display the screen to the full width and height
-                if (IsXbox)
+                if (DeviceHelper.IsXbox)
                     ApplicationView.GetForCurrentView().SetDesiredBoundsMode(ApplicationViewBoundsMode.UseCoreWindow);
 
                 // Activate the window
@@ -491,10 +448,10 @@ namespace SoundByte.UWP
             Window.Current.Content = rootShell;
 
             // Enable lights on all platforms except Xbox
-            Window.Current.Content.Lights.Add(new PointerPositionSpotLight { Active = !IsXbox });
+            Window.Current.Content.Lights.Add(new PointerPositionSpotLight { Active = !DeviceHelper.IsXbox });
 
             // If on xbox display the screen to the full width and height
-            if (IsXbox)
+            if (DeviceHelper.IsXbox)
                 ApplicationView.GetForCurrentView().SetDesiredBoundsMode(ApplicationViewBoundsMode.UseCoreWindow);
 
             // Activate the window
@@ -524,10 +481,10 @@ namespace SoundByte.UWP
             Window.Current.Content = rootShell;
 
             // Enable lights on all platforms except Xbox
-            Window.Current.Content.Lights.Add(new PointerPositionSpotLight { Active = !IsXbox });
+            Window.Current.Content.Lights.Add(new PointerPositionSpotLight { Active = !DeviceHelper.IsXbox });
 
             // If on xbox display the screen to the full width and height
-            if (IsXbox)
+            if (DeviceHelper.IsXbox)
                 ApplicationView.GetForCurrentView().SetDesiredBoundsMode(ApplicationViewBoundsMode.UseCoreWindow);
 
             // Activate the window

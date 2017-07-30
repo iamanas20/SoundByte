@@ -26,8 +26,9 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using SoundByte.UWP.Models;
 using SoundByte.Core.API.Endpoints;
+using SoundByte.Core.Helpers;
+using SoundByte.Core.Services;
 using SoundByte.UWP.Converters;
-using SoundByte.UWP.Helpers;
 using SoundByte.UWP.Services;
 
 namespace SoundByte.UWP.ViewModels
@@ -181,7 +182,7 @@ namespace SoundByte.UWP.ViewModels
 
         public void MakeFullScreen()
         {
-            if (!App.IsFullScreen)
+            if (!DeviceHelper.IsDeviceFullScreen)
                 ApplicationView.GetForCurrentView().TryEnterFullScreenMode();
             else
                 ApplicationView.GetForCurrentView().ExitFullScreenMode();

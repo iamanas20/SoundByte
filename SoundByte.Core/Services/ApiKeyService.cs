@@ -14,7 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Windows.Storage;
 
-namespace SoundByte.UWP.Services
+namespace SoundByte.Core.Services
 {
     /// <summary>
     /// This class contains any keys used by the app. For example

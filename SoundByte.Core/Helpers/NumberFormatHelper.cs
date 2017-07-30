@@ -13,7 +13,7 @@
 using System;
 using Windows.ApplicationModel.Resources;
 
-namespace SoundByte.UWP.Helpers
+namespace SoundByte.Core.Helpers
 {
     /// <summary>
     /// Lots of helper function to do with managing 

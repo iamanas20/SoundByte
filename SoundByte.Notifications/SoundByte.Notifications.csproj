@@ -1,21 +1,41 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProjectGuid>{FD743CA3-A8F6-4136-A50F-9DF134D3422E}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{1475A6DD-F6ED-46C3-8644-D86992C7EA9E}</ProjectGuid>
+    <OutputType>winmdobj</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SoundByte.Core</RootNamespace>
-    <AssemblyName>SoundByte.Core</AssemblyName>
+    <RootNamespace>SoundByte.Notifications</RootNamespace>
+    <AssemblyName>SoundByte.Notifications</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion>10.0.15063.0</TargetPlatformVersion>
+    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.15063.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.14393.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <AllowCrossPlatformRetargeting>false</AllowCrossPlatformRetargeting>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <PlatformTarget>x86</PlatformTarget>
@@ -83,59 +103,23 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
+  <PropertyGroup>
+    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
+  </PropertyGroup>
   <ItemGroup>
-    <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <None Include="project.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="API\Endpoints\BaseTrack.cs" />
-    <Compile Include="API\Endpoints\BuildInfo.cs" />
-    <Compile Include="API\Endpoints\Comment.cs" />
-    <Compile Include="API\Endpoints\Playlist.cs" />
-    <Compile Include="API\Endpoints\Track.cs" />
-    <Compile Include="API\Endpoints\User.cs" />
-    <Compile Include="API\Exceptions\SoundByteException.cs" />
-    <Compile Include="API\Holders\CommentListHolder.cs" />
-    <Compile Include="API\Holders\ExploreTrackCollection.cs" />
-    <Compile Include="API\Endpoints\Notification.cs" />
-    <Compile Include="API\Holders\HistoryListHolder.cs" />
-    <Compile Include="API\Holders\NotificationListHolder.cs" />
-    <Compile Include="API\Holders\SearchPlaylistHolder.cs" />
-    <Compile Include="API\Endpoints\StreamItem.cs" />
-    <Compile Include="API\Holders\StreamTrackHolder.cs" />
-    <Compile Include="API\Holders\TrackListHolder.cs" />
-    <Compile Include="API\Holders\UserListHolder.cs" />
-    <Compile Include="Dialogs\PinTileDialog.xaml.cs">
-      <DependentUpon>PinTileDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Helpers\AsyncHelper.cs" />
-    <Compile Include="Helpers\CompositionHelper.cs" />
-    <Compile Include="Helpers\DeviceHelper.cs" />
-    <Compile Include="Helpers\ImageHelper.cs" />
-    <Compile Include="Helpers\JumplistHelper.cs" />
-    <Compile Include="Helpers\NetworkHelper.cs" />
-    <Compile Include="Helpers\NumberFormatHelper.cs" />
-    <Compile Include="Helpers\TextHelper.cs" />
-    <Compile Include="Helpers\TitlebarHelper.cs" />
+    <Compile Include="NotificationTask.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\ApiKeyService.cs" />
-    <Compile Include="Services\MonitizeService.cs" />
-    <Compile Include="Services\SettingsService.cs" />
-    <Compile Include="Services\SoundByteService.cs" />
-    <Compile Include="Services\TelemetryService.cs" />
-    <Compile Include="Services\TileService.cs" />
-    <EmbeddedResource Include="Properties\SoundByte.Core.rd.xml" />
   </ItemGroup>
   <ItemGroup>
-    <SDKReference Include="WindowsMobile, Version=10.0.14393.0">
-      <Name>Windows Mobile Extensions for the UWP</Name>
-    </SDKReference>
+    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
+      <Version>5.3.3</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Dialogs\PinTileDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
+    <ProjectReference Include="..\SoundByte.Core\SoundByte.Core.csproj">
+      <Project>{fd743ca3-a8f6-4136-a50f-9df134d3422e}</Project>
+      <Name>SoundByte.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

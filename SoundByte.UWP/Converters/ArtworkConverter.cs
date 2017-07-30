@@ -13,6 +13,7 @@
 using System;
 using Windows.UI.Xaml.Data;
 using SoundByte.Core.API.Endpoints;
+using SoundByte.Core.Services;
 
 namespace SoundByte.UWP.Converters
 {
@@ -83,7 +84,7 @@ namespace SoundByte.UWP.Converters
                 // If the user has enabled high quality artwork, return a 
                 // high quality version, otherwise return a normal quality 
                 // version.
-                return Services.SettingsService.Current.IsHighQualityArtwork ? track.ArtworkLink.Replace("large", "t500x500") : track.ArtworkLink.Replace("large", "t300x300");
+                return SettingsService.Current.IsHighQualityArtwork ? track.ArtworkLink.Replace("large", "t500x500") : track.ArtworkLink.Replace("large", "t300x300");
             }
            
             // This image does not support high resoultion
@@ -111,7 +112,7 @@ namespace SoundByte.UWP.Converters
                 // If the user has enabled high quality artwork, return a
                 // high quality version, otherwise return a normal quality 
                 // version.
-                return Services.SettingsService.Current.IsHighQualityArtwork ? user.ArtworkLink.Replace("large", "t500x500") : user.ArtworkLink.Replace("large", "t300x300");
+                return SettingsService.Current.IsHighQualityArtwork ? user.ArtworkLink.Replace("large", "t500x500") : user.ArtworkLink.Replace("large", "t300x300");
             }
 
             // This image does not support high resoultion
@@ -135,7 +136,7 @@ namespace SoundByte.UWP.Converters
                 // If the user has enabled high quality artwork, return a 
                 // high quality version, otherwise return a normal quality 
                 // version.
-                return Services.SettingsService.Current.IsHighQualityArtwork ? playlist.ArtworkLink.Replace("large", "t500x500") : playlist.ArtworkLink.Replace("large", "t300x300");
+                return SettingsService.Current.IsHighQualityArtwork ? playlist.ArtworkLink.Replace("large", "t500x500") : playlist.ArtworkLink.Replace("large", "t300x300");
             }
 
             // This image does not support high resoultion

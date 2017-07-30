@@ -26,8 +26,9 @@ using Windows.UI.Notifications;
 using Windows.UI.Xaml;
 using Microsoft.Toolkit.Uwp;
 using SoundByte.Core.API.Endpoints;
+using SoundByte.Core.Helpers;
+using SoundByte.Core.Services;
 using SoundByte.UWP.Converters;
-using SoundByte.UWP.Helpers;
 using User = SoundByte.Core.API.Endpoints.User;
 
 namespace SoundByte.UWP.Services
@@ -81,7 +82,7 @@ namespace SoundByte.UWP.Services
             if (CurrentTrack == null)
                 return;
 
-            if (App.IsDesktop || App.IsMobile)
+            if (DeviceHelper.IsDesktop || DeviceHelper.IsMobile)
             {
                 try
                 {
@@ -103,7 +104,7 @@ namespace SoundByte.UWP.Services
             if (CurrentTrack == null)
                 return;
 
-            if (App.IsDesktop || App.IsMobile)
+            if (DeviceHelper.IsDesktop || DeviceHelper.IsMobile)
             {
                 try
                 {

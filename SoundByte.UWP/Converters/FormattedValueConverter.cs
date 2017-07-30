@@ -12,7 +12,7 @@
 
 using System;
 using Windows.UI.Xaml.Data;
-using SoundByte.UWP.Helpers;
+using SoundByte.Core.Helpers;
 
 namespace SoundByte.UWP.Converters
 {

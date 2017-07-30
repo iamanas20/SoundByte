@@ -10,28 +10,23 @@
  * |----------------------------------------------------------------|
  */
 
-using System;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace SoundByte.UWP.Helpers
+namespace SoundByte.Core.Helpers
 {
     /// <summary>
-    /// The class is used to run async methods in places where
-    /// async methods do not work (for example getters).
+    /// This class handles text related helper functions
     /// </summary>
-    public static class AsyncHelper
+    public static class TextHelper
     {
-        private static readonly TaskFactory TaskFactory = new TaskFactory(CancellationToken.None, TaskCreationOptions.None, TaskContinuationOptions.None, TaskScheduler.Default);
-
-        public static TResult RunSync<TResult>(Func<Task<TResult>> func)
+        /// <summary>
+        /// Cleans a string ready to be used in a
+        /// XML document.
+        /// </summary>
+        /// <param name="input">The string to clean</param>
+        /// <returns>The cleaned string</returns>
+        public static string CleanXmlString(string input)
         {
-            return TaskFactory.StartNew(func).Unwrap().GetAwaiter().GetResult();
-        }
-
-        public static void RunSync(Func<Task> func)
-        {
-            TaskFactory.StartNew(func).Unwrap().GetAwaiter().GetResult();
+            // Clean and return the string
+            return input.Replace("&", "&amp;").Replace("<", "&lt;").Replace(">", "&gt;").Replace("\"", "&quot;").Replace("'", "&apos;");
         }
     }
 }

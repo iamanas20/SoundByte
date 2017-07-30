@@ -24,6 +24,7 @@ using Windows.UI.Xaml.Data;
 using SoundByte.UWP.Services;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Helpers;
+using SoundByte.Core.Services;
 using SoundByte.UWP.UserControls;
 
 namespace SoundByte.UWP.Models

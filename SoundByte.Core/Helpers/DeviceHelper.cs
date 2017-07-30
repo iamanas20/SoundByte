@@ -10,26 +10,34 @@
  * |----------------------------------------------------------------|
  */
 
-using Newtonsoft.Json;
+using Windows.System.Profile;
+using Windows.UI.ViewManagement;
 
-namespace SoundByte.Core.API.Endpoints
+namespace SoundByte.Core.Helpers
 {
     /// <summary>
-    /// Info about the current build
+    /// Static methods for detecting device
     /// </summary>
-    [JsonObject]
-    public class BuildInfo
+    public static class DeviceHelper
     {
         /// <summary>
-        /// The branch that this was compliled from
+        ///     Is the app running on xbox
         /// </summary>
-        [JsonProperty("build_branch")]
-        public string BuildBranch { get; set; }
+        public static bool IsXbox => AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Xbox";
 
         /// <summary>
-        /// The time this was built
+        ///     Is the app runnning on a phone
         /// </summary>
-        [JsonProperty("build_time")]
-        public string BuildTime { get; set; }
+        public static bool IsMobile => AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Mobile";
+
+        /// <summary>
+        ///     Is the app running on desktop
+        /// </summary>
+        public static bool IsDesktop => AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Desktop";
+
+        /// <summary>
+        ///     Is the application fullscreen.
+        /// </summary>
+        public static bool IsDeviceFullScreen => ApplicationView.GetForCurrentView().IsFullScreenMode;
     }
 }

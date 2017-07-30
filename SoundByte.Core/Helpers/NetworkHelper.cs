@@ -10,23 +10,34 @@
  * |----------------------------------------------------------------|
  */
 
-namespace SoundByte.UWP.Helpers
+using System;
+using Windows.Networking.Connectivity;
+
+namespace SoundByte.Core.Helpers
 {
     /// <summary>
-    /// This class handles text related helper functions
+    /// Helpers methods for connecting to the internet
     /// </summary>
-    public static class TextHelper
+    public static class NetworkHelper
     {
         /// <summary>
-        /// Cleans a string ready to be used in a
-        /// XML document.
+        ///     Does the application currently have access to the internet.
         /// </summary>
-        /// <param name="input">The string to clean</param>
-        /// <returns>The cleaned string</returns>
-        public static string CleanXmlString(string input)
+        public static bool HasInternet
         {
-            // Clean and return the string
-            return input.Replace("&", "&amp;").Replace("<", "&lt;").Replace(">", "&gt;").Replace("\"", "&quot;").Replace("'", "&apos;");
+            get
+            {
+                try
+                {
+                    var connectionProfile = NetworkInformation.GetInternetConnectionProfile();
+                    return connectionProfile != null &&
+                           connectionProfile.GetNetworkConnectivityLevel() == NetworkConnectivityLevel.InternetAccess;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
         }
     }
 }

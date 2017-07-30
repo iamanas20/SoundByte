@@ -14,6 +14,7 @@ using System;
 using Windows.Services.Store;
 using Windows.UI.Xaml;
 using Microsoft.Toolkit.Uwp;
+using SoundByte.Core.Services;
 using SoundByte.UWP.Services;
 
 namespace SoundByte.UWP.Dialogs

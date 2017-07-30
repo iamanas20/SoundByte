@@ -15,7 +15,7 @@ using System.Globalization;
 using Windows.Storage;
 using Windows.UI.Xaml;
 
-namespace SoundByte.UWP.Services
+namespace SoundByte.Core.Services
 {
     /// <summary>
     /// This class handles all the settings within the app

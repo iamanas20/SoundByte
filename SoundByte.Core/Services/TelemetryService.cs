@@ -18,9 +18,9 @@ using Microsoft.Azure.Mobile;
 using Microsoft.Azure.Mobile.Analytics;
 using Microsoft.Azure.Mobile.Push;
 using Microsoft.HockeyApp;
-using SoundByte.UWP.Helpers;
+using SoundByte.Core.Helpers;
 
-namespace SoundByte.UWP.Services
+namespace SoundByte.Core.Services
 {
     /// <summary>
     /// This class handles global app telemetry to all telemetry services

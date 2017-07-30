@@ -12,6 +12,7 @@
 
 using System;
 using Windows.UI.Xaml.Navigation;
+using SoundByte.Core.Services;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.ViewModels;
 

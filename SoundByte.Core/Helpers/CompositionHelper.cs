@@ -15,7 +15,7 @@ using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Hosting;
 
-namespace SoundByte.UWP.Helpers
+namespace SoundByte.Core.Helpers
 {
     /// <summary>
     /// Helpers Composition Classes

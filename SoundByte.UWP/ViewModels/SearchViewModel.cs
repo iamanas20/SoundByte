@@ -18,6 +18,7 @@ using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using SoundByte.Core.API.Endpoints;
+using SoundByte.Core.Services;
 using SoundByte.UWP.Dialogs;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.Views;

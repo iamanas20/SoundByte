@@ -14,10 +14,10 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.UI.StartScreen;
-using SoundByte.UWP.Dialogs;
-using SoundByte.UWP.Helpers;
+using SoundByte.Core.Dialogs;
+using SoundByte.Core.Helpers;
 
-namespace SoundByte.UWP.Services
+namespace SoundByte.Core.Services
 {
     /// <summary>
     /// Handles Live Tiles

@@ -10,25 +10,20 @@
  * |----------------------------------------------------------------|
  */
 
-using System;
-using Windows.UI.Xaml.Data;
-using SoundByte.Core.Helpers;
+using Windows.ApplicationModel.Background;
 
-namespace SoundByte.UWP.Converters
+namespace SoundByte.Notifications
 {
-    /// <summary>
-    /// Used for now playing slider, shows human readable time
-    /// </summary>
-    public class SliderValueConverter : IValueConverter
+    public sealed class NotificationTask : IBackgroundTask
     {
-        public object Convert(object value, Type targetType, object parameter, string language)
+        public void Run(IBackgroundTaskInstance taskInstance)
         {
-            return NumberFormatHelper.FormatTimeString(System.Convert.ToDouble(value) * 1000);
-        }
+            // Enable Async Code
+            var deferral = taskInstance.GetDeferral();
 
-        public object ConvertBack(object value, Type targetType, object parameter, string language)
-        {
-            throw new NotImplementedException();
+
+            // Finished
+            deferral.Complete();
         }
     }
 }

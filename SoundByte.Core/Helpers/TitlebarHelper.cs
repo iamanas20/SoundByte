@@ -16,7 +16,7 @@ using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 
-namespace SoundByte.UWP.Helpers
+namespace SoundByte.Core.Helpers
 {
     /// <summary>
     /// Helper methods for adjusting app titlebar / statusbar style
@@ -30,7 +30,7 @@ namespace SoundByte.UWP.Helpers
         {
             var textColor = Application.Current.RequestedTheme == ApplicationTheme.Dark ? Colors.White : Colors.Black;
 
-            if (App.IsDesktop)
+            if (DeviceHelper.IsDesktop)
             {
                 CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
                 // Update Title bar colors
@@ -44,7 +44,7 @@ namespace SoundByte.UWP.Helpers
                 ApplicationView.GetForCurrentView().TitleBar.ButtonPressedForegroundColor = textColor;
             }
 
-            if (App.IsMobile)
+            if (DeviceHelper.IsMobile)
             {
                 await StatusBar.GetForCurrentView().HideAsync();
             }

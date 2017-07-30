@@ -17,6 +17,8 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Navigation;
 using Microsoft.Toolkit.Uwp.UI.Animations;
+using SoundByte.Core.Helpers;
+using SoundByte.Core.Services;
 using SoundByte.UWP.Services;
 
 namespace SoundByte.UWP.Views
@@ -62,7 +64,7 @@ namespace SoundByte.UWP.Views
             // Track Event
             TelemetryService.Current.TrackPage("Now Playing Page");
 
-            if (App.IsDesktop)
+            if (DeviceHelper.IsDesktop)
             {
                 CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
                 // Update Title bar colors
@@ -83,7 +85,7 @@ namespace SoundByte.UWP.Views
 
             // Override the back event button
 
-            if (App.IsXbox)
+            if (DeviceHelper.IsXbox)
                 FullScreenButton.Visibility = Visibility.Collapsed;
         }
 
@@ -101,7 +103,7 @@ namespace SoundByte.UWP.Views
 
             var textColor = Windows.UI.Xaml.Application.Current.RequestedTheme == ApplicationTheme.Dark ? Colors.White : Colors.Black;
 
-            if (App.IsDesktop)
+            if (DeviceHelper.IsDesktop)
             {
                 CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
                 // Update Title bar colors
@@ -118,7 +120,7 @@ namespace SoundByte.UWP.Views
             HideOverlay();
         } 
 
-        private bool IsEnhanced { get; set; } = false;
+        private bool IsEnhanced { get; set; }
 
         private void HideOverlay()
         {
@@ -174,7 +176,7 @@ namespace SoundByte.UWP.Views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void ShowTransition(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void ShowTransition(object sender, RoutedEventArgs e)
         {
             if (IsEnhanced)
             {
@@ -184,11 +186,6 @@ namespace SoundByte.UWP.Views
             {
                 ShowOverlay();
             }
-        }
-
-        private void test(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }

@@ -16,6 +16,8 @@ using System.Threading.Tasks;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.Web.Http;
+using SoundByte.Core.Helpers;
+using SoundByte.Core.Services;
 using SoundByte.UWP.Services;
 
 namespace SoundByte.UWP.Dialogs
@@ -35,7 +37,7 @@ namespace SoundByte.UWP.Dialogs
 
         private async Task Send()
         {
-            if (!App.HasInternet)
+            if (!NetworkHelper.HasInternet)
                 return;
 
             try

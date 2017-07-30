@@ -20,6 +20,7 @@ using Windows.UI.Xaml.Navigation;
 using Microsoft.Services.Store.Engagement;
 using Newtonsoft.Json;
 using SoundByte.Core.API.Endpoints;
+using SoundByte.Core.Services;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.Views.General;
 

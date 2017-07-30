@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 using Windows.UI.Popups;
 using Windows.UI.StartScreen;
 
-namespace SoundByte.UWP.Helpers
+namespace SoundByte.Core.Helpers
 {
     /// <summary>
     /// This class contains helper functions for creating

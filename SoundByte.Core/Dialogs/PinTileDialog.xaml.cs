@@ -16,9 +16,9 @@ using Windows.UI.StartScreen;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
-using SoundByte.UWP.Helpers;
+using SoundByte.Core.Helpers;
 
-namespace SoundByte.UWP.Dialogs
+namespace SoundByte.Core.Dialogs
 {
     public sealed partial class PinTileDialog
     {

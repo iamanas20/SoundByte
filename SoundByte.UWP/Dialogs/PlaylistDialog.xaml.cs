@@ -20,6 +20,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.Web.Http;
 using SoundByte.Core.API.Endpoints;
+using SoundByte.Core.Services;
 using SoundByte.UWP.Services;
 using UnicodeEncoding = Windows.Storage.Streams.UnicodeEncoding;
 

@@ -23,6 +23,7 @@ using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using Windows.Web.Http;
 using Windows.Web.Http.Filters;
+using SoundByte.Core.Services;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.ViewModels;
 

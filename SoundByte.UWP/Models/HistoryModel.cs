@@ -23,6 +23,7 @@ using Microsoft.Toolkit.Uwp.Helpers;
 using SoundByte.Core.API.Endpoints;
 using SoundByte.Core.API.Exceptions;
 using SoundByte.Core.API.Holders;
+using SoundByte.Core.Services;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.UserControls;
 

@@ -11,24 +11,27 @@
  */
 
 using System;
-using Windows.UI.Xaml.Data;
-using SoundByte.Core.Helpers;
+using System.Threading;
+using System.Threading.Tasks;
 
-namespace SoundByte.UWP.Converters
+namespace SoundByte.Core.Helpers
 {
     /// <summary>
-    /// Used for now playing slider, shows human readable time
+    /// The class is used to run async methods in places where
+    /// async methods do not work (for example getters).
     /// </summary>
-    public class SliderValueConverter : IValueConverter
+    public static class AsyncHelper
     {
-        public object Convert(object value, Type targetType, object parameter, string language)
+        private static readonly TaskFactory TaskFactory = new TaskFactory(CancellationToken.None, TaskCreationOptions.None, TaskContinuationOptions.None, TaskScheduler.Default);
+
+        public static TResult RunSync<TResult>(Func<Task<TResult>> func)
         {
-            return NumberFormatHelper.FormatTimeString(System.Convert.ToDouble(value) * 1000);
+            return TaskFactory.StartNew(func).Unwrap().GetAwaiter().GetResult();
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        public static void RunSync(Func<Task> func)
         {
-            throw new NotImplementedException();
+            TaskFactory.StartNew(func).Unwrap().GetAwaiter().GetResult();
         }
     }
 }
