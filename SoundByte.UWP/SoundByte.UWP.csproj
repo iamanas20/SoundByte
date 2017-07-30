@@ -148,6 +148,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\CompositionHelper.cs" />
     <Compile Include="Resources\DataTemplates.cs" />
     <Compile Include="Services\ApiKeyService.cs" />
     <Compile Include="Converters\ArtworkConverter.cs" />

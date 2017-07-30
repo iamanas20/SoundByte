@@ -11,7 +11,6 @@
  */
 
 using System;
-using System.Collections.ObjectModel;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using SoundByte.Core.API.Endpoints;
@@ -26,16 +25,13 @@ namespace SoundByte.UWP.UserControls
     {
         #region Variables
         // What type of track this is
-        private static readonly DependencyProperty TrackTypeProperty = DependencyProperty.Register("TrackType", typeof(string), typeof(SoundByteStreamItem), null);
+        public static readonly DependencyProperty TrackTypeProperty = DependencyProperty.Register("TrackType", typeof(string), typeof(SoundByteStreamItem), null);
         // When this was created
-        private static readonly DependencyProperty CreatedProperty = DependencyProperty.Register("Created", typeof(string), typeof(SoundByteStreamItem), null);
+        public static readonly DependencyProperty CreatedProperty = DependencyProperty.Register("Created", typeof(string), typeof(SoundByteStreamItem), null);
         // The track object
-        private static readonly DependencyProperty TrackProperty = DependencyProperty.Register("Track", typeof(Track), typeof(SoundByteStreamItem), null);
+        public static readonly DependencyProperty TrackProperty = DependencyProperty.Register("Track", typeof(Track), typeof(SoundByteStreamItem), null);
         // The playlist object
-        private static readonly DependencyProperty PlaylistProperty = DependencyProperty.Register("Playlist", typeof(Playlist), typeof(SoundByteStreamItem), null);
-
-        private ObservableCollection<Track> ItemPlaylist { get; } = new ObservableCollection<Track>();
-
+        public static readonly DependencyProperty PlaylistProperty = DependencyProperty.Register("Playlist", typeof(Playlist), typeof(SoundByteStreamItem), null);
         #endregion
 
         #region Getters and Setters
@@ -103,8 +99,6 @@ namespace SoundByte.UWP.UserControls
             // context chanages.
             DataContextChanged += delegate
             {
-                ItemPlaylist.Clear();
-
                 // Switch through all the items
                 switch (TrackType)
                 {

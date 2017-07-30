@@ -27,7 +27,6 @@ using Windows.UI.Popups;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Microsoft.Toolkit.Uwp;
@@ -86,11 +85,9 @@ namespace SoundByte.UWP
                     ShowNowPlayingBar();
             };
 
-            // Events for Desktop
-            if (App.IsDesktop)
-            {
-                CreateShellFrameShadow();
-            }
+            // Create a shell frame shadow for mobile and desktop
+            if (App.IsDesktop || App.IsMobile)
+                ShellFrame.CreateElementShadow(new Vector3(0, 0, 0), 20, new Color { A = 52, R = 0, G = 0, B = 0 }, ShellFrameShadow);
 
             // Events for Xbox
             if (App.IsXbox)
@@ -599,35 +596,6 @@ namespace SoundByte.UWP
             MobileHomeTab.IsEnabled = false;
         }
 
-        #region Composition
-        private void CreateShellFrameShadow()
-        {
-            // Get the compositor for this window
-            var compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
-            
-            // Create a visual element that we will apply the shadow to and attach 
-            // to the ShellFrameShadow element.
-            var shellFrameShadowVisual = compositor.CreateSpriteVisual();
-
-            // Apply the shadow effects
-            var shellDropShadow = compositor.CreateDropShadow();
-            shellDropShadow.Offset = new Vector3(0, 0, 0);
-            shellDropShadow.BlurRadius = 20;
-            shellDropShadow.Color = new Color { A = 52, R = 0, G = 0, B = 0 };
-
-            // Set the element visual
-            shellFrameShadowVisual.Shadow = shellDropShadow;
-            ElementCompositionPreview.SetElementChildVisual(ShellFrameShadow, shellFrameShadowVisual);
-
-            // Get the shell frame for animation purposes
-            var shellFrameVisual = ElementCompositionPreview.GetElementVisual(ShellFrame);
-
-            var shellFrameSizeAnimation = compositor.CreateExpressionAnimation("shellFrameVisual.Size");
-            shellFrameSizeAnimation.SetReferenceParameter("shellFrameVisual", shellFrameVisual);
-            shellFrameShadowVisual.StartAnimation("Size", shellFrameSizeAnimation);          
-        }
-        #endregion
-
         #region Getters and Setters
 
         /// <summary>
@@ -642,29 +610,7 @@ namespace SoundByte.UWP
         /// <param name="text">Text to display</param>
         public void ShowInAppNotification(string text)
         {
-            // Get the compositor for this window
-            var compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
-
-            // Create a visual element that we will apply the shadow to and attach 
-            // to the ShellFrameShadow element.
-            var notificationShadowVisual = compositor.CreateSpriteVisual();
-
-            // Apply the shadow effects
-            var notificationShadow = compositor.CreateDropShadow();
-            notificationShadow.Offset = new Vector3(0, 3, 0);
-            notificationShadow.BlurRadius = 35;
-            notificationShadow.Color = new Color { A = 210, R = 0, G = 0, B = 0 };
-
-            // Set the element visual
-            notificationShadowVisual.Shadow = notificationShadow;
-            ElementCompositionPreview.SetElementChildVisual(NotificationPaneShadow, notificationShadowVisual);
-
-            // Get the shell frame for animation purposes
-            var notificationVisual = ElementCompositionPreview.GetElementVisual(NotificationPane);
-
-            var notificationSizeAnimation = compositor.CreateExpressionAnimation("notificationVisual.Size");
-            notificationSizeAnimation.SetReferenceParameter("notificationVisual", notificationVisual);
-            notificationShadowVisual.StartAnimation("Size", notificationSizeAnimation);
+            NotificationPane.CreateElementShadow(new Vector3(0, 3, 0), 35, new Color { A = 210, R = 0, G = 0, B = 0 }, NotificationPaneShadow);
 
             NotificationPane.Opacity = 0;
             NotificationPaneShadow.Opacity = 0;
