@@ -15,13 +15,16 @@
         <DataTemplate x:Key="TrackLikeView" x:DataType="endpoints:Notification">
             <Grid>
                 <!-- The users who liked the track image -->
-                <Image Margin="45,45,0,0" 
-                                       Width="40" 
-                                       Height="40" 
-                                       Source="{x:Bind User, Converter={StaticResource ArtworkConverter}, Mode=OneWay}" 
-                                       VerticalAlignment="Top" 
-                                       HorizontalAlignment="Left" 
-                                       Canvas.ZIndex="5" />
+                <Ellipse Margin="45,45,0,0" 
+                         Width="40" 
+                         Height="40" 
+                         VerticalAlignment="Top" 
+                         HorizontalAlignment="Left" 
+                         Canvas.ZIndex="5">
+                    <Ellipse.Fill>
+                        <ImageBrush ImageSource="{x:Bind User, Converter={StaticResource ArtworkConverter}}" Stretch="Uniform" />
+                    </Ellipse.Fill>
+                </Ellipse>
                 <!-- The track that has been liked iamge -->
                 <Image Margin="10" Width="80" Height="80" Source="{x:Bind Track, Converter={StaticResource ArtworkConverter}, Mode=OneWay}" VerticalAlignment="Top" HorizontalAlignment="Left" Stretch="Uniform"  />
                 <!-- The message and track title -->
@@ -53,13 +56,16 @@
         <DataTemplate x:Key="PlaylistLikeView" x:DataType="endpoints:Notification">
             <Grid>
                 <!-- The users who liked the track image -->
-                <Image Margin="45,45,0,0" 
-                                       Width="40" 
-                                       Height="40" 
-                                       VerticalAlignment="Top" 
-                                       Source="{x:Bind User, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"  
-                                       HorizontalAlignment="Left" 
-                                       Canvas.ZIndex="5" />
+                <Ellipse Margin="45,45,0,0" 
+                         Width="40" 
+                         Height="40" 
+                         VerticalAlignment="Top" 
+                         HorizontalAlignment="Left" 
+                         Canvas.ZIndex="5">
+                    <Ellipse.Fill>
+                        <ImageBrush ImageSource="{x:Bind User, Converter={StaticResource ArtworkConverter}}" Stretch="Uniform" />
+                    </Ellipse.Fill>
+                </Ellipse>
                 <!-- The track that has been liked iamge -->
                 <Image Margin="10" Width="80" Height="80" Source="{x:Bind Playlist, Converter={StaticResource ArtworkConverter}, Mode=OneWay}" VerticalAlignment="Top" HorizontalAlignment="Left" Stretch="Uniform"  />
                 <!-- The message and track title -->
@@ -86,13 +92,16 @@
         <!-- View for comment post -->
         <DataTemplate x:Key="TrackCommentView" x:DataType="endpoints:Notification">
             <Grid>
-                <Image Margin="45,45,0,0" 
-                                       Width="40" 
-                                       Source="{x:Bind User, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"  
-                                       Height="40" 
-                                       VerticalAlignment="Top" 
-                                       HorizontalAlignment="Left" 
-                                       Canvas.ZIndex="5" />
+                <Ellipse Margin="45,45,0,0" 
+                         Width="40" 
+                         Height="40" 
+                         VerticalAlignment="Top" 
+                         HorizontalAlignment="Left" 
+                         Canvas.ZIndex="5">
+                    <Ellipse.Fill>
+                        <ImageBrush ImageSource="{x:Bind User, Converter={StaticResource ArtworkConverter}}" Stretch="Uniform" />
+                    </Ellipse.Fill>
+                </Ellipse>
 
                 <Image Margin="10" Width="80" Height="80" Source="{x:Bind Comment.Track, Converter={StaticResource ArtworkConverter}, Mode=OneWay}" VerticalAlignment="Top" HorizontalAlignment="Left" Stretch="Uniform" />
 
@@ -128,13 +137,15 @@
         <!-- User follow current user view -->
         <DataTemplate x:Key="UserFollowView" x:DataType="endpoints:Notification">
             <Grid>
-                <Image Margin="10" 
-                                       Source="{x:Bind User, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
-                                       Width="80" 
-                                       Height="80" 
-                                       VerticalAlignment="Top" 
-                                       HorizontalAlignment="Left"
-                                       />
+                <Ellipse Margin="10" 
+                         Width="80" 
+                         Height="80" 
+                         VerticalAlignment="Top" 
+                         HorizontalAlignment="Left">
+                    <Ellipse.Fill>
+                        <ImageBrush ImageSource="{x:Bind User, Converter={StaticResource ArtworkConverter}, Mode=OneWay}" Stretch="Uniform" />
+                    </Ellipse.Fill>
+                </Ellipse>
 
                 <StackPanel Margin="105,5,5,5" VerticalAlignment="Center">
                     <StackPanel Orientation="Horizontal">

@@ -51,7 +51,7 @@
                     Margin="0,35,0,0"
                     HorizontalAlignment="Center" />
 
-            <HyperlinkButton Content="Close (Not Recommended)" 
+            <HyperlinkButton Content="Update Later" 
                              x:Name="CloseButton"
                              Margin="0,15,0,15"
                              Foreground="{ThemeResource SystemControlPageTextBaseHighBrush}"

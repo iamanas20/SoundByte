@@ -461,12 +461,16 @@
                                       VerticalAlignment="Stretch"
                                       Margin="21.5,0,0,0">
                                     <!-- User Image -->
-                                    <Image HorizontalAlignment="Left"
-                                                           Source="{x:Bind SoundByteService.CurrentUser, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
-                                                           Width="26"
-                                                           Margin="8.5,0,0,0"
-                                                           Height="26"
-                                                           VerticalAlignment="Center"  />
+                                    <Ellipse HorizontalAlignment="Left"
+                                             Width="26"
+                                             Margin="8.5,0,0,0"
+                                             Height="26"
+                                             VerticalAlignment="Center">
+                                        <Ellipse.Fill>
+                                            <ImageBrush ImageSource="{x:Bind SoundByteService.CurrentUser, Converter={StaticResource ArtworkConverter}, Mode=OneWay}" Stretch="Uniform" />
+                                        </Ellipse.Fill>
+                                    </Ellipse>
+
                                     <!-- Username -->
                                     <TextBlock Text="{x:Bind SoundByteService.CurrentUser.Username, Mode=OneWay}"
                                              FontWeight="Normal"

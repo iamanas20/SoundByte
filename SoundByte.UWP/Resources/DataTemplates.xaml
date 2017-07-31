@@ -177,13 +177,16 @@
                                       IsHitTestVisible="False"
                                       Margin="5,5,5,8"
                                       Color="Black">
-                <Image Source="{x:Bind Converter={StaticResource ArtworkConverter}, Mode=OneWay}"  
-                                       VerticalAlignment="Stretch"
-                                       HorizontalAlignment="Stretch"
-                                       IsHitTestVisible="False"
-                                       Width="190" 
-                                       Height="190" 
-                                       Stretch="Uniform" />
+                <Ellipse VerticalAlignment="Stretch"
+                         HorizontalAlignment="Stretch"
+                         IsHitTestVisible="False"
+                         Width="190" 
+                         Height="190" 
+                         Stretch="Uniform">
+                    <Ellipse.Fill>
+                        <ImageBrush ImageSource="{x:Bind Converter={StaticResource ArtworkConverter}, Mode=OneWay}" Stretch="Uniform" />
+                    </Ellipse.Fill>
+                </Ellipse>
             </controls:DropShadowPanel>
             <TextBlock Text="{x:Bind Username, Mode=OneWay}" Margin="0,0,0,4" TextAlignment="Center" FontSize="16" TextWrapping="Wrap" MaxHeight="50" TextTrimming="CharacterEllipsis" />
             <TextBlock Text="{x:Bind Country, Mode=OneWay}" FontSize="12" Opacity="0.6" TextAlignment="Center" FontWeight="SemiBold" />
