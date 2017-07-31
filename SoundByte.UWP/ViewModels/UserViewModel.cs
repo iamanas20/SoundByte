@@ -192,7 +192,7 @@ namespace SoundByte.UWP.ViewModels
             }
 
             if (SoundByteService.Current.IsSoundCloudAccountConnected &&
-                User.Id == SoundByteService.Current.CurrentUser.Id)
+                User.Id == SoundByteService.Current.SoundCloudUser.Id)
             {
                 FollowUserIcon = "\uE8FA";
                 FollowUserText = "Follow User";

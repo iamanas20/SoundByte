@@ -157,7 +157,7 @@ namespace SoundByte.UWP.ViewModels
                     case "track-repost":
                         // Play this item
 
-                        if (searchItem.ServiceType == ServiceType.Fanburst)
+                        if (searchItem.ServiceType == SoundByteService.ServiceType.Fanburst)
                         {
                             var startPlayback = await PlaybackService.Current.StartMediaPlayback(FanburstTracks.ToList(), FanburstTracks.Token, false, searchItem);
                             if (!startPlayback.success)

@@ -13,16 +13,10 @@
 using System;
 using Newtonsoft.Json;
 using SoundByte.Core.Dialogs;
+using SoundByte.Core.Services;
 
 namespace SoundByte.Core.API.Endpoints
 {
-    public enum ServiceType
-    {
-        SoundCloud,
-        YouTube,
-        Fanburst
-    }
-
     /// <summary>
     /// A class for holding a soundcloud track
     /// </summary>
@@ -60,7 +54,7 @@ namespace SoundByte.Core.API.Endpoints
         /// <summary>
         /// What type of service this item belongs to
         /// </summary>
-        public ServiceType ServiceType { get; set; } = ServiceType.SoundCloud;
+        public SoundByteService.ServiceType ServiceType { get; set; } = SoundByteService.ServiceType.SoundCloud;
 
         /// <summary>
         /// The Genre of the track
@@ -144,6 +138,6 @@ namespace SoundByte.Core.API.Endpoints
         /// User Favourited (only auth requests)
         /// </summary>
         [JsonProperty("user_favorite")]
-        public bool? UserFavorite { get; set; }
+        public bool? UserFavorite { get; set; } = false;
     }
 }

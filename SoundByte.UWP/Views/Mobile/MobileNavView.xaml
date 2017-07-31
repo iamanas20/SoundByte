@@ -32,14 +32,14 @@
                                                           OffsetX="0"
                                                           OffsetY="0"
                                                           Color="Black">
-                                    <Image Source="{x:Bind Service.CurrentUser, Converter={StaticResource ArtworkConverter}, Mode=OneWay}" 
+                                    <Image Source="{x:Bind Service.SoundCloudUser, Converter={StaticResource ArtworkConverter}, Mode=OneWay}" 
                                                            Height="100" 
                                                            Width="100" 
                                                            Stretch="UniformToFill"/>
                                 </controls:DropShadowPanel>
 
                                 <StackPanel VerticalAlignment="Center" Margin="20,0">
-                                    <TextBlock Text="{x:Bind Service.CurrentUser.Username}" FontWeight="SemiBold" FontSize="22" />
+                                    <TextBlock Text="{x:Bind Service.SoundCloudUser.Username}" FontWeight="SemiBold" FontSize="22" />
                                     <TextBlock Text="View public profile" FontWeight="SemiLight" Opacity="0.8" FontSize="16" />
                                 </StackPanel>
                             </StackPanel>

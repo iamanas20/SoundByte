@@ -77,7 +77,7 @@ namespace SoundByte.UWP.Views
                 await ViewModel.UpdateModel(targetUser);
 
                 // Show the upload button on the users profile
-                UploadButton.Visibility = targetUser.Id == SoundByteService.Current.CurrentUser?.Id ? Visibility.Visible : Visibility.Collapsed;
+                UploadButton.Visibility = targetUser.Id == SoundByteService.Current.SoundCloudUser?.Id ? Visibility.Visible : Visibility.Collapsed;
 
                 // Reset the selected page for the pivot
                 MainPivot.SelectedIndex = 0;

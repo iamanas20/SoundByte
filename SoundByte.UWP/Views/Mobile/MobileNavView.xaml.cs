@@ -59,7 +59,7 @@ namespace SoundByte.UWP.Views.Mobile
             }
         }
 
-        private void NavigateUserProfile() => App.NavigateTo(typeof(UserView), SoundByteService.Current.CurrentUser);
+        private void NavigateUserProfile() => App.NavigateTo(typeof(UserView), SoundByteService.Current.SoundCloudUser);
 
         private void NavigateLogin() => App.NavigateTo(typeof(AccountView));
 

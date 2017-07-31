@@ -76,7 +76,8 @@ namespace SoundByte.Core.Services
         #region Secret Keys
         private Token _soundCloudToken;
         private Token _fanburstToken;
-        private User _currentUser;
+        private User _currentSoundCloudUser;
+        private User _currentFanBurstUser;
         #endregion
 
         #region Getters and Setters
@@ -181,27 +182,58 @@ namespace SoundByte.Core.Services
         }
 
         /// <summary>
-        /// The current logged in user.
+        /// The current logged in fanburst user
         /// </summary>
-        public User CurrentUser
+        public User FanburstUser
+        {
+            get
+            {
+                // Handle account disconnect
+                if (!IsFanBurstAccountConnected)
+                {
+                    _currentFanBurstUser = null;
+                    return null;
+                }
+
+                // If we have a user object, return it
+                if (_currentFanBurstUser != null)
+                    return _currentFanBurstUser;
+
+                try
+                {
+                    _currentFanBurstUser = AsyncHelper.RunSync(async () => await GetAsync<User>(ServiceType.Fanburst, "/me"));
+                    return _currentFanBurstUser;
+                }
+                catch
+                {
+                    DisconnectService(ServiceType.Fanburst);
+                    return null;
+                }
+            }
+        }
+
+        /// <summary>
+        /// The current logged in soundcloud user
+        /// </summary>
+        public User SoundCloudUser
         {
             get
             {
                 // Handle account disconnect
                 if (!IsSoundCloudAccountConnected)
                 {
-                    _currentUser = null;
+                    _currentSoundCloudUser = null;
                     return null;
                 }
 
                 // If we have a user object, return it
-                if (_currentUser != null)
-                    return _currentUser;
+                if (_currentSoundCloudUser != null)
+                    return _currentSoundCloudUser;
 
                 try
                 {
-                    _currentUser = AsyncHelper.RunSync(async () => await GetAsync<User>("/me"));
-                    return _currentUser;
+                    _currentSoundCloudUser = AsyncHelper.RunSync(async () => await GetAsync<User>("/me"));
+                    return _currentSoundCloudUser;
                 }
                 catch
                 {

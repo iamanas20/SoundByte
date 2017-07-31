@@ -104,7 +104,7 @@ namespace SoundByte.UWP.Models
                             {
                                 Add(new Track
                                 {
-                                    ServiceType = ServiceType.Fanburst,
+                                    ServiceType = SoundByteService.ServiceType.Fanburst,
                                     Id = item.id,
                                     Title = item.title,
                                     PermalinkUri = item.permalink,

@@ -533,12 +533,12 @@ namespace SoundByte.UWP.Services
 
                         MediaSource source;
 
-                        if (track.ServiceType == ServiceType.SoundCloud)
+                        if (track.ServiceType == SoundByteService.ServiceType.SoundCloud)
                         {
                             // Create the media source from the Uri
                             source = MediaSource.CreateFromUri(new Uri("http://api.soundcloud.com/tracks/" + track.Id + "/stream?client_id=" + apiKey));
                         }
-                        else if (track.ServiceType == ServiceType.Fanburst)
+                        else if (track.ServiceType == SoundByteService.ServiceType.Fanburst)
                         {
                             // Create the media source from the Uri
                             source = MediaSource.CreateFromUri(new Uri("https://api.fanburst.com/tracks/" + track.Id + "/stream?client_id=" + ApiKeyService.FanburstClientId));

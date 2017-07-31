@@ -335,7 +335,7 @@ namespace SoundByte.UWP.ViewModels
             App.IsLoading = true;
 
             // We only support viewing soundcloud profiles at this time
-            if (Service.CurrentTrack.ServiceType != ServiceType.SoundCloud)
+            if (Service.CurrentTrack.ServiceType != SoundByteService.ServiceType.SoundCloud)
             {
                 await new MessageDialog("SoundByte does not currently supporting user profiles that are not from SoundCloud.", "Not Ready Yet").ShowAsync();
                 return;

@@ -468,12 +468,12 @@
                                              Height="26"
                                              VerticalAlignment="Center">
                                         <Ellipse.Fill>
-                                            <ImageBrush ImageSource="{x:Bind SoundByteService.CurrentUser, Converter={StaticResource ArtworkConverter}, Mode=OneWay}" Stretch="Uniform" />
+                                            <ImageBrush ImageSource="{x:Bind SoundByteService.SoundCloudUser, Converter={StaticResource ArtworkConverter}, Mode=OneWay}" Stretch="Uniform" />
                                         </Ellipse.Fill>
                                     </Ellipse>
 
                                     <!-- Username -->
-                                    <TextBlock Text="{x:Bind SoundByteService.CurrentUser.Username, Mode=OneWay}"
+                                    <TextBlock Text="{x:Bind SoundByteService.SoundCloudUser.Username, Mode=OneWay}"
                                              FontWeight="Normal"
                                              TextTrimming="CharacterEllipsis"
                                              VerticalAlignment="Center"

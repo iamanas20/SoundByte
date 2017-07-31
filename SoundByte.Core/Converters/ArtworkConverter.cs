@@ -71,10 +71,6 @@ namespace SoundByte.Core.Converters
         /// <returns>A url to the image</returns>
         private static string GetTrackImage(Track track)
         { 
-            // This is a youtube link, do nothing
-            if (track.ServiceType == ServiceType.YouTube)
-                return track.ArtworkLink;
-
             // If there is no uri, return the users image
             if (string.IsNullOrEmpty(track.ArtworkLink))
                 return GetUserImage(track.User);

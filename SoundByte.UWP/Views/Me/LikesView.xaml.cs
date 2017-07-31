@@ -29,7 +29,7 @@ namespace SoundByte.UWP.Views.Me
         /// <summary>
         /// The likes model that contains or the users liked tracks
         /// </summary>
-        private Models.LikeModel LikesModel { get; } = new Models.LikeModel(SoundByteService.Current.CurrentUser);
+        private Models.LikeModel LikesModel { get; } = new Models.LikeModel(SoundByteService.Current.SoundCloudUser);
 
         public LikesView()
         {

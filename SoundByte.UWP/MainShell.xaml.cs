@@ -285,7 +285,7 @@ namespace SoundByte.UWP
                         RootFrame.Navigate(typeof(NowPlayingView));
 
                         // Get and load the user liked items
-                        var userLikes = new LikeModel(SoundByteService.CurrentUser);
+                        var userLikes = new LikeModel(SoundByteService.SoundCloudUser);
 
                         while (userLikes.HasMoreItems)
                         {
@@ -399,7 +399,7 @@ namespace SoundByte.UWP
         {
             if (BlockNavigation) return;
 
-            RootFrame.Navigate(typeof(UserView), SoundByteService.Current.CurrentUser);
+            RootFrame.Navigate(typeof(UserView), SoundByteService.Current.SoundCloudUser);
         }
 
         private void NavigateSearch(object sender, RoutedEventArgs e)
