@@ -21,7 +21,6 @@ using Microsoft.Services.Store.Engagement;
 using Newtonsoft.Json;
 using SoundByte.Core.API.Endpoints;
 using SoundByte.Core.Services;
-using SoundByte.UWP.Services;
 using SoundByte.UWP.Views.General;
 
 namespace SoundByte.UWP.Views.Application
@@ -75,13 +74,6 @@ namespace SoundByte.UWP.Views.Application
 
             AppBuildBranch.Text = buildData.BuildBranch;
             AppBuildTime.Text = buildData.BuildTime;
-
-
-            DisconnectSoundCloudButton.Visibility = SoundByteService.Current.IsSoundCloudAccountConnected ? Visibility.Visible : Visibility.Collapsed;
-            ConnectSoundCloudButton.Visibility = SoundByteService.Current.IsSoundCloudAccountConnected ? Visibility.Collapsed : Visibility.Visible;
-
-            DisconnectFanBurstButton.Visibility = SoundByteService.Current.IsFanBurstAccountConnected ? Visibility.Visible : Visibility.Collapsed;
-            ConnectFanBurstButton.Visibility = SoundByteService.Current.IsFanBurstAccountConnected ? Visibility.Collapsed : Visibility.Visible;
         }
 
         public async void NavigateBugs()

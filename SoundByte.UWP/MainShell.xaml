@@ -418,6 +418,7 @@
                                          Content="Donate"
                                          Checked="NavigateDonate"  />
 
+                            
                             <!-- Navigate to the settings page -->
                             <RadioButton x:Name="SettingsTab"
                                          FocusVisualPrimaryThickness="1"
@@ -431,7 +432,7 @@
                                          Checked="NavigateSettings"  />
 
                             <!-- Let the user login to their account -->
-                            <RadioButton x:Name="LoginTab"
+                            <RadioButton x:Name="AccountTab"
                                          FocusVisualPrimaryThickness="1"
                                          FocusVisualSecondaryThickness="1"
                                          FocusVisualMargin="1"
@@ -439,8 +440,8 @@
                                          GroupName="NavPaneButtons"
                                          Style="{StaticResource NavigationButtonStyle}"
                                          Tag="&#xE77B;"
-                                         Content="Login"
-                                         Checked="NavigateLogin" />
+                                         Content="Manage Accounts"
+                                         Checked="NavigateAccounts" />
 
                             <!-- The users profile -->
                             <Button x:Name="UserButton"

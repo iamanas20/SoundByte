@@ -381,18 +381,11 @@ namespace SoundByte.UWP
             RootFrame.Navigate(typeof(LikesView));
         }
 
-        private void NavigateTrack()
+        private void NavigateAccounts(object sender, RoutedEventArgs e)
         {
             if (BlockNavigation) return;
 
-            RootFrame.Navigate(typeof(NowPlayingView));
-        }
-
-        private void NavigateLogin(object sender, RoutedEventArgs e)
-        {
-            if (BlockNavigation) return;
-
-            RootFrame.Navigate(typeof(LoginView));
+            RootFrame.Navigate(typeof(AccountView));
         }
 
         private void NavigateSets(object sender, RoutedEventArgs e)
@@ -472,8 +465,8 @@ namespace SoundByte.UWP
                     HistoryTab.IsChecked = true;
                     MobileUnkownTab.IsChecked = true;
                     break;
-                case "LoginView":
-                    LoginTab.IsChecked = true;
+                case "AccountView":
+                    AccountTab.IsChecked = true;
                     MobileUnkownTab.IsChecked = true;
                     break;
                 case "SettingsView":
@@ -581,29 +574,26 @@ namespace SoundByte.UWP
 
         // Login and Logout events. This is used to display what pages
         // are visiable to the user.
-        private void ShowLoginContent()
+        public void ShowLoginContent()
         {
-            HomeTab.Visibility = Visibility.Visible;
             LikesTab.Visibility = Visibility.Visible;
             SetsTab.Visibility = Visibility.Visible;
             NotificationsTab.Visibility = Visibility.Visible;
             HistoryTab.Visibility = Visibility.Visible;
-            LoginTab.Visibility = Visibility.Collapsed;
             UserButton.Visibility = Visibility.Visible;
-
             MobileHomeTab.IsEnabled = true;
+            AccountTab.Content = "Manage Accounts";
         }
 
-        private void ShowLogoutContent()
+        public void ShowLogoutContent()
         {
-            HomeTab.Visibility = Visibility.Visible;
             LikesTab.Visibility = Visibility.Collapsed;
             SetsTab.Visibility = Visibility.Collapsed;
             NotificationsTab.Visibility = Visibility.Collapsed;
             HistoryTab.Visibility = Visibility.Collapsed;
-            LoginTab.Visibility = Visibility.Visible;
             UserButton.Visibility = Visibility.Collapsed;
             MobileHomeTab.IsEnabled = false;
+            AccountTab.Content = "Login";
         }
 
         #region Getters and Setters

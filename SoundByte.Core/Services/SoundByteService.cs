@@ -205,7 +205,7 @@ namespace SoundByte.Core.Services
                 }
                 catch
                 {
-                    DisconnectService();
+                    DisconnectService(ServiceType.SoundCloud);
                     return null;
                 }
 
@@ -330,14 +330,26 @@ namespace SoundByte.Core.Services
         /// <summary>
         /// Disconnects a soundbyte service
         /// </summary>
-        public void DisconnectService()
+        public void DisconnectService(ServiceType serviceType)
         {
             // Get the password vault
             var vault = new PasswordVault();
-            // Remove the token
-            _soundCloudToken = null;
-            // Remove everything in the vault
-            vault.FindAllByResource("SoundByte.SoundCloud").ToList().ForEach(x => vault.Remove(x));
+
+            switch (serviceType)
+            {
+                case ServiceType.SoundCloud:
+                    // Remove the token
+                    _soundCloudToken = null;
+                    // Remove everything in the vault
+                    vault.FindAllByResource("SoundByte.SoundCloud").ToList().ForEach(x => vault.Remove(x));
+                    break;
+                case ServiceType.Fanburst:
+                    // Remove the token
+                    _fanburstToken = null;
+                    // Remove everything in the vault
+                    vault.FindAllByResource("SoundByte.FanBurst").ToList().ForEach(x => vault.Remove(x));
+                    break;
+            } 
         }
         #endregion
 

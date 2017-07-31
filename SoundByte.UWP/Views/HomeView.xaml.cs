@@ -11,9 +11,9 @@
  */
 
 using System;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Navigation;
 using SoundByte.Core.Services;
-using SoundByte.UWP.Services;
 using SoundByte.UWP.ViewModels;
 
 namespace SoundByte.UWP.Views
@@ -49,6 +49,9 @@ namespace SoundByte.UWP.Views
         {
             // Only show the stream pivot when soundcloud account is connected
             StreamPivotItem.IsEnabled = SoundByteService.Current.IsSoundCloudAccountConnected;
+
+            HomePivot.SelectedIndex = !SoundByteService.Current.IsSoundCloudAccountConnected ? 1 : 0;
+
             // Set the last visited frame (crash handling)
             SettingsService.Current.LastFrame = typeof(HomeView).FullName;
             // Store the latest time (for notification task)

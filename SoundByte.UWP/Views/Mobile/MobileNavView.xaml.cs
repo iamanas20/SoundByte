@@ -61,7 +61,7 @@ namespace SoundByte.UWP.Views.Mobile
 
         private void NavigateUserProfile() => App.NavigateTo(typeof(UserView), SoundByteService.Current.CurrentUser);
 
-        private void NavigateLogin() => App.NavigateTo(typeof(LoginView));
+        private void NavigateLogin() => App.NavigateTo(typeof(AccountView));
 
         private void NavigateLikes() => App.NavigateTo(typeof(LikesView));
 

@@ -18,55 +18,12 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using SoundByte.Core.Helpers;
 using SoundByte.Core.Services;
-using SoundByte.UWP.Services;
-using SoundByte.UWP.Views.Me;
 
 namespace SoundByte.UWP.ViewModels
 {
     public class SettingsViewModel : BaseViewModel
     {
         public bool IsComboboxBlockingEnabled { get; set; }
-
-        /// <summary>
-        /// Disconnect the users soundcloud account
-        /// </summary>
-        public void DisconnectSoundCloudAccount()
-        {
-            // Disconnect from the service
-            SoundByteService.Current.DisconnectService();
-            // Navigate to the explore page
-            App.NavigateTo(typeof(Views.HomeView));
-        }
-
-        /// <summary>
-        /// Disconnect the users fanburst
-        /// </summary>
-        public void DisconnectFanburstAccount()
-        {
-            // Disconnect from the service
-            SoundByteService.Current.DisconnectService();
-            // Navigate to the explore page
-            App.NavigateTo(typeof(Views.HomeView));
-        }
-
-        /// <summary>
-        /// Connect the users fanburst account
-        /// </summary>
-        public void ConnectFanburstAccount()
-        {
-            // Navigate to the explore page
-            App.NavigateTo(typeof(LoginView), "fanburst");
-        }
-
-
-        /// <summary>
-        /// Connect the users soundcloud account
-        /// </summary>
-        public void ConnectSoundCloudAccount()
-        {
-            // Navigate to the explore page
-            App.NavigateTo(typeof(LoginView), "soundcloud");
-        }
 
         public async void ClearAppCache()
         {

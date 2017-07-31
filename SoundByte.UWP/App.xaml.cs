@@ -176,6 +176,8 @@ namespace SoundByte.UWP
     
         public static Page CurrentFrame => (Window.Current?.Content as MainShell)?.RootFrame.Content as Page;
 
+        public static MainShell Shell => Window.Current?.Content as MainShell;
+
         /// <summary>
         /// Is anything currently loading
         /// </summary>
