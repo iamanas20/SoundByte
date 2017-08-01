@@ -65,7 +65,7 @@ namespace SoundByte.Notifications
 
                     // Check if the notification happened before the last 
                     // notification check
-                    if (lastCheckTime >= postedTime)
+                    if (lastCheckTime <= postedTime)
                         continue;
 
                     // Create the variables needed for the notification
