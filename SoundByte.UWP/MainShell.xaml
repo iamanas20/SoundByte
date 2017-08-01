@@ -442,45 +442,6 @@
                                          Tag="&#xE77B;"
                                          Content="Manage Accounts"
                                          Checked="NavigateAccounts" />
-
-                            <!-- The users profile -->
-                            <Button x:Name="UserButton"
-                                    FocusVisualPrimaryThickness="1"
-                                    FocusVisualSecondaryThickness="1"
-                                    FocusVisualMargin="1"
-                                    HorizontalContentAlignment="Stretch"
-                                    VerticalContentAlignment="Stretch"
-                                    Padding="0"
-                                    Click="NavigateUserProfile"
-                                    Margin="0"
-                                    BorderThickness="1"
-                                    Height="48"
-                                    HorizontalAlignment="Stretch"
-                                    Style="{StaticResource UserButtonStyle}">
-                                <!-- Hold User Content -->
-                                <Grid HorizontalAlignment="Stretch"
-                                      VerticalAlignment="Stretch"
-                                      Margin="21.5,0,0,0">
-                                    <!-- User Image -->
-                                    <Ellipse HorizontalAlignment="Left"
-                                             Width="26"
-                                             Margin="8.5,0,0,0"
-                                             Height="26"
-                                             VerticalAlignment="Center">
-                                        <Ellipse.Fill>
-                                            <ImageBrush ImageSource="{x:Bind SoundByteService.SoundCloudUser, Converter={StaticResource ArtworkConverter}, Mode=OneWay}" Stretch="Uniform" />
-                                        </Ellipse.Fill>
-                                    </Ellipse>
-
-                                    <!-- Username -->
-                                    <TextBlock Text="{x:Bind SoundByteService.SoundCloudUser.Username, Mode=OneWay}"
-                                             FontWeight="Normal"
-                                             TextTrimming="CharacterEllipsis"
-                                             VerticalAlignment="Center"
-                                             Opacity="1"
-                                             Margin="67,0,0,0"/>
-                                </Grid>
-                            </Button>
                         </StackPanel>
                     </ScrollViewer>
                     <!-- We select this in code when the tab is not known -->

@@ -54,8 +54,6 @@ namespace SoundByte.UWP
         /// </summary>
         public PlaybackService Service => PlaybackService.Current;
 
-        public SoundByteService SoundByteService => SoundByteService.Current;
-
         public MainShell(string path)
         {
             // Init the XAML
@@ -285,7 +283,7 @@ namespace SoundByte.UWP
                         RootFrame.Navigate(typeof(NowPlayingView));
 
                         // Get and load the user liked items
-                        var userLikes = new LikeModel(SoundByteService.SoundCloudUser);
+                        var userLikes = new LikeModel(SoundByteService.Current.SoundCloudUser);
 
                         while (userLikes.HasMoreItems)
                         {
@@ -393,13 +391,6 @@ namespace SoundByte.UWP
             if (BlockNavigation) return;
 
             RootFrame.Navigate(typeof(PlaylistsView));
-        }
-
-        private void NavigateUserProfile(object sender, RoutedEventArgs e)
-        {
-            if (BlockNavigation) return;
-
-            RootFrame.Navigate(typeof(UserView), SoundByteService.Current.SoundCloudUser);
         }
 
         private void NavigateSearch(object sender, RoutedEventArgs e)
@@ -580,9 +571,8 @@ namespace SoundByte.UWP
             SetsTab.Visibility = Visibility.Visible;
             NotificationsTab.Visibility = Visibility.Visible;
             HistoryTab.Visibility = Visibility.Visible;
-            UserButton.Visibility = Visibility.Visible;
             MobileHomeTab.IsEnabled = true;
-            AccountTab.Content = "Manage Accounts";
+            AccountTab.Content = "Connected Accounts";
         }
 
         public void ShowLogoutContent()
@@ -591,7 +581,6 @@ namespace SoundByte.UWP
             SetsTab.Visibility = Visibility.Collapsed;
             NotificationsTab.Visibility = Visibility.Collapsed;
             HistoryTab.Visibility = Visibility.Collapsed;
-            UserButton.Visibility = Visibility.Collapsed;
             MobileHomeTab.IsEnabled = false;
             AccountTab.Content = "Login";
         }

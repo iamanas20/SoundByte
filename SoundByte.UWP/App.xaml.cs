@@ -159,17 +159,6 @@ namespace SoundByte.UWP
         public static void NavigateTo(Type page, object param = null) => (Window.Current.Content as MainShell)?.RootFrame.Navigate(page, param);
         
         /// <summary>
-        /// Go back a page
-        /// </summary>
-        public static void GoBack()
-        {
-            var canGoBack = (Window.Current.Content as MainShell)?.RootFrame.CanGoBack;
-
-            if (canGoBack.HasValue && canGoBack.Value)
-                ((MainShell) Window.Current.Content)?.RootFrame.GoBack(); 
-        }
-
-        /// <summary>
         /// Stops the back event from being called, allowing for manual overiding
         /// </summary>
         public static bool OverrideBackEvent { get; set; }

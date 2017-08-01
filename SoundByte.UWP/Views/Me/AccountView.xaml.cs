@@ -77,6 +77,8 @@ namespace SoundByte.UWP.Views.Me
             SoundCloudText.Text = SoundByteService.Current.IsSoundCloudAccountConnected ? "Logout" : "Login";
             FanburstText.Text = SoundByteService.Current.IsFanBurstAccountConnected ? "Logout" : "Login";
 
+            ViewSoundCloudProfileButton.IsEnabled = SoundByteService.Current.IsSoundCloudAccountConnected;
+
             // Update the UI depending if we are logged in or not
             if (SoundByteService.Current.IsSoundCloudAccountConnected || SoundByteService.Current.IsFanBurstAccountConnected)
                 App.Shell.ShowLoginContent();
@@ -278,6 +280,11 @@ namespace SoundByte.UWP.Views.Me
             }  
 
 
+        }
+
+        private void NavigateSoundCloudProfile(object sender, RoutedEventArgs e)
+        {
+            App.NavigateTo(typeof(UserView), SoundByteService.Current.SoundCloudUser);
         }
     }
 }
