@@ -19,20 +19,18 @@ using Windows.UI.Xaml.Navigation;
 using Microsoft.Toolkit.Uwp.UI.Animations;
 using SoundByte.Core.Helpers;
 using SoundByte.Core.Services;
+using SoundByte.UWP.ViewModels;
 
 namespace SoundByte.UWP.Views
 {
     /// <summary>
-    /// This page handles track playback and connection to
-    /// the background audio task.
+    ///     This page handles track playback and connection to
+    ///     the background audio task.
     /// </summary>
     public sealed partial class NowPlayingView
     {
-        // Main page view model
-        public ViewModels.NowPlayingViewModel ViewModel { get; } = new ViewModels.NowPlayingViewModel();
-
         /// <summary>
-        /// Setup page and init the xaml
+        ///     Setup page and init the xaml
         /// </summary>
         public NowPlayingView()
         {
@@ -53,14 +51,19 @@ namespace SoundByte.UWP.Views
             };
         }
 
+        // Main page view model
+        public NowPlayingViewModel ViewModel { get; } = new NowPlayingViewModel();
+
+        private bool IsEnhanced { get; set; }
+
         /// <summary>
-        /// Setup the view model, passing in the navigation events.
+        ///     Setup the view model, passing in the navigation events.
         /// </summary>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             // Setup view model
             ViewModel.SetupModel();
-            
+
             // Track Event
             TelemetryService.Current.TrackPage("Now Playing Page");
 
@@ -93,21 +96,25 @@ namespace SoundByte.UWP.Views
         }
 
         /// <summary>
-        /// Clean the view model
+        ///     Clean the view model
         /// </summary>
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             ViewModel.CleanModel();
 
-            var textColor = Windows.UI.Xaml.Application.Current.RequestedTheme == ApplicationTheme.Dark ? Colors.White : Colors.Black;
+            var textColor = Windows.UI.Xaml.Application.Current.RequestedTheme == ApplicationTheme.Dark
+                ? Colors.White
+                : Colors.Black;
 
             if (DeviceHelper.IsDesktop)
             {
                 CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
                 // Update Title bar colors
                 ApplicationView.GetForCurrentView().TitleBar.ButtonBackgroundColor = Colors.Transparent;
-                ApplicationView.GetForCurrentView().TitleBar.ButtonHoverBackgroundColor = new Color { R = 0, G = 0, B = 0, A = 20 };
-                ApplicationView.GetForCurrentView().TitleBar.ButtonPressedBackgroundColor = new Color { R = 0, G = 0, B = 0, A = 60 };
+                ApplicationView.GetForCurrentView().TitleBar.ButtonHoverBackgroundColor =
+                    new Color {R = 0, G = 0, B = 0, A = 20};
+                ApplicationView.GetForCurrentView().TitleBar.ButtonPressedBackgroundColor =
+                    new Color {R = 0, G = 0, B = 0, A = 60};
                 ApplicationView.GetForCurrentView().TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
                 ApplicationView.GetForCurrentView().TitleBar.ForegroundColor = textColor;
                 ApplicationView.GetForCurrentView().TitleBar.ButtonForegroundColor = textColor;
@@ -116,9 +123,7 @@ namespace SoundByte.UWP.Views
             }
 
             HideOverlay();
-        } 
-
-        private bool IsEnhanced { get; set; }
+        }
 
         private void HideOverlay()
         {
@@ -130,10 +135,11 @@ namespace SoundByte.UWP.Views
             ButtonHolder.Visibility = Visibility.Visible;
             ButtonHolder.Offset(0, 0, 450).Fade(1, 250).Start();
 
-            EnhanceButton.Rotate(0, (float)EnhanceButton.ActualWidth / 2, (float)EnhanceButton.ActualHeight / 2, 450).Offset(0, 0, 450).Start();
+            EnhanceButton.Rotate(0, (float) EnhanceButton.ActualWidth / 2, (float) EnhanceButton.ActualHeight / 2, 450)
+                .Offset(0, 0, 450).Start();
 
-            var moreInfoAnimation = MoreInfoScreen.Fade(0, 450).Offset(0, (float)RootGrid.ActualHeight, 450);
-            moreInfoAnimation.Completed += (o, args) => 
+            var moreInfoAnimation = MoreInfoScreen.Fade(0, 450).Offset(0, (float) RootGrid.ActualHeight, 450);
+            moreInfoAnimation.Completed += (o, args) =>
             {
                 MoreInfoScreen.Visibility = Visibility.Collapsed;
                 MoreInfoPivot.SelectedIndex = 0;
@@ -158,32 +164,33 @@ namespace SoundByte.UWP.Views
             buttonHolderShowAnimation.Completed += (o, args) => { ButtonHolder.Visibility = Visibility.Collapsed; };
             buttonHolderShowAnimation.Start();
 
-            EnhanceButton.Rotate(180, (float)EnhanceButton.ActualWidth / 2, (float)EnhanceButton.ActualHeight / 2, 450).Offset(0, -1.0f * ((float)RootGrid.ActualHeight - (float)EnhanceButton.ActualHeight - 160), 450).Start();
+            EnhanceButton
+                .Rotate(180, (float) EnhanceButton.ActualWidth / 2, (float) EnhanceButton.ActualHeight / 2, 450)
+                .Offset(0, -1.0f * ((float) RootGrid.ActualHeight - (float) EnhanceButton.ActualHeight - 160), 450)
+                .Start();
 
             MoreInfoScreen.Visibility = Visibility.Visible;
             MoreInfoPivot.SelectedIndex = 0;
             MoreInfoScreen.Fade(1, 450, 150).Offset(0, 0, 450, 150).Start();
 
-            TrackInfoHolder.Offset(0, -1.0f * ((float)RootGrid.ActualHeight - (float)TrackInfoHolder.ActualHeight - 40), 450).Scale(0.8f,0.8f,0,0, 450).Start();
+            TrackInfoHolder
+                .Offset(0, -1.0f * ((float) RootGrid.ActualHeight - (float) TrackInfoHolder.ActualHeight - 40), 450)
+                .Scale(0.8f, 0.8f, 0, 0, 450).Start();
 
             BlurOverlay.Fade(1, 450).Start();
         }
 
         /// <summary>
-        /// This cannot go in the view model, as we change UI elements A LOT here.
+        ///     This cannot go in the view model, as we change UI elements A LOT here.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void ShowTransition(object sender, RoutedEventArgs e)
         {
             if (IsEnhanced)
-            {
                 HideOverlay();
-            }
             else
-            {
                 ShowOverlay();
-            }
         }
     }
 }

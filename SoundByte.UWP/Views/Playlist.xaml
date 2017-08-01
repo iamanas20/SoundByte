@@ -16,16 +16,17 @@
             <VisualStateGroup x:Name="DeviceStates">
                 <VisualState x:Name="Xbox">
                     <VisualState.StateTriggers>
-                        <stateTriggers:DeviceStateTrigger DeviceFamily="Windows.Xbox"/>
+                        <stateTriggers:DeviceStateTrigger DeviceFamily="Windows.Xbox" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="RootGrid.Background" Value="Transparent"/>
+                        <Setter Target="RootGrid.Background" Value="Transparent" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
 
-        <ui:InfoPane x:Name="PlaylistInfoPane" Margin="0,50,0,0"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Visibility="Collapsed" />
+        <ui:InfoPane x:Name="PlaylistInfoPane" Margin="0,50,0,0" VerticalAlignment="Stretch"
+                     HorizontalAlignment="Stretch" Visibility="Collapsed" />
 
         <!-- Displays playlists -->
         <GridView x:Name="TracksView"
@@ -55,41 +56,58 @@
                                                   OffsetX="0"
                                                   OffsetY="5"
                                                   Color="Black">
-                                        <Image 
-                                                          Canvas.ZIndex="1" 
-                                                          Width="240"
-                                                          Height="240"
-                                                          Source="{x:Bind ViewModel.Playlist, Converter={StaticResource ArtworkConverter}, Mode=OneWay}" 
-                                                          VerticalAlignment="Stretch" 
-                                                          HorizontalAlignment="Stretch" />
+                            <Image
+                                Canvas.ZIndex="1"
+                                Width="240"
+                                Height="240"
+                                Source="{x:Bind ViewModel.Playlist, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
+                                VerticalAlignment="Stretch"
+                                HorizontalAlignment="Stretch" />
                         </controls:DropShadowPanel>
 
                         <!-- Detail Section -->
                         <StackPanel VerticalAlignment="Center" Margin="40,0,0,0">
-                            <TextBlock Text="{x:Bind ViewModel.Playlist.Title, Mode=OneWay}" FontWeight="Bold" FontSize="50" TextTrimming="CharacterEllipsis" Opacity="0.8" />
-                            <TextBlock Text="{x:Bind ViewModel.Playlist.User.Username, Mode=OneWay}" Opacity="0.7" FontSize="20" Margin="0,5,0,10" HorizontalAlignment="Left" TextWrapping="Wrap" />
+                            <TextBlock Text="{x:Bind ViewModel.Playlist.Title, Mode=OneWay}" FontWeight="Bold"
+                                       FontSize="50" TextTrimming="CharacterEllipsis" Opacity="0.8" />
+                            <TextBlock Text="{x:Bind ViewModel.Playlist.User.Username, Mode=OneWay}" Opacity="0.7"
+                                       FontSize="20" Margin="0,5,0,10" HorizontalAlignment="Left" TextWrapping="Wrap" />
 
                             <!-- Tracks -->
-                            <StackPanel Orientation="Horizontal"  Margin="0,15,0,0">
-                                <TextBlock Text="&#xEA69;" FontFamily="Segoe MDL2 Assets" Margin="0,4,6,0" FontSize="14" Opacity="0.8" />
-                                <TextBlock Text="{x:Bind Path=ViewModel.Playlist.TrackCount, Converter={StaticResource FormattedValueConverter}, Mode=OneWay}" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="15" Opacity="0.8" FontWeight="SemiLight"/>
-                                <TextBlock Text="Tracks" Margin="5,0,0,0" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="15" Opacity="0.8" FontWeight="SemiLight"/>
+                            <StackPanel Orientation="Horizontal" Margin="0,15,0,0">
+                                <TextBlock Text="&#xEA69;" FontFamily="Segoe MDL2 Assets" Margin="0,4,6,0"
+                                           FontSize="14" Opacity="0.8" />
+                                <TextBlock
+                                    Text="{x:Bind Path=ViewModel.Playlist.TrackCount, Converter={StaticResource FormattedValueConverter}, Mode=OneWay}"
+                                    HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top"
+                                    FontSize="15" Opacity="0.8" FontWeight="SemiLight" />
+                                <TextBlock Text="Tracks" Margin="5,0,0,0" HorizontalAlignment="Left"
+                                           TextWrapping="Wrap" VerticalAlignment="Top" FontSize="15" Opacity="0.8"
+                                           FontWeight="SemiLight" />
                             </StackPanel>
 
                             <!-- Likes -->
-                            <StackPanel Orientation="Horizontal"  Margin="0,5,0,0">
-                                <TextBlock Text="&#xE006;" FontFamily="Segoe MDL2 Assets" Margin="0,4,6,0" FontSize="14" Opacity="0.8" />
-                                <TextBlock Text="{x:Bind Path=ViewModel.Playlist.LikesCount, Converter={StaticResource FormattedValueConverter}, Mode=OneWay}" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="15" Opacity="0.8" FontWeight="SemiLight"/>
-                                <TextBlock Text="Likes" Margin="5,0,0,0" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="15" Opacity="0.8" FontWeight="SemiLight"/>
+                            <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                                <TextBlock Text="&#xE006;" FontFamily="Segoe MDL2 Assets" Margin="0,4,6,0"
+                                           FontSize="14" Opacity="0.8" />
+                                <TextBlock
+                                    Text="{x:Bind Path=ViewModel.Playlist.LikesCount, Converter={StaticResource FormattedValueConverter}, Mode=OneWay}"
+                                    HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top"
+                                    FontSize="15" Opacity="0.8" FontWeight="SemiLight" />
+                                <TextBlock Text="Likes" Margin="5,0,0,0" HorizontalAlignment="Left" TextWrapping="Wrap"
+                                           VerticalAlignment="Top" FontSize="15" Opacity="0.8" FontWeight="SemiLight" />
                             </StackPanel>
                         </StackPanel>
 
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" Margin="10,20,0,20">
-                        <ui:SoundByteButton Glyph="&#xE768;" Label="Play All" Click="{x:Bind ViewModel.NavigatePlay}" Margin="0,0,25,0" />
-                        <ui:SoundByteButton Glyph="&#xE8B1;" Label="Shuffle Play" Click="{x:Bind ViewModel.ShuffleItemsAsync}" Margin="0,0,25,0" />
-                        <ui:SoundByteButton Glyph="{x:Bind ViewModel.PinButtonIcon, Mode=OneWay}" Label="{x:Bind ViewModel.PinButtonText, Mode=OneWay}" Click="{x:Bind ViewModel.PinPlaylist}" Margin="0,0,25,0" />
+                        <ui:SoundByteButton Glyph="&#xE768;" Label="Play All" Click="{x:Bind ViewModel.NavigatePlay}"
+                                            Margin="0,0,25,0" />
+                        <ui:SoundByteButton Glyph="&#xE8B1;" Label="Shuffle Play"
+                                            Click="{x:Bind ViewModel.ShuffleItemsAsync}" Margin="0,0,25,0" />
+                        <ui:SoundByteButton Glyph="{x:Bind ViewModel.PinButtonIcon, Mode=OneWay}"
+                                            Label="{x:Bind ViewModel.PinButtonText, Mode=OneWay}"
+                                            Click="{x:Bind ViewModel.PinPlaylist}" Margin="0,0,25,0" />
                     </StackPanel>
                 </StackPanel>
             </GridView.Header>

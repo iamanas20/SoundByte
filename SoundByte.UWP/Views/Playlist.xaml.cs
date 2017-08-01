@@ -12,16 +12,17 @@
 
 using Windows.UI.Xaml.Navigation;
 using SoundByte.Core.Services;
+using SoundByte.UWP.ViewModels;
 
 namespace SoundByte.UWP.Views
 {
     /// <summary>
-    /// Displays a playlist
+    ///     Displays a playlist
     /// </summary>
     public sealed partial class Playlist
     {
         // Page View Model
-        public readonly ViewModels.PlaylistViewModel ViewModel = new ViewModels.PlaylistViewModel();
+        public readonly PlaylistViewModel ViewModel = new PlaylistViewModel();
 
         public Playlist()
         {
@@ -34,7 +35,7 @@ namespace SoundByte.UWP.Views
         }
 
         /// <summary>
-        /// Called when the user navigates to the page
+        ///     Called when the user navigates to the page
         /// </summary>
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {

@@ -10,8 +10,6 @@
  * |----------------------------------------------------------------|
  */
 
-using SoundByte.Core.API.Exceptions;
-using SoundByte.Core.API.Holders;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -22,31 +20,35 @@ using Windows.Foundation;
 using Windows.UI.Xaml.Data;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Helpers;
+using SoundByte.Core.API.Endpoints;
+using SoundByte.Core.API.Exceptions;
+using SoundByte.Core.API.Holders;
 using SoundByte.Core.Services;
 using SoundByte.UWP.UserControls;
 
 namespace SoundByte.UWP.Models
 {
     /// <summary>
-    /// Model for the soundcloud charts
+    ///     Model for the soundcloud charts
     /// </summary>
-    public class ChartModel : ObservableCollection<Core.API.Endpoints.Track>, ISupportIncrementalLoading
+    public class ChartModel : ObservableCollection<Track>, ISupportIncrementalLoading
     {
         // The genre to search for
         private string _genre = "all-music";
+
         // The kind to search for
         private string _kind = "top";
 
         /// <summary>
-        /// The position of the track, will be 'eol'
-        /// if there are no new trackss
+        ///     The position of the track, will be 'eol'
+        ///     if there are no new trackss
         /// </summary>
         public string Token { get; private set; }
 
         /// <summary>
-        /// The genre to search for.
-        /// Note: By changing this variable will update
-        /// the model.
+        ///     The genre to search for.
+        ///     Note: By changing this variable will update
+        ///     the model.
         /// </summary>
         public string Genre
         {
@@ -59,9 +61,9 @@ namespace SoundByte.UWP.Models
         }
 
         /// <summary>
-        /// The kind of item to search for
-        /// Note: By changing this variable it will
-        /// update the model.
+        ///     The kind of item to search for
+        ///     Note: By changing this variable it will
+        ///     update the model.
         /// </summary>
         public string Kind
         {
@@ -74,22 +76,12 @@ namespace SoundByte.UWP.Models
         }
 
         /// <summary>
-        /// Are there more items to load
+        ///     Are there more items to load
         /// </summary>
         public bool HasMoreItems => Token != "eol";
 
         /// <summary>
-        /// Refresh the list by removing any
-        /// existing items and reseting the token.
-        /// </summary>
-        public void RefreshItems()
-        {
-            Token = null;
-            Clear();
-        }
-
-        /// <summary>
-        /// Loads chart items from the souncloud api
+        ///     Loads chart items from the souncloud api
         /// </summary>
         /// <param name="count">The amount of items to load</param>
         // ReSharper disable once RedundantAssignment
@@ -110,14 +102,15 @@ namespace SoundByte.UWP.Models
                 try
                 {
                     // Get the trending tracks
-                    var exploreTracks = await SoundByteService.Current.GetAsync<ExploreTrackHolder>("/charts", new Dictionary<string, string>
-                    {
-                        { "genre", "soundcloud%3Agenres%3A" + _genre },
-                        { "kind", _kind },
-                        { "limit", "50" },
-                        { "offset", Token },
-                        { "linked_partitioning", "1" }
-                    }, true);
+                    var exploreTracks = await SoundByteService.Current.GetAsync<ExploreTrackHolder>("/charts",
+                        new Dictionary<string, string>
+                        {
+                            {"genre", "soundcloud%3Agenres%3A" + _genre},
+                            {"kind", _kind},
+                            {"limit", "50"},
+                            {"offset", Token},
+                            {"linked_partitioning", "1"}
+                        }, true);
 
                     // Parse uri for offset
                     var param = new QueryParameterCollection(exploreTracks.NextList);
@@ -130,7 +123,7 @@ namespace SoundByte.UWP.Models
                     if (exploreTracks.Items.Count > 0)
                     {
                         // Set the count variable
-                        count = (uint)exploreTracks.Items.Count;
+                        count = (uint) exploreTracks.Items.Count;
 
                         // Loop though all the tracks on the UI thread
                         await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
@@ -149,7 +142,9 @@ namespace SoundByte.UWP.Models
                         // No items tell the user
                         await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                         {
-                            (App.CurrentFrame?.FindName("ChartModelInfoPane") as InfoPane)?.ShowMessage(resources.GetString("ExploreTracks_Header"), resources.GetString("ExploreTracks_Content"), "", false);
+                            (App.CurrentFrame?.FindName("ChartModelInfoPane") as InfoPane)?.ShowMessage(
+                                resources.GetString("ExploreTracks_Header"),
+                                resources.GetString("ExploreTracks_Content"), "", false);
                         });
                     }
                 }
@@ -164,7 +159,8 @@ namespace SoundByte.UWP.Models
                     // Exception, display error to the user
                     await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                     {
-                        (App.CurrentFrame?.FindName("ChartModelInfoPane") as InfoPane)?.ShowMessage(ex.ErrorTitle, ex.ErrorDescription, ex.ErrorGlyph);
+                        (App.CurrentFrame?.FindName("ChartModelInfoPane") as InfoPane)?.ShowMessage(ex.ErrorTitle,
+                            ex.ErrorDescription, ex.ErrorGlyph);
                     });
                 }
 
@@ -175,8 +171,18 @@ namespace SoundByte.UWP.Models
                 });
 
                 // Return the result
-                return new LoadMoreItemsResult { Count = count };
+                return new LoadMoreItemsResult {Count = count};
             }).AsAsyncOperation();
+        }
+
+        /// <summary>
+        ///     Refresh the list by removing any
+        ///     existing items and reseting the token.
+        /// </summary>
+        public void RefreshItems()
+        {
+            Token = null;
+            Clear();
         }
     }
 }

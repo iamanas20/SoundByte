@@ -16,35 +16,31 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
-using SoundByte.UWP.Services;
 using SoundByte.Core.API.Endpoints;
+using SoundByte.UWP.Services;
 
 namespace SoundByte.UWP.ViewModels
 {
     /// <summary>
-    /// Base class for all view models to extend off of
+    ///     Base class for all view models to extend off of
     /// </summary>
     public class BaseViewModel : INotifyPropertyChanged, IDisposable
     {
         /// <summary>
-        /// The global playback service
+        ///     The global playback service
         /// </summary>
         public PlaybackService Service => PlaybackService.Current;
 
-        #region Property Changed Event Handlers
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        // This method is called by the Set accessor of each property.
-        // The CallerMemberName attribute that is applied to the optional propertyName
-        // parameter causes the property name of the caller to be substituted as an argument.
-        protected void UpdateProperty([CallerMemberName] string propertyName = "")
+        /// <summary>
+        ///     Dispose the model
+        /// </summary>
+        public virtual void Dispose()
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            // On the base view model, we do nothing
         }
-        #endregion
 
         /// <summary>
-        /// Performs a shuffle of the tracks
+        ///     Performs a shuffle of the tracks
         /// </summary>
         /// <param name="tracks"></param>
         /// <param name="token"></param>
@@ -56,16 +52,22 @@ namespace SoundByte.UWP.ViewModels
 
             if (!startPlayback.success)
                 await new MessageDialog(startPlayback.message, "Error playing shuffled tracks.").ShowAsync();
-           
+
             App.IsLoading = false;
         }
 
-        /// <summary>
-        /// Dispose the model
-        /// </summary>
-        public virtual void Dispose()
+        #region Property Changed Event Handlers
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        // This method is called by the Set accessor of each property.
+        // The CallerMemberName attribute that is applied to the optional propertyName
+        // parameter causes the property name of the caller to be substituted as an argument.
+        protected void UpdateProperty([CallerMemberName] string propertyName = "")
         {
-            // On the base view model, we do nothing
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        #endregion
     }
 }

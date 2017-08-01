@@ -17,8 +17,8 @@ using Windows.Storage;
 namespace SoundByte.Core.Services
 {
     /// <summary>
-    /// This class contains any keys used by the app. For example
-    /// client IDs and client secrets.
+    ///     This class contains any keys used by the app. For example
+    ///     client IDs and client secrets.
     /// </summary>
     public static class ApiKeyService
     {
@@ -27,7 +27,9 @@ namespace SoundByte.Core.Services
             get
             {
                 // Check if the key has been stored locally
-                var key = ApplicationData.Current.LocalSettings.Values.ContainsKey("SoundByte.Keys.GA") ? ApplicationData.Current.LocalSettings.Values["SoundByte.Keys.GA"] : null;
+                var key = ApplicationData.Current.LocalSettings.Values.ContainsKey("SoundByte.Keys.GA")
+                    ? ApplicationData.Current.LocalSettings.Values["SoundByte.Keys.GA"]
+                    : null;
 
                 if (key != null)
                     return key.ToString();
@@ -37,14 +39,16 @@ namespace SoundByte.Core.Services
 
                 return liveKey;
             }
-        } 
+        }
 
         public static string HockeyAppClientId
         {
             get
             {
                 // Check if the key has been stored locally
-                var key = ApplicationData.Current.LocalSettings.Values.ContainsKey("SoundByte.Keys.HAC") ? ApplicationData.Current.LocalSettings.Values["SoundByte.Keys.HAC"] : null;
+                var key = ApplicationData.Current.LocalSettings.Values.ContainsKey("SoundByte.Keys.HAC")
+                    ? ApplicationData.Current.LocalSettings.Values["SoundByte.Keys.HAC"]
+                    : null;
 
                 if (key != null)
                     return key.ToString();
@@ -61,7 +65,9 @@ namespace SoundByte.Core.Services
             get
             {
                 // Check if the key has been stored locally
-                var key = ApplicationData.Current.LocalSettings.Values.ContainsKey("SoundByte.Keys.AMCC") ? ApplicationData.Current.LocalSettings.Values["SoundByte.Keys.AMCC"] : null;
+                var key = ApplicationData.Current.LocalSettings.Values.ContainsKey("SoundByte.Keys.AMCC")
+                    ? ApplicationData.Current.LocalSettings.Values["SoundByte.Keys.AMCC"]
+                    : null;
 
                 if (key != null)
                     return key.ToString();
@@ -78,7 +84,9 @@ namespace SoundByte.Core.Services
             get
             {
                 // Check if the key has been stored locally
-                var key = ApplicationData.Current.LocalSettings.Values.ContainsKey("SoundByte.Keys.SCC") ? ApplicationData.Current.LocalSettings.Values["SoundByte.Keys.SCC"] : null;
+                var key = ApplicationData.Current.LocalSettings.Values.ContainsKey("SoundByte.Keys.SCC")
+                    ? ApplicationData.Current.LocalSettings.Values["SoundByte.Keys.SCC"]
+                    : null;
 
                 if (key != null)
                     return key.ToString();
@@ -88,14 +96,16 @@ namespace SoundByte.Core.Services
 
                 return liveKey;
             }
-        } 
+        }
 
         public static string SoundCloudClientSecret
         {
             get
             {
                 // Check if the key has been stored locally
-                var key = ApplicationData.Current.LocalSettings.Values.ContainsKey("SoundByte.Keys.SCS") ? ApplicationData.Current.LocalSettings.Values["SoundByte.Keys.SCS"] : null;
+                var key = ApplicationData.Current.LocalSettings.Values.ContainsKey("SoundByte.Keys.SCS")
+                    ? ApplicationData.Current.LocalSettings.Values["SoundByte.Keys.SCS"]
+                    : null;
 
                 if (key != null)
                     return key.ToString();
@@ -105,14 +115,16 @@ namespace SoundByte.Core.Services
 
                 return liveKey;
             }
-        } 
+        }
 
         public static string FanburstClientId
         {
             get
             {
                 // Check if the key has been stored locally
-                var key = ApplicationData.Current.LocalSettings.Values.ContainsKey("SoundByte.Keys.FBC") ? ApplicationData.Current.LocalSettings.Values["SoundByte.Keys.FBC"] : null;
+                var key = ApplicationData.Current.LocalSettings.Values.ContainsKey("SoundByte.Keys.FBC")
+                    ? ApplicationData.Current.LocalSettings.Values["SoundByte.Keys.FBC"]
+                    : null;
 
                 if (key != null)
                     return key.ToString();
@@ -129,7 +141,9 @@ namespace SoundByte.Core.Services
             get
             {
                 // Check if the key has been stored locally
-                var key = ApplicationData.Current.LocalSettings.Values.ContainsKey("SoundByte.Keys.FBS") ? ApplicationData.Current.LocalSettings.Values["SoundByte.Keys.FBS"] : null;
+                var key = ApplicationData.Current.LocalSettings.Values.ContainsKey("SoundByte.Keys.FBS")
+                    ? ApplicationData.Current.LocalSettings.Values["SoundByte.Keys.FBS"]
+                    : null;
 
                 if (key != null)
                     return key.ToString();
@@ -146,7 +160,9 @@ namespace SoundByte.Core.Services
             get
             {
                 // Check if the key has been stored locally
-                var key = ApplicationData.Current.LocalSettings.Values.ContainsKey("SoundByte.Keys.SCPI") ? ApplicationData.Current.LocalSettings.Values["SoundByte.Keys.SCPI"] as string : null;
+                var key = ApplicationData.Current.LocalSettings.Values.ContainsKey("SoundByte.Keys.SCPI")
+                    ? ApplicationData.Current.LocalSettings.Values["SoundByte.Keys.SCPI"] as string
+                    : null;
 
                 if (key != null)
                     return key.Split(',').ToList();

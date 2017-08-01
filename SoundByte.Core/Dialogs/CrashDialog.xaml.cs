@@ -22,7 +22,7 @@ using SoundByte.Core.Services;
 namespace SoundByte.Core.Dialogs
 {
     /// <summary>
-    /// A dialog to notify the user that the app has crashed.
+    ///     A dialog to notify the user that the app has crashed.
     /// </summary>
     public sealed partial class CrashDialog
     {
@@ -56,10 +56,11 @@ namespace SoundByte.Core.Dialogs
                         new KeyValuePair<string, string>("Title", MoreInfo.Text),
                         new KeyValuePair<string, string>("Description", description),
                         new KeyValuePair<string, string>("Category", "AutoGenerate"),
-                        new KeyValuePair<string, string>("ContactEmail", Contact.Text),
+                        new KeyValuePair<string, string>("ContactEmail", Contact.Text)
                     };
 
-                    var request = await httpClient.PostAsync(new Uri("http://gridentertainment.net/Tickets/Create"), new HttpFormUrlEncodedContent(param));
+                    var request = await httpClient.PostAsync(new Uri("http://gridentertainment.net/Tickets/Create"),
+                        new HttpFormUrlEncodedContent(param));
                     request.EnsureSuccessStatusCode();
                 }
             }
@@ -80,7 +81,7 @@ namespace SoundByte.Core.Dialogs
         {
             TelemetryService.Current.TrackEvent("Crash Dialog - Send and Continue");
             Hide();
-            await Send();     
+            await Send();
         }
     }
 }

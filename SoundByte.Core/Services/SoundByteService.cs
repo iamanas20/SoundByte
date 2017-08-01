@@ -31,20 +31,50 @@ namespace SoundByte.Core.Services
 {
     public class SoundByteService
     {
+        #region Disconnect Service Helpers
+
+        /// <summary>
+        ///     Disconnects a soundbyte service
+        /// </summary>
+        public void DisconnectService(ServiceType serviceType)
+        {
+            // Get the password vault
+            var vault = new PasswordVault();
+
+            switch (serviceType)
+            {
+                case ServiceType.SoundCloud:
+                    // Remove the token
+                    _soundCloudToken = null;
+                    // Remove everything in the vault
+                    vault.FindAllByResource("SoundByte.SoundCloud").ToList().ForEach(x => vault.Remove(x));
+                    break;
+                case ServiceType.Fanburst:
+                    // Remove the token
+                    _fanburstToken = null;
+                    // Remove everything in the vault
+                    vault.FindAllByResource("SoundByte.FanBurst").ToList().ForEach(x => vault.Remove(x));
+                    break;
+            }
+        }
+
+        #endregion
+
         #region Static Class Instance
+
         // Private class instance
         private static SoundByteService _instance;
 
         /// <summary>
-        /// Get the current soundbyte service
+        ///     Get the current soundbyte service
         /// </summary>
         public static SoundByteService Current => _instance ?? (_instance = new SoundByteService());
 
         /// <summary>
-        /// Due to issues between 1.3.x and 2.0.x we need to add the ability to
-        /// copy old account information over to the new system. This ensures a smooth
-        /// transition process for any users upgrading to the new vesion (also decreases
-        /// the amount of stress placed on the new login system).
+        ///     Due to issues between 1.3.x and 2.0.x we need to add the ability to
+        ///     copy old account information over to the new system. This ensures a smooth
+        ///     transition process for any users upgrading to the new vesion (also decreases
+        ///     the amount of stress placed on the new login system).
         /// </summary>
         private SoundByteService()
         {
@@ -57,7 +87,10 @@ namespace SoundByte.Core.Services
             {
                 if (vault.FindAllByResource("SoundByteToken") == null) return;
             }
-            catch { return; }
+            catch
+            {
+                return;
+            }
 
             // Here we get the stuff from the old vault, move it
             // to the new vault, and then delete the old vault.
@@ -74,15 +107,18 @@ namespace SoundByte.Core.Services
         #endregion
 
         #region Secret Keys
+
         private Token _soundCloudToken;
         private Token _fanburstToken;
         private User _currentSoundCloudUser;
         private User _currentFanBurstUser;
+
         #endregion
 
         #region Getters and Setters
+
         /// <summary>
-        /// Get the token needed to access fanburst resources
+        ///     Get the token needed to access fanburst resources
         /// </summary>
         public Token FanburstToken
         {
@@ -131,7 +167,7 @@ namespace SoundByte.Core.Services
         }
 
         /// <summary>
-        /// Get the token needed to access soundcloud resources
+        ///     Get the token needed to access soundcloud resources
         /// </summary>
         public Token SoundCloudToken
         {
@@ -182,7 +218,7 @@ namespace SoundByte.Core.Services
         }
 
         /// <summary>
-        /// The current logged in fanburst user
+        ///     The current logged in fanburst user
         /// </summary>
         public User FanburstUser
         {
@@ -201,7 +237,8 @@ namespace SoundByte.Core.Services
 
                 try
                 {
-                    _currentFanBurstUser = AsyncHelper.RunSync(async () => await GetAsync<User>(ServiceType.Fanburst, "/me"));
+                    _currentFanBurstUser =
+                        AsyncHelper.RunSync(async () => await GetAsync<User>(ServiceType.Fanburst, "/me"));
                     return _currentFanBurstUser;
                 }
                 catch
@@ -213,7 +250,7 @@ namespace SoundByte.Core.Services
         }
 
         /// <summary>
-        /// The current logged in soundcloud user
+        ///     The current logged in soundcloud user
         /// </summary>
         public User SoundCloudUser
         {
@@ -240,9 +277,9 @@ namespace SoundByte.Core.Services
                     DisconnectService(ServiceType.SoundCloud);
                     return null;
                 }
-
             }
         }
+
         #endregion
 
         #region Helper Classes and Enums
@@ -257,37 +294,39 @@ namespace SoundByte.Core.Services
         public class Token
         {
             /// <summary>
-            /// The access token
+            ///     The access token
             /// </summary>
             [JsonProperty("access_token")]
             public string AccessToken { get; set; }
 
             /// <summary>
-            /// The type of token
+            ///     The type of token
             /// </summary>
             public string TokenType { get; set; }
 
             /// <summary>
-            /// Time for this current token to expire
+            ///     Time for this current token to expire
             /// </summary>
             public string ExpireTime { get; set; }
 
             /// <summary>
-            /// Token used to refresh
+            ///     Token used to refresh
             /// </summary>
             public string RefreshToken { get; set; }
 
             /// <summary>
-            /// What scope we have
+            ///     What scope we have
             /// </summary>
             [JsonProperty("scope")]
             public string Scope { get; set; }
         }
+
         #endregion
 
         #region Account Connected Checks
+
         /// <summary>
-        /// Checks to see if the users fanbirst account is connected
+        ///     Checks to see if the users fanbirst account is connected
         /// </summary>
         public bool IsFanBurstAccountConnected
         {
@@ -318,12 +357,11 @@ namespace SoundByte.Core.Services
                 {
                     return false;
                 }
-
             }
         }
 
         /// <summary>
-        /// Checks to see if the users soundcloud account is connected
+        ///     Checks to see if the users soundcloud account is connected
         /// </summary>
         public bool IsSoundCloudAccountConnected
         {
@@ -356,39 +394,14 @@ namespace SoundByte.Core.Services
                 }
             }
         }
-        #endregion
 
-        #region Disconnect Service Helpers
-        /// <summary>
-        /// Disconnects a soundbyte service
-        /// </summary>
-        public void DisconnectService(ServiceType serviceType)
-        {
-            // Get the password vault
-            var vault = new PasswordVault();
-
-            switch (serviceType)
-            {
-                case ServiceType.SoundCloud:
-                    // Remove the token
-                    _soundCloudToken = null;
-                    // Remove everything in the vault
-                    vault.FindAllByResource("SoundByte.SoundCloud").ToList().ForEach(x => vault.Remove(x));
-                    break;
-                case ServiceType.Fanburst:
-                    // Remove the token
-                    _fanburstToken = null;
-                    // Remove everything in the vault
-                    vault.FindAllByResource("SoundByte.FanBurst").ToList().ForEach(x => vault.Remove(x));
-                    break;
-            } 
-        }
         #endregion
 
         #region WebAPI Helpers
+
         /// <summary>
-        /// Contacts the soundcloud API and posts an object. The posted object will then be
-        /// returned back to the user.
+        ///     Contacts the soundcloud API and posts an object. The posted object will then be
+        ///     returned back to the user.
         /// </summary>
         /// <typeparam name="T">The object type we will serialize</typeparam>
         /// <param name="endpoint"></param>
@@ -396,18 +409,23 @@ namespace SoundByte.Core.Services
         /// <param name="optionalParams">A list of any optional params to send in the URI</param>
         /// <param name="useV2Api">If true, the v2 version of the soundcloud API will be contacted instead.</param>
         /// <returns></returns>
-        public async Task<T> PostAsync<T>(string endpoint, HttpStringContent bodyContent = null, Dictionary<string, string> optionalParams = null, bool useV2Api = false)
+        public async Task<T> PostAsync<T>(string endpoint, HttpStringContent bodyContent = null,
+            Dictionary<string, string> optionalParams = null, bool useV2Api = false)
         {
             // Strip out the / infront of the endpoint if it exists
             endpoint = endpoint.TrimStart('/');
 
             // Start building the request URL
-            var requestUri = useV2Api ? $"https://api-v2.soundcloud.com/{endpoint}?client_id={ApiKeyService.SoundCloudClientId}&client_secret={ApiKeyService.SoundCloudClientSecret}" : $"https://api.soundcloud.com/{endpoint}?client_id={ApiKeyService.SoundCloudClientId}&client_secret={ApiKeyService.SoundCloudClientSecret}";
+            var requestUri = useV2Api
+                ? $"https://api-v2.soundcloud.com/{endpoint}?client_id={ApiKeyService.SoundCloudClientId}&client_secret={ApiKeyService.SoundCloudClientSecret}"
+                : $"https://api.soundcloud.com/{endpoint}?client_id={ApiKeyService.SoundCloudClientId}&client_secret={ApiKeyService.SoundCloudClientSecret}";
 
             // Check that there are optional params then loop through all 
             // the params and add them onto the request URL
             if (optionalParams != null)
-                requestUri = optionalParams.Where(param => !string.IsNullOrEmpty(param.Key) && !string.IsNullOrEmpty(param.Value)).Aggregate(requestUri, (current, param) => current + "&" + param.Key + "=" + param.Value);
+                requestUri = optionalParams
+                    .Where(param => !string.IsNullOrEmpty(param.Key) && !string.IsNullOrEmpty(param.Value))
+                    .Aggregate(requestUri, (current, param) => current + "&" + param.Key + "=" + param.Value);
 
             // Get the resource loader
             var resources = ResourceLoader.GetForViewIndependentUse();
@@ -417,16 +435,20 @@ namespace SoundByte.Core.Services
                 return await Task.Run(async () =>
                 {
                     // Create the client
-                    using (var client = new HttpClient(new HttpBaseProtocolFilter { AutomaticDecompression = true }))
+                    using (var client = new HttpClient(new HttpBaseProtocolFilter {AutomaticDecompression = true}))
                     {
                         // Setup the request readers for user agent
                         // and requested data type.
-                        client.DefaultRequestHeaders.UserAgent.Add(new HttpProductInfoHeaderValue("SoundByte", Package.Current.Id.Version.Major + "." + Package.Current.Id.Version.Minor + "." + Package.Current.Id.Version.Build));
-                        client.DefaultRequestHeaders.Accept.Add(new HttpMediaTypeWithQualityHeaderValue("application/json"));
+                        client.DefaultRequestHeaders.UserAgent.Add(new HttpProductInfoHeaderValue("SoundByte",
+                            Package.Current.Id.Version.Major + "." + Package.Current.Id.Version.Minor + "." +
+                            Package.Current.Id.Version.Build));
+                        client.DefaultRequestHeaders.Accept.Add(
+                            new HttpMediaTypeWithQualityHeaderValue("application/json"));
 
                         // Auth headers for when the user is logged in
                         if (IsSoundCloudAccountConnected)
-                            client.DefaultRequestHeaders.Authorization = new HttpCredentialsHeaderValue("OAuth", SoundCloudToken.AccessToken);
+                            client.DefaultRequestHeaders.Authorization =
+                                new HttpCredentialsHeaderValue("OAuth", SoundCloudToken.AccessToken);
 
                         // escape the url
                         var escapedUri = new Uri(Uri.EscapeUriString(requestUri));
@@ -452,7 +474,8 @@ namespace SoundByte.Core.Services
                                     using (var textReader = new JsonTextReader(streamReader))
                                     {
                                         // Used to get the data from JSON
-                                        var serializer = new JsonSerializer { NullValueHandling = NullValueHandling.Ignore };
+                                        var serializer =
+                                            new JsonSerializer {NullValueHandling = NullValueHandling.Ignore};
                                         // Return the data
                                         return serializer.Deserialize<T>(textReader);
                                     }
@@ -460,28 +483,31 @@ namespace SoundByte.Core.Services
                             }
                         }
                     }
-                });   
+                });
             }
             catch (TaskCanceledException)
             {
-                throw new SoundByteException(resources.GetString("HttpError_Header"), resources.GetString("HttpError_TaskCancel"), "\uE007");
+                throw new SoundByteException(resources.GetString("HttpError_Header"),
+                    resources.GetString("HttpError_TaskCancel"), "\uE007");
             }
             catch (JsonSerializationException)
             {
-                throw new SoundByteException(resources.GetString("HttpError_Header"), resources.GetString("HttpError_JsonError"), "\uEB63");
+                throw new SoundByteException(resources.GetString("HttpError_Header"),
+                    resources.GetString("HttpError_JsonError"), "\uEB63");
             }
             catch (Exception ex)
             {
-                throw new SoundByteException(resources.GetString("GeneralError_Header"), string.Format(resources.GetString("GeneralError_Content"), ex.Message), "\uE007");
+                throw new SoundByteException(resources.GetString("GeneralError_Header"),
+                    string.Format(resources.GetString("GeneralError_Content"), ex.Message), "\uE007");
             }
         }
 
         /// <summary>
-        /// Used to get the playback keys for SoundByte via grid entertainment services. 
-        /// Is only run once on start up to get the keys, once done the keys are saved locally.
-        /// Needs to be built so if it fails, it will retry, or alert the user. Currently just closes
-        /// the app (as everything will be broken if this method fails). Example of failing can be users,
-        /// internet connecting, azure is down, website is broken, domain expires etc.
+        ///     Used to get the playback keys for SoundByte via grid entertainment services.
+        ///     Is only run once on start up to get the keys, once done the keys are saved locally.
+        ///     Needs to be built so if it fails, it will retry, or alert the user. Currently just closes
+        ///     the app (as everything will be broken if this method fails). Example of failing can be users,
+        ///     internet connecting, azure is down, website is broken, domain expires etc.
         /// </summary>
         /// <returns></returns>
         public List<string> GetSoundBytePlaybackKeys()
@@ -491,20 +517,27 @@ namespace SoundByte.Core.Services
                 try
                 {
                     // Create the client
-                    using (var client = new HttpClient(new HttpBaseProtocolFilter { AutomaticDecompression = true }))
+                    using (var client = new HttpClient(new HttpBaseProtocolFilter {AutomaticDecompression = true}))
                     {
                         // Setup the request readers for user agent
                         // and requested data type.
-                        client.DefaultRequestHeaders.UserAgent.Add(new HttpProductInfoHeaderValue("SoundByte", Package.Current.Id.Version.Major + "." + Package.Current.Id.Version.Minor + "." + Package.Current.Id.Version.Build));
-                        client.DefaultRequestHeaders.Accept.Add(new HttpMediaTypeWithQualityHeaderValue("application/json"));
+                        client.DefaultRequestHeaders.UserAgent.Add(new HttpProductInfoHeaderValue("SoundByte",
+                            Package.Current.Id.Version.Major + "." + Package.Current.Id.Version.Minor + "." +
+                            Package.Current.Id.Version.Build));
+                        client.DefaultRequestHeaders.Accept.Add(
+                            new HttpMediaTypeWithQualityHeaderValue("application/json"));
 
 
                         // Perform the post request
-                        using (var webRequest = await client.PostAsync(new Uri("https://gridentertainment.net/api/soundbyte/key?key=scpi"), new HttpFormUrlEncodedContent(new List<KeyValuePair<string, string>>
-                        {
-                            new KeyValuePair<string, string>("sck", "dlzZBc0hKAla1619RWTNIdUP7slMx1ufMAETtsc9UQH7IGZoffP9l2fqDlGYH22B"),
-                            new KeyValuePair<string, string>("ppk", "lBcZRoiX3KLMjCcZmy3MS0wOMSPoGCrQMO2rndcfeSgaQZI0t9Z5xbq8CBOLdIEZ"),
-                        })))
+                        using (var webRequest =
+                            await client.PostAsync(new Uri("https://gridentertainment.net/api/soundbyte/key?key=scpi"),
+                                new HttpFormUrlEncodedContent(new List<KeyValuePair<string, string>>
+                                {
+                                    new KeyValuePair<string, string>("sck",
+                                        "dlzZBc0hKAla1619RWTNIdUP7slMx1ufMAETtsc9UQH7IGZoffP9l2fqDlGYH22B"),
+                                    new KeyValuePair<string, string>("ppk",
+                                        "lBcZRoiX3KLMjCcZmy3MS0wOMSPoGCrQMO2rndcfeSgaQZI0t9Z5xbq8CBOLdIEZ")
+                                })))
                         {
                             webRequest.EnsureSuccessStatusCode();
 
@@ -528,11 +561,11 @@ namespace SoundByte.Core.Services
         }
 
         /// <summary>
-        /// Used to get private keys for SoundByte via grid entertainment services. 
-        /// Is only run once on start up to get the keys, once done the keys are saved locally.
-        /// Needs to be built so if it fails, it will retry, or alert the user. Currently just closes
-        /// the app (as everything will be broken if this method fails). Example of failing can be users,
-        /// internet connecting, azure is down, website is broken, domain expires etc.
+        ///     Used to get private keys for SoundByte via grid entertainment services.
+        ///     Is only run once on start up to get the keys, once done the keys are saved locally.
+        ///     Needs to be built so if it fails, it will retry, or alert the user. Currently just closes
+        ///     the app (as everything will be broken if this method fails). Example of failing can be users,
+        ///     internet connecting, azure is down, website is broken, domain expires etc.
         /// </summary>
         /// <param name="keyName">The key to get</param>
         /// <returns></returns>
@@ -543,20 +576,28 @@ namespace SoundByte.Core.Services
                 try
                 {
                     // Create the client
-                    using (var client = new HttpClient(new HttpBaseProtocolFilter { AutomaticDecompression = true }))
+                    using (var client = new HttpClient(new HttpBaseProtocolFilter {AutomaticDecompression = true}))
                     {
                         // Setup the request readers for user agent
                         // and requested data type.
-                        client.DefaultRequestHeaders.UserAgent.Add(new HttpProductInfoHeaderValue("SoundByte", Package.Current.Id.Version.Major + "." + Package.Current.Id.Version.Minor + "." + Package.Current.Id.Version.Build));
-                        client.DefaultRequestHeaders.Accept.Add(new HttpMediaTypeWithQualityHeaderValue("application/json"));
+                        client.DefaultRequestHeaders.UserAgent.Add(new HttpProductInfoHeaderValue("SoundByte",
+                            Package.Current.Id.Version.Major + "." + Package.Current.Id.Version.Minor + "." +
+                            Package.Current.Id.Version.Build));
+                        client.DefaultRequestHeaders.Accept.Add(
+                            new HttpMediaTypeWithQualityHeaderValue("application/json"));
 
 
                         // Perform the post request
-                        using (var webRequest = await client.PostAsync(new Uri("https://gridentertainment.net/api/soundbyte/key?key=" + keyName), new HttpFormUrlEncodedContent(new List<KeyValuePair<string, string>>
-                        {
-                            new KeyValuePair<string, string>("sck", "dlzZBc0hKAla1619RWTNIdUP7slMx1ufMAETtsc9UQH7IGZoffP9l2fqDlGYH22B"),
-                            new KeyValuePair<string, string>("ppk", "lBcZRoiX3KLMjCcZmy3MS0wOMSPoGCrQMO2rndcfeSgaQZI0t9Z5xbq8CBOLdIEZ"),
-                        })))
+                        using (var webRequest =
+                            await client.PostAsync(
+                                new Uri("https://gridentertainment.net/api/soundbyte/key?key=" + keyName),
+                                new HttpFormUrlEncodedContent(new List<KeyValuePair<string, string>>
+                                {
+                                    new KeyValuePair<string, string>("sck",
+                                        "dlzZBc0hKAla1619RWTNIdUP7slMx1ufMAETtsc9UQH7IGZoffP9l2fqDlGYH22B"),
+                                    new KeyValuePair<string, string>("ppk",
+                                        "lBcZRoiX3KLMjCcZmy3MS0wOMSPoGCrQMO2rndcfeSgaQZI0t9Z5xbq8CBOLdIEZ")
+                                })))
                         {
                             webRequest.EnsureSuccessStatusCode();
                             return await webRequest.Content.ReadAsStringAsync();
@@ -580,7 +621,8 @@ namespace SoundByte.Core.Services
             {
                 using (var client = new HttpClient(new HttpBaseProtocolFilter {AutomaticDecompression = true}))
                 {
-                    var key = await client.GetStringAsync(new Uri("https://gridentertainment.net/api/soundbyte/playback-key"));
+                    var key = await client.GetStringAsync(
+                        new Uri("https://gridentertainment.net/api/soundbyte/playback-key"));
                     key = key.Trim('"');
                     return key;
                 }
@@ -596,7 +638,7 @@ namespace SoundByte.Core.Services
             try
             {
                 // Create the client
-                using (var client = new HttpClient(new HttpBaseProtocolFilter { AutomaticDecompression = true }))
+                using (var client = new HttpClient(new HttpBaseProtocolFilter {AutomaticDecompression = true}))
                 {
                     // No Auth for this
                     client.DefaultRequestHeaders.Authorization = null;
@@ -614,9 +656,9 @@ namespace SoundByte.Core.Services
         }
 
         /// <summary>
-        /// This method fetches a generic url and returns an object. Note:
-        /// you must provide a valid uri object. If calling the soundcloud api,
-        /// use GetAsync(string endpoint).
+        ///     This method fetches a generic url and returns an object. Note:
+        ///     you must provide a valid uri object. If calling the soundcloud api,
+        ///     use GetAsync(string endpoint).
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="location">The uri location</param>
@@ -631,7 +673,9 @@ namespace SoundByte.Core.Services
             // Check that there are optional params then loop through all 
             // the params and add them onto the request URL
             if (optionalParams != null)
-                requestUri = optionalParams.Where(param => !string.IsNullOrEmpty(param.Key) && !string.IsNullOrEmpty(param.Value)).Aggregate(requestUri, (current, param) => current + "&" + param.Key + "=" + param.Value);
+                requestUri = optionalParams
+                    .Where(param => !string.IsNullOrEmpty(param.Key) && !string.IsNullOrEmpty(param.Value))
+                    .Aggregate(requestUri, (current, param) => current + "&" + param.Key + "=" + param.Value);
 
             // Get the resource loader
             var resources = ResourceLoader.GetForViewIndependentUse();
@@ -641,12 +685,15 @@ namespace SoundByte.Core.Services
                 return await Task.Run(async () =>
                 {
                     // Create the client
-                    using (var client = new HttpClient(new HttpBaseProtocolFilter { AutomaticDecompression = true }))
+                    using (var client = new HttpClient(new HttpBaseProtocolFilter {AutomaticDecompression = true}))
                     {
                         // Setup the request readers for user agent
                         // and requested data type.
-                        client.DefaultRequestHeaders.UserAgent.Add(new HttpProductInfoHeaderValue("SoundByte", Package.Current.Id.Version.Major + "." + Package.Current.Id.Version.Minor + "." + Package.Current.Id.Version.Build));
-                        client.DefaultRequestHeaders.Accept.Add(new HttpMediaTypeWithQualityHeaderValue("application/json"));
+                        client.DefaultRequestHeaders.UserAgent.Add(new HttpProductInfoHeaderValue("SoundByte",
+                            Package.Current.Id.Version.Major + "." + Package.Current.Id.Version.Minor + "." +
+                            Package.Current.Id.Version.Build));
+                        client.DefaultRequestHeaders.Accept.Add(
+                            new HttpMediaTypeWithQualityHeaderValue("application/json"));
 
                         // escape the url
                         var escapedUri = new Uri(Uri.EscapeUriString(requestUri));
@@ -668,7 +715,8 @@ namespace SoundByte.Core.Services
                                     using (var textReader = new JsonTextReader(streamReader))
                                     {
                                         // Used to get the data from JSON
-                                        var serializer = new JsonSerializer { NullValueHandling = NullValueHandling.Ignore };
+                                        var serializer =
+                                            new JsonSerializer {NullValueHandling = NullValueHandling.Ignore};
                                         // Return the data
                                         return serializer.Deserialize<T>(textReader);
                                     }
@@ -680,23 +728,25 @@ namespace SoundByte.Core.Services
             }
             catch (TaskCanceledException)
             {
-                throw new SoundByteException(resources.GetString("HttpError_Header"), resources.GetString("HttpError_TaskCancel"), "\uE007");
+                throw new SoundByteException(resources.GetString("HttpError_Header"),
+                    resources.GetString("HttpError_TaskCancel"), "\uE007");
             }
             catch (JsonSerializationException)
             {
-                throw new SoundByteException(resources.GetString("HttpError_Header"), resources.GetString("HttpError_JsonError"), "\uEB63");
+                throw new SoundByteException(resources.GetString("HttpError_Header"),
+                    resources.GetString("HttpError_JsonError"), "\uEB63");
             }
             catch (Exception ex)
             {
-                throw new SoundByteException(resources.GetString("GeneralError_Header"), string.Format(resources.GetString("GeneralError_Content"), ex.Message), "\uE007");
+                throw new SoundByteException(resources.GetString("GeneralError_Header"),
+                    string.Format(resources.GetString("GeneralError_Content"), ex.Message), "\uE007");
             }
-
         }
 
         /// <summary>
-        /// A wrapper function moving the service call to the 
-        /// front of the function. This should be used for all
-        /// future code.
+        ///     A wrapper function moving the service call to the
+        ///     front of the function. This should be used for all
+        ///     future code.
         /// </summary>
         /// <typeparam name="T">The object type we will serialize</typeparam>
         /// <param name="service">The service that we want to connect to</param>
@@ -704,15 +754,16 @@ namespace SoundByte.Core.Services
         /// <param name="optionalParams">A list of any optional params to send in the URI</param>
         /// <param name="useV2Api">Use the v2 SoundCloud API</param>
         /// <returns></returns>
-        public async Task<T> GetAsync<T>(ServiceType service, string endpoint, Dictionary<string, string> optionalParams = null, bool useV2Api = false)
+        public async Task<T> GetAsync<T>(ServiceType service, string endpoint,
+            Dictionary<string, string> optionalParams = null, bool useV2Api = false)
         {
             return await GetAsync<T>(endpoint, optionalParams, useV2Api, service);
         }
 
         /// <summary>
-        /// Fetches an object from the soundcloud api and returns it back 
-        /// to the user. Note: This class will return a SoundByteException
-        /// if anything goes wrong. Make sure to handle this exception.
+        ///     Fetches an object from the soundcloud api and returns it back
+        ///     to the user. Note: This class will return a SoundByteException
+        ///     if anything goes wrong. Make sure to handle this exception.
         /// </summary>
         /// <typeparam name="T">The object type we will serialize</typeparam>
         /// <param name="endpoint">SoundClouud API endpoint to contact</param>
@@ -720,7 +771,8 @@ namespace SoundByte.Core.Services
         /// <param name="useV2Api">If true, the v2 version of the soundcloud API will be contacted instead.</param>
         /// <param name="service">The service that we want to connect to</param>
         /// <returns>The object you specified</returns>
-        public async Task<T> GetAsync<T>(string endpoint, Dictionary<string, string> optionalParams = null, bool useV2Api = false, ServiceType service = ServiceType.SoundCloud)
+        public async Task<T> GetAsync<T>(string endpoint, Dictionary<string, string> optionalParams = null,
+            bool useV2Api = false, ServiceType service = ServiceType.SoundCloud)
         {
             // Strip out the / infront of the endpoint if it exists
             endpoint = endpoint.TrimStart('/');
@@ -731,17 +783,22 @@ namespace SoundByte.Core.Services
             switch (service)
             {
                 case ServiceType.SoundCloud:
-                    requestUri = useV2Api ? $"https://api-v2.soundcloud.com/{endpoint}?client_id={ApiKeyService.SoundCloudClientId}&client_secret={ApiKeyService.SoundCloudClientSecret}" : $"https://api.soundcloud.com/{endpoint}?client_id={ApiKeyService.SoundCloudClientId}&client_secret={ApiKeyService.SoundCloudClientSecret}";
+                    requestUri = useV2Api
+                        ? $"https://api-v2.soundcloud.com/{endpoint}?client_id={ApiKeyService.SoundCloudClientId}&client_secret={ApiKeyService.SoundCloudClientSecret}"
+                        : $"https://api.soundcloud.com/{endpoint}?client_id={ApiKeyService.SoundCloudClientId}&client_secret={ApiKeyService.SoundCloudClientSecret}";
                     break;
                 case ServiceType.Fanburst:
-                    requestUri = $"https://api.fanburst.com/{endpoint}?client_id={ApiKeyService.FanburstClientId}&client_secret={ApiKeyService.FanburstClientSecret}";
+                    requestUri =
+                        $"https://api.fanburst.com/{endpoint}?client_id={ApiKeyService.FanburstClientId}&client_secret={ApiKeyService.FanburstClientSecret}";
                     break;
             }
 
             // Check that there are optional params then loop through all 
             // the params and add them onto the request URL
             if (optionalParams != null)
-                requestUri = optionalParams.Where(param => !string.IsNullOrEmpty(param.Key) && !string.IsNullOrEmpty(param.Value)).Aggregate(requestUri, (current, param) => current + "&" + param.Key + "=" + param.Value);
+                requestUri = optionalParams
+                    .Where(param => !string.IsNullOrEmpty(param.Key) && !string.IsNullOrEmpty(param.Value))
+                    .Aggregate(requestUri, (current, param) => current + "&" + param.Key + "=" + param.Value);
 
             // Get the resource loader
             var resources = ResourceLoader.GetForViewIndependentUse();
@@ -751,12 +808,15 @@ namespace SoundByte.Core.Services
                 return await Task.Run(async () =>
                 {
                     // Create the client
-                    using (var client = new HttpClient(new HttpBaseProtocolFilter { AutomaticDecompression = true }))
+                    using (var client = new HttpClient(new HttpBaseProtocolFilter {AutomaticDecompression = true}))
                     {
                         // Setup the request readers for user agent
                         // and requested data type.
-                        client.DefaultRequestHeaders.UserAgent.Add(new HttpProductInfoHeaderValue("SoundByte", Package.Current.Id.Version.Major + "." + Package.Current.Id.Version.Minor + "." + Package.Current.Id.Version.Build));
-                        client.DefaultRequestHeaders.Accept.Add(new HttpMediaTypeWithQualityHeaderValue("application/json"));
+                        client.DefaultRequestHeaders.UserAgent.Add(new HttpProductInfoHeaderValue("SoundByte",
+                            Package.Current.Id.Version.Major + "." + Package.Current.Id.Version.Minor + "." +
+                            Package.Current.Id.Version.Build));
+                        client.DefaultRequestHeaders.Accept.Add(
+                            new HttpMediaTypeWithQualityHeaderValue("application/json"));
 
                         // Auth headers for when the user is logged in
                         // Different for each service
@@ -764,12 +824,14 @@ namespace SoundByte.Core.Services
                         {
                             case ServiceType.SoundCloud:
                                 if (IsSoundCloudAccountConnected)
-                                    client.DefaultRequestHeaders.Authorization = new HttpCredentialsHeaderValue("OAuth", SoundCloudToken.AccessToken);
+                                    client.DefaultRequestHeaders.Authorization =
+                                        new HttpCredentialsHeaderValue("OAuth", SoundCloudToken.AccessToken);
                                 break;
 
                             case ServiceType.Fanburst:
                                 if (IsFanBurstAccountConnected)
-                                    client.DefaultRequestHeaders.Authorization = new HttpCredentialsHeaderValue("OAuth", FanburstToken.AccessToken);
+                                    client.DefaultRequestHeaders.Authorization =
+                                        new HttpCredentialsHeaderValue("OAuth", FanburstToken.AccessToken);
                                 break;
                         }
 
@@ -794,7 +856,8 @@ namespace SoundByte.Core.Services
                                     using (var textReader = new JsonTextReader(streamReader))
                                     {
                                         // Used to get the data from JSON
-                                        var serializer = new JsonSerializer { NullValueHandling = NullValueHandling.Ignore };
+                                        var serializer =
+                                            new JsonSerializer {NullValueHandling = NullValueHandling.Ignore};
                                         // Return the data
                                         return serializer.Deserialize<T>(textReader);
                                     }
@@ -803,25 +866,27 @@ namespace SoundByte.Core.Services
                         }
                     }
                 });
-
             }
             catch (TaskCanceledException)
             {
-                throw new SoundByteException(resources.GetString("HttpError_Header"), resources.GetString("HttpError_TaskCancel"), "\uE007");
+                throw new SoundByteException(resources.GetString("HttpError_Header"),
+                    resources.GetString("HttpError_TaskCancel"), "\uE007");
             }
             catch (JsonSerializationException)
             {
-                throw new SoundByteException(resources.GetString("HttpError_Header"), resources.GetString("HttpError_JsonError"), "\uEB63");
+                throw new SoundByteException(resources.GetString("HttpError_Header"),
+                    resources.GetString("HttpError_JsonError"), "\uEB63");
             }
             catch (Exception ex)
             {
-                throw new SoundByteException(resources.GetString("GeneralError_Header"), string.Format(resources.GetString("GeneralError_Content"), ex.Message), "\uE007");
+                throw new SoundByteException(resources.GetString("GeneralError_Header"),
+                    string.Format(resources.GetString("GeneralError_Content"), ex.Message), "\uE007");
             }
         }
 
         /// <summary>
-        /// Attempts to delete an object from the soundcloud 
-        /// api and returns the result.
+        ///     Attempts to delete an object from the soundcloud
+        ///     api and returns the result.
         /// </summary>
         /// <param name="endpoint">The endpoint to delete from</param>
         /// <param name="useV2Api">Should we try deleting from the v2 api</param>
@@ -832,23 +897,29 @@ namespace SoundByte.Core.Services
             endpoint = endpoint.TrimStart('/');
 
             // Start building the request URL
-            var requestUri = useV2Api ? $"https://api-v2.soundcloud.com/{endpoint}?client_id={ApiKeyService.SoundCloudClientId}&client_secret={ApiKeyService.SoundCloudClientSecret}" : $"https://api.soundcloud.com/{endpoint}?client_id={ApiKeyService.SoundCloudClientId}&client_secret={ApiKeyService.SoundCloudClientSecret}";
+            var requestUri = useV2Api
+                ? $"https://api-v2.soundcloud.com/{endpoint}?client_id={ApiKeyService.SoundCloudClientId}&client_secret={ApiKeyService.SoundCloudClientSecret}"
+                : $"https://api.soundcloud.com/{endpoint}?client_id={ApiKeyService.SoundCloudClientId}&client_secret={ApiKeyService.SoundCloudClientSecret}";
 
             try
             {
                 return await Task.Run(async () =>
                 {
                     // Create the client
-                    using (var client = new HttpClient(new HttpBaseProtocolFilter { AutomaticDecompression = true }))
+                    using (var client = new HttpClient(new HttpBaseProtocolFilter {AutomaticDecompression = true}))
                     {
                         // Setup the request readers for user agent
                         // and requested data type.
-                        client.DefaultRequestHeaders.UserAgent.Add(new HttpProductInfoHeaderValue("SoundByte", Package.Current.Id.Version.Major + "." + Package.Current.Id.Version.Minor + "." + Package.Current.Id.Version.Build));
-                        client.DefaultRequestHeaders.Accept.Add(new HttpMediaTypeWithQualityHeaderValue("application/json"));
+                        client.DefaultRequestHeaders.UserAgent.Add(new HttpProductInfoHeaderValue("SoundByte",
+                            Package.Current.Id.Version.Major + "." + Package.Current.Id.Version.Minor + "." +
+                            Package.Current.Id.Version.Build));
+                        client.DefaultRequestHeaders.Accept.Add(
+                            new HttpMediaTypeWithQualityHeaderValue("application/json"));
 
                         // Auth headers for when the user is logged in
                         if (IsSoundCloudAccountConnected)
-                            client.DefaultRequestHeaders.Authorization = new HttpCredentialsHeaderValue("OAuth", SoundCloudToken.AccessToken);
+                            client.DefaultRequestHeaders.Authorization =
+                                new HttpCredentialsHeaderValue("OAuth", SoundCloudToken.AccessToken);
 
                         // escape the url
                         var escapedUri = new Uri(Uri.EscapeUriString(requestUri));
@@ -860,7 +931,7 @@ namespace SoundByte.Core.Services
                             return webRequest.StatusCode == HttpStatusCode.Ok;
                         }
                     }
-                });      
+                });
             }
             catch (Exception)
             {
@@ -869,7 +940,7 @@ namespace SoundByte.Core.Services
         }
 
         /// <summary>
-        /// Checks to see if an items exists at the specified endpoint
+        ///     Checks to see if an items exists at the specified endpoint
         /// </summary>
         /// <param name="endpoint">The endpoint we are checking</param>
         /// <param name="useV2Api">Should we try checking the v2 api</param>
@@ -880,24 +951,30 @@ namespace SoundByte.Core.Services
             endpoint = endpoint.TrimStart('/');
 
             // Start building the request URL
-            var requestUri = useV2Api ? $"https://api-v2.soundcloud.com/{endpoint}?client_id={ApiKeyService.SoundCloudClientId}&client_secret={ApiKeyService.SoundCloudClientSecret}" : $"https://api.soundcloud.com/{endpoint}?client_id={ApiKeyService.SoundCloudClientId}&client_secret={ApiKeyService.SoundCloudClientSecret}";
+            var requestUri = useV2Api
+                ? $"https://api-v2.soundcloud.com/{endpoint}?client_id={ApiKeyService.SoundCloudClientId}&client_secret={ApiKeyService.SoundCloudClientSecret}"
+                : $"https://api.soundcloud.com/{endpoint}?client_id={ApiKeyService.SoundCloudClientId}&client_secret={ApiKeyService.SoundCloudClientSecret}";
 
             try
             {
                 return await Task.Run(async () =>
                 {
                     // Create the client
-                    using (var client = new HttpClient(new HttpBaseProtocolFilter { AutomaticDecompression = true }))
+                    using (var client = new HttpClient(new HttpBaseProtocolFilter {AutomaticDecompression = true}))
                     {
                         // Setup the request readers for user agent
                         // and requested data type.
-                        client.DefaultRequestHeaders.UserAgent.Add(new HttpProductInfoHeaderValue("SoundByte", Package.Current.Id.Version.Major + "." + Package.Current.Id.Version.Minor + "." + Package.Current.Id.Version.Build));
-                        client.DefaultRequestHeaders.Accept.Add(new HttpMediaTypeWithQualityHeaderValue("application/json"));
+                        client.DefaultRequestHeaders.UserAgent.Add(new HttpProductInfoHeaderValue("SoundByte",
+                            Package.Current.Id.Version.Major + "." + Package.Current.Id.Version.Minor + "." +
+                            Package.Current.Id.Version.Build));
+                        client.DefaultRequestHeaders.Accept.Add(
+                            new HttpMediaTypeWithQualityHeaderValue("application/json"));
 
                         // Auth headers for when the user is logged in
                         if (IsSoundCloudAccountConnected)
                         {
-                            client.DefaultRequestHeaders.Authorization = new HttpCredentialsHeaderValue("OAuth", SoundCloudToken.AccessToken);
+                            client.DefaultRequestHeaders.Authorization =
+                                new HttpCredentialsHeaderValue("OAuth", SoundCloudToken.AccessToken);
                             requestUri += "&oauth_token=" + SoundCloudToken.AccessToken;
                         }
 
@@ -915,7 +992,7 @@ namespace SoundByte.Core.Services
                             return webRequest.IsSuccessStatusCode;
                         }
                     }
-                }); 
+                });
             }
             catch (Exception)
             {
@@ -924,7 +1001,7 @@ namespace SoundByte.Core.Services
         }
 
         /// <summary>
-        /// Puts an object into the soundcloud API.
+        ///     Puts an object into the soundcloud API.
         /// </summary>
         /// <param name="endpoint">The endpoint we are putting the item into</param>
         /// <param name="bodyContent">The content we want to put</param>
@@ -936,23 +1013,29 @@ namespace SoundByte.Core.Services
             endpoint = endpoint.TrimStart('/');
 
             // Start building the request URL
-            var requestUri = useV2Api ? $"https://api-v2.soundcloud.com/{endpoint}?client_id={ApiKeyService.SoundCloudClientId}&client_secret={ApiKeyService.SoundCloudClientSecret}" : $"https://api.soundcloud.com/{endpoint}?client_id={ApiKeyService.SoundCloudClientId}&client_secret={ApiKeyService.SoundCloudClientSecret}";
+            var requestUri = useV2Api
+                ? $"https://api-v2.soundcloud.com/{endpoint}?client_id={ApiKeyService.SoundCloudClientId}&client_secret={ApiKeyService.SoundCloudClientSecret}"
+                : $"https://api.soundcloud.com/{endpoint}?client_id={ApiKeyService.SoundCloudClientId}&client_secret={ApiKeyService.SoundCloudClientSecret}";
 
             try
             {
                 return await Task.Run(async () =>
                 {
                     // Create the client
-                    using (var client = new HttpClient(new HttpBaseProtocolFilter { AutomaticDecompression = true }))
+                    using (var client = new HttpClient(new HttpBaseProtocolFilter {AutomaticDecompression = true}))
                     {
                         // Setup the request readers for user agent
                         // and requested data type.
-                        client.DefaultRequestHeaders.UserAgent.Add(new HttpProductInfoHeaderValue("SoundByte", Package.Current.Id.Version.Major + "." + Package.Current.Id.Version.Minor + "." + Package.Current.Id.Version.Build));
-                        client.DefaultRequestHeaders.Accept.Add(new HttpMediaTypeWithQualityHeaderValue("application/json"));
+                        client.DefaultRequestHeaders.UserAgent.Add(new HttpProductInfoHeaderValue("SoundByte",
+                            Package.Current.Id.Version.Major + "." + Package.Current.Id.Version.Minor + "." +
+                            Package.Current.Id.Version.Build));
+                        client.DefaultRequestHeaders.Accept.Add(
+                            new HttpMediaTypeWithQualityHeaderValue("application/json"));
 
                         // Auth headers for when the user is logged in
                         if (IsSoundCloudAccountConnected)
-                            client.DefaultRequestHeaders.Authorization = new HttpCredentialsHeaderValue("OAuth", SoundCloudToken.AccessToken);
+                            client.DefaultRequestHeaders.Authorization =
+                                new HttpCredentialsHeaderValue("OAuth", SoundCloudToken.AccessToken);
 
                         // escape the url
                         var escapedUri = new Uri(Uri.EscapeUriString(requestUri));
@@ -968,13 +1051,14 @@ namespace SoundByte.Core.Services
                             return webRequest.IsSuccessStatusCode;
                         }
                     }
-                });     
+                });
             }
             catch (Exception)
             {
                 return false;
             }
         }
+
         #endregion
     }
 }

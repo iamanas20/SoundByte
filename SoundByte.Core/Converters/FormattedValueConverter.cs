@@ -17,7 +17,7 @@ using SoundByte.Core.Helpers;
 namespace SoundByte.Core.Converters
 {
     /// <summary>
-    /// Converts a nullable into to a human readable string
+    ///     Converts a nullable into to a human readable string
     /// </summary>
     public class FormattedValueConverter : IValueConverter
     {
@@ -28,10 +28,7 @@ namespace SoundByte.Core.Converters
 
             // Does this null int have a value
             if (inValue.HasValue)
-            {
-                // Return the actual value of 0 if there is none
                 return inValue.Value == 0 ? "0" : NumberFormatHelper.GetFormattedLargeNumber(inValue.Value);
-            }
 
             return "0";
         }

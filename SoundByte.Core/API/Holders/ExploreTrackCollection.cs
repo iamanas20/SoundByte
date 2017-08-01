@@ -12,6 +12,7 @@
 
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using SoundByte.Core.API.Endpoints;
 
 namespace SoundByte.Core.API.Holders
 {
@@ -19,27 +20,27 @@ namespace SoundByte.Core.API.Holders
     public class ExploreTrackCollection
     {
         /// <summary>
-        /// The track object
+        ///     The track object
         /// </summary>
         [JsonProperty("track")]
-        public Endpoints.Track Track { get; set; }
+        public Track Track { get; set; }
     }
 
     /// <summary>
-    /// Used when deserlizing charts. Provided is the list of tracks and 
-    /// the uri to the next list.
+    ///     Used when deserlizing charts. Provided is the list of tracks and
+    ///     the uri to the next list.
     /// </summary>
     [JsonObject]
     public class ExploreTrackHolder
     {
         /// <summary>
-        /// The list of items
+        ///     The list of items
         /// </summary>
         [JsonProperty("collection")]
         public List<ExploreTrackCollection> Items { get; set; }
 
         /// <summary>
-        /// Next item in the list
+        ///     Next item in the list
         /// </summary>
         [JsonProperty("next_href")]
         public string NextList { get; set; }

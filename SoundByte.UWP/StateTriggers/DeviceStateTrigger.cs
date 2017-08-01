@@ -10,6 +10,7 @@
  * |----------------------------------------------------------------|
  */
 
+using Windows.System.Profile;
 using Windows.UI.Xaml;
 
 namespace SoundByte.UWP.StateTriggers
@@ -24,7 +25,7 @@ namespace SoundByte.UWP.StateTriggers
             set
             {
                 _deviceFamily = value;
-                SetActive(_deviceFamily == Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily);
+                SetActive(_deviceFamily == AnalyticsInfo.VersionInfo.DeviceFamily);
             }
         }
     }

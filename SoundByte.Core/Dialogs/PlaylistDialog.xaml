@@ -15,13 +15,13 @@
         <!-- Custom Style for playlist check box -->
         <Style TargetType="CheckBox">
             <Setter Property="Background" Value="Transparent" />
-            <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}"/>
+            <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
             <Setter Property="Padding" Value="8,5,0,0" />
             <Setter Property="HorizontalAlignment" Value="Left" />
             <Setter Property="Width" Value="30" />
             <Setter Property="VerticalAlignment" Value="Stretch" />
-            <Setter Property="HorizontalContentAlignment" Value="Left"/>
-            <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+            <Setter Property="VerticalContentAlignment" Value="Stretch" />
             <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
             <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
             <Setter Property="UseSystemFocusVisuals" Value="True" />
@@ -38,7 +38,8 @@
                                         <Storyboard>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="NormalRectangle"
                                                                            Storyboard.TargetProperty="Stroke">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightBaseHighBrush}" />
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource SystemControlHighlightBaseHighBrush}" />
                                             </ObjectAnimationUsingKeyFrames>
                                         </Storyboard>
                                     </VisualState>
@@ -46,11 +47,13 @@
                                         <Storyboard>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="NormalRectangle"
                                                                            Storyboard.TargetProperty="Fill">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundBaseMediumBrush}" />
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource SystemControlBackgroundBaseMediumBrush}" />
                                             </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="NormalRectangle"
                                                                            Storyboard.TargetProperty="Stroke">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightTransparentBrush}" />
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource SystemControlHighlightTransparentBrush}" />
                                             </ObjectAnimationUsingKeyFrames>
                                             <DoubleAnimation Storyboard.TargetName="NormalRectangle"
                                                              Storyboard.TargetProperty="StrokeThickness"
@@ -63,7 +66,8 @@
                                         <Storyboard>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="NormalRectangle"
                                                                            Storyboard.TargetProperty="Fill">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAccentBrush}" />
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource SystemControlHighlightAccentBrush}" />
                                             </ObjectAnimationUsingKeyFrames>
                                             <DoubleAnimation Storyboard.TargetName="NormalRectangle"
                                                              Storyboard.TargetProperty="StrokeThickness"
@@ -71,7 +75,8 @@
                                                              Duration="0" />
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="NormalRectangle"
                                                                            Storyboard.TargetProperty="Stroke">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAltTransparentBrush}" />
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource SystemControlHighlightAltTransparentBrush}" />
                                             </ObjectAnimationUsingKeyFrames>
                                             <DoubleAnimation Storyboard.TargetName="CheckGlyph"
                                                              Storyboard.TargetProperty="Opacity"
@@ -87,11 +92,13 @@
                                         <Storyboard>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="NormalRectangle"
                                                                            Storyboard.TargetProperty="Fill">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAccentBrush}" />
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource SystemControlHighlightAccentBrush}" />
                                             </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="NormalRectangle"
                                                                            Storyboard.TargetProperty="Stroke">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightBaseHighBrush}" />
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource SystemControlHighlightBaseHighBrush}" />
                                             </ObjectAnimationUsingKeyFrames>
                                             <DoubleAnimation Storyboard.TargetName="CheckGlyph"
                                                              Storyboard.TargetProperty="Opacity"
@@ -107,11 +114,13 @@
                                         <Storyboard>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="NormalRectangle"
                                                                            Storyboard.TargetProperty="Fill">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightBaseMediumBrush}" />
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource SystemControlHighlightBaseMediumBrush}" />
                                             </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="NormalRectangle"
                                                                            Storyboard.TargetProperty="Stroke">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightTransparentBrush}" />
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource SystemControlHighlightTransparentBrush}" />
                                             </ObjectAnimationUsingKeyFrames>
                                             <DoubleAnimation Storyboard.TargetName="NormalRectangle"
                                                              Storyboard.TargetProperty="StrokeThickness"
@@ -132,15 +141,18 @@
                                         <Storyboard>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="NormalRectangle"
                                                                            Storyboard.TargetProperty="Stroke">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlForegroundAccentBrush}" />
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource SystemControlForegroundAccentBrush}" />
                                             </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="NormalRectangle"
                                                                            Storyboard.TargetProperty="Fill">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightTransparentBrush}" />
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource SystemControlHighlightTransparentBrush}" />
                                             </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CheckGlyph"
                                                                            Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlForegroundBaseMediumHighBrush}" />
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource SystemControlForegroundBaseMediumHighBrush}" />
                                             </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CheckGlyph"
                                                                            Storyboard.TargetProperty="Glyph">
@@ -160,15 +172,18 @@
                                         <Storyboard>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="NormalRectangle"
                                                                            Storyboard.TargetProperty="Stroke">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAccentBrush}" />
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource SystemControlHighlightAccentBrush}" />
                                             </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="NormalRectangle"
                                                                            Storyboard.TargetProperty="Fill">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightTransparentBrush}" />
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource SystemControlHighlightTransparentBrush}" />
                                             </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CheckGlyph"
                                                                            Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
                                             </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CheckGlyph"
                                                                            Storyboard.TargetProperty="Glyph">
@@ -188,15 +203,18 @@
                                         <Storyboard>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="NormalRectangle"
                                                                            Storyboard.TargetProperty="Stroke">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightBaseMediumBrush}" />
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource SystemControlHighlightBaseMediumBrush}" />
                                             </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="NormalRectangle"
                                                                            Storyboard.TargetProperty="Fill">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightTransparentBrush}" />
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource SystemControlHighlightTransparentBrush}" />
                                             </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CheckGlyph"
                                                                            Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlForegroundBaseMediumBrush}" />
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource SystemControlForegroundBaseMediumBrush}" />
                                             </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CheckGlyph"
                                                                            Storyboard.TargetProperty="Glyph">
@@ -220,15 +238,18 @@
                                             </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="NormalRectangle"
                                                                            Storyboard.TargetProperty="Stroke">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledBaseMediumLowBrush}" />
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource SystemControlDisabledBaseMediumLowBrush}" />
                                             </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CheckGlyph"
                                                                            Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledBaseMediumLowBrush}" />
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource SystemControlDisabledBaseMediumLowBrush}" />
                                             </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
                                                                            Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledBaseMediumLowBrush}" />
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource SystemControlDisabledBaseMediumLowBrush}" />
                                             </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CheckGlyph"
                                                                            Storyboard.TargetProperty="Glyph">
@@ -288,28 +309,29 @@
 
     <Grid>
         <!-- Used to let the user know we are loading stuff -->
-        <ProgressRing x:Name="LoadingRing" Width="50" Height="50" VerticalAlignment="Center" HorizontalAlignment="Center" IsActive="True" />
+        <ProgressRing x:Name="LoadingRing" Width="50" Height="50" VerticalAlignment="Center"
+                      HorizontalAlignment="Center" IsActive="True" />
 
         <ScrollViewer HorizontalAlignment="Stretch"
                       VerticalScrollBarVisibility="Hidden">
             <StackPanel>
-                <TextBlock Text="&#xE710;" 
-                           FontFamily="Segoe MDL2 Assets" 
-                           TextAlignment="Center" 
-                           VerticalAlignment="Center" 
-                           FontSize="65" 
+                <TextBlock Text="&#xE710;"
+                           FontFamily="Segoe MDL2 Assets"
+                           TextAlignment="Center"
+                           VerticalAlignment="Center"
+                           FontSize="65"
                            Padding="5"
                            Foreground="{ThemeResource SystemControlBackgroundAccentBrush}"
                            Margin="20,20,20,10" />
 
-                <TextBlock Text="Add to Playlist" 
-                           TextAlignment="Center" 
+                <TextBlock Text="Add to Playlist"
+                           TextAlignment="Center"
                            FontWeight="SemiBold"
                            FontSize="22"
                            Margin="5"
                            VerticalAlignment="Center" />
 
-                <TextBlock TextWrapping="Wrap" 
+                <TextBlock TextWrapping="Wrap"
                            Opacity="0.8"
                            FontWeight="SemiLight"
                            TextAlignment="Center"
@@ -336,7 +358,7 @@
                     </ListView.ItemContainerStyle>
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <Grid HorizontalAlignment="Stretch"  
+                            <Grid HorizontalAlignment="Stretch"
                                   BorderBrush="{ThemeResource ContentDialogBorderThemeBrush}"
                                   Background="{ThemeResource ShellNavigationBackground}"
                                   BorderThickness="1">
@@ -346,36 +368,37 @@
                                 </Grid.ColumnDefinitions>
                                 <Grid Grid.Column="0">
                                     <!-- Playlist Image -->
-                                    <Image Source="{Binding Converter={StaticResource ArtworkConverter}}"  
-                                           VerticalAlignment="Top" 
-                                           Height="80" 
+                                    <Image Source="{Binding Converter={StaticResource ArtworkConverter}}"
+                                           VerticalAlignment="Top"
+                                           Height="80"
                                            Width="80"
-                                           HorizontalAlignment="Left" 
+                                           HorizontalAlignment="Left"
                                            Stretch="Uniform" />
 
                                     <!-- Hold Content -->
                                     <StackPanel Margin="90,0,0,0" VerticalAlignment="Center">
                                         <!-- Playlist Title -->
-                                        <TextBlock TextTrimming="CharacterEllipsis" 
-                                                   Text="{Binding Title}" 
-                                                   FontSize="20" 
+                                        <TextBlock TextTrimming="CharacterEllipsis"
+                                                   Text="{Binding Title}"
+                                                   FontSize="20"
                                                    Margin="0,0,10,0"
                                                    FontWeight="SemiBold" />
                                         <!-- Playlist Creation Date -->
-                                        <TextBlock Text="{Binding CreationDate, Converter={StaticResource ModernDateTimeConverter}}" 
-                                                   TextTrimming="CharacterEllipsis" 
-                                                   FontSize="14" 
-                                                   Margin="0,2,10,0"
-                                                   FontWeight="Normal" 
-                                                   Opacity="0.6" />
+                                        <TextBlock
+                                            Text="{Binding CreationDate, Converter={StaticResource ModernDateTimeConverter}}"
+                                            TextTrimming="CharacterEllipsis"
+                                            FontSize="14"
+                                            Margin="0,2,10,0"
+                                            FontWeight="Normal"
+                                            Opacity="0.6" />
                                     </StackPanel>
                                 </Grid>
 
-                                <CheckBox Grid.Column="1" 
-                                          Tag="{Binding Id}" 
-                                          IsChecked="{Binding IsTrackInInternalSet}" 
-                                          Unchecked="RemoveTrackFromPlaylist" 
-                                          Checked="AddTrackToPlaylist" 
+                                <CheckBox Grid.Column="1"
+                                          Tag="{Binding Id}"
+                                          IsChecked="{Binding IsTrackInInternalSet}"
+                                          Unchecked="RemoveTrackFromPlaylist"
+                                          Checked="AddTrackToPlaylist"
                                           BorderThickness="0"
                                           BorderBrush="{x:Null}"
                                           HorizontalAlignment="Stretch"
@@ -386,14 +409,14 @@
                     </ListView.ItemTemplate>
                 </ListView>
 
-                <HyperlinkButton Content="Create New Playlist" 
+                <HyperlinkButton Content="Create New Playlist"
                                  Margin="0,15,0,0"
                                  Foreground="{ThemeResource SystemControlPageTextBaseHighBrush}"
                                  ContentTemplate="{StaticResource HyperlinkClean}"
                                  Click="{x:Bind CreatePlaylist}"
                                  HorizontalAlignment="Center" />
 
-                <HyperlinkButton Content="Close" 
+                <HyperlinkButton Content="Close"
                                  Margin="0,15,0,0"
                                  Foreground="{ThemeResource SystemControlPageTextBaseHighBrush}"
                                  ContentTemplate="{StaticResource HyperlinkClean}"

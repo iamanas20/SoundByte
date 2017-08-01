@@ -18,7 +18,7 @@ using SoundByte.Core.Services;
 namespace SoundByte.UWP.Views.General
 {
     /// <summary>
-    /// Open a webview with the current changelog
+    ///     Open a webview with the current changelog
     /// </summary>
     public sealed partial class WhatsNewView
     {
@@ -38,7 +38,9 @@ namespace SoundByte.UWP.Views.General
                 // Get the changelog string from the azure api
                 using (var httpClient = new HttpClient())
                 {
-                    var changelog = await httpClient.GetStringAsync(new Uri("https://gridentertainment.net/api/soundbyte/changelog"));
+                    var changelog =
+                        await httpClient.GetStringAsync(
+                            new Uri("https://gridentertainment.net/api/soundbyte/changelog"));
 
                     ChangelogView.Text = changelog;
                 }

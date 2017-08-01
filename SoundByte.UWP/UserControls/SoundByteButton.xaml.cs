@@ -18,11 +18,21 @@ namespace SoundByte.UWP.UserControls
     {
         public delegate void ClickEventHandler(object sender, RoutedEventArgs e);
 
-        public static readonly DependencyProperty LabelProperty = DependencyProperty.Register("Label", typeof(string), typeof(SoundByteButton), null);
-        public static readonly DependencyProperty GlyphProperty = DependencyProperty.Register("Glyph", typeof(string), typeof(SoundByteButton), null);
+        public static readonly DependencyProperty LabelProperty =
+            DependencyProperty.Register("Label", typeof(string), typeof(SoundByteButton), null);
+
+        public static readonly DependencyProperty GlyphProperty =
+            DependencyProperty.Register("Glyph", typeof(string), typeof(SoundByteButton), null);
+
+        public SoundByteButton()
+        {
+            InitializeComponent();
+
+            MainButton.Click += (sender, args) => { Click?.Invoke(sender, args); };
+        }
 
         /// <summary>
-        /// The label to show on the button
+        ///     The label to show on the button
         /// </summary>
         public string Label
         {
@@ -31,12 +41,7 @@ namespace SoundByte.UWP.UserControls
         }
 
         /// <summary>
-        /// Handles the button click event
-        /// </summary>
-        public event ClickEventHandler Click;
-
-        /// <summary>
-        /// The glyph to show on the button
+        ///     The glyph to show on the button
         /// </summary>
         public string Glyph
         {
@@ -44,14 +49,9 @@ namespace SoundByte.UWP.UserControls
             set => SetValue(GlyphProperty, value);
         }
 
-        public SoundByteButton()
-        {
-            InitializeComponent();
-
-            MainButton.Click += (sender, args) =>
-            {
-                Click?.Invoke(sender, args);
-            };
-        }
+        /// <summary>
+        ///     Handles the button click event
+        /// </summary>
+        public event ClickEventHandler Click;
     }
 }

@@ -17,6 +17,7 @@ using System.Numerics;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Background;
+using Windows.ApplicationModel.VoiceCommands;
 using Windows.Globalization;
 using Windows.Services.Store;
 using Windows.UI;
@@ -30,6 +31,7 @@ using Windows.UI.Xaml.Navigation;
 using Microsoft.Toolkit.Uwp;
 using NotificationsExtensions;
 using NotificationsExtensions.Toasts;
+using SoundByte.Core.API.Endpoints;
 using SoundByte.Core.Dialogs;
 using SoundByte.Core.Helpers;
 using SoundByte.Core.Services;
@@ -41,6 +43,8 @@ using SoundByte.UWP.Views.CoreApp;
 using SoundByte.UWP.Views.Me;
 using SoundByte.UWP.Views.Mobile;
 using UICompositionAnimations.Brushes;
+using Playlist = SoundByte.Core.API.Endpoints.Playlist;
+using SearchBox = SoundByte.UWP.UserControls.SearchBox;
 
 namespace SoundByte.UWP
 {
@@ -49,11 +53,6 @@ namespace SoundByte.UWP
     /// </summary>
     public sealed partial class MainShell
     {
-        /// <summary>
-        /// Used to access the playback service from the UI
-        /// </summary>
-        public PlaybackService Service => PlaybackService.Current;
-
         public MainShell(string path)
         {
             // Init the XAML
@@ -75,7 +74,8 @@ namespace SoundByte.UWP
                 if (args.PropertyName != "CurrentTrack")
                     return;
 
-                if (Service.CurrentTrack == null || !DeviceHelper.IsDesktop || RootFrame.CurrentSourcePageType == typeof(NowPlayingView))
+                if (Service.CurrentTrack == null || !DeviceHelper.IsDesktop ||
+                    RootFrame.CurrentSourcePageType == typeof(NowPlayingView))
                     HideNowPlayingBar();
                 else
                     ShowNowPlayingBar();
@@ -83,7 +83,8 @@ namespace SoundByte.UWP
 
             // Create a shell frame shadow for mobile and desktop
             if (DeviceHelper.IsDesktop || DeviceHelper.IsMobile)
-                ShellFrame.CreateElementShadow(new Vector3(0, 0, 0), 20, new Color { A = 52, R = 0, G = 0, B = 0 }, ShellFrameShadow);
+                ShellFrame.CreateElementShadow(new Vector3(0, 0, 0), 20, new Color {A = 52, R = 0, G = 0, B = 0},
+                    ShellFrameShadow);
 
             // Events for Xbox
             if (DeviceHelper.IsXbox)
@@ -101,30 +102,40 @@ namespace SoundByte.UWP
                 ShellFrame.Background = new SolidColorBrush(Colors.Transparent);
 
                 // Splitview pane gets background
-                SplitViewPaneGrid.Background = Application.Current.Resources["InAppBackgroundBrush"] as CustomAcrylicBrush;
+                SplitViewPaneGrid.Background =
+                    Application.Current.Resources["InAppBackgroundBrush"] as CustomAcrylicBrush;
 
                 // Make xbox selection easy to see
-                Application.Current.Resources["CircleButtonStyle"] = Application.Current.Resources["XboxCircleButtonStyle"];
+                Application.Current.Resources["CircleButtonStyle"] =
+                    Application.Current.Resources["XboxCircleButtonStyle"];
             }
 
             // Events for Mobile
             if (DeviceHelper.IsMobile)
             {
                 // Amoled Magic
-                Application.Current.Resources["ShellBackground"] = new SolidColorBrush(Application.Current.RequestedTheme == ApplicationTheme.Dark ? Colors.Black : Colors.White);
+                Application.Current.Resources["ShellBackground"] =
+                    new SolidColorBrush(Application.Current.RequestedTheme == ApplicationTheme.Dark
+                        ? Colors.Black
+                        : Colors.White);
 
                 // Apply a margin down the bottom where nav icons will be
-                RootFrame.Margin = new Thickness { Bottom = 64 };
+                RootFrame.Margin = new Thickness {Bottom = 64};
 
                 MainSplitView.IsPaneOpen = false;
                 MainSplitView.CompactPaneLength = 0;
                 MobileNavigation.Visibility = Visibility.Visible;
             }
-           
+
             // Focus on the root frame
             RootFrame.Focus(FocusState.Programmatic);
         }
-    
+
+        /// <summary>
+        ///     Used to access the playback service from the UI
+        /// </summary>
+        public PlaybackService Service => PlaybackService.Current;
+
         private void OnBackRequested(object sender, BackRequestedEventArgs e)
         {
             if (App.OverrideBackEvent)
@@ -198,7 +209,7 @@ namespace SoundByte.UWP
             {
                 // Install Cortana Voice Commands
                 var vcdStorageFile = await Package.Current.InstalledLocation.GetFileAsync(@"SoundByteCommands.xml");
-                await Windows.ApplicationModel.VoiceCommands.VoiceCommandDefinitionManager.InstallCommandDefinitionsFromStorageFileAsync(vcdStorageFile);
+                await VoiceCommandDefinitionManager.InstallCommandDefinitionsFromStorageFileAsync(vcdStorageFile);
             }
             catch
             {
@@ -209,7 +220,8 @@ namespace SoundByte.UWP
             {
                 // Register the background task
                 if (!BackgroundTaskHelper.IsBackgroundTaskRegistered("NotificationTask"))
-                    BackgroundTaskHelper.Register("NotificationTask", "SoundByte.Notifications.NotificationTask", new TimeTrigger(15, false));
+                    BackgroundTaskHelper.Register("NotificationTask", "SoundByte.Notifications.NotificationTask",
+                        new TimeTrigger(15, false));
             }
             catch
             {
@@ -219,7 +231,8 @@ namespace SoundByte.UWP
 
         private void HandleNewAppVersion()
         {
-            var currentAppVersionString = Package.Current.Id.Version.Major + "." + Package.Current.Id.Version.Minor + "." + Package.Current.Id.Version.Build;
+            var currentAppVersionString = Package.Current.Id.Version.Major + "." + Package.Current.Id.Version.Minor +
+                                          "." + Package.Current.Id.Version.Build;
 
             // Get stored app version (this will stay the same when app is updated)
             var storedAppVersionString = SettingsService.Current.AppStoredVersion;
@@ -258,14 +271,14 @@ namespace SoundByte.UWP
                                 Text = string.IsNullOrEmpty(storedAppVersionString)
                                     ? "Welcome to SoundByte! If you encounter any issues, or have any questions, click the 'Settings' button then 'About' to get in contact with us."
                                     : "SoundByte was just updated! There are many new and exciting features waiting for you. Why not take a peek?"
-                            },
+                            }
                         }
                     }
                 }
             };
 
             // Show the notification
-            var toast = new ToastNotification(toastContent.GetXml()) { ExpirationTime = DateTime.Now.AddMinutes(30) };
+            var toast = new ToastNotification(toastContent.GetXml()) {ExpirationTime = DateTime.Now.AddMinutes(30)};
             ToastNotificationManager.CreateToastNotifier().Show(toast);
         }
 
@@ -286,12 +299,11 @@ namespace SoundByte.UWP
                         var userLikes = new LikeModel(SoundByteService.Current.SoundCloudUser);
 
                         while (userLikes.HasMoreItems)
-                        {
                             await userLikes.LoadMoreItemsAsync(500);
-                        }
 
                         // Play the list of items
-                        await PlaybackService.Current.StartMediaPlayback(userLikes.ToList(), path, path == "shufflePlayUserLikes");
+                        await PlaybackService.Current.StartMediaPlayback(userLikes.ToList(), path,
+                            path == "shufflePlayUserLikes");
 
                         return;
                     }
@@ -303,31 +315,33 @@ namespace SoundByte.UWP
 
                     App.IsLoading = true;
                     if (section == "core")
-                    {
                         switch (page)
                         {
                             case "track":
-                                var track = await SoundByteService.Current.GetAsync<Core.API.Endpoints.Track>($"/tracks/{parser["id"]}");
+                                var track = await SoundByteService.Current.GetAsync<Track>($"/tracks/{parser["id"]}");
 
-                                var startPlayback = await PlaybackService.Current.StartMediaPlayback(new List<Core.API.Endpoints.Track> { track }, $"Protocol-{track.Id}");
+                                var startPlayback =
+                                    await PlaybackService.Current.StartMediaPlayback(new List<Track> {track},
+                                        $"Protocol-{track.Id}");
 
                                 if (!startPlayback.success)
                                     await new MessageDialog(startPlayback.message, "Error playing track.").ShowAsync();
                                 break;
                             case "playlist":
-                                var playlist = await SoundByteService.Current.GetAsync<Core.API.Endpoints.Playlist>($"/playlists/{parser["id"]}");
-                                App.NavigateTo(typeof(Playlist), playlist);
+                                var playlist =
+                                    await SoundByteService.Current.GetAsync<Playlist>($"/playlists/{parser["id"]}");
+                                App.NavigateTo(typeof(Views.Playlist), playlist);
                                 return;
                             case "user":
-                                var user = await SoundByteService.Current.GetAsync<Core.API.Endpoints.User>($"/users/{parser["id"]}");
+                                var user = await SoundByteService.Current.GetAsync<User>($"/users/{parser["id"]}");
                                 App.NavigateTo(typeof(UserView), user);
                                 return;
                         }
-                    }
                 }
                 catch (Exception)
                 {
-                    await new MessageDialog("The specified protocol is not correct. App will now launch as normal.").ShowAsync();
+                    await new MessageDialog("The specified protocol is not correct. App will now launch as normal.")
+                        .ShowAsync();
                 }
                 App.IsLoading = false;
             }
@@ -412,13 +426,9 @@ namespace SoundByte.UWP
             if (BlockNavigation) return;
 
             if (PlaybackService.Current.CurrentTrack != null)
-            {
                 RootFrame.Navigate(typeof(NowPlayingView));
-            }
             else
-            {
                 await new MessageDialog("No Items are currently playing...").ShowAsync();
-            }
         }
 
         private void ShellFrame_Navigated(object sender, NavigationEventArgs e)
@@ -426,7 +436,7 @@ namespace SoundByte.UWP
             BlockNavigation = true;
 
             // Update the side bar
-            switch (((Frame)sender).SourcePageType.Name)
+            switch (((Frame) sender).SourcePageType.Name)
             {
                 case "HomeView":
                     HomeTab.IsChecked = true;
@@ -484,7 +494,8 @@ namespace SoundByte.UWP
 
             RootFrame.Focus(FocusState.Keyboard);
 
-            if (((Frame)sender).SourcePageType == typeof(HomeView) || ((Frame)sender).SourcePageType == typeof(MainShell))
+            if (((Frame) sender).SourcePageType == typeof(HomeView) ||
+                ((Frame) sender).SourcePageType == typeof(MainShell))
                 SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
                     AppViewBackButtonVisibility.Collapsed;
             else
@@ -492,42 +503,34 @@ namespace SoundByte.UWP
                     AppViewBackButtonVisibility.Visible;
 
             // Update the UI depending if we are logged in or not
-            if (SoundByteService.Current.IsSoundCloudAccountConnected || SoundByteService.Current.IsFanBurstAccountConnected)
+            if (SoundByteService.Current.IsSoundCloudAccountConnected ||
+                SoundByteService.Current.IsFanBurstAccountConnected)
                 ShowLoginContent();
             else
                 ShowLogoutContent();
 
             if (DeviceHelper.IsDesktop)
-            {
-                if (((Frame)sender).SourcePageType == typeof(NowPlayingView))
+                if (((Frame) sender).SourcePageType == typeof(NowPlayingView))
                 {
                     MainSplitView.IsPaneOpen = false;
                     MainSplitView.CompactPaneLength = 0;
 
                     HideNowPlayingBar();
 
-                    MainSplitView.Margin = new Thickness { Bottom = 0, Top = 0 };
+                    MainSplitView.Margin = new Thickness {Bottom = 0, Top = 0};
                 }
                 else
                 {
                     MainSplitView.CompactPaneLength = 84;
 
                     if (Service.CurrentTrack == null)
-                    {
-
                         HideNowPlayingBar();
-
-                    }
                     else
-                    {
                         ShowNowPlayingBar();
-                    }
                 }
-            }
 
             if (DeviceHelper.IsXbox)
-            {
-                if (((Frame)sender).SourcePageType == typeof(NowPlayingView))
+                if (((Frame) sender).SourcePageType == typeof(NowPlayingView))
                 {
                     MainSplitView.IsPaneOpen = false;
                     MainSplitView.CompactPaneLength = 0;
@@ -536,9 +539,7 @@ namespace SoundByte.UWP
                 {
                     MainSplitView.IsPaneOpen = false;
                     MainSplitView.CompactPaneLength = 84;
-
                 }
-            }
 
             BlockNavigation = false;
         }
@@ -548,19 +549,20 @@ namespace SoundByte.UWP
             UnknownTab.IsChecked = true;
             NowPlaying.Visibility = Visibility.Collapsed;
 
-            MainSplitView.Margin = DeviceHelper.IsXbox ? new Thickness { Bottom = 0, Top = 0 } : new Thickness { Bottom = 0, Top = 32 };
-
+            MainSplitView.Margin = DeviceHelper.IsXbox
+                ? new Thickness {Bottom = 0, Top = 0}
+                : new Thickness {Bottom = 0, Top = 32};
         }
 
         private void ShowNowPlayingBar()
         {
             NowPlaying.Visibility = Visibility.Visible;
-            MainSplitView.Margin = new Thickness { Bottom = 64, Top = 32};
+            MainSplitView.Margin = new Thickness {Bottom = 64, Top = 32};
         }
 
         private void SearchBox_SearchSubmitted(object sender, RoutedEventArgs e)
         {
-            App.NavigateTo(typeof(Search), (e as UserControls.SearchBox.SearchEventArgs)?.Keyword);
+            App.NavigateTo(typeof(Search), (e as SearchBox.SearchEventArgs)?.Keyword);
         }
 
         // Login and Logout events. This is used to display what pages
@@ -583,6 +585,11 @@ namespace SoundByte.UWP
             HistoryTab.Visibility = Visibility.Collapsed;
             MobileHomeTab.IsEnabled = false;
             AccountTab.Content = "Login";
+        }
+
+        private void HamburgerButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainSplitView.IsPaneOpen = !MainSplitView.IsPaneOpen;
         }
 
         #region Getters and Setters
@@ -610,10 +617,5 @@ namespace SoundByte.UWP
         }
 
         #endregion
-
-        private void HamburgerButton_Click(object sender, RoutedEventArgs e)
-        {
-            MainSplitView.IsPaneOpen = !MainSplitView.IsPaneOpen;          
-        }
     }
 }

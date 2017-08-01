@@ -9,10 +9,10 @@
             <VisualStateGroup x:Name="DeviceStates">
                 <VisualState x:Name="Xbox">
                     <VisualState.StateTriggers>
-                        <stateTriggers:DeviceStateTrigger DeviceFamily="Windows.Xbox"/>
+                        <stateTriggers:DeviceStateTrigger DeviceFamily="Windows.Xbox" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="RootGrid.Background" Value="Transparent"/>
+                        <Setter Target="RootGrid.Background" Value="Transparent" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>

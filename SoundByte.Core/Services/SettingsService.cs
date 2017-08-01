@@ -12,17 +12,19 @@
 
 using System;
 using System.Globalization;
+using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Windows.UI.Xaml;
 
 namespace SoundByte.Core.Services
 {
     /// <summary>
-    /// This class handles all the settings within the app
+    ///     This class handles all the settings within the app
     /// </summary>
     public class SettingsService
     {
         #region Static Class Setup
+
         private static SettingsService _mPInstance;
 
         public static SettingsService Current => _mPInstance ?? (_mPInstance = new SettingsService());
@@ -30,6 +32,7 @@ namespace SoundByte.Core.Services
         #endregion
 
         #region Constant Keys
+
         private const string SettingsSyncKey = "SoundByte_SettingsSyncEnabled";
         private const string CleanNotificationsKey = "SoundByte_CleanUpNotificationsEnabled";
         private const string ThemeTypeKey = "SoundByte_ThemeType";
@@ -47,12 +50,13 @@ namespace SoundByte.Core.Services
         private const string NotificationGroupingKey = "SoundByte_NotificationGroupingEnabled";
         private const string ArtworkQualityKey = "SoundByte_ArtworkQualityColor";
         private const string LanguageKey = "SoundByte_DefaultLanguage";
+
         #endregion
 
         #region Getter and Setters
 
         /// <summary>
-        /// Is the app currently using the default system theme
+        ///     Is the app currently using the default system theme
         /// </summary>
         public bool IsDefaultTheme
         {
@@ -73,7 +77,7 @@ namespace SoundByte.Core.Services
         }
 
         /// <summary>
-        /// The apps currently picked theme color
+        ///     The apps currently picked theme color
         /// </summary>
         public ApplicationTheme ThemeType
         {
@@ -94,13 +98,13 @@ namespace SoundByte.Core.Services
         }
 
         /// <summary>
-        /// How many items at once are we allowed to load
-        /// (less for mobile, more for PC)
+        ///     How many items at once are we allowed to load
+        ///     (less for mobile, more for PC)
         /// </summary>
-        public static int TrackLimitor => Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar") ? 40 : 60;
+        public static int TrackLimitor => ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar") ? 40 : 60;
 
         /// <summary>
-        /// Should the app use high quality images
+        ///     Should the app use high quality images
         /// </summary>
         public bool IsHighQualityArtwork
         {
@@ -108,13 +112,13 @@ namespace SoundByte.Core.Services
             {
                 var boolVal = ReadSettingsValue(ArtworkQualityKey) as bool?;
 
-                return !boolVal.HasValue || (boolVal.Value);
+                return !boolVal.HasValue || boolVal.Value;
             }
             set => SaveSettingsValue(ArtworkQualityKey, value, true);
         }
 
         /// <summary>
-        /// Should notifications be grouped
+        ///     Should notifications be grouped
         /// </summary>
         public bool IsNotificationGroupingEnabled
         {
@@ -122,13 +126,13 @@ namespace SoundByte.Core.Services
             {
                 var boolVal = ReadSettingsValue(NotificationGroupingKey) as bool?;
 
-                return boolVal.HasValue && (boolVal.Value);
+                return boolVal.HasValue && boolVal.Value;
             }
             set => SaveSettingsValue(NotificationGroupingKey, value, true);
         }
 
         /// <summary>
-        /// Should the user receive notifications about track reposts
+        ///     Should the user receive notifications about track reposts
         /// </summary>
         public bool IsUserRepostTrackEnabled
         {
@@ -136,13 +140,13 @@ namespace SoundByte.Core.Services
             {
                 var boolVal = ReadSettingsValue(TrackRepostKey) as bool?;
 
-                return !boolVal.HasValue || (boolVal.Value);
+                return !boolVal.HasValue || boolVal.Value;
             }
             set => SaveSettingsValue(TrackRepostKey, value, true);
         }
 
         /// <summary>
-        /// Should the user receive notifications about playlist reposts
+        ///     Should the user receive notifications about playlist reposts
         /// </summary>
         public bool IsUserRepostPlaylistEnabled
         {
@@ -150,13 +154,13 @@ namespace SoundByte.Core.Services
             {
                 var boolVal = ReadSettingsValue(PlaylistRepostKey) as bool?;
 
-                return !boolVal.HasValue || (boolVal.Value);
+                return !boolVal.HasValue || boolVal.Value;
             }
             set => SaveSettingsValue(PlaylistRepostKey, value, true);
         }
 
         /// <summary>
-        /// Should the user receive notifications about playlist posts
+        ///     Should the user receive notifications about playlist posts
         /// </summary>
         public bool IsUserPostPlaylistEnabled
         {
@@ -164,13 +168,13 @@ namespace SoundByte.Core.Services
             {
                 var boolVal = ReadSettingsValue(PlaylistPostKey) as bool?;
 
-                return !boolVal.HasValue || (boolVal.Value);
+                return !boolVal.HasValue || boolVal.Value;
             }
             set => SaveSettingsValue(PlaylistPostKey, value, true);
         }
 
         /// <summary>
-        /// Should the user receive notifications about track posts
+        ///     Should the user receive notifications about track posts
         /// </summary>
         public bool IsUserPostTrackEnabled
         {
@@ -178,13 +182,13 @@ namespace SoundByte.Core.Services
             {
                 var boolVal = ReadSettingsValue(TrackPostKey) as bool?;
 
-                return !boolVal.HasValue || (boolVal.Value);
+                return !boolVal.HasValue || boolVal.Value;
             }
             set => SaveSettingsValue(TrackPostKey, value, true);
         }
 
         /// <summary>
-        /// Are track numbers displayed on the live tile
+        ///     Are track numbers displayed on the live tile
         /// </summary>
         public bool IsTrackNumberEnabled
         {
@@ -192,13 +196,13 @@ namespace SoundByte.Core.Services
             {
                 var boolVal = ReadSettingsValue(TrackNumberKey) as bool?;
 
-                return !boolVal.HasValue || (boolVal.Value);
+                return !boolVal.HasValue || boolVal.Value;
             }
             set => SaveSettingsValue(TrackNumberKey, value, true);
         }
 
         /// <summary>
-        /// Are notifications enabled for the app
+        ///     Are notifications enabled for the app
         /// </summary>
         public bool IsNotificationsEnabled
         {
@@ -206,13 +210,13 @@ namespace SoundByte.Core.Services
             {
                 var boolVal = ReadSettingsValue(NotificationKey) as bool?;
 
-                return !boolVal.HasValue || (boolVal.Value);
+                return !boolVal.HasValue || boolVal.Value;
             }
             set => SaveSettingsValue(NotificationKey, value, true);
         }
 
         /// <summary>
-        /// Should the app display notification sounds
+        ///     Should the app display notification sounds
         /// </summary>
         public bool IsNotificationSoundEnabled
         {
@@ -220,13 +224,13 @@ namespace SoundByte.Core.Services
             {
                 var boolVal = ReadSettingsValue(NotificationSoundKey) as bool?;
 
-                return boolVal.HasValue && (boolVal.Value);
+                return boolVal.HasValue && boolVal.Value;
             }
             set => SaveSettingsValue(NotificationSoundKey, value, true);
         }
 
         /// <summary>
-        /// The last stored app version
+        ///     The last stored app version
         /// </summary>
         public string AppStoredVersion
         {
@@ -235,7 +239,7 @@ namespace SoundByte.Core.Services
         }
 
         /// <summary>
-        ///  The user saved language for the app
+        ///     The user saved language for the app
         /// </summary>
         public string CurrentAppLanguage
         {
@@ -244,7 +248,7 @@ namespace SoundByte.Core.Services
         }
 
         /// <summary>
-        /// The latest viewed track in the user stream
+        ///     The latest viewed track in the user stream
         /// </summary>
         public DateTime LatestViewedTrack
         {
@@ -253,24 +257,22 @@ namespace SoundByte.Core.Services
                 var stringVal = ReadSettingsValue(LastViewedTrackKey, true) as string;
 
                 if (string.IsNullOrEmpty(stringVal))
-                {
-                    return (DateTime.UtcNow);
-                }
+                    return DateTime.UtcNow;
 
                 try
                 {
-                    return (DateTime.Parse(stringVal));
+                    return DateTime.Parse(stringVal);
                 }
                 catch (FormatException)
                 {
-                    return (DateTime.UtcNow);
+                    return DateTime.UtcNow;
                 }
             }
             set => SaveSettingsValue(LastViewedTrackKey, value.ToString(CultureInfo.InvariantCulture));
         }
 
         /// <summary>
-        /// The last active frame in the window
+        ///     The last active frame in the window
         /// </summary>
         public string LastFrame
         {
@@ -279,7 +281,7 @@ namespace SoundByte.Core.Services
         }
 
         /// <summary>
-        /// Gets the application theme type
+        ///     Gets the application theme type
         /// </summary>
         public AppTheme ApplicationThemeType
         {
@@ -288,30 +290,27 @@ namespace SoundByte.Core.Services
                 var stringVal = ReadSettingsValue(ThemeTypeKey) as string;
 
                 if (string.IsNullOrEmpty(stringVal))
-                {
-                    return (AppTheme.Default);
-                }
+                    return AppTheme.Default;
 
                 try
                 {
-                    var enumVal = (AppTheme)Enum.Parse(typeof(AppTheme), stringVal);
+                    var enumVal = (AppTheme) Enum.Parse(typeof(AppTheme), stringVal);
                     return enumVal;
                 }
                 catch
                 {
-                    return (AppTheme.Default);
+                    return AppTheme.Default;
                 }
-
             }
             set => SaveSettingsValue(ThemeTypeKey, value.ToString(), true);
         }
 
         /// <summary>
-        /// The currently playing track in the background task
+        ///     The currently playing track in the background task
         /// </summary>
         public int? CurrentPlayingTrack
         {
-            get => (ReadSettingsValue(CurrentTrackKey, true) as int?);
+            get => ReadSettingsValue(CurrentTrackKey, true) as int?;
             set
             {
                 if (value == -1)
@@ -324,7 +323,7 @@ namespace SoundByte.Core.Services
         }
 
         /// <summary>
-        /// Gets if settings syncing is enabled or not
+        ///     Gets if settings syncing is enabled or not
         /// </summary>
         public bool IsSyncSettingsEnabled
         {
@@ -333,26 +332,31 @@ namespace SoundByte.Core.Services
         }
 
         /// <summary>
-        /// Gets if the app should display cleanup notifications
+        ///     Gets if the app should display cleanup notifications
         /// </summary>
         public bool IsCleanUpNotificationsEnabled
         {
             get => ReadBoolSetting(ReadSettingsValue(CleanNotificationsKey) as bool?, false);
             set => SaveSettingsValue(CleanNotificationsKey, value, true);
         }
+
         #endregion
 
         #region Settings Helpers
+
         /// <summary>
-        /// Used to Return bool values
+        ///     Used to Return bool values
         /// </summary>
         /// <param name="value"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        private static bool ReadBoolSetting(bool? value, bool defaultValue) => value ?? defaultValue;
+        private static bool ReadBoolSetting(bool? value, bool defaultValue)
+        {
+            return value ?? defaultValue;
+        }
 
         /// <summary>
-        /// Reads a settings value. This method will check the roaming data to see if anything is saved first
+        ///     Reads a settings value. This method will check the roaming data to see if anything is saved first
         /// </summary>
         /// <param name="key">Key to look for</param>
         /// <param name="forceLocal"></param>
@@ -373,27 +377,31 @@ namespace SoundByte.Core.Services
 
 
         /// <summary>
-        /// Gets a remote value
+        ///     Gets a remote value
         /// </summary>
         /// <param name="key"></param>
         /// <returns>Object or null</returns>
         private static object GetRemoteValue(string key)
         {
-            return ApplicationData.Current.RoamingSettings.Values.ContainsKey(key) ? ApplicationData.Current.RoamingSettings.Values[key] : null;
+            return ApplicationData.Current.RoamingSettings.Values.ContainsKey(key)
+                ? ApplicationData.Current.RoamingSettings.Values[key]
+                : null;
         }
 
         /// <summary>
-        /// Gets a local value
+        ///     Gets a local value
         /// </summary>
         /// <param name="key"></param>
         /// <returns>Object or null</returns>
         private static object GetLocalValue(string key)
         {
-            return ApplicationData.Current.LocalSettings.Values.ContainsKey(key) ? ApplicationData.Current.LocalSettings.Values[key] : null;
+            return ApplicationData.Current.LocalSettings.Values.ContainsKey(key)
+                ? ApplicationData.Current.LocalSettings.Values[key]
+                : null;
         }
 
         /// <summary>
-        /// Save a key value pair in settings. Create if it doesn't exist
+        ///     Save a key value pair in settings. Create if it doesn't exist
         /// </summary>
         /// <param name="key">Used to find the value at a later state</param>
         /// <param name="value">what to save</param>
@@ -402,9 +410,7 @@ namespace SoundByte.Core.Services
         {
             // Check if this value supports remote syncing
             if (canSync)
-            {
                 if (IsSyncSettingsEnabled)
-                {
                     if (!ApplicationData.Current.RoamingSettings.Values.ContainsKey(key))
                     {
                         // Create new value
@@ -417,27 +423,19 @@ namespace SoundByte.Core.Services
                         ApplicationData.Current.RoamingSettings.Values[key] = value;
                         return;
                     }
-                }
-            }
 
             // Store the value locally
             if (!ApplicationData.Current.LocalSettings.Values.ContainsKey(key))
-            {
-                // Add a new value
                 ApplicationData.Current.LocalSettings.Values.Add(key, value);
-            }
             else
-            {
-                // Edit existing value
                 ApplicationData.Current.LocalSettings.Values[key] = value;
-            }
         }
 
         #endregion
     }
 
     /// <summary>
-    /// The possible states for the app theme
+    ///     The possible states for the app theme
     /// </summary>
     public enum AppTheme
     {

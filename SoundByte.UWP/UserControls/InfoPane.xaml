@@ -6,32 +6,32 @@
     <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
         <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center">
             <TextBlock x:Name="GlyphTextBlock"
-                       Text="{x:Bind Path=Glyph, Mode=OneWay}"  
-                       FontSize="65"  
+                       Text="{x:Bind Path=Glyph, Mode=OneWay}"
+                       FontSize="65"
                        HorizontalAlignment="Center"
-                       TextAlignment="Center"  
-                       Margin="20,20,20,10" 
-                       Opacity="1" 
+                       TextAlignment="Center"
+                       Margin="20,20,20,10"
+                       Opacity="1"
                        Padding="5"
-                       FontFamily="Segoe MDL2 Assets" 
+                       FontFamily="Segoe MDL2 Assets"
                        Foreground="{ThemeResource SystemControlHighlightAccentBrush}" />
 
             <ProgressBar x:Name="LoadingRing"
                          HorizontalAlignment="Stretch"
-                          Margin="20,20,20,10"
-                          Padding="5"
-                          IsIndeterminate="True"
-                          Visibility="Collapsed"/>
+                         Margin="20,20,20,10"
+                         Padding="5"
+                         IsIndeterminate="True"
+                         Visibility="Collapsed" />
 
-            <TextBlock Text="{x:Bind Path=Header, Mode=OneWay}" 
-                       TextAlignment="Center" 
+            <TextBlock Text="{x:Bind Path=Header, Mode=OneWay}"
+                       TextAlignment="Center"
                        FontWeight="SemiBold"
                        HorizontalAlignment="Center"
                        FontSize="26"
                        Margin="5"
                        VerticalAlignment="Center" />
 
-            <TextBlock TextWrapping="Wrap" 
+            <TextBlock TextWrapping="Wrap"
                        Opacity="0.8"
                        FontWeight="SemiLight"
                        TextAlignment="Center"
@@ -42,9 +42,12 @@
                        Text="{x:Bind Path=Text, Mode=OneWay}" />
 
             <!-- Button that is used to close the message -->
-            <Button x:Uid="CloseButton" x:Name="CloseButton" Click="{x:Bind ClosePane}" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}" Margin="0,40,0,0" Height="40" HorizontalAlignment="Center"  BorderBrush="{x:Null}" BorderThickness="0" FontSize="16" Padding="8" Visibility="Collapsed" />
+            <Button x:Uid="CloseButton" x:Name="CloseButton" Click="{x:Bind ClosePane}"
+                    Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}" Margin="0,40,0,0" Height="40"
+                    HorizontalAlignment="Center" BorderBrush="{x:Null}" BorderThickness="0" FontSize="16" Padding="8"
+                    Visibility="Collapsed" />
         </StackPanel>
     </Grid>
-    
-    
+
+
 </UserControl>

@@ -19,37 +19,108 @@ using Windows.UI.Popups;
 using Windows.UI.StartScreen;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml.Controls;
-using SoundByte.UWP.Models;
 using SoundByte.Core.API.Endpoints;
 using SoundByte.Core.Converters;
 using SoundByte.Core.Dialogs;
 using SoundByte.Core.Helpers;
 using SoundByte.Core.Services;
+using SoundByte.UWP.Models;
 using SoundByte.UWP.Services;
+using SoundByte.UWP.Views;
 
 namespace SoundByte.UWP.ViewModels
 {
     public class NowPlayingViewModel : BaseViewModel
     {
-        #region Private Variables
-        // The comment text box
-        private string _commentText;
-        // The pin button text
-        private string _pinButtonText = "Pin";
-        // The like button text
-        private string _likeButtonText = "Like";
-        // The repost button text
-        private string _repostButtonText = "Repost";
-        #endregion
-
         #region Models
+
         // Model for the comments
         public CommentModel CommentItems { get; } = new CommentModel(PlaybackService.Current.CurrentTrack);
+
+        #endregion
+
+        #region Event Handlers
+
+        /// <summary>
+        ///     Called when the current playing item changes
+        /// </summary>
+        private async void CurrentItemChanged(MediaPlaybackList sender, CurrentMediaPlaybackItemChangedEventArgs args)
+        {
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            {
+                // Only perform the following actions if there is a new track
+                if (args.NewItem == null)
+                    return;
+
+                if (Service.CurrentTrack == null)
+                    return;
+
+                // Set the pin button text
+                PinButtonText = TileService.Current.DoesTileExist("Track_" + Service.CurrentTrack.Id) ? "Unpin" : "Pin";
+
+                // Set the like button text
+                LikeButtonText = await SoundByteService.Current.ExistsAsync("/me/favorites/" + Service.CurrentTrack.Id)
+                    ? "Unlike"
+                    : "Like";
+
+                // Set the repost button text
+                RepostButtonText =
+                    await SoundByteService.Current.ExistsAsync("/e1/me/track_reposts/" + Service.CurrentTrack.Id)
+                        ? "Unpost"
+                        : "Repost";
+
+                // Reload all the comments
+                CommentItems.RefreshItems();
+
+                // Create a image for the jumplist
+                var tempImage =
+                    await ImageHelper.CreateCachedImageAsync(
+                        ArtworkConverter.ConvertObjectToImage(Service.CurrentTrack),
+                        "Jumplist_" + Service.CurrentTrack.Id);
+                // Add the track to the jumplist
+                if (tempImage != null)
+                    await JumplistHelper.AddRecentAsync("soundbyte://core/track?id=" + Service.CurrentTrack.Id,
+                        Service.CurrentTrack.Title,
+                        "Play " + Service.CurrentTrack.Title + " by " + Service.CurrentTrack.User.Username + ".",
+                        "Recent Plays", tempImage);
+            });
+        }
+
+        #endregion
+
+        #region Dispose Handlers
+
+        public override void Dispose()
+        {
+            // Only clean if we are in the background
+            if (!DeviceHelper.IsBackground)
+                return;
+
+            CleanModel();
+        }
+
+        #endregion
+
+        #region Private Variables
+
+        // The comment text box
+        private string _commentText;
+
+        // The pin button text
+        private string _pinButtonText = "Pin";
+
+        // The like button text
+        private string _likeButtonText = "Like";
+
+        // The repost button text
+        private string _repostButtonText = "Repost";
+
         #endregion
 
         #region Getters and Setters
+
         /// <summary>
-        /// The text on the pin button
+        ///     The text on the pin button
         /// </summary>
         public string PinButtonText
         {
@@ -65,7 +136,7 @@ namespace SoundByte.UWP.ViewModels
         }
 
         /// <summary>
-        /// The text on the like button
+        ///     The text on the like button
         /// </summary>
         public string LikeButtonText
         {
@@ -81,7 +152,7 @@ namespace SoundByte.UWP.ViewModels
         }
 
         /// <summary>
-        /// The text on the repost button
+        ///     The text on the repost button
         /// </summary>
         public string RepostButtonText
         {
@@ -97,7 +168,7 @@ namespace SoundByte.UWP.ViewModels
         }
 
         /// <summary>
-        /// The comment text for the comment box
+        ///     The comment text for the comment box
         /// </summary>
         public string CommentText
         {
@@ -112,11 +183,13 @@ namespace SoundByte.UWP.ViewModels
                 UpdateProperty();
             }
         }
+
         #endregion
 
         #region Enter and Leave ViewModel Handlers
+
         /// <summary>
-        /// Setup the view model
+        ///     Setup the view model
         /// </summary>
         public void SetupModel()
         {
@@ -134,70 +207,41 @@ namespace SoundByte.UWP.ViewModels
         }
 
         /// <summary>
-        /// Clean the view model
+        ///     Clean the view model
         /// </summary>
         public void CleanModel()
         {
             // Unbind the events
-            if(PlaybackService.Current.PlaybackList != null)
+            if (PlaybackService.Current.PlaybackList != null)
                 PlaybackService.Current.PlaybackList.CurrentItemChanged -= CurrentItemChanged;
         }
-        #endregion
 
-        #region Event Handlers
-        /// <summary>
-        /// Called when the current playing item changes
-        /// </summary>
-        private async void CurrentItemChanged(MediaPlaybackList sender, CurrentMediaPlaybackItemChangedEventArgs args)
-        {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-            {
-                // Only perform the following actions if there is a new track
-                if (args.NewItem == null)
-                    return;
-
-                if (Service.CurrentTrack == null)
-                    return;
-
-                // Set the pin button text
-                PinButtonText = TileService.Current.DoesTileExist("Track_" + Service.CurrentTrack.Id) ? "Unpin" : "Pin";
-
-                // Set the like button text
-                LikeButtonText = await SoundByteService.Current.ExistsAsync("/me/favorites/" + Service.CurrentTrack.Id) ? "Unlike" : "Like";
-
-                // Set the repost button text
-                RepostButtonText = await SoundByteService.Current.ExistsAsync("/e1/me/track_reposts/" + Service.CurrentTrack.Id) ? "Unpost" : "Repost";
-
-                // Reload all the comments
-                CommentItems.RefreshItems();
-
-                // Create a image for the jumplist
-                var tempImage = await ImageHelper.CreateCachedImageAsync(ArtworkConverter.ConvertObjectToImage(Service.CurrentTrack), "Jumplist_" + Service.CurrentTrack.Id);
-                // Add the track to the jumplist
-                if (tempImage != null)
-                    await JumplistHelper.AddRecentAsync("soundbyte://core/track?id=" + Service.CurrentTrack.Id, Service.CurrentTrack.Title, "Play " + Service.CurrentTrack.Title + " by " + Service.CurrentTrack.User.Username + ".", "Recent Plays", tempImage);
-            });
-        }
         #endregion
 
         #region Method Bindings
-        /// <summary>
-        /// Display the playlist picker if it exists
-        /// </summary>
-        public async void DisplayPlaylist() => await new PlaylistDialog(Service.CurrentTrack).ShowAsync();
 
         /// <summary>
-        /// Navigate to the selected track in the playlist
+        ///     Display the playlist picker if it exists
+        /// </summary>
+        public async void DisplayPlaylist()
+        {
+            await new PlaylistDialog(Service.CurrentTrack).ShowAsync();
+        }
+
+        /// <summary>
+        ///     Navigate to the selected track in the playlist
         /// </summary>
         public async void GotoRelatedTrack(object sender, ItemClickEventArgs e)
         {
-            var startPlayback = await PlaybackService.Current.StartMediaPlayback(PlaybackService.Current.Playlist.ToList(), PlaybackService.Current.TokenValue, false, (Track)e.ClickedItem);
+            var startPlayback =
+                await PlaybackService.Current.StartMediaPlayback(PlaybackService.Current.Playlist.ToList(),
+                    PlaybackService.Current.TokenValue, false, (Track) e.ClickedItem);
             if (!startPlayback.success)
                 await new MessageDialog(startPlayback.message, "Error playing related track.").ShowAsync();
-        } 
+        }
 
         /// <summary>
-        /// Pin the tile to the start menu
+        ///     Pin the tile to the start menu
         /// </summary>
         public async void PinTile()
         {
@@ -221,7 +265,9 @@ namespace SoundByte.UWP.ViewModels
             else
             {
                 // Create a live tile and check if it was created
-                if (await TileService.Current.CreateTileAsync("Track_" + Service.CurrentTrack.Id, Service.CurrentTrack.Title, "soundbyte://core/track?id=" + Service.CurrentTrack.Id, new Uri(ArtworkConverter.ConvertObjectToImage(Service.CurrentTrack)), ForegroundText.Light))
+                if (await TileService.Current.CreateTileAsync("Track_" + Service.CurrentTrack.Id,
+                    Service.CurrentTrack.Title, "soundbyte://core/track?id=" + Service.CurrentTrack.Id,
+                    new Uri(ArtworkConverter.ConvertObjectToImage(Service.CurrentTrack)), ForegroundText.Light))
                 {
                     PinButtonText = "Unpin";
                     // Track Event
@@ -235,7 +281,7 @@ namespace SoundByte.UWP.ViewModels
         }
 
         /// <summary>
-        /// Repost the current track to the users stream
+        ///     Repost the current track to the users stream
         /// </summary>
         public async void RepostTrack()
         {
@@ -274,10 +320,10 @@ namespace SoundByte.UWP.ViewModels
         }
 
         /// <summary>
-        /// Like the current track
+        ///     Like the current track
         /// </summary>
         public async void LikeTrack()
-        { 
+        {
             if (Service.CurrentTrack == null)
                 return;
 
@@ -313,9 +359,9 @@ namespace SoundByte.UWP.ViewModels
         }
 
         /// <summary>
-        /// Called when the user taps on a comment.
-        /// This method changes the current position of the track
-        /// to the comment time.
+        ///     Called when the user taps on a comment.
+        ///     This method changes the current position of the track
+        ///     to the comment time.
         /// </summary>
         public void GoToCommentItemPosition(object sender, ItemClickEventArgs e)
         {
@@ -326,7 +372,7 @@ namespace SoundByte.UWP.ViewModels
         }
 
         /// <summary>
-        /// Navigates the user to the current track users profile
+        ///     Navigates the user to the current track users profile
         /// </summary>
         public async void GoToUserProfile()
         {
@@ -337,7 +383,9 @@ namespace SoundByte.UWP.ViewModels
             // We only support viewing soundcloud profiles at this time
             if (Service.CurrentTrack.ServiceType != SoundByteService.ServiceType.SoundCloud)
             {
-                await new MessageDialog("SoundByte does not currently supporting user profiles that are not from SoundCloud.", "Not Ready Yet").ShowAsync();
+                await new MessageDialog(
+                    "SoundByte does not currently supporting user profiles that are not from SoundCloud.",
+                    "Not Ready Yet").ShowAsync();
                 return;
             }
 
@@ -348,20 +396,9 @@ namespace SoundByte.UWP.ViewModels
             App.IsLoading = false;
 
             // Navigate to the user page
-            App.NavigateTo(typeof(Views.UserView), currentUser);
+            App.NavigateTo(typeof(UserView), currentUser);
         }
-        #endregion
 
-        #region Dispose Handlers
-
-        public override void Dispose()
-        {
-            // Only clean if we are in the background
-            if (!DeviceHelper.IsBackground)
-                return;
-
-            CleanModel();
-        }
         #endregion
     }
 }

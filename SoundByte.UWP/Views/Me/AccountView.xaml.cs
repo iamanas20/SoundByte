@@ -30,28 +30,22 @@ using SoundByte.Core.Services;
 namespace SoundByte.UWP.Views.Me
 {
     /// <summary>
-    /// This page is used to login the user to SoundCloud so we can access their stream etc.
+    ///     This page is used to login the user to SoundCloud so we can access their stream etc.
     /// </summary>
     public sealed partial class AccountView
     {
         private readonly string _appCallback;
-        private string _stateVerification;
         private SoundByteService.ServiceType _loginService;
+        private string _stateVerification;
 
         public AccountView()
         {
             // Load the XAML page
             InitializeComponent();
 
-            LoginWebView.NavigationStarting += (sender, args) =>
-            {
-                LoadingSection.Visibility = Visibility.Visible;
-            };
+            LoginWebView.NavigationStarting += (sender, args) => { LoadingSection.Visibility = Visibility.Visible; };
 
-            LoginWebView.NavigationCompleted += (sender, args) =>
-            {
-                LoadingSection.Visibility = Visibility.Collapsed;
-            };
+            LoginWebView.NavigationCompleted += (sender, args) => { LoadingSection.Visibility = Visibility.Collapsed; };
 
             // Handle new window requests, if a new window is requested, just navigate on the 
             // current page. 
@@ -80,13 +74,15 @@ namespace SoundByte.UWP.Views.Me
             ViewSoundCloudProfileButton.IsEnabled = SoundByteService.Current.IsSoundCloudAccountConnected;
 
             // Update the UI depending if we are logged in or not
-            if (SoundByteService.Current.IsSoundCloudAccountConnected || SoundByteService.Current.IsFanBurstAccountConnected)
+            if (SoundByteService.Current.IsSoundCloudAccountConnected ||
+                SoundByteService.Current.IsFanBurstAccountConnected)
                 App.Shell.ShowLoginContent();
             else
                 App.Shell.ShowLogoutContent();
         }
 
-        private async void LoginWebView_OnNavigationStarting(WebView sender, WebViewNavigationStartingEventArgs eventArgs)
+        private async void LoginWebView_OnNavigationStarting(WebView sender,
+            WebViewNavigationStartingEventArgs eventArgs)
         {
             // We worry about localhost addresses are they are directed towards us.
             if (eventArgs.Uri.Host == "localhost")
@@ -105,7 +101,9 @@ namespace SoundByte.UWP.Views.Me
                 if (string.IsNullOrEmpty(state) || state.TrimEnd('#') != _stateVerification)
                 {
                     // Display the error to the user
-                    await new MessageDialog("State Verfication Failed. This could be caused by another process intercepting the SoundByte login procedure. Signin has been canceled to protect your privacy.", "Sign in Error").ShowAsync();
+                    await new MessageDialog(
+                        "State Verfication Failed. This could be caused by another process intercepting the SoundByte login procedure. Signin has been canceled to protect your privacy.",
+                        "Sign in Error").ShowAsync();
                     TelemetryService.Current.TrackEvent("State Verfication Failed");
                     // Close
                     LoadingSection.Visibility = Visibility.Collapsed;
@@ -145,22 +143,38 @@ namespace SoundByte.UWP.Views.Me
                     using (var httpClient = new HttpClient())
                     {
                         // Set the user agent string
-                        httpClient.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("SoundByte", Package.Current.Id.Version.Major + "." + Package.Current.Id.Version.Minor + "." + Package.Current.Id.Version.Build));
+                        httpClient.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("SoundByte",
+                            Package.Current.Id.Version.Major + "." + Package.Current.Id.Version.Minor + "." +
+                            Package.Current.Id.Version.Build));
 
                         // Get all the params
                         var parameters = new Dictionary<string, string>
                         {
-                            {"client_id", _loginService == SoundByteService.ServiceType.SoundCloud ? ApiKeyService.SoundCloudClientId : ApiKeyService.FanburstClientId},
-                            {"client_secret", _loginService == SoundByteService.ServiceType.SoundCloud ? ApiKeyService.SoundCloudClientSecret :  ApiKeyService.FanburstClientSecret},
+                            {
+                                "client_id",
+                                _loginService == SoundByteService.ServiceType.SoundCloud
+                                    ? ApiKeyService.SoundCloudClientId
+                                    : ApiKeyService.FanburstClientId
+                            },
+                            {
+                                "client_secret",
+                                _loginService == SoundByteService.ServiceType.SoundCloud
+                                    ? ApiKeyService.SoundCloudClientSecret
+                                    : ApiKeyService.FanburstClientSecret
+                            },
                             {"grant_type", "authorization_code"},
-                            {"redirect_uri", _appCallback },
+                            {"redirect_uri", _appCallback},
                             {"code", code}
                         };
 
                         var encodedContent = new FormUrlEncodedContent(parameters);
 
                         // Post to the soundcloud API
-                        using (var postQuery = await httpClient.PostAsync(_loginService == SoundByteService.ServiceType.SoundCloud ? "https://api.soundcloud.com/oauth2/token" : "https://fanburst.com/oauth/token", encodedContent))
+                        using (var postQuery =
+                            await httpClient.PostAsync(
+                                _loginService == SoundByteService.ServiceType.SoundCloud
+                                    ? "https://api.soundcloud.com/oauth2/token"
+                                    : "https://fanburst.com/oauth/token", encodedContent))
                         {
                             // Check if the post was successful
                             if (postQuery.IsSuccessStatusCode)
@@ -189,23 +203,27 @@ namespace SoundByte.UWP.Views.Me
                                             if (_loginService == SoundByteService.ServiceType.SoundCloud)
                                             {
                                                 // Store the values in the vault
-                                                vault.Add(new PasswordCredential("SoundByte.SoundCloud", "Token", response.AccessToken));
-                                                vault.Add(new PasswordCredential("SoundByte.SoundCloud", "Scope", response.Scope));
+                                                vault.Add(new PasswordCredential("SoundByte.SoundCloud", "Token",
+                                                    response.AccessToken));
+                                                vault.Add(new PasswordCredential("SoundByte.SoundCloud", "Scope",
+                                                    response.Scope));
                                             }
                                             else
                                             {
                                                 // Store the values in the vault
-                                                vault.Add(new PasswordCredential("SoundByte.FanBurst", "Token", response.AccessToken));
+                                                vault.Add(new PasswordCredential("SoundByte.FanBurst", "Token",
+                                                    response.AccessToken));
                                             }
 
                                             LoadingSection.Visibility = Visibility.Collapsed;
                                             LoginWebView.Visibility = Visibility.Collapsed;
                                             RefreshUi();
 
-                                            TelemetryService.Current.TrackEvent("Login Successful", new Dictionary<string, string>()
-                                            {
-                                                { "service", _loginService.ToString() }
-                                            });
+                                            TelemetryService.Current.TrackEvent("Login Successful",
+                                                new Dictionary<string, string>
+                                                {
+                                                    {"service", _loginService.ToString()}
+                                                });
                                         }
                                     }
                                 }
@@ -224,7 +242,7 @@ namespace SoundByte.UWP.Views.Me
                 }
             }
         }
-        
+
         private async Task ConnectAccountAsync(SoundByteService.ServiceType serviceType)
         {
             // Generate State (for security)
@@ -277,9 +295,7 @@ namespace SoundByte.UWP.Views.Me
             else
             {
                 await ConnectAccountAsync(SoundByteService.ServiceType.Fanburst);
-            }  
-
-
+            }
         }
 
         private void NavigateSoundCloudProfile(object sender, RoutedEventArgs e)

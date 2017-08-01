@@ -80,7 +80,8 @@ namespace SoundByte.Notifications
                             // Clean and set the notification title
                             title = TextHelper.CleanXmlString(notification.Track.Title);
                             // Clean and set the notification content
-                            content = TextHelper.CleanXmlString(string.Format("{0} has reposted a sound by {1}.", notification.User.Username, notification.Track.User.Username));
+                            content = TextHelper.CleanXmlString(string.Format("{0} has reposted a sound by {1}.",
+                                notification.User.Username, notification.Track.User.Username));
                             // Set the logo
                             logo = ArtworkConverter.ConvertObjectToImage(notification.Track);
                             // Set the arguments
@@ -90,7 +91,8 @@ namespace SoundByte.Notifications
                             // Clean and set the notification title
                             title = TextHelper.CleanXmlString(notification.Track.Title);
                             // Clean and set the notification content
-                            content = TextHelper.CleanXmlString(string.Format("{0} has uploaded a new sound.", notification.User.Username));
+                            content = TextHelper.CleanXmlString(string.Format("{0} has uploaded a new sound.",
+                                notification.User.Username));
                             // Set the logo
                             logo = ArtworkConverter.ConvertObjectToImage(notification.Track);
                             // Set the arguments
@@ -100,7 +102,8 @@ namespace SoundByte.Notifications
                             // Clean and set the notification title
                             title = TextHelper.CleanXmlString(notification.Playlist.Title);
                             // Clean and set the notification content
-                            content = TextHelper.CleanXmlString(string.Format("{0} has reposted a set by {1}.", notification.User.Username, notification.Playlist.User.Username));
+                            content = TextHelper.CleanXmlString(string.Format("{0} has reposted a set by {1}.",
+                                notification.User.Username, notification.Playlist.User.Username));
                             // Set the logo
                             logo = ArtworkConverter.ConvertObjectToImage(notification.Playlist);
                             // Set the arguments
@@ -110,7 +113,8 @@ namespace SoundByte.Notifications
                             // Clean and set the notification title
                             title = TextHelper.CleanXmlString(notification.Playlist.Title);
                             // Clean and set the notification content
-                            content = TextHelper.CleanXmlString(string.Format("{0} has created a new set.", notification.User.Username));
+                            content = TextHelper.CleanXmlString(string.Format("{0} has created a new set.",
+                                notification.User.Username));
                             // Set the logo
                             logo = ArtworkConverter.ConvertObjectToImage(notification.Playlist);
                             // Set the arguments
@@ -119,17 +123,23 @@ namespace SoundByte.Notifications
                     }
 
                     // Create the visual part of the taost notification
-                    var toastVisual = $@"<visual><binding template='ToastGeneric'><text>{title}</text><text>{content}</text><image src='{logo}' placement='appLogoOverride'/></binding></visual>";
+                    var toastVisual =
+                        $@"<visual><binding template='ToastGeneric'><text>{title}</text><text>{
+                                content
+                            }</text><image src='{logo}' placement='appLogoOverride'/></binding></visual>";
 
                     // Create the toast XML string
-                    var toastXmlString = $@" <toast launch='{arguments}' displayTimestamp='{postedTime:yyyy-MM-ddTHH:mm:ss.ffzzz}'>{toastVisual}<actions></actions></toast>";
+                    var toastXmlString =
+                        $@" <toast launch='{arguments}' displayTimestamp='{postedTime:yyyy-MM-ddTHH:mm:ss.ffzzz}'>{
+                                toastVisual
+                            }<actions></actions></toast>";
 
                     // Create the XML document
                     var toastXml = new XmlDocument();
                     toastXml.LoadXml(toastXmlString);
 
                     // Create the toast notification
-                    var toast = new ToastNotification(toastXml) { SuppressPopup = true };
+                    var toast = new ToastNotification(toastXml) {SuppressPopup = true};
 
                     // Show the taost notification
                     ToastNotificationManager.CreateToastNotifier().Show(toast);

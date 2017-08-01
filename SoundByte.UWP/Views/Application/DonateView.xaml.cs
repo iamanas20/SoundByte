@@ -17,7 +17,7 @@ using SoundByte.Core.Services;
 namespace SoundByte.UWP.Views.Application
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    ///     An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
     public sealed partial class DonateView
     {
@@ -36,10 +36,18 @@ namespace SoundByte.UWP.Views.Application
             // Get all the products
             var donateProducts = await MonitizeService.Current.GetProductInfoAsync();
 
-            LooseChangePrice.Text = donateProducts.Exists(t => t.Key.ToLower() == "9p3vls5wtft6") ? donateProducts.Find(t => t.Key.ToLower() == "9p3vls5wtft6").Value.Price.FormattedBasePrice : "Unknown";
-            SmallCoffeePrice.Text = donateProducts.Exists(t => t.Key.ToLower() == "9msxrvnlnlj7") ? donateProducts.Find(t => t.Key.ToLower() == "9msxrvnlnlj7").Value.Price.FormattedBasePrice : "Unknown";
-            RegularCoffeePrice.Text = donateProducts.Exists(t => t.Key.ToLower() == "9nrgs6r2grsz") ? donateProducts.Find(t => t.Key.ToLower() == "9nrgs6r2grsz").Value.Price.FormattedBasePrice : "Unknown";
-            LargeCoffeePrice.Text = donateProducts.Exists(t => t.Key.ToLower() == "9pnsd6hskwpk") ? donateProducts.Find(t => t.Key.ToLower() == "9pnsd6hskwpk").Value.Price.FormattedBasePrice : "Unknown";
+            LooseChangePrice.Text = donateProducts.Exists(t => t.Key.ToLower() == "9p3vls5wtft6")
+                ? donateProducts.Find(t => t.Key.ToLower() == "9p3vls5wtft6").Value.Price.FormattedBasePrice
+                : "Unknown";
+            SmallCoffeePrice.Text = donateProducts.Exists(t => t.Key.ToLower() == "9msxrvnlnlj7")
+                ? donateProducts.Find(t => t.Key.ToLower() == "9msxrvnlnlj7").Value.Price.FormattedBasePrice
+                : "Unknown";
+            RegularCoffeePrice.Text = donateProducts.Exists(t => t.Key.ToLower() == "9nrgs6r2grsz")
+                ? donateProducts.Find(t => t.Key.ToLower() == "9nrgs6r2grsz").Value.Price.FormattedBasePrice
+                : "Unknown";
+            LargeCoffeePrice.Text = donateProducts.Exists(t => t.Key.ToLower() == "9pnsd6hskwpk")
+                ? donateProducts.Find(t => t.Key.ToLower() == "9pnsd6hskwpk").Value.Price.FormattedBasePrice
+                : "Unknown";
 
             // We are not loading now
             App.IsLoading = false;
@@ -66,6 +74,7 @@ namespace SoundByte.UWP.Views.Application
             // We are not loading
             App.IsLoading = false;
         }
+
         private async void DonateRegular(object sender, RoutedEventArgs e)
         {
             // We are loading

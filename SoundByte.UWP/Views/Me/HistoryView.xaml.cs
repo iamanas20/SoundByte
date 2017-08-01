@@ -15,6 +15,7 @@ using System.Linq;
 using Windows.UI.Popups;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using SoundByte.Core.API.Endpoints;
 using SoundByte.Core.Services;
 using SoundByte.UWP.Models;
 using SoundByte.UWP.Services;
@@ -23,17 +24,17 @@ using SoundByte.UWP.ViewModels;
 namespace SoundByte.UWP.Views.Me
 {
     /// <summary>
-    /// View to view messages
+    ///     View to view messages
     /// </summary>
     public sealed partial class HistoryView
     {
-        public HistoryModel HistoryModel { get; } = new HistoryModel();
-
         public HistoryView()
         {
             InitializeComponent();
             NavigationCacheMode = NavigationCacheMode.Enabled;
         }
+
+        public HistoryModel HistoryModel { get; } = new HistoryModel();
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -49,7 +50,8 @@ namespace SoundByte.UWP.Views.Me
         {
             App.IsLoading = true;
 
-            var startPlayback = await PlaybackService.Current.StartMediaPlayback(HistoryModel.ToList(), HistoryModel.Token);
+            var startPlayback =
+                await PlaybackService.Current.StartMediaPlayback(HistoryModel.ToList(), HistoryModel.Token);
             if (!startPlayback.success)
                 await new MessageDialog(startPlayback.message, "Error playing track.").ShowAsync();
 
@@ -60,7 +62,8 @@ namespace SoundByte.UWP.Views.Me
         {
             App.IsLoading = true;
 
-            var startPlayback = await PlaybackService.Current.StartMediaPlayback(HistoryModel.ToList(), HistoryModel.Token, false, (Core.API.Endpoints.Track)e.ClickedItem);
+            var startPlayback = await PlaybackService.Current.StartMediaPlayback(HistoryModel.ToList(),
+                HistoryModel.Token, false, (Track) e.ClickedItem);
             if (!startPlayback.success)
                 await new MessageDialog(startPlayback.message, "Error playing track.").ShowAsync();
 

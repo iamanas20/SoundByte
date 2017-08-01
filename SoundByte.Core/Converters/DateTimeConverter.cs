@@ -18,14 +18,14 @@ using SoundByte.Core.Helpers;
 namespace SoundByte.Core.Converters
 {
     /// <summary>
-    /// This class takes in a DateTime object and converts it into
-    /// a human readable form.
+    ///     This class takes in a DateTime object and converts it into
+    ///     a human readable form.
     /// </summary>
     public class DateTimeConverter : IValueConverter
     {
         /// <summary>
-        /// This function takes in a datetime string and converts it
-        /// into a friendly readable string for the UI.
+        ///     This function takes in a datetime string and converts it
+        ///     into a friendly readable string for the UI.
         /// </summary>
         /// <returns>A human readable date time object</returns>
         public object Convert(object value, Type targetType, object parameter, string language)
@@ -50,9 +50,9 @@ namespace SoundByte.Core.Converters
         }
 
         /// <summary>
-        /// This function is not needed and should not be used.
-        /// It returns the current date time just in case it is
-        /// called.
+        ///     This function is not needed and should not be used.
+        ///     It returns the current date time just in case it is
+        ///     called.
         /// </summary>
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {

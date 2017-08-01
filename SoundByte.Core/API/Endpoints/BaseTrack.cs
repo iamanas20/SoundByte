@@ -16,7 +16,7 @@ using System.Runtime.CompilerServices;
 namespace SoundByte.Core.API.Endpoints
 {
     /// <summary>
-    /// Base track items used by all services.
+    ///     Base track items used by all services.
     /// </summary>
     public class BaseTrack : INotifyPropertyChanged
     {

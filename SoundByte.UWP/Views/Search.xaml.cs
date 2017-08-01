@@ -12,20 +12,21 @@
 
 using Windows.UI.Xaml.Navigation;
 using SoundByte.Core.Services;
+using SoundByte.UWP.ViewModels;
 
 namespace SoundByte.UWP.Views
 {
     /// <summary>
-    /// This page lets the user search for tracks/playlists/people 
-    /// within SoundCloud.
+    ///     This page lets the user search for tracks/playlists/people
+    ///     within SoundCloud.
     /// </summary>
     public sealed partial class Search
     {
         // The view model for the page
-        public ViewModels.SearchViewModel ViewModel = new ViewModels.SearchViewModel();
+        public SearchViewModel ViewModel = new SearchViewModel();
 
         /// <summary>
-        /// Setup the page
+        ///     Setup the page
         /// </summary>
         public Search()
         {
@@ -40,7 +41,7 @@ namespace SoundByte.UWP.Views
         }
 
         /// <summary>
-        /// Called when the user navigates to the page
+        ///     Called when the user navigates to the page
         /// </summary>
         /// <param name="e">Args</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)

@@ -5,49 +5,59 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <Grid Background="{ThemeResource ShellBackground}" RequestedTheme="Dark">
-       <Grid.RowDefinitions>
-           <RowDefinition Height="*" />
-           <RowDefinition Height="*" />
-           <RowDefinition Height="*" />
-           <RowDefinition Height="*" />
-       </Grid.RowDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
 
 
-        <StackPanel Orientation="Horizontal" 
+        <StackPanel Orientation="Horizontal"
                     Grid.Row="0"
                     Grid.RowSpan="2"
-                    VerticalAlignment="Center" 
+                    VerticalAlignment="Center"
                     HorizontalAlignment="Center"
                     Canvas.ZIndex="150">
-            <Button Margin="5,0" Style="{StaticResource CircleButtonStyle}" Background="{x:Null}" Click="{x:Bind ViewModel.Service.SkipPrevious}" Width="42" Height="42">
+            <Button Margin="5,0" Style="{StaticResource CircleButtonStyle}" Background="{x:Null}"
+                    Click="{x:Bind ViewModel.Service.SkipPrevious}" Width="42" Height="42">
                 <Button.Content>
-                    <TextBlock OpticalMarginAlignment="TrimSideBearings" Text="&#xE892;"  FontWeight="Light" FontSize="20" FontFamily="Segoe MDL2 Assets" AutomationProperties.Name="Back" TextAlignment="Center"  />
+                    <TextBlock OpticalMarginAlignment="TrimSideBearings" Text="&#xE892;" FontWeight="Light"
+                               FontSize="20" FontFamily="Segoe MDL2 Assets" AutomationProperties.Name="Back"
+                               TextAlignment="Center" />
                 </Button.Content>
             </Button>
 
-            <Button Margin="5,0" Style="{StaticResource CircleButtonStyle}" Background="{x:Null}" Click="{x:Bind ViewModel.Service.ChangePlaybackState}" Width="48" Height="48">
+            <Button Margin="5,0" Style="{StaticResource CircleButtonStyle}" Background="{x:Null}"
+                    Click="{x:Bind ViewModel.Service.ChangePlaybackState}" Width="48" Height="48">
                 <Button.Content>
-                    <TextBlock OpticalMarginAlignment="TrimSideBearings" Text="{x:Bind PlayButtonContent, Mode=OneWay}"  FontWeight="Light" FontSize="24" FontFamily="Segoe MDL2 Assets" AutomationProperties.Name="Back" TextAlignment="Center"  />
+                    <TextBlock OpticalMarginAlignment="TrimSideBearings" Text="{x:Bind PlayButtonContent, Mode=OneWay}"
+                               FontWeight="Light" FontSize="24" FontFamily="Segoe MDL2 Assets"
+                               AutomationProperties.Name="Back" TextAlignment="Center" />
                 </Button.Content>
             </Button>
 
-            <Button Margin="5,0"  Style="{StaticResource CircleButtonStyle}" Background="{x:Null}" Click="{x:Bind ViewModel.Service.SkipNext}" Width="42" Height="42">
+            <Button Margin="5,0" Style="{StaticResource CircleButtonStyle}" Background="{x:Null}"
+                    Click="{x:Bind ViewModel.Service.SkipNext}" Width="42" Height="42">
                 <Button.Content>
-                    <TextBlock OpticalMarginAlignment="TrimSideBearings" Text="&#xE893;"  FontWeight="Light" FontSize="20" FontFamily="Segoe MDL2 Assets" AutomationProperties.Name="Next" TextAlignment="Center"  />
+                    <TextBlock OpticalMarginAlignment="TrimSideBearings" Text="&#xE893;" FontWeight="Light"
+                               FontSize="20" FontFamily="Segoe MDL2 Assets" AutomationProperties.Name="Next"
+                               TextAlignment="Center" />
                 </Button.Content>
             </Button>
         </StackPanel>
 
-        <StackPanel Orientation="Vertical" Grid.Row="1" Grid.RowSpan="3" VerticalAlignment="Center" HorizontalAlignment="Center"  Canvas.ZIndex="150">
-            <TextBlock x:Name="TrackTitle" 
+        <StackPanel Orientation="Vertical" Grid.Row="1" Grid.RowSpan="3" VerticalAlignment="Center"
+                    HorizontalAlignment="Center" Canvas.ZIndex="150">
+            <TextBlock x:Name="TrackTitle"
                        FontSize="20"
                        Margin="10,0,10,10"
                        TextTrimming="CharacterEllipsis"
-                       FontWeight="SemiLight"          
+                       FontWeight="SemiLight"
                        HorizontalAlignment="Center" />
 
-            <TextBlock x:Name="TrackUser" 
-                      
+            <TextBlock x:Name="TrackUser"
+
                        FontSize="14"
                        Margin="10,0,10,0"
                        Opacity="0.8"
@@ -55,21 +65,19 @@
                        FontWeight="SemiBold"
                        HorizontalAlignment="Center" />
         </StackPanel>
-        
 
-        
 
-        <Grid Background="#99000000" Canvas.ZIndex="50" Grid.Row="0" Grid.RowSpan="4"/>
-        
+        <Grid Background="#99000000" Canvas.ZIndex="50" Grid.Row="0" Grid.RowSpan="4" />
+
         <!-- Background Image -->
-        <Image 
-                          Grid.Row="0" 
-                          Grid.RowSpan="4"
-                          x:Name="BackgroundImage"
-                          Stretch="UniformToFill" 
-                          Margin="-20"
-                          HorizontalAlignment="Center" 
-                          VerticalAlignment="Center" 
-                          Canvas.ZIndex="1" />
+        <Image
+            Grid.Row="0"
+            Grid.RowSpan="4"
+            x:Name="BackgroundImage"
+            Stretch="UniformToFill"
+            Margin="-20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Canvas.ZIndex="1" />
     </Grid>
 </Page>

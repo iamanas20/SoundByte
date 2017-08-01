@@ -14,23 +14,23 @@
                   VerticalScrollBarVisibility="Hidden">
         <!-- Stack the content -->
         <StackPanel>
-            <TextBlock Text="&#xE896;" 
-                       FontFamily="Segoe MDL2 Assets" 
-                       TextAlignment="Center" 
-                       VerticalAlignment="Center" 
-                       FontSize="65" 
+            <TextBlock Text="&#xE896;"
+                       FontFamily="Segoe MDL2 Assets"
+                       TextAlignment="Center"
+                       VerticalAlignment="Center"
+                       FontSize="65"
                        Padding="5"
                        Foreground="{ThemeResource SystemControlBackgroundAccentBrush}"
                        Margin="20" />
 
-            <TextBlock Text="New Version Available" 
-                       TextAlignment="Center" 
+            <TextBlock Text="New Version Available"
+                       TextAlignment="Center"
                        FontWeight="SemiBold"
                        FontSize="22"
                        Margin="5"
                        VerticalAlignment="Center" />
-            
-            <TextBlock TextWrapping="Wrap" 
+
+            <TextBlock TextWrapping="Wrap"
                        Opacity="0.8"
                        FontWeight="SemiLight"
                        TextAlignment="Center"
@@ -39,9 +39,9 @@
 
             <ProgressBar x:Name="UpdateBar" Margin="20,30,20,0" Visibility="Collapsed" />
 
-            <Button Content="Update Now" 
+            <Button Content="Update Now"
                     Width="250"
-                    Click="UpdateNow" 
+                    Click="UpdateNow"
                     Background="{ThemeResource SystemControlBackgroundAccentBrush}"
                     BorderBrush="{ThemeResource SystemControlBackgroundAccentBrush}"
                     Foreground="White"
@@ -51,12 +51,12 @@
                     Margin="0,35,0,0"
                     HorizontalAlignment="Center" />
 
-            <HyperlinkButton Content="Update Later" 
+            <HyperlinkButton Content="Update Later"
                              x:Name="CloseButton"
                              Margin="0,15,0,15"
                              Foreground="{ThemeResource SystemControlPageTextBaseHighBrush}"
                              ContentTemplate="{StaticResource HyperlinkClean}"
-                             Click="{x:Bind DeferUpdate}" 
+                             Click="{x:Bind DeferUpdate}"
                              HorizontalAlignment="Center" />
 
         </StackPanel>

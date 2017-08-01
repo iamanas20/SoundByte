@@ -12,6 +12,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using GoogleAnalytics;
 using Microsoft.Azure.Mobile;
@@ -23,20 +24,13 @@ using SoundByte.Core.Helpers;
 namespace SoundByte.Core.Services
 {
     /// <summary>
-    /// This class handles global app telemetry to all telemetry services
-    /// connected to this app. (Application Insights, HockeyApp, Google Analytics).
+    ///     This class handles global app telemetry to all telemetry services
+    ///     connected to this app. (Application Insights, HockeyApp, Google Analytics).
     /// </summary>
     public class TelemetryService
     {
-        private Tracker GoogleAnalyticsClient { get; }
-
-        #region Service Setup
-        private static TelemetryService _instance;
-        public static TelemetryService Current => _instance ?? (_instance = new TelemetryService());
-        #endregion
-
         /// <summary>
-        /// Setup the telemetry providers
+        ///     Setup the telemetry providers
         /// </summary>
         private TelemetryService()
         {
@@ -44,7 +38,8 @@ namespace SoundByte.Core.Services
             {
                 // Setup Google Analytics
                 AnalyticsManager.Current.DispatchPeriod = TimeSpan.Zero; // Immediate mode, sends hits immediately
-                AnalyticsManager.Current.AutoAppLifetimeMonitoring = true; // Handle suspend/resume and empty hit batched hits on suspend
+                AnalyticsManager.Current.AutoAppLifetimeMonitoring =
+                    true; // Handle suspend/resume and empty hit batched hits on suspend
                 AnalyticsManager.Current.AppOptOut = false;
                 AnalyticsManager.Current.IsEnabled = true;
                 AnalyticsManager.Current.IsDebug = false;
@@ -54,7 +49,7 @@ namespace SoundByte.Core.Services
                 MobileCenter.Start(ApiKeyService.AzureMobileCenterClientId, typeof(Analytics), typeof(Push));
 
                 // Used for crash reporting
-                HockeyClient.Current.Configure(ApiKeyService.HockeyAppClientId);  
+                HockeyClient.Current.Configure(ApiKeyService.HockeyAppClientId);
 
 #if DEBUG
                 // Disable this on debug
@@ -66,9 +61,11 @@ namespace SoundByte.Core.Services
             catch
             {
                 // ignored
-            }  
+            }
         }
-    
+
+        private Tracker GoogleAnalyticsClient { get; }
+
         public void TrackPage(string pageName)
         {
             try
@@ -83,7 +80,6 @@ namespace SoundByte.Core.Services
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="eventName"></param>
         /// <param name="properties"></param>
@@ -102,7 +98,7 @@ namespace SoundByte.Core.Services
                 // ignored
             }
 
-            System.Diagnostics.Debug.WriteLine(properties != null
+            Debug.WriteLine(properties != null
                 ? $"[{eventName}]:\n{string.Join(Environment.NewLine, properties.Select(kvp => kvp.Key + ": " + kvp.Value.ToString()))}\n"
                 : $"[{eventName}]\n");
         }
@@ -118,5 +114,12 @@ namespace SoundByte.Core.Services
                 // ignored
             }
         }
+
+        #region Service Setup
+
+        private static TelemetryService _instance;
+        public static TelemetryService Current => _instance ?? (_instance = new TelemetryService());
+
+        #endregion
     }
 }

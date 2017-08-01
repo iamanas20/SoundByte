@@ -16,8 +16,8 @@ using Windows.UI.Xaml.Data;
 namespace SoundByte.Core.Converters
 {
     /// <summary>
-    /// This class takes in a timespac and converts it into a human
-    /// readable string.
+    ///     This class takes in a timespac and converts it into a human
+    ///     readable string.
     /// </summary>
     public class TimeStampConverter : IValueConverter
     {
@@ -36,8 +36,10 @@ namespace SoundByte.Core.Converters
                 if (value is string)
                     timeSpan = TimeSpan.FromMilliseconds(int.Parse(value.ToString()));
 
-                var returnValue = timeSpan.TotalHours < 1.0 ? string.Format("{0}:{1:D2}", timeSpan.Minutes, timeSpan.Seconds) : string.Format("{0}:{1:D2}:{2:D2}", (int)timeSpan.TotalHours, timeSpan.Minutes, timeSpan.Seconds);
-                
+                var returnValue = timeSpan.TotalHours < 1.0
+                    ? string.Format("{0}:{1:D2}", timeSpan.Minutes, timeSpan.Seconds)
+                    : string.Format("{0}:{1:D2}:{2:D2}", (int) timeSpan.TotalHours, timeSpan.Minutes, timeSpan.Seconds);
+
                 // Return the formatted value
                 return returnValue;
             }

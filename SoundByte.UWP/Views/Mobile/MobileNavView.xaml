@@ -6,12 +6,12 @@
     Transitions="{StaticResource MainTransition}"
     NavigationCacheMode="Enabled">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" >
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <ScrollViewer>
             <StackPanel>
                 <Button x:Name="ViewUserProfileButton"
                         Click="{x:Bind NavigateUserProfile}"
-                        HorizontalAlignment="Stretch" 
+                        HorizontalAlignment="Stretch"
                         HorizontalContentAlignment="Stretch"
                         VerticalContentAlignment="Center"
                         Padding="0"
@@ -19,28 +19,32 @@
                     <Viewbox HorizontalAlignment="Left">
                         <controls:DropShadowPanel HorizontalAlignment="Stretch"
                                                   VerticalAlignment="Stretch"
-                                                  BlurRadius="5" 
+                                                  BlurRadius="5"
                                                   Margin="0"
                                                   ShadowOpacity="0.7"
                                                   OffsetX="0"
                                                   OffsetY="0"
                                                   Color="#FF333333">
-                            <StackPanel Background="{ThemeResource ShellNavigationBackground}"  Orientation="Horizontal" Padding="15" HorizontalAlignment="Left">
-                                <controls:DropShadowPanel  HorizontalAlignment="Left"
+                            <StackPanel Background="{ThemeResource ShellNavigationBackground}" Orientation="Horizontal"
+                                        Padding="15" HorizontalAlignment="Left">
+                                <controls:DropShadowPanel HorizontalAlignment="Left"
                                                           BlurRadius="8"
                                                           ShadowOpacity="0.85"
                                                           OffsetX="0"
                                                           OffsetY="0"
                                                           Color="Black">
-                                    <Image Source="{x:Bind Service.SoundCloudUser, Converter={StaticResource ArtworkConverter}, Mode=OneWay}" 
-                                                           Height="100" 
-                                                           Width="100" 
-                                                           Stretch="UniformToFill"/>
+                                    <Image
+                                        Source="{x:Bind Service.SoundCloudUser, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
+                                        Height="100"
+                                        Width="100"
+                                        Stretch="UniformToFill" />
                                 </controls:DropShadowPanel>
 
                                 <StackPanel VerticalAlignment="Center" Margin="20,0">
-                                    <TextBlock Text="{x:Bind Service.SoundCloudUser.Username}" FontWeight="SemiBold" FontSize="22" />
-                                    <TextBlock Text="View public profile" FontWeight="SemiLight" Opacity="0.8" FontSize="16" />
+                                    <TextBlock Text="{x:Bind Service.SoundCloudUser.Username}" FontWeight="SemiBold"
+                                               FontSize="22" />
+                                    <TextBlock Text="View public profile" FontWeight="SemiLight" Opacity="0.8"
+                                               FontSize="16" />
                                 </StackPanel>
                             </StackPanel>
                         </controls:DropShadowPanel>
@@ -52,7 +56,7 @@
 
                 <Button x:Name="LoginSoundByteButton"
                         Click="{x:Bind NavigateLogin}"
-                        HorizontalAlignment="Stretch" 
+                        HorizontalAlignment="Stretch"
                         HorizontalContentAlignment="Stretch"
                         VerticalContentAlignment="Center"
                         Padding="0"
@@ -60,17 +64,20 @@
                     <Viewbox HorizontalAlignment="Left">
                         <controls:DropShadowPanel HorizontalAlignment="Stretch"
                                                   VerticalAlignment="Stretch"
-                                                  BlurRadius="5" 
+                                                  BlurRadius="5"
                                                   Margin="0"
                                                   ShadowOpacity="0.7"
                                                   OffsetX="0"
                                                   OffsetY="0"
                                                   Color="#FF333333">
-                            <StackPanel Background="{ThemeResource ShellNavigationBackground}" Orientation="Horizontal" Padding="15"  HorizontalAlignment="Left">
-                                <Ellipse Height="100" Width="100" HorizontalAlignment="Left" Fill="{ThemeResource ShellBackground}" />
+                            <StackPanel Background="{ThemeResource ShellNavigationBackground}" Orientation="Horizontal"
+                                        Padding="15" HorizontalAlignment="Left">
+                                <Ellipse Height="100" Width="100" HorizontalAlignment="Left"
+                                         Fill="{ThemeResource ShellBackground}" />
                                 <StackPanel VerticalAlignment="Center" Margin="20,0">
                                     <TextBlock Text="Add SoundCloud Account" FontWeight="SemiBold" FontSize="22" />
-                                    <TextBlock Text="Tap here to login" FontWeight="SemiLight" Opacity="0.8" FontSize="16" />
+                                    <TextBlock Text="Tap here to login" FontWeight="SemiLight" Opacity="0.8"
+                                               FontSize="16" />
                                 </StackPanel>
                             </StackPanel>
                         </controls:DropShadowPanel>
@@ -78,25 +85,26 @@
                 </Button>
 
 
-
-                <Button x:Name="UserLikesButton" 
+                <Button x:Name="UserLikesButton"
                         Click="{x:Bind NavigateLikes}"
-                        HorizontalAlignment="Stretch" 
+                        HorizontalAlignment="Stretch"
                         HorizontalContentAlignment="Stretch"
                         VerticalContentAlignment="Center"
-                        Margin="0,10,0,0" 
+                        Margin="0,10,0,0"
                         Padding="0"
                         BorderThickness="0">
                     <controls:DropShadowPanel HorizontalAlignment="Stretch"
                                               VerticalAlignment="Stretch"
-                                              BlurRadius="5" 
+                                              BlurRadius="5"
                                               Margin="0"
                                               ShadowOpacity="0.7"
                                               OffsetX="0"
                                               OffsetY="0"
                                               Color="#FF333333">
-                        <StackPanel Orientation="Horizontal" Padding="15" Background="{ThemeResource ShellNavigationBackground}">
-                            <TextBlock Text="&#xE006;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center" Margin="5,0,0,0" FontSize="20" />
+                        <StackPanel Orientation="Horizontal" Padding="15"
+                                    Background="{ThemeResource ShellNavigationBackground}">
+                            <TextBlock Text="&#xE006;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center"
+                                       Margin="5,0,0,0" FontSize="20" />
                             <TextBlock Text="Likes" VerticalAlignment="Center" Margin="15,0,0,0" FontSize="16" />
                         </StackPanel>
                     </controls:DropShadowPanel>
@@ -104,115 +112,125 @@
 
                 </Button>
 
-                <Button x:Name="UserPlaylistsButton" 
+                <Button x:Name="UserPlaylistsButton"
                         Click="{x:Bind NavigatePlaylists}"
-                        HorizontalAlignment="Stretch" 
+                        HorizontalAlignment="Stretch"
                         HorizontalContentAlignment="Stretch"
                         VerticalContentAlignment="Center"
-                        Margin="0,10,0,0" 
+                        Margin="0,10,0,0"
                         Padding="0"
                         BorderThickness="0">
                     <controls:DropShadowPanel HorizontalAlignment="Stretch"
                                               VerticalAlignment="Stretch"
-                                              BlurRadius="5" 
+                                              BlurRadius="5"
                                               Margin="0"
                                               ShadowOpacity="0.7"
                                               OffsetX="0"
                                               OffsetY="0"
                                               Color="#FF333333">
-                        <StackPanel Orientation="Horizontal" Padding="15" Background="{ThemeResource ShellNavigationBackground}">
-                            <TextBlock Text="&#xE8FD;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center" Margin="5,0,0,0"  FontSize="20" />
+                        <StackPanel Orientation="Horizontal" Padding="15"
+                                    Background="{ThemeResource ShellNavigationBackground}">
+                            <TextBlock Text="&#xE8FD;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center"
+                                       Margin="5,0,0,0" FontSize="20" />
                             <TextBlock Text="Playlists" VerticalAlignment="Center" Margin="15,0,0,0" FontSize="16" />
                         </StackPanel>
                     </controls:DropShadowPanel>
                 </Button>
 
-                <Button x:Name="UserNotificationsButton" 
+                <Button x:Name="UserNotificationsButton"
                         Click="{x:Bind NavigateNotifications}"
-                        HorizontalAlignment="Stretch" 
+                        HorizontalAlignment="Stretch"
                         HorizontalContentAlignment="Stretch"
                         VerticalContentAlignment="Center"
-                        Margin="0,10,0,0" 
+                        Margin="0,10,0,0"
                         Padding="0"
                         BorderThickness="0">
                     <controls:DropShadowPanel HorizontalAlignment="Stretch"
                                               VerticalAlignment="Stretch"
-                                              BlurRadius="5" 
+                                              BlurRadius="5"
                                               Margin="0"
                                               ShadowOpacity="0.7"
                                               OffsetX="0"
                                               OffsetY="0"
                                               Color="#FF333333">
-                        <StackPanel Orientation="Horizontal" Padding="15" Background="{ThemeResource ShellNavigationBackground}">
-                            <TextBlock Text="&#xEA8F;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center" Margin="5,0,0,0"  FontSize="20" />
+                        <StackPanel Orientation="Horizontal" Padding="15"
+                                    Background="{ThemeResource ShellNavigationBackground}">
+                            <TextBlock Text="&#xEA8F;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center"
+                                       Margin="5,0,0,0" FontSize="20" />
                             <TextBlock Text="Notifications" VerticalAlignment="Center" Margin="15,0,0,0" FontSize="16" />
                         </StackPanel>
                     </controls:DropShadowPanel>
                 </Button>
 
-                <Button x:Name="UserHistoryButton" 
+                <Button x:Name="UserHistoryButton"
                         Click="{x:Bind NavigateHistory}"
-                        HorizontalAlignment="Stretch" 
+                        HorizontalAlignment="Stretch"
                         HorizontalContentAlignment="Stretch"
                         VerticalContentAlignment="Center"
-                        Margin="0,10,0,0" 
+                        Margin="0,10,0,0"
                         Padding="0"
                         BorderThickness="0">
                     <controls:DropShadowPanel HorizontalAlignment="Stretch"
                                               VerticalAlignment="Stretch"
-                                              BlurRadius="5" 
+                                              BlurRadius="5"
                                               Margin="0"
                                               ShadowOpacity="0.7"
                                               OffsetX="0"
                                               OffsetY="0"
                                               Color="#FF333333">
-                        <StackPanel Orientation="Horizontal" Padding="15" Background="{ThemeResource ShellNavigationBackground}">
-                            <TextBlock Text="&#xE81C;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center" Margin="5,0,0,0"  FontSize="20" />
+                        <StackPanel Orientation="Horizontal" Padding="15"
+                                    Background="{ThemeResource ShellNavigationBackground}">
+                            <TextBlock Text="&#xE81C;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center"
+                                       Margin="5,0,0,0" FontSize="20" />
                             <TextBlock Text="History" VerticalAlignment="Center" Margin="15,0,0,0" FontSize="16" />
                         </StackPanel>
                     </controls:DropShadowPanel>
                 </Button>
 
-                <Button x:Name="UserUploadButton" 
+                <Button x:Name="UserUploadButton"
                         Click="{x:Bind NavigateUpload}"
-                        HorizontalAlignment="Stretch" 
+                        HorizontalAlignment="Stretch"
                         HorizontalContentAlignment="Stretch"
                         VerticalContentAlignment="Center"
-                        Margin="0,10,0,0" 
+                        Margin="0,10,0,0"
                         Padding="0"
                         BorderThickness="0">
                     <controls:DropShadowPanel HorizontalAlignment="Stretch"
                                               VerticalAlignment="Stretch"
-                                              BlurRadius="5" 
+                                              BlurRadius="5"
                                               Margin="0"
                                               ShadowOpacity="0.7"
                                               OffsetX="0"
                                               OffsetY="0"
                                               Color="#FF333333">
-                        <StackPanel Orientation="Horizontal" Padding="15" Background="{ThemeResource ShellNavigationBackground}">
-                            <TextBlock Text="&#xE898;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center" Margin="5,0,0,0"  FontSize="20" />
+                        <StackPanel Orientation="Horizontal" Padding="15"
+                                    Background="{ThemeResource ShellNavigationBackground}">
+                            <TextBlock Text="&#xE898;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center"
+                                       Margin="5,0,0,0" FontSize="20" />
                             <TextBlock Text="Upload" VerticalAlignment="Center" Margin="15,0,0,0" FontSize="16" />
                         </StackPanel>
                     </controls:DropShadowPanel>
                 </Button>
 
                 <Button Click="{x:Bind NavigateSettings}"
-                        HorizontalAlignment="Stretch" 
+                        HorizontalAlignment="Stretch"
                         HorizontalContentAlignment="Stretch"
                         VerticalContentAlignment="Center"
-                        Margin="0,10,0,0" 
+                        Margin="0,10,0,0"
                         Padding="0"
                         BorderThickness="0">
                     <controls:DropShadowPanel HorizontalAlignment="Stretch"
                                               VerticalAlignment="Stretch"
-                                              BlurRadius="5" 
+                                              BlurRadius="5"
                                               Margin="0"
                                               ShadowOpacity="0.7"
                                               OffsetX="0"
                                               OffsetY="0"
                                               Color="#FF333333">
-                        <StackPanel Orientation="Horizontal" Padding="15" Background="{ThemeResource ShellNavigationBackground}">
-                            <TextBlock Text="&#xE713;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center" Margin="5,0,0,0"  FontSize="20" />
+                        <StackPanel Orientation="Horizontal" Padding="15"
+                                    Background="{ThemeResource ShellNavigationBackground}">
+                            <TextBlock Text="&#xE713;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center"
+                                       Margin="5,0,0,0" FontSize="20" />
                             <TextBlock Text="Settings" VerticalAlignment="Center" Margin="15,0,0,0" FontSize="16" />
                         </StackPanel>
                     </controls:DropShadowPanel>

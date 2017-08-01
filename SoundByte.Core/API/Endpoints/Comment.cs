@@ -16,43 +16,43 @@ using Newtonsoft.Json;
 namespace SoundByte.Core.API.Endpoints
 {
     /// <summary>
-    /// This class represents a comment object within the SoundCloud API
+    ///     This class represents a comment object within the SoundCloud API
     /// </summary>
     [JsonObject]
     public class Comment
     {
         /// <summary>
-        /// Comment body
+        ///     Comment body
         /// </summary>
         [JsonProperty("body")]
         public string Body { get; set; }
 
         /// <summary>
-        /// The date and time that this comment was posted.
+        ///     The date and time that this comment was posted.
         /// </summary>
         [JsonProperty("created_at")]
         public DateTime CreatedAt { get; set; }
 
         /// <summary>
-        /// Object ID
+        ///     Object ID
         /// </summary>
         [JsonProperty("id")]
         public int Id { get; set; }
 
         /// <summary>
-        /// The track that this comment was posted on
+        ///     The track that this comment was posted on
         /// </summary>
         [JsonProperty("track")]
         public Track Track { get; set; }
 
         /// <summary>
-        /// At what time in the track was this posted
+        ///     At what time in the track was this posted
         /// </summary>
         [JsonProperty("timestamp")]
         public string Timestamp { get; set; }
 
         /// <summary>
-        /// The user who posted this comment
+        ///     The user who posted this comment
         /// </summary>
         [JsonProperty("user")]
         public User User { get; set; }

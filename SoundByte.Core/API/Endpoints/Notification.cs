@@ -16,43 +16,43 @@ using Newtonsoft.Json;
 namespace SoundByte.Core.API.Endpoints
 {
     /// <summary>
-    /// A user notification
+    ///     A user notification
     /// </summary>
     [JsonObject]
     public class Notification
     {
         /// <summary>
-        /// Whent this object was created
+        ///     Whent this object was created
         /// </summary>
         [JsonProperty("created_at")]
         public DateTime CreatedAt { get; set; }
 
         /// <summary>
-        /// What type of object this is
+        ///     What type of object this is
         /// </summary>
         [JsonProperty("type")]
         public string Type { get; set; }
 
         /// <summary>
-        /// User detail
+        ///     User detail
         /// </summary>
         [JsonProperty("user")]
         public User User { get; set; }
 
         /// <summary>
-        /// track detail
+        ///     track detail
         /// </summary>
         [JsonProperty("track")]
         public Track Track { get; set; }
 
         /// <summary>
-        /// Playlist detail
+        ///     Playlist detail
         /// </summary>
         [JsonProperty("playlist")]
         public Playlist Playlist { get; set; }
 
         /// <summary>
-        /// Comment detail
+        ///     Comment detail
         /// </summary>
         [JsonProperty("comment")]
         public Comment Comment { get; set; }

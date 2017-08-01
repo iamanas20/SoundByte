@@ -14,6 +14,9 @@ namespace SoundByte.UWP.Views.CoreApp
 {
     public sealed partial class BlankPage
     {
-        public BlankPage() { InitializeComponent(); }
+        public BlankPage()
+        {
+            InitializeComponent();
+        }
     }
 }

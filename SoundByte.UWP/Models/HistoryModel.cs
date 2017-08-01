@@ -29,33 +29,23 @@ using SoundByte.UWP.UserControls;
 namespace SoundByte.UWP.Models
 {
     /// <summary>
-    /// Model for the users play history
+    ///     Model for the users play history
     /// </summary>
     public class HistoryModel : ObservableCollection<Track>, ISupportIncrementalLoading
     {
         /// <summary>
-        /// The position of the track, will be 'eol'
-        /// if there are no new tracks
+        ///     The position of the track, will be 'eol'
+        ///     if there are no new tracks
         /// </summary>
         public string Token { get; private set; }
 
         /// <summary>
-        /// Are there more items to load
+        ///     Are there more items to load
         /// </summary>
         public bool HasMoreItems => Token != "eol";
 
         /// <summary>
-        /// Refresh the list by removing any
-        /// existing items and reseting the token.
-        /// </summary>
-        public void RefreshItems()
-        {
-            Token = null;
-            Clear();
-        }
-
-        /// <summary>
-        /// Loads stream items from the souncloud api
+        ///     Loads stream items from the souncloud api
         /// </summary>
         /// <param name="count">The amount of items to load</param>
         // ReSharper disable once RedundantAssignment
@@ -78,12 +68,13 @@ namespace SoundByte.UWP.Models
                 {
                     try
                     {
-                        var userPlayHistory = await SoundByteService.Current.GetAsync<HistoryListHolder>("/me/play-history/tracks", new Dictionary<string, string>
-                        {
-                            { "limit", "50" },
-                            { "offset", Token },
-                            { "linked_partitioning", "1" }
-                        }, true);
+                        var userPlayHistory = await SoundByteService.Current.GetAsync<HistoryListHolder>(
+                            "/me/play-history/tracks", new Dictionary<string, string>
+                            {
+                                {"limit", "50"},
+                                {"offset", Token},
+                                {"linked_partitioning", "1"}
+                            }, true);
 
                         // Parse uri for offset
                         var param = new QueryParameterCollection(userPlayHistory.NextList);
@@ -96,7 +87,7 @@ namespace SoundByte.UWP.Models
                         if (userPlayHistory.Tracks.Count > 0)
                         {
                             // Set the count variable
-                            count = (uint)userPlayHistory.Tracks.Count;
+                            count = (uint) userPlayHistory.Tracks.Count;
 
                             // Loop though all the tracks on the UI thread
                             await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
@@ -115,7 +106,8 @@ namespace SoundByte.UWP.Models
                             // No items tell the user
                             await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                             {
-                                (App.CurrentFrame?.FindName("HistoryModelInfoPane") as InfoPane)?.ShowMessage("No History", "Listen to some music to get started.", "", false);
+                                (App.CurrentFrame?.FindName("HistoryModelInfoPane") as InfoPane)?.ShowMessage(
+                                    "No History", "Listen to some music to get started.", "", false);
                             });
                         }
                     }
@@ -130,7 +122,8 @@ namespace SoundByte.UWP.Models
                         // Exception, display error to the user
                         await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                         {
-                            (App.CurrentFrame?.FindName("HistoryModelInfoPane") as InfoPane)?.ShowMessage(ex.ErrorTitle, ex.ErrorDescription, ex.ErrorGlyph);
+                            (App.CurrentFrame?.FindName("HistoryModelInfoPane") as InfoPane)?.ShowMessage(
+                                ex.ErrorTitle, ex.ErrorDescription, ex.ErrorGlyph);
                         });
                     }
                 }
@@ -145,7 +138,9 @@ namespace SoundByte.UWP.Models
                     // No items tell the user
                     await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                     {
-                        (App.CurrentFrame?.FindName("HistoryModelInfoPane") as InfoPane)?.ShowMessage(resources.GetString("ErrorControl_LoginFalse_Header"), resources.GetString("ErrorControl_LoginFalse_Content"), "", false);
+                        (App.CurrentFrame?.FindName("HistoryModelInfoPane") as InfoPane)?.ShowMessage(
+                            resources.GetString("ErrorControl_LoginFalse_Header"),
+                            resources.GetString("ErrorControl_LoginFalse_Content"), "", false);
                     });
                 }
 
@@ -156,8 +151,18 @@ namespace SoundByte.UWP.Models
                 });
 
                 // Return the result
-                return new LoadMoreItemsResult { Count = count };
+                return new LoadMoreItemsResult {Count = count};
             }).AsAsyncOperation();
+        }
+
+        /// <summary>
+        ///     Refresh the list by removing any
+        ///     existing items and reseting the token.
+        /// </summary>
+        public void RefreshItems()
+        {
+            Token = null;
+            Clear();
         }
     }
 }

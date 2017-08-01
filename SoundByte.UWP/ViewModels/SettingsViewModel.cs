@@ -31,7 +31,12 @@ namespace SoundByte.UWP.ViewModels
             var dialog = new ContentDialog
             {
                 Title = "Clear Application Cache?",
-                Content = new TextBlock { Text = "Warning: Clearing Application cache will delete the following things:\n• Cached Images.\n• Jumplist Items.\n• Pinned Live Tiles.\n• Notifications.\n\n To Continue press 'Clear Cache', this may take a while.", TextWrapping = TextWrapping.Wrap },
+                Content = new TextBlock
+                {
+                    Text =
+                        "Warning: Clearing Application cache will delete the following things:\n• Cached Images.\n• Jumplist Items.\n• Pinned Live Tiles.\n• Notifications.\n\n To Continue press 'Clear Cache', this may take a while.",
+                    TextWrapping = TextWrapping.Wrap
+                },
                 PrimaryButtonText = "Clear Cache",
                 SecondaryButtonText = "Cancel",
                 IsPrimaryButtonEnabled = true,
@@ -41,23 +46,23 @@ namespace SoundByte.UWP.ViewModels
             var response = await dialog.ShowAsync();
 
             if (response != ContentDialogResult.Primary)
-            {
                 return;
-            }
 
             // Clear all jumplist items
             await JumplistHelper.RemoveAllAsync();
             // Clear all the live tiles
             await TileService.Current.RemoveAllAsync();
             // Remove all cached images from the app
-            var rootCacheFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("cache", CreationCollisionOption.OpenIfExists);
+            var rootCacheFolder =
+                await ApplicationData.Current.LocalFolder.CreateFolderAsync("cache",
+                    CreationCollisionOption.OpenIfExists);
             await rootCacheFolder.DeleteAsync();
             // Remove all toast notifications
             ToastNotificationManager.History.Clear();
         }
 
         /// <summary>
-        /// Changes the language string and pompts the user to restart the app.
+        ///     Changes the language string and pompts the user to restart the app.
         /// </summary>
         public async void ChangeLangauge(object sender, SelectionChangedEventArgs e)
         {
@@ -65,13 +70,14 @@ namespace SoundByte.UWP.ViewModels
                 return;
 
             // Get the langauge string
-            var comboBoxItem = (ComboBoxItem)((ComboBox)sender).SelectedItem;
+            var comboBoxItem = (ComboBoxItem) ((ComboBox) sender).SelectedItem;
             if (comboBoxItem != null)
             {
-                var languageString = (comboBoxItem.Tag) as string;
+                var languageString = comboBoxItem.Tag as string;
 
                 // If the langauge is the same, do nothing
-                if (SettingsService.Current.CurrentAppLanguage == languageString || IsComboboxBlockingEnabled || string.IsNullOrEmpty(SettingsService.Current.CurrentAppLanguage))
+                if (SettingsService.Current.CurrentAppLanguage == languageString || IsComboboxBlockingEnabled ||
+                    string.IsNullOrEmpty(SettingsService.Current.CurrentAppLanguage))
                     return;
 
                 // Set the current langauge
@@ -83,18 +89,20 @@ namespace SoundByte.UWP.ViewModels
             var restartAppDialog = new ContentDialog
             {
                 Title = resources.GetString("LanguageRestart_Title"),
-                Content = new TextBlock { TextWrapping = TextWrapping.Wrap, Text = resources.GetString("LanguageRestart_Content") },
+                Content = new TextBlock
+                {
+                    TextWrapping = TextWrapping.Wrap,
+                    Text = resources.GetString("LanguageRestart_Content")
+                },
                 IsPrimaryButtonEnabled = true,
                 PrimaryButtonText = resources.GetString("LanguageRestart_Button")
             };
             // Show the dialog and get the respose
             var response = await restartAppDialog.ShowAsync();
             // Restart the app if the user canceled or clicked the button
-            if (response == ContentDialogResult.Primary || response == ContentDialogResult.None || response == ContentDialogResult.Secondary)
-            {
-                // Exit the app
+            if (response == ContentDialogResult.Primary || response == ContentDialogResult.None ||
+                response == ContentDialogResult.Secondary)
                 Application.Current.Exit();
-            }
         }
     }
 }

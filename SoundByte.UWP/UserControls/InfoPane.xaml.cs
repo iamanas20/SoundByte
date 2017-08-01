@@ -15,27 +15,40 @@ using Windows.UI.Xaml;
 namespace SoundByte.UWP.UserControls
 {
     /// <summary>
-    /// This control is used to show friendly messages 
-    /// within the app
+    ///     This control is used to show friendly messages
+    ///     within the app
     /// </summary>
     public sealed partial class InfoPane
     {
-        #region Binding Variables
-        private static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(string), typeof(InfoPane), null);
-        private static readonly DependencyProperty GlyphProperty = DependencyProperty.Register("Glyph", typeof(string), typeof(InfoPane), null);
-        private static readonly DependencyProperty HeaderProperty = DependencyProperty.Register("Header", typeof(string), typeof(InfoPane), null);
+        #region Page Setup
+
+        /// <summary>
+        ///     Load the XAML part of the user control
+        /// </summary>
+        public InfoPane()
+        {
+            InitializeComponent();
+        }
+
         #endregion
 
-        #region Page Setup
-        /// <summary>
-        /// Load the XAML part of the user control
-        /// </summary>
-        public InfoPane() { InitializeComponent(); }
+        #region Binding Variables
+
+        private static readonly DependencyProperty TextProperty =
+            DependencyProperty.Register("Text", typeof(string), typeof(InfoPane), null);
+
+        private static readonly DependencyProperty GlyphProperty =
+            DependencyProperty.Register("Glyph", typeof(string), typeof(InfoPane), null);
+
+        private static readonly DependencyProperty HeaderProperty =
+            DependencyProperty.Register("Header", typeof(string), typeof(InfoPane), null);
+
         #endregion
 
         #region Getters and Setters
+
         /// <summary>
-        /// The title to show on the error control
+        ///     The title to show on the error control
         /// </summary>
         public string Header
         {
@@ -44,7 +57,7 @@ namespace SoundByte.UWP.UserControls
         }
 
         /// <summary>
-        /// The icon to show on the control
+        ///     The icon to show on the control
         /// </summary>
         public string Glyph
         {
@@ -53,13 +66,14 @@ namespace SoundByte.UWP.UserControls
         }
 
         /// <summary>
-        /// The text to show on the error control
+        ///     The text to show on the error control
         /// </summary>
         public string Text
         {
             get => GetValue(TextProperty) as string;
             private set => SetValue(TextProperty, value);
         }
+
         #endregion
 
         #region Methods
@@ -74,7 +88,7 @@ namespace SoundByte.UWP.UserControls
 
 
         /// <summary>
-        /// Shows a message on the screen
+        ///     Shows a message on the screen
         /// </summary>
         /// <param name="header">The title of the message</param>
         /// <param name="text">The text of the message</param>
@@ -102,7 +116,7 @@ namespace SoundByte.UWP.UserControls
         }
 
         /// <summary>
-        /// Closes the pane
+        ///     Closes the pane
         /// </summary>
         public void ClosePane()
         {
@@ -110,6 +124,7 @@ namespace SoundByte.UWP.UserControls
             Visibility = Visibility.Collapsed;
             Opacity = 0;
         }
+
         #endregion
     }
 }

@@ -29,33 +29,23 @@ namespace SoundByte.UWP.Models
     public class FanburstSearchModel : ObservableCollection<Track>, ISupportIncrementalLoading
     {
         /// <summary>
-        /// The position of the track, will be 'eol'
-        /// if there are no new trackss
+        ///     The position of the track, will be 'eol'
+        ///     if there are no new trackss
         /// </summary>
         public string Token { get; private set; }
 
         /// <summary>
-        /// What we are searching the soundcloud API for
+        ///     What we are searching the soundcloud API for
         /// </summary>
         public string Query { get; set; }
 
         /// <summary>
-        /// Are there more items to load
+        ///     Are there more items to load
         /// </summary>
         public bool HasMoreItems => Token != "eol";
 
         /// <summary>
-        /// Refresh the list by removing any
-        /// existing items and reseting the token.
-        /// </summary>
-        public void RefreshItems()
-        {
-            Token = null;
-            Clear();
-        }
-
-        /// <summary>
-        /// Loads search track items from the souncloud api
+        ///     Loads search track items from the souncloud api
         /// </summary>
         /// <param name="count">The amount of items to load</param>
         public IAsyncOperation<LoadMoreItemsResult> LoadMoreItemsAsync(uint count)
@@ -64,7 +54,7 @@ namespace SoundByte.UWP.Models
             return Task.Run(async () =>
             {
                 if (string.IsNullOrEmpty(Query))
-                    return new LoadMoreItemsResult { Count = 0 };
+                    return new LoadMoreItemsResult {Count = 0};
 
                 // We are loading
                 await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
@@ -78,15 +68,16 @@ namespace SoundByte.UWP.Models
                 try
                 {
                     // Search for matching tracks
-                    var searchTracks = await SoundByteService.Current.GetAsync<List<dynamic>>(SoundByteService.ServiceType.Fanburst, "tracks/search", new Dictionary<string, string>
-                    {
-                        { "query", WebUtility.UrlEncode(Query) },
-                        { "count", count.ToString() }
-                    });
+                    var searchTracks = await SoundByteService.Current.GetAsync<List<dynamic>>(
+                        SoundByteService.ServiceType.Fanburst, "tracks/search", new Dictionary<string, string>
+                        {
+                            {"query", WebUtility.UrlEncode(Query)},
+                            {"count", count.ToString()}
+                        });
 
                     // Parse uri for offset
-                 //   var param = new QueryParameterCollection(searchTracks.NextList);
-                    var offset = "eol";//param.FirstOrDefault(x => x.Key == "offset").Value;
+                    //   var param = new QueryParameterCollection(searchTracks.NextList);
+                    var offset = "eol"; //param.FirstOrDefault(x => x.Key == "offset").Value;
 
                     // Get the search offset
                     Token = string.IsNullOrEmpty(offset) ? "eol" : offset;
@@ -95,13 +86,12 @@ namespace SoundByte.UWP.Models
                     if (searchTracks.Count > 0)
                     {
                         // Set the count variable
-                        count = (uint)searchTracks.Count;
+                        count = (uint) searchTracks.Count;
 
                         // Loop though all the tracks on the UI thread
                         await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                         {
                             foreach (var item in searchTracks)
-                            {
                                 Add(new Track
                                 {
                                     ServiceType = SoundByteService.ServiceType.Fanburst,
@@ -109,7 +99,7 @@ namespace SoundByte.UWP.Models
                                     Title = item.title,
                                     PermalinkUri = item.permalink,
                                     Duration = item.duration,
-                                    CreationDate = (DateTime)item.published_at.Value,
+                                    CreationDate = (DateTime) item.published_at.Value,
                                     Kind = "track",
                                     User = new User
                                     {
@@ -120,7 +110,6 @@ namespace SoundByte.UWP.Models
                                     },
                                     ArtworkLink = item.images.square_500
                                 });
-                            }
                         });
                     }
                     else
@@ -134,7 +123,9 @@ namespace SoundByte.UWP.Models
                         // No items tell the user
                         await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                         {
-                            (App.CurrentFrame?.FindName("FanburstSearchModelInfoPane") as InfoPane)?.ShowMessage(resources.GetString("SearchTrack_Header"), resources.GetString("SearchTrack_Content"), "", false);
+                            (App.CurrentFrame?.FindName("FanburstSearchModelInfoPane") as InfoPane)?.ShowMessage(
+                                resources.GetString("SearchTrack_Header"),
+                                resources.GetString("SearchTrack_Content"), "", false);
                         });
                     }
                 }
@@ -149,7 +140,8 @@ namespace SoundByte.UWP.Models
                     // Exception, display error to the user
                     await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                     {
-                        (App.CurrentFrame?.FindName("FanburstSearchModelInfoPane") as InfoPane)?.ShowMessage(ex.ErrorTitle, ex.ErrorDescription, ex.ErrorGlyph);
+                        (App.CurrentFrame?.FindName("FanburstSearchModelInfoPane") as InfoPane)?.ShowMessage(
+                            ex.ErrorTitle, ex.ErrorDescription, ex.ErrorGlyph);
                     });
                 }
 
@@ -160,8 +152,18 @@ namespace SoundByte.UWP.Models
                 });
 
                 // Return the result
-                return new LoadMoreItemsResult { Count = count };
+                return new LoadMoreItemsResult {Count = count};
             }).AsAsyncOperation();
+        }
+
+        /// <summary>
+        ///     Refresh the list by removing any
+        ///     existing items and reseting the token.
+        /// </summary>
+        public void RefreshItems()
+        {
+            Token = null;
+            Clear();
         }
     }
 }

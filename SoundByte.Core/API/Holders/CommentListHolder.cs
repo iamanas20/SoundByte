@@ -13,23 +13,24 @@
 
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using SoundByte.Core.API.Endpoints;
 
 namespace SoundByte.Core.API.Holders
 {
     /// <summary>
-    /// Small class for holding comments
+    ///     Small class for holding comments
     /// </summary>
     [JsonObject]
     public class CommentListHolder
     {
         /// <summary>
-        /// List of comments
+        ///     List of comments
         /// </summary>
         [JsonProperty("collection")]
-        public List<Endpoints.Comment> Items { get; set; }
+        public List<Comment> Items { get; set; }
 
         /// <summary>
-        /// Next items in the list
+        ///     Next items in the list
         /// </summary>
         [JsonProperty("next_href")]
         public string NextList { get; set; }

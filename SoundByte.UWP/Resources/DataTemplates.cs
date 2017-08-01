@@ -13,9 +13,9 @@
 namespace SoundByte.UWP.Resources
 {
     /// <summary>
-    /// Contains data templates used by the track, 
-    /// playlist, and user items. Is needed to perform
-    /// x:Bind on an item with no class.
+    ///     Contains data templates used by the track,
+    ///     playlist, and user items. Is needed to perform
+    ///     x:Bind on an item with no class.
     /// </summary>
     public partial class DataTemplates
     {

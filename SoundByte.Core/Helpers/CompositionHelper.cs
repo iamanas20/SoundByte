@@ -18,19 +18,20 @@ using Windows.UI.Xaml.Hosting;
 namespace SoundByte.Core.Helpers
 {
     /// <summary>
-    /// Helpers Composition Classes
+    ///     Helpers Composition Classes
     /// </summary>
     public static class CompositionHelper
     {
         /// <summary>
-        /// Adds a drop shadow to an element
+        ///     Adds a drop shadow to an element
         /// </summary>
         /// <param name="element">The element to apply the effec to</param>
         /// <param name="shadowOffset">Offset of the shadow</param>
         /// <param name="shadowBlurRadius">Blur radius of the shadow</param>
         /// <param name="shadowColor">Color of the shadow</param>
         /// <param name="shadowHost">Item the shadow effect will be attached to</param>
-        public static void CreateElementShadow(this UIElement element, Vector3 shadowOffset, float shadowBlurRadius, Color shadowColor, UIElement shadowHost)
+        public static void CreateElementShadow(this UIElement element, Vector3 shadowOffset, float shadowBlurRadius,
+            Color shadowColor, UIElement shadowHost)
         {
             // Get the compositor for this element
             var compositor = ElementCompositionPreview.GetElementVisual(element).Compositor;

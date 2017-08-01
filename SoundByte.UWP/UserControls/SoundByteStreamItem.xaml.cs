@@ -19,69 +19,10 @@ using SoundByte.Core.Dialogs;
 namespace SoundByte.UWP.UserControls
 {
     /// <summary>
-    /// Base item for users, tracks, reposted tracks, playlists, reposted playlists and groups
+    ///     Base item for users, tracks, reposted tracks, playlists, reposted playlists and groups
     /// </summary>
     public sealed partial class SoundByteStreamItem
     {
-        #region Variables
-        // What type of track this is
-        public static readonly DependencyProperty TrackTypeProperty = DependencyProperty.Register("TrackType", typeof(string), typeof(SoundByteStreamItem), null);
-        // When this was created
-        public static readonly DependencyProperty CreatedProperty = DependencyProperty.Register("Created", typeof(string), typeof(SoundByteStreamItem), null);
-        // The track object
-        public static readonly DependencyProperty TrackProperty = DependencyProperty.Register("Track", typeof(Track), typeof(SoundByteStreamItem), null);
-        // The playlist object
-        public static readonly DependencyProperty PlaylistProperty = DependencyProperty.Register("Playlist", typeof(Playlist), typeof(SoundByteStreamItem), null);
-        #endregion
-
-        #region Getters and Setters
-        /// <summary>
-        /// What is the current type of track (e.g repost, playlist, etc.)
-        /// </summary>
-        public string TrackType
-        {
-            get => GetValue(TrackTypeProperty) as string;
-            set => SetValue(TrackTypeProperty, value);
-        }
-
-        /// <summary>
-        /// When the track was created
-        /// </summary>
-        public string Created
-        {
-            get => GetValue(CreatedProperty) as string;
-            set => SetValue(CreatedProperty, value);
-        }
-
-        /// <summary>
-        /// The track object 
-        /// </summary>
-        public Track Track
-        {
-            get => GetValue(TrackProperty) as Track;
-            set => SetValue(TrackProperty, value);
-        }
-
-        /// <summary>
-        /// The track object 
-        /// </summary>
-        public Playlist Playlist
-        {
-            get => GetValue(PlaylistProperty) as Playlist;
-            set => SetValue(PlaylistProperty, value);
-        }
-        #endregion
-
-        public async void SharePlaylist()
-        {
-            await new MessageDialog("Not yet supported.").ShowAsync();
-        }
-
-        public async void AddTrackToPlaylist()
-        {
-            await new PlaylistDialog(Track).ShowAsync();
-        }
-
         public SoundByteStreamItem()
         {
             // Load the xaml
@@ -105,6 +46,75 @@ namespace SoundByte.UWP.UserControls
                 }
             };
         }
+
+        public async void SharePlaylist()
+        {
+            await new MessageDialog("Not yet supported.").ShowAsync();
+        }
+
+        public async void AddTrackToPlaylist()
+        {
+            await new PlaylistDialog(Track).ShowAsync();
+        }
+
+        #region Variables
+
+        // What type of track this is
+        public static readonly DependencyProperty TrackTypeProperty =
+            DependencyProperty.Register("TrackType", typeof(string), typeof(SoundByteStreamItem), null);
+
+        // When this was created
+        public static readonly DependencyProperty CreatedProperty =
+            DependencyProperty.Register("Created", typeof(string), typeof(SoundByteStreamItem), null);
+
+        // The track object
+        public static readonly DependencyProperty TrackProperty =
+            DependencyProperty.Register("Track", typeof(Track), typeof(SoundByteStreamItem), null);
+
+        // The playlist object
+        public static readonly DependencyProperty PlaylistProperty =
+            DependencyProperty.Register("Playlist", typeof(Playlist), typeof(SoundByteStreamItem), null);
+
+        #endregion
+
+        #region Getters and Setters
+
+        /// <summary>
+        ///     What is the current type of track (e.g repost, playlist, etc.)
+        /// </summary>
+        public string TrackType
+        {
+            get => GetValue(TrackTypeProperty) as string;
+            set => SetValue(TrackTypeProperty, value);
+        }
+
+        /// <summary>
+        ///     When the track was created
+        /// </summary>
+        public string Created
+        {
+            get => GetValue(CreatedProperty) as string;
+            set => SetValue(CreatedProperty, value);
+        }
+
+        /// <summary>
+        ///     The track object
+        /// </summary>
+        public Track Track
+        {
+            get => GetValue(TrackProperty) as Track;
+            set => SetValue(TrackProperty, value);
+        }
+
+        /// <summary>
+        ///     The track object
+        /// </summary>
+        public Playlist Playlist
+        {
+            get => GetValue(PlaylistProperty) as Playlist;
+            set => SetValue(PlaylistProperty, value);
+        }
+
+        #endregion
     }
 }
-

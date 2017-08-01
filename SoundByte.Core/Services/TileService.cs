@@ -20,22 +20,10 @@ using SoundByte.Core.Helpers;
 namespace SoundByte.Core.Services
 {
     /// <summary>
-    /// Handles Live Tiles
+    ///     Handles Live Tiles
     /// </summary>
     public class TileService
     {
-        #region Variables
-        // Class instance
-        private static TileService _mPInstance;
-        // Stores all the tiles that are currently pinned to the users screen
-        private readonly Dictionary<string, SecondaryTile> _mPTileList = new Dictionary<string, SecondaryTile>();
-        #endregion
-
-        /// <summary>
-        /// Gets the current instance
-        /// </summary>
-        public static TileService Current => _mPInstance ?? (_mPInstance = new TileService());
-
         private TileService()
         {
             // Gets all the tiles that are for the app
@@ -47,10 +35,26 @@ namespace SoundByte.Core.Services
                 _mPTileList.Add(tile.TileId, tile);
         }
 
-        #region Public Methods
         /// <summary>
-        /// Removes all live tiles from the start menu
-        /// or start screen
+        ///     Gets the current instance
+        /// </summary>
+        public static TileService Current => _mPInstance ?? (_mPInstance = new TileService());
+
+        #region Variables
+
+        // Class instance
+        private static TileService _mPInstance;
+
+        // Stores all the tiles that are currently pinned to the users screen
+        private readonly Dictionary<string, SecondaryTile> _mPTileList = new Dictionary<string, SecondaryTile>();
+
+        #endregion
+
+        #region Public Methods
+
+        /// <summary>
+        ///     Removes all live tiles from the start menu
+        ///     or start screen
         /// </summary>
         public async Task RemoveAllAsync()
         {
@@ -58,14 +62,12 @@ namespace SoundByte.Core.Services
             _mPTileList.Clear();
             // Find all the tiles and loop though them all
             foreach (var tile in await SecondaryTile.FindAllAsync())
-            {
                 // Request a tile delete
                 await tile.RequestDeleteAsync();
-            }
         }
 
         /// <summary>
-        /// Removes a tile from the users start screen and deletes it from the list
+        ///     Removes a tile from the users start screen and deletes it from the list
         /// </summary>
         /// <param name="id">Tile ID</param>
         /// <returns>True is successful</returns>
@@ -91,7 +93,7 @@ namespace SoundByte.Core.Services
         }
 
         /// <summary>
-        /// Returns if the tile exists
+        ///     Returns if the tile exists
         /// </summary>
         /// <param name="id">Tile ID</param>
         /// <returns>True if the tile exists</returns>
@@ -102,7 +104,7 @@ namespace SoundByte.Core.Services
         }
 
         /// <summary>
-        /// Creates a tile and pins it to the users screen
+        ///     Creates a tile and pins it to the users screen
         /// </summary>
         /// <param name="tileId">The ID for the tile</param>
         /// <param name="tileTitle">The title that will appear on the tile</param>
@@ -110,7 +112,8 @@ namespace SoundByte.Core.Services
         /// <param name="tileImage">Uri to image for the background</param>
         /// <param name="tileForeground">Text to display on tile</param>
         /// <returns></returns>
-        public async Task<bool> CreateTileAsync(string tileId, string tileTitle, string tileParam, Uri tileImage, ForegroundText tileForeground)
+        public async Task<bool> CreateTileAsync(string tileId, string tileTitle, string tileParam, Uri tileImage,
+            ForegroundText tileForeground)
         {
             // Check if the tile already exists
             if (DoesTileExist(tileId))
@@ -119,6 +122,7 @@ namespace SoundByte.Core.Services
             await new PinTileDialog(tileId, tileTitle, tileParam, tileImage).ShowAsync();
             return true;
         }
+
         #endregion
     }
 }

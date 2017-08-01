@@ -15,27 +15,29 @@ using System.Linq;
 using Windows.UI.Popups;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using SoundByte.Core.API.Endpoints;
 using SoundByte.Core.Services;
+using SoundByte.UWP.Models;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.ViewModels;
 
 namespace SoundByte.UWP.Views.Me
 {
     /// <summary>
-    /// Lets the user view their likes
+    ///     Lets the user view their likes
     /// </summary>
     public sealed partial class LikesView
     {
-        /// <summary>
-        /// The likes model that contains or the users liked tracks
-        /// </summary>
-        private Models.LikeModel LikesModel { get; } = new Models.LikeModel(SoundByteService.Current.SoundCloudUser);
-
         public LikesView()
         {
             InitializeComponent();
             NavigationCacheMode = NavigationCacheMode.Enabled;
         }
+
+        /// <summary>
+        ///     The likes model that contains or the users liked tracks
+        /// </summary>
+        private LikeModel LikesModel { get; } = new LikeModel(SoundByteService.Current.SoundCloudUser);
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -56,7 +58,7 @@ namespace SoundByte.UWP.Views.Me
 
             if (!startPlayback.success)
                 await new MessageDialog(startPlayback.message, "Error playing likes.").ShowAsync();
-            
+
             // We are not loading
             App.IsLoading = false;
         }
@@ -66,7 +68,9 @@ namespace SoundByte.UWP.Views.Me
             // We are loading
             App.IsLoading = true;
 
-            var startPlayback = await PlaybackService.Current.StartMediaPlayback(LikesModel.ToList(), LikesModel.Token, false, (Core.API.Endpoints.Track)e.ClickedItem);
+            var startPlayback =
+                await PlaybackService.Current.StartMediaPlayback(LikesModel.ToList(), LikesModel.Token, false,
+                    (Track) e.ClickedItem);
 
             if (!startPlayback.success)
                 await new MessageDialog(startPlayback.message, "Error playing likes.").ShowAsync();

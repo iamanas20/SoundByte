@@ -12,13 +12,13 @@
     <Page.Resources>
         <!-- Data Template for stream items -->
         <DataTemplate x:Key="StreamItem">
-            <elements:SoundByteStreamItem Width="Auto" 
+            <elements:SoundByteStreamItem Width="Auto"
                                           HorizontalContentAlignment="Stretch"
-                                          HorizontalAlignment="Stretch" 
-                                          VerticalAlignment="Stretch" 
-                                          Track="{Binding Track}" 
-                                          TrackType="{Binding Type}" 
-                                          Created="{Binding CreatedAt}" 
+                                          HorizontalAlignment="Stretch"
+                                          VerticalAlignment="Stretch"
+                                          Track="{Binding Track}"
+                                          TrackType="{Binding Type}"
+                                          Created="{Binding CreatedAt}"
                                           Playlist="{Binding Playlist}" />
         </DataTemplate>
     </Page.Resources>
@@ -27,10 +27,10 @@
             <VisualStateGroup x:Name="DeviceStates">
                 <VisualState x:Name="Xbox">
                     <VisualState.StateTriggers>
-                        <stateTriggers:DeviceStateTrigger DeviceFamily="Windows.Xbox"/>
+                        <stateTriggers:DeviceStateTrigger DeviceFamily="Windows.Xbox" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="RootGrid.Background" Value="Transparent"/>
+                        <Setter Target="RootGrid.Background" Value="Transparent" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -42,7 +42,7 @@
                     <VisualState.Setters>
                         <Setter Target="HomePivot.Padding" Value="50,100,50,0" />
                         <Setter Target="TextHeader.FontSize" Value="55" />
-                        <Setter Target="TextHeader.Margin" Value="10,30,0,0"  />
+                        <Setter Target="TextHeader.Margin" Value="10,30,0,0" />
                         <Setter Target="TextHeader.Opacity" Value="0.8" />
                         <Setter Target="DesktopCommandBarStream.Visibility" Value="Visible" />
                         <Setter Target="DesktopCommandBarChart.Visibility" Value="Visible" />
@@ -52,17 +52,20 @@
         </VisualStateManager.VisualStateGroups>
 
 
-        <TextBlock Opacity="0.8" x:Name="TextHeader" Text="Home" FontWeight="Bold" FontSize="55" Margin="0,18,0,0" Padding="50,0" />
+        <TextBlock Opacity="0.8" x:Name="TextHeader" Text="Home" FontWeight="Bold" FontSize="55" Margin="0,18,0,0"
+                   Padding="50,0" />
 
 
         <Pivot x:Name="HomePivot" Padding="10,110,10,0">
             <PivotItem x:Name="StreamPivotItem">
                 <PivotItem.Header>
-                    <TextBlock Text="Stream" FontSize="18" Opacity="0.9" FontWeight="SemiBold" VerticalAlignment="Center" Padding="0,2" />
+                    <TextBlock Text="Stream" FontSize="18" Opacity="0.9" FontWeight="SemiBold"
+                               VerticalAlignment="Center" Padding="0,2" />
                 </PivotItem.Header>
                 <Grid>
                     <!-- Info Pane for Model -->
-                    <elements:InfoPane x:Name="StreamModelInfoPane" Canvas.ZIndex="50" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Visibility="Collapsed" Margin="-20,0,60,0" />
+                    <elements:InfoPane x:Name="StreamModelInfoPane" Canvas.ZIndex="50" VerticalAlignment="Stretch"
+                                       HorizontalAlignment="Stretch" Visibility="Collapsed" Margin="-20,0,60,0" />
                     <!-- Displays the users stream -->
                     <ListView x:Name="StreamListView"
                               ItemsSource="{x:Bind Path=ViewModel.StreamItems}"
@@ -75,10 +78,17 @@
                               HorizontalAlignment="Stretch"
                               VerticalAlignment="Stretch">
                         <ListView.Header>
-                            <StackPanel x:Name="DesktopCommandBarStream" Visibility="Collapsed" Orientation="Horizontal" Margin="20,10,20,10">
-                                <elements:SoundByteButton Glyph="&#xE768;" Label="Play All Tracks" Click="{x:Bind ViewModel.PlayAllStreamTracks}" Margin="0,0,25,0" />
-                                <elements:SoundByteButton Glyph="&#xE8B1;" Label="Shuffle Play Tracks" Click="{x:Bind ViewModel.PlayShuffleStreamTracks}" Margin="0,0,25,0" />
-                                <elements:SoundByteButton Glyph="&#xE72C;" Label="Refresh" Click="{x:Bind ViewModel.RefreshStreamItems}" Margin="0,0,25,0" />
+                            <StackPanel x:Name="DesktopCommandBarStream" Visibility="Collapsed"
+                                        Orientation="Horizontal" Margin="20,10,20,10">
+                                <elements:SoundByteButton Glyph="&#xE768;" Label="Play All Tracks"
+                                                          Click="{x:Bind ViewModel.PlayAllStreamTracks}"
+                                                          Margin="0,0,25,0" />
+                                <elements:SoundByteButton Glyph="&#xE8B1;" Label="Shuffle Play Tracks"
+                                                          Click="{x:Bind ViewModel.PlayShuffleStreamTracks}"
+                                                          Margin="0,0,25,0" />
+                                <elements:SoundByteButton Glyph="&#xE72C;" Label="Refresh"
+                                                          Click="{x:Bind ViewModel.RefreshStreamItems}"
+                                                          Margin="0,0,25,0" />
                             </StackPanel>
                         </ListView.Header>
                         <ListView.ItemContainerStyle>
@@ -94,12 +104,14 @@
             </PivotItem>
             <PivotItem>
                 <PivotItem.Header>
-                    <TextBlock Text="Charts" FontSize="18" Opacity="0.9" FontWeight="SemiBold" VerticalAlignment="Center" Padding="0,2" />
+                    <TextBlock Text="Charts" FontSize="18" Opacity="0.9" FontWeight="SemiBold"
+                               VerticalAlignment="Center" Padding="0,2" />
                 </PivotItem.Header>
                 <Grid>
                     <!-- Info Pane for Model -->
-                    <elements:InfoPane x:Name="ChartModelInfoPane" Canvas.ZIndex="50" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Visibility="Collapsed" Margin="-20,0,60,0" />
-                    
+                    <elements:InfoPane x:Name="ChartModelInfoPane" Canvas.ZIndex="50" VerticalAlignment="Stretch"
+                                       HorizontalAlignment="Stretch" Visibility="Collapsed" Margin="-20,0,60,0" />
+
                     <GridView ItemClick="{x:Bind ViewModel.PlayChartItem}"
                               ItemsSource="{x:Bind ViewModel.ChartsModel}"
                               VerticalAlignment="Stretch"
@@ -123,21 +135,26 @@
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
                                     <!-- Lets the user switch between top 50 items and trending items -->
-                                    <ComboBox BorderThickness="1" BorderBrush="{ThemeResource SystemControlDisabledListMediumBrush}" x:Name="ExploreTypeCombo" Grid.Column="0" SelectionChanged="{x:Bind ViewModel.OnComboBoxChanged}" Margin="5,5,0,5" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch">
-                                        <ComboBoxItem Tag="top" x:Uid="ExploreTypeCombo_top" IsSelected="True"/>
+                                    <ComboBox BorderThickness="1"
+                                              BorderBrush="{ThemeResource SystemControlDisabledListMediumBrush}"
+                                              x:Name="ExploreTypeCombo" Grid.Column="0"
+                                              SelectionChanged="{x:Bind ViewModel.OnComboBoxChanged}" Margin="5,5,0,5"
+                                              HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch">
+                                        <ComboBoxItem Tag="top" x:Uid="ExploreTypeCombo_top" IsSelected="True" />
                                         <ComboBoxItem Tag="trending" x:Uid="ExploreTypeCombo_trending" />
                                     </ComboBox>
                                     <!-- Lets the user switch between each category -->
-                                    <ComboBox BorderThickness="1" 
-                                              BorderBrush="{ThemeResource SystemControlDisabledListMediumBrush}" 
+                                    <ComboBox BorderThickness="1"
+                                              BorderBrush="{ThemeResource SystemControlDisabledListMediumBrush}"
                                               x:Name="ExploreGenreCombo"
-                                              Grid.Column="1" 
-                                              SelectionChanged="{x:Bind ViewModel.OnComboBoxChanged}" 
+                                              Grid.Column="1"
+                                              SelectionChanged="{x:Bind ViewModel.OnComboBoxChanged}"
                                               Margin="5"
-                                              HorizontalContentAlignment="Stretch" 
+                                              HorizontalContentAlignment="Stretch"
                                               HorizontalAlignment="Stretch">
                                         <ComboBoxItem Content="GENERAL" IsEnabled="False" />
-                                        <ComboBoxItem Tag="all-music" x:Uid="ExploreGenreCombo_AllMusicGenres" IsSelected="True"/>
+                                        <ComboBoxItem Tag="all-music" x:Uid="ExploreGenreCombo_AllMusicGenres"
+                                                      IsSelected="True" />
                                         <ComboBoxItem Tag="all-audio" x:Uid="ExploreGenreCombo_AllAudioGenres" />
                                         <ComboBoxItem x:Uid="ExploreGenreCombo_music" IsEnabled="False" />
                                         <ComboBoxItem Tag="alternativerock" x:Uid="ExploreGenreCombo_alternativerock" />
@@ -151,7 +168,8 @@
                                         <ComboBoxItem Tag="drumbass" x:Uid="ExploreGenreCombo_drumbass" />
                                         <ComboBoxItem Tag="dubstep" x:Uid="ExploreGenreCombo_dubstep" />
                                         <ComboBoxItem Tag="electronic" x:Uid="ExploreGenreCombo_electronic" />
-                                        <ComboBoxItem Tag="folksingersongwriter" x:Uid="ExploreGenreCombo_folksingersongwriter" />
+                                        <ComboBoxItem Tag="folksingersongwriter"
+                                                      x:Uid="ExploreGenreCombo_folksingersongwriter" />
                                         <ComboBoxItem Tag="hiphoprap" x:Uid="ExploreGenreCombo_hiphoprap" />
                                         <ComboBoxItem Tag="house" x:Uid="ExploreGenreCombo_house" />
                                         <ComboBoxItem Tag="indie" x:Uid="ExploreGenreCombo_indie" />
@@ -171,13 +189,14 @@
                                         <ComboBoxItem Tag="triphop" x:Uid="ExploreGenreCombo_triphop" />
                                         <ComboBoxItem Tag="world" x:Uid="ExploreGenreCombo_world" />
                                         <ComboBoxItem x:Uid="ExploreGenreCombo_audio" IsEnabled="False" />
-                                        <ComboBoxItem Tag="audiobooks" x:Uid="ExploreGenreCombo_audiobooks"/>
+                                        <ComboBoxItem Tag="audiobooks" x:Uid="ExploreGenreCombo_audiobooks" />
                                         <ComboBoxItem Tag="business" x:Uid="ExploreGenreCombo_business" />
                                         <ComboBoxItem Tag="comedy" x:Uid="ExploreGenreCombo_comedy" />
                                         <ComboBoxItem Tag="entertainment" x:Uid="ExploreGenreCombo_entertainment" />
                                         <ComboBoxItem Tag="learning" x:Uid="ExploreGenreCombo_learning" />
                                         <ComboBoxItem Tag="newspolitics" x:Uid="ExploreGenreCombo_newspolitics" />
-                                        <ComboBoxItem Tag="religionspirituality" x:Uid="ExploreGenreCombo_religionspirituality" />
+                                        <ComboBoxItem Tag="religionspirituality"
+                                                      x:Uid="ExploreGenreCombo_religionspirituality" />
                                         <ComboBoxItem Tag="science" x:Uid="ExploreGenreCombo_science" />
                                         <ComboBoxItem Tag="sports" x:Uid="ExploreGenreCombo_sports" />
                                         <ComboBoxItem Tag="storytelling" x:Uid="ExploreGenreCombo_storytelling" />
@@ -185,10 +204,17 @@
                                     </ComboBox>
                                 </Grid>
 
-                                <StackPanel x:Name="DesktopCommandBarChart" Visibility="Collapsed" Orientation="Horizontal" Margin="10,0,0,10">
-                                    <elements:SoundByteButton Glyph="&#xE768;" Label="Play All" Click="{x:Bind ViewModel.PlayAllChartItems}" Margin="0,0,25,0" />
-                                    <elements:SoundByteButton Glyph="&#xE8B1;" Label="Shuffle Play" Click="{x:Bind ViewModel.PlayShuffleChartItems}" Margin="0,0,25,0" />
-                                    <elements:SoundByteButton Glyph="&#xE72C;" Label="Refresh" Click="{x:Bind ViewModel.ChartsModel.RefreshItems}" Margin="0,0,25,0" />
+                                <StackPanel x:Name="DesktopCommandBarChart" Visibility="Collapsed"
+                                            Orientation="Horizontal" Margin="10,0,0,10">
+                                    <elements:SoundByteButton Glyph="&#xE768;" Label="Play All"
+                                                              Click="{x:Bind ViewModel.PlayAllChartItems}"
+                                                              Margin="0,0,25,0" />
+                                    <elements:SoundByteButton Glyph="&#xE8B1;" Label="Shuffle Play"
+                                                              Click="{x:Bind ViewModel.PlayShuffleChartItems}"
+                                                              Margin="0,0,25,0" />
+                                    <elements:SoundByteButton Glyph="&#xE72C;" Label="Refresh"
+                                                              Click="{x:Bind ViewModel.ChartsModel.RefreshItems}"
+                                                              Margin="0,0,25,0" />
                                 </StackPanel>
                             </StackPanel>
                         </GridView.Header>
@@ -197,8 +223,8 @@
                         </interactivity:Interaction.Behaviors>
                     </GridView>
                 </Grid>
-                
-                
+
+
             </PivotItem>
         </Pivot>
     </Grid>

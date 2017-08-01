@@ -10,8 +10,6 @@
  * |----------------------------------------------------------------|
  */
 
-using SoundByte.Core.API.Exceptions;
-using SoundByte.Core.API.Holders;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -23,52 +21,43 @@ using Windows.UI.Xaml.Data;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Helpers;
 using SoundByte.Core.API.Endpoints;
+using SoundByte.Core.API.Exceptions;
+using SoundByte.Core.API.Holders;
 using SoundByte.Core.Services;
 using SoundByte.UWP.UserControls;
 
 namespace SoundByte.UWP.Models
 {
     /// <summary>
-    /// Model for user likes
+    ///     Model for user likes
     /// </summary>
     public class LikeModel : ObservableCollection<Track>, ISupportIncrementalLoading
     {
-        // User object that we will used to get the likes for
-
-        public User User { get; set; }
-
         /// <summary>
-        /// Setsup the like view model for a user
+        ///     Setsup the like view model for a user
         /// </summary>
         /// <param name="user">The user to retrieve likes for</param>
         public LikeModel(User user)
         {
             User = user;
         }
+        // User object that we will used to get the likes for
+
+        public User User { get; set; }
 
         /// <summary>
-        /// The position of the track, will be 'eol'
-        /// if there are no new tracks
+        ///     The position of the track, will be 'eol'
+        ///     if there are no new tracks
         /// </summary>
         public string Token { get; private set; }
 
         /// <summary>
-        /// Are there more items to load
+        ///     Are there more items to load
         /// </summary>
         public bool HasMoreItems => Token != "eol";
 
         /// <summary>
-        /// Refresh the list by removing any
-        /// existing items and reseting the token.
-        /// </summary>
-        public void RefreshItems()
-        {
-            Token = null;
-            Clear();
-        }
-
-        /// <summary>
-        /// Loads stream items from the souncloud api
+        ///     Loads stream items from the souncloud api
         /// </summary>
         /// <param name="count">The amount of items to load</param>
         // ReSharper disable once RedundantAssignment
@@ -96,12 +85,13 @@ namespace SoundByte.UWP.Models
                             count = 10;
 
                         // Get the like tracks
-                        var likeTracks = await SoundByteService.Current.GetAsync<TrackListHolder>($"/users/{User.Id}/favorites", new Dictionary<string, string>
-                        {
-                            { "limit", count.ToString() },
-                            { "cursor", Token },
-                            { "linked_partitioning", "1" }
-                        });
+                        var likeTracks = await SoundByteService.Current.GetAsync<TrackListHolder>(
+                            $"/users/{User.Id}/favorites", new Dictionary<string, string>
+                            {
+                                {"limit", count.ToString()},
+                                {"cursor", Token},
+                                {"linked_partitioning", "1"}
+                            });
 
                         // Parse uri for offset
                         var param = new QueryParameterCollection(likeTracks.NextList);
@@ -114,13 +104,10 @@ namespace SoundByte.UWP.Models
                         if (likeTracks.Tracks.Count > 0)
                         {
                             // Set the count variable
-                            count = (uint)likeTracks.Tracks.Count;
+                            count = (uint) likeTracks.Tracks.Count;
 
                             // Loop though all the tracks on the UI thread
-                            await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
-                            {
-                                likeTracks.Tracks.ForEach(Add);
-                            });
+                            await DispatcherHelper.ExecuteOnUIThreadAsync(() => { likeTracks.Tracks.ForEach(Add); });
                         }
                         else
                         {
@@ -133,7 +120,9 @@ namespace SoundByte.UWP.Models
                             // No items tell the user
                             await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                             {
-                                (App.CurrentFrame?.FindName("LikeModelInfoPane") as InfoPane)?.ShowMessage(resources.GetString("LikeTracks_Header"), resources.GetString("LikeTracks_Content"), "", false);
+                                (App.CurrentFrame?.FindName("LikeModelInfoPane") as InfoPane)?.ShowMessage(
+                                    resources.GetString("LikeTracks_Header"),
+                                    resources.GetString("LikeTracks_Content"), "", false);
                             });
                         }
                     }
@@ -145,7 +134,8 @@ namespace SoundByte.UWP.Models
                         // Exception, display error to the user
                         await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                         {
-                            (App.CurrentFrame?.FindName("LikeModelInfoPane") as InfoPane)?.ShowMessage(ex.ErrorTitle, ex.ErrorDescription, ex.ErrorGlyph);
+                            (App.CurrentFrame?.FindName("LikeModelInfoPane") as InfoPane)?.ShowMessage(
+                                ex.ErrorTitle, ex.ErrorDescription, ex.ErrorGlyph);
                         });
                     }
                 }
@@ -160,7 +150,9 @@ namespace SoundByte.UWP.Models
                     // No items tell the user
                     await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                     {
-                        (App.CurrentFrame?.FindName("LikeModelInfoPane") as InfoPane)?.ShowMessage(resources.GetString("ErrorControl_LoginFalse_Header"), resources.GetString("ErrorControl_LoginFalse_Content"), "", false);
+                        (App.CurrentFrame?.FindName("LikeModelInfoPane") as InfoPane)?.ShowMessage(
+                            resources.GetString("ErrorControl_LoginFalse_Header"),
+                            resources.GetString("ErrorControl_LoginFalse_Content"), "", false);
                     });
                 }
 
@@ -171,8 +163,18 @@ namespace SoundByte.UWP.Models
                 });
 
                 // Return the result
-                return new LoadMoreItemsResult { Count = count };
+                return new LoadMoreItemsResult {Count = count};
             }).AsAsyncOperation();
+        }
+
+        /// <summary>
+        ///     Refresh the list by removing any
+        ///     existing items and reseting the token.
+        /// </summary>
+        public void RefreshItems()
+        {
+            Token = null;
+            Clear();
         }
     }
 }

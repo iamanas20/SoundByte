@@ -30,16 +30,6 @@ namespace SoundByte.UWP.Models
 {
     public class UserFollowersModel : ObservableCollection<User>, ISupportIncrementalLoading
     {
-        /// <summary>
-        /// User object that we will used to get the follower / followings for
-        /// </summary>
-        public User User { get; set; }
-
-        /// <summary>
-        /// What type of object is this (followers, followings)
-        /// </summary>
-        public string Type { get; set; }
-
         public UserFollowersModel(User user, string type)
         {
             User = user;
@@ -47,28 +37,28 @@ namespace SoundByte.UWP.Models
         }
 
         /// <summary>
-        /// The position of the track, will be 'eol'
-        /// if there are no new tracks
+        ///     User object that we will used to get the follower / followings for
+        /// </summary>
+        public User User { get; set; }
+
+        /// <summary>
+        ///     What type of object is this (followers, followings)
+        /// </summary>
+        public string Type { get; set; }
+
+        /// <summary>
+        ///     The position of the track, will be 'eol'
+        ///     if there are no new tracks
         /// </summary>
         public string Token { get; protected set; }
 
         /// <summary>
-        /// Are there more items to load
+        ///     Are there more items to load
         /// </summary>
         public bool HasMoreItems => Token != "eol";
 
         /// <summary>
-        /// Refresh the list by removing any
-        /// existing items and reseting the token.
-        /// </summary>
-        public void RefreshItems()
-        {
-            Token = null;
-            Clear();
-        }
-
-        /// <summary>
-        /// Loads stream items from the souncloud api
+        ///     Loads stream items from the souncloud api
         /// </summary>
         /// <param name="count">The amount of items to load</param>
         // ReSharper disable once RedundantAssignment
@@ -86,12 +76,13 @@ namespace SoundByte.UWP.Models
                 try
                 {
                     // Get the users playlists using the V2 API
-                    var userPlaylists = await SoundByteService.Current.GetAsync<UserListHolder>($"/users/{User.Id}/{Type}", new Dictionary<string, string>
-                    {
-                        { "limit", "50" },
-                        { "cursor", Token },
-                        { "linked_partitioning", "1" }
-                    });
+                    var userPlaylists = await SoundByteService.Current.GetAsync<UserListHolder>(
+                        $"/users/{User.Id}/{Type}", new Dictionary<string, string>
+                        {
+                            {"limit", "50"},
+                            {"cursor", Token},
+                            {"linked_partitioning", "1"}
+                        });
 
                     // Parse uri for offset
                     var param = new QueryParameterCollection(userPlaylists.NextList);
@@ -104,13 +95,10 @@ namespace SoundByte.UWP.Models
                     if (userPlaylists.Users.Count > 0)
                     {
                         // Set the count variable
-                        count = (uint)userPlaylists.Users.Count;
+                        count = (uint) userPlaylists.Users.Count;
 
                         // Loop though all the playlists on the UI thread
-                        await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
-                        {
-                            userPlaylists.Users.ForEach(Add);
-                        });
+                        await DispatcherHelper.ExecuteOnUIThreadAsync(() => { userPlaylists.Users.ForEach(Add); });
                     }
                     else
                     {
@@ -123,7 +111,8 @@ namespace SoundByte.UWP.Models
                         // No items tell the user
                         await DispatcherHelper.ExecuteOnUIThreadAsync(async () =>
                         {
-                            await new MessageDialog(resources.GetString("UserPlaylists_Content"), resources.GetString("UserPlaylists_Header")).ShowAsync();
+                            await new MessageDialog(resources.GetString("UserPlaylists_Content"),
+                                resources.GetString("UserPlaylists_Header")).ShowAsync();
                         });
                     }
                 }
@@ -143,8 +132,18 @@ namespace SoundByte.UWP.Models
                 await DispatcherHelper.ExecuteOnUIThreadAsync(() => { App.IsLoading = false; });
 
                 // Return the result
-                return new LoadMoreItemsResult { Count = count };
+                return new LoadMoreItemsResult {Count = count};
             }).AsAsyncOperation();
+        }
+
+        /// <summary>
+        ///     Refresh the list by removing any
+        ///     existing items and reseting the token.
+        /// </summary>
+        public void RefreshItems()
+        {
+            Token = null;
+            Clear();
         }
     }
 }

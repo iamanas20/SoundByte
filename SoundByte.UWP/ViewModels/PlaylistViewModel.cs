@@ -28,22 +28,6 @@ namespace SoundByte.UWP.ViewModels
 {
     public class PlaylistViewModel : BaseViewModel
     {
-        #region Private Variables
-        // The playlist object
-        private Playlist _playlist;
-        // List of tracks on the UI
-        private ObservableCollection<Track> _tracks;
-        // Icon for the pin button
-        private string _pinButtonIcon = "\uE718";
-        // Text for the pin button
-        private string _pinButtonText;
-
-        // Icon for the pin button
-        private string _likeButtonIcon = "\uE718";
-        // Text for the pin button
-        private string _likeButtonText;
-        #endregion
-
         public PlaylistViewModel()
         {
             Tracks = new ObservableCollection<Track>();
@@ -51,7 +35,6 @@ namespace SoundByte.UWP.ViewModels
 
         public async Task SetupView(Playlist newPlaylist)
         {
-
             // Check if the models saved playlist is null
             if (newPlaylist != null && (Playlist == null || Playlist.Id != newPlaylist.Id))
             {
@@ -79,28 +62,26 @@ namespace SoundByte.UWP.ViewModels
                 }
 
                 if (await SoundByteService.Current.ExistsAsync($"/e1/me/playlist_likes/{Playlist.Id}"))
-                {
                     LikeButtonText = "Unlike Playlist";
-                }
                 else
-                {
                     LikeButtonText = "Like Playlist";
-                }
 
                 try
                 {
                     // Show the loading ring
                     (App.CurrentFrame?.FindName("PlaylistInfoPane") as InfoPane)?.ShowLoading();
                     // Get the playlist tracks
-                    var playlistTracks = (await SoundByteService.Current.GetAsync<Playlist>("/playlists/" + Playlist.Id)).Tracks;
+                    var playlistTracks =
+                        (await SoundByteService.Current.GetAsync<Playlist>("/playlists/" + Playlist.Id)).Tracks;
                     playlistTracks.ForEach(x => Tracks.Add(x));
                     // Hide the loading ring
                     (App.CurrentFrame?.FindName("PlaylistInfoPane") as InfoPane)?.ClosePane();
-
                 }
                 catch (Exception)
                 {
-                    (App.CurrentFrame?.FindName("PlaylistInfoPane") as InfoPane)?.ShowMessage("Could not load tracks", "Something went wrong when trying to load the tracks for this playlist, please make sure you are connected to the internet and then go back, and click on this playlist again.", "", false);
+                    (App.CurrentFrame?.FindName("PlaylistInfoPane") as InfoPane)?.ShowMessage("Could not load tracks",
+                        "Something went wrong when trying to load the tracks for this playlist, please make sure you are connected to the internet and then go back, and click on this playlist again.",
+                        "", false);
                 }
 
                 // Hide the loading ring
@@ -108,9 +89,32 @@ namespace SoundByte.UWP.ViewModels
             }
         }
 
+        #region Private Variables
+
+        // The playlist object
+        private Playlist _playlist;
+
+        // List of tracks on the UI
+        private ObservableCollection<Track> _tracks;
+
+        // Icon for the pin button
+        private string _pinButtonIcon = "\uE718";
+
+        // Text for the pin button
+        private string _pinButtonText;
+
+        // Icon for the pin button
+        private string _likeButtonIcon = "\uE718";
+
+        // Text for the pin button
+        private string _likeButtonText;
+
+        #endregion
+
         #region Model
+
         /// <summary>
-        /// Gets or sets a list of tracks in the playlist
+        ///     Gets or sets a list of tracks in the playlist
         /// </summary>
         public ObservableCollection<Track> Tracks
         {
@@ -125,7 +129,7 @@ namespace SoundByte.UWP.ViewModels
         }
 
         /// <summary>
-        /// Gets or sets the current playlist object
+        ///     Gets or sets the current playlist object
         /// </summary>
         public Playlist Playlist
         {
@@ -192,8 +196,8 @@ namespace SoundByte.UWP.ViewModels
         }
 
         /// <summary>
-        /// Pins or unpins a playlist from the start
-        /// menu / screen.
+        ///     Pins or unpins a playlist from the start
+        ///     menu / screen.
         /// </summary>
         public async void PinPlaylist()
         {
@@ -219,7 +223,9 @@ namespace SoundByte.UWP.ViewModels
             else
             {
                 // Create the tile
-                if (await TileService.Current.CreateTileAsync("Playlist_" + Playlist.Id, Playlist.Title, "soundbyte://core/playlist?id=" + Playlist.Id, new Uri(ArtworkConverter.ConvertObjectToImage(Playlist)), ForegroundText.Light))
+                if (await TileService.Current.CreateTileAsync("Playlist_" + Playlist.Id, Playlist.Title,
+                    "soundbyte://core/playlist?id=" + Playlist.Id,
+                    new Uri(ArtworkConverter.ConvertObjectToImage(Playlist)), ForegroundText.Light))
                 {
                     PinButtonIcon = "\uE77A";
                     PinButtonText = resources.GetString("AppBarUI_Unpin_Raw");
@@ -235,38 +241,42 @@ namespace SoundByte.UWP.ViewModels
         }
 
         /// <summary>
-        /// Shuffles the tracks in the playlist
+        ///     Shuffles the tracks in the playlist
         /// </summary>
         public async void ShuffleItemsAsync()
-        {         
+        {
             await ShuffleTracksAsync(Tracks.ToList(), $"playlist-{Playlist.Id}");
         }
 
         /// <summary>
-        /// Called when the user taps on a sound in the
-        /// Sounds tab
+        ///     Called when the user taps on a sound in the
+        ///     Sounds tab
         /// </summary>
         public async void TrackClicked(object sender, ItemClickEventArgs e)
         {
             // Get the Click item
-            var item = (Track)e.ClickedItem;
+            var item = (Track) e.ClickedItem;
 
-            var startPlayback = await PlaybackService.Current.StartMediaPlayback(Tracks.ToList(), $"playlist-{Playlist.Id}", false, item);
+            var startPlayback =
+                await PlaybackService.Current.StartMediaPlayback(Tracks.ToList(), $"playlist-{Playlist.Id}", false,
+                    item);
 
             if (!startPlayback.success)
                 await new MessageDialog(startPlayback.message, "Error playing playlist.").ShowAsync();
         }
 
         /// <summary>
-        /// Starts playing the playlist
+        ///     Starts playing the playlist
         /// </summary>
         public async void NavigatePlay()
         {
-            var startPlayback = await PlaybackService.Current.StartMediaPlayback(Tracks.ToList(), $"playlist-{Playlist.Id}");
+            var startPlayback =
+                await PlaybackService.Current.StartMediaPlayback(Tracks.ToList(), $"playlist-{Playlist.Id}");
 
             if (!startPlayback.success)
                 await new MessageDialog(startPlayback.message, "Error playing playlist.").ShowAsync();
         }
+
         #endregion
     }
 }

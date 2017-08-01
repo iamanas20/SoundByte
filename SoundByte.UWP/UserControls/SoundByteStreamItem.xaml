@@ -10,7 +10,8 @@
             <VisualStateGroup x:Name="Type">
                 <VisualState x:Name="TrackItem">
                     <Storyboard>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="TrackView">
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)"
+                                                       Storyboard.TargetName="TrackView">
                             <DiscreteObjectKeyFrame KeyTime="0">
                                 <DiscreteObjectKeyFrame.Value>
                                     <Visibility>Visible</Visibility>
@@ -21,7 +22,8 @@
                 </VisualState>
                 <VisualState x:Name="PlaylistItem">
                     <Storyboard>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="PlaylistView">
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)"
+                                                       Storyboard.TargetName="PlaylistView">
                             <DiscreteObjectKeyFrame KeyTime="0">
                                 <DiscreteObjectKeyFrame.Value>
                                     <Visibility>Visible</Visibility>
@@ -52,17 +54,17 @@
                                      Margin="10"
                                      OffsetY="5"
                                      Color="Black">
-                <Image Width="148" 
-                                 Height="148" 
-                                 Source="{x:Bind Path=Track, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"  
-                                 VerticalAlignment="Stretch"
-                                 HorizontalAlignment="Stretch"
-                                 IsHitTestVisible="False"
-                                 Stretch="Uniform" />
+                <Image Width="148"
+                       Height="148"
+                       Source="{x:Bind Path=Track, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
+                       VerticalAlignment="Stretch"
+                       HorizontalAlignment="Stretch"
+                       IsHitTestVisible="False"
+                       Stretch="Uniform" />
             </control:DropShadowPanel>
 
             <!-- Basic Item Detail -->
-            <StackPanel Orientation="Vertical" 
+            <StackPanel Orientation="Vertical"
                         VerticalAlignment="Top"
                         HorizontalAlignment="Left"
                         Canvas.ZIndex="5"
@@ -70,95 +72,99 @@
 
                 <!-- Holds the 'reported by' / 'posted by text' -->
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Posted by" 
-                               FontSize="16" 
+                    <TextBlock Text="Posted by"
+                               FontSize="16"
                                Opacity="0.7"
                                FontWeight="SemiLight" />
 
                     <TextBlock Text="{x:Bind Track.User.Username, Mode=OneWay}"
-                               FontSize="16" 
+                               FontSize="16"
                                FontWeight="SemiBold"
-                               Opacity="0.8" 
-                               Margin="3,0,0,0"/>
+                               Opacity="0.8"
+                               Margin="3,0,0,0" />
                 </StackPanel>
 
                 <!-- track title -->
-                <TextBlock Text="{x:Bind Track.Title, Mode=OneWay}" 
-                           FontSize="24" 
-                           Margin="0,18,0,2" 
+                <TextBlock Text="{x:Bind Track.Title, Mode=OneWay}"
+                           FontSize="24"
+                           Margin="0,18,0,2"
                            Opacity="0.8"
                            TextWrapping="NoWrap"
-                           FontWeight="SemiBold" 
+                           FontWeight="SemiBold"
                            TextTrimming="CharacterEllipsis" />
             </StackPanel>
 
             <!-- Extended Detail -->
-            <StackPanel Orientation="Horizontal" 
+            <StackPanel Orientation="Horizontal"
                         HorizontalAlignment="Left"
                         Canvas.ZIndex="5"
                         VerticalAlignment="Bottom"
                         Margin="180,30,0,20">
 
                 <!-- Plays -->
-                <TextBlock Text="&#xE768;" 
-                           FontFamily="Segoe MDL2 Assets" 
-                           Margin="0,4,8,0" 
-                           FontSize="14" 
+                <TextBlock Text="&#xE768;"
+                           FontFamily="Segoe MDL2 Assets"
+                           Margin="0,4,8,0"
+                           FontSize="14"
                            Opacity="0.8" />
-                <TextBlock Text="{x:Bind Path=Track.PlaybackCount, Converter={StaticResource FormattedValueConverter}, Mode=OneWay}" 
-                           HorizontalAlignment="Left" 
-                           TextWrapping="Wrap" 
-                           VerticalAlignment="Top" 
-                           FontSize="15" 
-                           Opacity="0.8" 
-                           FontWeight="SemiBold"/>
+                <TextBlock
+                    Text="{x:Bind Path=Track.PlaybackCount, Converter={StaticResource FormattedValueConverter}, Mode=OneWay}"
+                    HorizontalAlignment="Left"
+                    TextWrapping="Wrap"
+                    VerticalAlignment="Top"
+                    FontSize="15"
+                    Opacity="0.8"
+                    FontWeight="SemiBold" />
 
                 <!-- Likes -->
-                <TextBlock Text="&#xE006;" 
+                <TextBlock Text="&#xE006;"
                            FontFamily="Segoe MDL2 Assets"
-                           Margin="15,4,8,0" 
-                           FontSize="14" 
+                           Margin="15,4,8,0"
+                           FontSize="14"
                            Opacity="0.8" />
-                <TextBlock Text="{x:Bind Path=Track.LikesCount, Converter={StaticResource FormattedValueConverter}, Mode=OneWay}" 
-                           HorizontalAlignment="Left" 
-                           TextWrapping="Wrap" 
-                           VerticalAlignment="Top" 
-                           FontSize="15" 
-                           Opacity="0.8" 
-                           FontWeight="SemiBold"/>
+                <TextBlock
+                    Text="{x:Bind Path=Track.LikesCount, Converter={StaticResource FormattedValueConverter}, Mode=OneWay}"
+                    HorizontalAlignment="Left"
+                    TextWrapping="Wrap"
+                    VerticalAlignment="Top"
+                    FontSize="15"
+                    Opacity="0.8"
+                    FontWeight="SemiBold" />
 
             </StackPanel>
 
             <!-- Right Content -->
-            <StackPanel Orientation="Vertical" 
+            <StackPanel Orientation="Vertical"
                         VerticalAlignment="Top"
                         HorizontalAlignment="Right"
                         Canvas.ZIndex="5"
                         Margin="30">
-                <TextBlock Text="{x:Bind Created, Mode=OneWay, Converter={StaticResource ModernDateTimeConverter}}" 
-                           FontSize="16" 
-                           Opacity="0.7" 
+                <TextBlock Text="{x:Bind Created, Mode=OneWay, Converter={StaticResource ModernDateTimeConverter}}"
+                           FontSize="16"
+                           Opacity="0.7"
                            TextAlignment="Right"
                            FontWeight="SemiBold" />
 
 
-                <TextBlock Text="{x:Bind Track.Duration, Mode=OneWay, Converter={StaticResource TimeStampConverter}}" 
+                <TextBlock Text="{x:Bind Track.Duration, Mode=OneWay, Converter={StaticResource TimeStampConverter}}"
                            Margin="0,0,0,0"
                            TextAlignment="Right"
-                           FontSize="16" 
-                           Opacity="0.6" 
+                           FontSize="16"
+                           Opacity="0.6"
                            FontWeight="SemiLight" />
 
             </StackPanel>
 
             <!-- Extended Right Detail -->
-            <StackPanel Orientation="Horizontal" 
+            <StackPanel Orientation="Horizontal"
                         HorizontalAlignment="Right"
                         Canvas.ZIndex="5"
                         VerticalAlignment="Bottom"
                         Margin="30,30,30,10">
-                <userControls:SoundByteButton Glyph="&#xE72D;" Label="Share"  Margin="0,0,25,0" Click="{x:Bind Track.ShareTrack}" />
-                <userControls:SoundByteButton Glyph="&#xE142;" Label="Add to Playlist"  Margin="0,0,0,0" Click="{x:Bind AddTrackToPlaylist}" />
+                <userControls:SoundByteButton Glyph="&#xE72D;" Label="Share" Margin="0,0,25,0"
+                                              Click="{x:Bind Track.ShareTrack}" />
+                <userControls:SoundByteButton Glyph="&#xE142;" Label="Add to Playlist" Margin="0,0,0,0"
+                                              Click="{x:Bind AddTrackToPlaylist}" />
 
             </StackPanel>
         </Grid>
@@ -166,126 +172,130 @@
         <!-- Playlist View -->
         <Grid x:Name="PlaylistView"
               Visibility="Collapsed"
-                  Height="170"
-                  Margin="0,5,0,5"
-                  x:DeferLoadStrategy="Lazy"
-                  HorizontalAlignment="Stretch">
+              Height="170"
+              Margin="0,5,0,5"
+              x:DeferLoadStrategy="Lazy"
+              HorizontalAlignment="Stretch">
 
             <!-- Item Image -->
             <control:DropShadowPanel Canvas.ZIndex="5"
-                                         HorizontalAlignment="Left"
-                                         BlurRadius="15"
-                                         ShadowOpacity="0.8"
-                                         OffsetX="0"
-                                         IsTabStop="False"
-                                         IsHitTestVisible="False"
-                                         Margin="10"
-                                         OffsetY="5"
-                                         Color="Black">
-                <Image Source="{x:Bind Path=Playlist, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"  
-                                         Width="148" 
-                                         Height="148" 
-                                         VerticalAlignment="Stretch"
-                                         HorizontalAlignment="Stretch"
-                                         IsHitTestVisible="False"
-                                         Stretch="Uniform" />
+                                     HorizontalAlignment="Left"
+                                     BlurRadius="15"
+                                     ShadowOpacity="0.8"
+                                     OffsetX="0"
+                                     IsTabStop="False"
+                                     IsHitTestVisible="False"
+                                     Margin="10"
+                                     OffsetY="5"
+                                     Color="Black">
+                <Image Source="{x:Bind Path=Playlist, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
+                       Width="148"
+                       Height="148"
+                       VerticalAlignment="Stretch"
+                       HorizontalAlignment="Stretch"
+                       IsHitTestVisible="False"
+                       Stretch="Uniform" />
             </control:DropShadowPanel>
 
             <!-- Basic Item Detail -->
-            <StackPanel Orientation="Vertical" 
-                            HorizontalAlignment="Left"
-                            Canvas.ZIndex="5"
-                            Margin="180,30,0,30">
+            <StackPanel Orientation="Vertical"
+                        HorizontalAlignment="Left"
+                        Canvas.ZIndex="5"
+                        Margin="180,30,0,30">
 
                 <!-- Holds the 'reported by' / 'posted by text' -->
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Created by" 
-                                   FontSize="16" 
-                                   Opacity="0.7"
-                                   FontWeight="SemiLight" />
+                    <TextBlock Text="Created by"
+                               FontSize="16"
+                               Opacity="0.7"
+                               FontWeight="SemiLight" />
 
                     <TextBlock Text="{x:Bind Playlist.User.Username, Mode=OneWay}"
-                                   FontSize="16" 
-                                   FontWeight="SemiBold"
-                                   Opacity="0.8" 
-                                   Margin="3,0,0,0"/>
+                               FontSize="16"
+                               FontWeight="SemiBold"
+                               Opacity="0.8"
+                               Margin="3,0,0,0" />
                 </StackPanel>
 
                 <!-- Playlist title -->
-                <TextBlock Text="{x:Bind Playlist.Title, Mode=OneWay}" 
-                               FontSize="24" 
-                               Margin="0,18,0,2" 
-                               Opacity="0.8"
-                               TextWrapping="NoWrap"
-                               FontWeight="SemiBold" 
-                               TextTrimming="CharacterEllipsis" />
+                <TextBlock Text="{x:Bind Playlist.Title, Mode=OneWay}"
+                           FontSize="24"
+                           Margin="0,18,0,2"
+                           Opacity="0.8"
+                           TextWrapping="NoWrap"
+                           FontWeight="SemiBold"
+                           TextTrimming="CharacterEllipsis" />
             </StackPanel>
 
             <!-- Extended Detail -->
-            <StackPanel Orientation="Horizontal" 
-                            HorizontalAlignment="Left"
-                            Canvas.ZIndex="5"
-                            VerticalAlignment="Bottom"
-                            Margin="180,30,0,20">
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Left"
+                        Canvas.ZIndex="5"
+                        VerticalAlignment="Bottom"
+                        Margin="180,30,0,20">
 
                 <!-- Tracks -->
-                <TextBlock Text="&#xEA69;" 
+                <TextBlock Text="&#xEA69;"
                            FontFamily="Segoe MDL2 Assets"
-                           Margin="0,4,8,0" 
-                           FontSize="14" 
-                           Opacity="0.8" />
-                <TextBlock Text="{x:Bind Path=Playlist.TrackCount, Converter={StaticResource FormattedValueConverter}, Mode=OneWay}" 
-                           HorizontalAlignment="Left" 
-                           TextWrapping="Wrap" 
-                           VerticalAlignment="Top"
-                           FontSize="15" 
-                           Opacity="0.8" 
-                           FontWeight="SemiBold"/>
-
-                <!-- Likes -->
-                <TextBlock Text="&#xE006;" 
-                           FontFamily="Segoe MDL2 Assets"
-                           Margin="15,4,8,0" 
+                           Margin="0,4,8,0"
                            FontSize="14"
                            Opacity="0.8" />
-                <TextBlock Text="{x:Bind Path=Playlist.LikesCount, Converter={StaticResource FormattedValueConverter}, Mode=OneWay}" 
-                           HorizontalAlignment="Left"
-                           TextWrapping="Wrap" 
-                           VerticalAlignment="Top" 
-                           FontSize="15" 
-                           Opacity="0.8" 
-                           FontWeight="SemiBold"/>
+                <TextBlock
+                    Text="{x:Bind Path=Playlist.TrackCount, Converter={StaticResource FormattedValueConverter}, Mode=OneWay}"
+                    HorizontalAlignment="Left"
+                    TextWrapping="Wrap"
+                    VerticalAlignment="Top"
+                    FontSize="15"
+                    Opacity="0.8"
+                    FontWeight="SemiBold" />
+
+                <!-- Likes -->
+                <TextBlock Text="&#xE006;"
+                           FontFamily="Segoe MDL2 Assets"
+                           Margin="15,4,8,0"
+                           FontSize="14"
+                           Opacity="0.8" />
+                <TextBlock
+                    Text="{x:Bind Path=Playlist.LikesCount, Converter={StaticResource FormattedValueConverter}, Mode=OneWay}"
+                    HorizontalAlignment="Left"
+                    TextWrapping="Wrap"
+                    VerticalAlignment="Top"
+                    FontSize="15"
+                    Opacity="0.8"
+                    FontWeight="SemiBold" />
             </StackPanel>
 
             <!-- Right Content -->
-            <StackPanel Orientation="Vertical" 
+            <StackPanel Orientation="Vertical"
                         VerticalAlignment="Top"
                         HorizontalAlignment="Right"
                         Canvas.ZIndex="5"
                         Margin="30">
-                <TextBlock Text="{x:Bind Created, Mode=OneWay, Converter={StaticResource ModernDateTimeConverter}}" 
-                           FontSize="16" 
-                           Opacity="0.7" 
+                <TextBlock Text="{x:Bind Created, Mode=OneWay, Converter={StaticResource ModernDateTimeConverter}}"
+                           FontSize="16"
+                           Opacity="0.7"
                            TextAlignment="Right"
                            FontWeight="SemiBold" />
 
 
-                <TextBlock Text="{x:Bind Playlist.Duration, Mode=OneWay, Converter={StaticResource TimeStampConverter}}" 
-                           Margin="0,0,0,0"
-                           TextAlignment="Right"
-                           FontSize="16" 
-                           Opacity="0.6" 
-                           FontWeight="SemiLight" />
+                <TextBlock
+                    Text="{x:Bind Playlist.Duration, Mode=OneWay, Converter={StaticResource TimeStampConverter}}"
+                    Margin="0,0,0,0"
+                    TextAlignment="Right"
+                    FontSize="16"
+                    Opacity="0.6"
+                    FontWeight="SemiLight" />
 
             </StackPanel>
 
             <!-- Extended Right Detail -->
-            <StackPanel Orientation="Horizontal" 
+            <StackPanel Orientation="Horizontal"
                         HorizontalAlignment="Right"
                         Canvas.ZIndex="5"
                         VerticalAlignment="Bottom"
                         Margin="30,30,30,10">
-                <userControls:SoundByteButton Glyph="&#xE72D;" Label="Share"  Margin="0,0,0,0" Click="{x:Bind SharePlaylist}" />
+                <userControls:SoundByteButton Glyph="&#xE72D;" Label="Share" Margin="0,0,0,0"
+                                              Click="{x:Bind SharePlaylist}" />
 
             </StackPanel>
 

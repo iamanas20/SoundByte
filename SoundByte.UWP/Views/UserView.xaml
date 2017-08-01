@@ -10,64 +10,66 @@
     Transitions="{StaticResource MainTransition}">
     <Page.Resources>
         <Style x:Key="UserGridViewStyle" TargetType="GridView">
-            <Setter Property="Padding" Value="0,0,0,10"/>
-            <Setter Property="IsTabStop" Value="False"/>
-            <Setter Property="TabNavigation" Value="Once"/>
-            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
-            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
-            <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Disabled"/>
-            <Setter Property="ScrollViewer.IsHorizontalRailEnabled" Value="False"/>
-            <Setter Property="ScrollViewer.VerticalScrollMode" Value="Enabled"/>
-            <Setter Property="ScrollViewer.IsVerticalRailEnabled" Value="True"/>
-            <Setter Property="ScrollViewer.ZoomMode" Value="Disabled"/>
-            <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False"/>
-            <Setter Property="ScrollViewer.BringIntoViewOnFocusChange" Value="True"/>
-            <Setter Property="IsSwipeEnabled" Value="True"/>
-            <Setter Property="UseSystemFocusVisuals" Value="True"/>
-            <Setter Property="FocusVisualMargin" Value="-2"/>
+            <Setter Property="Padding" Value="0,0,0,10" />
+            <Setter Property="IsTabStop" Value="False" />
+            <Setter Property="TabNavigation" Value="Once" />
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+            <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Disabled" />
+            <Setter Property="ScrollViewer.IsHorizontalRailEnabled" Value="False" />
+            <Setter Property="ScrollViewer.VerticalScrollMode" Value="Enabled" />
+            <Setter Property="ScrollViewer.IsVerticalRailEnabled" Value="True" />
+            <Setter Property="ScrollViewer.ZoomMode" Value="Disabled" />
+            <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False" />
+            <Setter Property="ScrollViewer.BringIntoViewOnFocusChange" Value="True" />
+            <Setter Property="IsSwipeEnabled" Value="True" />
+            <Setter Property="UseSystemFocusVisuals" Value="True" />
+            <Setter Property="FocusVisualMargin" Value="-2" />
             <Setter Property="ItemContainerTransitions">
                 <Setter.Value>
                     <TransitionCollection>
-                        <AddDeleteThemeTransition/>
-                        <ContentThemeTransition/>
-                        <ReorderThemeTransition/>
-                        <EntranceThemeTransition IsStaggeringEnabled="False"/>
+                        <AddDeleteThemeTransition />
+                        <ContentThemeTransition />
+                        <ReorderThemeTransition />
+                        <EntranceThemeTransition IsStaggeringEnabled="False" />
                     </TransitionCollection>
                 </Setter.Value>
             </Setter>
             <Setter Property="ItemsPanel">
                 <Setter.Value>
                     <ItemsPanelTemplate>
-                        <ItemsWrapGrid Orientation="Horizontal"/>
+                        <ItemsWrapGrid Orientation="Horizontal" />
                     </ItemsPanelTemplate>
                 </Setter.Value>
             </Setter>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="GridView">
-                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
-                            <ScrollViewer x:Name="ScrollViewer" 
+                        <Border BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Background="{TemplateBinding Background}">
+                            <ScrollViewer x:Name="ScrollViewer"
                                           ViewChanged="GridViewScrollViewChanged"
-                                          AutomationProperties.AccessibilityView="Raw" 
-                                          BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}" 
-                                          HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}" 
-                                          HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}" 
-                                          IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}" 
-                                          IsHorizontalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsHorizontalScrollChainingEnabled}" 
-                                          IsVerticalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsVerticalScrollChainingEnabled}" 
-                                          IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}" 
-                                          IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}" 
-                                          TabNavigation="{TemplateBinding TabNavigation}" 
-                                          VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}" 
-                                          VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}" 
+                                          AutomationProperties.AccessibilityView="Raw"
+                                          BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}"
+                                          HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}"
+                                          HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+                                          IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}"
+                                          IsHorizontalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsHorizontalScrollChainingEnabled}"
+                                          IsVerticalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsVerticalScrollChainingEnabled}"
+                                          IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}"
+                                          IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}"
+                                          TabNavigation="{TemplateBinding TabNavigation}"
+                                          VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
+                                          VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
                                           ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}">
-                                <ItemsPresenter FooterTransitions="{TemplateBinding FooterTransitions}" 
-                                                FooterTemplate="{TemplateBinding FooterTemplate}" 
-                                                Footer="{TemplateBinding Footer}" 
+                                <ItemsPresenter FooterTransitions="{TemplateBinding FooterTransitions}"
+                                                FooterTemplate="{TemplateBinding FooterTemplate}"
+                                                Footer="{TemplateBinding Footer}"
                                                 HeaderTemplate="{TemplateBinding HeaderTemplate}"
-                                                Header="{TemplateBinding Header}" 
-                                                HeaderTransitions="{TemplateBinding HeaderTransitions}" 
-                                                Padding="{TemplateBinding Padding}"/>
+                                                Header="{TemplateBinding Header}"
+                                                HeaderTransitions="{TemplateBinding HeaderTransitions}"
+                                                Padding="{TemplateBinding Padding}" />
                             </ScrollViewer>
                         </Border>
                     </ControlTemplate>
@@ -81,10 +83,10 @@
             <VisualStateGroup x:Name="DeviceStates">
                 <VisualState x:Name="Xbox">
                     <VisualState.StateTriggers>
-                        <stateTriggers:DeviceStateTrigger DeviceFamily="Windows.Xbox"/>
+                        <stateTriggers:DeviceStateTrigger DeviceFamily="Windows.Xbox" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="RootGrid.Background" Value="Transparent"/>
+                        <Setter Target="RootGrid.Background" Value="Transparent" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -95,67 +97,96 @@
             <Grid>
                 <Grid Margin="50,0" x:Name="HeaderPanel" VerticalAlignment="Top">
                     <!-- User Image -->
-                    <controls:DropShadowPanel HorizontalAlignment="Left"  Margin="20,50,0,0"
-                                                  BlurRadius="25"
-                                                  ShadowOpacity="0.7"
-                                                  OffsetX="0"
-                                                  OffsetY="5"
-                                                  IsTabStop="False"
-                                                  IsHitTestVisible="False"
-                                                  Color="Black">
+                    <controls:DropShadowPanel HorizontalAlignment="Left" Margin="20,50,0,0"
+                                              BlurRadius="25"
+                                              ShadowOpacity="0.7"
+                                              OffsetX="0"
+                                              OffsetY="5"
+                                              IsTabStop="False"
+                                              IsHitTestVisible="False"
+                                              Color="Black">
                         <Ellipse VerticalAlignment="Stretch"
                                  HorizontalAlignment="Stretch"
                                  IsHitTestVisible="False"
-                                 Height="240" 
+                                 Height="240"
                                  Width="240">
                             <Ellipse.Fill>
-                                <ImageBrush ImageSource="{x:Bind Path=ViewModel.User, Converter={StaticResource ArtworkConverter}, Mode=OneWay}" Stretch="Uniform" />
+                                <ImageBrush
+                                    ImageSource="{x:Bind Path=ViewModel.User, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
+                                    Stretch="Uniform" />
                             </Ellipse.Fill>
                         </Ellipse>
                     </controls:DropShadowPanel>
 
-                        <!-- Detail Section -->
-                        <StackPanel VerticalAlignment="Center" Margin="320,0,0,0">
-                            <!-- Username -->
-                            <TextBlock Text="{x:Bind Path=ViewModel.User.Username, Mode=OneWay}" Opacity="0.8" FontSize="50" FontWeight="Bold" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" HorizontalAlignment="Stretch" />
-                            <!-- Followers -->
-                            <StackPanel Orientation="Horizontal"  Margin="0,15,0,0">
-                                <TextBlock Text="&#xE716;" FontFamily="Segoe MDL2 Assets" Margin="0,4,6,0" FontSize="14" Opacity="0.8" />
-                                <TextBlock Text="{x:Bind Path=ViewModel.User.FollowersCount, Converter={StaticResource FormattedValueConverter}, Mode=OneWay}"  x:Name="FollowersText" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="15" Opacity="0.8" FontWeight="SemiLight"/>
-                                <TextBlock Text="Followers" Margin="5,0,0,0" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="15" Opacity="0.8" FontWeight="SemiLight"/>
-                            </StackPanel>
-
-                            <!-- Tracks -->
-                            <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                                <TextBlock Text="&#xEA69;" FontFamily="Segoe MDL2 Assets"  Margin="0,4,6,0" FontSize="14" Opacity="0.8" />
-                                <TextBlock Text="{x:Bind Path=ViewModel.User.TrackCount, Converter={StaticResource FormattedValueConverter}, Mode=OneWay}"  x:Name="TracksText" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="15" Opacity="0.8" FontWeight="SemiLight"/>
-                                <TextBlock Text="Tracks" Margin="5,0,0,0" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="15" Opacity="0.8" FontWeight="SemiLight"/>
-                            </StackPanel>
-
-                            <!-- Playlists -->
-                            <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                                <TextBlock Text="&#xE14C;" FontFamily="Segoe MDL2 Assets" Margin="0,4,6,0" FontSize="14" Opacity="0.8" />
-                                <TextBlock Text="{x:Bind Path=ViewModel.User.PlaylistCount, Converter={StaticResource FormattedValueConverter}, Mode=OneWay}"  x:Name="SetsText" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="15" Opacity="0.8" FontWeight="SemiLight"/>
-                                <TextBlock Text="Playlists" Margin="5,0,0,0"  HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="15" Opacity="0.8" FontWeight="SemiLight"/>
-                            </StackPanel>
+                    <!-- Detail Section -->
+                    <StackPanel VerticalAlignment="Center" Margin="320,0,0,0">
+                        <!-- Username -->
+                        <TextBlock Text="{x:Bind Path=ViewModel.User.Username, Mode=OneWay}" Opacity="0.8"
+                                   FontSize="50" FontWeight="Bold" TextTrimming="CharacterEllipsis"
+                                   TextWrapping="NoWrap" HorizontalAlignment="Stretch" />
+                        <!-- Followers -->
+                        <StackPanel Orientation="Horizontal" Margin="0,15,0,0">
+                            <TextBlock Text="&#xE716;" FontFamily="Segoe MDL2 Assets" Margin="0,4,6,0" FontSize="14"
+                                       Opacity="0.8" />
+                            <TextBlock
+                                Text="{x:Bind Path=ViewModel.User.FollowersCount, Converter={StaticResource FormattedValueConverter}, Mode=OneWay}"
+                                x:Name="FollowersText" HorizontalAlignment="Left" TextWrapping="Wrap"
+                                VerticalAlignment="Top" FontSize="15" Opacity="0.8" FontWeight="SemiLight" />
+                            <TextBlock Text="Followers" Margin="5,0,0,0" HorizontalAlignment="Left" TextWrapping="Wrap"
+                                       VerticalAlignment="Top" FontSize="15" Opacity="0.8" FontWeight="SemiLight" />
                         </StackPanel>
+
+                        <!-- Tracks -->
+                        <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                            <TextBlock Text="&#xEA69;" FontFamily="Segoe MDL2 Assets" Margin="0,4,6,0" FontSize="14"
+                                       Opacity="0.8" />
+                            <TextBlock
+                                Text="{x:Bind Path=ViewModel.User.TrackCount, Converter={StaticResource FormattedValueConverter}, Mode=OneWay}"
+                                x:Name="TracksText" HorizontalAlignment="Left" TextWrapping="Wrap"
+                                VerticalAlignment="Top" FontSize="15" Opacity="0.8" FontWeight="SemiLight" />
+                            <TextBlock Text="Tracks" Margin="5,0,0,0" HorizontalAlignment="Left" TextWrapping="Wrap"
+                                       VerticalAlignment="Top" FontSize="15" Opacity="0.8" FontWeight="SemiLight" />
+                        </StackPanel>
+
+                        <!-- Playlists -->
+                        <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                            <TextBlock Text="&#xE14C;" FontFamily="Segoe MDL2 Assets" Margin="0,4,6,0" FontSize="14"
+                                       Opacity="0.8" />
+                            <TextBlock
+                                Text="{x:Bind Path=ViewModel.User.PlaylistCount, Converter={StaticResource FormattedValueConverter}, Mode=OneWay}"
+                                x:Name="SetsText" HorizontalAlignment="Left" TextWrapping="Wrap"
+                                VerticalAlignment="Top" FontSize="15" Opacity="0.8" FontWeight="SemiLight" />
+                            <TextBlock Text="Playlists" Margin="5,0,0,0" HorizontalAlignment="Left" TextWrapping="Wrap"
+                                       VerticalAlignment="Top" FontSize="15" Opacity="0.8" FontWeight="SemiLight" />
+                        </StackPanel>
+                    </StackPanel>
                 </Grid>
 
-                    <StackPanel Orientation="Horizontal" Margin="65,330,0,0" VerticalAlignment="Top">
-                        <elements:SoundByteButton Glyph="{x:Bind ViewModel.FollowUserIcon, Mode=OneWay}" Label="{x:Bind ViewModel.FollowUserText, Mode=OneWay}" Click="{x:Bind ViewModel.FollowUser}" IsEnabled="{x:Bind ViewModel.ShowFollowButton, Mode=OneWay}" Margin="0,0,25,0" />
-                        <elements:SoundByteButton Glyph="{x:Bind ViewModel.PinButtonIcon, Mode=OneWay}" Label="{x:Bind ViewModel.PinButtonText, Mode=OneWay}" Click="{x:Bind ViewModel.PinUser}" Margin="0,0,25,0" />
-                        <elements:SoundByteButton x:Name="UploadButton" Glyph="&#xE898;" Label="Upload Track" Click="{x:Bind UploadTrack}" Margin="0,0,25,0" />
+                <StackPanel Orientation="Horizontal" Margin="65,330,0,0" VerticalAlignment="Top">
+                    <elements:SoundByteButton Glyph="{x:Bind ViewModel.FollowUserIcon, Mode=OneWay}"
+                                              Label="{x:Bind ViewModel.FollowUserText, Mode=OneWay}"
+                                              Click="{x:Bind ViewModel.FollowUser}"
+                                              IsEnabled="{x:Bind ViewModel.ShowFollowButton, Mode=OneWay}"
+                                              Margin="0,0,25,0" />
+                    <elements:SoundByteButton Glyph="{x:Bind ViewModel.PinButtonIcon, Mode=OneWay}"
+                                              Label="{x:Bind ViewModel.PinButtonText, Mode=OneWay}"
+                                              Click="{x:Bind ViewModel.PinUser}" Margin="0,0,25,0" />
+                    <elements:SoundByteButton x:Name="UploadButton" Glyph="&#xE898;" Label="Upload Track"
+                                              Click="{x:Bind UploadTrack}" Margin="0,0,25,0" />
                 </StackPanel>
 
                 <!-- Main Page Pivot -->
-                <Pivot x:Name="MainPivot" Margin="50,370,50,0" SelectedItem="{x:Bind ViewModel.SelectedPivotItem, Mode=TwoWay}" SelectionChanged="MainPivot_OnSelectionChanged">
+                <Pivot x:Name="MainPivot" Margin="50,370,50,0"
+                       SelectedItem="{x:Bind ViewModel.SelectedPivotItem, Mode=TwoWay}"
+                       SelectionChanged="MainPivot_OnSelectionChanged">
                     <!-- About the user -->
                     <PivotItem x:Name="AboutPivot">
                         <PivotItem.Header>
-                            <TextBlock Text="About" FontSize="18" Opacity="0.9" FontWeight="SemiBold" VerticalAlignment="Center" Padding="0,2" />
+                            <TextBlock Text="About" FontSize="18" Opacity="0.9" FontWeight="SemiBold"
+                                       VerticalAlignment="Center" Padding="0,2" />
                         </PivotItem.Header>
                         <controls:MarkdownTextBlock TextWrapping="WrapWholeWords"
-                                                    HorizontalAlignment="Stretch" 
+                                                    HorizontalAlignment="Stretch"
                                                     VerticalAlignment="Stretch"
                                                     Margin="0,10,0,0"
                                                     Text="{x:Bind ViewModel.User.Description, Mode=OneWay}" />
@@ -164,7 +195,8 @@
                     <!-- The users tracks -->
                     <PivotItem x:Name="TracksPivot">
                         <PivotItem.Header>
-                            <TextBlock Text="Tracks" FontSize="18" Opacity="0.9" FontWeight="SemiBold" VerticalAlignment="Center" Padding="0,2" />
+                            <TextBlock Text="Tracks" FontSize="18" Opacity="0.9" FontWeight="SemiBold"
+                                       VerticalAlignment="Center" Padding="0,2" />
                         </PivotItem.Header>
                         <GridView x:Name="TracksView"
                                   Style="{StaticResource UserGridViewStyle}"
@@ -186,7 +218,8 @@
                     <!-- The users likes -->
                     <PivotItem x:Name="LikesPivot">
                         <PivotItem.Header>
-                            <TextBlock Text="Likes" FontSize="18" Opacity="0.9" FontWeight="SemiBold" VerticalAlignment="Center" Padding="0,2" />
+                            <TextBlock Text="Likes" FontSize="18" Opacity="0.9" FontWeight="SemiBold"
+                                       VerticalAlignment="Center" Padding="0,2" />
                         </PivotItem.Header>
                         <GridView x:Name="LikesView"
                                   Style="{StaticResource UserGridViewStyle}"
@@ -202,16 +235,16 @@
                                   ScrollViewer.VerticalScrollBarVisibility="Disabled"
                                   ShowsScrollingPlaceholders="False"
                                   IsMultiSelectCheckBoxEnabled="False"
-                                  animations:ReorderGridAnimation.Duration="150">
-                        </GridView>
+                                  animations:ReorderGridAnimation.Duration="150" />
                     </PivotItem>
 
                     <!-- The users playlists / liked playlists -->
                     <PivotItem x:Name="PlaylistsPivot">
                         <PivotItem.Header>
-                            <TextBlock Text="Playlists" FontSize="18" Opacity="0.9" FontWeight="SemiBold" VerticalAlignment="Center" Padding="0,2" />
+                            <TextBlock Text="Playlists" FontSize="18" Opacity="0.9" FontWeight="SemiBold"
+                                       VerticalAlignment="Center" Padding="0,2" />
                         </PivotItem.Header>
-                        <GridView x:Name="PlaylistsView" 
+                        <GridView x:Name="PlaylistsView"
                                   Style="{StaticResource UserGridViewStyle}"
                                   ItemsSource="{x:Bind ViewModel.PlaylistItems}"
                                   ItemClick="{x:Bind ViewModel.NavigateToPlaylist}"
@@ -225,14 +258,15 @@
                                   ScrollViewer.VerticalScrollBarVisibility="Disabled"
                                   ShowsScrollingPlaceholders="False"
                                   IsMultiSelectCheckBoxEnabled="False"
-                                  animations:ReorderGridAnimation.Duration="150"/>
+                                  animations:ReorderGridAnimation.Duration="150" />
                     </PivotItem>
 
                     <PivotItem x:Name="FollowersPivot">
                         <PivotItem.Header>
-                            <TextBlock Text="Followers" FontSize="18" Opacity="0.9" FontWeight="SemiBold" VerticalAlignment="Center" Padding="0,2" />
+                            <TextBlock Text="Followers" FontSize="18" Opacity="0.9" FontWeight="SemiBold"
+                                       VerticalAlignment="Center" Padding="0,2" />
                         </PivotItem.Header>
-                        <GridView x:Name="FollowersView" 
+                        <GridView x:Name="FollowersView"
                                   Style="{StaticResource UserGridViewStyle}"
                                   ItemTemplate="{StaticResource UserItem}"
                                   ItemsSource="{x:Bind ViewModel.FollowersList}"
@@ -251,11 +285,12 @@
 
                     <PivotItem x:Name="FollowingsPivot">
                         <PivotItem.Header>
-                            <TextBlock Text="Followings" FontSize="18" Opacity="0.9" FontWeight="SemiBold" VerticalAlignment="Center" Padding="0,2" />
+                            <TextBlock Text="Followings" FontSize="18" Opacity="0.9" FontWeight="SemiBold"
+                                       VerticalAlignment="Center" Padding="0,2" />
                         </PivotItem.Header>
-                        <GridView x:Name="FollowingsView" 
+                        <GridView x:Name="FollowingsView"
                                   Style="{StaticResource UserGridViewStyle}"
-                                  ItemsSource="{x:Bind ViewModel.FollowingsList}" 
+                                  ItemsSource="{x:Bind ViewModel.FollowingsList}"
                                   ItemTemplate="{StaticResource UserItem}"
                                   ItemClick="{x:Bind ViewModel.NavigateToUser}"
                                   VerticalAlignment="Stretch"

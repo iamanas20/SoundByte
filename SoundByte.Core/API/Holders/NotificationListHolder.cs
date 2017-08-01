@@ -12,23 +12,24 @@
 
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using SoundByte.Core.API.Endpoints;
 
 namespace SoundByte.Core.API.Holders
 {
     /// <summary>
-    /// Holds a list of notifications
+    ///     Holds a list of notifications
     /// </summary>
     [JsonObject]
     public class NotificationListHolder
     {
         /// <summary>
-        /// A list of notification items
+        ///     A list of notification items
         /// </summary>
         [JsonProperty("collection")]
-        public List<Endpoints.Notification> Notifications { get; set; }
+        public List<Notification> Notifications { get; set; }
 
         /// <summary>
-        /// Link to the next list of items
+        ///     Link to the next list of items
         /// </summary>
         [JsonProperty("next_href")]
         public string NextList { get; set; }

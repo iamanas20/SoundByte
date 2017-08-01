@@ -10,19 +10,20 @@
  * |----------------------------------------------------------------|
  */
 
-using SoundByte.UWP.Models;
 using System;
 using System.Linq;
 using Windows.UI.Popups;
 using Windows.UI.Xaml.Controls;
 using SoundByte.Core.API.Endpoints;
 using SoundByte.Core.Helpers;
+using SoundByte.UWP.Models;
 using SoundByte.UWP.Services;
+using Playlist = SoundByte.UWP.Views.Playlist;
 
 namespace SoundByte.UWP.ViewModels
 {
     /// <summary>
-    /// The view model for the HomeView page
+    ///     The view model for the HomeView page
     /// </summary>
     public class HomeViewModel : BaseViewModel
     {
@@ -30,13 +31,13 @@ namespace SoundByte.UWP.ViewModels
         public StreamModel StreamItems { get; } = new StreamModel();
 
         /// <summary>
-        /// The likes model that contains or the users liked tracks
+        ///     The likes model that contains or the users liked tracks
         /// </summary>
         public ChartModel ChartsModel { get; } = new ChartModel();
 
         /// <summary>
-        /// Refreshes the models depending on what 
-        /// page is being viewed
+        ///     Refreshes the models depending on what
+        ///     page is being viewed
         /// </summary>
         public void RefreshStreamItems()
         {
@@ -57,7 +58,8 @@ namespace SoundByte.UWP.ViewModels
             App.IsLoading = true;
 
             // Get a list of items
-            var trackList = StreamItems.Where(t => t.Type == "track" || t.Type == "track-repost" && t.Type != null).Select(t => t.Track).ToList();
+            var trackList = StreamItems.Where(t => t.Type == "track" || t.Type == "track-repost" && t.Type != null)
+                .Select(t => t.Track).ToList();
 
             var startPlayback = await PlaybackService.Current.StartMediaPlayback(trackList.ToList(), StreamItems.Token);
 
@@ -73,7 +75,8 @@ namespace SoundByte.UWP.ViewModels
             if (ChartsModel.FirstOrDefault() == null)
                 return;
 
-            var startPlayback = await PlaybackService.Current.StartMediaPlayback(ChartsModel.ToList(), ChartsModel.Token);
+            var startPlayback =
+                await PlaybackService.Current.StartMediaPlayback(ChartsModel.ToList(), ChartsModel.Token);
             if (!startPlayback.success)
                 await new MessageDialog(startPlayback.message, "Error playing track.").ShowAsync();
         }
@@ -81,7 +84,8 @@ namespace SoundByte.UWP.ViewModels
         public async void PlayShuffleStreamTracks()
         {
             // Get a list of items
-            var trackList = StreamItems.Where(t => t.Type == "track" || t.Type == "track-repost" && t.Type != null).Select(t => t.Track).ToList();
+            var trackList = StreamItems.Where(t => t.Type == "track" || t.Type == "track-repost" && t.Type != null)
+                .Select(t => t.Track).ToList();
 
             // Shuffle and play the items
             await ShuffleTracksAsync(trackList, StreamItems.Token);
@@ -98,10 +102,11 @@ namespace SoundByte.UWP.ViewModels
             App.IsLoading = true;
 
             // Get a list of items
-            var trackList = StreamItems.Where(t => t.Type == "track" || t.Type == "track-repost" && t.Type != null).Select(t => t.Track).ToList();
+            var trackList = StreamItems.Where(t => t.Type == "track" || t.Type == "track-repost" && t.Type != null)
+                .Select(t => t.Track).ToList();
 
             // Get the clicked item
-            var streamItem = (StreamItem)e.ClickedItem;
+            var streamItem = (StreamItem) e.ClickedItem;
 
             switch (streamItem.Type)
             {
@@ -109,7 +114,8 @@ namespace SoundByte.UWP.ViewModels
                 case "track-repost":
                     if (streamItem.Track != null)
                     {
-                        var startPlayback = await PlaybackService.Current.StartMediaPlayback(trackList.ToList(), StreamItems.Token, false, streamItem.Track);
+                        var startPlayback = await PlaybackService.Current.StartMediaPlayback(trackList.ToList(),
+                            StreamItems.Token, false, streamItem.Track);
 
                         if (!startPlayback.success)
                             await new MessageDialog(startPlayback.message, "Error playing stream.").ShowAsync();
@@ -117,7 +123,7 @@ namespace SoundByte.UWP.ViewModels
                     break;
                 case "playlist":
                 case "playlist-repost":
-                    App.NavigateTo(typeof(Views.Playlist), streamItem.Playlist);
+                    App.NavigateTo(typeof(Playlist), streamItem.Playlist);
                     break;
             }
 
@@ -128,14 +134,15 @@ namespace SoundByte.UWP.ViewModels
 
         public async void PlayChartItem(object sender, ItemClickEventArgs e)
         {
-            var startPlayback = await PlaybackService.Current.StartMediaPlayback(ChartsModel.ToList(), ChartsModel.Token, false, (Track)e.ClickedItem);
+            var startPlayback = await PlaybackService.Current.StartMediaPlayback(ChartsModel.ToList(),
+                ChartsModel.Token, false, (Track) e.ClickedItem);
             if (!startPlayback.success)
                 await new MessageDialog(startPlayback.message, "Error playing track.").ShowAsync();
         }
 
         /// <summary>
-        /// Combobox for trending selection and 
-        /// type of song.
+        ///     Combobox for trending selection and
+        ///     type of song.
         /// </summary>
         public void OnComboBoxChanged(object sender, SelectionChangedEventArgs e)
         {

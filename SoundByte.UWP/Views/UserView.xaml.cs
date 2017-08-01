@@ -14,6 +14,7 @@ using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using SoundByte.Core.API.Endpoints;
 using SoundByte.Core.Services;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.ViewModels;
@@ -23,17 +24,12 @@ using WinRTXamlToolkit.Controls.Extensions;
 namespace SoundByte.UWP.Views
 {
     /// <summary>
-    /// Displays user information such as followers/followings, sounds, sets, likes etc.
+    ///     Displays user information such as followers/followings, sounds, sets, likes etc.
     /// </summary>
     public sealed partial class UserView
     {
         /// <summary>
-        /// The main view model for this page
-        /// </summary>
-        public UserViewModel ViewModel { get; } = new UserViewModel();
-
-        /// <summary>
-        /// Setup XAML page
+        ///     Setup XAML page
         /// </summary>
         public UserView()
         {
@@ -42,12 +38,17 @@ namespace SoundByte.UWP.Views
         }
 
         /// <summary>
-        /// Called when the user navigates to the page
+        ///     The main view model for this page
+        /// </summary>
+        public UserViewModel ViewModel { get; } = new UserViewModel();
+
+        /// <summary>
+        ///     Called when the user navigates to the page
         /// </summary>
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             // Get the target user (may be null)
-            var targetUser = e.Parameter as Core.API.Endpoints.User;
+            var targetUser = e.Parameter as User;
 
             // If we have both objects and they equal, do
             // nothing and return (we are navigating to the
@@ -59,10 +60,8 @@ namespace SoundByte.UWP.Views
             // In the future we would try load the user ID from
             // a stored file. For now through an exception.
             if (targetUser == null && ViewModel.User == null)
-            {
                 throw new ArgumentNullException(nameof(e),
                     "Both the view model and target user are null. UserView cannot continue");
-            }
 
             // We need to handle window resize change events here for the
             // main pivot
@@ -77,7 +76,9 @@ namespace SoundByte.UWP.Views
                 await ViewModel.UpdateModel(targetUser);
 
                 // Show the upload button on the users profile
-                UploadButton.Visibility = targetUser.Id == SoundByteService.Current.SoundCloudUser?.Id ? Visibility.Visible : Visibility.Collapsed;
+                UploadButton.Visibility = targetUser.Id == SoundByteService.Current.SoundCloudUser?.Id
+                    ? Visibility.Visible
+                    : Visibility.Collapsed;
 
                 // Reset the selected page for the pivot
                 MainPivot.SelectedIndex = 0;
@@ -100,35 +101,26 @@ namespace SoundByte.UWP.Views
         private void UserView_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (PlaybackService.Current.CurrentTrack == null)
-            {
                 MainPivot.Height = Window.Current.Bounds.Height;
-            }
             else
-            {
                 MainPivot.Height = Window.Current.Bounds.Height - 64;
-            }
         }
 
 
         private void GridViewScrollViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
         {
-            var v = (ScrollViewer)sender;
+            var v = (ScrollViewer) sender;
 
             if (v.VerticalOffset <= 0)
-            {
-                // Disable the scrollviewer
                 v.VerticalScrollBarVisibility = ScrollBarVisibility.Disabled;
-            }  
         }
 
         private void MainScrollViewerViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
         {
-            var v = (ScrollViewer)sender;
+            var v = (ScrollViewer) sender;
 
             // When we are at the bottom
-            if (v.ScrollableHeight < 0 || (int)v.VerticalOffset == (int)v.ScrollableHeight)
-            {
-                // We need to unlock scrolling on the appropiate scrollviewer
+            if (v.ScrollableHeight < 0 || (int) v.VerticalOffset == (int) v.ScrollableHeight)
                 switch (ViewModel.SelectedPivotItem.Name)
                 {
                     case "TracksPivot":
@@ -151,12 +143,10 @@ namespace SoundByte.UWP.Views
                         FollowingsView.GetScrollViewer().VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
                         break;
                 }
-            }
         }
 
         private void MainPivot_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-           
         }
     }
 }

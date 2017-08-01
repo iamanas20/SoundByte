@@ -19,8 +19,8 @@ using Windows.UI.StartScreen;
 namespace SoundByte.Core.Helpers
 {
     /// <summary>
-    /// This class contains helper functions for creating
-    /// and managing jumplists
+    ///     This class contains helper functions for creating
+    ///     and managing jumplists
     /// </summary>
     public static class JumplistHelper
     {
@@ -28,7 +28,7 @@ namespace SoundByte.Core.Helpers
         private static JumpList _systemJumpList;
 
         /// <summary>
-        /// Adds a recent item to the jumplist
+        ///     Adds a recent item to the jumplist
         /// </summary>
         /// <param name="args">Arguments to pass when the app opens</param>
         /// <param name="name">Name of the item</param>
@@ -59,10 +59,7 @@ namespace SoundByte.Core.Helpers
                     var recentItem = _systemJumpList.Items.FirstOrDefault(x => x.GroupName == grp);
                     // Check that the item is not null
                     if (recentItem != null)
-                    {
-                        // Remove the item from the list
                         _systemJumpList.Items.Remove(recentItem);
-                    }
                 }
 
                 // Create a new jumplist item
@@ -79,12 +76,13 @@ namespace SoundByte.Core.Helpers
             }
             catch
             {
-                await new MessageDialog("An Error Occured while pinning this item to the jumplist.", "Jumplist Error").ShowAsync();
+                await new MessageDialog("An Error Occured while pinning this item to the jumplist.", "Jumplist Error")
+                    .ShowAsync();
             }
         }
 
         /// <summary>
-        /// Removes all jumplist items
+        ///     Removes all jumplist items
         /// </summary>
         public static async Task RemoveAllAsync()
         {

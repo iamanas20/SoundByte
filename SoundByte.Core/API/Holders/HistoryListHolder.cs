@@ -12,20 +12,21 @@
 
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using SoundByte.Core.API.Endpoints;
 
 namespace SoundByte.Core.API.Holders
 {
     /// <summary>
-    /// Holds a track
+    ///     Holds a track
     /// </summary>
     [JsonObject]
     public class HistoryBootstrap
     {
         /// <summary>
-        /// A playlist
+        ///     A playlist
         /// </summary>
         [JsonProperty("track")]
-        public Endpoints.Track Track { get; set; }
+        public Track Track { get; set; }
     }
 
     [JsonObject]

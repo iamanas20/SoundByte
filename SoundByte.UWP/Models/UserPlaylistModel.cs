@@ -10,8 +10,6 @@
  * |----------------------------------------------------------------|
  */
 
-using SoundByte.Core.API.Exceptions;
-using SoundByte.Core.API.Holders;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -22,39 +20,32 @@ using Windows.Foundation;
 using Windows.UI.Xaml.Data;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Helpers;
+using SoundByte.Core.API.Endpoints;
+using SoundByte.Core.API.Exceptions;
+using SoundByte.Core.API.Holders;
 using SoundByte.Core.Services;
 using SoundByte.UWP.UserControls;
 
 namespace SoundByte.UWP.Models
 {
     /// <summary>
-    /// Gets the logged in users playlists and playlist likes
+    ///     Gets the logged in users playlists and playlist likes
     /// </summary>
-    public class UserPlaylistModel : ObservableCollection<Core.API.Endpoints.Playlist>, ISupportIncrementalLoading
+    public class UserPlaylistModel : ObservableCollection<Playlist>, ISupportIncrementalLoading
     {
         /// <summary>
-        /// The position of the track, will be 'eol'
-        /// if there are no new tracks
+        ///     The position of the track, will be 'eol'
+        ///     if there are no new tracks
         /// </summary>
         public string Token { get; protected set; }
 
         /// <summary>
-        /// Are there more items to load
+        ///     Are there more items to load
         /// </summary>
         public bool HasMoreItems => Token != "eol";
 
         /// <summary>
-        /// Refresh the list by removing any
-        /// existing items and reseting the token.
-        /// </summary>
-        public void RefreshItems()
-        {
-            Token = null;
-            Clear();
-        }
-
-        /// <summary>
-        /// Loads stream items from the souncloud api
+        ///     Loads stream items from the souncloud api
         /// </summary>
         /// <param name="count">The amount of items to load</param>
         // ReSharper disable once RedundantAssignment
@@ -78,12 +69,14 @@ namespace SoundByte.UWP.Models
                     try
                     {
                         // Get the users playlists using the V2 API
-                        var userPlaylists = await SoundByteService.Current.GetAsync<PlaylistHolder>($"/users/{SoundByteService.Current.SoundCloudUser.Id}/playlists/liked_and_owned", new Dictionary<string, string>
-                        {
-                            { "limit", "50" },
-                            { "offset", Token },
-                            { "linked_partitioning", "1" }
-                        }, true);
+                        var userPlaylists = await SoundByteService.Current.GetAsync<PlaylistHolder>(
+                            $"/users/{SoundByteService.Current.SoundCloudUser.Id}/playlists/liked_and_owned",
+                            new Dictionary<string, string>
+                            {
+                                {"limit", "50"},
+                                {"offset", Token},
+                                {"linked_partitioning", "1"}
+                            }, true);
 
                         // Parse uri for offset
                         var param = new QueryParameterCollection(userPlaylists.NextList);
@@ -96,7 +89,7 @@ namespace SoundByte.UWP.Models
                         if (userPlaylists.Playlists.Count > 0)
                         {
                             // Set the count variable
-                            count = (uint)userPlaylists.Playlists.Count;
+                            count = (uint) userPlaylists.Playlists.Count;
 
                             // Loop though all the playlists on the UI thread
                             await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
@@ -115,7 +108,9 @@ namespace SoundByte.UWP.Models
                             // No items tell the user
                             await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                             {
-                                (App.CurrentFrame?.FindName("UserPlaylistModelInfoPane") as InfoPane)?.ShowMessage(resources.GetString("UserPlaylists_Header"), resources.GetString("UserPlaylists_Content"), "", false);
+                                (App.CurrentFrame?.FindName("UserPlaylistModelInfoPane") as InfoPane)?.ShowMessage(
+                                    resources.GetString("UserPlaylists_Header"),
+                                    resources.GetString("UserPlaylists_Content"), "", false);
                             });
                         }
                     }
@@ -127,7 +122,8 @@ namespace SoundByte.UWP.Models
                         // Exception, display error to the user
                         await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                         {
-                            (App.CurrentFrame?.FindName("UserPlaylistModelInfoPane") as InfoPane)?.ShowMessage(ex.ErrorTitle, ex.ErrorDescription, ex.ErrorGlyph);
+                            (App.CurrentFrame?.FindName("UserPlaylistModelInfoPane") as InfoPane)?.ShowMessage(
+                                ex.ErrorTitle, ex.ErrorDescription, ex.ErrorGlyph);
                         });
                     }
                 }
@@ -142,7 +138,9 @@ namespace SoundByte.UWP.Models
                     // No items tell the user
                     await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                     {
-                        (App.CurrentFrame?.FindName("UserPlaylistModelInfoPane") as InfoPane)?.ShowMessage(resources.GetString("ErrorControl_LoginFalse_Header"), resources.GetString("ErrorControl_LoginFalse_Content"), "", false);
+                        (App.CurrentFrame?.FindName("UserPlaylistModelInfoPane") as InfoPane)?.ShowMessage(
+                            resources.GetString("ErrorControl_LoginFalse_Header"),
+                            resources.GetString("ErrorControl_LoginFalse_Content"), "", false);
                     });
                 }
 
@@ -153,8 +151,18 @@ namespace SoundByte.UWP.Models
                 });
 
                 // Return the result
-                return new LoadMoreItemsResult { Count = count };
+                return new LoadMoreItemsResult {Count = count};
             }).AsAsyncOperation();
+        }
+
+        /// <summary>
+        ///     Refresh the list by removing any
+        ///     existing items and reseting the token.
+        /// </summary>
+        public void RefreshItems()
+        {
+            Token = null;
+            Clear();
         }
     }
 }

@@ -14,6 +14,7 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -21,24 +22,22 @@ using Microsoft.Services.Store.Engagement;
 using Newtonsoft.Json;
 using SoundByte.Core.API.Endpoints;
 using SoundByte.Core.Services;
+using SoundByte.UWP.ViewModels;
 using SoundByte.UWP.Views.General;
 
 namespace SoundByte.UWP.Views.Application
 {
     /// <summary>
-    /// This is the main settings/about page for the app.
-    /// is handled here
+    ///     This is the main settings/about page for the app.
+    ///     is handled here
     /// </summary>
     public sealed partial class SettingsView
     {
-        // The settings object, we bind to this to change values
-        public SettingsService SettingsService { get; set; } = SettingsService.Current;
-
         // View model for the settings page
-        public ViewModels.SettingsViewModel ViewModel = new ViewModels.SettingsViewModel();
+        public SettingsViewModel ViewModel = new SettingsViewModel();
 
         /// <summary>
-        /// Setup the page
+        ///     Setup the page
         /// </summary>
         public SettingsView()
         {
@@ -52,8 +51,11 @@ namespace SoundByte.UWP.Views.Application
             Unloaded += (s, e) => ViewModel.Dispose();
         }
 
+        // The settings object, we bind to this to change values
+        public SettingsService SettingsService { get; set; } = SettingsService.Current;
+
         /// <summary>
-        /// Called when the user navigates to the page
+        ///     Called when the user navigates to the page
         /// </summary>
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -65,12 +67,14 @@ namespace SoundByte.UWP.Views.Application
             LoadSettingsPage();
 
             // Set the app version
-            AppVersion.Text = $"{Package.Current.Id.Version.Major}.{Package.Current.Id.Version.Minor}.{Package.Current.Id.Version.Build}.{Package.Current.Id.Version.Revision}";
+            AppVersion.Text =
+                $"{Package.Current.Id.Version.Major}.{Package.Current.Id.Version.Minor}.{Package.Current.Id.Version.Build}.{Package.Current.Id.Version.Revision}";
             AppBuildBranch.Text = "...";
             AppBuildTime.Text = "...";
 
             var dataFile = await Package.Current.InstalledLocation.GetFileAsync(@"Assets\build_info.json");
-            var buildData = await Task.Run(() => JsonConvert.DeserializeObject<BuildInfo>(File.ReadAllText(dataFile.Path)));
+            var buildData =
+                await Task.Run(() => JsonConvert.DeserializeObject<BuildInfo>(File.ReadAllText(dataFile.Path)));
 
             AppBuildBranch.Text = buildData.BuildBranch;
             AppBuildTime.Text = buildData.BuildTime;
@@ -78,7 +82,7 @@ namespace SoundByte.UWP.Views.Application
 
         public async void NavigateBugs()
         {
-            await Windows.System.Launcher.LaunchUriAsync(new Uri("https://gridentertainment.net/fwlink/GvC5iXmJSo"));
+            await Launcher.LaunchUriAsync(new Uri("https://gridentertainment.net/fwlink/GvC5iXmJSo"));
         }
 
         public async void NavigateFeedback()
@@ -89,36 +93,37 @@ namespace SoundByte.UWP.Views.Application
 
         public async void NavigatePrivacy()
         {
-            await Windows.System.Launcher.LaunchUriAsync(new Uri("https://gridentertainment.net/fwlink/Y5jGLtoFXs"));
+            await Launcher.LaunchUriAsync(new Uri("https://gridentertainment.net/fwlink/Y5jGLtoFXs"));
         }
 
         public async void NavigateReddit()
         {
-            await Windows.System.Launcher.LaunchUriAsync(new Uri("https://gridentertainment.net/fwlink/68vfoKLYJS"));
+            await Launcher.LaunchUriAsync(new Uri("https://gridentertainment.net/fwlink/68vfoKLYJS"));
         }
 
         public async void NavigateFacebook()
         {
-            await Windows.System.Launcher.LaunchUriAsync(new Uri("https://gridentertainment.net/fwlink/rOye5hzCXt"));
+            await Launcher.LaunchUriAsync(new Uri("https://gridentertainment.net/fwlink/rOye5hzCXt"));
         }
 
         public async void NavigateGitHub()
         {
-            await Windows.System.Launcher.LaunchUriAsync(new Uri("https://gridentertainment.net/fwlink/O3i37tbVVO"));
+            await Launcher.LaunchUriAsync(new Uri("https://gridentertainment.net/fwlink/O3i37tbVVO"));
         }
+
         public void NavigateNew()
         {
             App.NavigateTo(typeof(WhatsNewView));
         }
 
         /// <summary>
-        /// Called when the user taps on the rate_review button
+        ///     Called when the user taps on the rate_review button
         /// </summary>
         public async void RateAndReview()
         {
             TelemetryService.Current.TrackPage("Rate and Review App");
 
-            await Windows.System.Launcher.LaunchUriAsync(new Uri($"ms-windows-store:REVIEW?PFN={Package.Current.Id.FamilyName}"));
+            await Launcher.LaunchUriAsync(new Uri($"ms-windows-store:REVIEW?PFN={Package.Current.Id.FamilyName}"));
         }
 
         private void LoadSettingsPage()
@@ -128,7 +133,6 @@ namespace SoundByte.UWP.Views.Application
             var appLanguage = SettingsService.Current.CurrentAppLanguage;
             // Check that the string is not empty
             if (!string.IsNullOrEmpty(appLanguage))
-            {
                 switch (appLanguage)
                 {
                     case "en-US":
@@ -144,11 +148,8 @@ namespace SoundByte.UWP.Views.Application
                         LanguageComboBox.SelectedItem = Language_English_US;
                         break;
                 }
-            }
             else
-            {
                 LanguageComboBox.SelectedItem = Language_English_US;
-            }
 
             switch (SettingsService.Current.ApplicationThemeType)
             {
@@ -175,32 +176,35 @@ namespace SoundByte.UWP.Views.Application
             if (ViewModel.IsComboboxBlockingEnabled)
                 return;
 
-            switch (((ComboBoxItem)(sender as ComboBox)?.SelectedItem)?.Name)
+            switch (((ComboBoxItem) (sender as ComboBox)?.SelectedItem)?.Name)
             {
                 case "defaultTheme":
                     SettingsService.Current.ApplicationThemeType = AppTheme.Default;
-                    ((MainShell)Window.Current.Content).RequestedTheme = ElementTheme.Default;
+                    ((MainShell) Window.Current.Content).RequestedTheme = ElementTheme.Default;
                     break;
                 case "darkTheme":
                     SettingsService.Current.ApplicationThemeType = AppTheme.Dark;
-                    ((MainShell)Window.Current.Content).RequestedTheme = ElementTheme.Dark;
+                    ((MainShell) Window.Current.Content).RequestedTheme = ElementTheme.Dark;
                     break;
                 case "lightTheme":
                     SettingsService.Current.ApplicationThemeType = AppTheme.Light;
-                    ((MainShell)Window.Current.Content).RequestedTheme = ElementTheme.Light;
+                    ((MainShell) Window.Current.Content).RequestedTheme = ElementTheme.Light;
                     break;
                 default:
                     SettingsService.Current.ApplicationThemeType = AppTheme.Default;
-                    ((MainShell)Window.Current.Content).RequestedTheme = ElementTheme.Default;
+                    ((MainShell) Window.Current.Content).RequestedTheme = ElementTheme.Default;
                     break;
             }
-
 
 
             var restartDialog = new ContentDialog
             {
                 Title = "App Restart",
-                Content = new TextBlock { TextWrapping = TextWrapping.Wrap, Text = "The app needs to be restarted in order for the changes to correctly take effect." },
+                Content = new TextBlock
+                {
+                    TextWrapping = TextWrapping.Wrap,
+                    Text = "The app needs to be restarted in order for the changes to correctly take effect."
+                },
                 IsPrimaryButtonEnabled = true,
                 PrimaryButtonText = "Close"
             };

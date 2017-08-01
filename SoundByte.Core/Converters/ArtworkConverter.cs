@@ -19,20 +19,49 @@ using SoundByte.Core.Services;
 namespace SoundByte.Core.Converters
 {
     /// <summary>
-    /// The artwork converter is used to get the best quality
-    /// and correct artwork for the provided resource. This was
-    /// previously done in the endpoint classes them selves, but to 
-    /// reduce app size and code reuse, the methods have been moved here.
-    /// 
-    /// By default this class should be used whenever you are trying to 
-    /// display an image in xaml. There is also a static method that can be
-    /// used in code when accessing the image there.
+    ///     The artwork converter is used to get the best quality
+    ///     and correct artwork for the provided resource. This was
+    ///     previously done in the endpoint classes them selves, but to
+    ///     reduce app size and code reuse, the methods have been moved here.
+    ///     By default this class should be used whenever you are trying to
+    ///     display an image in xaml. There is also a static method that can be
+    ///     used in code when accessing the image there.
     /// </summary>
     public class ArtworkConverter : IValueConverter
     {
+        #region Base Converter Methods
+
         /// <summary>
-        /// Pass in a endpoint object to retreive its appropiate image. Currently
-        /// supported objects are user, playlist and track.
+        ///     Used for converting within XAML
+        /// </summary>
+        /// <returns></returns>
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            var source = ConvertObjectToImage(value);
+
+            if (string.IsNullOrEmpty(source)) return null;
+
+            var image = new BitmapImage {UriSource = new Uri(source)};
+            return image;
+        }
+
+        #endregion
+
+        #region Unused
+
+        /// <summary>
+        ///     We do not convert back as it is not possible in this case
+        /// </summary>
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            return null;
+        }
+
+        #endregion
+
+        /// <summary>
+        ///     Pass in a endpoint object to retreive its appropiate image. Currently
+        ///     supported objects are user, playlist and track.
         /// </summary>
         /// <param name="value">Endpoint object</param>
         /// <returns>A string to the object</returns>
@@ -46,7 +75,9 @@ namespace SoundByte.Core.Converters
 
             // Check that we can use this object
             if (!(sourceType == typeof(Track) || sourceType == typeof(Playlist) || sourceType == typeof(User)))
-                throw new ArgumentException($"Expected object to convert is either Track, Playlist or User. {sourceType} was passed instead.", nameof(value));
+                throw new ArgumentException(
+                    $"Expected object to convert is either Track, Playlist or User. {sourceType} was passed instead.",
+                    nameof(value));
 
             // Switch between all the options
             switch (sourceType.Name)
@@ -60,36 +91,36 @@ namespace SoundByte.Core.Converters
             }
 
             // If we reach here, something went wrong, this should never happen
-            throw new ArgumentException($"Expected object to convert is either Track, Playlist or User. {sourceType} was passed instead.", nameof(value));
+            throw new ArgumentException(
+                $"Expected object to convert is either Track, Playlist or User. {sourceType} was passed instead.",
+                nameof(value));
         }
 
         #region Image Getters
+
         /// <summary>
-        /// Get the image for the track
+        ///     Get the image for the track
         /// </summary>
         /// <param name="track">The track to get an image for</param>
         /// <returns>A url to the image</returns>
         private static string GetTrackImage(Track track)
-        { 
+        {
             // If there is no uri, return the users image
             if (string.IsNullOrEmpty(track.ArtworkLink))
                 return GetUserImage(track.User);
 
             // Check if this image supports high resolution
             if (track.ArtworkLink.Contains("large"))
-            {
-                // If the user has enabled high quality artwork, return a 
-                // high quality version, otherwise return a normal quality 
-                // version.
-                return SettingsService.Current.IsHighQualityArtwork ? track.ArtworkLink.Replace("large", "t500x500") : track.ArtworkLink.Replace("large", "t300x300");
-            }
-           
+                return SettingsService.Current.IsHighQualityArtwork
+                    ? track.ArtworkLink.Replace("large", "t500x500")
+                    : track.ArtworkLink.Replace("large", "t300x300");
+
             // This image does not support high resoultion
-            return track.ArtworkLink; 
+            return track.ArtworkLink;
         }
 
         /// <summary>
-        /// Get the image for the user
+        ///     Get the image for the user
         /// </summary>
         /// <param name="user">The user to get an image for</param>
         /// <returns>A url to the image</returns>
@@ -105,19 +136,16 @@ namespace SoundByte.Core.Converters
 
             // Check if this image supports high resolution
             if (user.ArtworkLink.Contains("large"))
-            {
-                // If the user has enabled high quality artwork, return a
-                // high quality version, otherwise return a normal quality 
-                // version.
-                return SettingsService.Current.IsHighQualityArtwork ? user.ArtworkLink.Replace("large", "t500x500") : user.ArtworkLink.Replace("large", "t300x300");
-            }
+                return SettingsService.Current.IsHighQualityArtwork
+                    ? user.ArtworkLink.Replace("large", "t500x500")
+                    : user.ArtworkLink.Replace("large", "t300x300");
 
             // This image does not support high resoultion
             return user.ArtworkLink;
         }
 
         /// <summary>
-        /// Get the image for the playlist
+        ///     Get the image for the playlist
         /// </summary>
         /// <param name="playlist">The playlist to get an image for</param>
         /// <returns>A url to the image</returns>
@@ -129,42 +157,14 @@ namespace SoundByte.Core.Converters
 
             // Check if this image supports high resolution
             if (playlist.ArtworkLink.Contains("large"))
-            {
-                // If the user has enabled high quality artwork, return a 
-                // high quality version, otherwise return a normal quality 
-                // version.
-                return SettingsService.Current.IsHighQualityArtwork ? playlist.ArtworkLink.Replace("large", "t500x500") : playlist.ArtworkLink.Replace("large", "t300x300");
-            }
+                return SettingsService.Current.IsHighQualityArtwork
+                    ? playlist.ArtworkLink.Replace("large", "t500x500")
+                    : playlist.ArtworkLink.Replace("large", "t300x300");
 
             // This image does not support high resoultion
             return playlist.ArtworkLink;
         }
-        #endregion
 
-        #region Base Converter Methods
-        /// <summary>
-        /// Used for converting within XAML
-        /// </summary>
-        /// <returns></returns>
-        public object Convert(object value, Type targetType, object parameter, string language)
-        {
-            var source = ConvertObjectToImage(value);
-
-            if (string.IsNullOrEmpty(source)) return null;
-
-            var image = new BitmapImage { UriSource = new Uri(source) };
-            return image;
-        }
-        #endregion
-
-        #region Unused
-        /// <summary>
-        /// We do not convert back as it is not possible in this case
-        /// </summary>
-        public object ConvertBack(object value, Type targetType, object parameter, string language)
-        {
-            return null;
-        }
         #endregion
     }
 }

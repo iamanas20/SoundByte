@@ -10,7 +10,6 @@
  * |----------------------------------------------------------------|
  */
 
-using SoundByte.Core.API.Holders;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -22,39 +21,31 @@ using Windows.UI.Xaml.Data;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Helpers;
 using SoundByte.Core.API.Endpoints;
+using SoundByte.Core.API.Exceptions;
+using SoundByte.Core.API.Holders;
 using SoundByte.Core.Services;
 using SoundByte.UWP.UserControls;
 
 namespace SoundByte.UWP.Models
 {
     /// <summary>
-    ///  Model for the users stream
+    ///     Model for the users stream
     /// </summary>
     public class StreamModel : ObservableCollection<StreamItem>, ISupportIncrementalLoading
     {
         /// <summary>
-        /// The position of the track, will be 'eol'
-        /// if there are no new tracks
+        ///     The position of the track, will be 'eol'
+        ///     if there are no new tracks
         /// </summary>
         public string Token { get; private set; }
 
         /// <summary>
-        /// Are there more items to load
+        ///     Are there more items to load
         /// </summary>
         public bool HasMoreItems => Token != "eol";
 
         /// <summary>
-        /// Refresh the list by removing any
-        /// existing items and reseting the token.
-        /// </summary>
-        public void RefreshItems()
-        {
-            Token = null;
-            Clear();
-        }
-
-        /// <summary>
-        /// Loads stream items from the souncloud api
+        ///     Loads stream items from the souncloud api
         /// </summary>
         /// <param name="count">The amount of items to load</param>
         // ReSharper disable once RedundantAssignment
@@ -66,7 +57,7 @@ namespace SoundByte.UWP.Models
                 // We are loading
                 await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                 {
-                    (App.CurrentFrame?.FindName("StreamModelInfoPane") as InfoPane)?.ShowLoading();    
+                    (App.CurrentFrame?.FindName("StreamModelInfoPane") as InfoPane)?.ShowLoading();
                 });
 
                 // Get the resource loader
@@ -78,11 +69,12 @@ namespace SoundByte.UWP.Models
                     try
                     {
                         // Get items from the users stream
-                        var streamTracks = await SoundByteService.Current.GetAsync<StreamTrackHolder>("/e1/me/stream", new Dictionary<string, string>
-                        {
-                            { "limit", "50" },
-                            { "cursor", Token }
-                        });
+                        var streamTracks = await SoundByteService.Current.GetAsync<StreamTrackHolder>("/e1/me/stream",
+                            new Dictionary<string, string>
+                            {
+                                {"limit", "50"},
+                                {"cursor", Token}
+                            });
 
                         // Parse uri for offset
                         var param = new QueryParameterCollection(streamTracks.NextList);
@@ -95,13 +87,10 @@ namespace SoundByte.UWP.Models
                         if (streamTracks.Items.Count > 0)
                         {
                             // Set the count variable
-                            count = (uint)streamTracks.Items.Count;
+                            count = (uint) streamTracks.Items.Count;
 
                             // Loop though all the tracks on the UI thread
-                            await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
-                            {
-                                streamTracks.Items.ForEach(Add);
-                            });
+                            await DispatcherHelper.ExecuteOnUIThreadAsync(() => { streamTracks.Items.ForEach(Add); });
                         }
                         else
                         {
@@ -114,11 +103,13 @@ namespace SoundByte.UWP.Models
                             // No items tell the user
                             await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                             {
-                                (App.CurrentFrame?.FindName("StreamModelInfoPane") as InfoPane)?.ShowMessage(resources.GetString("StreamTracks_Header"), resources.GetString("StreamTracks_Content"), "", false);
+                                (App.CurrentFrame?.FindName("StreamModelInfoPane") as InfoPane)?.ShowMessage(
+                                    resources.GetString("StreamTracks_Header"),
+                                    resources.GetString("StreamTracks_Content"), "", false);
                             });
                         }
                     }
-                    catch (Core.API.Exceptions.SoundByteException ex)
+                    catch (SoundByteException ex)
                     {
                         // Exception, most likely did not add any new items
                         count = 0;
@@ -129,7 +120,8 @@ namespace SoundByte.UWP.Models
                         // Exception, display error to the user
                         await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                         {
-                            (App.CurrentFrame?.FindName("StreamModelInfoPane") as InfoPane)?.ShowMessage(ex.ErrorTitle, ex.ErrorDescription, ex.ErrorGlyph);
+                            (App.CurrentFrame?.FindName("StreamModelInfoPane") as InfoPane)?.ShowMessage(
+                                ex.ErrorTitle, ex.ErrorDescription, ex.ErrorGlyph);
                         });
                     }
                 }
@@ -143,7 +135,9 @@ namespace SoundByte.UWP.Models
 
                     await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                     {
-                        (App.CurrentFrame?.FindName("StreamModelInfoPane") as InfoPane)?.ShowMessage(resources.GetString("ErrorControl_LoginFalse_Header"), resources.GetString("ErrorControl_LoginFalse_Content"), "", false);
+                        (App.CurrentFrame?.FindName("StreamModelInfoPane") as InfoPane)?.ShowMessage(
+                            resources.GetString("ErrorControl_LoginFalse_Header"),
+                            resources.GetString("ErrorControl_LoginFalse_Content"), "", false);
                     });
                 }
 
@@ -154,8 +148,18 @@ namespace SoundByte.UWP.Models
                 });
 
                 // Return the result
-                return new LoadMoreItemsResult { Count = count };
+                return new LoadMoreItemsResult {Count = count};
             }).AsAsyncOperation();
+        }
+
+        /// <summary>
+        ///     Refresh the list by removing any
+        ///     existing items and reseting the token.
+        /// </summary>
+        public void RefreshItems()
+        {
+            Token = null;
+            Clear();
         }
     }
 }

@@ -13,20 +13,21 @@
 namespace SoundByte.Core.Helpers
 {
     /// <summary>
-    /// This class handles text related helper functions
+    ///     This class handles text related helper functions
     /// </summary>
     public static class TextHelper
     {
         /// <summary>
-        /// Cleans a string ready to be used in a
-        /// XML document.
+        ///     Cleans a string ready to be used in a
+        ///     XML document.
         /// </summary>
         /// <param name="input">The string to clean</param>
         /// <returns>The cleaned string</returns>
         public static string CleanXmlString(string input)
         {
             // Clean and return the string
-            return input.Replace("&", "&amp;").Replace("<", "&lt;").Replace(">", "&gt;").Replace("\"", "&quot;").Replace("'", "&apos;");
+            return input.Replace("&", "&amp;").Replace("<", "&lt;").Replace(">", "&gt;").Replace("\"", "&quot;")
+                .Replace("'", "&apos;");
         }
     }
 }

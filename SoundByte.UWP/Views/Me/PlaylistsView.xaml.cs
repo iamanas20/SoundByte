@@ -13,24 +13,25 @@
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using SoundByte.Core.Services;
+using SoundByte.UWP.Models;
 
 namespace SoundByte.UWP.Views.Me
 {
     /// <summary>
-    /// Let the user view their playlists
+    ///     Let the user view their playlists
     /// </summary>
     public sealed partial class PlaylistsView
     {
-        /// <summary>
-        /// The playlist model that contains the users playlists / liked playlists
-        /// </summary>
-        private Models.UserPlaylistModel PlaylistModel { get; } = new Models.UserPlaylistModel();
-
         public PlaylistsView()
         {
             InitializeComponent();
             NavigationCacheMode = NavigationCacheMode.Enabled;
         }
+
+        /// <summary>
+        ///     The playlist model that contains the users playlists / liked playlists
+        /// </summary>
+        private UserPlaylistModel PlaylistModel { get; } = new UserPlaylistModel();
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -39,9 +40,7 @@ namespace SoundByte.UWP.Views.Me
 
         public void NavigatePlaylist(object sender, ItemClickEventArgs e)
         {
-
-
-            App.NavigateTo(typeof(Playlist), e.ClickedItem as Core.API.Endpoints.Playlist);   
+            App.NavigateTo(typeof(Playlist), e.ClickedItem as Core.API.Endpoints.Playlist);
         }
     }
 }

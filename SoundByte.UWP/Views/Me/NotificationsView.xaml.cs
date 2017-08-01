@@ -12,19 +12,20 @@
 
 using Windows.UI.Xaml.Navigation;
 using SoundByte.Core.Services;
+using SoundByte.UWP.ViewModels;
 
 namespace SoundByte.UWP.Views.Me
 {
     /// <summary>
-    /// Displays the users notifications
+    ///     Displays the users notifications
     /// </summary>
     public sealed partial class NotificationsView
     {
         // The view model
-        public ViewModels.NotificationsViewModel ViewModel = new ViewModels.NotificationsViewModel();
+        public NotificationsViewModel ViewModel = new NotificationsViewModel();
 
         /// <summary>
-        /// Load the page and init the xaml
+        ///     Load the page and init the xaml
         /// </summary>
         public NotificationsView()
         {
@@ -34,20 +35,20 @@ namespace SoundByte.UWP.Views.Me
             NavigationCacheMode = NavigationCacheMode.Enabled;
             // Set the data context
             DataContext = ViewModel;
-            
+
             // Page has been unloaded from UI
-          //  Unloaded += (s, e) =>
-          //  {
-           //     ViewModel.Dispose();
-          //      ViewModel = null;
-       //     };
+            //  Unloaded += (s, e) =>
+            //  {
+            //     ViewModel.Dispose();
+            //      ViewModel = null;
+            //     };
 
             // Create the view model on load
-       //     Loaded += (s, e) => ViewModel = new ViewModels.NotificationsViewModel();
+            //     Loaded += (s, e) => ViewModel = new ViewModels.NotificationsViewModel();
         }
 
         /// <summary>
-        /// Called when the user navigates to the page
+        ///     Called when the user navigates to the page
         /// </summary>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {

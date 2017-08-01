@@ -17,7 +17,7 @@ using Windows.UI.Xaml.Data;
 namespace SoundByte.Core.Converters
 {
     /// <summary>
-    /// Converts a bool to a font weight. false = 400, true = 600
+    ///     Converts a bool to a font weight. false = 400, true = 600
     /// </summary>
     public class BoolToFontWeightConverter : IValueConverter
     {
@@ -26,19 +26,17 @@ namespace SoundByte.Core.Converters
             var boolVal = value as bool?;
 
             if (boolVal.HasValue)
-            {
                 return new FontWeight
                 {
-                    Weight = boolVal.Value ? (ushort)600 : (ushort)400
+                    Weight = boolVal.Value ? (ushort) 600 : (ushort) 400
                 };
-            }
 
-            return new FontWeight { Weight = 400 };
+            return new FontWeight {Weight = 400};
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
-            var fontWeightVal = (FontWeight)value;
+            var fontWeightVal = (FontWeight) value;
 
             switch (fontWeightVal.Weight)
             {

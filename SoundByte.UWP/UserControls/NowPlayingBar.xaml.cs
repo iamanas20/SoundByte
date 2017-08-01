@@ -17,12 +17,12 @@ namespace SoundByte.UWP.UserControls
 {
     public sealed partial class NowPlayingBar
     {
-        public PlaybackService Service => PlaybackService.Current;
-
         public NowPlayingBar()
         {
             InitializeComponent();
         }
+
+        public PlaybackService Service => PlaybackService.Current;
 
         private void NavigateTrack()
         {

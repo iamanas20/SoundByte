@@ -16,7 +16,7 @@ using Windows.Networking.Connectivity;
 namespace SoundByte.Core.Helpers
 {
     /// <summary>
-    /// Helpers methods for connecting to the internet
+    ///     Helpers methods for connecting to the internet
     /// </summary>
     public static class NetworkHelper
     {

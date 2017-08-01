@@ -17,7 +17,7 @@ using SoundByte.Core.Helpers;
 namespace SoundByte.Core.Converters
 {
     /// <summary>
-    /// Used for now playing slider, shows human readable time
+    ///     Used for now playing slider, shows human readable time
     /// </summary>
     public class SliderValueConverter : IValueConverter
     {

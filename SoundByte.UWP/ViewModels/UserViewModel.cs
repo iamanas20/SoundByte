@@ -23,40 +23,26 @@ using SoundByte.Core.Services;
 using SoundByte.UWP.Models;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.Views;
+using Playlist = SoundByte.UWP.Views.Playlist;
 
 namespace SoundByte.UWP.ViewModels
 {
     public class UserViewModel : BaseViewModel
     {
-        #region Models
-        // Items that the user has liked
-        public LikeModel LikeItems { get; } = new LikeModel(null);
-        
-        // Playlists that the user has liked / uploaded
-        public PlaylistModel PlaylistItems { get; } = new PlaylistModel(null);
-
-        // List of user followers
-        public UserFollowersModel FollowersList { get; } = new UserFollowersModel(null, "followers");
-        
-        // List of user followings
-        public UserFollowersModel FollowingsList { get; } = new UserFollowersModel(null, "followings");
-
-        // List of users tracks
-        public TrackModel TracksList { get; } = new TrackModel(null);
-
-        #endregion
+        private string _followUserIcon = "\uE8FA";
+        private string _followUserText;
 
         // Icon for the pin button
         private string _pinButtonIcon = "\uE718";
-        private string _followUserIcon = "\uE8FA";
 
         // Text for the pin button
         private string _pinButtonText;
-        private string _followUserText;
-        private User _user;
-        private bool _showFollowButton = true;
+
         // The current pivot item
         private PivotItem _selectedPivotItem;
+
+        private bool _showFollowButton = true;
+        private User _user;
 
         public bool ShowFollowButton
         {
@@ -72,7 +58,7 @@ namespace SoundByte.UWP.ViewModels
         }
 
         /// <summary>
-        /// The current pivot item that the user is viewing
+        ///     The current pivot item that the user is viewing
         /// </summary>
         public PivotItem SelectedPivotItem
         {
@@ -152,7 +138,7 @@ namespace SoundByte.UWP.ViewModels
         }
 
         /// <summary>
-        /// Setup this viewmodel for a specific user
+        ///     Setup this viewmodel for a specific user
         /// </summary>
         /// <param name="user"></param>
         public async Task UpdateModel(User user)
@@ -217,7 +203,7 @@ namespace SoundByte.UWP.ViewModels
         }
 
         /// <summary>
-        /// Follows the requested user
+        ///     Follows the requested user
         /// </summary>
         public async void FollowUser()
         {
@@ -285,7 +271,9 @@ namespace SoundByte.UWP.ViewModels
             else
             {
                 // Create the tile
-                if (await TileService.Current.CreateTileAsync("User_" + User.Id, User.Username, "soundbyte://core/user?id=" + User.Id, new Uri(ArtworkConverter.ConvertObjectToImage(User)), ForegroundText.Light))
+                if (await TileService.Current.CreateTileAsync("User_" + User.Id, User.Username,
+                    "soundbyte://core/user?id=" + User.Id, new Uri(ArtworkConverter.ConvertObjectToImage(User)),
+                    ForegroundText.Light))
                 {
                     TelemetryService.Current.TrackEvent("Pin User");
                     PinButtonIcon = "\uE77A";
@@ -305,7 +293,9 @@ namespace SoundByte.UWP.ViewModels
         {
             App.IsLoading = true;
 
-            var startPlayback = await PlaybackService.Current.StartMediaPlayback(TracksList.ToList(), TracksList.Token, false, (Track)e.ClickedItem);
+            var startPlayback =
+                await PlaybackService.Current.StartMediaPlayback(TracksList.ToList(), TracksList.Token, false,
+                    (Track) e.ClickedItem);
             if (!startPlayback.success)
                 await new MessageDialog(startPlayback.message, "Error playing user track.").ShowAsync();
 
@@ -316,7 +306,9 @@ namespace SoundByte.UWP.ViewModels
         {
             App.IsLoading = true;
 
-            var startPlayback = await PlaybackService.Current.StartMediaPlayback(LikeItems.ToList(), LikeItems.Token, false, (Track)e.ClickedItem);
+            var startPlayback =
+                await PlaybackService.Current.StartMediaPlayback(LikeItems.ToList(), LikeItems.Token, false,
+                    (Track) e.ClickedItem);
             if (!startPlayback.success)
                 await new MessageDialog(startPlayback.message, "Error playing liked user track.").ShowAsync();
 
@@ -325,12 +317,31 @@ namespace SoundByte.UWP.ViewModels
 
         public void NavigateToPlaylist(object sender, ItemClickEventArgs e)
         {
-            App.NavigateTo(typeof(Views.Playlist), e.ClickedItem as Core.API.Endpoints.Playlist);
+            App.NavigateTo(typeof(Playlist), e.ClickedItem as Core.API.Endpoints.Playlist);
         }
 
         public void NavigateToUser(object sender, ItemClickEventArgs e)
         {
             App.NavigateTo(typeof(UserView), e.ClickedItem as User);
         }
+
+        #region Models
+
+        // Items that the user has liked
+        public LikeModel LikeItems { get; } = new LikeModel(null);
+
+        // Playlists that the user has liked / uploaded
+        public PlaylistModel PlaylistItems { get; } = new PlaylistModel(null);
+
+        // List of user followers
+        public UserFollowersModel FollowersList { get; } = new UserFollowersModel(null, "followers");
+
+        // List of user followings
+        public UserFollowersModel FollowingsList { get; } = new UserFollowersModel(null, "followings");
+
+        // List of users tracks
+        public TrackModel TracksList { get; } = new TrackModel(null);
+
+        #endregion
     }
 }

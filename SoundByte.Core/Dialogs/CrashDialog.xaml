@@ -15,25 +15,25 @@
         <!-- Stack items ontop of each other -->
         <StackPanel>
             <!-- Broken Heart Glyph -->
-            <TextBlock Text="&#xE007;" 
-                       FontFamily="Segoe MDL2 Assets" 
-                       TextAlignment="Center" 
-                       VerticalAlignment="Center" 
-                       FontSize="65" 
+            <TextBlock Text="&#xE007;"
+                       FontFamily="Segoe MDL2 Assets"
+                       TextAlignment="Center"
+                       VerticalAlignment="Center"
+                       FontSize="65"
                        Padding="5"
                        Foreground="{ThemeResource SystemControlBackgroundAccentBrush}"
                        Margin="20" />
 
             <!-- Main Title -->
-            <TextBlock Text="Something Went Wrong" 
-                       TextAlignment="Center" 
+            <TextBlock Text="Something Went Wrong"
+                       TextAlignment="Center"
                        FontWeight="SemiBold"
                        FontSize="22"
                        Margin="5"
                        VerticalAlignment="Center" />
 
             <!-- Description -->
-            <TextBlock TextWrapping="Wrap" 
+            <TextBlock TextWrapping="Wrap"
                        Opacity="0.8"
                        FontWeight="SemiLight"
                        TextAlignment="Center"
@@ -42,7 +42,7 @@
 
             <!-- Information about the error -->
             <TextBlock x:Name="MoreInfo"
-                       TextWrapping="Wrap" 
+                       TextWrapping="Wrap"
                        Opacity="0.8"
                        FontWeight="SemiLight"
                        TextAlignment="Center"
@@ -50,23 +50,23 @@
                        Text="More Information: " />
 
             <!-- Text box for the user to enter what they were doing -->
-            <RichEditBox x:Name="Description" 
+            <RichEditBox x:Name="Description"
                          Margin="0,30,0,0"
                          BorderThickness="1"
                          Height="100"
                          PlaceholderText="What were you doing? (Optional)" />
 
             <!-- Contact email address for the user -->
-            <TextBox x:Name="Contact" 
+            <TextBox x:Name="Contact"
                      Margin="0,5,0,0"
                      BorderThickness="1"
                      PlaceholderText="Contact Email (Optional)" />
 
             <!-- Continue running the app -->
-            <Button Content="Continue" 
+            <Button Content="Continue"
                     x:Name="ContinueButton"
                     Width="250"
-                    Click="SendAndContinue" 
+                    Click="SendAndContinue"
                     Background="{ThemeResource SystemControlBackgroundAccentBrush}"
                     BorderBrush="{ThemeResource SystemControlBackgroundAccentBrush}"
                     Foreground="White"
@@ -76,11 +76,11 @@
                     HorizontalAlignment="Center" />
 
             <!-- Restart the app -->
-            <HyperlinkButton Content="Restart (Recommended)" 
+            <HyperlinkButton Content="Restart (Recommended)"
                              Margin="0,15,0,15"
                              Foreground="{ThemeResource SystemControlPageTextBaseHighBrush}"
                              ContentTemplate="{StaticResource HyperlinkClean}"
-                             Click="SendAndCloseApp" 
+                             Click="SendAndCloseApp"
                              HorizontalAlignment="Center" />
 
         </StackPanel>

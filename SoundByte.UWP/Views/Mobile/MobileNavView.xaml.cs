@@ -19,16 +19,16 @@ using SoundByte.UWP.Views.Me;
 namespace SoundByte.UWP.Views.Mobile
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    ///     An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
     public sealed partial class MobileNavView
     {
-        public SoundByteService Service { get; } = SoundByteService.Current;
-
         public MobileNavView()
         {
             InitializeComponent();
         }
+
+        public SoundByteService Service { get; } = SoundByteService.Current;
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -58,20 +58,44 @@ namespace SoundByte.UWP.Views.Mobile
             }
         }
 
-        private void NavigateUserProfile() => App.NavigateTo(typeof(UserView), SoundByteService.Current.SoundCloudUser);
+        private void NavigateUserProfile()
+        {
+            App.NavigateTo(typeof(UserView), SoundByteService.Current.SoundCloudUser);
+        }
 
-        private void NavigateLogin() => App.NavigateTo(typeof(AccountView));
+        private void NavigateLogin()
+        {
+            App.NavigateTo(typeof(AccountView));
+        }
 
-        private void NavigateLikes() => App.NavigateTo(typeof(LikesView));
+        private void NavigateLikes()
+        {
+            App.NavigateTo(typeof(LikesView));
+        }
 
-        private void NavigatePlaylists() => App.NavigateTo(typeof(PlaylistsView));
+        private void NavigatePlaylists()
+        {
+            App.NavigateTo(typeof(PlaylistsView));
+        }
 
-        private void NavigateNotifications() => App.NavigateTo(typeof(NotificationsView));
+        private void NavigateNotifications()
+        {
+            App.NavigateTo(typeof(NotificationsView));
+        }
 
-        private void NavigateHistory() => App.NavigateTo(typeof(HistoryView));
+        private void NavigateHistory()
+        {
+            App.NavigateTo(typeof(HistoryView));
+        }
 
-        private void NavigateUpload() => App.NavigateTo(typeof(UploadView));
+        private void NavigateUpload()
+        {
+            App.NavigateTo(typeof(UploadView));
+        }
 
-        private void NavigateSettings() => App.NavigateTo(typeof(SettingsView));
+        private void NavigateSettings()
+        {
+            App.NavigateTo(typeof(SettingsView));
+        }
     }
 }

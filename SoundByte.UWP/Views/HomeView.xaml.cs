@@ -18,9 +18,9 @@ using SoundByte.UWP.ViewModels;
 namespace SoundByte.UWP.Views
 {
     /// <summary>
-    /// This page is the main landing page for any user.
-    /// This page displays the users stream, the latest/trending tracks,
-    /// and the users playlists/likes.
+    ///     This page is the main landing page for any user.
+    ///     This page displays the users stream, the latest/trending tracks,
+    ///     and the users playlists/likes.
     /// </summary>
     public sealed partial class HomeView
     {
@@ -28,7 +28,7 @@ namespace SoundByte.UWP.Views
         public HomeViewModel ViewModel = new HomeViewModel();
 
         /// <summary>
-        /// Setup page and init the xaml
+        ///     Setup page and init the xaml
         /// </summary>
         public HomeView()
         {
@@ -42,7 +42,7 @@ namespace SoundByte.UWP.Views
         }
 
         /// <summary>
-        /// Called when the user navigates to the page
+        ///     Called when the user navigates to the page
         /// </summary>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {

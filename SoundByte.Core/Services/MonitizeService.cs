@@ -21,19 +21,28 @@ namespace SoundByte.Core.Services
 {
     public class MonitizeService
     {
-        // Store Context used to access the store.
-        private readonly StoreContext _storeContext;
         // Private class instance
         private static MonitizeService _instance;
+
+        // Store Context used to access the store.
+        private readonly StoreContext _storeContext;
 
         private MonitizeService()
         {
             _storeContext = StoreContext.GetDefault();
         }
 
+        /// <summary>
+        ///     Sets up the App Monetize class, when the app is run in debug mode,
+        ///     it used the Store Proxy xml file. When built in release mode it
+        ///     uses the stores license information file.
+        /// </summary>
+        public static MonitizeService Current => _instance ?? (_instance = new MonitizeService());
+
         public async Task<bool> PurchaseDonation(string storeId)
         {
-            TelemetryService.Current.TrackEvent("Donation Attempt", new Dictionary<string, string> { { "StoreID", storeId } });
+            TelemetryService.Current.TrackEvent("Donation Attempt",
+                new Dictionary<string, string> {{"StoreID", storeId}});
 
             // Get the item
             var item = (await GetProductInfoAsync()).FirstOrDefault(x => x.Key.ToLower() == storeId).Value;
@@ -43,15 +52,18 @@ namespace SoundByte.Core.Services
             // Check if the purchase was successful
             if (result.Status == StorePurchaseStatus.Succeeded)
             {
-                TelemetryService.Current.TrackEvent("Donation Successful", new Dictionary<string, string> { { "StoreID", storeId } });
+                TelemetryService.Current.TrackEvent("Donation Successful",
+                    new Dictionary<string, string> {{"StoreID", storeId}});
 
                 await new MessageDialog("Thank you for your donation!", "SoundByte").ShowAsync();
             }
             else
             {
-                TelemetryService.Current.TrackEvent("Donation Failed", new Dictionary<string, string> { { "StoreID", storeId }, { "Reason", result.ExtendedError.Message } });
+                TelemetryService.Current.TrackEvent("Donation Failed",
+                    new Dictionary<string, string> {{"StoreID", storeId}, {"Reason", result.ExtendedError.Message}});
 
-                await new MessageDialog("Your account has not been charged:\n" + result.ExtendedError.Message, "SoundByte").ShowAsync();
+                await new MessageDialog("Your account has not been charged:\n" + result.ExtendedError.Message,
+                    "SoundByte").ShowAsync();
             }
 
             return true;
@@ -62,7 +74,7 @@ namespace SoundByte.Core.Services
             var list = new List<KeyValuePair<string, StoreProduct>>();
 
             // Specify the kinds of add-ons to retrieve.
-            var filterList = new List<string> { "Durable", "Consumable", "UnmanagedConsumable" };
+            var filterList = new List<string> {"Durable", "Consumable", "UnmanagedConsumable"};
 
             // Specify the Store IDs of the products to retrieve.
             var storeIds = new[]
@@ -70,7 +82,7 @@ namespace SoundByte.Core.Services
                 "9nrgs6r2grsz", // Regular Coffee
                 "9p3vls5wtft6", // Loose Change
                 "9msxrvnlnlj7", // Small Coffee
-                "9pnsd6hskwpk"  // Large Coffee
+                "9pnsd6hskwpk" // Large Coffee
             };
 
             var results = await _storeContext.GetStoreProductsAsync(filterList, storeIds);
@@ -85,12 +97,5 @@ namespace SoundByte.Core.Services
 
             return list;
         }
-
-        /// <summary>
-        /// Sets up the App Monetize class, when the app is run in debug mode,
-        /// it used the Store Proxy xml file. When built in release mode it
-        /// uses the stores license information file.
-        /// </summary>
-        public static MonitizeService Current => _instance ?? (_instance = new MonitizeService());
     }
 }

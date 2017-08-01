@@ -23,16 +23,6 @@ namespace SoundByte.Core.Dialogs
 {
     public sealed partial class PinTileDialog
     {
-        public string TileId { get; set; }
-
-        public string TileTitle { get; set; }
-
-        public string Param { get; set; }
-
-        public Uri ImageUri { get; set; }
-
-        public BitmapImage ImageSource { get; set; }
-
         public PinTileDialog(string tileId, string title, string param, Uri imageUri)
         {
             TileId = tileId;
@@ -44,9 +34,19 @@ namespace SoundByte.Core.Dialogs
             InitializeComponent();
         }
 
+        public string TileId { get; set; }
+
+        public string TileTitle { get; set; }
+
+        public string Param { get; set; }
+
+        public Uri ImageUri { get; set; }
+
+        public BitmapImage ImageSource { get; set; }
+
         public void ToggleColor(object sender, RoutedEventArgs e)
         {
-            PreviewText.Foreground = ((ToggleSwitch)sender).IsOn
+            PreviewText.Foreground = ((ToggleSwitch) sender).IsOn
                 ? new SolidColorBrush(Colors.Black)
                 : new SolidColorBrush(Colors.White);
         }

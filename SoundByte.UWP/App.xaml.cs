@@ -36,9 +36,9 @@ namespace SoundByte.UWP
         #region App Setup
 
         /// <summary>
-        /// This is the main class for this app. This function is the first function
-        /// called and it setups the app analytic (If in release mode), components,
-        /// requested theme and event handlers.
+        ///     This is the main class for this app. This function is the first function
+        ///     called and it setups the app analytic (If in release mode), components,
+        ///     requested theme and event handlers.
         /// </summary>
         public App()
         {
@@ -73,11 +73,13 @@ namespace SoundByte.UWP
             // Subscribe to the event that informs the app of this change.
             MemoryManager.AppMemoryUsageIncreased += MemoryManager_AppMemoryUsageIncreased;
         }
+
         #endregion
 
         #region View Events
+
         /// <summary>
-        /// Open the compact overlay view
+        ///     Open the compact overlay view
         /// </summary>
         /// <returns></returns>
         public static async Task SwitchToCompactView()
@@ -105,14 +107,13 @@ namespace SoundByte.UWP
             compactOptions.CustomSize = new Size(350, 150);
 
             // Display as compact overlay
-            await ApplicationViewSwitcher.TryShowAsViewModeAsync(compactViewId, ApplicationViewMode.CompactOverlay, compactOptions);
+            await ApplicationViewSwitcher.TryShowAsViewModeAsync(compactViewId, ApplicationViewMode.CompactOverlay,
+                compactOptions);
         }
 
         #endregion
 
         #region Key Events
-
-
 
         private void CoreWindowOnKeyUp(CoreWindow sender, KeyEventArgs args)
         {
@@ -149,26 +150,56 @@ namespace SoundByte.UWP
                     break;
             }
         }
+
         #endregion
 
-        #region Static App Helpers
         /// <summary>
-        /// Navigate to a certain page using the main shells
-        /// rootfrom navigate method
+        ///     Create the main app shell and load app logic
         /// </summary>
-        public static void NavigateTo(Type page, object param = null) => (Window.Current.Content as MainShell)?.RootFrame.Navigate(page, param);
-        
+        /// <returns>The main app shell</returns>
+        private async Task<MainShell> CreateMainShellAsync(string path = null)
+        {
+            // Get the main shell
+            var shell = Window.Current.Content as MainShell;
+            // If the shell is null, we need to set it up.
+            if (shell != null)
+            {
+                if (!string.IsNullOrEmpty(path))
+                    await shell.HandleProtocolAsync(path);
+
+                return shell;
+            }
+
+            // Create the main shell
+            shell = new MainShell(path);
+            // Hook the key pressed event for the global app
+            Window.Current.CoreWindow.KeyUp += CoreWindowOnKeyUp;
+            // Return the created shell
+            return shell;
+        }
+
+        #region Static App Helpers
+
         /// <summary>
-        /// Stops the back event from being called, allowing for manual overiding
+        ///     Navigate to a certain page using the main shells
+        ///     rootfrom navigate method
+        /// </summary>
+        public static void NavigateTo(Type page, object param = null)
+        {
+            (Window.Current.Content as MainShell)?.RootFrame.Navigate(page, param);
+        }
+
+        /// <summary>
+        ///     Stops the back event from being called, allowing for manual overiding
         /// </summary>
         public static bool OverrideBackEvent { get; set; }
-    
+
         public static Page CurrentFrame => (Window.Current?.Content as MainShell)?.RootFrame.Content as Page;
 
         public static MainShell Shell => Window.Current?.Content as MainShell;
 
         /// <summary>
-        /// Is anything currently loading
+        ///     Is anything currently loading
         /// </summary>
         public static bool IsLoading
         {
@@ -185,6 +216,7 @@ namespace SoundByte.UWP
                     loadingRing.Visibility = value ? Visibility.Visible : Visibility.Collapsed;
             }
         }
+
         #endregion
 
         #region Background Handlers
@@ -235,15 +267,15 @@ namespace SoundByte.UWP
         #region Memory Handlers
 
         /// <summary>
-        /// Raised when the memory limit for the app is changing, such as when the app
-        /// enters the background.
+        ///     Raised when the memory limit for the app is changing, such as when the app
+        ///     enters the background.
         /// </summary>
         /// <remarks>
-        /// If the app is using more than the new limit, it must reduce memory within 2 seconds
-        /// on some platforms in order to avoid being suspended or terminated.
-        /// While some platforms will allow the application
-        /// to continue running over the limit, reducing usage in the time
-        /// allotted will enable the best experience across the broadest range of devices.
+        ///     If the app is using more than the new limit, it must reduce memory within 2 seconds
+        ///     on some platforms in order to avoid being suspended or terminated.
+        ///     While some platforms will allow the application
+        ///     to continue running over the limit, reducing usage in the time
+        ///     allotted will enable the best experience across the broadest range of devices.
         /// </remarks>
         private void MemoryManager_AppMemoryUsageLimitChanging(object sender, AppMemoryUsageLimitChangingEventArgs e)
         {
@@ -254,11 +286,11 @@ namespace SoundByte.UWP
             // Send hit
             TelemetryService.Current.TrackEvent("Reducing Memory Usage", new Dictionary<string, string>
             {
-                { "method", "MemoryManager_AppMemoryUsageLimitChanging" },
-                { "new_limit", e.NewLimit.ToString() },
-                { "old_limit", e.OldLimit.ToString() },
-                { "current_usage", MemoryManager.AppMemoryUsage.ToString() },
-                { "memory_usage_level", MemoryManager.AppMemoryUsageLevel.ToString() }
+                {"method", "MemoryManager_AppMemoryUsageLimitChanging"},
+                {"new_limit", e.NewLimit.ToString()},
+                {"old_limit", e.OldLimit.ToString()},
+                {"current_usage", MemoryManager.AppMemoryUsage.ToString()},
+                {"memory_usage_level", MemoryManager.AppMemoryUsageLevel.ToString()}
             });
 
             // Reduce the memory usage
@@ -294,9 +326,9 @@ namespace SoundByte.UWP
             // Send hit
             TelemetryService.Current.TrackEvent("Reducing Memory Usage", new Dictionary<string, string>
             {
-                { "method", "MemoryManager_AppMemoryUsageIncreased" },
-                { "current_usage", MemoryManager.AppMemoryUsage.ToString() },
-                { "memory_usage_level", MemoryManager.AppMemoryUsageLevel.ToString() }
+                {"method", "MemoryManager_AppMemoryUsageIncreased"},
+                {"current_usage", MemoryManager.AppMemoryUsage.ToString()},
+                {"memory_usage_level", MemoryManager.AppMemoryUsageLevel.ToString()}
             });
 
             // Reduce memory usage
@@ -304,17 +336,17 @@ namespace SoundByte.UWP
         }
 
         /// <summary>
-        /// Reduces application memory usage.
+        ///     Reduces application memory usage.
         /// </summary>
         /// <remarks>
-        /// When the app enters the background, receives a memory limit changing
-        /// event, or receives a memory usage increased event, it can
-        /// can optionally unload cached data or even its view content in
-        /// order to reduce memory usage and the chance of being suspended.
-        /// This must be called from multiple event handlers because an application may already
-        /// be in a high memory usage state when entering the background, or it
-        /// may be in a low memory usage state with no need to unload resources yet
-        /// and only enter a higher state later.
+        ///     When the app enters the background, receives a memory limit changing
+        ///     event, or receives a memory usage increased event, it can
+        ///     can optionally unload cached data or even its view content in
+        ///     order to reduce memory usage and the chance of being suspended.
+        ///     This must be called from multiple event handlers because an application may already
+        ///     be in a high memory usage state when entering the background, or it
+        ///     may be in a low memory usage state with no need to unload resources yet
+        ///     and only enter a higher state later.
         /// </remarks>
         private void ReduceMemoryUsage()
         {
@@ -356,46 +388,22 @@ namespace SoundByte.UWP
             // Run the GC to collect released resources.
             GC.Collect();
 
-            var diffMemUsage = (memUsage - MemoryManager.AppMemoryUsage);
+            var diffMemUsage = memUsage - MemoryManager.AppMemoryUsage;
 
-            TelemetryService.Current.TrackEvent("Memory Collection Completed", new Dictionary<string, string>()
+            TelemetryService.Current.TrackEvent("Memory Collection Completed", new Dictionary<string, string>
             {
-                { "cleaned_memory", diffMemUsage + "kb" },
-                { "is_background", DeviceHelper.IsBackground.ToString() },
-                { "remove_ui", removeUi.ToString() },
+                {"cleaned_memory", diffMemUsage + "kb"},
+                {"is_background", DeviceHelper.IsBackground.ToString()},
+                {"remove_ui", removeUi.ToString()}
             });
         }
 
         #endregion
 
-        /// <summary>
-        /// Create the main app shell and load app logic
-        /// </summary>
-        /// <returns>The main app shell</returns>
-        private async Task<MainShell> CreateMainShellAsync(string path = null)
-        {
-            // Get the main shell
-            var shell = Window.Current.Content as MainShell;
-            // If the shell is null, we need to set it up.
-            if (shell != null)
-            {
-                if (!string.IsNullOrEmpty(path))
-                    await shell.HandleProtocolAsync(path);
-
-                return shell;
-            }
-
-            // Create the main shell
-            shell = new MainShell(path);
-            // Hook the key pressed event for the global app
-            Window.Current.CoreWindow.KeyUp += CoreWindowOnKeyUp;
-            // Return the created shell
-            return shell;
-        }
-
         #region Launch / Activate Events
+
         /// <summary>
-        /// Called when the app is activated.
+        ///     Called when the app is activated.
         /// </summary>
         protected override async void OnActivated(IActivatedEventArgs e)
         {
@@ -426,7 +434,7 @@ namespace SoundByte.UWP
             Window.Current.Content = rootShell;
 
             // Enable lights on all platforms except Xbox
-            Window.Current.Content.Lights.Add(new PointerPositionSpotLight { Active = !DeviceHelper.IsXbox });
+            Window.Current.Content.Lights.Add(new PointerPositionSpotLight {Active = !DeviceHelper.IsXbox});
 
             // If on xbox display the screen to the full width and height
             if (DeviceHelper.IsXbox)
@@ -437,8 +445,8 @@ namespace SoundByte.UWP
         }
 
         /// <summary>
-        /// Invoked when the application is launched normally by the end user.  Other entry points
-        /// will be used such as when the application is launched to open a specific file.
+        ///     Invoked when the application is launched normally by the end user.  Other entry points
+        ///     will be used such as when the application is launched to open a specific file.
         /// </summary>
         protected override async void OnLaunched(LaunchActivatedEventArgs e)
         {
@@ -459,7 +467,7 @@ namespace SoundByte.UWP
             Window.Current.Content = rootShell;
 
             // Enable lights on all platforms except Xbox
-            Window.Current.Content.Lights.Add(new PointerPositionSpotLight { Active = !DeviceHelper.IsXbox });
+            Window.Current.Content.Lights.Add(new PointerPositionSpotLight {Active = !DeviceHelper.IsXbox});
 
             // If on xbox display the screen to the full width and height
             if (DeviceHelper.IsXbox)

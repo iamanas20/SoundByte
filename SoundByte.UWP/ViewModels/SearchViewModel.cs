@@ -10,7 +10,6 @@
  * |----------------------------------------------------------------|
  */
 
-using SoundByte.UWP.Models;
 using System;
 using System.Linq;
 using Windows.ApplicationModel.Resources;
@@ -20,22 +19,28 @@ using Windows.UI.Xaml.Controls;
 using SoundByte.Core.API.Endpoints;
 using SoundByte.Core.Dialogs;
 using SoundByte.Core.Services;
+using SoundByte.UWP.Models;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.Views;
-using Playlist = SoundByte.UWP.Views.Playlist;
+using Playlist = SoundByte.Core.API.Endpoints.Playlist;
+using SearchBox = SoundByte.UWP.UserControls.SearchBox;
 
 namespace SoundByte.UWP.ViewModels
 {
     public class SearchViewModel : BaseViewModel
     {
         #region Private Variables
+
         // Args for filtering
         private string _filterArgs;
+
         // The query string
         private string _searchQuery;
+
         #endregion
 
         #region Models
+
         // Model for the track searches
         public SearchTrackModel SearchTracks { get; } = new SearchTrackModel();
 
@@ -43,16 +48,16 @@ namespace SoundByte.UWP.ViewModels
 
         // Model for the playlist searches
         public SearchPlaylistModel SearchPlaylists { get; } = new SearchPlaylistModel();
+
         // Model for the user searches
         public SearchUserModel SearchUsers { get; } = new SearchUserModel();
+
         #endregion
 
         #region Getters and Setters
-     
-
 
         /// <summary>
-        /// The current pivot item that the user is viewing
+        ///     The current pivot item that the user is viewing
         /// </summary>
         public string SearchQuery
         {
@@ -62,7 +67,7 @@ namespace SoundByte.UWP.ViewModels
                 if (value != _searchQuery)
                 {
                     _searchQuery = value;
-                    UpdateProperty();  
+                    UpdateProperty();
                 }
 
                 // Update the models
@@ -81,7 +86,7 @@ namespace SoundByte.UWP.ViewModels
         }
 
         /// <summary>
-        /// Args for filtering 
+        ///     Args for filtering
         /// </summary>
         public string FilterArgs
         {
@@ -99,6 +104,7 @@ namespace SoundByte.UWP.ViewModels
                 SearchTracks.RefreshItems();
             }
         }
+
         #endregion
 
         #region Method Bindings
@@ -114,7 +120,7 @@ namespace SoundByte.UWP.ViewModels
 
         public void Search(object sender, RoutedEventArgs e)
         {
-            App.NavigateTo(typeof(Search), (e as UserControls.SearchBox.SearchEventArgs)?.Keyword);
+            App.NavigateTo(typeof(Search), (e as SearchBox.SearchEventArgs)?.Keyword);
         }
 
         public async void ShowFilterMenu()
@@ -159,23 +165,29 @@ namespace SoundByte.UWP.ViewModels
 
                         if (searchItem.ServiceType == SoundByteService.ServiceType.Fanburst)
                         {
-                            var startPlayback = await PlaybackService.Current.StartMediaPlayback(FanburstTracks.ToList(), FanburstTracks.Token, false, searchItem);
+                            var startPlayback =
+                                await PlaybackService.Current.StartMediaPlayback(FanburstTracks.ToList(),
+                                    FanburstTracks.Token, false, searchItem);
                             if (!startPlayback.success)
-                                await new MessageDialog(startPlayback.message, "Error playing searched track.").ShowAsync();
+                                await new MessageDialog(startPlayback.message, "Error playing searched track.")
+                                    .ShowAsync();
                         }
                         else
                         {
-                            var startPlayback = await PlaybackService.Current.StartMediaPlayback(SearchTracks.ToList(), SearchTracks.Token, false, searchItem);
+                            var startPlayback = await PlaybackService.Current.StartMediaPlayback(SearchTracks.ToList(),
+                                SearchTracks.Token, false, searchItem);
                             if (!startPlayback.success)
-                                await new MessageDialog(startPlayback.message, "Error playing searched track.").ShowAsync();
+                                await new MessageDialog(startPlayback.message, "Error playing searched track.")
+                                    .ShowAsync();
                         }
 
                         break;
                     case "playlist":
                         try
                         {
-                            var playlist = await SoundByteService.Current.GetAsync<Core.API.Endpoints.Playlist>("/playlist/" + searchItem.Id);
-                            App.NavigateTo(typeof(Playlist), playlist);
+                            var playlist =
+                                await SoundByteService.Current.GetAsync<Playlist>("/playlist/" + searchItem.Id);
+                            App.NavigateTo(typeof(Views.Playlist), playlist);
                         }
                         catch (Exception)
                         {
@@ -185,8 +197,9 @@ namespace SoundByte.UWP.ViewModels
                     case "playlist-repost":
                         try
                         {
-                            var playlistR = await SoundByteService.Current.GetAsync<Core.API.Endpoints.Playlist>("/playlist/" + searchItem.Id);
-                            App.NavigateTo(typeof(Playlist), playlistR);
+                            var playlistR =
+                                await SoundByteService.Current.GetAsync<Playlist>("/playlist/" + searchItem.Id);
+                            App.NavigateTo(typeof(Views.Playlist), playlistR);
                         }
                         catch (Exception)
                         {
@@ -202,7 +215,7 @@ namespace SoundByte.UWP.ViewModels
             }
             else if (e.ClickedItem.GetType().Name == "Playlist")
             {
-                App.NavigateTo(typeof(Playlist), e.ClickedItem as Core.API.Endpoints.Playlist);
+                App.NavigateTo(typeof(Views.Playlist), e.ClickedItem as Playlist);
             }
 
             App.IsLoading = false;

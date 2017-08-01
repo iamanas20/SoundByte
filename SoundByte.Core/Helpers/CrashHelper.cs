@@ -57,12 +57,8 @@ namespace SoundByte.Core.Helpers
             try
             {
                 if (!DeviceHelper.IsBackground)
-                {
-                    await DispatcherHelper.ExecuteOnUIThreadAsync(async () =>
-                    {
-                        await new CrashDialog(ex).ShowAsync();
-                    });
-                }
+                    await DispatcherHelper.ExecuteOnUIThreadAsync(
+                        async () => { await new CrashDialog(ex).ShowAsync(); });
             }
             catch
             {

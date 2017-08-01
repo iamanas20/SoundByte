@@ -14,17 +14,17 @@
                   VerticalScrollBarVisibility="Hidden">
         <!-- Stack the content -->
         <StackPanel>
-            <TextBlock Text="&#xE718;" 
-                       FontFamily="Segoe MDL2 Assets" 
-                       TextAlignment="Center" 
-                       VerticalAlignment="Center" 
-                       FontSize="65" 
+            <TextBlock Text="&#xE718;"
+                       FontFamily="Segoe MDL2 Assets"
+                       TextAlignment="Center"
+                       VerticalAlignment="Center"
+                       FontSize="65"
                        Padding="5"
                        Foreground="{ThemeResource SystemControlBackgroundAccentBrush}"
                        Margin="20,20,20,10" />
 
-            <TextBlock Text="Pin Tile" 
-                       TextAlignment="Center" 
+            <TextBlock Text="Pin Tile"
+                       TextAlignment="Center"
                        FontWeight="SemiBold"
                        FontSize="22"
                        Margin="5"
@@ -35,37 +35,37 @@
                   BorderThickness="1"
                   BorderBrush="{ThemeResource SystemControlHighlightAccentBrush}"
                   Height="128">
-                <Image Source="{x:Bind ImageSource, Mode=OneWay}" 
-                                  Width="128"
-                                  Height="128"
-                                  Stretch="UniformToFill" />
+                <Image Source="{x:Bind ImageSource, Mode=OneWay}"
+                       Width="128"
+                       Height="128"
+                       Stretch="UniformToFill" />
                 <TextBlock x:Name="PreviewText"
                            Text="{Binding ElementName=TileTextBox, Path=Text, Mode=OneWay}"
                            FontSize="12"
                            TextTrimming="CharacterEllipsis"
                            Foreground="White"
                            VerticalAlignment="Bottom"
-                           Padding="10,0,10,7"/>
+                           Padding="10,0,10,7" />
             </Grid>
 
             <TextBox x:Name="TileTextBox"
-                     HorizontalAlignment="Stretch" 
-                     BorderThickness="1" 
+                     HorizontalAlignment="Stretch"
+                     BorderThickness="1"
                      MaxWidth="360"
                      Margin="0,5,0,10"
                      Text="{x:Bind TileTitle, Mode=TwoWay}"
                      Header="Tile Text" />
 
             <ToggleSwitch x:Name="ColorToggleSwitch"
-                          Header="Tile Text Color" 
-                          OffContent="Light" 
+                          Header="Tile Text Color"
+                          OffContent="Light"
                           Margin="0,5,0,10"
                           Toggled="{x:Bind ToggleColor}"
                           HorizontalAlignment="Stretch"
                           IsOn="False"
                           OnContent="Dark" />
 
-            <HyperlinkButton Content="Pin" 
+            <HyperlinkButton Content="Pin"
                              Margin="0,15,0,0"
                              Foreground="{ThemeResource SystemControlPageTextBaseHighBrush}"
                              ContentTemplate="{StaticResource HyperlinkClean}"

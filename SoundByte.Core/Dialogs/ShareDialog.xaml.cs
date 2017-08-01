@@ -19,8 +19,6 @@ namespace SoundByte.Core.Dialogs
 {
     public sealed partial class ShareDialog
     {
-        public Track Track { get; }
-
         public ShareDialog(Track trackItem)
         {
             // Do this before the xaml is loaded, to make sure
@@ -31,6 +29,8 @@ namespace SoundByte.Core.Dialogs
             InitializeComponent();
         }
 
+        public Track Track { get; }
+
         private void ShareWindows(object sender, RoutedEventArgs e)
         {
             // Create a share event
@@ -39,7 +39,8 @@ namespace SoundByte.Core.Dialogs
                 var dataPackage = a.Request.Data;
                 dataPackage.Properties.Title = "SoundByte";
                 dataPackage.Properties.Description = "Share this track with Windows 10.";
-                dataPackage.SetText("Listen to " + Track.Title + " by " + Track.User.Username + " on #SoundByte #Windows10: " + Track.PermalinkUri);
+                dataPackage.SetText("Listen to " + Track.Title + " by " + Track.User.Username +
+                                    " on #SoundByte #Windows10: " + Track.PermalinkUri);
             }
 
             // Remove any old share events
@@ -57,7 +58,7 @@ namespace SoundByte.Core.Dialogs
         private void ShareLink(object sender, RoutedEventArgs e)
         {
             // Create a data package
-            var data = new DataPackage { RequestedOperation = DataPackageOperation.Copy };
+            var data = new DataPackage {RequestedOperation = DataPackageOperation.Copy};
             // Set the link to the track on soundcloud
             data.SetText(Track.PermalinkUri);
             // Set the clipboard content
@@ -71,7 +72,7 @@ namespace SoundByte.Core.Dialogs
         private void ShareSoundByte(object sender, RoutedEventArgs e)
         {
             // Create a data package
-            var dataPackage = new DataPackage { RequestedOperation = DataPackageOperation.Copy };
+            var dataPackage = new DataPackage {RequestedOperation = DataPackageOperation.Copy};
             // Set the link to the track on soundcloud
             dataPackage.SetText("soundbyte://core/track?id=" + Track.Id);
             // Set the clipboard content

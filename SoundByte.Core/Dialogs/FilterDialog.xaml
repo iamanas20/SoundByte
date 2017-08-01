@@ -14,23 +14,23 @@
                   VerticalScrollBarVisibility="Hidden">
         <!-- Stack all the items -->
         <StackPanel>
-            <TextBlock Text="&#xE710;" 
-                       FontFamily="Segoe MDL2 Assets" 
-                       TextAlignment="Center" 
-                       VerticalAlignment="Center" 
-                       FontSize="65" 
+            <TextBlock Text="&#xE710;"
+                       FontFamily="Segoe MDL2 Assets"
+                       TextAlignment="Center"
+                       VerticalAlignment="Center"
+                       FontSize="65"
                        Padding="5"
                        Foreground="{ThemeResource SystemControlBackgroundAccentBrush}"
                        Margin="20,20,20,10" />
 
-            <TextBlock Text="Filter Search" 
-                       TextAlignment="Center" 
+            <TextBlock Text="Filter Search"
+                       TextAlignment="Center"
                        FontWeight="SemiBold"
                        FontSize="22"
                        Margin="5"
                        VerticalAlignment="Center" />
 
-            <TextBlock TextWrapping="Wrap" 
+            <TextBlock TextWrapping="Wrap"
                        Opacity="0.8"
                        FontWeight="SemiLight"
                        TextAlignment="Center"
@@ -39,20 +39,20 @@
                        Margin="2,2,2,14"
                        Text="(Tracks)" />
 
-            <TextBox Header="Tags or Genres" 
-                     BorderBrush="{ThemeResource SystemControlDisabledListMediumBrush}" 
-                     Margin="0,0,0,10" 
-                     BorderThickness="0" 
-                     x:Name="SearchTags" 
-                     Background="{StaticResource SecondaryBackgroundColor}"  
+            <TextBox Header="Tags or Genres"
+                     BorderBrush="{ThemeResource SystemControlDisabledListMediumBrush}"
+                     Margin="0,0,0,10"
+                     BorderThickness="0"
+                     x:Name="SearchTags"
+                     Background="{StaticResource SecondaryBackgroundColor}"
                      PlaceholderText="Comma Separated List" />
 
-            <ComboBox Header="License" 
-                      BorderBrush="{ThemeResource SystemControlDisabledListMediumBrush}" 
-                      BorderThickness="0" 
-                      Margin="0,0,0,10" 
-                      x:Name="SearchLicense" 
-                      Background="{StaticResource SecondaryBackgroundColor}" 
+            <ComboBox Header="License"
+                      BorderBrush="{ThemeResource SystemControlDisabledListMediumBrush}"
+                      BorderThickness="0"
+                      Margin="0,0,0,10"
+                      x:Name="SearchLicense"
+                      Background="{StaticResource SecondaryBackgroundColor}"
                       HorizontalAlignment="Stretch">
                 <ComboBoxItem Content="Any" IsSelected="True" />
                 <ComboBoxItem Content="CC by" />
@@ -62,12 +62,12 @@
                 <ComboBoxItem Content="CC by NC SA" />
             </ComboBox>
 
-            <ComboBox Header="Type" 
-                      BorderBrush="{ThemeResource SystemControlDisabledListMediumBrush}" 
-                      Margin="0,0,0,10" 
-                      BorderThickness="0" 
-                      x:Name="SearchType" 
-                      HorizontalAlignment="Stretch" 
+            <ComboBox Header="Type"
+                      BorderBrush="{ThemeResource SystemControlDisabledListMediumBrush}"
+                      Margin="0,0,0,10"
+                      BorderThickness="0"
+                      x:Name="SearchType"
+                      HorizontalAlignment="Stretch"
                       Background="{StaticResource SecondaryBackgroundColor}">
                 <ComboBoxItem Content="Any" IsSelected="True" />
                 <ComboBoxItem Content="Original" />
@@ -84,15 +84,15 @@
                 <ComboBoxItem Content="Sample" />
             </ComboBox>
 
-            <TextBox Header="BPM" 
-                     BorderBrush="{ThemeResource SystemControlDisabledListMediumBrush}" 
-                     Margin="0,0,0,10" 
-                     x:Name="SearchBpm" 
-                     Background="{StaticResource SecondaryBackgroundColor}" 
-                     BorderThickness="0" 
+            <TextBox Header="BPM"
+                     BorderBrush="{ThemeResource SystemControlDisabledListMediumBrush}"
+                     Margin="0,0,0,10"
+                     x:Name="SearchBpm"
+                     Background="{StaticResource SecondaryBackgroundColor}"
+                     BorderThickness="0"
                      x:Uid="SearchFilter_BPM" />
 
-            <HyperlinkButton Content="Apply" 
+            <HyperlinkButton Content="Apply"
                              Margin="0,15,0,0"
                              Foreground="{ThemeResource SystemControlPageTextBaseHighBrush}"
                              ContentTemplate="{StaticResource HyperlinkClean}"

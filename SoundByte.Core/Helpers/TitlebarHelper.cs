@@ -19,12 +19,12 @@ using Windows.UI.Xaml;
 namespace SoundByte.Core.Helpers
 {
     /// <summary>
-    /// Helper methods for adjusting app titlebar / statusbar style
+    ///     Helper methods for adjusting app titlebar / statusbar style
     /// </summary>
     public static class TitlebarHelper
     {
         /// <summary>
-        /// Refreshes the stored app accent color
+        ///     Refreshes the stored app accent color
         /// </summary>
         public static async void UpdateTitlebarStyle()
         {
@@ -35,8 +35,10 @@ namespace SoundByte.Core.Helpers
                 CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
                 // Update Title bar colors
                 ApplicationView.GetForCurrentView().TitleBar.ButtonBackgroundColor = Colors.Transparent;
-                ApplicationView.GetForCurrentView().TitleBar.ButtonHoverBackgroundColor = new Color { R = 0, G = 0, B = 0, A = 20 };
-                ApplicationView.GetForCurrentView().TitleBar.ButtonPressedBackgroundColor = new Color { R = 0, G = 0, B = 0, A = 60 };
+                ApplicationView.GetForCurrentView().TitleBar.ButtonHoverBackgroundColor =
+                    new Color {R = 0, G = 0, B = 0, A = 20};
+                ApplicationView.GetForCurrentView().TitleBar.ButtonPressedBackgroundColor =
+                    new Color {R = 0, G = 0, B = 0, A = 60};
                 ApplicationView.GetForCurrentView().TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
                 ApplicationView.GetForCurrentView().TitleBar.ForegroundColor = textColor;
                 ApplicationView.GetForCurrentView().TitleBar.ButtonForegroundColor = textColor;
@@ -45,9 +47,7 @@ namespace SoundByte.Core.Helpers
             }
 
             if (DeviceHelper.IsMobile)
-            {
                 await StatusBar.GetForCurrentView().HideAsync();
-            }
         }
     }
 }

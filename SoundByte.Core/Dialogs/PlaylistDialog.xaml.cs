@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Windows.Storage.Streams;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -21,27 +22,15 @@ using Windows.UI.Xaml.Media;
 using Windows.Web.Http;
 using SoundByte.Core.API.Endpoints;
 using SoundByte.Core.Services;
-using UnicodeEncoding = Windows.Storage.Streams.UnicodeEncoding;
 
 namespace SoundByte.Core.Dialogs
 {
     /// <summary>
-    /// Allows the user to add and remove items to and from
-    /// playlists.
+    ///     Allows the user to add and remove items to and from
+    ///     playlists.
     /// </summary>
     public sealed partial class PlaylistDialog
     {
-        /// <summary>
-        /// The track that we want to add to a playlist
-        /// </summary>
-        public Track Track { get; }
-
-        /// <summary>
-        /// A list of user playlists that we can add
-        /// this track to.
-        /// </summary>
-        private ObservableCollection<Playlist> Playlist { get; } = new ObservableCollection<Playlist>();
-
         // Stop the check event when loading
         private bool _blockItemsLoading;
 
@@ -58,6 +47,17 @@ namespace SoundByte.Core.Dialogs
             Opened += LoadContent;
         }
 
+        /// <summary>
+        ///     The track that we want to add to a playlist
+        /// </summary>
+        public Track Track { get; }
+
+        /// <summary>
+        ///     A list of user playlists that we can add
+        ///     this track to.
+        /// </summary>
+        private ObservableCollection<Playlist> Playlist { get; } = new ObservableCollection<Playlist>();
+
         public async void CreatePlaylist()
         {
             // Hide the current dialog
@@ -72,7 +72,7 @@ namespace SoundByte.Core.Dialogs
             // Create a stack panel to hold all the contents
             var contentPanel = new StackPanel();
             // Add a text block for the title
-            contentPanel.Children.Add(new TextBlock { Text = "Title:", Margin = new Thickness(0, 5, 0, 5) });
+            contentPanel.Children.Add(new TextBlock {Text = "Title:", Margin = new Thickness(0, 5, 0, 5)});
             // Add the text box for the title input
             contentPanel.Children.Add(playlistTitle);
             // Create the dialog box
@@ -94,12 +94,14 @@ namespace SoundByte.Core.Dialogs
                 if (!string.IsNullOrEmpty(playlistTitle.Text.Trim()))
                 {
                     // Create the json string needed to create the playlist
-                    var json = "{\"playlist\":{\"title\":\"" + playlistTitle.Text.Trim() + "\",\"tracks\":[{\"id\":\"" + Track.Id + "\"}]}}";
+                    var json = "{\"playlist\":{\"title\":\"" + playlistTitle.Text.Trim() + "\",\"tracks\":[{\"id\":\"" +
+                               Track.Id + "\"}]}}";
 
                     try
                     {
                         // Get the response message
-                        var response = await SoundByteService.Current.PostAsync<Playlist>("/playlists", new HttpStringContent(json, UnicodeEncoding.Utf8, "application/json"));
+                        var response = await SoundByteService.Current.PostAsync<Playlist>("/playlists",
+                            new HttpStringContent(json, UnicodeEncoding.Utf8, "application/json"));
 
                         // Check that the creation was successful
                         if (response != null)
@@ -136,7 +138,6 @@ namespace SoundByte.Core.Dialogs
 
             // Show the dialog
             await dialog.ShowAsync();
-
         }
 
         private async void LoadContent(ContentDialog sender, ContentDialogOpenedEventArgs args)
@@ -176,9 +177,9 @@ namespace SoundByte.Core.Dialogs
         }
 
         /// <summary>
-        /// This method is called whenever the playlist items checkbox is unchecked
-        /// This method then removes the currently playing track from the playlist
-        /// and updates the UI.
+        ///     This method is called whenever the playlist items checkbox is unchecked
+        ///     This method then removes the currently playing track from the playlist
+        ///     and updates the UI.
         /// </summary>
         private async void RemoveTrackFromPlaylist(object sender, RoutedEventArgs e)
         {
@@ -189,7 +190,7 @@ namespace SoundByte.Core.Dialogs
             LoadingRing.IsActive = true;
 
             // Get the playlist id
-            var playlistId = (int)((CheckBox)e.OriginalSource).Tag;
+            var playlistId = (int) ((CheckBox) e.OriginalSource).Tag;
             // Check that the playlist id is not null
 
             try
@@ -201,40 +202,42 @@ namespace SoundByte.Core.Dialogs
 
                 // Check that the track exits
                 if (trackObject != null)
-                {
-                    // Remove the track from the set object
                     playlistObject.Tracks.Remove(trackObject);
-                }
-                
+
                 // Start creating the json track string with the basic json
-                var json = playlistObject.Tracks.Aggregate("{\"playlist\":{\"tracks\":[", (current, track) => current + "{\"id\":\"" + track.Id + "\"},");
+                var json = playlistObject.Tracks.Aggregate("{\"playlist\":{\"tracks\":[",
+                    (current, track) => current + "{\"id\":\"" + track.Id + "\"},");
 
                 // Loop through all the tracks adding the required json
                 // Complete the json string
                 json = json.TrimEnd(',') + "]}}";
 
                 // Create the http request
-                var response = await SoundByteService.Current.PutAsync("/playlists/" + playlistId, new HttpStringContent(json, UnicodeEncoding.Utf8, "application/json"));
-                
+                var response = await SoundByteService.Current.PutAsync("/playlists/" + playlistId,
+                    new HttpStringContent(json, UnicodeEncoding.Utf8, "application/json"));
+
                 // Check that the remove was successful
                 if (!response)
                 {
                     _blockItemsLoading = true;
-                    ((CheckBox)e.OriginalSource).IsChecked = true;
+                    ((CheckBox) e.OriginalSource).IsChecked = true;
                     _blockItemsLoading = false;
 
                     // Alert the user that the request failed, also alert the reason
-                    await new MessageDialog("An error occured while trying to remove the current sound from this set.").ShowAsync();
+                    await new MessageDialog("An error occured while trying to remove the current sound from this set.")
+                        .ShowAsync();
                 }
             }
             catch (Exception)
             {
                 _blockItemsLoading = true;
-                ((CheckBox)e.OriginalSource).IsChecked = true;
+                ((CheckBox) e.OriginalSource).IsChecked = true;
                 _blockItemsLoading = false;
 
                 // Alert the user about an unknown error
-                await new MessageDialog("An unknown error occured while removing the current sound from this set. Make sure that you are connected to the internet and try again.").ShowAsync();
+                await new MessageDialog(
+                        "An unknown error occured while removing the current sound from this set. Make sure that you are connected to the internet and try again.")
+                    .ShowAsync();
             }
 
             // Hide the loading bar to let the user know that we have finished
@@ -242,8 +245,8 @@ namespace SoundByte.Core.Dialogs
         }
 
         /// <summary>
-        /// This method opens a dialog box for the user to 
-        /// create a playlist and add the current track to it.
+        ///     This method opens a dialog box for the user to
+        ///     create a playlist and add the current track to it.
         /// </summary>
         private async void AddTrackToPlaylist(object sender, RoutedEventArgs e)
         {
@@ -254,7 +257,7 @@ namespace SoundByte.Core.Dialogs
             LoadingRing.IsActive = true;
 
             // Get the playlist id
-            var playlistId = (int)((CheckBox)e.OriginalSource).Tag;
+            var playlistId = (int) ((CheckBox) e.OriginalSource).Tag;
 
             try
             {
@@ -262,32 +265,39 @@ namespace SoundByte.Core.Dialogs
                 var playlistObject = await SoundByteService.Current.GetAsync<Playlist>("/playlists/" + playlistId);
 
                 // Start creating the json track string with the basic json
-                var json = playlistObject.Tracks.Aggregate("{\"playlist\":{\"tracks\":[", (current, track) => current + ("{\"id\":\"" + track.Id + "\"},"));
+                var json = playlistObject.Tracks.Aggregate("{\"playlist\":{\"tracks\":[",
+                    (current, track) => current + "{\"id\":\"" + track.Id + "\"},");
 
                 // Complete the json string by adding the current track
                 json += "{\"id\":\"" + Track.Id + "\"}]}}";
                 // Create the http request
-                var response = await SoundByteService.Current.PutAsync("/playlists/" + playlistObject.Id + "/?secret-token=" + playlistObject.SecretToken, new HttpStringContent(json, UnicodeEncoding.Utf8, "application/json"));
+                var response =
+                    await SoundByteService.Current.PutAsync(
+                        "/playlists/" + playlistObject.Id + "/?secret-token=" + playlistObject.SecretToken,
+                        new HttpStringContent(json, UnicodeEncoding.Utf8, "application/json"));
 
                 // Check that the update was successful
                 if (!response)
                 {
                     _blockItemsLoading = true;
-                    ((CheckBox)e.OriginalSource).IsChecked = false;
+                    ((CheckBox) e.OriginalSource).IsChecked = false;
                     _blockItemsLoading = false;
 
                     // Alert the user that the request failed, also alert the reason
-                    await new MessageDialog("An error occured while trying to add the current sound to this set.").ShowAsync();
+                    await new MessageDialog("An error occured while trying to add the current sound to this set.")
+                        .ShowAsync();
                 }
             }
             catch (Exception ex)
             {
                 _blockItemsLoading = true;
-                ((CheckBox)e.OriginalSource).IsChecked = false;
+                ((CheckBox) e.OriginalSource).IsChecked = false;
                 _blockItemsLoading = false;
 
                 // Alert the user about an unknown error
-                await new MessageDialog("An unknown error occured while adding the current sound to this set. Make sure that you are connected to the internet and try again. Error:\n" + ex).ShowAsync();
+                await new MessageDialog(
+                    "An unknown error occured while adding the current sound to this set. Make sure that you are connected to the internet and try again. Error:\n" +
+                    ex).ShowAsync();
             }
 
 
