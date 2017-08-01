@@ -138,7 +138,7 @@ namespace SoundByte.UWP.ViewModels
 
             if (e.ClickedItem.GetType().Name == "Track")
             {
-                var searchItem = e.ClickedItem as Core.API.Endpoints.Track;
+                var searchItem = e.ClickedItem as Track;
 
                 // Get the resource loader
                 var resources = ResourceLoader.GetForCurrentView();

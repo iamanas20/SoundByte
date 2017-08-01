@@ -2,9 +2,7 @@
     x:Class="SoundByte.UWP.UserControls.NotificationItem"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:models="using:SoundByte.Core.API.Holders"
-    xmlns:endpoints="using:SoundByte.Core.API.Endpoints"
-    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls">
+    xmlns:endpoints="using:SoundByte.Core.API.Endpoints">
     <!-- Data templates for all the item types -->
     <UserControl.Resources>
         <!-- View for unknown types -->

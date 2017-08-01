@@ -60,7 +60,7 @@ namespace SoundByte.UWP.ViewModels
 
         public bool ShowFollowButton
         {
-            get { return _showFollowButton; }
+            get => _showFollowButton;
             set
             {
                 if (value != _showFollowButton)
@@ -76,7 +76,7 @@ namespace SoundByte.UWP.ViewModels
         /// </summary>
         public PivotItem SelectedPivotItem
         {
-            get { return _selectedPivotItem; }
+            get => _selectedPivotItem;
             set
             {
                 if (value != _selectedPivotItem)
@@ -89,7 +89,7 @@ namespace SoundByte.UWP.ViewModels
 
         public string PinButtonIcon
         {
-            get { return _pinButtonIcon; }
+            get => _pinButtonIcon;
             set
             {
                 if (value != _pinButtonIcon)
@@ -102,7 +102,7 @@ namespace SoundByte.UWP.ViewModels
 
         public string FollowUserIcon
         {
-            get { return _followUserIcon; }
+            get => _followUserIcon;
             set
             {
                 if (value != _followUserIcon)
@@ -115,7 +115,7 @@ namespace SoundByte.UWP.ViewModels
 
         public string FollowUserText
         {
-            get { return _followUserText; }
+            get => _followUserText;
             set
             {
                 if (value != _followUserText)
@@ -128,7 +128,7 @@ namespace SoundByte.UWP.ViewModels
 
         public string PinButtonText
         {
-            get { return _pinButtonText; }
+            get => _pinButtonText;
             set
             {
                 if (value != _pinButtonText)
@@ -305,7 +305,7 @@ namespace SoundByte.UWP.ViewModels
         {
             App.IsLoading = true;
 
-            var startPlayback = await PlaybackService.Current.StartMediaPlayback(TracksList.ToList(), TracksList.Token, false, (Core.API.Endpoints.Track)e.ClickedItem);
+            var startPlayback = await PlaybackService.Current.StartMediaPlayback(TracksList.ToList(), TracksList.Token, false, (Track)e.ClickedItem);
             if (!startPlayback.success)
                 await new MessageDialog(startPlayback.message, "Error playing user track.").ShowAsync();
 
@@ -316,7 +316,7 @@ namespace SoundByte.UWP.ViewModels
         {
             App.IsLoading = true;
 
-            var startPlayback = await PlaybackService.Current.StartMediaPlayback(LikeItems.ToList(), LikeItems.Token, false, (Core.API.Endpoints.Track)e.ClickedItem);
+            var startPlayback = await PlaybackService.Current.StartMediaPlayback(LikeItems.ToList(), LikeItems.Token, false, (Track)e.ClickedItem);
             if (!startPlayback.success)
                 await new MessageDialog(startPlayback.message, "Error playing liked user track.").ShowAsync();
 

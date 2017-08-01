@@ -274,7 +274,7 @@
                     <Button.Flyout>
                         <Flyout Placement="Top">
                             <StackPanel Orientation="Horizontal" Width="205">
-                                <Button Width="41" Height="41" Style="{StaticResource CircleButtonStyle}" Click="{x:Bind ViewModel.Service.ToggleMute}" VerticalAlignment="Center" Background="{x:Null}" Margin="0,0,10,0">
+                                <Button Width="41" Height="41" Style="{StaticResource CircleButtonStyle}" Click="{x:Bind ViewModel.Service.ToggleMute}" Background="{x:Null}" Margin="0,0,10,0">
                                     <Button.Content>
                                         <TextBlock OpticalMarginAlignment="TrimSideBearings" Text="{x:Bind ViewModel.Service.VolumeIcon, Mode=OneWay}"  FontWeight="Light" FontSize="20" FontFamily="Segoe MDL2 Assets" AutomationProperties.Name="Next" TextAlignment="Center"  />
                                     </Button.Content>

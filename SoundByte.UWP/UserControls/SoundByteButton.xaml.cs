@@ -40,13 +40,13 @@ namespace SoundByte.UWP.UserControls
         /// </summary>
         public string Glyph
         {
-            get => this.GetValue(GlyphProperty) as string;
-            set => this.SetValue(GlyphProperty, value);
+            get => GetValue(GlyphProperty) as string;
+            set => SetValue(GlyphProperty, value);
         }
 
         public SoundByteButton()
         {
-            this.InitializeComponent();
+            InitializeComponent();
 
             MainButton.Click += (sender, args) =>
             {

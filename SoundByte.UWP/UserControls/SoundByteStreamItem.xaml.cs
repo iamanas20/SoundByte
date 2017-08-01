@@ -40,8 +40,8 @@ namespace SoundByte.UWP.UserControls
         /// </summary>
         public string TrackType
         {
-            get { return GetValue(TrackTypeProperty) as string; }
-            set { SetValue(TrackTypeProperty, value); }
+            get => GetValue(TrackTypeProperty) as string;
+            set => SetValue(TrackTypeProperty, value);
         }
 
         /// <summary>
@@ -49,8 +49,8 @@ namespace SoundByte.UWP.UserControls
         /// </summary>
         public string Created
         {
-            get { return GetValue(CreatedProperty) as string; }
-            set { SetValue(CreatedProperty, value); }
+            get => GetValue(CreatedProperty) as string;
+            set => SetValue(CreatedProperty, value);
         }
 
         /// <summary>
@@ -58,11 +58,8 @@ namespace SoundByte.UWP.UserControls
         /// </summary>
         public Track Track
         {
-            get { return GetValue(TrackProperty) as Track; }
-            set
-            {
-                SetValue(TrackProperty, value);
-            }
+            get => GetValue(TrackProperty) as Track;
+            set => SetValue(TrackProperty, value);
         }
 
         /// <summary>
@@ -70,8 +67,8 @@ namespace SoundByte.UWP.UserControls
         /// </summary>
         public Playlist Playlist
         {
-            get { return GetValue(PlaylistProperty) as Playlist; }
-            set { SetValue(PlaylistProperty, value); }
+            get => GetValue(PlaylistProperty) as Playlist;
+            set => SetValue(PlaylistProperty, value);
         }
         #endregion
 
