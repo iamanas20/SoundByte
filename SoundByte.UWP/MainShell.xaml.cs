@@ -41,7 +41,6 @@ using SoundByte.UWP.Views;
 using SoundByte.UWP.Views.Application;
 using SoundByte.UWP.Views.CoreApp;
 using SoundByte.UWP.Views.Me;
-using SoundByte.UWP.Views.Mobile;
 using UICompositionAnimations.Brushes;
 using Playlist = SoundByte.Core.API.Endpoints.Playlist;
 using SearchBox = SoundByte.UWP.UserControls.SearchBox;
@@ -119,12 +118,8 @@ namespace SoundByte.UWP
                         ? Colors.Black
                         : Colors.White);
 
-                // Apply a margin down the bottom where nav icons will be
-                RootFrame.Margin = new Thickness {Bottom = 64};
-
                 MainSplitView.IsPaneOpen = false;
-                MainSplitView.CompactPaneLength = 0;
-                MobileNavigation.Visibility = Visibility.Visible;
+                MainSplitView.DisplayMode = SplitViewDisplayMode.Overlay;
             }
 
             // Focus on the root frame
@@ -292,9 +287,6 @@ namespace SoundByte.UWP
                 {
                     if (path == "playUserLikes" || path == "shufflePlayUserLikes")
                     {
-                        // Navigate to the now playing screen
-                        RootFrame.Navigate(typeof(NowPlayingView));
-
                         // Get and load the user liked items
                         var userLikes = new LikeModel(SoundByteService.Current.SoundCloudUser);
 
@@ -304,6 +296,9 @@ namespace SoundByte.UWP
                         // Play the list of items
                         await PlaybackService.Current.StartMediaPlayback(userLikes.ToList(), path,
                             path == "shufflePlayUserLikes");
+
+                        // Navigate to the now playing screen
+                        RootFrame.Navigate(typeof(NowPlayingView));
 
                         return;
                     }
@@ -414,13 +409,6 @@ namespace SoundByte.UWP
             RootFrame.Navigate(typeof(Search));
         }
 
-        private void NavigateMobileNavView(object sender, RoutedEventArgs e)
-        {
-            if (BlockNavigation) return;
-
-            RootFrame.Navigate(typeof(MobileNavView));
-        }
-
         private async void NavigateCurrentPlaying(object sender, RoutedEventArgs e)
         {
             if (BlockNavigation) return;
@@ -440,55 +428,33 @@ namespace SoundByte.UWP
             {
                 case "HomeView":
                     HomeTab.IsChecked = true;
-                    MobileHomeTab.IsChecked = true;
-                    break;
-                case "NowPlayingView":
-                    UnknownTab.IsChecked = true;
-                    NowPlayingTab.IsChecked = true;
                     break;
                 case "DonateView":
                     DonateTab.IsChecked = true;
-                    MobileUnkownTab.IsChecked = true;
                     break;
                 case "LikesView":
                     LikesTab.IsChecked = true;
-                    MobileUnkownTab.IsChecked = true;
                     break;
                 case "PlaylistsView":
                     SetsTab.IsChecked = true;
-                    MobileUnkownTab.IsChecked = true;
                     break;
                 case "NotificationsView":
                     NotificationsTab.IsChecked = true;
-                    MobileUnkownTab.IsChecked = true;
                     break;
                 case "HistoryView":
                     HistoryTab.IsChecked = true;
-                    MobileUnkownTab.IsChecked = true;
                     break;
                 case "AccountView":
                     AccountTab.IsChecked = true;
-                    MobileUnkownTab.IsChecked = true;
                     break;
                 case "SettingsView":
                     SettingsTab.IsChecked = true;
-                    MobileUnkownTab.IsChecked = true;
-                    break;
-                case "Search":
-                    UnknownTab.IsChecked = true;
-                    MobileSearchTab.IsChecked = true;
                     break;
                 case "AboutView":
                     SettingsTab.IsChecked = true;
-                    MobileUnkownTab.IsChecked = true;
-                    break;
-                case "MobileNavView":
-                    UnknownTab.IsChecked = true;
-                    MenuMobileTab.IsChecked = true;
                     break;
                 default:
                     UnknownTab.IsChecked = true;
-                    MobileUnkownTab.IsChecked = true;
                     break;
             }
 
@@ -573,7 +539,6 @@ namespace SoundByte.UWP
             SetsTab.Visibility = Visibility.Visible;
             NotificationsTab.Visibility = Visibility.Visible;
             HistoryTab.Visibility = Visibility.Visible;
-            MobileHomeTab.IsEnabled = true;
             AccountTab.Content = "Connected Accounts";
         }
 
@@ -583,7 +548,6 @@ namespace SoundByte.UWP
             SetsTab.Visibility = Visibility.Collapsed;
             NotificationsTab.Visibility = Visibility.Collapsed;
             HistoryTab.Visibility = Visibility.Collapsed;
-            MobileHomeTab.IsEnabled = false;
             AccountTab.Content = "Login";
         }
 

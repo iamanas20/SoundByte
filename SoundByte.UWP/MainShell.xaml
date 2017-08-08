@@ -165,71 +165,6 @@
             </Setter>
 
         </Style>
-
-        <!-- Mobile Menu -->
-        <Style TargetType="RadioButton" x:Key="NavigationButtonStyleMobile">
-            <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundAccentBrush}" />
-            <Setter Property="MinHeight" Value="{ThemeResource ListViewItemMinHeight}" />
-            <Setter Property="MinWidth" Value="{ThemeResource SplitViewCompactPaneThemeLength}" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="RadioButton">
-                        <Grid x:Name="RootGrid" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
-                              Background="Transparent">
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup x:Name="Common">
-                                    <VisualState x:Name="Normal">
-                                        <Storyboard>
-                                            <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
-                                        </Storyboard>
-                                    </VisualState>
-                                    <VisualState x:Name="PointerOver">
-                                        <Storyboard>
-                                            <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
-                                        </Storyboard>
-                                    </VisualState>
-                                    <VisualState x:Name="Pressed">
-                                        <Storyboard>
-                                            <PointerDownThemeAnimation Storyboard.TargetName="RootGrid" />
-                                        </Storyboard>
-                                    </VisualState>
-                                    <VisualState x:Name="Disabled" />
-                                </VisualStateGroup>
-                                <VisualStateGroup x:Name="CheckedStates">
-                                    <VisualState x:Name="Checked">
-                                        <Storyboard>
-                                            <ColorAnimation Storyboard.TargetName="Icon"
-                                                            Storyboard.TargetProperty="(IconElement.Foreground).(SolidColorBrush.Color)"
-                                                            From="{Binding Source={StaticResource AppBarItemForegroundThemeBrush}, Path=Color}"
-                                                            To="{Binding Source={StaticResource SystemControlHighlightAccentBrush}, Path=Color}"
-                                                            Duration="0:0:0.3" FillBehavior="HoldEnd" />
-                                            <ColorAnimation Storyboard.TargetName="Text"
-                                                            Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)"
-                                                            From="{Binding Source={StaticResource AppBarItemForegroundThemeBrush}, Path=Color}"
-                                                            To="{Binding Source={StaticResource SystemControlHighlightAccentBrush}, Path=Color}"
-                                                            Duration="0:0:0.3" FillBehavior="HoldEnd" />
-                                        </Storyboard>
-                                    </VisualState>
-                                    <VisualState x:Name="Unchecked" />
-                                    <VisualState x:Name="Indeterminate" />
-                                </VisualStateGroup>
-                            </VisualStateManager.VisualStateGroups>
-
-                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                                <FontIcon Foreground="{ThemeResource AppBarItemForegroundThemeBrush}" x:Name="Icon"
-                                          Opacity="0.9" FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                                          Glyph="{TemplateBinding Tag}" FontSize="20" VerticalAlignment="Center"
-                                          Margin="0,2,0,0" />
-                                <TextBlock Foreground="{ThemeResource AppBarItemForegroundThemeBrush}" x:Name="Text"
-                                           FontWeight="Normal" Opacity="0.9" Text="{TemplateBinding Content}"
-                                           FontSize="12" TextAlignment="Center" Margin="0,5,0,0"
-                                           VerticalAlignment="Center" />
-                            </StackPanel>
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
     </Page.Resources>
 
     <Grid Background="{StaticResource AppHostBackgroundBrush}" x:Name="RootGrid">
@@ -419,37 +354,6 @@
                        Canvas.ZIndex="10" />
             </Grid>
         </SplitView>
-
-        <!-- Bottom Navigation bar for mobile devices -->
-        <Grid x:Name="MobileNavigation"
-              Visibility="Collapsed"
-              VerticalAlignment="Bottom"
-              Height="64"
-              Canvas.ZIndex="55">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-
-            <RadioButton Grid.Column="0" Content="Home" x:Name="MobileHomeTab" Tag="&#xE80F;"
-                         GroupName="MobileNavPaneButtons" Style="{StaticResource NavigationButtonStyleMobile}"
-                         VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Checked="NavigateHome" />
-            <RadioButton Grid.Column="2" Content="Playing" x:Name="NowPlayingTab" Tag="&#xE102;"
-                         GroupName="MobileNavPaneButtons" Style="{StaticResource NavigationButtonStyleMobile}"
-                         VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Checked="NavigateCurrentPlaying" />
-            <RadioButton Grid.Column="3" Content="Search" x:Name="MobileSearchTab" Tag="&#xE094;"
-                         GroupName="MobileNavPaneButtons" Style="{StaticResource NavigationButtonStyleMobile}"
-                         VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Checked="NavigateSearch" />
-            <RadioButton Grid.Column="4" Content="Menu" x:Name="MenuMobileTab" Tag="&#xE700;"
-                         GroupName="MobileNavPaneButtons" Style="{StaticResource NavigationButtonStyleMobile}"
-                         VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Checked="NavigateMobileNavView" />
-
-            <RadioButton Grid.Column="0" x:Name="MobileUnkownTab" GroupName="MobileNavPaneButtons"
-                         Visibility="Collapsed" Width="0" Height="0" Opacity="0" />
-        </Grid>
 
         <!-- Desktop Now Playing Bar -->
         <sui:NowPlayingBar x:Name="NowPlaying"

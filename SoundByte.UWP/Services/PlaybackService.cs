@@ -44,7 +44,7 @@ namespace SoundByte.UWP.Services
         private PlaybackService()
         {
             // Create the player instance
-            Player = new MediaPlayer {AutoPlay = false};
+            Player = new MediaPlayer { AutoPlay = false };
 
             Player.PlaybackSession.PlaybackStateChanged += PlaybackSessionStateChanged;
 
@@ -107,7 +107,7 @@ namespace SoundByte.UWP.Services
                 Player.Volume = value / 100;
 
                 // Update the UI
-                if ((int) value == 0)
+                if ((int)value == 0)
                 {
                     Player.IsMuted = true;
                     VolumeIcon = "\uE74F";
@@ -324,7 +324,7 @@ namespace SoundByte.UWP.Services
             {
                 // Set the new current track, updating the UI
                 CurrentTrack = Playlist.FirstOrDefault(
-                    x => x.Id == (string) args.NewItem.Source.CustomProperties["SoundByteItem.ID"]);
+                    x => x.Id == (string)args.NewItem.Source.CustomProperties["SoundByteItem.ID"]);
 
                 UpdateNormalTiles();
 
@@ -410,8 +410,7 @@ namespace SoundByte.UWP.Services
             // If no playlist was specified, skip
             if (playlist == null || playlist.Count == 0)
                 return (false,
-                    "The playback list was missing or empty. This can be caused if there are not tracks avaliable (for example, you are trying to play your likes, but have not liked anything yet).\n\nAnother reason for this message is that if your playing a track from SoundCloud, SoundCloud has blocked these tracks from being played on 3rd party apps (such as SoundByte)."
-                    );
+                    "The playback list was missing or empty. This can be caused if there are not tracks avaliable (for example, you are trying to play your likes, but have not liked anything yet).\n\nAnother reason for this message is that if your playing a track from SoundCloud, SoundCloud has blocked these tracks from being played on 3rd party apps (such as SoundByte).");
 
             // Pause Everything
             Player.Pause();
@@ -444,65 +443,63 @@ namespace SoundByte.UWP.Services
             // Set the shuffle
             _playbackList.ShuffleEnabled = isShuffled;
 
-            // If the tokens do not match, reload the list
-            if (token != TokenValue || token == "eol")
+            // Get the API key that we will need
+            var apiKey = await GetCorrectApiKey();
+
+            // Loop through all the tracks
+            foreach (var track in playlist)
             {
-                // Get the API key that we will need
-                var apiKey = await GetCorrectApiKey();
+                try
+                {
+                    // If the track is null, leave it alone
+                    if (track == null)
+                        continue;
 
-                // Loop through all the tracks
-                foreach (var track in playlist)
-                    try
-                    {
-                        // If the track is null, leave it alone
-                        if (track == null)
-                            continue;
+                    MediaSource source;
 
-                        MediaSource source;
+                    if (track.ServiceType == SoundByteService.ServiceType.SoundCloud)
+                        source = MediaSource.CreateFromUri(new Uri("http://api.soundcloud.com/tracks/" + track.Id +
+                                                                   "/stream?client_id=" + apiKey));
+                    else if (track.ServiceType == SoundByteService.ServiceType.Fanburst)
+                        source = MediaSource.CreateFromUri(new Uri("https://api.fanburst.com/tracks/" + track.Id +
+                                                                   "/stream?client_id=" + ApiKeyService
+                                                                       .FanburstClientId));
+                    else
+                        source = MediaSource.CreateFromUri(new Uri("http://api.soundcloud.com/tracks/" + track.Id +
+                                                                   "/stream?client_id=" + apiKey));
 
-                        if (track.ServiceType == SoundByteService.ServiceType.SoundCloud)
-                            source = MediaSource.CreateFromUri(new Uri("http://api.soundcloud.com/tracks/" + track.Id +
-                                                                       "/stream?client_id=" + apiKey));
-                        else if (track.ServiceType == SoundByteService.ServiceType.Fanburst)
-                            source = MediaSource.CreateFromUri(new Uri("https://api.fanburst.com/tracks/" + track.Id +
-                                                                       "/stream?client_id=" + ApiKeyService
-                                                                           .FanburstClientId));
-                        else
-                            source = MediaSource.CreateFromUri(new Uri("http://api.soundcloud.com/tracks/" + track.Id +
-                                                                       "/stream?client_id=" + apiKey));
+                    // So we can access the item later
+                    source.CustomProperties["SoundByteItem.ID"] = track.Id;
 
-                        // So we can access the item later
-                        source.CustomProperties["SoundByteItem.ID"] = track.Id;
+                    // Create a configurable playback item backed by the media source
+                    var playbackItem = new MediaPlaybackItem(source);
 
-                        // Create a configurable playback item backed by the media source
-                        var playbackItem = new MediaPlaybackItem(source);
+                    // Populate display properties for the item that will be used
+                    // to automatically update SystemMediaTransportControls when
+                    // the item is playing.
+                    var displayProperties = playbackItem.GetDisplayProperties();
+                    displayProperties.Type = MediaPlaybackType.Music;
+                    displayProperties.MusicProperties.Title = track.Title;
+                    displayProperties.MusicProperties.Artist = track.User.Username;
+                    displayProperties.Thumbnail =
+                        RandomAccessStreamReference.CreateFromUri(
+                            new Uri(ArtworkConverter.ConvertObjectToImage(track)));
 
-                        // Populate display properties for the item that will be used
-                        // to automatically update SystemMediaTransportControls when
-                        // the item is playing.
-                        var displayProperties = playbackItem.GetDisplayProperties();
-                        displayProperties.Type = MediaPlaybackType.Music;
-                        displayProperties.MusicProperties.Title = track.Title;
-                        displayProperties.MusicProperties.Artist = track.User.Username;
-                        displayProperties.Thumbnail =
-                            RandomAccessStreamReference.CreateFromUri(
-                                new Uri(ArtworkConverter.ConvertObjectToImage(track)));
+                    // Apply the properties
+                    playbackItem.ApplyDisplayProperties(displayProperties);
 
-                        // Apply the properties
-                        playbackItem.ApplyDisplayProperties(displayProperties);
-
-                        // Add the item to the required lists
-                        _playbackList.Items.Add(playbackItem);
-                        Playlist.Add(track);
-                    }
-                    catch (Exception)
-                    {
-                        TelemetryService.Current.TrackEvent("Could not add Playback Item",
-                            new Dictionary<string, string>
-                            {
+                    // Add the item to the required lists
+                    _playbackList.Items.Add(playbackItem);
+                    Playlist.Add(track);
+                }
+                catch (Exception)
+                {
+                    TelemetryService.Current.TrackEvent("Could not add Playback Item",
+                        new Dictionary<string, string>
+                        {
                                 {"track_id", track.Id}
-                            });
-                    }
+                        });
+                }
             }
             // Update the controls that we are changing track
             Player.SystemMediaTransportControls.PlaybackStatus = MediaPlaybackStatus.Changing;
@@ -527,7 +524,7 @@ namespace SoundByte.UWP.Services
                 {
                     // find the index of the track in the playlist
                     var index = _playbackList.Items.ToList()
-                        .FindIndex(item => (string) item.Source.CustomProperties["SoundByteItem.ID"] ==
+                        .FindIndex(item => (string)item.Source.CustomProperties["SoundByteItem.ID"] ==
                                            startingItem.Id);
 
                     if (index == -1)
@@ -538,7 +535,7 @@ namespace SoundByte.UWP.Services
                     }
 
                     // Move to the track
-                    _playbackList.MoveTo((uint) index);
+                    _playbackList.MoveTo((uint)index);
                     // Begin playing
                     Player.Play();
 
@@ -662,28 +659,29 @@ namespace SoundByte.UWP.Services
             if (CurrentTrack == null)
                 return;
 
-            if (DeviceHelper.IsDesktop || DeviceHelper.IsMobile)
-                try
-                {
-                    _tileUpdater.Clear();
+            if (!DeviceHelper.IsDesktop && !DeviceHelper.IsMobile) return;
 
-                    var firstXml = new XmlDocument();
-                    firstXml.LoadXml(
-                        "<tile><visual><binding template=\"TileMedium\" branding=\"nameAndLogo\"><image placement=\"peek\" src=\"" +
-                        ArtworkConverter.ConvertObjectToImage(CurrentTrack) +
-                        "\"/><text>Paused</text><text hint-style=\"captionsubtle\" hint-wrap=\"true\"><![CDATA[" +
-                        CurrentTrack.Title.Replace("&", "&amp;") +
-                        "]]></text></binding><binding template=\"TileLarge\" branding=\"nameAndLogo\"><image placement=\"peek\" src=\"" +
-                        ArtworkConverter.ConvertObjectToImage(CurrentTrack) +
-                        "\"/><text>Paused</text><text hint-style=\"captionsubtle\" hint-wrap=\"true\"><![CDATA[" +
-                        CurrentTrack.Title.Replace("&", "&amp;") + "]]></text></binding></visual></tile>",
-                        new XmlLoadSettings {ValidateOnParse = true});
-                    _tileUpdater.Update(new TileNotification(firstXml));
-                }
-                catch
-                {
-                    // ignored
-                }
+            try
+            {
+                _tileUpdater.Clear();
+
+                var firstXml = new XmlDocument();
+                firstXml.LoadXml(
+                    "<tile><visual><binding template=\"TileMedium\" branding=\"nameAndLogo\"><image placement=\"peek\" src=\"" +
+                    ArtworkConverter.ConvertObjectToImage(CurrentTrack) +
+                    "\"/><text>Paused</text><text hint-style=\"captionsubtle\" hint-wrap=\"true\"><![CDATA[" +
+                    CurrentTrack.Title.Replace("&", "&amp;") +
+                    "]]></text></binding><binding template=\"TileLarge\" branding=\"nameAndLogo\"><image placement=\"peek\" src=\"" +
+                    ArtworkConverter.ConvertObjectToImage(CurrentTrack) +
+                    "\"/><text>Paused</text><text hint-style=\"captionsubtle\" hint-wrap=\"true\"><![CDATA[" +
+                    CurrentTrack.Title.Replace("&", "&amp;") + "]]></text></binding></visual></tile>",
+                    new XmlLoadSettings { ValidateOnParse = true });
+                _tileUpdater.Update(new TileNotification(firstXml));
+            }
+            catch
+            {
+                // ignored
+            }
         }
 
         private void UpdateNormalTiles()
@@ -691,28 +689,29 @@ namespace SoundByte.UWP.Services
             if (CurrentTrack == null)
                 return;
 
-            if (DeviceHelper.IsDesktop || DeviceHelper.IsMobile)
-                try
-                {
-                    _tileUpdater.Clear();
+            if (!DeviceHelper.IsDesktop && !DeviceHelper.IsMobile) return;
 
-                    var firstXml = new XmlDocument();
-                    firstXml.LoadXml(
-                        "<tile><visual><binding template=\"TileMedium\" branding=\"nameAndLogo\"><image placement=\"peek\" src=\"" +
-                        ArtworkConverter.ConvertObjectToImage(CurrentTrack) +
-                        "\"/><text>Now Playing</text><text hint-style=\"captionsubtle\" hint-wrap=\"true\"><![CDATA[" +
-                        CurrentTrack.Title.Replace("&", "&amp;") +
-                        "]]></text></binding><binding template=\"TileLarge\" branding=\"nameAndLogo\"><image placement=\"peek\" src=\"" +
-                        ArtworkConverter.ConvertObjectToImage(CurrentTrack) +
-                        "\"/><text>Now Playing</text><text hint-style=\"captionsubtle\" hint-wrap=\"true\"><![CDATA[" +
-                        CurrentTrack.Title.Replace("&", "&amp;") + "]]></text></binding></visual></tile>",
-                        new XmlLoadSettings {ValidateOnParse = true});
-                    _tileUpdater.Update(new TileNotification(firstXml));
-                }
-                catch
-                {
-                    // ignored
-                }
+            try
+            {
+                _tileUpdater.Clear();
+
+                var firstXml = new XmlDocument();
+                firstXml.LoadXml(
+                    "<tile><visual><binding template=\"TileMedium\" branding=\"nameAndLogo\"><image placement=\"peek\" src=\"" +
+                    ArtworkConverter.ConvertObjectToImage(CurrentTrack) +
+                    "\"/><text>Now Playing</text><text hint-style=\"captionsubtle\" hint-wrap=\"true\"><![CDATA[" +
+                    CurrentTrack.Title.Replace("&", "&amp;") +
+                    "]]></text></binding><binding template=\"TileLarge\" branding=\"nameAndLogo\"><image placement=\"peek\" src=\"" +
+                    ArtworkConverter.ConvertObjectToImage(CurrentTrack) +
+                    "\"/><text>Now Playing</text><text hint-style=\"captionsubtle\" hint-wrap=\"true\"><![CDATA[" +
+                    CurrentTrack.Title.Replace("&", "&amp;") + "]]></text></binding></visual></tile>",
+                    new XmlLoadSettings { ValidateOnParse = true });
+                _tileUpdater.Update(new TileNotification(firstXml));
+            }
+            catch
+            {
+                // ignored
+            }
         }
 
         #endregion

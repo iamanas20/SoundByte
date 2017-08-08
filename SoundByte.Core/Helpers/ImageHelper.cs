@@ -14,6 +14,7 @@ using System;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Microsoft.Graphics.Canvas;
+using SoundByte.Core.Services;
 
 namespace SoundByte.Core.Helpers
 {
@@ -63,8 +64,9 @@ namespace SoundByte.Core.Helpers
                     }
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                TelemetryService.Current.TrackException(ex);
                 return null;
             }
         }

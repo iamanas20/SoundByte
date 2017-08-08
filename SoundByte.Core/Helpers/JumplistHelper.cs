@@ -13,8 +13,8 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Windows.UI.Popups;
 using Windows.UI.StartScreen;
+using SoundByte.Core.Services;
 
 namespace SoundByte.Core.Helpers
 {
@@ -74,10 +74,9 @@ namespace SoundByte.Core.Helpers
                 // Save the jumplist
                 await _systemJumpList.SaveAsync();
             }
-            catch
+            catch (Exception ex)
             {
-                await new MessageDialog("An Error Occured while pinning this item to the jumplist.", "Jumplist Error")
-                    .ShowAsync();
+                TelemetryService.Current.TrackException(ex);
             }
         }
 

@@ -261,7 +261,7 @@
                 <Button Margin="5,0" Style="{StaticResource CircleButtonStyle}" Background="{x:Null}"
                         Click="{x:Bind ShowCompactView}" Width="42" Height="42">
                     <Button.Content>
-                        <TextBlock OpticalMarginAlignment="TrimSideBearings" Text="&#xE8BA;" FontWeight="Light"
+                        <TextBlock OpticalMarginAlignment="TrimSideBearings" Text="&#xEE40;" FontWeight="Light"
                                    FontSize="20" FontFamily="Segoe MDL2 Assets" AutomationProperties.Name="Next"
                                    TextAlignment="Center" />
                     </Button.Content>

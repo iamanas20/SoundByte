@@ -41,6 +41,11 @@ namespace SoundByte.UWP.ViewModels
 
         #region Event Handlers
 
+        public async void ShowCompactView()
+        {
+            await App.SwitchToCompactView();
+        }
+
         /// <summary>
         ///     Called when the current playing item changes
         /// </summary>

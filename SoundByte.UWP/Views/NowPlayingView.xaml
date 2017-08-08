@@ -243,9 +243,16 @@
                     <TextBlock Text="{x:Bind Path=ViewModel.Service.CurrentTrack.Title, Mode=OneWay}"
                                TextTrimming="CharacterEllipsis" MaxHeight="42" Margin="0,0,0,2" TextWrapping="Wrap"
                                VerticalAlignment="Top" FontSize="29" FontWeight="SemiLight" Foreground="White" />
-                    <TextBlock Text="{x:Bind Path=ViewModel.Service.CurrentTrack.User.Username, Mode=OneWay}"
-                               TextWrapping="Wrap" VerticalAlignment="Top" FontSize="18" Foreground="#FFFFFF"
-                               Opacity="0.9" FontWeight="SemiLight" />
+                    <HyperlinkButton VerticalAlignment="Top" Click="{x:Bind ViewModel.GoToUserProfile}" >
+                        <HyperlinkButton.Content>
+                            <TextBlock Text="{x:Bind Path=ViewModel.Service.CurrentTrack.User.Username, Mode=OneWay}" 
+                                       TextWrapping="Wrap" 
+                                       Foreground="#FFFFFF" 
+                                       FontSize="18" 
+                                       Opacity="0.9" 
+                                       FontWeight="SemiLight" />
+                        </HyperlinkButton.Content>
+                    </HyperlinkButton>
                 </StackPanel>
             </Grid>
         </Grid>
@@ -273,17 +280,15 @@
 
             <StackPanel HorizontalAlignment="Right" VerticalAlignment="Bottom" Orientation="Horizontal"
                         Margin="0,0,25,20">
-                <!--<Button Margin="5,0"  Foreground="White" Style="{StaticResource CircleButtonStyle}" Background="{x:Null}" Click="{x:Bind ViewModel.ShowCompactView}" Width="42" Height="42">
-                        <Button.Content>
-                            <TextBlock OpticalMarginAlignment="TrimSideBearings" Text="&#xE7F7;" FontWeight="Light" FontSize="20" FontFamily="Segoe MDL2 Assets" AutomationProperties.Name="Back" TextAlignment="Center"  />
-                        </Button.Content>
-                    </Button>
 
-                    <Button Margin="5,0" Foreground="White" Style="{StaticResource CircleButtonStyle}" Background="{x:Null}" Click="{x:Bind ViewModel.Cast}" Width="42" Height="42">
-                        <Button.Content>
-                            <TextBlock OpticalMarginAlignment="TrimSideBearings" Text="&#xE701;" FontWeight="Light" FontSize="20" FontFamily="Segoe MDL2 Assets" AutomationProperties.Name="Back" TextAlignment="Center"  />
-                        </Button.Content>
-                    </Button> -->
+                <Button x:Name="CompactViewButton" Margin="5,0" Foreground="White" Style="{StaticResource CircleButtonStyle}" Background="{x:Null}"
+                        Click="{x:Bind ViewModel.ShowCompactView}" Width="42" Height="42">
+                    <Button.Content>
+                        <TextBlock OpticalMarginAlignment="TrimSideBearings" Text="&#xEE40;" FontWeight="Light"
+                                   FontSize="20" FontFamily="Segoe MDL2 Assets" AutomationProperties.Name="Next"
+                                   TextAlignment="Center" />
+                    </Button.Content>
+                </Button>
 
                 <Button x:Name="FullScreenButton" Margin="5,0" Foreground="White"
                         Style="{StaticResource CircleButtonStyle}" Background="{x:Null}"
@@ -339,6 +344,16 @@
                     </Button.Content>
                 </Button>
 
+                <Button Margin="5,0" Style="{StaticResource CircleButtonStyle}" Background="{x:Null}" Foreground="White"
+                        Click="{x:Bind ViewModel.Service.LikeTrack}" Width="42" Height="42">
+                    <Button.Content>
+                        <TextBlock OpticalMarginAlignment="TrimSideBearings"
+                                   Text="{x:Bind ViewModel.Service.LikeIcon, Mode=OneWay}" FontWeight="Light" FontSize="20"
+                                   FontFamily="Segoe MDL2 Assets" AutomationProperties.Name="Next"
+                                   TextAlignment="Center" />
+                    </Button.Content>
+                </Button>
+                
                 <Button Margin="5,0" Foreground="White" FocusVisualPrimaryThickness="0"
                         FocusVisualSecondaryThickness="0"
                         FocusVisualMargin="0" Style="{StaticResource CircleButtonStyle}" Background="{x:Null}"

@@ -86,8 +86,11 @@ namespace SoundByte.UWP.Views
             // Hide the overlay for a new session
             HideOverlay();
 
-            if (DeviceHelper.IsXbox)
+            if (!DeviceHelper.IsDesktop)
+            {
+                CompactViewButton.Visibility = Visibility.Collapsed;
                 FullScreenButton.Visibility = Visibility.Collapsed;
+            }
         }
 
         private void Track_BackRequested(object sender, BackRequestedEventArgs e)
