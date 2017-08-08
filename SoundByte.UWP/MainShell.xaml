@@ -355,6 +355,20 @@
             </Grid>
         </SplitView>
 
+        <!-- Mobile Hamburger button -->
+        <Button x:Name="MobileMenu"
+                Height="48"
+                Width="48"
+                Visibility="Collapsed"
+                FocusVisualPrimaryThickness="1"
+                FocusVisualSecondaryThickness="1"
+                FocusVisualMargin="1"
+                Style="{StaticResource MenuItemButtonStyle}"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Tag="&#xE700;"
+                Click="HamburgerButton_Click" />
+        
         <!-- Desktop Now Playing Bar -->
         <sui:NowPlayingBar x:Name="NowPlaying"
                            VerticalAlignment="Bottom"

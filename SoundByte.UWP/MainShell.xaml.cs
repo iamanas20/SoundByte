@@ -120,6 +120,8 @@ namespace SoundByte.UWP
 
                 MainSplitView.IsPaneOpen = false;
                 MainSplitView.DisplayMode = SplitViewDisplayMode.Overlay;
+
+                MobileMenu.Visibility = Visibility.Visible;
             }
 
             // Focus on the root frame

@@ -41,13 +41,15 @@
         </VisualStateManager.VisualStateGroups>
 
         <Grid x:Name="MobileGrid" Visibility="Visible" Background="{ThemeResource ShellNavigationBackground}"
+              BorderThickness="0,0,0,1"
+              BorderBrush="{ThemeResource SystemControlBackgroundBaseLowBrush}"
               VerticalAlignment="Top" HorizontalAlignment="Stretch" Height="48" Canvas.ZIndex="100">
             <TextBlock Text="Playlists" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="SemiBold"
                        FontSize="18" />
         </Grid>
 
         <CommandBar x:Name="MobileCommandBar" VerticalAlignment="Bottom" HorizontalAlignment="Stretch"
-                    Canvas.ZIndex="100" Height="48">
+                    Canvas.ZIndex="100">
             <CommandBar.PrimaryCommands>
                 <AppBarButton Label="Refresh" Click="{x:Bind PlaylistModel.RefreshItems}">
                     <AppBarButton.Icon>

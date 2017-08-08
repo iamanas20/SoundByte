@@ -18,8 +18,36 @@
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
+            <VisualStateGroup x:Name="WindowSize">
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="768" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                       
+                        <Setter Target="MobileGrid.Visibility" Value="Collapsed" />
+                        <Setter Target="TextHeader.Visibility" Value="Visible" />
+                        <Setter Target="TextHeader.FontSize" Value="55" />
+                        <Setter Target="TextHeader.Margin" Value="0,30,0,0" />
+                        <Setter Target="TextHeader.Opacity" Value="0.8" />
+                        <Setter Target="StackPanel.Padding" Value="50,0" />
+                        <Setter Target="AccountPanel.Orientation" Value="Horizontal" />
+                        <Setter Target="SoundCloudPanel.Width" Value="200" />
+                        <Setter Target="SoundCloudPanel.HorizontalAlignment" Value="Left" />
+                        <Setter Target="FanburstPanel.Width" Value="200" />
+                        <Setter Target="FanburstPanel.HorizontalAlignment" Value="Left" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
 
+        <Grid x:Name="MobileGrid" Visibility="Visible" Background="{ThemeResource ShellNavigationBackground}"
+              BorderThickness="0,0,0,1"
+              BorderBrush="{ThemeResource SystemControlBackgroundBaseLowBrush}"
+              VerticalAlignment="Top" HorizontalAlignment="Stretch" Height="48" Canvas.ZIndex="100">
+            <TextBlock Text="Manage Accounts" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="SemiBold" FontSize="18" />
+        </Grid>
+        
         <WebView x:Name="LoginWebView"
                  Canvas.ZIndex="5"
                  Visibility="Collapsed"
@@ -30,23 +58,25 @@
 
         <ScrollViewer HorizontalAlignment="Stretch"
                       VerticalScrollBarVisibility="Hidden">
-            <StackPanel x:Name="StackPanel" Padding="50,0">
+            <StackPanel x:Name="StackPanel" Padding="10,55,10,0">
                 <TextBlock x:Name="TextHeader" Text="Manage Connected Accounts" FontWeight="Bold" Opacity="0.8"
+                           Visibility="Collapsed"
                            FontSize="55" Margin="0,30,0,0" />
                 <TextBlock Opacity="0.7" FontSize="14" Margin="0,10,0,12" HorizontalAlignment="Left"
                            TextWrapping="Wrap" Text="Manage your connected SoundCloud and Fanburst Account." />
 
 
-                <StackPanel Margin="-5,5,-5,0" Orientation="Horizontal">
+                <StackPanel x:Name="AccountPanel" Margin="-5,5,-5,0" Orientation="Vertical">
 
                     <StackPanel BorderBrush="{ThemeResource SystemControlBackgroundBaseLowBrush}"
+                                x:Name="SoundCloudPanel"
+                                HorizontalAlignment="Stretch"
                                 Background="{ThemeResource ShellNavigationBackground}"
                                 BorderThickness="1"
                                 Margin="5"
-                                Width="200"
                                 Padding="5"
                                 Orientation="Vertical">
-                        <TextBlock Text="SoundCloud" Opacity="0.8" Padding="10,40" TextAlignment="Center" FontSize="18"
+                        <TextBlock Text="SoundCloud" Opacity="0.8" Padding="10,20" TextAlignment="Center" FontSize="18"
                                    FontWeight="SemiBold" />
 
                         <Button Margin="0,10,0,0" Background="{ThemeResource SystemControlHighlightAccentBrush}"
@@ -66,14 +96,15 @@
 
                     <StackPanel BorderBrush="{ThemeResource SystemControlBackgroundBaseLowBrush}"
                                 Background="{ThemeResource ShellNavigationBackground}"
+                                x:Name="FanburstPanel"
                                 BorderThickness="1"
-                                Width="200"
+                                HorizontalAlignment="Stretch"
                                 Margin="5"
                                 Padding="5"
                                 Orientation="Vertical">
                         <TextBlock Text="Fanburst" 
                                    Opacity="0.8" 
-                                   Padding="10,40" 
+                                   Padding="10,20" 
                                    TextAlignment="Center" 
                                    FontSize="18"
                                    FontWeight="SemiBold" />
