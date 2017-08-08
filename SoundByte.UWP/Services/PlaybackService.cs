@@ -373,7 +373,10 @@ namespace SoundByte.UWP.Services
                 var geKey = await SoundByteService.Current.GridEntertainmentSoundByteGetPlaybackKey();
 
                 if (!string.IsNullOrEmpty(geKey))
-                    return geKey;
+                {
+                    if (await SoundByteService.Current.ApiCheck("https://api.soundcloud.com/tracks/320126814/stream?client_id=" + geKey))
+                        return geKey;
+                }
 
                 // Log this event so I know if the web service fails.
                 TelemetryService.Current.TrackEvent("Old Playback Key Method");
