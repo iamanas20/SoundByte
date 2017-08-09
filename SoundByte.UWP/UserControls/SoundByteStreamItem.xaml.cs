@@ -15,6 +15,7 @@ using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using SoundByte.Core.API.Endpoints;
 using SoundByte.Core.Dialogs;
+using SoundByte.Core.Helpers;
 
 namespace SoundByte.UWP.UserControls
 {
@@ -43,6 +44,12 @@ namespace SoundByte.UWP.UserControls
                     case "playlist":
                         VisualStateManager.GoToState(this, "PlaylistItem", false);
                         break;
+                }
+
+                if (!DeviceHelper.IsDesktop)
+                {
+                    PlaylistExtendedDetailPane.Visibility = Visibility.Collapsed;
+                    TrackExtendedDetailPane.Visibility = Visibility.Collapsed;
                 }
             };
         }

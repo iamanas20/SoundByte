@@ -19,6 +19,7 @@ using Windows.UI.Popups;
 using Windows.UI.StartScreen;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml.Controls;
+using Microsoft.Toolkit.Uwp;
 using SoundByte.Core.API.Endpoints;
 using SoundByte.Core.Converters;
 using SoundByte.Core.Dialogs;
@@ -51,7 +52,7 @@ namespace SoundByte.UWP.ViewModels
         /// </summary>
         private async void CurrentItemChanged(MediaPlaybackList sender, CurrentMediaPlaybackItemChangedEventArgs args)
         {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            await DispatcherHelper.ExecuteOnUIThreadAsync(async () =>
             {
                 // Only perform the following actions if there is a new track
                 if (args.NewItem == null)
@@ -76,18 +77,6 @@ namespace SoundByte.UWP.ViewModels
 
                 // Reload all the comments
                 CommentItems.RefreshItems();
-
-                // Create a image for the jumplist
-                var tempImage =
-                    await ImageHelper.CreateCachedImageAsync(
-                        ArtworkConverter.ConvertObjectToImage(Service.CurrentTrack),
-                        "Jumplist_" + Service.CurrentTrack.Id);
-                // Add the track to the jumplist
-                if (tempImage != null)
-                    await JumplistHelper.AddRecentAsync("soundbyte://core/track?id=" + Service.CurrentTrack.Id,
-                        Service.CurrentTrack.Title,
-                        "Play " + Service.CurrentTrack.Title + " by " + Service.CurrentTrack.User.Username + ".",
-                        "Recent Plays", tempImage);
             });
         }
 
@@ -240,7 +229,7 @@ namespace SoundByte.UWP.ViewModels
         {
             var startPlayback =
                 await PlaybackService.Current.StartMediaPlayback(PlaybackService.Current.Playlist.ToList(),
-                    PlaybackService.Current.TokenValue, false, (Track) e.ClickedItem);
+                    PlaybackService.Current.TokenValue, false, (Track)e.ClickedItem);
             if (!startPlayback.success)
                 await new MessageDialog(startPlayback.message, "Error playing related track.").ShowAsync();
         }

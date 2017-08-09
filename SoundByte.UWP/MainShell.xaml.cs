@@ -118,10 +118,15 @@ namespace SoundByte.UWP
                         ? Colors.Black
                         : Colors.White);
 
+                // Splitview pane gets background
+                SplitViewPaneGrid.Background =
+                    Application.Current.Resources["InAppBackgroundBrush"] as CustomAcrylicBrush;
+
                 MainSplitView.IsPaneOpen = false;
                 MainSplitView.DisplayMode = SplitViewDisplayMode.Overlay;
 
                 MobileMenu.Visibility = Visibility.Visible;
+                HamburgerButton.Visibility = Visibility.Collapsed;
             }
 
             // Focus on the root frame

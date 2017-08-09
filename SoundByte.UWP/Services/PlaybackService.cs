@@ -339,8 +339,6 @@ namespace SoundByte.UWP.Services
                     {"soundcloud_connected", SoundByteService.Current.IsSoundCloudAccountConnected.ToString()},
                     {"fanburst_connected", SoundByteService.Current.IsFanBurstAccountConnected.ToString()},
                     {"memory_usage", MemoryManager.AppMemoryUsage.ToString()},
-                    {"memory_usage_limit", MemoryManager.AppMemoryUsageLimit.ToString()},
-                    {"memory_usage_level", MemoryManager.AppMemoryUsageLevel.ToString()}
                 });
 
                 try
@@ -363,6 +361,28 @@ namespace SoundByte.UWP.Services
                     // ignored
                 }
             });
+
+      /*      if (DeviceHelper.IsDesktop)
+            {
+                // Create a image for the jumplist
+                try
+                {
+                    var tempImage =
+                        await ImageHelper.CreateCachedImageAsync(
+                            ArtworkConverter.ConvertObjectToImage(CurrentTrack),
+                            "Jumplist_" + CurrentTrack.Id);
+                    // Add the track to the jumplist
+                    if (tempImage != null)
+                        await JumplistHelper.AddRecentAsync("soundbyte://core/track?id=" + CurrentTrack.Id,
+                            CurrentTrack.Title,
+                            "Play " + CurrentTrack.Title + " by " + CurrentTrack.User.Username + ".",
+                            "Recent Plays", tempImage);
+                }
+                catch (Exception e)
+                {
+                   TelemetryService.Current.TrackException(e);
+                }     
+            }*/
         }
 
         private static async Task<string> GetCorrectApiKey()

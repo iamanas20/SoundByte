@@ -5,31 +5,26 @@ SoundByte
 
 <img src="SoundByte.UWP/Assets/Screenshots/mainpage.png" alt="SoundByte Screenshot">
 
-<h4 align="center">A <a href="https://soundcloud.com/" target="_blank">SoundCloud</a> &amp; Experimental <a href="https://fanburst.com/" target="_blank">Fanburst</a> Client for Windows 10 &amp; Xbox One.</h4>
+<h4 align="center">A <a href="https://soundcloud.com/" target="_blank">SoundCloud</a> &amp; <a href="https://fanburst.com/" target="_blank">Fanburst</a> Client for Windows 10 &amp; Xbox One.</h4>
 
 <p align="center">
-    <a href="https://ci.appveyor.com/project/dominic-maas/soundbyte">
-        <img src="https://ci.appveyor.com/api/projects/status/fxf50mr4qamkhybo?svg=true" alt="Build Status">
-    </a>
     <a href="https://github.com/DominicMaas/SoundByte/issues">
         <img src="https://img.shields.io/github/issues/dominicmaas/soundbyte.svg" alt="SoundByte Issues">
-    </a>
-    <a href="https://github.com/DominicMaas/SoundByte/blob/master/LICENSE">
-        <img src="https://img.shields.io/github/license/dominicmaas/soundbyte.svg" alt="SoundByte License">
     </a>
     <a href="https://discord.gg/tftSadE">
         <img src="https://img.shields.io/discord/333524708463214594.svg" alt="Chat on Discord">
     </a>
-    
 </p>
-
 
 ## Introduction
 SoundByte is a Universal Windows Platform (UWP) App that connects with the SoundCloud (and Fanburst) API allowing for a user to listen to music from SoundCloud natively. SoundByte is published through the Windows Store for free.
 
 Please Note: SoundByte source code is to only be used for educational purposes. Distrubution of SoundByte source code in any form outside this repository is forbidden.
 
-SoundByte is split into two main projects:
+SoundByte is split into a few projects:
+
+- **`SoundByte.Aurora`:** SoundByte Aurora is a new work in progress muiltiplatform extendable engine for SoundByte. This engine will allow easy extensibility with other services while also allowing the ability for code sharing and reuse across muiltiple platforms (such as UWP and Android).
+
 - **`SoundByte.Core`:** This project contains the core API code for the SoundCloud and Fanburst API. Mainily consisits of helper classes when deserializing JSON. Currently this project targets the UWP framework, but in the future it's planned to target a framework that works with both UWP and Xamarin, while also intergrating more of the networking code.
 
 - **`SoundByte.UWP`:** This project contains the main code for SoundByte on Windows 10 / Xbox One. Items such as brushes, converters, view models, models, views, services etc. are all stored here.

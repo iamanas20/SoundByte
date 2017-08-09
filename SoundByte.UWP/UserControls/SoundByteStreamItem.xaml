@@ -157,6 +157,7 @@
 
             <!-- Extended Right Detail -->
             <StackPanel Orientation="Horizontal"
+                        x:Name="TrackExtendedDetailPane"
                         HorizontalAlignment="Right"
                         Canvas.ZIndex="5"
                         VerticalAlignment="Bottom"
@@ -292,6 +293,7 @@
             <StackPanel Orientation="Horizontal"
                         HorizontalAlignment="Right"
                         Canvas.ZIndex="5"
+                        x:Name="PlaylistExtendedDetailPane"
                         VerticalAlignment="Bottom"
                         Margin="30,30,30,10">
                 <userControls:SoundByteButton Glyph="&#xE72D;" Label="Share" Margin="0,0,0,0"

@@ -88,6 +88,6 @@
                                 Mode="InAppBlur"
                                 BlurAmount="12"
                                 Tint="Black"
-                                TintMix="0.3"
+                                TintMix="0.7"
                                 NoiseTextureUri="/Assets/Misc/lightnoise.png" />
 </ResourceDictionary>
