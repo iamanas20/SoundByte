@@ -51,107 +51,91 @@
                            TextWrapping="Wrap"
                            Text="Are you enjoying using SoundByte as much as I enjoyed making it?&#x0a;Then consider donating below to help continue future development:" />
 
-                <GridView IsItemClickEnabled="False"
-                          IsHoldingEnabled="False"
-                          IsTapEnabled="False">
-                    <GridView.Items>
+                <VariableSizedWrapGrid Orientation="Horizontal" Margin="-5,-5,-5,0">
+                    <!-- Loose Change -->
+                    <Grid Padding="0" Margin="5">
+                        <StackPanel Orientation="Vertical"
+                                    Margin="0"
+                                    Width="170"
+                                    Padding="0,15,0,0"
+                                    Background="{ThemeResource SoundByteButtonBackground}">
+                            <!-- Icon -->
+                            <TextBlock Text="&#xE006;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center"
+                                       Padding="5" TextAlignment="Center" FontSize="48" />
+                            <!-- Description and button-->
+                            <TextBlock Text="Loose Change" Opacity="0.8" Padding="40,10" TextAlignment="Center" />
+                            <TextBlock x:Name="LooseChangePrice" Text="Unknown" TextAlignment="Center"
+                                       Opacity="0.6" Padding="10,0,10,10" />
 
-                        <!-- Loose Change -->
-                        <Button Padding="0" Margin="0"
-                                BorderBrush="{ThemeResource SystemControlBackgroundBaseLowBrush}" BorderThickness="1"
-                                Click="DonateLooseChange">
-                            
-                            
-                            <StackPanel Orientation="Vertical"
+                            <Button  Click="DonateLooseChange" Background="{ThemeResource SystemControlHighlightAccentBrush}" HorizontalAlignment="Stretch" BorderThickness="0" Padding="10,15">
+                                <TextBlock Text="Donate" TextAlignment="Center" FontSize="16" RequestedTheme="Dark" />
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- Small Coffee -->
+                    <Grid Padding="0" Margin="5">
+                        <StackPanel Orientation="Vertical"
                                         Margin="0"
                                         Width="170"
                                         Padding="0,15,0,0"
-                                        Background="{ThemeResource ShellNavigationBackground}">
-                                <!-- Icon -->
-                                <TextBlock Text="&#xE006;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center"
+                                        Background="{ThemeResource SoundByteButtonBackground}">
+                            <!-- Icon -->
+                            <TextBlock Text="&#xE006;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center"
                                            Padding="5" TextAlignment="Center" FontSize="48" />
-                                <!-- Description and button-->
-                                <TextBlock Text="Loose Change" Opacity="0.8" Padding="40,10" TextAlignment="Center" />
-                                <TextBlock x:Name="LooseChangePrice" Text="Unknown" TextAlignment="Center"
+                            <!-- Description and button-->
+                            <TextBlock Text="Small Coffee" Opacity="0.8" Padding="40,10" TextAlignment="Center" />
+                            <TextBlock x:Name="SmallCoffeePrice" Text="Unknown" TextAlignment="Center"
                                            Opacity="0.6" Padding="10,0,10,10" />
 
-                                <Grid Background="{ThemeResource SystemControlHighlightAccentBrush}" Padding="10,15">
-                                    <TextBlock Text="Donate" TextAlignment="Center" FontSize="16" RequestedTheme="Dark" />
-                                </Grid>
-                            </StackPanel>
-                        </Button>
+                            <Button Click="DonateSmall" Background="{ThemeResource SystemControlHighlightAccentBrush}" BorderThickness="0" HorizontalAlignment="Stretch" Padding="10,15">
+                                <TextBlock Text="Donate" TextAlignment="Center" FontSize="16" RequestedTheme="Dark" />
+                            </Button>
+                        </StackPanel>
+                    </Grid>
 
-
-                        <!-- Small Coffee -->
-                        <Button Padding="0" Margin="0"
-                                BorderBrush="{ThemeResource SystemControlBackgroundBaseLowBrush}" BorderThickness="1"
-                                Click="DonateSmall">
-                            <StackPanel Orientation="Vertical"
+                    <!-- Regular Coffee -->
+                    <Grid Padding="0" Margin="5">
+                        <StackPanel Orientation="Vertical"
                                         Margin="0"
                                         Width="170"
                                         Padding="0,15,0,0"
-                                        Background="{ThemeResource ShellNavigationBackground}">
-                                <!-- Icon -->
-                                <TextBlock Text="&#xE006;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center"
+                                        Background="{ThemeResource SoundByteButtonBackground}">
+                            <!-- Icon -->
+                            <TextBlock Text="&#xE006;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center"
                                            Padding="5" TextAlignment="Center" FontSize="48" />
-                                <!-- Description and button-->
-                                <TextBlock Text="Small Coffee" Opacity="0.8" Padding="40,10" TextAlignment="Center" />
-                                <TextBlock x:Name="SmallCoffeePrice" Text="Unknown" TextAlignment="Center"
+                            <!-- Description and button-->
+                            <TextBlock Text="Regular Coffee" Opacity="0.8" Padding="40,10" TextAlignment="Center" />
+                            <TextBlock x:Name="RegularCoffeePrice" Text="Unknown" TextAlignment="Center"
                                            Opacity="0.6" Padding="10,0,10,10" />
 
-                                <Grid Background="{ThemeResource SystemControlHighlightAccentBrush}" Padding="10,15">
-                                    <TextBlock Text="Donate" TextAlignment="Center" FontSize="16" RequestedTheme="Dark" />
-                                </Grid>
-                            </StackPanel>
-                        </Button>
+                            <Button Click="DonateRegular" Background="{ThemeResource SystemControlHighlightAccentBrush}" BorderThickness="0" HorizontalAlignment="Stretch" Padding="10,15">
+                                <TextBlock Text="Donate" TextAlignment="Center" FontSize="16" RequestedTheme="Dark" />
+                            </Button>
+                        </StackPanel>
+                    </Grid>
 
-                        <!-- Regular Coffee -->
-                        <Button Padding="0" Margin="0"
-                                BorderBrush="{ThemeResource SystemControlBackgroundBaseLowBrush}" BorderThickness="1"
-                                Click="DonateRegular">
-                            <StackPanel Orientation="Vertical"
+                    <!-- Large Coffee -->
+                    <Grid Padding="0" Margin="5">
+                        <StackPanel Orientation="Vertical"
                                         Margin="0"
                                         Width="170"
                                         Padding="0,15,0,0"
-                                        Background="{ThemeResource ShellNavigationBackground}">
-                                <!-- Icon -->
-                                <TextBlock Text="&#xE006;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center"
+                                        Background="{ThemeResource SoundByteButtonBackground}">
+                            <!-- Icon -->
+                            <TextBlock Text="&#xE006;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center"
                                            Padding="5" TextAlignment="Center" FontSize="48" />
-                                <!-- Description and button-->
-                                <TextBlock Text="Regular Coffee" Opacity="0.8" Padding="40,10" TextAlignment="Center" />
-                                <TextBlock x:Name="RegularCoffeePrice" Text="Unknown" TextAlignment="Center"
+                            <!-- Description and button-->
+                            <TextBlock Text="Large Coffee" Opacity="0.8" Padding="40,10" TextAlignment="Center" />
+                            <TextBlock x:Name="LargeCoffeePrice" Text="Unknown" TextAlignment="Center"
                                            Opacity="0.6" Padding="10,0,10,10" />
 
-                                <Grid Background="{ThemeResource SystemControlHighlightAccentBrush}" Padding="10,15">
-                                    <TextBlock Text="Donate" TextAlignment="Center" FontSize="16" RequestedTheme="Dark" />
-                                </Grid>
-                            </StackPanel>
-                        </Button>
-
-                        <!-- Large Coffee -->
-                        <Button Padding="0" Margin="0"
-                                BorderBrush="{ThemeResource SystemControlBackgroundBaseLowBrush}" BorderThickness="1"
-                                Click="DonateLarge">
-                            <StackPanel Orientation="Vertical"
-                                        Margin="0"
-                                        Width="170"
-                                        Padding="0,15,0,0"
-                                        Background="{ThemeResource ShellNavigationBackground}">
-                                <!-- Icon -->
-                                <TextBlock Text="&#xE006;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center"
-                                           Padding="5" TextAlignment="Center" FontSize="48" />
-                                <!-- Description and button-->
-                                <TextBlock Text="Large Coffee" Opacity="0.8" Padding="40,10" TextAlignment="Center" />
-                                <TextBlock x:Name="LargeCoffeePrice" Text="Unknown" TextAlignment="Center"
-                                           Opacity="0.6" Padding="10,0,10,10" />
-
-                                <Grid Background="{ThemeResource SystemControlHighlightAccentBrush}" Padding="10,15">
-                                    <TextBlock Text="Donate" TextAlignment="Center" FontSize="16" RequestedTheme="Dark" />
-                                </Grid>
-                            </StackPanel>
-                        </Button>
-                    </GridView.Items>
-                </GridView>
+                            <Button Click="DonateLarge" Background="{ThemeResource SystemControlHighlightAccentBrush}" HorizontalAlignment="Stretch" BorderThickness="0" Padding="10,15">
+                                <TextBlock Text="Donate" TextAlignment="Center" FontSize="16" RequestedTheme="Dark" />
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+                </VariableSizedWrapGrid>
 
                 <TextBlock Opacity="0.7" FontSize="14" Margin="0,8,0,0" HorizontalAlignment="Left" TextWrapping="Wrap"
                            Text="Thank you! If you have any questions, feel free to contact be below.&#x0a;- Dominic Maas" />

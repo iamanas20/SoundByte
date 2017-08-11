@@ -11,6 +11,7 @@
             <!-- Shell Colors -->
             <Color x:Key="ShellNavigationBackgroundColor">#FF2B2B2B</Color>
             <Color x:Key="ShellBackgroundColor">#FF1F1F1F</Color>
+            <Color x:Key="SoundByteButtonBackgroundColor">#CC2B2B2B</Color>
             <!-- Grey Background Color -->
             <SolidColorBrush x:Key="SecondaryBackgroundColor" Color="#0DFFFFFF" />
         </ResourceDictionary>
@@ -19,6 +20,7 @@
             <!-- Shell Colors -->
             <Color x:Key="ShellNavigationBackgroundColor">#FFE8E8E8</Color>
             <Color x:Key="ShellBackgroundColor">#FFF8F8F8</Color>
+            <Color x:Key="SoundByteButtonBackgroundColor">#CCE8E8E8</Color>
             <!-- Grey Background Color -->
             <SolidColorBrush x:Key="SecondaryBackgroundColor" Color="#15000000" />
         </ResourceDictionary>
@@ -27,6 +29,8 @@
     <!-- Shell Brushes -->
     <SolidColorBrush x:Key="ShellNavigationBackground" Color="{ThemeResource ShellNavigationBackgroundColor}" />
     <SolidColorBrush x:Key="ShellBackground" Color="{ThemeResource ShellBackgroundColor}" />
+    <SolidColorBrush x:Key="SoundByteButtonBackground" Color="{ThemeResource SoundByteButtonBackgroundColor}" />
+
 
     <!-- Used for hover effects over button -->
     <brushes:LightingBrush x:Key="ButtonLightingBrush"
@@ -48,8 +52,8 @@
     <brushes:LightingBrush x:Key="ButtonPressedLightingBrush"
                            SpecularShine=".01"
                            SpecularAmount=".01"
-                           DiffuseAmount="1.5"
-                           Opacity=".4"
+                           DiffuseAmount="0.8"
+                           Opacity=".5"
                            lights:PointerPositionSpotLight.IsTarget="True" />
 
     <!-- Used for full screen track bluring (now playing page + xbox overlay -->

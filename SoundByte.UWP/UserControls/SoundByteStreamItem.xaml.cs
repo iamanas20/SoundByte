@@ -54,11 +54,6 @@ namespace SoundByte.UWP.UserControls
             };
         }
 
-        public async void SharePlaylist()
-        {
-            await new MessageDialog("Not yet supported.").ShowAsync();
-        }
-
         public async void AddTrackToPlaylist()
         {
             await new PlaylistDialog(Track).ShowAsync();

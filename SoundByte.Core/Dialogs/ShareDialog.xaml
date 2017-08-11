@@ -42,10 +42,9 @@
             <Button HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Left"
                     Margin="0,5,0,5"
-                    BorderBrush="{ThemeResource ContentDialogBorderThemeBrush}"
-                    Background="{ThemeResource ShellNavigationBackground}"
+                    Background="{ThemeResource SoundByteButtonBackground}"
                     Click="ShareWindows"
-                    BorderThickness="1">
+                    BorderThickness="0">
 
                 <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
@@ -66,9 +65,8 @@
                     HorizontalContentAlignment="Left"
                     Margin="0,5,0,5"
                     Click="ShareLink"
-                    BorderBrush="{ThemeResource ContentDialogBorderThemeBrush}"
-                    Background="{ThemeResource ShellNavigationBackground}"
-                    BorderThickness="1">
+                    Background="{ThemeResource SoundByteButtonBackground}"
+                    BorderThickness="0">
                 <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
@@ -88,9 +86,8 @@
                     HorizontalContentAlignment="Left"
                     Margin="0,5,0,5"
                     Click="ShareSoundByte"
-                    BorderBrush="{ThemeResource ContentDialogBorderThemeBrush}"
-                    Background="{ThemeResource ShellNavigationBackground}"
-                    BorderThickness="1">
+                    Background="{ThemeResource SoundByteButtonBackground}"
+                    BorderThickness="0">
                 <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />

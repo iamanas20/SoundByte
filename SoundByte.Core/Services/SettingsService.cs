@@ -40,9 +40,8 @@ namespace SoundByte.Core.Services
         private const string LastFrameKey = "SoundByte_LastFrame";
         private const string LastViewedTrackKey = "SoundByte_LastViewedTack";
         private const string AppStoredVersionKey = "SoundByte_AppStoredVersionKey";
-        private const string NotificationSoundKey = "SoundByte_NotificationSoundEnabled";
+        private const string NotificationPopupKey = "SoundByte_NotificationPopupEnabled";
         private const string NotificationKey = "SoundByte_NotificationsEnabled";
-        private const string TrackNumberKey = "SoundByte_TrackNumberEnabled";
         private const string TrackPostKey = "SoundByte_TrackPostEnabled";
         private const string TrackRepostKey = "SoundByte_TrackRepostEnabled";
         private const string PlaylistPostKey = "SoundByte_PlaylistPostEnabled";
@@ -188,20 +187,6 @@ namespace SoundByte.Core.Services
         }
 
         /// <summary>
-        ///     Are track numbers displayed on the live tile
-        /// </summary>
-        public bool IsTrackNumberEnabled
-        {
-            get
-            {
-                var boolVal = ReadSettingsValue(TrackNumberKey) as bool?;
-
-                return !boolVal.HasValue || boolVal.Value;
-            }
-            set => SaveSettingsValue(TrackNumberKey, value, true);
-        }
-
-        /// <summary>
         ///     Are notifications enabled for the app
         /// </summary>
         public bool IsNotificationsEnabled
@@ -216,17 +201,17 @@ namespace SoundByte.Core.Services
         }
 
         /// <summary>
-        ///     Should the app display notification sounds
+        ///     Should the app popup notifications to the user
         /// </summary>
-        public bool IsNotificationSoundEnabled
+        public bool IsNotificationPopupEnabled
         {
             get
             {
-                var boolVal = ReadSettingsValue(NotificationSoundKey) as bool?;
+                var boolVal = ReadSettingsValue(NotificationPopupKey) as bool?;
 
                 return boolVal.HasValue && boolVal.Value;
             }
-            set => SaveSettingsValue(NotificationSoundKey, value, true);
+            set => SaveSettingsValue(NotificationPopupKey, value);
         }
 
         /// <summary>

@@ -68,11 +68,9 @@
 
                 <StackPanel x:Name="AccountPanel" Margin="-5,5,-5,0" Orientation="Vertical">
 
-                    <StackPanel BorderBrush="{ThemeResource SystemControlBackgroundBaseLowBrush}"
-                                x:Name="SoundCloudPanel"
+                    <StackPanel x:Name="SoundCloudPanel"
                                 HorizontalAlignment="Stretch"
-                                Background="{ThemeResource ShellNavigationBackground}"
-                                BorderThickness="1"
+                                Background="{ThemeResource SoundByteButtonBackground}"
                                 Margin="5"
                                 Padding="5"
                                 Orientation="Vertical">
@@ -94,10 +92,8 @@
                         </Button>
                     </StackPanel>
 
-                    <StackPanel BorderBrush="{ThemeResource SystemControlBackgroundBaseLowBrush}"
-                                Background="{ThemeResource ShellNavigationBackground}"
+                    <StackPanel Background="{ThemeResource SoundByteButtonBackground}"
                                 x:Name="FanburstPanel"
-                                BorderThickness="1"
                                 HorizontalAlignment="Stretch"
                                 Margin="5"
                                 Padding="5"

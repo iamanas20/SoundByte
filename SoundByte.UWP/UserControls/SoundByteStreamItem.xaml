@@ -296,8 +296,7 @@
                         x:Name="PlaylistExtendedDetailPane"
                         VerticalAlignment="Bottom"
                         Margin="30,30,30,10">
-                <userControls:SoundByteButton Glyph="&#xE72D;" Label="Share" Margin="0,0,0,0"
-                                              Click="{x:Bind SharePlaylist}" />
+                
 
             </StackPanel>
 

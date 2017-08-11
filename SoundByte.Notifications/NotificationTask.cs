@@ -137,7 +137,7 @@ namespace SoundByte.Notifications
                         toastXml.LoadXml(toastXmlString);
 
                         // Create the toast notification
-                        var toast = new ToastNotification(toastXml) { SuppressPopup = true };
+                        var toast = new ToastNotification(toastXml) { SuppressPopup = !SettingsService.Current.IsNotificationPopupEnabled };
 
                         // Show the taost notification
                         ToastNotificationManager.CreateToastNotifier().Show(toast);
