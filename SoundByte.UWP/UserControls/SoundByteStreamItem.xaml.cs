@@ -29,11 +29,7 @@ namespace SoundByte.UWP.UserControls
             // Load the xaml
             InitializeComponent();
 
-            if (!DeviceHelper.IsDesktop)
-            {
-                PlaylistExtendedDetailPane.Visibility = Visibility.Collapsed;
-                TrackExtendedDetailPane.Visibility = Visibility.Collapsed;
-            }
+            
 
             // Setup the even that is called when the data
             // context chanages.
@@ -50,7 +46,13 @@ namespace SoundByte.UWP.UserControls
                     case "playlist":
                         VisualStateManager.GoToState(this, "PlaylistItem", false);
                         break;
-                } 
+                }
+
+                if (!DeviceHelper.IsDesktop)
+                {
+                    PlaylistExtendedDetailPane.Visibility = Visibility.Collapsed;
+                    TrackExtendedDetailPane.Visibility = Visibility.Collapsed;
+                }
             };
         }
 

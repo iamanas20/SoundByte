@@ -13,8 +13,11 @@
 using System;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
+using Windows.UI.Notifications;
 using Windows.UI.Xaml;
 using Microsoft.Toolkit.Uwp;
+using NotificationsExtensions;
+using NotificationsExtensions.Toasts;
 using SoundByte.Core.Dialogs;
 using SoundByte.Core.Services;
 
@@ -49,6 +52,36 @@ namespace SoundByte.Core.Helpers
             };
         }
 
+        private static void ShowCrashNotification(string message)
+        {
+            // Generate a notification
+            var toastContent = new ToastContent
+            {
+                Visual = new ToastVisual
+                {
+                    BindingGeneric = new ToastBindingGeneric
+                    {
+                        Children =
+                        {
+                            new AdaptiveText
+                            {
+                                Text = "SoundByte Crash"
+                            },
+
+                            new AdaptiveText
+                            {
+                                Text = message
+                            }
+                        }
+                    }
+                }
+            };
+
+            // Show the notification
+            var toast = new ToastNotification(toastContent.GetXml()) { ExpirationTime = DateTime.Now.AddMinutes(30) };
+            ToastNotificationManager.CreateToastNotifier().Show(toast);
+        }
+
         private static async Task HandleAppCrashAsync(Exception ex)
         {
             // Track the error
@@ -57,12 +90,18 @@ namespace SoundByte.Core.Helpers
             try
             {
                 if (!DeviceHelper.IsBackground)
+                {
                     await DispatcherHelper.ExecuteOnUIThreadAsync(
                         async () => { await new CrashDialog(ex).ShowAsync(); });
+                }      
+                else
+                {
+                    ShowCrashNotification(ex.Message);
+                }
             }
             catch
             {
-                // Blank Catch
+                ShowCrashNotification(ex.Message);
             }
         }
     }

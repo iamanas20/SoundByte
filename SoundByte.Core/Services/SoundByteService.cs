@@ -18,10 +18,13 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Resources;
 using Windows.Security.Credentials;
+using Windows.UI.Notifications;
 using Windows.Web.Http;
 using Windows.Web.Http.Filters;
 using Windows.Web.Http.Headers;
 using Newtonsoft.Json;
+using NotificationsExtensions;
+using NotificationsExtensions.Toasts;
 using SoundByte.Core.API.Endpoints;
 using SoundByte.Core.API.Exceptions;
 using SoundByte.Core.Helpers;
@@ -552,7 +555,7 @@ namespace SoundByte.Core.Services
                 }
                 catch (Exception)
                 {
-                    throw new Exception("SoundByte could not connect to the Grid Entertainment Services. This is required when running the app for the first time. Please restart the app and try again. If this issue continues, tweet me @dominicjmaas");
+                    throw new Exception("SoundByte could not connect to the Grid Entertainment Services. This is required when running the app for the first time. Please restart the app and try again. If this issue continues, tweet me @dominicjmaas.");
                 }
             });
         }
@@ -605,7 +608,7 @@ namespace SoundByte.Core.Services
                 }
                 catch (Exception)
                 {
-                    throw new Exception("SoundByte could not connect to the Grid Entertainment Services. This is required when running the app for the first time. Please restart the app and try again. If this issue continues, tweet me @dominicjmaas");
+                    throw new Exception("SoundByte could not connect to the Grid Entertainment Services. This is required when running the app for the first time. Please restart the app and try again. If this issue continues, tweet me @dominicjmaas.");
                 }
             });
         }
