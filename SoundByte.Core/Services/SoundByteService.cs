@@ -18,7 +18,6 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Resources;
 using Windows.Security.Credentials;
-using Windows.UI.Xaml;
 using Windows.Web.Http;
 using Windows.Web.Http.Filters;
 using Windows.Web.Http.Headers;
@@ -534,9 +533,11 @@ namespace SoundByte.Core.Services
                                 new HttpFormUrlEncodedContent(new List<KeyValuePair<string, string>>
                                 {
                                     new KeyValuePair<string, string>("sck",
-                                        "dlzZBc0hKAla1619RWTNIdUP7slMx1ufMAETtsc9UQH7IGZoffP9l2fqDlGYH22B"),
+                                        "63qVU7qoyPzXeYuPbqkA1IH7ylxYMTZuxBCnDCE6jilJx7XY67PTN11s73lDWSKH"),
                                     new KeyValuePair<string, string>("ppk",
-                                        "lBcZRoiX3KLMjCcZmy3MS0wOMSPoGCrQMO2rndcfeSgaQZI0t9Z5xbq8CBOLdIEZ")
+                                        "i0cX15S6Qp1UI4YRas0y60T3mrKz8U6bfznB3IPMccXGxxP4MtWBE9e19gUZpCwt"),
+                                    new KeyValuePair<string, string>("llk",
+                                        "i0cX15S6Qp1UI4YRas0y60T3mrKz8U6bfznB3IPMccXGxxP4MtWBE9e19gUZpCwt")
                                 })))
                         {
                             webRequest.EnsureSuccessStatusCode();
@@ -551,11 +552,7 @@ namespace SoundByte.Core.Services
                 }
                 catch (Exception)
                 {
-                    // Todo: make friendly
-
-                    // Quit out app asap
-                    Application.Current.Exit();
-                    return new List<string>();
+                    throw new Exception("SoundByte could not connect to the Grid Entertainment Services. This is required when running the app for the first time. Please restart the app and try again. If this issue continues, tweet me @dominicjmaas");
                 }
             });
         }
@@ -594,9 +591,11 @@ namespace SoundByte.Core.Services
                                 new HttpFormUrlEncodedContent(new List<KeyValuePair<string, string>>
                                 {
                                     new KeyValuePair<string, string>("sck",
-                                        "dlzZBc0hKAla1619RWTNIdUP7slMx1ufMAETtsc9UQH7IGZoffP9l2fqDlGYH22B"),
+                                        "63qVU7qoyPzXeYuPbqkA1IH7ylxYMTZuxBCnDCE6jilJx7XY67PTN11s73lDWSKH"),
                                     new KeyValuePair<string, string>("ppk",
-                                        "lBcZRoiX3KLMjCcZmy3MS0wOMSPoGCrQMO2rndcfeSgaQZI0t9Z5xbq8CBOLdIEZ")
+                                        "i0cX15S6Qp1UI4YRas0y60T3mrKz8U6bfznB3IPMccXGxxP4MtWBE9e19gUZpCwt"),
+                                    new KeyValuePair<string, string>("llk",
+                                        "i0cX15S6Qp1UI4YRas0y60T3mrKz8U6bfznB3IPMccXGxxP4MtWBE9e19gUZpCwt")
                                 })))
                         {
                             webRequest.EnsureSuccessStatusCode();
@@ -606,11 +605,7 @@ namespace SoundByte.Core.Services
                 }
                 catch (Exception)
                 {
-                    // Todo: make friendly
-
-                    // Quit out app asap
-                    Application.Current.Exit();
-                    return string.Empty;
+                    throw new Exception("SoundByte could not connect to the Grid Entertainment Services. This is required when running the app for the first time. Please restart the app and try again. If this issue continues, tweet me @dominicjmaas");
                 }
             });
         }

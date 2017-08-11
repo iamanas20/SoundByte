@@ -359,9 +359,8 @@
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <Grid HorizontalAlignment="Stretch"
-                                  BorderBrush="{ThemeResource ContentDialogBorderThemeBrush}"
                                   Background="{ThemeResource ShellNavigationBackground}"
-                                  BorderThickness="1">
+                                  BorderThickness="0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="30" />

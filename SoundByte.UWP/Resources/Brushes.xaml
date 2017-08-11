@@ -91,7 +91,7 @@
     <brushes:CustomAcrylicBrush x:Key="InAppBackgroundBrush"
                                 Mode="InAppBlur"
                                 BlurAmount="12"
-                                Tint="Black"
-                                TintMix="0.7"
+                                Tint="#FF111111"
+                                TintMix="0.4"
                                 NoiseTextureUri="/Assets/Misc/lightnoise.png" />
 </ResourceDictionary>
