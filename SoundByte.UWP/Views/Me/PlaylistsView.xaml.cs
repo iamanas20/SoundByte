@@ -41,17 +41,5 @@ namespace SoundByte.UWP.Views.Me
         {
             App.NavigateTo(typeof(Playlist), e.ClickedItem as Core.API.Endpoints.Playlist);
         }
-
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
-        {
-            base.OnNavigatedFrom(e);
-
-            if (e.NavigationMode == NavigationMode.Back)
-            {
-                var cacheSize = ((Frame)Parent).CacheSize;
-                ((Frame)Parent).CacheSize = 0;
-                ((Frame)Parent).CacheSize = cacheSize;
-            }
-        }
     }
 }
