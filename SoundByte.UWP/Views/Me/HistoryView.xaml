@@ -7,8 +7,8 @@
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
     xmlns:stateTriggers="using:SoundByte.UWP.StateTriggers"
-    Transitions="{StaticResource MainTransition}"
-    NavigationCacheMode="Enabled">
+    NavigationCacheMode="Enabled"
+    Transitions="{StaticResource MainTransition}">
     <Grid Background="{ThemeResource ShellBackground}" x:Name="RootGrid">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="DeviceStates">

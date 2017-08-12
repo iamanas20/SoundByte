@@ -108,6 +108,7 @@ namespace SoundByte.Core.Services
             try
             {
                 HockeyClient.Current.TrackException(exception);
+                GoogleAnalyticsClient.Send(HitBuilder.CreateException(exception.Message, false).Build());
             }
             catch
             {

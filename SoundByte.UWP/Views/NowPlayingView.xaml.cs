@@ -35,8 +35,6 @@ namespace SoundByte.UWP.Views
         public NowPlayingView()
         {
             InitializeComponent();
-            // This page must be cached
-            NavigationCacheMode = NavigationCacheMode.Enabled;
             // Set the data context
             DataContext = ViewModel;
             // Page has been unloaded from UI

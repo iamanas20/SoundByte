@@ -34,7 +34,6 @@ namespace SoundByte.UWP.Views
         public UserView()
         {
             InitializeComponent();
-            NavigationCacheMode = NavigationCacheMode.Enabled;
         }
 
         /// <summary>

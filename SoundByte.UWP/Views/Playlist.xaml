@@ -50,19 +50,39 @@
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
                         <!-- Track Image -->
-                        <controls:DropShadowPanel BlurRadius="25"
-                                                  Margin="10,50,0,0"
+                        <controls:DropShadowPanel BlurRadius="20"
+                                                  Margin="10,50,0,20"
                                                   ShadowOpacity="0.7"
                                                   OffsetX="0"
                                                   OffsetY="5"
                                                   Color="Black">
-                            <Image
-                                Canvas.ZIndex="1"
-                                Width="240"
-                                Height="240"
-                                Source="{x:Bind ViewModel.Playlist, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
-                                VerticalAlignment="Stretch"
-                                HorizontalAlignment="Stretch" />
+                            <Grid Padding="0,7,0,0">
+                              
+
+                                <Grid Background="#FF444444"
+                                      Width="220"
+                                      Margin="0,-30,0,0"
+                                      Height="220"
+                                      VerticalAlignment="Stretch"
+                                      HorizontalAlignment="Stretch" />
+
+                                <Grid Background="#FF666666"
+                                      Width="230"
+                                      Margin="0,-17,0,0"
+                                      Height="230"
+                                      VerticalAlignment="Stretch"
+                                      HorizontalAlignment="Stretch" />
+
+                                <Image
+                                    Width="240"
+                                    Height="240"
+                                    Source="{x:Bind ViewModel.Playlist, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
+                                    VerticalAlignment="Stretch"
+                                    HorizontalAlignment="Stretch" />
+
+                            </Grid>
+                            
+                           
                         </controls:DropShadowPanel>
 
                         <!-- Detail Section -->

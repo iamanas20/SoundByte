@@ -7,8 +7,8 @@
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
     xmlns:stateTriggers="using:SoundByte.UWP.StateTriggers"
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
-    Transitions="{StaticResource MainTransition}"
-    NavigationCacheMode="Enabled">
+    NavigationCacheMode="Enabled"
+    Transitions="{StaticResource MainTransition}">
     <Page.Resources>
         <!-- Data Template for stream items -->
         <DataTemplate x:Key="StreamItem">

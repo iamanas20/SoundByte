@@ -9,6 +9,7 @@
 <ContentDialog x:Class="SoundByte.Core.Dialogs.PlaylistDialog"
                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
                Background="{StaticResource ContentDialogBackgroundBrush}">
     <ContentDialog.Resources>
 
@@ -346,6 +347,7 @@
                           IsDoubleTapEnabled="False"
                           IsTapEnabled="False"
                           MaxHeight="350"
+                          SelectionMode="None"
                           ScrollViewer.VerticalScrollBarVisibility="Hidden"
                           ItemsSource="{x:Bind Path=Playlist, Mode=OneWay}"
                           VerticalAlignment="Stretch">
@@ -359,7 +361,6 @@
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <Grid HorizontalAlignment="Stretch"
-                                  Background="{ThemeResource ShellNavigationBackground}"
                                   BorderThickness="0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
@@ -367,26 +368,57 @@
                                 </Grid.ColumnDefinitions>
                                 <Grid Grid.Column="0">
                                     <!-- Playlist Image -->
-                                    <Image Source="{Binding Converter={StaticResource ArtworkConverter}}"
-                                           VerticalAlignment="Top"
-                                           Height="80"
-                                           Width="80"
-                                           HorizontalAlignment="Left"
-                                           Stretch="Uniform" />
+                                    <controls:DropShadowPanel VerticalAlignment="Top"
+                                                              BlurRadius="15"
+                                                              ShadowOpacity="0.8"
+                                                              OffsetX="0"
+                                                              OffsetY="5"                 
+                                                              IsTabStop="False"
+                                                              IsHitTestVisible="False"
+                                                              Margin="8,5,5,5"
+                                                              Color="Black">
+                                        <Grid Padding="0,7,0,0">
 
+                                            <Grid Background="#FF444444"
+                                                  Width="60"
+                                                  Margin="0,-30,0,0"
+                                                  Height="60"
+                                                  VerticalAlignment="Stretch"
+                                                  HorizontalAlignment="Stretch" />
+
+                                            <Grid Background="#FF666666"
+                                                  Width="70"
+                                                  Margin="0,-16,0,0"
+                                                  Height="70"
+                                                  VerticalAlignment="Stretch"
+                                                  HorizontalAlignment="Stretch" />
+
+                                            <Image Source="{Binding Converter={StaticResource ArtworkConverter}}"
+                                                   VerticalAlignment="Top"
+                                                   Height="80"
+                                                   Width="80"
+                                                   HorizontalAlignment="Left"
+                                                   Stretch="Uniform" />
+                                        </Grid>
+                                        
+                                        
+
+                                    </controls:DropShadowPanel>
+                                    
+                                    
                                     <!-- Hold Content -->
-                                    <StackPanel Margin="90,0,0,0" VerticalAlignment="Center">
+                                    <StackPanel Margin="108,0,10,0" VerticalAlignment="Center">
                                         <!-- Playlist Title -->
                                         <TextBlock TextTrimming="CharacterEllipsis"
                                                    Text="{Binding Title}"
-                                                   FontSize="20"
+                                                   FontSize="18"
                                                    Margin="0,0,10,0"
                                                    FontWeight="SemiBold" />
                                         <!-- Playlist Creation Date -->
                                         <TextBlock
                                             Text="{Binding CreationDate, Converter={StaticResource ModernDateTimeConverter}}"
                                             TextTrimming="CharacterEllipsis"
-                                            FontSize="14"
+                                            FontSize="12"
                                             Margin="0,2,10,0"
                                             FontWeight="Normal"
                                             Opacity="0.6" />

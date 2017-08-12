@@ -18,13 +18,10 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Resources;
 using Windows.Security.Credentials;
-using Windows.UI.Notifications;
 using Windows.Web.Http;
 using Windows.Web.Http.Filters;
 using Windows.Web.Http.Headers;
 using Newtonsoft.Json;
-using NotificationsExtensions;
-using NotificationsExtensions.Toasts;
 using SoundByte.Core.API.Endpoints;
 using SoundByte.Core.API.Exceptions;
 using SoundByte.Core.Helpers;
@@ -71,41 +68,6 @@ namespace SoundByte.Core.Services
         ///     Get the current soundbyte service
         /// </summary>
         public static SoundByteService Current => _instance ?? (_instance = new SoundByteService());
-
-        /// <summary>
-        ///     Due to issues between 1.3.x and 2.0.x we need to add the ability to
-        ///     copy old account information over to the new system. This ensures a smooth
-        ///     transition process for any users upgrading to the new vesion (also decreases
-        ///     the amount of stress placed on the new login system).
-        /// </summary>
-        private SoundByteService()
-        {
-            // First we must create a password vault
-            var vault = new PasswordVault();
-
-            // Now we need to check if the old vault exists and the new 
-            // does NOT exist.
-            try
-            {
-                if (vault.FindAllByResource("SoundByteToken") == null) return;
-            }
-            catch
-            {
-                return;
-            }
-
-            // Here we get the stuff from the old vault, move it
-            // to the new vault, and then delete the old vault.
-            var accessToken = vault.Retrieve("SoundByteToken", "Token").Password;
-
-            // Store the items in the new vault
-            vault.Add(new PasswordCredential("SoundByte.SoundCloud", "Token", accessToken));
-            vault.Add(new PasswordCredential("SoundByte.SoundCloud", "Scope", "non-expiring"));
-
-            // Delete Everything from the old vault.
-            vault.FindAllByResource("SoundByteToken").ToList().ForEach(x => vault.Remove(x));
-        }
-
         #endregion
 
         #region Secret Keys

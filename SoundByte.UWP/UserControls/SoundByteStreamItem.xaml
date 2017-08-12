@@ -189,13 +189,31 @@
                                      Margin="10"
                                      OffsetY="5"
                                      Color="Black">
-                <Image Source="{x:Bind Path=Playlist, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
+                <Grid Padding="0,7,0,0">
+                    <Grid Background="#FF444444"
+                          Width="128"
+                          Margin="0,-30,0,0"
+                          Height="128"
+                          VerticalAlignment="Stretch"
+                          HorizontalAlignment="Stretch" />
+
+                    <Grid Background="#FF666666"
+                          Width="138"
+                          Margin="0,-12,0,0"
+                          Height="138"
+                          VerticalAlignment="Stretch"
+                          HorizontalAlignment="Stretch" />
+                    
+                     <Image Source="{x:Bind Path=Playlist, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
                        Width="148"
                        Height="148"
                        VerticalAlignment="Stretch"
                        HorizontalAlignment="Stretch"
                        IsHitTestVisible="False"
                        Stretch="Uniform" />
+                </Grid>
+                
+               
             </control:DropShadowPanel>
 
             <!-- Basic Item Detail -->

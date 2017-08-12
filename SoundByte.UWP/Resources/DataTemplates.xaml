@@ -31,30 +31,45 @@
                                       BlurRadius="15"
                                       ShadowOpacity="0.8"
                                       OffsetX="0"
-                                      OffsetY="5"
+                                      OffsetY="5"                 
                                       IsTabStop="False"
                                       IsHitTestVisible="False"
                                       Margin="5,5,5,8"
                                       Color="Black">
-                <Grid>
+                <Grid Padding="0,7,0,0">
                     <!-- Playlist image, supports caching -->
+
+
+                    <Grid Background="#FF444444"
+                          Width="140"
+                          Margin="0,-30,0,0"
+                          Height="140"
+                          VerticalAlignment="Stretch"
+                          HorizontalAlignment="Stretch" />
+
+                    <Grid Background="#FF666666"
+                          Width="150"
+                          Margin="0,-17,0,0"
+                          Height="150"
+                          VerticalAlignment="Stretch"
+                          HorizontalAlignment="Stretch" />
+                    
                     <Image Source="{x:Bind Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
                            Width="160"
+                           
                            Height="160"
                            VerticalAlignment="Stretch"
                            HorizontalAlignment="Stretch"
                            Stretch="UniformToFill"
                            IsHitTestVisible="False" />
-                    <!-- Playlist icon, top-left -->
-                    <TextBlock Text="&#xE8FD;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Top"
-                               HorizontalAlignment="Left" Margin="10" Foreground="White" />
+                  
                     <!-- Length of playlist, bottom-right -->
-                    <Grid RequestedTheme="Dark" Background="#66000000" Padding="5" HorizontalAlignment="Right"
+                    <Grid RequestedTheme="Dark" Background="{StaticResource InAppBackgroundBrush}" Padding="8" HorizontalAlignment="Right"
                           VerticalAlignment="Bottom">
                         <TextBlock RequestedTheme="Dark"
                                    Text="{x:Bind Duration, Mode=OneWay, Converter={StaticResource TimeStampConverter}}"
                                    FontSize="12"
-                                   FontWeight="SemiLight" />
+                                   FontWeight="SemiBold" />
                     </Grid>
                 </Grid>
             </controls:DropShadowPanel>
@@ -126,20 +141,14 @@
                            Width="160"
                            Height="160"
                            Stretch="Uniform" />
-                    <!-- Track icon, top-left -->
-                    <TextBlock Text="&#xE768;"
-                               FontFamily="Segoe MDL2 Assets"
-                               VerticalAlignment="Top"
-                               HorizontalAlignment="Left"
-                               Margin="10"
-                               Foreground="White" />
+                  
                     <!-- Length of track, bottom-right -->
-                    <Grid RequestedTheme="Dark" Background="#66000000" Padding="5" HorizontalAlignment="Right"
+                    <Grid RequestedTheme="Dark" Background="{StaticResource InAppBackgroundBrush}" Padding="8" HorizontalAlignment="Right"
                           VerticalAlignment="Bottom">
                         <TextBlock RequestedTheme="Dark"
                                    Text="{x:Bind Duration, Mode=OneWay, Converter={StaticResource TimeStampConverter}}"
                                    FontSize="12"
-                                   FontWeight="SemiLight" />
+                                   FontWeight="SemiBold" />
                     </Grid>
                 </Grid>
             </controls:DropShadowPanel>

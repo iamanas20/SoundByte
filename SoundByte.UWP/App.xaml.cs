@@ -26,7 +26,6 @@ using Windows.UI.Xaml.Media;
 using SoundByte.Core.Helpers;
 using SoundByte.Core.Services;
 using SoundByte.UWP.Views;
-using SoundByte.UWP.Views.CoreApp;
 using UICompositionAnimations.Lights;
 
 namespace SoundByte.UWP
@@ -128,14 +127,6 @@ namespace SoundByte.UWP
                     else
                         ApplicationView.GetForCurrentView().ExitFullScreenMode();
                     break;
-                case VirtualKey.F12:
-                    // Send hit
-                    TelemetryService.Current.TrackEvent("Debug Action");
-
-                    // Artifically decrease memory usage, app will be dead after this
-                    DeviceHelper.IsBackground = true;
-                    ReduceMemoryUsage();
-                    break;
                 case VirtualKey.GamepadView:
                     // Send hit
                     TelemetryService.Current.TrackEvent("Xbox Playing Page");
@@ -226,20 +217,23 @@ namespace SoundByte.UWP
         /// </summary>
         private async void AppLeavingBackground(object sender, LeavingBackgroundEventArgs e)
         {
-            // Send hit
-            TelemetryService.Current.TrackEvent("Leave Background");
-
             // Mark the transition out of the background state
             DeviceHelper.IsBackground = false;
 
+            // Send hit
+            TelemetryService.Current.TrackEvent("Leave Background");
+
             // Restore view content if it was previously unloaded
-            if (Window.Current.Content == null)
+            if(Window.Current != null && Window.Current.Content == null)
             {
                 // Create / Get the main shell
                 var rootShell = await CreateMainShellAsync();
 
                 // Set the root shell as the window content
                 Window.Current.Content = rootShell;
+
+                // Enable lights on all platforms except Xbox
+                Window.Current.Content.Lights.Add(new PointerPositionSpotLight { Active = !DeviceHelper.IsXbox });
 
                 // If on xbox display the screen to the full width and height
                 if (DeviceHelper.IsXbox)
@@ -253,13 +247,22 @@ namespace SoundByte.UWP
         /// <summary>
         ///     The application entered the background.
         /// </summary>
-        private static void AppEnteredBackground(object sender, EnteredBackgroundEventArgs e)
+        private void AppEnteredBackground(object sender, EnteredBackgroundEventArgs e)
         {
-            // Send hit
-            TelemetryService.Current.TrackEvent("Enter Background");
+            var deferral = e.GetDeferral();
 
-            // Update the variable
-            DeviceHelper.IsBackground = true;
+            try
+            {
+                // Send hit
+                TelemetryService.Current.TrackEvent("Enter Background");
+
+                // Update the variable
+                DeviceHelper.IsBackground = true;
+            }
+            finally
+            {
+                deferral.Complete();
+            }
         }
 
         #endregion
@@ -281,20 +284,17 @@ namespace SoundByte.UWP
         {
             // If app memory usage is over the limit, reduce usage within 2 seconds
             // so that the system does not suspend the app
-            if (MemoryManager.AppMemoryUsage < e.NewLimit) return;
+            if (MemoryManager.AppMemoryUsage >= e.NewLimit)
+            {
+                ReduceMemoryUsage(e.NewLimit);
+            }
 
             // Send hit
             TelemetryService.Current.TrackEvent("Reducing Memory Usage", new Dictionary<string, string>
             {
-                {"method", "MemoryManager_AppMemoryUsageLimitChanging"},
-                {"new_limit", e.NewLimit.ToString()},
-                {"old_limit", e.OldLimit.ToString()},
-                {"current_usage", MemoryManager.AppMemoryUsage.ToString()},
-                {"memory_usage_level", MemoryManager.AppMemoryUsageLevel.ToString()}
+                {"new_limit", e.NewLimit / 1024 / 1024 + "K"},
+                {"old_limit", e.OldLimit / 1024 / 1024 + "M"}
             });
-
-            // Reduce the memory usage
-            ReduceMemoryUsage();
         }
 
         /// <summary>
@@ -321,18 +321,18 @@ namespace SoundByte.UWP
             // Check the usage level to determine whether reducing memory is necessary.
             // Memory usage may have been fine when initially entering the background but
             // the app may have increased its memory usage since then and will need to trim back.
-            if (level != AppMemoryUsageLevel.OverLimit && level != AppMemoryUsageLevel.High) return;
+            if (level != AppMemoryUsageLevel.OverLimit && level != AppMemoryUsageLevel.High)
+            {
+                ReduceMemoryUsage(MemoryManager.AppMemoryUsageLimit);
+            }
 
             // Send hit
-            TelemetryService.Current.TrackEvent("Reducing Memory Usage", new Dictionary<string, string>
+            TelemetryService.Current.TrackEvent("Memory Usage Increader", new Dictionary<string, string>
             {
-                {"method", "MemoryManager_AppMemoryUsageIncreased"},
-                {"current_usage", MemoryManager.AppMemoryUsage.ToString()},
-                {"memory_usage_level", MemoryManager.AppMemoryUsageLevel.ToString()}
+                {"current_usage", MemoryManager.AppMemoryUsage.ToString()}
             });
 
             // Reduce memory usage
-            ReduceMemoryUsage();
         }
 
         /// <summary>
@@ -348,11 +348,8 @@ namespace SoundByte.UWP
         ///     may be in a low memory usage state with no need to unload resources yet
         ///     and only enter a higher state later.
         /// </remarks>
-        private void ReduceMemoryUsage()
+        private void ReduceMemoryUsage(ulong usage)
         {
-            var memUsage = MemoryManager.AppMemoryUsage;
-            var removeUi = false;
-
             // If the app has caches or other memory it can free, it should do so now.
             // << App can release memory here >>
 
@@ -362,40 +359,24 @@ namespace SoundByte.UWP
             // can be recreated again later when leaving the background.
             if (DeviceHelper.IsBackground && Window.Current != null && Window.Current.Content != null)
             {
-                VisualTreeHelper.DisconnectChildrenRecursive(Window.Current.Content);
+                var shell = Window.Current.Content as MainShell;
 
-                // Clear the view content. Note that views should rely on
-                // events like Page.Unloaded to further release resources.
-                // Release event handlers in views since references can
-                // prevent objects from being collected.
-                Window.Current.Content = null;
+                if (shell != null)
+                {
+                    shell.Dispose();
 
-                removeUi = true;
-            }
+                    VisualTreeHelper.DisconnectChildrenRecursive(shell.RootFrame);
 
-            var shell = Window.Current?.Content as MainShell;
-
-            shell?.RootFrame.Navigate(typeof(BlankPage));
-
-            // Clear the page cache
-            if (shell?.RootFrame != null)
-            {
-                var cacheSize = shell.RootFrame.CacheSize;
-                shell.RootFrame.CacheSize = 0;
-                shell.RootFrame.CacheSize = cacheSize;
+                    // Clear the view content. Note that views should rely on
+                    // events like Page.Unloaded to further release resources.
+                    // Release event handlers in views since references can
+                    // prevent objects from being collected.
+                    Window.Current.Content = null;
+                }   
             }
 
             // Run the GC to collect released resources.
             GC.Collect();
-
-            var diffMemUsage = memUsage - MemoryManager.AppMemoryUsage;
-
-            TelemetryService.Current.TrackEvent("Memory Collection Completed", new Dictionary<string, string>
-            {
-                {"cleaned_memory", diffMemUsage + "kb"},
-                {"is_background", DeviceHelper.IsBackground.ToString()},
-                {"remove_ui", removeUi.ToString()}
-            });
         }
 
         #endregion

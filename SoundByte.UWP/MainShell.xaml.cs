@@ -12,6 +12,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
@@ -28,6 +29,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Microsoft.Services.Store.Engagement;
 using Microsoft.Toolkit.Uwp;
 using NotificationsExtensions;
 using NotificationsExtensions.Toasts;
@@ -68,17 +70,7 @@ namespace SoundByte.UWP
             // bar when a track is played. This method
             // updates the required layout for the now
             // playing bar.
-            Service.PropertyChanged += (sender, args) =>
-            {
-                if (args.PropertyName != "CurrentTrack")
-                    return;
-
-                if (Service.CurrentTrack == null || !DeviceHelper.IsDesktop ||
-                    RootFrame.CurrentSourcePageType == typeof(NowPlayingView))
-                    HideNowPlayingBar();
-                else
-                    ShowNowPlayingBar();
-            };
+            Service.PropertyChanged += ServiceOnPropertyChanged;
 
             // Create a shell frame shadow for mobile and desktop
             if (DeviceHelper.IsDesktop || DeviceHelper.IsMobile)
@@ -133,10 +125,28 @@ namespace SoundByte.UWP
             RootFrame.Focus(FocusState.Programmatic);
         }
 
+        private void ServiceOnPropertyChanged(object o, PropertyChangedEventArgs propertyChangedEventArgs)
+        {
+            if (propertyChangedEventArgs.PropertyName != "CurrentTrack")
+                return;
+
+            if (Service.CurrentTrack == null || !DeviceHelper.IsDesktop ||
+                RootFrame.CurrentSourcePageType == typeof(NowPlayingView))
+                HideNowPlayingBar();
+            else
+                ShowNowPlayingBar();
+        }
+
         /// <summary>
         ///     Used to access the playback service from the UI
         /// </summary>
         public PlaybackService Service => PlaybackService.Current;
+
+        public void Dispose()
+        {
+            SystemNavigationManager.GetForCurrentView().BackRequested -= OnBackRequested;
+            Service.PropertyChanged -= ServiceOnPropertyChanged;
+        }
 
         private void OnBackRequested(object sender, BackRequestedEventArgs e)
         {
@@ -202,9 +212,19 @@ namespace SoundByte.UWP
                 if (updates.Count > 0)
                     await new PendingUpdateDialog().ShowAsync();
             }
-            catch
+            catch (Exception e)
             {
-                // ignored
+                TelemetryService.Current.TrackException(e);
+            }
+
+            try
+            {
+                var engagementManager = StoreServicesEngagementManager.GetDefault();
+                await engagementManager.RegisterNotificationChannelAsync();
+            }
+            catch (Exception e)
+            {
+                TelemetryService.Current.TrackException(e);
             }
 
             try
@@ -213,9 +233,9 @@ namespace SoundByte.UWP
                 var vcdStorageFile = await Package.Current.InstalledLocation.GetFileAsync(@"SoundByteCommands.xml");
                 await VoiceCommandDefinitionManager.InstallCommandDefinitionsFromStorageFileAsync(vcdStorageFile);
             }
-            catch
+            catch (Exception e)
             {
-                // ignored
+                TelemetryService.Current.TrackException(e);
             }
 
             try
@@ -225,9 +245,9 @@ namespace SoundByte.UWP
                     BackgroundTaskHelper.Register("NotificationTask", "SoundByte.Notifications.NotificationTask",
                         new TimeTrigger(15, false));
             }
-            catch
+            catch (Exception e)
             {
-                // ignored
+                TelemetryService.Current.TrackException(e);
             }
         }
 
@@ -271,8 +291,8 @@ namespace SoundByte.UWP
                             new AdaptiveText
                             {
                                 Text = string.IsNullOrEmpty(storedAppVersionString)
-                                    ? "Welcome to SoundByte! If you encounter any issues, or have any questions, click the 'Settings' button then 'About' to get in contact with us."
-                                    : "SoundByte was just updated! There are many new and exciting features waiting for you. Why not take a peek?"
+                                    ? "Thank you for downloading SoundByte!"
+                                    : $"SoundByte was updated to version {currentAppVersionString}."
                             }
                         }
                     }
@@ -407,23 +427,6 @@ namespace SoundByte.UWP
             if (BlockNavigation) return;
 
             RootFrame.Navigate(typeof(PlaylistsView));
-        }
-
-        private void NavigateSearch(object sender, RoutedEventArgs e)
-        {
-            if (BlockNavigation) return;
-
-            RootFrame.Navigate(typeof(Search));
-        }
-
-        private async void NavigateCurrentPlaying(object sender, RoutedEventArgs e)
-        {
-            if (BlockNavigation) return;
-
-            if (PlaybackService.Current.CurrentTrack != null)
-                RootFrame.Navigate(typeof(NowPlayingView));
-            else
-                await new MessageDialog("No Items are currently playing...").ShowAsync();
         }
 
         private void ShellFrame_Navigated(object sender, NavigationEventArgs e)

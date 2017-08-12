@@ -31,7 +31,6 @@ namespace SoundByte.UWP.Views.Me
         public HistoryView()
         {
             InitializeComponent();
-            NavigationCacheMode = NavigationCacheMode.Enabled;
         }
 
         public HistoryModel HistoryModel { get; } = new HistoryModel();

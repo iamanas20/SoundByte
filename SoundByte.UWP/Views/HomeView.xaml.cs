@@ -11,6 +11,7 @@
  */
 
 using System;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using SoundByte.Core.Services;
 using SoundByte.UWP.ViewModels;
@@ -33,12 +34,13 @@ namespace SoundByte.UWP.Views
         public HomeView()
         {
             InitializeComponent();
-            // This page must be cached
-            NavigationCacheMode = NavigationCacheMode.Enabled;
             // Set the data context
             DataContext = ViewModel;
-            // Page has been unloaded from UI
-            Unloaded += (s, e) => ViewModel.Dispose();
+
+            Unloaded += (s, e) =>
+            {
+                ViewModel.Dispose();
+            };
         }
 
         /// <summary>
@@ -48,7 +50,6 @@ namespace SoundByte.UWP.Views
         {
             // Only show the stream pivot when soundcloud account is connected
             StreamPivotItem.IsEnabled = SoundByteService.Current.IsSoundCloudAccountConnected;
-
             HomePivot.SelectedIndex = !SoundByteService.Current.IsSoundCloudAccountConnected ? 1 : 0;
 
             // Set the last visited frame (crash handling)
@@ -57,6 +58,18 @@ namespace SoundByte.UWP.Views
             SettingsService.Current.LatestViewedTrack = DateTime.Now;
             // Track Event
             TelemetryService.Current.TrackPage("Home Page");
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+
+            if (e.NavigationMode == NavigationMode.Back)
+            {
+                var cacheSize = ((Frame)Parent).CacheSize;
+                ((Frame)Parent).CacheSize = 0;
+                ((Frame)Parent).CacheSize = cacheSize;
+            }
         }
     }
 }

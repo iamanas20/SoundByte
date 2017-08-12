@@ -17,6 +17,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
 using SoundByte.Core.API.Endpoints;
+using SoundByte.Core.Helpers;
 using SoundByte.UWP.Services;
 
 namespace SoundByte.UWP.ViewModels
@@ -36,7 +37,11 @@ namespace SoundByte.UWP.ViewModels
         /// </summary>
         public virtual void Dispose()
         {
-            // On the base view model, we do nothing
+            // Collect memory if in background
+         //   if (DeviceHelper.IsBackground)
+         //   {
+                GC.Collect();
+         //   }
         }
 
         /// <summary>

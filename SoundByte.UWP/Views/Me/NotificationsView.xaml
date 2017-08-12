@@ -6,8 +6,8 @@
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
     xmlns:stateTriggers="using:SoundByte.UWP.StateTriggers"
-    Transitions="{StaticResource MainTransition}"
-    NavigationCacheMode="Enabled">
+    NavigationCacheMode="Enabled"
+    Transitions="{StaticResource MainTransition}">
     <Page.Resources>
         <DataTemplate x:Key="NotificationItem">
             <uiElements:NotificationItem TrackData="{Binding Track}" PlaylistData="{Binding Playlist}"

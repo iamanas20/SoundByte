@@ -25,7 +25,6 @@ namespace SoundByte.UWP.Views.Me
         public PlaylistsView()
         {
             InitializeComponent();
-            NavigationCacheMode = NavigationCacheMode.Enabled;
         }
 
         /// <summary>
@@ -41,6 +40,18 @@ namespace SoundByte.UWP.Views.Me
         public void NavigatePlaylist(object sender, ItemClickEventArgs e)
         {
             App.NavigateTo(typeof(Playlist), e.ClickedItem as Core.API.Endpoints.Playlist);
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+
+            if (e.NavigationMode == NavigationMode.Back)
+            {
+                var cacheSize = ((Frame)Parent).CacheSize;
+                ((Frame)Parent).CacheSize = 0;
+                ((Frame)Parent).CacheSize = cacheSize;
+            }
         }
     }
 }

@@ -31,8 +31,6 @@ namespace SoundByte.UWP.Views.Me
         {
             // Setup the XAML
             InitializeComponent();
-            // This page must be cached
-            NavigationCacheMode = NavigationCacheMode.Enabled;
             // Set the data context
             DataContext = ViewModel;
 

@@ -31,7 +31,6 @@ namespace SoundByte.UWP.Views.Me
         public LikesView()
         {
             InitializeComponent();
-            NavigationCacheMode = NavigationCacheMode.Enabled;
         }
 
         /// <summary>
