@@ -214,9 +214,11 @@ namespace SoundByte.UWP.Services
         /// </summary>
         public bool IsShuffleEnabled
         {
-            get => PlaybackList.ShuffleEnabled;
+            get => PlaybackList?.ShuffleEnabled ?? false;
             set
             {
+                if (PlaybackList == null) return;
+
                 if (PlaybackList.ShuffleEnabled == value)
                     return;
 
@@ -230,9 +232,11 @@ namespace SoundByte.UWP.Services
         /// </summary>
         public bool IsRepeatEnabled
         {
-            get => Player.IsLoopingEnabled;
+            get => Player?.IsLoopingEnabled ?? false;
             set
             {
+                if(Player == null) return;
+
                 if (Player.IsLoopingEnabled == value)
                     return;
 
