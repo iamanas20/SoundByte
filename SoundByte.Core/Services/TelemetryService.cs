@@ -14,11 +14,14 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Windows.UI.Notifications;
 using GoogleAnalytics;
 using Microsoft.Azure.Mobile;
 using Microsoft.Azure.Mobile.Analytics;
 using Microsoft.Azure.Mobile.Push;
 using Microsoft.HockeyApp;
+using NotificationsExtensions;
+using NotificationsExtensions.Toasts;
 using SoundByte.Core.Helpers;
 
 namespace SoundByte.Core.Services
@@ -98,6 +101,10 @@ namespace SoundByte.Core.Services
                 // ignored
             }
 
+            PopDebugToast(properties != null
+                ? $"[{eventName}]:\n{string.Join(Environment.NewLine, properties.Select(kvp => kvp.Key + ": " + kvp.Value.ToString()))}\n"
+                : $"[{eventName}]\n");
+
             Debug.WriteLine(properties != null
                 ? $"[{eventName}]:\n{string.Join(Environment.NewLine, properties.Select(kvp => kvp.Key + ": " + kvp.Value.ToString()))}\n"
                 : $"[{eventName}]\n");
@@ -114,6 +121,39 @@ namespace SoundByte.Core.Services
             {
                 // ignored
             }
+        }
+
+        private  void PopDebugToast(string message)
+        {
+            if (!SettingsService.Instance.IsDebugModeEnabled)
+                return;
+
+            // Generate a notification
+            var toastContent = new ToastContent
+            {
+                Visual = new ToastVisual
+                {
+                    BindingGeneric = new ToastBindingGeneric
+                    {
+                        Children =
+                        {
+                            new AdaptiveText
+                            {
+                                Text = "SoundByte Debugging"
+                            },
+
+                            new AdaptiveText
+                            {
+                                Text = message
+                            }
+                        }
+                    }
+                }
+            };
+
+            // Show the notification
+            var toast = new ToastNotification(toastContent.GetXml()) { ExpirationTime = DateTime.Now.AddMinutes(30) };
+            ToastNotificationManager.CreateToastNotifier().Show(toast);
         }
 
         #region Service Setup

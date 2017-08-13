@@ -49,6 +49,7 @@ namespace SoundByte.Core.Services
         private const string NotificationGroupingKey = "SoundByte_NotificationGroupingEnabled";
         private const string ArtworkQualityKey = "SoundByte_ArtworkQualityColor";
         private const string LanguageKey = "SoundByte_DefaultLanguage";
+        private const string DebugKey = "SoundByte.DebugModeEnabled";
 
         #endregion
 
@@ -128,6 +129,19 @@ namespace SoundByte.Core.Services
                 return boolVal.HasValue && boolVal.Value;
             }
             set => SaveSettingsValue(NotificationGroupingKey, value, true);
+        }
+
+        /// <summary>
+        /// Should the app display debug notifications
+        /// </summary>
+        public bool IsDebugModeEnabled
+        {
+            get
+            {
+                var boolVal = ReadSettingsValue(DebugKey) as bool?;
+                return boolVal.HasValue && boolVal.Value;
+            }
+            set => SaveSettingsValue(DebugKey, value);
         }
 
         /// <summary>

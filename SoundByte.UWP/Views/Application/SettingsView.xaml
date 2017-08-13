@@ -86,6 +86,10 @@
                                       OffContent="No"
                                       IsOn="{x:Bind SettingsService.IsNotificationPopupEnabled}" />
 
+
+                        <ToggleSwitch Header="Debug Mode" Margin="0,15,0,4" OffContent="Disabled" OnContent="Enabled"
+                                      FontSize="16" IsOn="{x:Bind SettingsService.IsDebugModeEnabled, Mode=TwoWay}" />
+
                         <ToggleSwitch Header="Sync Settings" Margin="0,15,0,4" OffContent="No" OnContent="Yes"
                                       FontSize="16" IsOn="{x:Bind SettingsService.IsSyncSettingsEnabled, Mode=TwoWay}" />
                         

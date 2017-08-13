@@ -19,10 +19,13 @@ using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.System;
 using Windows.UI.Core;
+using Windows.UI.Notifications;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
+using NotificationsExtensions;
+using NotificationsExtensions.Toasts;
 using SoundByte.Core.Helpers;
 using SoundByte.Core.Services;
 using SoundByte.UWP.Views;
@@ -169,6 +172,39 @@ namespace SoundByte.UWP
             return shell;
         }
 
+        public static void PopDebugToast(string message)
+        {
+            if (!SettingsService.Instance.IsDebugModeEnabled)
+                return;
+
+            // Generate a notification
+            var toastContent = new ToastContent
+            {
+                Visual = new ToastVisual
+                {
+                    BindingGeneric = new ToastBindingGeneric
+                    {
+                        Children =
+                        {
+                            new AdaptiveText
+                            {
+                                Text = "SoundByte Debugging"
+                            },
+
+                            new AdaptiveText
+                            {
+                                Text = message
+                            }
+                        }
+                    }
+                }
+            };
+
+            // Show the notification
+            var toast = new ToastNotification(toastContent.GetXml()) { ExpirationTime = DateTime.Now.AddMinutes(30) };
+            ToastNotificationManager.CreateToastNotifier().Show(toast);
+        }
+
         #region Static App Helpers
 
         /// <summary>
@@ -240,8 +276,10 @@ namespace SoundByte.UWP
                     ApplicationView.GetForCurrentView().SetDesiredBoundsMode(ApplicationViewBoundsMode.UseCoreWindow);
 
                 // Activate the window
-                Window.Current.Activate();
+                Window.Current.Activate();                
             }
+
+            PopDebugToast("App Entered Foreground");
         }
 
         /// <summary>
@@ -258,6 +296,8 @@ namespace SoundByte.UWP
 
                 // Update the variable
                 DeviceHelper.IsBackground = true;
+
+                PopDebugToast("App Entered Background");
             }
             finally
             {
@@ -282,6 +322,8 @@ namespace SoundByte.UWP
         /// </remarks>
         private void MemoryManager_AppMemoryUsageLimitChanging(object sender, AppMemoryUsageLimitChangingEventArgs e)
         {
+            PopDebugToast($"Reducing Memory Usage from {e.OldLimit / 1024 / 1024}M to {e.OldLimit / 1024 / 1024}M");
+
             // If app memory usage is over the limit, reduce usage within 2 seconds
             // so that the system does not suspend the app
             if (MemoryManager.AppMemoryUsage >= e.NewLimit)
@@ -292,7 +334,7 @@ namespace SoundByte.UWP
             // Send hit
             TelemetryService.Instance.TrackEvent("Reducing Memory Usage", new Dictionary<string, string>
             {
-                {"new_limit", e.NewLimit / 1024 / 1024 + "K"},
+                {"new_limit", e.NewLimit / 1024 / 1024 + "M"},
                 {"old_limit", e.OldLimit / 1024 / 1024 + "M"}
             });
         }
@@ -352,6 +394,7 @@ namespace SoundByte.UWP
         {
             // If the app has caches or other memory it can free, it should do so now.
             // << App can release memory here >>
+            PopDebugToast("Start of reduce memory method");
 
             // Additionally, if the application is currently
             // in background mode and still has a view with content
@@ -359,11 +402,16 @@ namespace SoundByte.UWP
             // can be recreated again later when leaving the background.
             if (DeviceHelper.IsBackground && Window.Current != null && Window.Current.Content != null)
             {
+                PopDebugToast("Grab main shell");
+
                 var shell = Window.Current.Content as MainShell;
 
                 if (shell != null)
                 {
+                    PopDebugToast("Dispose shell");
+
                     shell.Dispose();
+                    PopDebugToast("Disconnect shell frame children");
 
                     VisualTreeHelper.DisconnectChildrenRecursive(shell.RootFrame);
 
