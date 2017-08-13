@@ -174,7 +174,6 @@
             <MenuFlyoutItem Click="{x:Bind ViewModel.PinTile}" Text="{x:Bind ViewModel.PinButtonText, Mode=TwoWay}" />
             <MenuFlyoutItem Click="{x:Bind ViewModel.RepostTrack}"
                             Text="{x:Bind ViewModel.RepostButtonText, Mode=TwoWay}" />
-            <MenuFlyoutItem Click="{x:Bind ViewModel.LikeTrack}" Text="{x:Bind ViewModel.LikeButtonText, Mode=TwoWay}" />
         </MenuFlyout>
     </Page.Resources>
     <Grid Background="{ThemeResource ShellBackground}" x:Name="RootGrid">
@@ -344,6 +343,9 @@
                 </Button>
 
                 <Button Margin="5,0" Style="{StaticResource CircleButtonStyle}" Background="{x:Null}" Foreground="White"
+                        FocusVisualPrimaryThickness="0"
+                        FocusVisualSecondaryThickness="0"
+                        FocusVisualMargin="0"
                         Click="{x:Bind ViewModel.Service.LikeTrack}" Width="42" Height="42">
                     <Button.Content>
                         <TextBlock OpticalMarginAlignment="TrimSideBearings"

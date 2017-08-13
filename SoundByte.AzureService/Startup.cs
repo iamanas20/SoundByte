@@ -10,6 +10,7 @@ namespace SoundByteBackendService
         public void Configuration(IAppBuilder app)
         {
             ConfigureMobileApp(app);
+            app.MapSignalR();
         }
     }
 }

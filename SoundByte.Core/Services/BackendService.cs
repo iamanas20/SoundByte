@@ -1,8 +1,19 @@
-﻿using System;
+﻿/* |----------------------------------------------------------------|
+ * | Copyright (c) 2017, Grid Entertainment                         |
+ * | All Rights Reserved                                            |
+ * |                                                                |
+ * | This source code is to only be used for educational            |
+ * | purposes. Distribution of SoundByte source code in             |
+ * | any form outside this repository is forbidden. If you          |
+ * | would like to contribute to the SoundByte source code, you     |
+ * | are welcome.                                                   |
+ * |----------------------------------------------------------------|
+ */
+
+using System;
 using System.Threading.Tasks;
 using Microsoft.AspNet.SignalR.Client;
 using Microsoft.WindowsAzure.MobileServices;
-using Newtonsoft.Json;
 using SoundByte.Core.API.Endpoints;
 using SoundByte.Core.Helpers;
 
@@ -19,23 +30,26 @@ namespace SoundByte.Core.Services
 
         private readonly MobileServiceClient _mobileService;
         private readonly HubConnection _mobileHub;
+        private IHubProxy _playbackHub;
 
-        public BackendService()
+        private BackendService()
         {
             _mobileService = new MobileServiceClient(_backendAzureServiceUrl);
             _mobileHub = new HubConnection(_backendAzureServiceUrl);
 
+            // Add user auth.
             if (_mobileService.CurrentUser != null)
             {
                 _mobileHub.Headers["x-zumo-auth"] = _mobileService.CurrentUser.MobileServiceAuthenticationToken;
             }
 
+            // Create the playback hub
+            _playbackHub = _mobileHub.CreateHubProxy("PlaybackHub");
+
+            // Try start the hub
             AsyncHelper.RunSync(async () =>
             {
-                try
-                {
-                    await _mobileHub.Start();
-                }
+                try { await _mobileHub.Start(); }
                 catch
                 {
                     // ignored
@@ -57,8 +71,7 @@ namespace SoundByte.Core.Services
 
             if (_mobileHub.State == ConnectionState.Connected)
             {
-                var trackString = JsonConvert.SerializeObject(track);
-                await _mobileHub.Send(trackString);
+              //todo
             }
         }
     }
