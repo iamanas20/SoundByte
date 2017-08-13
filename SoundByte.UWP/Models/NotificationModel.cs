@@ -64,12 +64,12 @@ namespace SoundByte.UWP.Models
                 var resources = ResourceLoader.GetForViewIndependentUse();
 
                 // Check if the user is not logged in
-                if (SoundByteService.Current.IsSoundCloudAccountConnected)
+                if (SoundByteService.Instance.IsSoundCloudAccountConnected)
                 {
                     try
                     {
                         // Get all the users notifications
-                        var notifications = await SoundByteService.Current.GetAsync<NotificationListHolder>(
+                        var notifications = await SoundByteService.Instance.GetAsync<NotificationListHolder>(
                             "/activities", new Dictionary<string, string>
                             {
                                 {"limit", "50"},

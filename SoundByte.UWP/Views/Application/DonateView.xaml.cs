@@ -28,13 +28,13 @@ namespace SoundByte.UWP.Views.Application
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            TelemetryService.Current.TrackPage("Donate Page");
+            TelemetryService.Instance.TrackPage("Donate Page");
 
             // We are loading
             App.IsLoading = true;
 
             // Get all the products
-            var donateProducts = await MonitizeService.Current.GetProductInfoAsync();
+            var donateProducts = await MonitizeService.Instance.GetProductInfoAsync();
 
             LooseChangePrice.Text = donateProducts.Exists(t => t.Key.ToLower() == "9p3vls5wtft6")
                 ? donateProducts.Find(t => t.Key.ToLower() == "9p3vls5wtft6").Value.Price.FormattedBasePrice
@@ -58,7 +58,7 @@ namespace SoundByte.UWP.Views.Application
             // We are loading
             App.IsLoading = true;
 
-            await MonitizeService.Current.PurchaseDonation("9p3vls5wtft6");
+            await MonitizeService.Instance.PurchaseDonation("9p3vls5wtft6");
 
             // We are not loading
             App.IsLoading = false;
@@ -69,7 +69,7 @@ namespace SoundByte.UWP.Views.Application
             // We are loading
             App.IsLoading = true;
 
-            await MonitizeService.Current.PurchaseDonation("9msxrvnlnlj7");
+            await MonitizeService.Instance.PurchaseDonation("9msxrvnlnlj7");
 
             // We are not loading
             App.IsLoading = false;
@@ -80,7 +80,7 @@ namespace SoundByte.UWP.Views.Application
             // We are loading
             App.IsLoading = true;
 
-            await MonitizeService.Current.PurchaseDonation("9nrgs6r2grsz");
+            await MonitizeService.Instance.PurchaseDonation("9nrgs6r2grsz");
 
             // We are not loading
             App.IsLoading = false;
@@ -91,7 +91,7 @@ namespace SoundByte.UWP.Views.Application
             // We are loading
             App.IsLoading = true;
 
-            await MonitizeService.Current.PurchaseDonation("9pnsd6hskwpk");
+            await MonitizeService.Instance.PurchaseDonation("9pnsd6hskwpk");
 
             // We are not loading
             App.IsLoading = false;

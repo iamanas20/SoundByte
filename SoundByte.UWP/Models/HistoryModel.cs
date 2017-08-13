@@ -64,11 +64,11 @@ namespace SoundByte.UWP.Models
                 var resources = ResourceLoader.GetForViewIndependentUse();
 
                 // Check if the user is logged in
-                if (SoundByteService.Current.IsSoundCloudAccountConnected)
+                if (SoundByteService.Instance.IsSoundCloudAccountConnected)
                 {
                     try
                     {
-                        var userPlayHistory = await SoundByteService.Current.GetAsync<HistoryListHolder>(
+                        var userPlayHistory = await SoundByteService.Instance.GetAsync<HistoryListHolder>(
                             "/me/play-history/tracks", new Dictionary<string, string>
                             {
                                 {"limit", "50"},

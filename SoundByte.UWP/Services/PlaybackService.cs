@@ -180,7 +180,6 @@ namespace SoundByte.UWP.Services
             }
         }
 
-
         /// <summary>
         ///     The max slider value
         /// </summary>
@@ -286,11 +285,11 @@ namespace SoundByte.UWP.Services
             if (LikeIcon == "\uEB52")
             {
                 // Delete the like from the users likes and see if successful
-                if (await SoundByteService.Current.DeleteAsync("/e1/me/track_likes/" + CurrentTrack.Id))
+                if (await SoundByteService.Instance.DeleteAsync("/e1/me/track_likes/" + CurrentTrack.Id))
                 {
                     LikeIcon = "\uEB51";
                     // Track Event
-                    TelemetryService.Current.TrackEvent("Unlike Track");
+                    TelemetryService.Instance.TrackEvent("Unlike Track");
                 }
                 else
                 {
@@ -300,11 +299,11 @@ namespace SoundByte.UWP.Services
             else
             {
                 // Add a like to the users likes and see if successful
-                if (await SoundByteService.Current.PutAsync("/e1/me/track_likes/" + CurrentTrack.Id))
+                if (await SoundByteService.Instance.PutAsync("/e1/me/track_likes/" + CurrentTrack.Id))
                 {
                     LikeIcon = "\uEB52";
                     // Track Event
-                    TelemetryService.Current.TrackEvent("Like Track");
+                    TelemetryService.Instance.TrackEvent("Like Track");
                 }
                 else
                 {
@@ -319,31 +318,34 @@ namespace SoundByte.UWP.Services
             if (args.NewItem == null)
                 return;
 
+            // Try get the track
+            var track = Playlist.FirstOrDefault(
+                x => x.Id == (string) args.NewItem.Source.CustomProperties["SoundByteItem.ID"]);
+
+            // If the track does not exist, do nothing
+            if (track == null)
+                return;
+
+            // Push the current track up to the web service
+            await BackendService.Instance.PushCurrentTrackAsync(track);
+
+            // Update the live tile
+            UpdateNormalTiles();
+
             // Run all this on the UI thread
             await DispatcherHelper.ExecuteOnUIThreadAsync(async () =>
             {
                 // Set the new current track, updating the UI
-                CurrentTrack = Playlist.FirstOrDefault(
-                    x => x.Id == (string)args.NewItem.Source.CustomProperties["SoundByteItem.ID"]);
-
-                UpdateNormalTiles();
+                CurrentTrack = track;
 
                 TimeRemaining = "-00:00";
                 TimeListened = "00:00";
                 CurrentTimeValue = 0;
                 MaxTimeValue = 0;
 
-                TelemetryService.Current.TrackEvent("Background Song Change", new Dictionary<string, string>
-                {
-                    {"playlist_count", Playlist.Count.ToString()},
-                    {"soundcloud_connected", SoundByteService.Current.IsSoundCloudAccountConnected.ToString()},
-                    {"fanburst_connected", SoundByteService.Current.IsFanBurstAccountConnected.ToString()},
-                    {"memory_usage", MemoryManager.AppMemoryUsage.ToString()},
-                });
-
                 try
                 {
-                    LikeIcon = await SoundByteService.Current.ExistsAsync("/me/favorites/" + CurrentTrack.Id)
+                    LikeIcon = await SoundByteService.Instance.ExistsAsync("/me/favorites/" + CurrentTrack.Id)
                         ? "\uEB52"
                         : "\uEB51";
                 }
@@ -354,7 +356,7 @@ namespace SoundByte.UWP.Services
 
                 try
                 {
-                    CurrentTrack.User = await SoundByteService.Current.GetAsync<User>($"/users/{CurrentTrack.User.Id}");
+                    CurrentTrack.User = await SoundByteService.Instance.GetAsync<User>($"/users/{CurrentTrack.User.Id}");
                 }
                 catch
                 {
@@ -362,27 +364,13 @@ namespace SoundByte.UWP.Services
                 }
             });
 
-      /*      if (DeviceHelper.IsDesktop)
+            TelemetryService.Instance.TrackEvent("Background Song Change", new Dictionary<string, string>
             {
-                // Create a image for the jumplist
-                try
-                {
-                    var tempImage =
-                        await ImageHelper.CreateCachedImageAsync(
-                            ArtworkConverter.ConvertObjectToImage(CurrentTrack),
-                            "Jumplist_" + CurrentTrack.Id);
-                    // Add the track to the jumplist
-                    if (tempImage != null)
-                        await JumplistHelper.AddRecentAsync("soundbyte://core/track?id=" + CurrentTrack.Id,
-                            CurrentTrack.Title,
-                            "Play " + CurrentTrack.Title + " by " + CurrentTrack.User.Username + ".",
-                            "Recent Plays", tempImage);
-                }
-                catch (Exception e)
-                {
-                   TelemetryService.Current.TrackException(e);
-                }     
-            }*/
+                {"playlist_count", Playlist.Count.ToString()},
+                {"soundcloud_connected", SoundByteService.Instance.IsSoundCloudAccountConnected.ToString()},
+                {"fanburst_connected", SoundByteService.Instance.IsFanBurstAccountConnected.ToString()},
+                {"memory_usage", MemoryManager.AppMemoryUsage.ToString()},
+            });
         }
 
         private static async Task<string> GetCorrectApiKey()
@@ -390,25 +378,25 @@ namespace SoundByte.UWP.Services
             return await Task.Run(async () =>
             {
                 // Prefer getting the key from the Grid Entertainment Website. More efficient
-                var geKey = await SoundByteService.Current.GridEntertainmentSoundByteGetPlaybackKey();
+                var geKey = await SoundByteService.Instance.GridEntertainmentSoundByteGetPlaybackKey();
 
                 if (!string.IsNullOrEmpty(geKey))
                 {
-                    if (await SoundByteService.Current.ApiCheck("https://api.soundcloud.com/tracks/320126814/stream?client_id=" + geKey))
+                    if (await SoundByteService.Instance.ApiCheck("https://api.soundcloud.com/tracks/320126814/stream?client_id=" + geKey))
                         return geKey;
                 }
 
                 // Log this event so I know if the web service fails.
-                TelemetryService.Current.TrackEvent("Old Playback Key Method");
+                TelemetryService.Instance.TrackEvent("Old Playback Key Method");
 
                 // Check if we have hit the soundcloud api limit
-                if (await SoundByteService.Current.ApiCheck(
+                if (await SoundByteService.Instance.ApiCheck(
                     "https://api.soundcloud.com/tracks/320126814/stream?client_id=" + ApiKeyService.SoundCloudClientId))
                     return ApiKeyService.SoundCloudClientId;
 
                 // Loop through all the backup keys
                 foreach (var key in ApiKeyService.SoundCloudPlaybackClientIds)
-                    if (await SoundByteService.Current.ApiCheck(
+                    if (await SoundByteService.Instance.ApiCheck(
                         "https://api.soundcloud.com/tracks/320126814/stream?client_id=" + key))
                         return key;
 
@@ -514,7 +502,7 @@ namespace SoundByte.UWP.Services
                 }
                 catch (Exception)
                 {
-                    TelemetryService.Current.TrackEvent("Could not add Playback Item",
+                    TelemetryService.Instance.TrackEvent("Could not add Playback Item",
                         new Dictionary<string, string>
                         {
                                 {"track_id", track.Id}
@@ -569,7 +557,7 @@ namespace SoundByte.UWP.Services
 
             if (keepTrying < 50) return (true, string.Empty);
 
-            TelemetryService.Current.TrackEvent("Playback Could not Start", new Dictionary<string, string>
+            TelemetryService.Instance.TrackEvent("Playback Could not Start", new Dictionary<string, string>
             {
                 {"track_id", startingItem.Id}
             });
@@ -583,7 +571,7 @@ namespace SoundByte.UWP.Services
         public void PlayingSliderChange()
         {
             // Set the track position
-            Current.Player.PlaybackSession.Position = TimeSpan.FromSeconds(CurrentTimeValue);
+            Instance.Player.PlaybackSession.Position = TimeSpan.FromSeconds(CurrentTimeValue);
         }
 
         ~PlaybackService()
@@ -627,14 +615,14 @@ namespace SoundByte.UWP.Services
         {
             IsRepeatEnabled = !IsRepeatEnabled;
 
-            TelemetryService.Current.TrackEvent("Toggle Repeat");
+            TelemetryService.Instance.TrackEvent("Toggle Repeat");
         }
 
         public void ToggleShuffle()
         {
             IsShuffleEnabled = !IsShuffleEnabled;
 
-            TelemetryService.Current.TrackEvent("Toggle Shuffle");
+            TelemetryService.Instance.TrackEvent("Toggle Shuffle");
         }
 
         #region Private Variables
@@ -738,9 +726,10 @@ namespace SoundByte.UWP.Services
 
         #region Service Setup
 
-        private static PlaybackService _instance;
+        private static readonly Lazy<PlaybackService> InstanceHolder =
+            new Lazy<PlaybackService>(() => new PlaybackService());
 
-        public static PlaybackService Current => _instance ?? (_instance = new PlaybackService());
+        public static PlaybackService Instance => InstanceHolder.Value;
 
         #endregion
 

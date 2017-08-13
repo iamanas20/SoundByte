@@ -34,7 +34,7 @@ namespace SoundByte.UWP.Views.Me
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            TelemetryService.Current.TrackPage("User Playlist Page");
+            TelemetryService.Instance.TrackPage("User Playlist Page");
         }
 
         public void NavigatePlaylist(object sender, ItemClickEventArgs e)

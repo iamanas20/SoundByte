@@ -61,21 +61,21 @@ namespace SoundByte.UWP.Views.Me
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            TelemetryService.Current.TrackPage("Account View");
+            TelemetryService.Instance.TrackPage("Account View");
 
             RefreshUi();
         }
 
         private void RefreshUi()
         {
-            SoundCloudText.Text = SoundByteService.Current.IsSoundCloudAccountConnected ? "Logout" : "Login";
-            FanburstText.Text = SoundByteService.Current.IsFanBurstAccountConnected ? "Logout" : "Login";
+            SoundCloudText.Text = SoundByteService.Instance.IsSoundCloudAccountConnected ? "Logout" : "Login";
+            FanburstText.Text = SoundByteService.Instance.IsFanBurstAccountConnected ? "Logout" : "Login";
 
-            ViewSoundCloudProfileButton.IsEnabled = SoundByteService.Current.IsSoundCloudAccountConnected;
+            ViewSoundCloudProfileButton.IsEnabled = SoundByteService.Instance.IsSoundCloudAccountConnected;
 
             // Update the UI depending if we are logged in or not
-            if (SoundByteService.Current.IsSoundCloudAccountConnected ||
-                SoundByteService.Current.IsFanBurstAccountConnected)
+            if (SoundByteService.Instance.IsSoundCloudAccountConnected ||
+                SoundByteService.Instance.IsFanBurstAccountConnected)
                 App.Shell.ShowLoginContent();
             else
                 App.Shell.ShowLogoutContent();
@@ -104,7 +104,7 @@ namespace SoundByte.UWP.Views.Me
                     await new MessageDialog(
                         "State Verfication Failed. This could be caused by another process intercepting the SoundByte login procedure. Signin has been canceled to protect your privacy.",
                         "Sign in Error").ShowAsync();
-                    TelemetryService.Current.TrackEvent("State Verfication Failed");
+                    TelemetryService.Instance.TrackEvent("State Verfication Failed");
                     // Close
                     LoadingSection.Visibility = Visibility.Collapsed;
                     LoginWebView.Visibility = Visibility.Collapsed;
@@ -219,7 +219,7 @@ namespace SoundByte.UWP.Views.Me
                                             LoginWebView.Visibility = Visibility.Collapsed;
                                             RefreshUi();
 
-                                            TelemetryService.Current.TrackEvent("Login Successful",
+                                            TelemetryService.Instance.TrackEvent("Login Successful",
                                                 new Dictionary<string, string>
                                                 {
                                                     {"service", _loginService.ToString()}
@@ -274,9 +274,9 @@ namespace SoundByte.UWP.Views.Me
 
         private async void ToggleSoundCloud(object sender, RoutedEventArgs e)
         {
-            if (SoundByteService.Current.IsSoundCloudAccountConnected)
+            if (SoundByteService.Instance.IsSoundCloudAccountConnected)
             {
-                SoundByteService.Current.DisconnectService(SoundByteService.ServiceType.SoundCloud);
+                SoundByteService.Instance.DisconnectService(SoundByteService.ServiceType.SoundCloud);
                 RefreshUi();
             }
             else
@@ -287,9 +287,9 @@ namespace SoundByte.UWP.Views.Me
 
         private async void ToggleFanburst(object sender, RoutedEventArgs e)
         {
-            if (SoundByteService.Current.IsFanBurstAccountConnected)
+            if (SoundByteService.Instance.IsFanBurstAccountConnected)
             {
-                SoundByteService.Current.DisconnectService(SoundByteService.ServiceType.Fanburst);
+                SoundByteService.Instance.DisconnectService(SoundByteService.ServiceType.Fanburst);
                 RefreshUi();
             }
             else
@@ -300,7 +300,7 @@ namespace SoundByte.UWP.Views.Me
 
         private void NavigateSoundCloudProfile(object sender, RoutedEventArgs e)
         {
-            App.NavigateTo(typeof(UserView), SoundByteService.Current.SoundCloudUser);
+            App.NavigateTo(typeof(UserView), SoundByteService.Instance.SoundCloudUser);
         }
     }
 }

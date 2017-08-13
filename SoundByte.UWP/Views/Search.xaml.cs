@@ -10,6 +10,7 @@
  * |----------------------------------------------------------------|
  */
 
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using SoundByte.Core.Services;
 using SoundByte.UWP.ViewModels;
@@ -48,11 +49,11 @@ namespace SoundByte.UWP.Views
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             // Set the last visited frame (crash handling)
-            SettingsService.Current.LastFrame = typeof(Search).FullName;
+            SettingsService.Instance.LastFrame = typeof(Search).FullName;
             // Set the search string
             ViewModel.SearchQuery = e.Parameter != null ? e.Parameter as string : string.Empty;
             // Track Event
-            TelemetryService.Current.TrackPage("Search Page");
+            TelemetryService.Instance.TrackPage("Search Page");
         }
     }
 }

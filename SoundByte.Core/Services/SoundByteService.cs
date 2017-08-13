@@ -62,12 +62,13 @@ namespace SoundByte.Core.Services
         #region Static Class Instance
 
         // Private class instance
-        private static SoundByteService _instance;
+        private static readonly Lazy<SoundByteService> InstanceHolder =
+            new Lazy<SoundByteService>(() => new SoundByteService());
 
         /// <summary>
         ///     Get the current soundbyte service
         /// </summary>
-        public static SoundByteService Current => _instance ?? (_instance = new SoundByteService());
+        public static SoundByteService Instance => InstanceHolder.Value;
         #endregion
 
         #region Secret Keys
@@ -288,6 +289,8 @@ namespace SoundByte.Core.Services
         #endregion
 
         #region Account Connected Checks
+
+        public bool IsAccountConnected => IsFanBurstAccountConnected || IsSoundCloudAccountConnected;
 
         /// <summary>
         ///     Checks to see if the users fanbirst account is connected

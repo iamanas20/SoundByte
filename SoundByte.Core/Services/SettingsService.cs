@@ -25,10 +25,10 @@ namespace SoundByte.Core.Services
     {
         #region Static Class Setup
 
-        private static SettingsService _mPInstance;
+        private static readonly Lazy<SettingsService> InstanceHolder =
+            new Lazy<SettingsService>(() => new SettingsService());
 
-        public static SettingsService Current => _mPInstance ?? (_mPInstance = new SettingsService());
-
+        public static SettingsService Instance => InstanceHolder.Value;
         #endregion
 
         #region Constant Keys

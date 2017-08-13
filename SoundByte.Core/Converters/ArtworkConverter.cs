@@ -111,7 +111,7 @@ namespace SoundByte.Core.Converters
 
             // Check if this image supports high resolution
             if (track.ArtworkLink.Contains("large"))
-                return SettingsService.Current.IsHighQualityArtwork
+                return SettingsService.Instance.IsHighQualityArtwork
                     ? track.ArtworkLink.Replace("large", "t500x500")
                     : track.ArtworkLink.Replace("large", "t300x300");
 
@@ -136,7 +136,7 @@ namespace SoundByte.Core.Converters
 
             // Check if this image supports high resolution
             if (user.ArtworkLink.Contains("large"))
-                return SettingsService.Current.IsHighQualityArtwork
+                return SettingsService.Instance.IsHighQualityArtwork
                     ? user.ArtworkLink.Replace("large", "t500x500")
                     : user.ArtworkLink.Replace("large", "t300x300");
 
@@ -157,7 +157,7 @@ namespace SoundByte.Core.Converters
 
             // Check if this image supports high resolution
             if (playlist.ArtworkLink.Contains("large"))
-                return SettingsService.Current.IsHighQualityArtwork
+                return SettingsService.Instance.IsHighQualityArtwork
                     ? playlist.ArtworkLink.Replace("large", "t500x500")
                     : playlist.ArtworkLink.Replace("large", "t300x300");
 

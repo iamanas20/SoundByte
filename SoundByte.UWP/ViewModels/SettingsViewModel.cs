@@ -51,7 +51,7 @@ namespace SoundByte.UWP.ViewModels
             // Clear all jumplist items
             await JumplistHelper.RemoveAllAsync();
             // Clear all the live tiles
-            await TileService.Current.RemoveAllAsync();
+            await TileService.Instance.RemoveAllAsync();
             // Remove all cached images from the app
             var rootCacheFolder =
                 await ApplicationData.Current.LocalFolder.CreateFolderAsync("cache",
@@ -76,12 +76,12 @@ namespace SoundByte.UWP.ViewModels
                 var languageString = comboBoxItem.Tag as string;
 
                 // If the langauge is the same, do nothing
-                if (SettingsService.Current.CurrentAppLanguage == languageString || IsComboboxBlockingEnabled ||
-                    string.IsNullOrEmpty(SettingsService.Current.CurrentAppLanguage))
+                if (SettingsService.Instance.CurrentAppLanguage == languageString || IsComboboxBlockingEnabled ||
+                    string.IsNullOrEmpty(SettingsService.Instance.CurrentAppLanguage))
                     return;
 
                 // Set the current langauge
-                SettingsService.Current.CurrentAppLanguage = languageString;
+                SettingsService.Instance.CurrentAppLanguage = languageString;
             }
             // Get the resource loader
             var resources = ResourceLoader.GetForCurrentView();

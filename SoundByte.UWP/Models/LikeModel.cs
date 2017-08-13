@@ -85,7 +85,7 @@ namespace SoundByte.UWP.Models
                             count = 10;
 
                         // Get the like tracks
-                        var likeTracks = await SoundByteService.Current.GetAsync<TrackListHolder>(
+                        var likeTracks = await SoundByteService.Instance.GetAsync<TrackListHolder>(
                             $"/users/{User.Id}/favorites", new Dictionary<string, string>
                             {
                                 {"limit", count.ToString()},

@@ -37,7 +37,7 @@ namespace SoundByte.UWP.Views.Me
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            TelemetryService.Current.TrackPage("History Page");
+            TelemetryService.Instance.TrackPage("History Page");
         }
 
         public async void PlayShuffleItems()
@@ -50,7 +50,7 @@ namespace SoundByte.UWP.Views.Me
             App.IsLoading = true;
 
             var startPlayback =
-                await PlaybackService.Current.StartMediaPlayback(HistoryModel.ToList(), HistoryModel.Token);
+                await PlaybackService.Instance.StartMediaPlayback(HistoryModel.ToList(), HistoryModel.Token);
             if (!startPlayback.success)
                 await new MessageDialog(startPlayback.message, "Error playing track.").ShowAsync();
 
@@ -61,7 +61,7 @@ namespace SoundByte.UWP.Views.Me
         {
             App.IsLoading = true;
 
-            var startPlayback = await PlaybackService.Current.StartMediaPlayback(HistoryModel.ToList(),
+            var startPlayback = await PlaybackService.Instance.StartMediaPlayback(HistoryModel.ToList(),
                 HistoryModel.Token, false, (Track) e.ClickedItem);
             if (!startPlayback.success)
                 await new MessageDialog(startPlayback.message, "Error playing track.").ShowAsync();

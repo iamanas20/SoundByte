@@ -30,7 +30,7 @@ namespace SoundByte.UWP.ViewModels
         /// <summary>
         ///     The global playback service
         /// </summary>
-        public PlaybackService Service => PlaybackService.Current;
+        public PlaybackService Service => PlaybackService.Instance;
 
         /// <summary>
         ///     Dispose the model
@@ -53,7 +53,7 @@ namespace SoundByte.UWP.ViewModels
         {
             App.IsLoading = true;
 
-            var startPlayback = await PlaybackService.Current.StartMediaPlayback(tracks, token, true);
+            var startPlayback = await PlaybackService.Instance.StartMediaPlayback(tracks, token, true);
 
             if (!startPlayback.success)
                 await new MessageDialog(startPlayback.message, "Error playing shuffled tracks.").ShowAsync();

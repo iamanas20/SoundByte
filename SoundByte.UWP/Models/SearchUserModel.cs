@@ -71,7 +71,7 @@ namespace SoundByte.UWP.Models
                 try
                 {
                     // Get the searched users
-                    var searchUsers = await SoundByteService.Current.GetAsync<UserListHolder>("/users",
+                    var searchUsers = await SoundByteService.Instance.GetAsync<UserListHolder>("/users",
                         new Dictionary<string, string>
                         {
                             {"limit", SettingsService.TrackLimitor.ToString()},

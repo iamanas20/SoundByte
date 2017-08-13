@@ -69,7 +69,7 @@ namespace SoundByte.UWP.Views
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            TelemetryService.Current.TrackPage("Compact Overlay Page");
+            TelemetryService.Instance.TrackPage("Compact Overlay Page");
         }
 
         private async void Service_PropertyChanged(object sender, PropertyChangedEventArgs e)

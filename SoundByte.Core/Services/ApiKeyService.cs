@@ -34,7 +34,7 @@ namespace SoundByte.Core.Services
                 if (key != null)
                     return key.ToString();
 
-                var liveKey = SoundByteService.Current.GetSoundByteKey("ga");
+                var liveKey = SoundByteService.Instance.GetSoundByteKey("ga");
                 ApplicationData.Current.LocalSettings.Values.Add("SoundByte.Keys.GA", liveKey);
 
                 return liveKey;
@@ -53,7 +53,7 @@ namespace SoundByte.Core.Services
                 if (key != null)
                     return key.ToString();
 
-                var liveKey = SoundByteService.Current.GetSoundByteKey("hac");
+                var liveKey = SoundByteService.Instance.GetSoundByteKey("hac");
                 ApplicationData.Current.LocalSettings.Values.Add("SoundByte.Keys.HAC", liveKey);
 
                 return liveKey;
@@ -72,7 +72,7 @@ namespace SoundByte.Core.Services
                 if (key != null)
                     return key.ToString();
 
-                var liveKey = SoundByteService.Current.GetSoundByteKey("amcc");
+                var liveKey = SoundByteService.Instance.GetSoundByteKey("amcc");
                 ApplicationData.Current.LocalSettings.Values.Add("SoundByte.Keys.AMCC", liveKey);
 
                 return liveKey;
@@ -91,7 +91,7 @@ namespace SoundByte.Core.Services
                 if (key != null)
                     return key.ToString();
 
-                var liveKey = SoundByteService.Current.GetSoundByteKey("scc");
+                var liveKey = SoundByteService.Instance.GetSoundByteKey("scc");
                 ApplicationData.Current.LocalSettings.Values.Add("SoundByte.Keys.SCC", liveKey);
 
                 return liveKey;
@@ -110,7 +110,7 @@ namespace SoundByte.Core.Services
                 if (key != null)
                     return key.ToString();
 
-                var liveKey = SoundByteService.Current.GetSoundByteKey("scs");
+                var liveKey = SoundByteService.Instance.GetSoundByteKey("scs");
                 ApplicationData.Current.LocalSettings.Values.Add("SoundByte.Keys.SCS", liveKey);
 
                 return liveKey;
@@ -129,7 +129,7 @@ namespace SoundByte.Core.Services
                 if (key != null)
                     return key.ToString();
 
-                var liveKey = SoundByteService.Current.GetSoundByteKey("fbc");
+                var liveKey = SoundByteService.Instance.GetSoundByteKey("fbc");
                 ApplicationData.Current.LocalSettings.Values.Add("SoundByte.Keys.FBC", liveKey);
 
                 return liveKey;
@@ -148,7 +148,7 @@ namespace SoundByte.Core.Services
                 if (key != null)
                     return key.ToString();
 
-                var liveKey = SoundByteService.Current.GetSoundByteKey("fbs");
+                var liveKey = SoundByteService.Instance.GetSoundByteKey("fbs");
                 ApplicationData.Current.LocalSettings.Values.Add("SoundByte.Keys.FBS", liveKey);
 
                 return liveKey;
@@ -167,7 +167,7 @@ namespace SoundByte.Core.Services
                 if (key != null)
                     return key.Split(',').ToList();
 
-                var liveKey = SoundByteService.Current.GetSoundBytePlaybackKeys();
+                var liveKey = SoundByteService.Instance.GetSoundBytePlaybackKeys();
                 ApplicationData.Current.LocalSettings.Values.Add("SoundByte.Keys.SCPI", string.Join(",", liveKey));
 
                 return liveKey;

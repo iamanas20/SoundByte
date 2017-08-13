@@ -52,7 +52,7 @@ namespace SoundByte.Core.Dialogs
             // Hide the popup
             Hide();
             // Track Event
-            TelemetryService.Current.TrackEvent("Share Menu - Windows Share");
+            TelemetryService.Instance.TrackEvent("Share Menu - Windows Share");
         }
 
         private void ShareLink(object sender, RoutedEventArgs e)
@@ -66,7 +66,7 @@ namespace SoundByte.Core.Dialogs
             // Hide the popup
             Hide();
             // Track Event
-            TelemetryService.Current.TrackEvent("Share Menu - Copy General Link");
+            TelemetryService.Instance.TrackEvent("Share Menu - Copy General Link");
         }
 
         private void ShareSoundByte(object sender, RoutedEventArgs e)
@@ -80,7 +80,7 @@ namespace SoundByte.Core.Dialogs
             // Hide the popup
             Hide();
             // Track Event
-            TelemetryService.Current.TrackEvent("Share Menu - Copy SoundByte Link");
+            TelemetryService.Instance.TrackEvent("Share Menu - Copy SoundByte Link");
         }
     }
 }

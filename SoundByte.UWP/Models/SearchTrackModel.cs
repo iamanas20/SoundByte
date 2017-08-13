@@ -76,7 +76,7 @@ namespace SoundByte.UWP.Models
                 try
                 {
                     // Search for matching tracks
-                    var searchTracks = await SoundByteService.Current.GetAsync<TrackListHolder>("/tracks",
+                    var searchTracks = await SoundByteService.Instance.GetAsync<TrackListHolder>("/tracks",
                         new Dictionary<string, string>
                         {
                             {"limit", SettingsService.TrackLimitor.ToString()},

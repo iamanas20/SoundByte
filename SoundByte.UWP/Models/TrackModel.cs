@@ -68,7 +68,7 @@ namespace SoundByte.UWP.Models
                 try
                 {
                     // Get the users track
-                    var userTracks = await SoundByteService.Current.GetAsync<TrackListHolder>(
+                    var userTracks = await SoundByteService.Instance.GetAsync<TrackListHolder>(
                         $"/users/{User.Id}/tracks", new Dictionary<string, string>
                         {
                             {"limit", "50"},

@@ -50,7 +50,7 @@ namespace SoundByte.UWP.ViewModels
                 var resources = ResourceLoader.GetForCurrentView();
 
                 // Check if the tile is pinned
-                if (TileService.Current.DoesTileExist("Playlist_" + Playlist.Id))
+                if (TileService.Instance.DoesTileExist("Playlist_" + Playlist.Id))
                 {
                     PinButtonIcon = "\uE77A";
                     PinButtonText = resources.GetString("AppBarUI_Unpin_Raw");
@@ -61,7 +61,7 @@ namespace SoundByte.UWP.ViewModels
                     PinButtonText = resources.GetString("AppBarUI_Pin_Raw");
                 }
 
-                if (await SoundByteService.Current.ExistsAsync($"/e1/me/playlist_likes/{Playlist.Id}"))
+                if (await SoundByteService.Instance.ExistsAsync($"/e1/me/playlist_likes/{Playlist.Id}"))
                     LikeButtonText = "Unlike Playlist";
                 else
                     LikeButtonText = "Like Playlist";
@@ -72,7 +72,7 @@ namespace SoundByte.UWP.ViewModels
                     (App.CurrentFrame?.FindName("PlaylistInfoPane") as InfoPane)?.ShowLoading();
                     // Get the playlist tracks
                     var playlistTracks =
-                        (await SoundByteService.Current.GetAsync<Playlist>("/playlists/" + Playlist.Id)).Tracks;
+                        (await SoundByteService.Instance.GetAsync<Playlist>("/playlists/" + Playlist.Id)).Tracks;
                     playlistTracks.ForEach(x => Tracks.Add(x));
                     // Hide the loading ring
                     (App.CurrentFrame?.FindName("PlaylistInfoPane") as InfoPane)?.ClosePane();
@@ -206,10 +206,10 @@ namespace SoundByte.UWP.ViewModels
             // Get the resource loader
             var resources = ResourceLoader.GetForCurrentView();
             // Check if the tile exists
-            if (TileService.Current.DoesTileExist("Playlist_" + Playlist.Id))
+            if (TileService.Instance.DoesTileExist("Playlist_" + Playlist.Id))
             {
                 // Try remove the tile
-                if (await TileService.Current.RemoveAsync("Playlist_" + Playlist.Id))
+                if (await TileService.Instance.RemoveAsync("Playlist_" + Playlist.Id))
                 {
                     PinButtonIcon = "\uE718";
                     PinButtonText = resources.GetString("AppBarUI_Pin_Raw");
@@ -223,7 +223,7 @@ namespace SoundByte.UWP.ViewModels
             else
             {
                 // Create the tile
-                if (await TileService.Current.CreateTileAsync("Playlist_" + Playlist.Id, Playlist.Title,
+                if (await TileService.Instance.CreateTileAsync("Playlist_" + Playlist.Id, Playlist.Title,
                     "soundbyte://core/playlist?id=" + Playlist.Id,
                     new Uri(ArtworkConverter.ConvertObjectToImage(Playlist)), ForegroundText.Light))
                 {
@@ -258,7 +258,7 @@ namespace SoundByte.UWP.ViewModels
             var item = (Track) e.ClickedItem;
 
             var startPlayback =
-                await PlaybackService.Current.StartMediaPlayback(Tracks.ToList(), $"playlist-{Playlist.Id}", false,
+                await PlaybackService.Instance.StartMediaPlayback(Tracks.ToList(), $"playlist-{Playlist.Id}", false,
                     item);
 
             if (!startPlayback.success)
@@ -271,7 +271,7 @@ namespace SoundByte.UWP.ViewModels
         public async void NavigatePlay()
         {
             var startPlayback =
-                await PlaybackService.Current.StartMediaPlayback(Tracks.ToList(), $"playlist-{Playlist.Id}");
+                await PlaybackService.Instance.StartMediaPlayback(Tracks.ToList(), $"playlist-{Playlist.Id}");
 
             if (!startPlayback.success)
                 await new MessageDialog(startPlayback.message, "Error playing playlist.").ShowAsync();

@@ -100,7 +100,7 @@ namespace SoundByte.Core.Dialogs
                     try
                     {
                         // Get the response message
-                        var response = await SoundByteService.Current.PostAsync<Playlist>("/playlists",
+                        var response = await SoundByteService.Instance.PostAsync<Playlist>("/playlists",
                             new HttpStringContent(json, UnicodeEncoding.Utf8, "application/json"));
 
                         // Check that the creation was successful
@@ -143,7 +143,7 @@ namespace SoundByte.Core.Dialogs
         private async void LoadContent(ContentDialog sender, ContentDialogOpenedEventArgs args)
         {
             // If we are not logged in, close the dialog
-            if (!SoundByteService.Current.IsSoundCloudAccountConnected)
+            if (!SoundByteService.Instance.IsSoundCloudAccountConnected)
             {
                 Hide();
                 await new MessageDialog("You need to be logged in to perform this task :/").ShowAsync();
@@ -156,7 +156,7 @@ namespace SoundByte.Core.Dialogs
             _blockItemsLoading = true;
 
             // Get a list of the user playlists
-            var userPlaylists = await SoundByteService.Current.GetAsync<List<Playlist>>("/me/playlists");
+            var userPlaylists = await SoundByteService.Instance.GetAsync<List<Playlist>>("/me/playlists");
 
             Playlist.Clear();
 
@@ -196,7 +196,7 @@ namespace SoundByte.Core.Dialogs
             try
             {
                 // Get the playlist object from the internet
-                var playlistObject = await SoundByteService.Current.GetAsync<Playlist>("/playlists/" + playlistId);
+                var playlistObject = await SoundByteService.Instance.GetAsync<Playlist>("/playlists/" + playlistId);
                 // Get the track within the object
                 var trackObject = playlistObject.Tracks.FirstOrDefault(x => x.Id == Track.Id);
 
@@ -213,7 +213,7 @@ namespace SoundByte.Core.Dialogs
                 json = json.TrimEnd(',') + "]}}";
 
                 // Create the http request
-                var response = await SoundByteService.Current.PutAsync("/playlists/" + playlistId,
+                var response = await SoundByteService.Instance.PutAsync("/playlists/" + playlistId,
                     new HttpStringContent(json, UnicodeEncoding.Utf8, "application/json"));
 
                 // Check that the remove was successful
@@ -262,7 +262,7 @@ namespace SoundByte.Core.Dialogs
             try
             {
                 // Get the playlist object from the internet
-                var playlistObject = await SoundByteService.Current.GetAsync<Playlist>("/playlists/" + playlistId);
+                var playlistObject = await SoundByteService.Instance.GetAsync<Playlist>("/playlists/" + playlistId);
 
                 // Start creating the json track string with the basic json
                 var json = playlistObject.Tracks.Aggregate("{\"playlist\":{\"tracks\":[",
@@ -272,7 +272,7 @@ namespace SoundByte.Core.Dialogs
                 json += "{\"id\":\"" + Track.Id + "\"}]}}";
                 // Create the http request
                 var response =
-                    await SoundByteService.Current.PutAsync(
+                    await SoundByteService.Instance.PutAsync(
                         "/playlists/" + playlistObject.Id + "/?secret-token=" + playlistObject.SecretToken,
                         new HttpStringContent(json, UnicodeEncoding.Utf8, "application/json"));
 

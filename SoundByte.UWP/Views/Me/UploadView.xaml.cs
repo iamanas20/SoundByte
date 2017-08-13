@@ -56,10 +56,10 @@ namespace SoundByte.UWP.Views.Me
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            SettingsService.Current.LastFrame = typeof(UploadView).FullName;
+            SettingsService.Instance.LastFrame = typeof(UploadView).FullName;
 
             // Track Event
-            TelemetryService.Current.TrackPage("Upload Page");
+            TelemetryService.Instance.TrackPage("Upload Page");
         }
 
         private async void UploadButton_Tapped(object sender, RoutedEventArgs e)
@@ -94,7 +94,7 @@ namespace SoundByte.UWP.Views.Me
                         new HttpMediaTypeWithQualityHeaderValue("application/json"));
                     // Add oauth token
                     httpClient.DefaultRequestHeaders.Authorization =
-                        new HttpCredentialsHeaderValue("OAuth", SoundByteService.Current.SoundCloudToken.AccessToken);
+                        new HttpCredentialsHeaderValue("OAuth", SoundByteService.Instance.SoundCloudToken.AccessToken);
                     // Set the muiltipart form
                     var formContent = new HttpMultipartFormDataContent();
 
@@ -242,7 +242,7 @@ namespace SoundByte.UWP.Views.Me
                     var uploadResponse = await httpClient
                         .PostAsync(
                             new Uri("https://api.soundcloud.com/tracks?oauth_token=" +
-                                    SoundByteService.Current.SoundCloudToken.AccessToken + "&client_id=" +
+                                    SoundByteService.Instance.SoundCloudToken.AccessToken + "&client_id=" +
                                     ApiKeyService.SoundCloudClientId + "&client_secret=" +
                                     ApiKeyService.SoundCloudClientSecret), formContent)
                         .AsTask(_cancelToken.Token, progressCallback);

@@ -51,8 +51,8 @@ namespace SoundByte.UWP
             // Check that we are not using the default theme,
             // if not change the requested theme to the users
             // picked theme.
-            if (!SettingsService.Current.IsDefaultTheme)
-                RequestedTheme = SettingsService.Current.ThemeType;
+            if (!SettingsService.Instance.IsDefaultTheme)
+                RequestedTheme = SettingsService.Instance.ThemeType;
 
             // Handle App Crashes
             CrashHelper.HandleAppCrashes(Current);
@@ -120,7 +120,7 @@ namespace SoundByte.UWP
             {
                 case VirtualKey.F11:
                     // Send hit
-                    TelemetryService.Current.TrackEvent("Toggle FullScreen");
+                    TelemetryService.Instance.TrackEvent("Toggle FullScreen");
                     // Toggle between fullscreen or not
                     if (!DeviceHelper.IsDeviceFullScreen)
                         ApplicationView.GetForCurrentView().TryEnterFullScreenMode();
@@ -129,13 +129,13 @@ namespace SoundByte.UWP
                     break;
                 case VirtualKey.GamepadView:
                     // Send hit
-                    TelemetryService.Current.TrackEvent("Xbox Playing Page");
+                    TelemetryService.Instance.TrackEvent("Xbox Playing Page");
                     // Navigate to the current playing track
                     NavigateTo(typeof(NowPlayingView));
                     break;
                 case VirtualKey.GamepadY:
                     // Send hit
-                    TelemetryService.Current.TrackEvent("Xbox Search Page");
+                    TelemetryService.Instance.TrackEvent("Xbox Search Page");
                     // Navigate to the search page
                     NavigateTo(typeof(Search));
                     break;
@@ -221,7 +221,7 @@ namespace SoundByte.UWP
             DeviceHelper.IsBackground = false;
 
             // Send hit
-            TelemetryService.Current.TrackEvent("Leave Background");
+            TelemetryService.Instance.TrackEvent("Leave Background");
 
             // Restore view content if it was previously unloaded
             if(Window.Current != null && Window.Current.Content == null)
@@ -254,7 +254,7 @@ namespace SoundByte.UWP
             try
             {
                 // Send hit
-                TelemetryService.Current.TrackEvent("Enter Background");
+                TelemetryService.Instance.TrackEvent("Enter Background");
 
                 // Update the variable
                 DeviceHelper.IsBackground = true;
@@ -290,7 +290,7 @@ namespace SoundByte.UWP
             }
 
             // Send hit
-            TelemetryService.Current.TrackEvent("Reducing Memory Usage", new Dictionary<string, string>
+            TelemetryService.Instance.TrackEvent("Reducing Memory Usage", new Dictionary<string, string>
             {
                 {"new_limit", e.NewLimit / 1024 / 1024 + "K"},
                 {"old_limit", e.OldLimit / 1024 / 1024 + "M"}
@@ -327,7 +327,7 @@ namespace SoundByte.UWP
             }
 
             // Send hit
-            TelemetryService.Current.TrackEvent("Memory Usage Increader", new Dictionary<string, string>
+            TelemetryService.Instance.TrackEvent("Memory Usage Increader", new Dictionary<string, string>
             {
                 {"current_usage", MemoryManager.AppMemoryUsage.ToString()}
             });

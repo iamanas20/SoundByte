@@ -29,7 +29,7 @@ namespace SoundByte.UWP.Views.General
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            TelemetryService.Current.TrackPage("What's New Page");
+            TelemetryService.Instance.TrackPage("What's New Page");
 
             App.IsLoading = true;
 

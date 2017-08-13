@@ -35,23 +35,23 @@ namespace SoundByte.Notifications
 
             // If the user has not connected their soundcloud 
             // account. Do nothing.
-            if (!SoundByteService.Current.IsSoundCloudAccountConnected)
+            if (!SoundByteService.Instance.IsSoundCloudAccountConnected)
                 return;
 
             // If the user has disabled notifications, do not
             // do anything.
-            if (!SettingsService.Current.IsNotificationsEnabled)
+            if (!SettingsService.Instance.IsNotificationsEnabled)
                 return;
 
             // Get the time of the last check, we do this
             // so we know what tracks to get (that the user 
             // has not already seen).
-            var lastCheckTime = SettingsService.Current.LatestViewedTrack;
+            var lastCheckTime = SettingsService.Instance.LatestViewedTrack;
 
             try
             {
                 // Call the SoundCloud api and get notifications for this user
-                var items = await SoundByteService.Current.GetAsync<NotificationListHolder>("/e1/me/stream",
+                var items = await SoundByteService.Instance.GetAsync<NotificationListHolder>("/e1/me/stream",
                     new Dictionary<string, string>
                     {
                         {"limit", "20"}
@@ -137,7 +137,7 @@ namespace SoundByte.Notifications
                         toastXml.LoadXml(toastXmlString);
 
                         // Create the toast notification
-                        var toast = new ToastNotification(toastXml) { SuppressPopup = !SettingsService.Current.IsNotificationPopupEnabled };
+                        var toast = new ToastNotification(toastXml) { SuppressPopup = !SettingsService.Instance.IsNotificationPopupEnabled };
 
                         // Show the taost notification
                         ToastNotificationManager.CreateToastNotifier().Show(toast);
@@ -146,11 +146,11 @@ namespace SoundByte.Notifications
             }
             catch (Exception e)
             {
-                TelemetryService.Current.TrackException(e);
+                TelemetryService.Instance.TrackException(e);
             }
 
             // Store the latest time so the notifications do not repeat
-            SettingsService.Current.LatestViewedTrack = DateTime.UtcNow;
+            SettingsService.Instance.LatestViewedTrack = DateTime.UtcNow;
 
             // Finished
             deferral.Complete();

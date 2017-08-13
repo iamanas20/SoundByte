@@ -75,7 +75,7 @@ namespace SoundByte.UWP.Views
                 await ViewModel.UpdateModel(targetUser);
 
                 // Show the upload button on the users profile
-                UploadButton.Visibility = targetUser.Id == SoundByteService.Current.SoundCloudUser?.Id
+                UploadButton.Visibility = targetUser.Id == SoundByteService.Instance.SoundCloudUser?.Id
                     ? Visibility.Visible
                     : Visibility.Collapsed;
 
@@ -84,7 +84,7 @@ namespace SoundByte.UWP.Views
             }
 
             // Track Event
-            TelemetryService.Current.TrackPage("User Page");
+            TelemetryService.Instance.TrackPage("User Page");
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
@@ -99,7 +99,7 @@ namespace SoundByte.UWP.Views
 
         private void UserView_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            if (PlaybackService.Current.CurrentTrack == null)
+            if (PlaybackService.Instance.CurrentTrack == null)
                 MainPivot.Height = Window.Current.Bounds.Height;
             else
                 MainPivot.Height = Window.Current.Bounds.Height - 64;

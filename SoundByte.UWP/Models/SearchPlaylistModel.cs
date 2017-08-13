@@ -73,7 +73,7 @@ namespace SoundByte.UWP.Models
                 try
                 {
                     // Get the searched playlists
-                    var searchPlaylists = await SoundByteService.Current.GetAsync<SearchPlaylistHolder>("/playlists",
+                    var searchPlaylists = await SoundByteService.Instance.GetAsync<SearchPlaylistHolder>("/playlists",
                         new Dictionary<string, string>
                         {
                             {"limit", SettingsService.TrackLimitor.ToString()},

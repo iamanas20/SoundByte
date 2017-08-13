@@ -36,7 +36,7 @@ namespace SoundByte.UWP.ViewModels
         #region Models
 
         // Model for the comments
-        public CommentModel CommentItems { get; } = new CommentModel(PlaybackService.Current.CurrentTrack);
+        public CommentModel CommentItems { get; } = new CommentModel(PlaybackService.Instance.CurrentTrack);
 
         #endregion
 
@@ -62,16 +62,16 @@ namespace SoundByte.UWP.ViewModels
                     return;
 
                 // Set the pin button text
-                PinButtonText = TileService.Current.DoesTileExist("Track_" + Service.CurrentTrack.Id) ? "Unpin" : "Pin";
+                PinButtonText = TileService.Instance.DoesTileExist("Track_" + Service.CurrentTrack.Id) ? "Unpin" : "Pin";
 
                 // Set the like button text
-                LikeButtonText = await SoundByteService.Current.ExistsAsync("/me/favorites/" + Service.CurrentTrack.Id)
+                LikeButtonText = await SoundByteService.Instance.ExistsAsync("/me/favorites/" + Service.CurrentTrack.Id)
                     ? "Unlike"
                     : "Like";
 
                 // Set the repost button text
                 RepostButtonText =
-                    await SoundByteService.Current.ExistsAsync("/e1/me/track_reposts/" + Service.CurrentTrack.Id)
+                    await SoundByteService.Instance.ExistsAsync("/e1/me/track_reposts/" + Service.CurrentTrack.Id)
                         ? "Unpost"
                         : "Repost";
 
@@ -188,8 +188,8 @@ namespace SoundByte.UWP.ViewModels
         public void SetupModel()
         {
             // Bind the method once we know a playback list exists
-            if (PlaybackService.Current.PlaybackList != null)
-                PlaybackService.Current.PlaybackList.CurrentItemChanged += CurrentItemChanged;
+            if (PlaybackService.Instance.PlaybackList != null)
+                PlaybackService.Instance.PlaybackList.CurrentItemChanged += CurrentItemChanged;
         }
 
         public void MakeFullScreen()
@@ -206,8 +206,8 @@ namespace SoundByte.UWP.ViewModels
         public void CleanModel()
         {
             // Unbind the events
-            if (PlaybackService.Current.PlaybackList != null)
-                PlaybackService.Current.PlaybackList.CurrentItemChanged -= CurrentItemChanged;
+            if (PlaybackService.Instance.PlaybackList != null)
+                PlaybackService.Instance.PlaybackList.CurrentItemChanged -= CurrentItemChanged;
         }
 
         #endregion
@@ -228,8 +228,8 @@ namespace SoundByte.UWP.ViewModels
         public async void GotoRelatedTrack(object sender, ItemClickEventArgs e)
         {
             var startPlayback =
-                await PlaybackService.Current.StartMediaPlayback(PlaybackService.Current.Playlist.ToList(),
-                    PlaybackService.Current.TokenValue, false, (Track)e.ClickedItem);
+                await PlaybackService.Instance.StartMediaPlayback(PlaybackService.Instance.Playlist.ToList(),
+                    PlaybackService.Instance.TokenValue, false, (Track)e.ClickedItem);
             if (!startPlayback.success)
                 await new MessageDialog(startPlayback.message, "Error playing related track.").ShowAsync();
         }
@@ -240,16 +240,16 @@ namespace SoundByte.UWP.ViewModels
         public async void PinTile()
         {
             // Check if the tile exists
-            var tileExists = TileService.Current.DoesTileExist("Track_" + Service.CurrentTrack.Id);
+            var tileExists = TileService.Instance.DoesTileExist("Track_" + Service.CurrentTrack.Id);
 
             if (tileExists)
             {
                 // Remove the tile and check if it was successful
-                if (await TileService.Current.RemoveAsync("Track_" + Service.CurrentTrack.Id))
+                if (await TileService.Instance.RemoveAsync("Track_" + Service.CurrentTrack.Id))
                 {
                     PinButtonText = "Pin";
                     // Track Event
-                    TelemetryService.Current.TrackEvent("Unpin Track");
+                    TelemetryService.Instance.TrackEvent("Unpin Track");
                 }
                 else
                 {
@@ -259,13 +259,13 @@ namespace SoundByte.UWP.ViewModels
             else
             {
                 // Create a live tile and check if it was created
-                if (await TileService.Current.CreateTileAsync("Track_" + Service.CurrentTrack.Id,
+                if (await TileService.Instance.CreateTileAsync("Track_" + Service.CurrentTrack.Id,
                     Service.CurrentTrack.Title, "soundbyte://core/track?id=" + Service.CurrentTrack.Id,
                     new Uri(ArtworkConverter.ConvertObjectToImage(Service.CurrentTrack)), ForegroundText.Light))
                 {
                     PinButtonText = "Unpin";
                     // Track Event
-                    TelemetryService.Current.TrackEvent("Pin Track");
+                    TelemetryService.Instance.TrackEvent("Pin Track");
                 }
                 else
                 {
@@ -286,11 +286,11 @@ namespace SoundByte.UWP.ViewModels
             if (RepostButtonText == "Unpost")
             {
                 // Delete the repost value and check if it was successful
-                if (await SoundByteService.Current.DeleteAsync("/e1/me/track_reposts/" + Service.CurrentTrack.Id))
+                if (await SoundByteService.Instance.DeleteAsync("/e1/me/track_reposts/" + Service.CurrentTrack.Id))
                 {
                     RepostButtonText = "Repost";
                     // Track Event
-                    TelemetryService.Current.TrackEvent("Unpost Track");
+                    TelemetryService.Instance.TrackEvent("Unpost Track");
                 }
                 else
                 {
@@ -300,11 +300,11 @@ namespace SoundByte.UWP.ViewModels
             else
             {
                 // Put a value in the reposted tracks and see if successful
-                if (await SoundByteService.Current.PutAsync("/e1/me/track_reposts/" + Service.CurrentTrack.Id))
+                if (await SoundByteService.Instance.PutAsync("/e1/me/track_reposts/" + Service.CurrentTrack.Id))
                 {
                     RepostButtonText = "Unpost";
                     // Track Event
-                    TelemetryService.Current.TrackEvent("Repost Track");
+                    TelemetryService.Instance.TrackEvent("Repost Track");
                 }
                 else
                 {
@@ -325,11 +325,11 @@ namespace SoundByte.UWP.ViewModels
             if (LikeButtonText == "Unlike")
             {
                 // Delete the like from the users likes and see if successful
-                if (await SoundByteService.Current.DeleteAsync("/e1/me/track_likes/" + Service.CurrentTrack.Id))
+                if (await SoundByteService.Instance.DeleteAsync("/e1/me/track_likes/" + Service.CurrentTrack.Id))
                 {
                     LikeButtonText = "Like";
                     // Track Event
-                    TelemetryService.Current.TrackEvent("Unlike Track");
+                    TelemetryService.Instance.TrackEvent("Unlike Track");
                 }
                 else
                 {
@@ -339,11 +339,11 @@ namespace SoundByte.UWP.ViewModels
             else
             {
                 // Add a like to the users likes and see if successful
-                if (await SoundByteService.Current.PutAsync("/e1/me/track_likes/" + Service.CurrentTrack.Id))
+                if (await SoundByteService.Instance.PutAsync("/e1/me/track_likes/" + Service.CurrentTrack.Id))
                 {
                     LikeButtonText = "Unlike";
                     // Track Event
-                    TelemetryService.Current.TrackEvent("Like Track");
+                    TelemetryService.Instance.TrackEvent("Like Track");
                 }
                 else
                 {
@@ -384,7 +384,7 @@ namespace SoundByte.UWP.ViewModels
             }
 
             // Get the user object
-            var currentUser = await SoundByteService.Current.GetAsync<User>("/users/" + Service.CurrentTrack.User.Id);
+            var currentUser = await SoundByteService.Instance.GetAsync<User>("/users/" + Service.CurrentTrack.User.Id);
 
             // Hide the loading ring
             App.IsLoading = false;

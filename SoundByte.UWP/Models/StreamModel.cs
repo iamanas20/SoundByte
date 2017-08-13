@@ -64,12 +64,12 @@ namespace SoundByte.UWP.Models
                 var resources = ResourceLoader.GetForViewIndependentUse();
 
                 // Check if the user is not logged in
-                if (SoundByteService.Current.IsSoundCloudAccountConnected)
+                if (SoundByteService.Instance.IsSoundCloudAccountConnected)
                 {
                     try
                     {
                         // Get items from the users stream
-                        var streamTracks = await SoundByteService.Current.GetAsync<StreamTrackHolder>("/e1/me/stream",
+                        var streamTracks = await SoundByteService.Instance.GetAsync<StreamTrackHolder>("/e1/me/stream",
                             new Dictionary<string, string>
                             {
                                 {"limit", "50"},

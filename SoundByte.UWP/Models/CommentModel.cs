@@ -66,7 +66,7 @@ namespace SoundByte.UWP.Models
             // Return a task that will get the items
             return Task.Run(async () =>
             {
-                _track = PlaybackService.Current.CurrentTrack;
+                _track = PlaybackService.Instance.CurrentTrack;
 
                 if (_track == null)
                     return new LoadMoreItemsResult {Count = 0};
@@ -77,7 +77,7 @@ namespace SoundByte.UWP.Models
                 try
                 {
                     // Get the comments
-                    var comments = await SoundByteService.Current.GetAsync<CommentListHolder>(
+                    var comments = await SoundByteService.Instance.GetAsync<CommentListHolder>(
                         string.Format("/tracks/{0}/comments", _track.Id), new Dictionary<string, string>
                         {
                             {"limit", "50"},

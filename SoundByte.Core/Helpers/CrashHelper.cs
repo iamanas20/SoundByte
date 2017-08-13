@@ -85,7 +85,7 @@ namespace SoundByte.Core.Helpers
         private static async Task HandleAppCrashAsync(Exception ex)
         {
             // Track the error
-            TelemetryService.Current.TrackException(ex);
+            TelemetryService.Instance.TrackException(ex);
 
             try
             {

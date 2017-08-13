@@ -140,7 +140,7 @@ namespace SoundByte.UWP
         /// <summary>
         ///     Used to access the playback service from the UI
         /// </summary>
-        public PlaybackService Service => PlaybackService.Current;
+        public PlaybackService Service => PlaybackService.Instance;
 
         public void Dispose()
         {
@@ -184,9 +184,9 @@ namespace SoundByte.UWP
 
             // Set the app language
             ApplicationLanguages.PrimaryLanguageOverride =
-                string.IsNullOrEmpty(SettingsService.Current.CurrentAppLanguage)
+                string.IsNullOrEmpty(SettingsService.Instance.CurrentAppLanguage)
                     ? ApplicationLanguages.Languages[0]
-                    : SettingsService.Current.CurrentAppLanguage;
+                    : SettingsService.Instance.CurrentAppLanguage;
 
             // Set the on back requested event
             SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
@@ -214,7 +214,7 @@ namespace SoundByte.UWP
             }
             catch (Exception e)
             {
-                TelemetryService.Current.TrackException(e);
+                TelemetryService.Instance.TrackException(e);
             }
 
             try
@@ -224,7 +224,7 @@ namespace SoundByte.UWP
             }
             catch (Exception e)
             {
-                TelemetryService.Current.TrackException(e);
+                TelemetryService.Instance.TrackException(e);
             }
 
             try
@@ -235,7 +235,7 @@ namespace SoundByte.UWP
             }
             catch (Exception e)
             {
-                TelemetryService.Current.TrackException(e);
+                TelemetryService.Instance.TrackException(e);
             }
 
             try
@@ -247,7 +247,7 @@ namespace SoundByte.UWP
             }
             catch (Exception e)
             {
-                TelemetryService.Current.TrackException(e);
+                TelemetryService.Instance.TrackException(e);
             }
         }
 
@@ -257,10 +257,10 @@ namespace SoundByte.UWP
                                           "." + Package.Current.Id.Version.Build;
 
             // Get stored app version (this will stay the same when app is updated)
-            var storedAppVersionString = SettingsService.Current.AppStoredVersion;
+            var storedAppVersionString = SettingsService.Instance.AppStoredVersion;
 
             // Save the new app version
-            SettingsService.Current.AppStoredVersion = currentAppVersionString;
+            SettingsService.Instance.AppStoredVersion = currentAppVersionString;
 
             // If the stored version is null, set the temp to 0, and the version to the actual version
             if (!string.IsNullOrEmpty(storedAppVersionString))
@@ -315,13 +315,13 @@ namespace SoundByte.UWP
                     if (path == "playUserLikes" || path == "shufflePlayUserLikes")
                     {
                         // Get and load the user liked items
-                        var userLikes = new LikeModel(SoundByteService.Current.SoundCloudUser);
+                        var userLikes = new LikeModel(SoundByteService.Instance.SoundCloudUser);
 
                         while (userLikes.HasMoreItems)
                             await userLikes.LoadMoreItemsAsync(500);
 
                         // Play the list of items
-                        await PlaybackService.Current.StartMediaPlayback(userLikes.ToList(), path,
+                        await PlaybackService.Instance.StartMediaPlayback(userLikes.ToList(), path,
                             path == "shufflePlayUserLikes");
 
                         // Navigate to the now playing screen
@@ -340,10 +340,10 @@ namespace SoundByte.UWP
                         switch (page)
                         {
                             case "track":
-                                var track = await SoundByteService.Current.GetAsync<Track>($"/tracks/{parser["id"]}");
+                                var track = await SoundByteService.Instance.GetAsync<Track>($"/tracks/{parser["id"]}");
 
                                 var startPlayback =
-                                    await PlaybackService.Current.StartMediaPlayback(new List<Track> {track},
+                                    await PlaybackService.Instance.StartMediaPlayback(new List<Track> {track},
                                         $"Protocol-{track.Id}");
 
                                 if (!startPlayback.success)
@@ -351,11 +351,11 @@ namespace SoundByte.UWP
                                 break;
                             case "playlist":
                                 var playlist =
-                                    await SoundByteService.Current.GetAsync<Playlist>($"/playlists/{parser["id"]}");
+                                    await SoundByteService.Instance.GetAsync<Playlist>($"/playlists/{parser["id"]}");
                                 App.NavigateTo(typeof(Views.Playlist), playlist);
                                 return;
                             case "user":
-                                var user = await SoundByteService.Current.GetAsync<User>($"/users/{parser["id"]}");
+                                var user = await SoundByteService.Instance.GetAsync<User>($"/users/{parser["id"]}");
                                 App.NavigateTo(typeof(UserView), user);
                                 return;
                         }
@@ -479,8 +479,8 @@ namespace SoundByte.UWP
                     AppViewBackButtonVisibility.Visible;
 
             // Update the UI depending if we are logged in or not
-            if (SoundByteService.Current.IsSoundCloudAccountConnected ||
-                SoundByteService.Current.IsFanBurstAccountConnected)
+            if (SoundByteService.Instance.IsSoundCloudAccountConnected ||
+                SoundByteService.Instance.IsFanBurstAccountConnected)
                 ShowLoginContent();
             else
                 ShowLogoutContent();

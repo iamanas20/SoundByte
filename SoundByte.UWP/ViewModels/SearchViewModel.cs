@@ -14,7 +14,6 @@ using System;
 using System.Linq;
 using Windows.ApplicationModel.Resources;
 using Windows.UI.Popups;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using SoundByte.Core.API.Endpoints;
 using SoundByte.Core.Dialogs;
@@ -118,9 +117,9 @@ namespace SoundByte.UWP.ViewModels
             FanburstTracks.RefreshItems();
         }
 
-        public void Search(object sender, RoutedEventArgs e)
+        public void Search(object sender, SearchBoxQuerySubmittedEventArgs args)
         {
-            App.NavigateTo(typeof(Search), (e as SearchBox.SearchEventArgs)?.Keyword);
+            App.NavigateTo(typeof(Search), args.QueryText);
         }
 
         public async void ShowFilterMenu()
@@ -166,7 +165,7 @@ namespace SoundByte.UWP.ViewModels
                         if (searchItem.ServiceType == SoundByteService.ServiceType.Fanburst)
                         {
                             var startPlayback =
-                                await PlaybackService.Current.StartMediaPlayback(FanburstTracks.ToList(),
+                                await PlaybackService.Instance.StartMediaPlayback(FanburstTracks.ToList(),
                                     FanburstTracks.Token, false, searchItem);
                             if (!startPlayback.success)
                                 await new MessageDialog(startPlayback.message, "Error playing searched track.")
@@ -174,7 +173,7 @@ namespace SoundByte.UWP.ViewModels
                         }
                         else
                         {
-                            var startPlayback = await PlaybackService.Current.StartMediaPlayback(SearchTracks.ToList(),
+                            var startPlayback = await PlaybackService.Instance.StartMediaPlayback(SearchTracks.ToList(),
                                 SearchTracks.Token, false, searchItem);
                             if (!startPlayback.success)
                                 await new MessageDialog(startPlayback.message, "Error playing searched track.")
@@ -186,7 +185,7 @@ namespace SoundByte.UWP.ViewModels
                         try
                         {
                             var playlist =
-                                await SoundByteService.Current.GetAsync<Playlist>("/playlist/" + searchItem.Id);
+                                await SoundByteService.Instance.GetAsync<Playlist>("/playlist/" + searchItem.Id);
                             App.NavigateTo(typeof(Views.Playlist), playlist);
                         }
                         catch (Exception)
@@ -198,7 +197,7 @@ namespace SoundByte.UWP.ViewModels
                         try
                         {
                             var playlistR =
-                                await SoundByteService.Current.GetAsync<Playlist>("/playlist/" + searchItem.Id);
+                                await SoundByteService.Instance.GetAsync<Playlist>("/playlist/" + searchItem.Id);
                             App.NavigateTo(typeof(Views.Playlist), playlistR);
                         }
                         catch (Exception)

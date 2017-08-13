@@ -102,7 +102,7 @@ namespace SoundByte.UWP.Models
                 try
                 {
                     // Get the trending tracks
-                    var exploreTracks = await SoundByteService.Current.GetAsync<ExploreTrackHolder>("/charts",
+                    var exploreTracks = await SoundByteService.Instance.GetAsync<ExploreTrackHolder>("/charts",
                         new Dictionary<string, string>
                         {
                             {"genre", "soundcloud%3Agenres%3A" + _genre},

@@ -27,7 +27,7 @@ namespace SoundByte.Core.Dialogs
 
         public void DeferUpdate()
         {
-            TelemetryService.Current.TrackEvent("Defer Update");
+            TelemetryService.Instance.TrackEvent("Defer Update");
             Hide();
         }
 

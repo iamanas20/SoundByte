@@ -72,14 +72,14 @@ namespace SoundByte.Core.Dialogs
 
         private async void SendAndCloseApp(object sender, RoutedEventArgs e)
         {
-            TelemetryService.Current.TrackEvent("Crash Dialog - Send and Close App");
+            TelemetryService.Instance.TrackEvent("Crash Dialog - Send and Close App");
             await Send();
             Application.Current.Exit();
         }
 
         private async void SendAndContinue(object sender, RoutedEventArgs e)
         {
-            TelemetryService.Current.TrackEvent("Crash Dialog - Send and Continue");
+            TelemetryService.Instance.TrackEvent("Crash Dialog - Send and Continue");
             Hide();
             await Send();
         }

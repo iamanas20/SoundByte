@@ -50,7 +50,7 @@ namespace SoundByte.UWP.Views.Application
         }
 
         // The settings object, we bind to this to change values
-        public SettingsService SettingsService { get; set; } = SettingsService.Current;
+        public SettingsService SettingsService { get; set; } = SettingsService.Instance;
 
         /// <summary>
         ///     Called when the user navigates to the page
@@ -58,9 +58,9 @@ namespace SoundByte.UWP.Views.Application
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             // Set the last visited frame (crash handling)
-            SettingsService.Current.LastFrame = typeof(SettingsView).FullName;
+            SettingsService.Instance.LastFrame = typeof(SettingsView).FullName;
             // Track Event
-            TelemetryService.Current.TrackPage("Info Page");
+            TelemetryService.Instance.TrackPage("Info Page");
             // TEMP, Load the page
             LoadSettingsPage();
 
@@ -119,7 +119,7 @@ namespace SoundByte.UWP.Views.Application
         /// </summary>
         public async void RateAndReview()
         {
-            TelemetryService.Current.TrackPage("Rate and Review App");
+            TelemetryService.Instance.TrackPage("Rate and Review App");
 
             await Launcher.LaunchUriAsync(new Uri($"ms-windows-store:REVIEW?PFN={Package.Current.Id.FamilyName}"));
         }
@@ -128,7 +128,7 @@ namespace SoundByte.UWP.Views.Application
         {
             ViewModel.IsComboboxBlockingEnabled = true;
             // Get the saved language
-            var appLanguage = SettingsService.Current.CurrentAppLanguage;
+            var appLanguage = SettingsService.Instance.CurrentAppLanguage;
             // Check that the string is not empty
             if (!string.IsNullOrEmpty(appLanguage))
                 switch (appLanguage)
@@ -149,7 +149,7 @@ namespace SoundByte.UWP.Views.Application
             else
                 LanguageComboBox.SelectedItem = Language_English_US;
 
-            switch (SettingsService.Current.ApplicationThemeType)
+            switch (SettingsService.Instance.ApplicationThemeType)
             {
                 case AppTheme.Default:
                     themeComboBox.SelectedItem = defaultTheme;
@@ -177,19 +177,19 @@ namespace SoundByte.UWP.Views.Application
             switch (((ComboBoxItem) (sender as ComboBox)?.SelectedItem)?.Name)
             {
                 case "defaultTheme":
-                    SettingsService.Current.ApplicationThemeType = AppTheme.Default;
+                    SettingsService.Instance.ApplicationThemeType = AppTheme.Default;
                     ((MainShell) Window.Current.Content).RequestedTheme = ElementTheme.Default;
                     break;
                 case "darkTheme":
-                    SettingsService.Current.ApplicationThemeType = AppTheme.Dark;
+                    SettingsService.Instance.ApplicationThemeType = AppTheme.Dark;
                     ((MainShell) Window.Current.Content).RequestedTheme = ElementTheme.Dark;
                     break;
                 case "lightTheme":
-                    SettingsService.Current.ApplicationThemeType = AppTheme.Light;
+                    SettingsService.Instance.ApplicationThemeType = AppTheme.Light;
                     ((MainShell) Window.Current.Content).RequestedTheme = ElementTheme.Light;
                     break;
                 default:
-                    SettingsService.Current.ApplicationThemeType = AppTheme.Default;
+                    SettingsService.Instance.ApplicationThemeType = AppTheme.Default;
                     ((MainShell) Window.Current.Content).RequestedTheme = ElementTheme.Default;
                     break;
             }

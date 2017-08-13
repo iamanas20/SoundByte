@@ -66,14 +66,13 @@
         <StackPanel Margin="10,0" x:Name="Header">
             <TextBlock Opacity="0" x:Name="TextHeader" Text="Search" FontWeight="Bold" FontSize="25" Margin="0,18,0,0" />
 
-
-            <!-- Main Search Bar -->
-            <uiElements:SearchBox SearchSubmitted="{x:Bind ViewModel.Search}"
-                                  Height="38"
-                                  Background="Black"
-                                  Margin="-25,10,0,10"
-                                  HorizontalAlignment="Stretch"
-                                  x:Name="MainSearchBox" />
+            <SearchBox PlaceholderText="Search..." 
+                       BorderThickness="0" 
+                       Margin="10,10,10,5" 
+                       x:Name="MainSearchBox" 
+                       Padding="10,10" 
+                        SearchHistoryEnabled="False"
+                       QuerySubmitted="{x:Bind ViewModel.Search}" />
 
             <StackPanel x:Name="DesktopCommandBar" Visibility="Collapsed" Orientation="Horizontal" Margin="10,10,0,10"
                         VerticalAlignment="Top">

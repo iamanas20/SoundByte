@@ -61,7 +61,7 @@ namespace SoundByte.UWP.ViewModels
             var trackList = StreamItems.Where(t => t.Type == "track" || t.Type == "track-repost" && t.Type != null)
                 .Select(t => t.Track).ToList();
 
-            var startPlayback = await PlaybackService.Current.StartMediaPlayback(trackList.ToList(), StreamItems.Token);
+            var startPlayback = await PlaybackService.Instance.StartMediaPlayback(trackList.ToList(), StreamItems.Token);
 
             if (!startPlayback.success)
                 await new MessageDialog(startPlayback.message, "Error playing stream.").ShowAsync();
@@ -76,7 +76,7 @@ namespace SoundByte.UWP.ViewModels
                 return;
 
             var startPlayback =
-                await PlaybackService.Current.StartMediaPlayback(ChartsModel.ToList(), ChartsModel.Token);
+                await PlaybackService.Instance.StartMediaPlayback(ChartsModel.ToList(), ChartsModel.Token);
             if (!startPlayback.success)
                 await new MessageDialog(startPlayback.message, "Error playing track.").ShowAsync();
         }
@@ -114,7 +114,7 @@ namespace SoundByte.UWP.ViewModels
                 case "track-repost":
                     if (streamItem.Track != null)
                     {
-                        var startPlayback = await PlaybackService.Current.StartMediaPlayback(trackList.ToList(),
+                        var startPlayback = await PlaybackService.Instance.StartMediaPlayback(trackList.ToList(),
                             StreamItems.Token, false, streamItem.Track);
 
                         if (!startPlayback.success)
@@ -134,7 +134,7 @@ namespace SoundByte.UWP.ViewModels
 
         public async void PlayChartItem(object sender, ItemClickEventArgs e)
         {
-            var startPlayback = await PlaybackService.Current.StartMediaPlayback(ChartsModel.ToList(),
+            var startPlayback = await PlaybackService.Instance.StartMediaPlayback(ChartsModel.ToList(),
                 ChartsModel.Token, false, (Track) e.ClickedItem);
             if (!startPlayback.success)
                 await new MessageDialog(startPlayback.message, "Error playing track.").ShowAsync();

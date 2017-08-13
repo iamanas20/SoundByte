@@ -76,7 +76,7 @@ namespace SoundByte.UWP.Models
                 try
                 {
                     // Get the users playlists using the V2 API
-                    var userPlaylists = await SoundByteService.Current.GetAsync<UserListHolder>(
+                    var userPlaylists = await SoundByteService.Instance.GetAsync<UserListHolder>(
                         $"/users/{User.Id}/{Type}", new Dictionary<string, string>
                         {
                             {"limit", "50"},

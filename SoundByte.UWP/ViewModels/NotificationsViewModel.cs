@@ -90,7 +90,7 @@ namespace SoundByte.UWP.ViewModels
                     case "track-like":
                         // Play this item
                         var startPlayback =
-                            await PlaybackService.Current.StartMediaPlayback(new List<Track> {notification.Track},
+                            await PlaybackService.Instance.StartMediaPlayback(new List<Track> {notification.Track},
                                 $"Notification-{notification.Track.Id}");
                         if (!startPlayback.success)
                             await new MessageDialog(startPlayback.message, "Error opening Notification.").ShowAsync();
@@ -98,7 +98,7 @@ namespace SoundByte.UWP.ViewModels
                     case "comment":
                         // Play this item
                         var startPlaybackComment =
-                            await PlaybackService.Current.StartMediaPlayback(
+                            await PlaybackService.Instance.StartMediaPlayback(
                                 new List<Track> {notification.Comment.Track},
                                 $"Notification-{notification.Comment.Track.Id}");
                         if (!startPlaybackComment.success)

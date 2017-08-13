@@ -117,10 +117,10 @@ namespace SoundByte.Core.Services
         }
 
         #region Service Setup
+        private static readonly Lazy<TelemetryService> InstanceHolder =
+            new Lazy<TelemetryService>(() => new TelemetryService());
 
-        private static TelemetryService _instance;
-        public static TelemetryService Current => _instance ?? (_instance = new TelemetryService());
-
+        public static TelemetryService Instance => InstanceHolder.Value;
         #endregion
     }
 }

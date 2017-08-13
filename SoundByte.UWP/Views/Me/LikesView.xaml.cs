@@ -36,11 +36,11 @@ namespace SoundByte.UWP.Views.Me
         /// <summary>
         ///     The likes model that contains or the users liked tracks
         /// </summary>
-        private LikeModel LikesModel { get; } = new LikeModel(SoundByteService.Current.SoundCloudUser);
+        private LikeModel LikesModel { get; } = new LikeModel(SoundByteService.Instance.SoundCloudUser);
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            TelemetryService.Current.TrackPage("User Likes");
+            TelemetryService.Instance.TrackPage("User Likes");
         }
 
         public async void PlayShuffleItems()
@@ -53,7 +53,7 @@ namespace SoundByte.UWP.Views.Me
             // We are loading
             App.IsLoading = true;
 
-            var startPlayback = await PlaybackService.Current.StartMediaPlayback(LikesModel.ToList(), LikesModel.Token);
+            var startPlayback = await PlaybackService.Instance.StartMediaPlayback(LikesModel.ToList(), LikesModel.Token);
 
             if (!startPlayback.success)
                 await new MessageDialog(startPlayback.message, "Error playing likes.").ShowAsync();
@@ -68,7 +68,7 @@ namespace SoundByte.UWP.Views.Me
             App.IsLoading = true;
 
             var startPlayback =
-                await PlaybackService.Current.StartMediaPlayback(LikesModel.ToList(), LikesModel.Token, false,
+                await PlaybackService.Instance.StartMediaPlayback(LikesModel.ToList(), LikesModel.Token, false,
                     (Track) e.ClickedItem);
 
             if (!startPlayback.success)

@@ -49,15 +49,15 @@ namespace SoundByte.UWP.Views
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             // Only show the stream pivot when soundcloud account is connected
-            StreamPivotItem.IsEnabled = SoundByteService.Current.IsSoundCloudAccountConnected;
-            HomePivot.SelectedIndex = !SoundByteService.Current.IsSoundCloudAccountConnected ? 1 : 0;
+            StreamPivotItem.IsEnabled = SoundByteService.Instance.IsSoundCloudAccountConnected;
+            HomePivot.SelectedIndex = !SoundByteService.Instance.IsSoundCloudAccountConnected ? 1 : 0;
 
             // Set the last visited frame (crash handling)
-            SettingsService.Current.LastFrame = typeof(HomeView).FullName;
+            SettingsService.Instance.LastFrame = typeof(HomeView).FullName;
             // Store the latest time (for notification task)
-            SettingsService.Current.LatestViewedTrack = DateTime.Now;
+            SettingsService.Instance.LatestViewedTrack = DateTime.Now;
             // Track Event
-            TelemetryService.Current.TrackPage("Home Page");
+            TelemetryService.Instance.TrackPage("Home Page");
         }
     }
 }

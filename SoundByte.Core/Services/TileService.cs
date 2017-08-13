@@ -35,16 +35,15 @@ namespace SoundByte.Core.Services
                 _mPTileList.Add(tile.TileId, tile);
         }
 
+        private static readonly Lazy<TileService> InstanceHolder =
+            new Lazy<TileService>(() => new TileService());
+
         /// <summary>
         ///     Gets the current instance
         /// </summary>
-        public static TileService Current => _mPInstance ?? (_mPInstance = new TileService());
+        public static TileService Instance => InstanceHolder.Value;
 
         #region Variables
-
-        // Class instance
-        private static TileService _mPInstance;
-
         // Stores all the tiles that are currently pinned to the users screen
         private readonly Dictionary<string, SecondaryTile> _mPTileList = new Dictionary<string, SecondaryTile>();
 

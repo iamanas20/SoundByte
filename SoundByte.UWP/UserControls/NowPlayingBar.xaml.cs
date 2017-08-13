@@ -22,7 +22,7 @@ namespace SoundByte.UWP.UserControls
             InitializeComponent();
         }
 
-        public PlaybackService Service => PlaybackService.Current;
+        public PlaybackService Service => PlaybackService.Instance;
 
         private void NavigateTrack()
         {

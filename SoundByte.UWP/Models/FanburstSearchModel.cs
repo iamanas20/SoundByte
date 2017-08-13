@@ -68,7 +68,7 @@ namespace SoundByte.UWP.Models
                 try
                 {
                     // Search for matching tracks
-                    var searchTracks = await SoundByteService.Current.GetAsync<List<dynamic>>(
+                    var searchTracks = await SoundByteService.Instance.GetAsync<List<dynamic>>(
                         SoundByteService.ServiceType.Fanburst, "tracks/search", new Dictionary<string, string>
                         {
                             {"query", WebUtility.UrlEncode(Query)},

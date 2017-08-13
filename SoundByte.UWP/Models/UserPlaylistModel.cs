@@ -64,13 +64,13 @@ namespace SoundByte.UWP.Models
                 var resources = ResourceLoader.GetForViewIndependentUse();
 
                 // Check if the user is not logged in
-                if (SoundByteService.Current.IsSoundCloudAccountConnected)
+                if (SoundByteService.Instance.IsSoundCloudAccountConnected)
                 {
                     try
                     {
                         // Get the users playlists using the V2 API
-                        var userPlaylists = await SoundByteService.Current.GetAsync<PlaylistHolder>(
-                            $"/users/{SoundByteService.Current.SoundCloudUser.Id}/playlists/liked_and_owned",
+                        var userPlaylists = await SoundByteService.Instance.GetAsync<PlaylistHolder>(
+                            $"/users/{SoundByteService.Instance.SoundCloudUser.Id}/playlists/liked_and_owned",
                             new Dictionary<string, string>
                             {
                                 {"limit", "50"},
