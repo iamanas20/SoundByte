@@ -11,7 +11,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoundByte.Notifications", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoundByte.AzureService", "SoundByte.AzureService\SoundByte.AzureService.csproj", "{209FA716-A7AD-4095-BD70-C8710FC66FA7}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SoundByte.Aurora", "SoundByte.Aurora\SoundByte.Aurora.shproj", "{82BA6C78-612C-4143-9CF6-F2585EB34F5A}"
+EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		SoundByte.Aurora\SoundByte.Aurora.projitems*{82ba6c78-612c-4143-9cf6-f2585eb34f5a}*SharedItemsImports = 13
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|ARM = Debug|ARM
