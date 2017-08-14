@@ -1,5 +1,5 @@
 ﻿<Page
-    x:Class="SoundByte.UWP.Views.Playlist"
+    x:Class="SoundByte.UWP.Views.PlaylistView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ui="using:SoundByte.UWP.UserControls"

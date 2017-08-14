@@ -56,10 +56,8 @@ namespace SoundByte.UWP.Views.Me
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            SettingsService.Instance.LastFrame = typeof(UploadView).FullName;
-
             // Track Event
-            TelemetryService.Instance.TrackPage("Upload Page");
+            TelemetryService.Instance.TrackPage("Upload View");
         }
 
         private async void UploadButton_Tapped(object sender, RoutedEventArgs e)

@@ -18,7 +18,7 @@ using SoundByte.Core.API.Endpoints;
 using SoundByte.Core.Helpers;
 using SoundByte.UWP.Models;
 using SoundByte.UWP.Services;
-using Playlist = SoundByte.UWP.Views.Playlist;
+using SoundByte.UWP.Views;
 
 namespace SoundByte.UWP.ViewModels
 {
@@ -123,7 +123,7 @@ namespace SoundByte.UWP.ViewModels
                     break;
                 case "playlist":
                 case "playlist-repost":
-                    App.NavigateTo(typeof(Playlist), streamItem.Playlist);
+                    App.NavigateTo(typeof(PlaylistView), streamItem.Playlist);
                     break;
             }
 

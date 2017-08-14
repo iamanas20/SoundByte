@@ -71,7 +71,7 @@ namespace SoundByte.UWP.UserControls
 
         private void NavigateSearch(object sender, RoutedEventArgs e)
         {
-            App.NavigateTo(typeof(Search));
+            App.NavigateTo(typeof(SearchView));
         }
 
         /// <summary>

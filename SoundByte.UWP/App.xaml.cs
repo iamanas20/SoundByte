@@ -26,6 +26,8 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using NotificationsExtensions;
 using NotificationsExtensions.Toasts;
+using SoundByte.Aurora.Providers.AuthenticationProviders;
+using SoundByte.Aurora.Services;
 using SoundByte.Core.Helpers;
 using SoundByte.Core.Services;
 using SoundByte.UWP.Views;
@@ -94,7 +96,7 @@ namespace SoundByte.UWP
             {
                 // Create a new frame and navigate it to the overlay view
                 var overlayFrame = new Frame();
-                overlayFrame.Navigate(typeof(Overlay));
+                overlayFrame.Navigate(typeof(OverlayView));
 
                 // Set the window content and activate it
                 Window.Current.Content = overlayFrame;
@@ -140,7 +142,7 @@ namespace SoundByte.UWP
                     // Send hit
                     TelemetryService.Instance.TrackEvent("Xbox Search Page");
                     // Navigate to the search page
-                    NavigateTo(typeof(Search));
+                    NavigateTo(typeof(SearchView));
                     break;
             }
         }

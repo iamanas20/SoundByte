@@ -28,7 +28,7 @@ namespace SoundByte.UWP.Views.Application
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            TelemetryService.Instance.TrackPage("Donate Page");
+            TelemetryService.Instance.TrackPage("Donate View");
 
             // We are loading
             App.IsLoading = true;

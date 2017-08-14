@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:endpoints="using:SoundByte.Core.API.Endpoints"
+    NavigationCacheMode="Enabled"
     xmlns:converters="using:SoundByte.Core.Converters">
     <Page.Transitions>
         <TransitionCollection>

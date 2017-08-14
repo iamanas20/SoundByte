@@ -10,7 +10,6 @@
  * |----------------------------------------------------------------|
  */
 
-using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using SoundByte.Core.Services;
 using SoundByte.UWP.ViewModels;
@@ -20,12 +19,12 @@ namespace SoundByte.UWP.Views
     /// <summary>
     ///     Displays a playlist
     /// </summary>
-    public sealed partial class Playlist
+    public sealed partial class PlaylistView
     {
         // Page View Model
         public PlaylistViewModel ViewModel = new PlaylistViewModel();
 
-        public Playlist()
+        public PlaylistView()
         {
             // Setup the XAML
             InitializeComponent();
@@ -45,7 +44,7 @@ namespace SoundByte.UWP.Views
         {
             // Make sure the view is ready for the user
             // Track Event
-            TelemetryService.Instance.TrackPage("Playlist Page");
+            TelemetryService.Instance.TrackPage("Playlist View");
             await ViewModel.SetupView(e.Parameter as Core.API.Endpoints.Playlist);
         }
     }

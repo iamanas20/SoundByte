@@ -15,6 +15,7 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SoundByte.Aurora", "SoundBy
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		SoundByte.Aurora\SoundByte.Aurora.projitems*{52b496ef-b47c-4a78-a1cf-af86dff078ae}*SharedItemsImports = 4
 		SoundByte.Aurora\SoundByte.Aurora.projitems*{82ba6c78-612c-4143-9cf6-f2585eb34f5a}*SharedItemsImports = 13
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

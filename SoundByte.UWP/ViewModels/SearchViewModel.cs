@@ -119,7 +119,7 @@ namespace SoundByte.UWP.ViewModels
 
         public void Search(object sender, SearchBoxQuerySubmittedEventArgs args)
         {
-            App.NavigateTo(typeof(Search), args.QueryText);
+            App.NavigateTo(typeof(SearchView), args.QueryText);
         }
 
         public async void ShowFilterMenu()
@@ -186,7 +186,7 @@ namespace SoundByte.UWP.ViewModels
                         {
                             var playlist =
                                 await SoundByteService.Instance.GetAsync<Playlist>("/playlist/" + searchItem.Id);
-                            App.NavigateTo(typeof(Views.Playlist), playlist);
+                            App.NavigateTo(typeof(Views.PlaylistView), playlist);
                         }
                         catch (Exception)
                         {
@@ -198,7 +198,7 @@ namespace SoundByte.UWP.ViewModels
                         {
                             var playlistR =
                                 await SoundByteService.Instance.GetAsync<Playlist>("/playlist/" + searchItem.Id);
-                            App.NavigateTo(typeof(Views.Playlist), playlistR);
+                            App.NavigateTo(typeof(Views.PlaylistView), playlistR);
                         }
                         catch (Exception)
                         {
@@ -214,7 +214,7 @@ namespace SoundByte.UWP.ViewModels
             }
             else if (e.ClickedItem.GetType().Name == "Playlist")
             {
-                App.NavigateTo(typeof(Views.Playlist), e.ClickedItem as Playlist);
+                App.NavigateTo(typeof(Views.PlaylistView), e.ClickedItem as Playlist);
             }
 
             App.IsLoading = false;

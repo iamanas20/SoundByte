@@ -27,14 +27,14 @@ namespace SoundByte.UWP.Views
     /// <summary>
     ///     An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class Overlay : INotifyPropertyChanged
+    public sealed partial class OverlayView : INotifyPropertyChanged
     {
         private readonly CoreDispatcher _dispatcher;
 
         // The content on the play_pause button
         private string _playButtonContent = "\uE769";
 
-        public Overlay()
+        public OverlayView()
         {
             InitializeComponent();
 
@@ -69,7 +69,7 @@ namespace SoundByte.UWP.Views
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            TelemetryService.Instance.TrackPage("Compact Overlay Page");
+            TelemetryService.Instance.TrackPage("Compact Overlay View");
         }
 
         private async void Service_PropertyChanged(object sender, PropertyChangedEventArgs e)

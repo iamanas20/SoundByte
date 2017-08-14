@@ -31,7 +31,7 @@ namespace SoundByte.UWP.Views.Application
     ///     This is the main settings/about page for the app.
     ///     is handled here
     /// </summary>
-    public sealed partial class SettingsView
+    public sealed partial class AppInfoView
     {
         // View model for the settings page
         public SettingsViewModel ViewModel = new SettingsViewModel();
@@ -39,7 +39,7 @@ namespace SoundByte.UWP.Views.Application
         /// <summary>
         ///     Setup the page
         /// </summary>
-        public SettingsView()
+        public AppInfoView()
         {
             // Initialize XAML Components
             InitializeComponent();
@@ -57,10 +57,8 @@ namespace SoundByte.UWP.Views.Application
         /// </summary>
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            // Set the last visited frame (crash handling)
-            SettingsService.Instance.LastFrame = typeof(SettingsView).FullName;
             // Track Event
-            TelemetryService.Instance.TrackPage("Info Page");
+            TelemetryService.Instance.TrackPage("Info View");
             // TEMP, Load the page
             LoadSettingsPage();
 

@@ -15,7 +15,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.SignalR.Client;
 using Microsoft.WindowsAzure.MobileServices;
 using SoundByte.Core.API.Endpoints;
-using SoundByte.Core.Helpers;
 
 namespace SoundByte.Core.Services
 {
@@ -45,16 +44,6 @@ namespace SoundByte.Core.Services
 
             // Create the playback hub
             _playbackHub = _mobileHub.CreateHubProxy("PlaybackHub");
-
-            // Try start the hub
-            AsyncHelper.RunSync(async () =>
-            {
-                try { await _mobileHub.Start(); }
-                catch
-                {
-                    // ignored
-                }
-            });   
         }
 
         /// <summary>
@@ -69,6 +58,11 @@ namespace SoundByte.Core.Services
             if (!SoundByteService.Instance.IsAccountConnected)
                 return;
 
+            // Try connect if disconnected
+            if (_mobileHub.State != ConnectionState.Connected)
+                await _mobileHub.Start();
+
+            // Only perform is connected
             if (_mobileHub.State == ConnectionState.Connected)
             {
               //todo

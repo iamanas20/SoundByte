@@ -40,7 +40,7 @@ namespace SoundByte.UWP.Views.Me
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            TelemetryService.Instance.TrackPage("User Likes");
+            TelemetryService.Instance.TrackPage("User Likes View");
         }
 
         public async void PlayShuffleItems()

@@ -63,7 +63,7 @@ namespace SoundByte.UWP.Views
             ViewModel.SetupModel();
 
             // Track Event
-            TelemetryService.Instance.TrackPage("Now Playing Page");
+            TelemetryService.Instance.TrackPage("Now Playing View");
 
             if (DeviceHelper.IsDesktop)
             {

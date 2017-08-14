@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:stateTriggers="using:SoundByte.UWP.StateTriggers"
+    NavigationCacheMode="Enabled"
     Transitions="{StaticResource MainTransition}">
 
     <Grid Background="{ThemeResource ShellBackground}" x:Name="RootGrid">

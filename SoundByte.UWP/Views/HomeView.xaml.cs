@@ -52,12 +52,10 @@ namespace SoundByte.UWP.Views
             StreamPivotItem.IsEnabled = SoundByteService.Instance.IsSoundCloudAccountConnected;
             HomePivot.SelectedIndex = !SoundByteService.Instance.IsSoundCloudAccountConnected ? 1 : 0;
 
-            // Set the last visited frame (crash handling)
-            SettingsService.Instance.LastFrame = typeof(HomeView).FullName;
             // Store the latest time (for notification task)
-            SettingsService.Instance.LatestViewedTrack = DateTime.Now;
+            SettingsService.Instance.LatestViewedTrack = DateTime.UtcNow;
             // Track Event
-            TelemetryService.Instance.TrackPage("Home Page");
+            TelemetryService.Instance.TrackPage("Home View");
         }
     }
 }

@@ -34,12 +34,12 @@ namespace SoundByte.UWP.Views.Me
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            TelemetryService.Instance.TrackPage("User Playlist Page");
+            TelemetryService.Instance.TrackPage("User Playlists View");
         }
 
         public void NavigatePlaylist(object sender, ItemClickEventArgs e)
         {
-            App.NavigateTo(typeof(Playlist), e.ClickedItem as Core.API.Endpoints.Playlist);
+            App.NavigateTo(typeof(PlaylistView), e.ClickedItem as Core.API.Endpoints.Playlist);
         }
     }
 }

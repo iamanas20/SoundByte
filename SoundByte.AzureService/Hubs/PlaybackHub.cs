@@ -8,6 +8,8 @@ namespace SoundByteBackendService.Hubs
 {
     public class PlaybackHub : Hub
     {
+
+
         public void Hello()
         {
             Clients.All.hello();

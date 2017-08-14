@@ -352,7 +352,7 @@ namespace SoundByte.UWP
                             case "playlist":
                                 var playlist =
                                     await SoundByteService.Instance.GetAsync<Playlist>($"/playlists/{parser["id"]}");
-                                App.NavigateTo(typeof(Views.Playlist), playlist);
+                                App.NavigateTo(typeof(Views.PlaylistView), playlist);
                                 return;
                             case "user":
                                 var user = await SoundByteService.Instance.GetAsync<User>($"/users/{parser["id"]}");
@@ -391,7 +391,7 @@ namespace SoundByte.UWP
         {
             if (BlockNavigation) return;
 
-            RootFrame.Navigate(typeof(SettingsView));
+            RootFrame.Navigate(typeof(AppInfoView));
         }
 
         private void NavigateNotifications(object sender, RoutedEventArgs e)
@@ -457,10 +457,7 @@ namespace SoundByte.UWP
                 case "AccountView":
                     AccountTab.IsChecked = true;
                     break;
-                case "SettingsView":
-                    SettingsTab.IsChecked = true;
-                    break;
-                case "AboutView":
+                case "AppInfoView":
                     SettingsTab.IsChecked = true;
                     break;
                 default:
@@ -538,7 +535,7 @@ namespace SoundByte.UWP
 
         private void SearchBox_SearchSubmitted(object sender, RoutedEventArgs e)
         {
-            App.NavigateTo(typeof(Search), (e as SearchBox.SearchEventArgs)?.Keyword);
+            App.NavigateTo(typeof(SearchView), (e as SearchBox.SearchEventArgs)?.Keyword);
         }
 
         // Login and Logout events. This is used to display what pages

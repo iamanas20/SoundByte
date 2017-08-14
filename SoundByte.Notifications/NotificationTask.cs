@@ -60,7 +60,7 @@ namespace SoundByte.Notifications
                 foreach (var notification in items.Notifications)
                 {
                     // Get the current date and time of the uploaded item
-                    var postedTime = notification.CreatedAt.ToLocalTime();
+                    var postedTime = notification.CreatedAt;
 
                     // Check if the notification happened before the last 
                     // notification check

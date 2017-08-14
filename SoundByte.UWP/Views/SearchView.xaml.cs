@@ -10,7 +10,6 @@
  * |----------------------------------------------------------------|
  */
 
-using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using SoundByte.Core.Services;
 using SoundByte.UWP.ViewModels;
@@ -21,7 +20,7 @@ namespace SoundByte.UWP.Views
     ///     This page lets the user search for tracks/playlists/people
     ///     within SoundCloud.
     /// </summary>
-    public sealed partial class Search
+    public sealed partial class SearchView
     {
         // The view model for the page
         public SearchViewModel ViewModel = new SearchViewModel();
@@ -29,7 +28,7 @@ namespace SoundByte.UWP.Views
         /// <summary>
         ///     Setup the page
         /// </summary>
-        public Search()
+        public SearchView()
         {
             // Initialize XAML Components
             InitializeComponent();
@@ -48,12 +47,10 @@ namespace SoundByte.UWP.Views
         /// <param name="e">Args</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            // Set the last visited frame (crash handling)
-            SettingsService.Instance.LastFrame = typeof(Search).FullName;
             // Set the search string
             ViewModel.SearchQuery = e.Parameter != null ? e.Parameter as string : string.Empty;
             // Track Event
-            TelemetryService.Instance.TrackPage("Search Page");
+            TelemetryService.Instance.TrackPage("Search View");
         }
     }
 }

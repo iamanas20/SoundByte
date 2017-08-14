@@ -23,7 +23,6 @@ using SoundByte.Core.Services;
 using SoundByte.UWP.Models;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.Views;
-using Playlist = SoundByte.UWP.Views.Playlist;
 
 namespace SoundByte.UWP.ViewModels
 {
@@ -317,7 +316,7 @@ namespace SoundByte.UWP.ViewModels
 
         public void NavigateToPlaylist(object sender, ItemClickEventArgs e)
         {
-            App.NavigateTo(typeof(Playlist), e.ClickedItem as Core.API.Endpoints.Playlist);
+            App.NavigateTo(typeof(PlaylistView), e.ClickedItem as Core.API.Endpoints.Playlist);
         }
 
         public void NavigateToUser(object sender, ItemClickEventArgs e)

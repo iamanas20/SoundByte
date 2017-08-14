@@ -84,7 +84,7 @@ namespace SoundByte.UWP.Views
             }
 
             // Track Event
-            TelemetryService.Instance.TrackPage("User Page");
+            TelemetryService.Instance.TrackPage("User View");
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)

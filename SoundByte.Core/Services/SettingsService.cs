@@ -34,22 +34,17 @@ namespace SoundByte.Core.Services
         #region Constant Keys
 
         private const string SettingsSyncKey = "SoundByte_SettingsSyncEnabled";
-        private const string CleanNotificationsKey = "SoundByte_CleanUpNotificationsEnabled";
         private const string ThemeTypeKey = "SoundByte_ThemeType";
         private const string CurrentTrackKey = "SoundByte_TrackID";
-        private const string LastFrameKey = "SoundByte_LastFrame";
         private const string LastViewedTrackKey = "SoundByte_LastViewedTack";
         private const string AppStoredVersionKey = "SoundByte_AppStoredVersionKey";
         private const string NotificationPopupKey = "SoundByte_NotificationPopupEnabled";
         private const string NotificationKey = "SoundByte_NotificationsEnabled";
-        private const string TrackPostKey = "SoundByte_TrackPostEnabled";
-        private const string TrackRepostKey = "SoundByte_TrackRepostEnabled";
-        private const string PlaylistPostKey = "SoundByte_PlaylistPostEnabled";
-        private const string PlaylistRepostKey = "SoundByte_PlaylistRepostEnabled";
-        private const string NotificationGroupingKey = "SoundByte_NotificationGroupingEnabled";
         private const string ArtworkQualityKey = "SoundByte_ArtworkQualityColor";
         private const string LanguageKey = "SoundByte_DefaultLanguage";
+
         private const string DebugKey = "SoundByte.DebugModeEnabled";
+        private const string TileStyleKey = "SoundByte.Tile.Style";
 
         #endregion
 
@@ -118,20 +113,6 @@ namespace SoundByte.Core.Services
         }
 
         /// <summary>
-        ///     Should notifications be grouped
-        /// </summary>
-        public bool IsNotificationGroupingEnabled
-        {
-            get
-            {
-                var boolVal = ReadSettingsValue(NotificationGroupingKey) as bool?;
-
-                return boolVal.HasValue && boolVal.Value;
-            }
-            set => SaveSettingsValue(NotificationGroupingKey, value, true);
-        }
-
-        /// <summary>
         /// Should the app display debug notifications
         /// </summary>
         public bool IsDebugModeEnabled
@@ -145,59 +126,17 @@ namespace SoundByte.Core.Services
         }
 
         /// <summary>
-        ///     Should the user receive notifications about track reposts
+        /// Should the blur background be shown on the tile
         /// </summary>
-        public bool IsUserRepostTrackEnabled
+        public bool TileBackgroundStyleEnabled
         {
             get
             {
-                var boolVal = ReadSettingsValue(TrackRepostKey) as bool?;
+                var boolVal = ReadSettingsValue(TileStyleKey) as bool?;
 
                 return !boolVal.HasValue || boolVal.Value;
             }
-            set => SaveSettingsValue(TrackRepostKey, value, true);
-        }
-
-        /// <summary>
-        ///     Should the user receive notifications about playlist reposts
-        /// </summary>
-        public bool IsUserRepostPlaylistEnabled
-        {
-            get
-            {
-                var boolVal = ReadSettingsValue(PlaylistRepostKey) as bool?;
-
-                return !boolVal.HasValue || boolVal.Value;
-            }
-            set => SaveSettingsValue(PlaylistRepostKey, value, true);
-        }
-
-        /// <summary>
-        ///     Should the user receive notifications about playlist posts
-        /// </summary>
-        public bool IsUserPostPlaylistEnabled
-        {
-            get
-            {
-                var boolVal = ReadSettingsValue(PlaylistPostKey) as bool?;
-
-                return !boolVal.HasValue || boolVal.Value;
-            }
-            set => SaveSettingsValue(PlaylistPostKey, value, true);
-        }
-
-        /// <summary>
-        ///     Should the user receive notifications about track posts
-        /// </summary>
-        public bool IsUserPostTrackEnabled
-        {
-            get
-            {
-                var boolVal = ReadSettingsValue(TrackPostKey) as bool?;
-
-                return !boolVal.HasValue || boolVal.Value;
-            }
-            set => SaveSettingsValue(TrackPostKey, value, true);
+            set => SaveSettingsValue(TileStyleKey, value, true);
         }
 
         /// <summary>
@@ -271,15 +210,6 @@ namespace SoundByte.Core.Services
         }
 
         /// <summary>
-        ///     The last active frame in the window
-        /// </summary>
-        public string LastFrame
-        {
-            get => ReadSettingsValue(LastFrameKey, true) as string;
-            set => SaveSettingsValue(LastFrameKey, value);
-        }
-
-        /// <summary>
         ///     Gets the application theme type
         /// </summary>
         public AppTheme ApplicationThemeType
@@ -328,15 +258,6 @@ namespace SoundByte.Core.Services
         {
             get => ReadBoolSetting(ReadSettingsValue(SettingsSyncKey, true) as bool?, true);
             set => SaveSettingsValue(SettingsSyncKey, value);
-        }
-
-        /// <summary>
-        ///     Gets if the app should display cleanup notifications
-        /// </summary>
-        public bool IsCleanUpNotificationsEnabled
-        {
-            get => ReadBoolSetting(ReadSettingsValue(CleanNotificationsKey) as bool?, false);
-            set => SaveSettingsValue(CleanNotificationsKey, value, true);
         }
 
         #endregion

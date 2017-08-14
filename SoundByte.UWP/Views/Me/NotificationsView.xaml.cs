@@ -50,10 +50,8 @@ namespace SoundByte.UWP.Views.Me
         /// </summary>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            // Set the last frame
-            SettingsService.Instance.LastFrame = typeof(NotificationsView).FullName;
             // Track event
-            TelemetryService.Instance.TrackPage("Notifications Page");
+            TelemetryService.Instance.TrackPage("Notifications View");
         }
     }
 }

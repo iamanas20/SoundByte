@@ -1,7 +1,8 @@
 ﻿<Page
-    x:Class="SoundByte.UWP.Views.Overlay"
+    x:Class="SoundByte.UWP.Views.OverlayView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     RequestedTheme="Dark"
+    NavigationCacheMode="Enabled"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <Grid Background="{ThemeResource ShellBackground}" RequestedTheme="Dark">
