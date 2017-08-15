@@ -66,6 +66,9 @@ namespace SoundByte.UWP
             // we can perform the async work
             Loaded += async (sender, args) => await PerformAsyncWork(path);
 
+            // Unload events
+            Unloaded += (snder, args) => Dispose();
+
             // This is a dirty to show the now playing
             // bar when a track is played. This method
             // updates the required layout for the now

@@ -19,15 +19,11 @@ using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.System;
 using Windows.UI.Core;
-using Windows.UI.Notifications;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
-using NotificationsExtensions;
-using NotificationsExtensions.Toasts;
-using SoundByte.Aurora.Providers.AuthenticationProviders;
-using SoundByte.Aurora.Services;
+using Microsoft.Toolkit.Uwp;
 using SoundByte.Core.Helpers;
 using SoundByte.Core.Services;
 using SoundByte.UWP.Views;
@@ -173,40 +169,7 @@ namespace SoundByte.UWP
             // Return the created shell
             return shell;
         }
-
-        public static void PopDebugToast(string message)
-        {
-            if (!SettingsService.Instance.IsDebugModeEnabled)
-                return;
-
-            // Generate a notification
-            var toastContent = new ToastContent
-            {
-                Visual = new ToastVisual
-                {
-                    BindingGeneric = new ToastBindingGeneric
-                    {
-                        Children =
-                        {
-                            new AdaptiveText
-                            {
-                                Text = "SoundByte Debugging"
-                            },
-
-                            new AdaptiveText
-                            {
-                                Text = message
-                            }
-                        }
-                    }
-                }
-            };
-
-            // Show the notification
-            var toast = new ToastNotification(toastContent.GetXml()) { ExpirationTime = DateTime.Now.AddMinutes(30) };
-            ToastNotificationManager.CreateToastNotifier().Show(toast);
-        }
-
+      
         #region Static App Helpers
 
         /// <summary>
@@ -280,8 +243,6 @@ namespace SoundByte.UWP
                 // Activate the window
                 Window.Current.Activate();                
             }
-
-            PopDebugToast("App Entered Foreground");
         }
 
         /// <summary>
@@ -298,8 +259,6 @@ namespace SoundByte.UWP
 
                 // Update the variable
                 DeviceHelper.IsBackground = true;
-
-                PopDebugToast("App Entered Background");
             }
             finally
             {
@@ -310,7 +269,6 @@ namespace SoundByte.UWP
         #endregion
 
         #region Memory Handlers
-
         /// <summary>
         ///     Raised when the memory limit for the app is changing, such as when the app
         ///     enters the background.
@@ -322,22 +280,19 @@ namespace SoundByte.UWP
         ///     to continue running over the limit, reducing usage in the time
         ///     allotted will enable the best experience across the broadest range of devices.
         /// </remarks>
-        private void MemoryManager_AppMemoryUsageLimitChanging(object sender, AppMemoryUsageLimitChangingEventArgs e)
+        private async void MemoryManager_AppMemoryUsageLimitChanging(object sender, AppMemoryUsageLimitChangingEventArgs e)
         {
-            PopDebugToast($"Reducing Memory Usage from {e.OldLimit / 1024 / 1024}M to {e.OldLimit / 1024 / 1024}M");
-
             // If app memory usage is over the limit, reduce usage within 2 seconds
             // so that the system does not suspend the app
             if (MemoryManager.AppMemoryUsage >= e.NewLimit)
-            {
-                ReduceMemoryUsage(e.NewLimit);
-            }
+                await ReduceMemoryUsageAsync();
 
             // Send hit
             TelemetryService.Instance.TrackEvent("Reducing Memory Usage", new Dictionary<string, string>
             {
-                {"new_limit", e.NewLimit / 1024 / 1024 + "M"},
-                {"old_limit", e.OldLimit / 1024 / 1024 + "M"}
+                {"NewLimit", e.NewLimit / 1024 / 1024 + "M"},
+                {"OldLimit", e.OldLimit / 1024 / 1024 + "M"},
+                {"CurrentUsage", MemoryManager.AppMemoryUsage / 1024 / 1024 + "M"}
             });
         }
 
@@ -357,7 +312,7 @@ namespace SoundByte.UWP
         ///     policy is applied, some apps may wish to continue monitoring
         ///     usage to ensure they remain below the limit.
         /// </remarks>
-        private void MemoryManager_AppMemoryUsageIncreased(object sender, object e)
+        private async void MemoryManager_AppMemoryUsageIncreased(object sender, object e)
         {
             // Obtain the current usage level
             var level = MemoryManager.AppMemoryUsageLevel;
@@ -366,17 +321,13 @@ namespace SoundByte.UWP
             // Memory usage may have been fine when initially entering the background but
             // the app may have increased its memory usage since then and will need to trim back.
             if (level != AppMemoryUsageLevel.OverLimit && level != AppMemoryUsageLevel.High)
-            {
-                ReduceMemoryUsage(MemoryManager.AppMemoryUsageLimit);
-            }
+                await ReduceMemoryUsageAsync();
 
             // Send hit
             TelemetryService.Instance.TrackEvent("Memory Usage Increader", new Dictionary<string, string>
             {
-                {"current_usage", MemoryManager.AppMemoryUsage.ToString()}
+                {"CurrentUsage", MemoryManager.AppMemoryUsage / 1024 / 1024 + "M"}
             });
-
-            // Reduce memory usage
         }
 
         /// <summary>
@@ -392,29 +343,24 @@ namespace SoundByte.UWP
         ///     may be in a low memory usage state with no need to unload resources yet
         ///     and only enter a higher state later.
         /// </remarks>
-        private void ReduceMemoryUsage(ulong usage)
+        private async Task ReduceMemoryUsageAsync()
         {
-            // If the app has caches or other memory it can free, it should do so now.
-            // << App can release memory here >>
-            PopDebugToast("Start of reduce memory method");
-
-            // Additionally, if the application is currently
-            // in background mode and still has a view with content
-            // then the view can be released to save memory and
-            // can be recreated again later when leaving the background.
-            if (DeviceHelper.IsBackground && Window.Current != null && Window.Current.Content != null)
+            try
             {
-                PopDebugToast("Grab main shell");
-
-                var shell = Window.Current.Content as MainShell;
-
-                if (shell != null)
+                // Run on UI thread
+                await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                 {
-                    PopDebugToast("Dispose shell");
+                    // Additionally, if the application is currently
+                    // in background mode and still has a view with content
+                    // then the view can be released to save memory and
+                    // can be recreated again later when leaving the background.
+                    if (!DeviceHelper.IsBackground || Window.Current == null || Window.Current.Content == null) return;
+
+                    // Get the main shell and only continue if it exists
+                    var shell = Window.Current.Content as MainShell;
+                    if (shell == null) return;
 
                     shell.Dispose();
-                    PopDebugToast("Disconnect shell frame children");
-
                     VisualTreeHelper.DisconnectChildrenRecursive(shell.RootFrame);
 
                     // Clear the view content. Note that views should rely on
@@ -422,8 +368,18 @@ namespace SoundByte.UWP
                     // Release event handlers in views since references can
                     // prevent objects from being collected.
                     Window.Current.Content = null;
-                }   
+
+                    TelemetryService.Instance.TrackEvent("Dispose UI", new Dictionary<string, string>
+                    {
+                        {"CurrentUsage", MemoryManager.AppMemoryUsage / 1024 / 1024 + "M"}
+                    });
+                });
             }
+            catch (Exception e)
+            {
+                // We don't want the app to crash, but best let us know something is going wrong.
+                TelemetryService.Instance.TrackException(e);
+            }  
 
             // Run the GC to collect released resources.
             GC.Collect();

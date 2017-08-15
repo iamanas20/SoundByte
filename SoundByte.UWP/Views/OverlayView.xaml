@@ -3,7 +3,8 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     RequestedTheme="Dark"
     NavigationCacheMode="Enabled"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls">
 
     <Grid Background="{ThemeResource ShellBackground}" RequestedTheme="Dark">
         <Grid.RowDefinitions>
@@ -71,10 +72,12 @@
         <Grid Background="#99000000" Canvas.ZIndex="50" Grid.Row="0" Grid.RowSpan="4" />
 
         <!-- Background Image -->
-        <Image
+        <controls:ImageEx
             Grid.Row="0"
             Grid.RowSpan="4"
             x:Name="BackgroundImage"
+            PlaceholderSource="/Assets/Misc/XboxBG.png"
+            PlaceholderStretch="UniformToFill"
             Stretch="UniformToFill"
             Margin="-20"
             HorizontalAlignment="Center"

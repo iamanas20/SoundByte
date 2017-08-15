@@ -330,9 +330,6 @@ namespace SoundByte.UWP.Services
             if (track == null)
                 return;
 
-            // Push the current track up to the web service
-            await BackendService.Instance.PushCurrentTrackAsync(track);
-
             // Update the live tile
             UpdateNormalTiles();
 
@@ -375,6 +372,8 @@ namespace SoundByte.UWP.Services
                 {"fanburst_connected", SoundByteService.Instance.IsFanBurstAccountConnected.ToString()},
                 {"memory_usage", MemoryManager.AppMemoryUsage.ToString()},
             });
+
+            await Task.Run(async () => await BackendService.Instance.PushCurrentTrackAsync(track));  
         }
 
         private static async Task<string> GetCorrectApiKey()

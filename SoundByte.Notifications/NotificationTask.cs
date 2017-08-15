@@ -60,88 +60,87 @@ namespace SoundByte.Notifications
                 foreach (var notification in items.Notifications)
                 {
                     // Get the current date and time of the uploaded item
-                    var postedTime = notification.CreatedAt;
+                    var postedTime = notification.CreatedAt.ToUniversalTime();
 
                     // Check if the notification happened before the last 
                     // notification check
-                    if (lastCheckTime <= postedTime)
+                    if (lastCheckTime > postedTime) continue;
+
+                    // Create the variables needed for the notification
+                    var title = string.Empty;
+                    var content = string.Empty;
+                    var logo = string.Empty;
+                    var arguments = string.Empty;
+
+                    switch (notification.Type)
                     {
-                        // Create the variables needed for the notification
-                        var title = string.Empty;
-                        var content = string.Empty;
-                        var logo = string.Empty;
-                        var arguments = string.Empty;
+                        case "track-repost":
+                            // Clean and set the notification title
+                            title = TextHelper.CleanXmlString(notification.Track.Title);
+                            // Clean and set the notification content
+                            content = TextHelper.CleanXmlString(string.Format("{0} has reposted a sound by {1}.",
+                                notification.User.Username, notification.Track.User.Username));
+                            // Set the logo
+                            logo = ArtworkConverter.ConvertObjectToImage(notification.Track);
+                            // Set the arguments
+                            arguments = $"soundbyte://core/track?id={notification.Track.Id}";
+                            break;
+                        case "track":
+                            // Clean and set the notification title
+                            title = TextHelper.CleanXmlString(notification.Track.Title);
+                            // Clean and set the notification content
+                            content = TextHelper.CleanXmlString(string.Format("{0} has uploaded a new sound.",
+                                notification.User.Username));
+                            // Set the logo
+                            logo = ArtworkConverter.ConvertObjectToImage(notification.Track);
+                            // Set the arguments
+                            arguments = $"soundbyte://core/track?id={notification.Track.Id}";
+                            break;
+                        case "playlist-repost":
+                            // Clean and set the notification title
+                            title = TextHelper.CleanXmlString(notification.Playlist.Title);
+                            // Clean and set the notification content
+                            content = TextHelper.CleanXmlString(string.Format("{0} has reposted a set by {1}.",
+                                notification.User.Username, notification.Playlist.User.Username));
+                            // Set the logo
+                            logo = ArtworkConverter.ConvertObjectToImage(notification.Playlist);
+                            // Set the arguments
+                            arguments = $"soundbyte://core/playlist?id={notification.Playlist.Id}";
+                            break;
+                        case "playlist":
+                            // Clean and set the notification title
+                            title = TextHelper.CleanXmlString(notification.Playlist.Title);
+                            // Clean and set the notification content
+                            content = TextHelper.CleanXmlString(string.Format("{0} has created a new set.",
+                                notification.User.Username));
+                            // Set the logo
+                            logo = ArtworkConverter.ConvertObjectToImage(notification.Playlist);
+                            // Set the arguments
+                            arguments = $"soundbyte://core/playlist?id={notification.Playlist.Id}";
+                            break;
+                    }
 
-                        switch (notification.Type)
-                        {
-                            case "track-repost":
-                                // Clean and set the notification title
-                                title = TextHelper.CleanXmlString(notification.Track.Title);
-                                // Clean and set the notification content
-                                content = TextHelper.CleanXmlString(string.Format("{0} has reposted a sound by {1}.",
-                                    notification.User.Username, notification.Track.User.Username));
-                                // Set the logo
-                                logo = ArtworkConverter.ConvertObjectToImage(notification.Track);
-                                // Set the arguments
-                                arguments = $"soundbyte://core/track?id={notification.Track.Id}";
-                                break;
-                            case "track":
-                                // Clean and set the notification title
-                                title = TextHelper.CleanXmlString(notification.Track.Title);
-                                // Clean and set the notification content
-                                content = TextHelper.CleanXmlString(string.Format("{0} has uploaded a new sound.",
-                                    notification.User.Username));
-                                // Set the logo
-                                logo = ArtworkConverter.ConvertObjectToImage(notification.Track);
-                                // Set the arguments
-                                arguments = $"soundbyte://core/track?id={notification.Track.Id}";
-                                break;
-                            case "playlist-repost":
-                                // Clean and set the notification title
-                                title = TextHelper.CleanXmlString(notification.Playlist.Title);
-                                // Clean and set the notification content
-                                content = TextHelper.CleanXmlString(string.Format("{0} has reposted a set by {1}.",
-                                    notification.User.Username, notification.Playlist.User.Username));
-                                // Set the logo
-                                logo = ArtworkConverter.ConvertObjectToImage(notification.Playlist);
-                                // Set the arguments
-                                arguments = $"soundbyte://core/playlist?id={notification.Playlist.Id}";
-                                break;
-                            case "playlist":
-                                // Clean and set the notification title
-                                title = TextHelper.CleanXmlString(notification.Playlist.Title);
-                                // Clean and set the notification content
-                                content = TextHelper.CleanXmlString(string.Format("{0} has created a new set.",
-                                    notification.User.Username));
-                                // Set the logo
-                                logo = ArtworkConverter.ConvertObjectToImage(notification.Playlist);
-                                // Set the arguments
-                                arguments = $"soundbyte://core/playlist?id={notification.Playlist.Id}";
-                                break;
-                        }
+                    // Create the visual part of the taost notification
+                    var toastVisual =
+                        $@"<visual><binding template='ToastGeneric'><text>{title}</text><text>{
+                                content
+                            }</text><image src='{logo}' placement='appLogoOverride'/></binding></visual>";
 
-                        // Create the visual part of the taost notification
-                        var toastVisual =
-                            $@"<visual><binding template='ToastGeneric'><text>{title}</text><text>{
-                                    content
-                                }</text><image src='{logo}' placement='appLogoOverride'/></binding></visual>";
+                    // Create the toast XML string
+                    var toastXmlString =
+                        $@" <toast launch='{arguments}' displayTimestamp='{notification.CreatedAt.ToLocalTime():yyyy-MM-ddTHH:mm:ss.ffzzz}'>{
+                                toastVisual
+                            }<actions></actions></toast>";
 
-                        // Create the toast XML string
-                        var toastXmlString =
-                            $@" <toast launch='{arguments}' displayTimestamp='{postedTime:yyyy-MM-ddTHH:mm:ss.ffzzz}'>{
-                                    toastVisual
-                                }<actions></actions></toast>";
+                    // Create the XML document
+                    var toastXml = new XmlDocument();
+                    toastXml.LoadXml(toastXmlString);
 
-                        // Create the XML document
-                        var toastXml = new XmlDocument();
-                        toastXml.LoadXml(toastXmlString);
+                    // Create the toast notification
+                    var toast = new ToastNotification(toastXml) { SuppressPopup = !SettingsService.Instance.IsNotificationPopupEnabled };
 
-                        // Create the toast notification
-                        var toast = new ToastNotification(toastXml) { SuppressPopup = !SettingsService.Instance.IsNotificationPopupEnabled };
-
-                        // Show the taost notification
-                        ToastNotificationManager.CreateToastNotifier().Show(toast);
-                    }   
+                    // Show the taost notification
+                    ToastNotificationManager.CreateToastNotifier().Show(toast);
                 }
             }
             catch (Exception e)

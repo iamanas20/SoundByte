@@ -11,7 +11,7 @@
             <!-- Shell Colors -->
             <Color x:Key="ShellNavigationBackgroundColor">#FF2B2B2B</Color>
             <Color x:Key="ShellBackgroundColor">#FF1F1F1F</Color>
-            <Color x:Key="SoundByteButtonBackgroundColor">#CC2B2B2B</Color>
+            <Color x:Key="SoundByteButtonBackgroundColor">#AA2B2B2B</Color>
             <!-- Grey Background Color -->
             <SolidColorBrush x:Key="SecondaryBackgroundColor" Color="#0DFFFFFF" />
         </ResourceDictionary>
@@ -20,7 +20,7 @@
             <!-- Shell Colors -->
             <Color x:Key="ShellNavigationBackgroundColor">#FFE8E8E8</Color>
             <Color x:Key="ShellBackgroundColor">#FFF8F8F8</Color>
-            <Color x:Key="SoundByteButtonBackgroundColor">#CCE8E8E8</Color>
+            <Color x:Key="SoundByteButtonBackgroundColor">#AAE8E8E8</Color>
             <!-- Grey Background Color -->
             <SolidColorBrush x:Key="SecondaryBackgroundColor" Color="#15000000" />
         </ResourceDictionary>

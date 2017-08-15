@@ -117,7 +117,7 @@ namespace SoundByte.UWP.ViewModels
             FanburstTracks.RefreshItems();
         }
 
-        public void Search(object sender, SearchBoxQuerySubmittedEventArgs args)
+        public void Search(object sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
             App.NavigateTo(typeof(SearchView), args.QueryText);
         }

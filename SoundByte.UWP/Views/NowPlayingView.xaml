@@ -180,9 +180,11 @@
     <Grid Background="{ThemeResource ShellBackground}" x:Name="RootGrid">
 
         <!-- Background Image -->
-        <Image
+        <controls:ImageEx
             x:Name="BackgroundImage"
             Source="{x:Bind ViewModel.Service.CurrentTrack, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
+            PlaceholderSource="/Assets/Misc/XboxBG.png"
+            PlaceholderStretch="UniformToFill"
             Stretch="UniformToFill"
             Margin="-40"
             IsHitTestVisible="False"

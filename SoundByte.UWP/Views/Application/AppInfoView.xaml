@@ -80,12 +80,12 @@
 
                         <!-- Should background notifications be enabled -->
                         <ToggleSwitch x:Uid="Settings_BackgroundNotificationsToggle" FontSize="16" Margin="0,15,0,4"
-                                      IsOn="{x:Bind SettingsService.IsNotificationsEnabled}" />
+                                      IsOn="{x:Bind SettingsService.IsNotificationsEnabled, Mode=TwoWay}" />
 
                         <ToggleSwitch Header="Show Notification Popup" FontSize="16" Margin="0,15,0,4"
                                       OnContent="Yes"
                                       OffContent="No"
-                                      IsOn="{x:Bind SettingsService.IsNotificationPopupEnabled}" />
+                                      IsOn="{x:Bind SettingsService.IsNotificationPopupEnabled, Mode=TwoWay}" />
 
                         <!--<ToggleSwitch Header="Live Tile Style" Margin="0,15,0,4" OffContent="Accent Color" OnContent="Background Image"
                                       FontSize="16" IsOn="{x:Bind SettingsService.TileBackgroundStyleEnabled, Mode=TwoWay}" /> -->

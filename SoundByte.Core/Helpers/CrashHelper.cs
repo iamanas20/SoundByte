@@ -41,7 +41,6 @@ namespace SoundByte.Core.Helpers
                 }
             };
 
-
             // Log when the app crashes
             currentApplication.UnhandledException += async (sender, args) =>
             {
