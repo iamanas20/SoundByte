@@ -14,6 +14,7 @@ using System;
 using System.Linq;
 using Windows.ApplicationModel.Resources;
 using Windows.UI.Popups;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml.Controls;
 using SoundByte.API.Endpoints;
 using SoundByte.Core.Dialogs;
@@ -40,15 +41,15 @@ namespace SoundByte.UWP.ViewModels
         #region Models
 
         // Model for the track searches
-        public SearchTrackModel SearchTracks { get; } = new SearchTrackModel();
+        public SearchTrackModel SearchTracks { get; private set; } = new SearchTrackModel();
 
-        public FanburstSearchModel FanburstTracks { get; } = new FanburstSearchModel();
+        public FanburstSearchModel FanburstTracks { get; private set; } = new FanburstSearchModel();
 
         // Model for the playlist searches
-        public SearchPlaylistModel SearchPlaylists { get; } = new SearchPlaylistModel();
+        public SearchPlaylistModel SearchPlaylists { get; private set; } = new SearchPlaylistModel();
 
         // Model for the user searches
-        public SearchUserModel SearchUsers { get; } = new SearchUserModel();
+        public SearchUserModel SearchUsers { get; private set; } = new SearchUserModel();
 
         #endregion
 
@@ -118,7 +119,9 @@ namespace SoundByte.UWP.ViewModels
 
         public void Search(object sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
-            App.NavigateTo(typeof(SearchView), args.QueryText);
+            SearchQuery = args.QueryText;
+
+            InputPane.GetForCurrentView().TryHide();
         }
 
         public async void ShowFilterMenu()
@@ -209,7 +212,7 @@ namespace SoundByte.UWP.ViewModels
             }
             else if (e.ClickedItem.GetType().Name == "User")
             {
-                App.NavigateTo(typeof(UserView), e.ClickedItem as User);
+                App.NavigateTo(typeof(UserView), e.ClickedItem as API.Endpoints.User);
             }
             else if (e.ClickedItem.GetType().Name == "Playlist")
             {

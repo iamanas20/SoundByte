@@ -90,7 +90,7 @@
 
     <brushes:CustomAcrylicBrush x:Key="InAppBackgroundBrush"
                                 Mode="InAppBlur"
-                                BlurAmount="12"
+                                BlurAmount="32"
                                 Tint="#FF111111"
                                 TintMix="0.4"
                                 NoiseTextureUri="/Assets/Misc/lightnoise.png" />

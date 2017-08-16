@@ -61,9 +61,6 @@ namespace SoundByte.UWP.Models
             // Return a task that will get the items
             return Task.Run(async () =>
             {
-                if (string.IsNullOrEmpty(Query))
-                    return new LoadMoreItemsResult {Count = 0};
-
                 // We are loading
                 await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                 {
@@ -153,6 +150,7 @@ namespace SoundByte.UWP.Models
         {
             Token = null;
             Clear();
+            
         }
     }
 }
