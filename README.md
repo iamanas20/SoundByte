@@ -23,11 +23,25 @@ Please Note: SoundByte source code is to only be used for educational purposes. 
 
 SoundByte is split into a few projects:
 
-- **`SoundByte.Aurora`:** SoundByte Aurora is a new work in progress muiltiplatform extendable engine for SoundByte. This engine will allow easy extensibility with other services while also allowing the ability for code sharing and reuse across muiltiple platforms (such as UWP and Android).
+### SoundByte.API
 
-- **`SoundByte.Core`:** This project contains the core API code for the SoundCloud and Fanburst API. Mainily consisits of helper classes when deserializing JSON. Currently this project targets the UWP framework, but in the future it's planned to target a framework that works with both UWP and Xamarin, while also intergrating more of the networking code.
+This project contains cross platform classes and holders used to deserialize content from the SoundCloud and Fanburst API. This project is seperate allowing the backend service and UWP app to access the same classes. Build using .NET Standard.
 
-- **`SoundByte.UWP`:** This project contains the main code for SoundByte on Windows 10 / Xbox One. Items such as brushes, converters, view models, models, views, services etc. are all stored here.
+### SoundByte.Aurora
+
+SoundByte Aurora is a new work in progress muiltiplatform extendable engine for SoundByte. This engine will allow easy extensibility with other services while also allowing the ability for code sharing and reuse across muiltiple platforms (such as UWP and Android).
+
+### SoundByte.Core
+
+This project contains helper classes for common app functions such as settings control and deserializing JSON. Currently this project targets the UWP framework, but in the future it's planned to target a framework that works with both UWP and Xamarin, while also intergrating more of the networking code.
+
+### SoundByte.Service
+
+This project is a web app that runs in Microsoft Azure. This web app will allow spotify like features in the app (login to xbox with PC, continue listening to a song on another device etc.)
+
+### SoundByte.UWP
+
+This project contains the main code for SoundByte on Windows 10 / Xbox One. Items such as brushes, view models, models, views, playback service etc. are all stored here.
 
 SoundByte logic is based around a central XAML/C# file called `MainShell.xaml`/`MainShell.xaml.cs`. This file displays key app elements such as the left hand navigation pane, and mobile navigation bar. It also supports app navigation, and is used to load key app resources at load time.
 
