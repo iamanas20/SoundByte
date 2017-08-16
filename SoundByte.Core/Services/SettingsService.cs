@@ -45,6 +45,7 @@ namespace SoundByte.Core.Services
 
         private const string DebugKey = "SoundByte.DebugModeEnabled";
         private const string TileStyleKey = "SoundByte.Tile.Style";
+        private const string MenuCollapsedKey = "SoundByte.Desktop.MenuPosition";
 
         #endregion
 
@@ -123,6 +124,21 @@ namespace SoundByte.Core.Services
                 return boolVal.HasValue && boolVal.Value;
             }
             set => SaveSettingsValue(DebugKey, value);
+        }
+
+        /// <summary>
+        /// Hamburger menu position
+        /// </summary>
+        public bool IsMenuOpen
+        {
+            get
+            {
+                var boolVal = ReadSettingsValue(MenuCollapsedKey) as bool?;
+
+                return !boolVal.HasValue || boolVal.Value;
+            }
+
+            set => SaveSettingsValue(MenuCollapsedKey, value);
         }
 
         /// <summary>

@@ -124,6 +124,11 @@ namespace SoundByte.UWP
                 HamburgerButton.Visibility = Visibility.Collapsed;
             }
 
+            if (DeviceHelper.IsDesktop)
+            {
+                MainSplitView.IsPaneOpen = SettingsService.Instance.IsMenuOpen;
+            }
+
             // Focus on the root frame
             RootFrame.Focus(FocusState.Programmatic);
         }
@@ -488,6 +493,7 @@ namespace SoundByte.UWP
             if (DeviceHelper.IsDesktop)
                 if (((Frame) sender).SourcePageType == typeof(NowPlayingView))
                 {
+                    SettingsService.Instance.IsMenuOpen = MainSplitView.IsPaneOpen;
                     MainSplitView.IsPaneOpen = false;
                     MainSplitView.CompactPaneLength = 0;
 
@@ -498,6 +504,7 @@ namespace SoundByte.UWP
                 else
                 {
                     MainSplitView.CompactPaneLength = 84;
+                    MainSplitView.IsPaneOpen = SettingsService.Instance.IsMenuOpen;
 
                     if (Service.CurrentTrack == null)
                         HideNowPlayingBar();
@@ -564,6 +571,7 @@ namespace SoundByte.UWP
         private void HamburgerButton_Click(object sender, RoutedEventArgs e)
         {
             MainSplitView.IsPaneOpen = !MainSplitView.IsPaneOpen;
+            SettingsService.Instance.IsMenuOpen = MainSplitView.IsPaneOpen;
         }
 
         #region Getters and Setters
