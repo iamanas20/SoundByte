@@ -16,7 +16,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
-using SoundByte.Core.API.Endpoints;
+using SoundByte.API.Endpoints;
 using SoundByte.Core.Helpers;
 using SoundByte.UWP.Services;
 

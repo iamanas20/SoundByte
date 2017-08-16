@@ -10,26 +10,24 @@
  * |----------------------------------------------------------------|
  */
 
-using Newtonsoft.Json;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
-namespace SoundByte.Core.API.Endpoints
+namespace SoundByte.API.Endpoints
 {
     /// <summary>
-    ///     Info about the current build
+    ///     Base track items used by all services.
     /// </summary>
-    [JsonObject]
-    public class BuildInfo
+    public class BaseTrack : INotifyPropertyChanged
     {
-        /// <summary>
-        ///     The branch that this was compliled from
-        /// </summary>
-        [JsonProperty("build_branch")]
-        public string BuildBranch { get; set; }
+        public event PropertyChangedEventHandler PropertyChanged;
 
-        /// <summary>
-        ///     The time this was built
-        /// </summary>
-        [JsonProperty("build_time")]
-        public string BuildTime { get; set; }
+        // This method is called by the Set accessor of each property.
+        // The CallerMemberName attribute that is applied to the optional propertyName
+        // parameter causes the property name of the caller to be substituted as an argument.
+        protected void UpdateProperty([CallerMemberName] string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

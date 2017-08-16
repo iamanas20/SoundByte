@@ -26,11 +26,11 @@ using Windows.System;
 using Windows.UI.Notifications;
 using Windows.UI.Xaml;
 using Microsoft.Toolkit.Uwp;
-using SoundByte.Core.API.Endpoints;
+using SoundByte.API.Endpoints;
 using SoundByte.Core.Converters;
 using SoundByte.Core.Helpers;
 using SoundByte.Core.Services;
-using User = SoundByte.Core.API.Endpoints.User;
+using User = SoundByte.API.Endpoints.User;
 
 namespace SoundByte.UWP.Services
 {
@@ -367,10 +367,10 @@ namespace SoundByte.UWP.Services
 
             TelemetryService.Instance.TrackEvent("Background Song Change", new Dictionary<string, string>
             {
-                {"playlist_count", Playlist.Count.ToString()},
-                {"soundcloud_connected", SoundByteService.Instance.IsSoundCloudAccountConnected.ToString()},
-                {"fanburst_connected", SoundByteService.Instance.IsFanBurstAccountConnected.ToString()},
-                {"memory_usage", MemoryManager.AppMemoryUsage.ToString()},
+                {"PlaylistCount", Playlist.Count.ToString()},
+                {"SoundCloudConnected", SoundByteService.Instance.IsSoundCloudAccountConnected.ToString()},
+                {"FanburstConnected", SoundByteService.Instance.IsFanBurstAccountConnected.ToString()},
+                {"CurrentUsage", MemoryManager.AppMemoryUsage / 1024 / 1024 + "M"}
             });
 
             await Task.Run(async () => await BackendService.Instance.PushCurrentTrackAsync(track));  
@@ -468,10 +468,10 @@ namespace SoundByte.UWP.Services
 
                     MediaSource source;
 
-                    if (track.ServiceType == SoundByteService.ServiceType.SoundCloud)
+                    if (track.ServiceType == ServiceType.SoundCloud)
                         source = MediaSource.CreateFromUri(new Uri("http://api.soundcloud.com/tracks/" + track.Id +
                                                                    "/stream?client_id=" + apiKey));
-                    else if (track.ServiceType == SoundByteService.ServiceType.Fanburst)
+                    else if (track.ServiceType == ServiceType.Fanburst)
                         source = MediaSource.CreateFromUri(new Uri("https://api.fanburst.com/tracks/" + track.Id +
                                                                    "/stream?client_id=" + ApiKeyService
                                                                        .FanburstClientId));

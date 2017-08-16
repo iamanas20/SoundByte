@@ -12,24 +12,24 @@
 
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using SoundByte.Core.API.Endpoints;
+using SoundByte.API.Endpoints;
 
-namespace SoundByte.Core.API.Holders
+namespace SoundByte.API.Holders
 {
     /// <summary>
-    ///     Holds all the stream tracks
+    ///     Holds a list of users
     /// </summary>
     [JsonObject]
-    public class StreamTrackHolder
+    public class UserListHolder
     {
         /// <summary>
-        ///     List of stream items
+        ///     List of users
         /// </summary>
         [JsonProperty("collection")]
-        public List<StreamItem> Items { get; set; }
+        public List<User> Users { get; set; }
 
         /// <summary>
-        ///     Next items in the list
+        ///     The next list of items
         /// </summary>
         [JsonProperty("next_href")]
         public string NextList { get; set; }

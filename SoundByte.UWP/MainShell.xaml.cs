@@ -33,7 +33,7 @@ using Microsoft.Services.Store.Engagement;
 using Microsoft.Toolkit.Uwp;
 using NotificationsExtensions;
 using NotificationsExtensions.Toasts;
-using SoundByte.Core.API.Endpoints;
+using SoundByte.API.Endpoints;
 using SoundByte.Core.Dialogs;
 using SoundByte.Core.Helpers;
 using SoundByte.Core.Services;
@@ -44,7 +44,7 @@ using SoundByte.UWP.Views.Application;
 using SoundByte.UWP.Views.CoreApp;
 using SoundByte.UWP.Views.Me;
 using UICompositionAnimations.Brushes;
-using Playlist = SoundByte.Core.API.Endpoints.Playlist;
+using Playlist = SoundByte.API.Endpoints.Playlist;
 using SearchBox = SoundByte.UWP.UserControls.SearchBox;
 
 namespace SoundByte.UWP

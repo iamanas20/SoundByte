@@ -6,7 +6,6 @@ using System.Web.Http;
 using Microsoft.Azure.Mobile.Server;
 using Microsoft.Azure.Mobile.Server.Authentication;
 using Microsoft.Azure.Mobile.Server.Config;
-using SoundByteBackendService.DataObjects;
 using SoundByteBackendService.Models;
 using Owin;
 
@@ -51,21 +50,7 @@ namespace SoundByteBackendService
 
     public class SoundByteBackendInitializer : CreateDatabaseIfNotExists<SoundByteBackendContext>
     {
-        protected override void Seed(SoundByteBackendContext context)
-        {
-            List<TodoItem> todoItems = new List<TodoItem>
-            {
-                new TodoItem { Id = Guid.NewGuid().ToString(), Text = "First item", Complete = false },
-                new TodoItem { Id = Guid.NewGuid().ToString(), Text = "Second item", Complete = false },
-            };
-
-            foreach (TodoItem todoItem in todoItems)
-            {
-                context.Set<TodoItem>().Add(todoItem);
-            }
-
-            base.Seed(context);
-        }
+       
     }
 }
 

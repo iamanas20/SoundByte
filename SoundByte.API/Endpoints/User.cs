@@ -12,7 +12,7 @@
 
 using Newtonsoft.Json;
 
-namespace SoundByte.Core.API.Endpoints
+namespace SoundByte.API.Endpoints
 {
     /// <summary>
     ///     A Soundcloud user

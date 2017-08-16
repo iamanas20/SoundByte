@@ -18,7 +18,7 @@ using Windows.ApplicationModel.Resources;
 using Windows.UI.Popups;
 using Windows.UI.StartScreen;
 using Windows.UI.Xaml.Controls;
-using SoundByte.Core.API.Endpoints;
+using SoundByte.API.Endpoints;
 using SoundByte.Core.Converters;
 using SoundByte.Core.Services;
 using SoundByte.UWP.Services;

@@ -375,10 +375,9 @@ namespace SoundByte.UWP
                     });
                 });
             }
-            catch (Exception e)
+            catch
             {
-                // We don't want the app to crash, but best let us know something is going wrong.
-                TelemetryService.Instance.TrackException(e);
+                // This will crash if no main view is active
             }  
 
             // Run the GC to collect released resources.

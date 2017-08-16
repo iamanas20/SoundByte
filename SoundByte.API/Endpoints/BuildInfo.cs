@@ -10,39 +10,26 @@
  * |----------------------------------------------------------------|
  */
 
-using System.Collections.Generic;
 using Newtonsoft.Json;
-using SoundByte.Core.API.Endpoints;
 
-namespace SoundByte.Core.API.Holders
+namespace SoundByte.API.Endpoints
 {
-    [JsonObject]
-    public class ExploreTrackCollection
-    {
-        /// <summary>
-        ///     The track object
-        /// </summary>
-        [JsonProperty("track")]
-        public Track Track { get; set; }
-    }
-
     /// <summary>
-    ///     Used when deserlizing charts. Provided is the list of tracks and
-    ///     the uri to the next list.
+    ///     Info about the current build
     /// </summary>
     [JsonObject]
-    public class ExploreTrackHolder
+    public class BuildInfo
     {
         /// <summary>
-        ///     The list of items
+        ///     The branch that this was compliled from
         /// </summary>
-        [JsonProperty("collection")]
-        public List<ExploreTrackCollection> Items { get; set; }
+        [JsonProperty("build_branch")]
+        public string BuildBranch { get; set; }
 
         /// <summary>
-        ///     Next item in the list
+        ///     The time this was built
         /// </summary>
-        [JsonProperty("next_href")]
-        public string NextList { get; set; }
+        [JsonProperty("build_time")]
+        public string BuildTime { get; set; }
     }
 }

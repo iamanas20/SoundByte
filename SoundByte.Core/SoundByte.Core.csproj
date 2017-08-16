@@ -87,23 +87,6 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="API\Endpoints\BaseTrack.cs" />
-    <Compile Include="API\Endpoints\BuildInfo.cs" />
-    <Compile Include="API\Endpoints\Comment.cs" />
-    <Compile Include="API\Endpoints\Playlist.cs" />
-    <Compile Include="API\Endpoints\Track.cs" />
-    <Compile Include="API\Endpoints\User.cs" />
-    <Compile Include="API\Exceptions\SoundByteException.cs" />
-    <Compile Include="API\Holders\CommentListHolder.cs" />
-    <Compile Include="API\Holders\ExploreTrackCollection.cs" />
-    <Compile Include="API\Endpoints\Notification.cs" />
-    <Compile Include="API\Holders\HistoryListHolder.cs" />
-    <Compile Include="API\Holders\NotificationListHolder.cs" />
-    <Compile Include="API\Holders\SearchPlaylistHolder.cs" />
-    <Compile Include="API\Endpoints\StreamItem.cs" />
-    <Compile Include="API\Holders\StreamTrackHolder.cs" />
-    <Compile Include="API\Holders\TrackListHolder.cs" />
-    <Compile Include="API\Holders\UserListHolder.cs" />
     <Compile Include="Converters\ArtworkConverter.cs" />
     <Compile Include="Converters\BoolToFontWeightConverter.cs" />
     <Compile Include="Converters\DateTimeConverter.cs" />
@@ -213,6 +196,12 @@
     <PackageReference Include="Win2D.uwp">
       <Version>1.21.0</Version>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SoundByte.API\SoundByte.API.csproj">
+      <Project>{0d914b48-fc03-4d63-bd76-13c1476e09c0}</Project>
+      <Name>SoundByte.API</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

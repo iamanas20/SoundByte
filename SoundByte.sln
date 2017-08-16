@@ -9,9 +9,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoundByte.UWP", "SoundByte.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoundByte.Notifications", "SoundByte.Notifications\SoundByte.Notifications.csproj", "{1475A6DD-F6ED-46C3-8644-D86992C7EA9E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoundByte.AzureService", "SoundByte.AzureService\SoundByte.AzureService.csproj", "{209FA716-A7AD-4095-BD70-C8710FC66FA7}"
-EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SoundByte.Aurora", "SoundByte.Aurora\SoundByte.Aurora.shproj", "{82BA6C78-612C-4143-9CF6-F2585EB34F5A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoundByte.API", "SoundByte.API\SoundByte.API.csproj", "{0D914B48-FC03-4D63-BD76-13C1476E09C0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoundByte.Service", "SoundByte.Service\SoundByte.Service.csproj", "{209FA716-A7AD-4095-BD70-C8710FC66FA7}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -77,6 +79,22 @@ Global
 		{1475A6DD-F6ED-46C3-8644-D86992C7EA9E}.Release|x64.Build.0 = Release|x64
 		{1475A6DD-F6ED-46C3-8644-D86992C7EA9E}.Release|x86.ActiveCfg = Release|x86
 		{1475A6DD-F6ED-46C3-8644-D86992C7EA9E}.Release|x86.Build.0 = Release|x86
+		{0D914B48-FC03-4D63-BD76-13C1476E09C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D914B48-FC03-4D63-BD76-13C1476E09C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D914B48-FC03-4D63-BD76-13C1476E09C0}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{0D914B48-FC03-4D63-BD76-13C1476E09C0}.Debug|ARM.Build.0 = Debug|Any CPU
+		{0D914B48-FC03-4D63-BD76-13C1476E09C0}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{0D914B48-FC03-4D63-BD76-13C1476E09C0}.Debug|x64.Build.0 = Debug|Any CPU
+		{0D914B48-FC03-4D63-BD76-13C1476E09C0}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0D914B48-FC03-4D63-BD76-13C1476E09C0}.Debug|x86.Build.0 = Debug|Any CPU
+		{0D914B48-FC03-4D63-BD76-13C1476E09C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D914B48-FC03-4D63-BD76-13C1476E09C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D914B48-FC03-4D63-BD76-13C1476E09C0}.Release|ARM.ActiveCfg = Release|Any CPU
+		{0D914B48-FC03-4D63-BD76-13C1476E09C0}.Release|ARM.Build.0 = Release|Any CPU
+		{0D914B48-FC03-4D63-BD76-13C1476E09C0}.Release|x64.ActiveCfg = Release|Any CPU
+		{0D914B48-FC03-4D63-BD76-13C1476E09C0}.Release|x64.Build.0 = Release|Any CPU
+		{0D914B48-FC03-4D63-BD76-13C1476E09C0}.Release|x86.ActiveCfg = Release|Any CPU
+		{0D914B48-FC03-4D63-BD76-13C1476E09C0}.Release|x86.Build.0 = Release|Any CPU
 		{209FA716-A7AD-4095-BD70-C8710FC66FA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{209FA716-A7AD-4095-BD70-C8710FC66FA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{209FA716-A7AD-4095-BD70-C8710FC66FA7}.Debug|ARM.ActiveCfg = Debug|Any CPU

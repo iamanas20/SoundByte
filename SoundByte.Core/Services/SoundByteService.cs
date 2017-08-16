@@ -22,9 +22,9 @@ using Windows.Web.Http;
 using Windows.Web.Http.Filters;
 using Windows.Web.Http.Headers;
 using Newtonsoft.Json;
-using SoundByte.Core.API.Endpoints;
-using SoundByte.Core.API.Exceptions;
 using SoundByte.Core.Helpers;
+using SoundByte.API.Endpoints;
+using SoundByte.API.Exceptions;
 
 namespace SoundByte.Core.Services
 {
@@ -248,13 +248,6 @@ namespace SoundByte.Core.Services
         #endregion
 
         #region Helper Classes and Enums
-
-        public enum ServiceType
-        {
-            Fanburst,
-            SoundCloud
-        }
-
         [JsonObject]
         public class Token
         {

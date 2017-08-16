@@ -15,7 +15,7 @@ using System.Collections.Generic;
 using Windows.ApplicationModel.Background;
 using Windows.Data.Xml.Dom;
 using Windows.UI.Notifications;
-using SoundByte.Core.API.Holders;
+using SoundByte.API.Holders;
 using SoundByte.Core.Converters;
 using SoundByte.Core.Helpers;
 using SoundByte.Core.Services;

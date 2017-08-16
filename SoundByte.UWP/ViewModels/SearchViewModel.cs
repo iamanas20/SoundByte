@@ -15,14 +15,13 @@ using System.Linq;
 using Windows.ApplicationModel.Resources;
 using Windows.UI.Popups;
 using Windows.UI.Xaml.Controls;
-using SoundByte.Core.API.Endpoints;
+using SoundByte.API.Endpoints;
 using SoundByte.Core.Dialogs;
 using SoundByte.Core.Services;
 using SoundByte.UWP.Models;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.Views;
-using Playlist = SoundByte.Core.API.Endpoints.Playlist;
-using SearchBox = SoundByte.UWP.UserControls.SearchBox;
+using Playlist = SoundByte.API.Endpoints.Playlist;
 
 namespace SoundByte.UWP.ViewModels
 {
@@ -162,7 +161,7 @@ namespace SoundByte.UWP.ViewModels
                     case "track-repost":
                         // Play this item
 
-                        if (searchItem.ServiceType == SoundByteService.ServiceType.Fanburst)
+                        if (searchItem.ServiceType == ServiceType.Fanburst)
                         {
                             var startPlayback =
                                 await PlaybackService.Instance.StartMediaPlayback(FanburstTracks.ToList(),
@@ -186,7 +185,7 @@ namespace SoundByte.UWP.ViewModels
                         {
                             var playlist =
                                 await SoundByteService.Instance.GetAsync<Playlist>("/playlist/" + searchItem.Id);
-                            App.NavigateTo(typeof(Views.PlaylistView), playlist);
+                            App.NavigateTo(typeof(PlaylistView), playlist);
                         }
                         catch (Exception)
                         {
@@ -198,7 +197,7 @@ namespace SoundByte.UWP.ViewModels
                         {
                             var playlistR =
                                 await SoundByteService.Instance.GetAsync<Playlist>("/playlist/" + searchItem.Id);
-                            App.NavigateTo(typeof(Views.PlaylistView), playlistR);
+                            App.NavigateTo(typeof(PlaylistView), playlistR);
                         }
                         catch (Exception)
                         {

@@ -20,7 +20,7 @@ using Windows.UI.StartScreen;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml.Controls;
 using Microsoft.Toolkit.Uwp;
-using SoundByte.Core.API.Endpoints;
+using SoundByte.API.Endpoints;
 using SoundByte.Core.Converters;
 using SoundByte.Core.Dialogs;
 using SoundByte.Core.Helpers;
@@ -365,6 +365,11 @@ namespace SoundByte.UWP.ViewModels
             Service.Player.PlaybackSession.Position = TimeSpan.FromMilliseconds(int.Parse(comment?.Timestamp));
         }
 
+        public async void ShareTrack()
+        {
+            await new ShareDialog(Service.CurrentTrack).ShowAsync();
+        }
+
         /// <summary>
         ///     Navigates the user to the current track users profile
         /// </summary>
@@ -375,7 +380,7 @@ namespace SoundByte.UWP.ViewModels
             App.IsLoading = true;
 
             // We only support viewing soundcloud profiles at this time
-            if (Service.CurrentTrack.ServiceType != SoundByteService.ServiceType.SoundCloud)
+            if (Service.CurrentTrack.ServiceType != ServiceType.SoundCloud)
             {
                 await new MessageDialog(
                     "SoundByte does not currently supporting user profiles that are not from SoundCloud.",

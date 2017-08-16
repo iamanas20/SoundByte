@@ -10,37 +10,44 @@
  * |----------------------------------------------------------------|
  */
 
-using System;
+using Newtonsoft.Json;
 
-namespace SoundByte.Core.API.Exceptions
+namespace SoundByte.API.Endpoints
 {
     /// <summary>
-    ///     Used for exception handling within the app. Supports an error title,
-    ///     message and custom image.
+    ///     A stream collection containing all items that may be on the users stream
     /// </summary>
-    public class SoundByteException : Exception
+    [JsonObject]
+    public class StreamItem
     {
-        public SoundByteException(string title, string description, string glyph) : base(
-            string.Format("Title: {0}, Description: {1}", title, description))
-        {
-            ErrorTitle = title;
-            ErrorDescription = description;
-            ErrorGlyph = glyph;
-        }
+        /// <summary>
+        ///     Track detail
+        /// </summary>
+        [JsonProperty("track")]
+        public Track Track { get; set; }
 
         /// <summary>
-        ///     Title of the error message
+        ///     User detail
         /// </summary>
-        public string ErrorTitle { get; }
+        [JsonProperty("user")]
+        public User User { get; set; }
 
         /// <summary>
-        ///     A description of the error message
+        ///     Playlist detail
         /// </summary>
-        public string ErrorDescription { get; }
+        [JsonProperty("playlist")]
+        public Playlist Playlist { get; set; }
 
         /// <summary>
-        ///     Picture that relates with the error message
+        ///     When this object was created
         /// </summary>
-        public string ErrorGlyph { get; }
+        [JsonProperty("created_at")]
+        public string CreatedAt { get; set; }
+
+        /// <summary>
+        ///     What type of object this is
+        /// </summary>
+        [JsonProperty("type")]
+        public string Type { get; set; }
     }
 }

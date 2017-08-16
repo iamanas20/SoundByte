@@ -12,10 +12,8 @@
 
 using System;
 using Newtonsoft.Json;
-using SoundByte.Core.Dialogs;
-using SoundByte.Core.Services;
 
-namespace SoundByte.Core.API.Endpoints
+namespace SoundByte.API.Endpoints
 {
     /// <summary>
     ///     A class for holding a soundcloud track
@@ -29,7 +27,6 @@ namespace SoundByte.Core.API.Endpoints
         private User _user;
 
         #endregion
-
 
         /// <summary>
         ///     The user who posted this track
@@ -48,7 +45,7 @@ namespace SoundByte.Core.API.Endpoints
         /// <summary>
         ///     What type of service this item belongs to
         /// </summary>
-        public SoundByteService.ServiceType ServiceType { get; set; } = SoundByteService.ServiceType.SoundCloud;
+        public ServiceType ServiceType { get; set; } = ServiceType.SoundCloud;
 
         /// <summary>
         ///     The Genre of the track
@@ -133,17 +130,5 @@ namespace SoundByte.Core.API.Endpoints
         /// </summary>
         [JsonProperty("user_favorite")]
         public bool? UserFavorite { get; set; } = false;
-
-        #region Methods
-
-        /// <summary>
-        ///     Open the share dialog for this track
-        /// </summary>
-        public async void ShareTrack()
-        {
-            await new ShareDialog(this).ShowAsync();
-        }
-
-        #endregion
     }
 }

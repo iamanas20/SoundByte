@@ -13,7 +13,7 @@
 using System;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
-using SoundByte.Core.API.Endpoints;
+using SoundByte.API.Endpoints;
 using SoundByte.Core.Dialogs;
 using SoundByte.Core.Helpers;
 
@@ -28,9 +28,6 @@ namespace SoundByte.UWP.UserControls
         {
             // Load the xaml
             InitializeComponent();
-
-            
-
             // Setup the even that is called when the data
             // context chanages.
             DataContextChanged += delegate
@@ -54,6 +51,11 @@ namespace SoundByte.UWP.UserControls
                     TrackExtendedDetailPane.Visibility = Visibility.Collapsed;
                 }
             };
+        }
+
+        public async void ShareTrack()
+        {
+            await new ShareDialog(Track).ShowAsync();
         }
 
         public async void AddTrackToPlaylist()

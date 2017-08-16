@@ -14,7 +14,7 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.AspNet.SignalR.Client;
 using Microsoft.WindowsAzure.MobileServices;
-using SoundByte.Core.API.Endpoints;
+using SoundByte.API.Endpoints;
 
 namespace SoundByte.Core.Services
 {

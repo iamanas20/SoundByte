@@ -12,7 +12,7 @@
 
 using Windows.ApplicationModel.DataTransfer;
 using Windows.UI.Xaml;
-using SoundByte.Core.API.Endpoints;
+using SoundByte.API.Endpoints;
 using SoundByte.Core.Services;
 
 namespace SoundByte.Core.Dialogs

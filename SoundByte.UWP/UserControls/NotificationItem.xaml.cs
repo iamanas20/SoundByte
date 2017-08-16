@@ -11,7 +11,7 @@
  */
 
 using Windows.UI.Xaml;
-using SoundByte.Core.API.Endpoints;
+using SoundByte.API.Endpoints;
 
 namespace SoundByte.UWP.UserControls
 {

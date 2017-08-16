@@ -97,6 +97,10 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SoundByte.API\SoundByte.API.csproj">
+      <Project>{0d914b48-fc03-4d63-bd76-13c1476e09c0}</Project>
+      <Name>SoundByte.API</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SoundByte.Core\SoundByte.Core.csproj">
       <Project>{fd743ca3-a8f6-4136-a50f-9df134d3422e}</Project>
       <Name>SoundByte.Core</Name>

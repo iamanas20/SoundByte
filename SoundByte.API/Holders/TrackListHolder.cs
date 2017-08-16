@@ -12,53 +12,21 @@
 
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using SoundByte.Core.API.Endpoints;
+using SoundByte.API.Endpoints;
 
-namespace SoundByte.Core.API.Holders
+namespace SoundByte.API.Holders
 {
     /// <summary>
-    ///     Holds a playlist
+    ///     Holds a list of track
     /// </summary>
     [JsonObject]
-    public class LikePlaylistBootstrap
+    public class TrackListHolder
     {
         /// <summary>
-        ///     A playlist
-        /// </summary>
-        [JsonProperty("playlist")]
-        public Playlist Playlist { get; set; }
-    }
-
-    /// <summary>
-    ///     Holds the users playlists
-    /// </summary>
-    [JsonObject]
-    public class PlaylistHolder
-    {
-        /// <summary>
-        ///     List of sub playlists
+        ///     Collection of tracks
         /// </summary>
         [JsonProperty("collection")]
-        public List<LikePlaylistBootstrap> Playlists { get; set; }
-
-        /// <summary>
-        ///     The next list of items
-        /// </summary>
-        [JsonProperty("next_href")]
-        public string NextList { get; set; }
-    }
-
-    /// <summary>
-    ///     Holder for searched playlist items
-    /// </summary>
-    [JsonObject]
-    public class SearchPlaylistHolder
-    {
-        /// <summary>
-        ///     List of playlists
-        /// </summary>
-        [JsonProperty("collection")]
-        public List<Playlist> Playlists { get; set; }
+        public List<Track> Tracks { get; set; }
 
         /// <summary>
         ///     The next list of items

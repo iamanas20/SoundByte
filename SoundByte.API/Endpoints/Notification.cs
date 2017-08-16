@@ -13,48 +13,48 @@
 using System;
 using Newtonsoft.Json;
 
-namespace SoundByte.Core.API.Endpoints
+namespace SoundByte.API.Endpoints
 {
     /// <summary>
-    ///     This class represents a comment object within the SoundCloud API
+    ///     A user notification
     /// </summary>
     [JsonObject]
-    public class Comment
+    public class Notification
     {
         /// <summary>
-        ///     Comment body
-        /// </summary>
-        [JsonProperty("body")]
-        public string Body { get; set; }
-
-        /// <summary>
-        ///     The date and time that this comment was posted.
+        ///     Whent this object was created
         /// </summary>
         [JsonProperty("created_at")]
         public DateTime CreatedAt { get; set; }
 
         /// <summary>
-        ///     Object ID
+        ///     What type of object this is
         /// </summary>
-        [JsonProperty("id")]
-        public int Id { get; set; }
+        [JsonProperty("type")]
+        public string Type { get; set; }
 
         /// <summary>
-        ///     The track that this comment was posted on
+        ///     User detail
+        /// </summary>
+        [JsonProperty("user")]
+        public User User { get; set; }
+
+        /// <summary>
+        ///     track detail
         /// </summary>
         [JsonProperty("track")]
         public Track Track { get; set; }
 
         /// <summary>
-        ///     At what time in the track was this posted
+        ///     Playlist detail
         /// </summary>
-        [JsonProperty("timestamp")]
-        public string Timestamp { get; set; }
+        [JsonProperty("playlist")]
+        public Playlist Playlist { get; set; }
 
         /// <summary>
-        ///     The user who posted this comment
+        ///     Comment detail
         /// </summary>
-        [JsonProperty("user")]
-        public User User { get; set; }
+        [JsonProperty("comment")]
+        public Comment Comment { get; set; }
     }
 }

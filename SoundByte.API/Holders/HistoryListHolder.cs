@@ -1,5 +1,4 @@
-﻿//*********************************************************
-/* |----------------------------------------------------------------|
+﻿/* |----------------------------------------------------------------|
  * | Copyright (c) 2017, Grid Entertainment                         |
  * | All Rights Reserved                                            |
  * |                                                                |
@@ -13,25 +12,29 @@
 
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using SoundByte.Core.API.Endpoints;
+using SoundByte.API.Endpoints;
 
-namespace SoundByte.Core.API.Holders
+namespace SoundByte.API.Holders
 {
     /// <summary>
-    ///     Small class for holding comments
+    ///     Holds a track
     /// </summary>
     [JsonObject]
-    public class CommentListHolder
+    public class HistoryBootstrap
     {
         /// <summary>
-        ///     List of comments
+        ///     A playlist
         /// </summary>
-        [JsonProperty("collection")]
-        public List<Comment> Items { get; set; }
+        [JsonProperty("track")]
+        public Track Track { get; set; }
+    }
 
-        /// <summary>
-        ///     Next items in the list
-        /// </summary>
+    [JsonObject]
+    public class HistoryListHolder
+    {
+        [JsonProperty("collection")]
+        public List<HistoryBootstrap> Tracks { get; set; }
+
         [JsonProperty("next_href")]
         public string NextList { get; set; }
     }

@@ -10,44 +10,28 @@
  * |----------------------------------------------------------------|
  */
 
+using System.Collections.Generic;
 using Newtonsoft.Json;
+using SoundByte.API.Endpoints;
 
-namespace SoundByte.Core.API.Endpoints
+namespace SoundByte.API.Holders
 {
     /// <summary>
-    ///     A stream collection containing all items that may be on the users stream
+    ///     Holds all the stream tracks
     /// </summary>
     [JsonObject]
-    public class StreamItem
+    public class StreamTrackHolder
     {
         /// <summary>
-        ///     Track detail
+        ///     List of stream items
         /// </summary>
-        [JsonProperty("track")]
-        public Track Track { get; set; }
+        [JsonProperty("collection")]
+        public List<StreamItem> Items { get; set; }
 
         /// <summary>
-        ///     User detail
+        ///     Next items in the list
         /// </summary>
-        [JsonProperty("user")]
-        public User User { get; set; }
-
-        /// <summary>
-        ///     Playlist detail
-        /// </summary>
-        [JsonProperty("playlist")]
-        public Playlist Playlist { get; set; }
-
-        /// <summary>
-        ///     When this object was created
-        /// </summary>
-        [JsonProperty("created_at")]
-        public string CreatedAt { get; set; }
-
-        /// <summary>
-        ///     What type of object this is
-        /// </summary>
-        [JsonProperty("type")]
-        public string Type { get; set; }
+        [JsonProperty("next_href")]
+        public string NextList { get; set; }
     }
 }

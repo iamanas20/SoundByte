@@ -10,28 +10,11 @@
  * |----------------------------------------------------------------|
  */
 
-using System.Collections.Generic;
-using Newtonsoft.Json;
-using SoundByte.Core.API.Endpoints;
-
-namespace SoundByte.Core.API.Holders
+namespace SoundByte.API.Endpoints
 {
-    /// <summary>
-    ///     Holds a list of users
-    /// </summary>
-    [JsonObject]
-    public class UserListHolder
+    public enum ServiceType
     {
-        /// <summary>
-        ///     List of users
-        /// </summary>
-        [JsonProperty("collection")]
-        public List<User> Users { get; set; }
-
-        /// <summary>
-        ///     The next list of items
-        /// </summary>
-        [JsonProperty("next_href")]
-        public string NextList { get; set; }
+        Fanburst,
+        SoundCloud
     }
 }

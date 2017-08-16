@@ -19,8 +19,8 @@ using Windows.ApplicationModel.Resources;
 using Windows.Foundation;
 using Windows.UI.Xaml.Data;
 using Microsoft.Toolkit.Uwp;
-using SoundByte.Core.API.Endpoints;
-using SoundByte.Core.API.Exceptions;
+using SoundByte.API.Endpoints;
+using SoundByte.API.Exceptions;
 using SoundByte.Core.Services;
 using SoundByte.UWP.UserControls;
 
@@ -69,7 +69,7 @@ namespace SoundByte.UWP.Models
                 {
                     // Search for matching tracks
                     var searchTracks = await SoundByteService.Instance.GetAsync<List<dynamic>>(
-                        SoundByteService.ServiceType.Fanburst, "tracks/search", new Dictionary<string, string>
+                        ServiceType.Fanburst, "tracks/search", new Dictionary<string, string>
                         {
                             {"query", WebUtility.UrlEncode(Query)},
                             {"count", count.ToString()}
@@ -94,7 +94,7 @@ namespace SoundByte.UWP.Models
                             foreach (var item in searchTracks)
                                 Add(new Track
                                 {
-                                    ServiceType = SoundByteService.ServiceType.Fanburst,
+                                    ServiceType = ServiceType.Fanburst,
                                     Id = item.id,
                                     Title = item.title,
                                     PermalinkUri = item.permalink,

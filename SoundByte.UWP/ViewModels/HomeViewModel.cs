@@ -14,7 +14,7 @@ using System;
 using System.Linq;
 using Windows.UI.Popups;
 using Windows.UI.Xaml.Controls;
-using SoundByte.Core.API.Endpoints;
+using SoundByte.API.Endpoints;
 using SoundByte.Core.Helpers;
 using SoundByte.UWP.Models;
 using SoundByte.UWP.Services;

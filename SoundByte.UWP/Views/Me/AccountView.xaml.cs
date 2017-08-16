@@ -25,6 +25,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Newtonsoft.Json;
+using SoundByte.API.Endpoints;
 using SoundByte.Core.Services;
 
 namespace SoundByte.UWP.Views.Me
@@ -35,7 +36,7 @@ namespace SoundByte.UWP.Views.Me
     public sealed partial class AccountView
     {
         private readonly string _appCallback;
-        private SoundByteService.ServiceType _loginService;
+        private ServiceType _loginService;
         private string _stateVerification;
 
         public AccountView()
@@ -152,13 +153,13 @@ namespace SoundByte.UWP.Views.Me
                         {
                             {
                                 "client_id",
-                                _loginService == SoundByteService.ServiceType.SoundCloud
+                                _loginService == ServiceType.SoundCloud
                                     ? ApiKeyService.SoundCloudClientId
                                     : ApiKeyService.FanburstClientId
                             },
                             {
                                 "client_secret",
-                                _loginService == SoundByteService.ServiceType.SoundCloud
+                                _loginService == ServiceType.SoundCloud
                                     ? ApiKeyService.SoundCloudClientSecret
                                     : ApiKeyService.FanburstClientSecret
                             },
@@ -172,7 +173,7 @@ namespace SoundByte.UWP.Views.Me
                         // Post to the soundcloud API
                         using (var postQuery =
                             await httpClient.PostAsync(
-                                _loginService == SoundByteService.ServiceType.SoundCloud
+                                _loginService == ServiceType.SoundCloud
                                     ? "https://api.soundcloud.com/oauth2/token"
                                     : "https://fanburst.com/oauth/token", encodedContent))
                         {
@@ -200,7 +201,7 @@ namespace SoundByte.UWP.Views.Me
                                             // Create the password vault
                                             var vault = new PasswordVault();
 
-                                            if (_loginService == SoundByteService.ServiceType.SoundCloud)
+                                            if (_loginService == ServiceType.SoundCloud)
                                             {
                                                 // Store the values in the vault
                                                 vault.Add(new PasswordCredential("SoundByte.SoundCloud", "Token",
@@ -243,7 +244,7 @@ namespace SoundByte.UWP.Views.Me
             }
         }
 
-        private async Task ConnectAccountAsync(SoundByteService.ServiceType serviceType)
+        private async Task ConnectAccountAsync(ServiceType serviceType)
         {
             // Generate State (for security)
             _stateVerification = new Random().Next(0, 100000000).ToString("D8");
@@ -254,11 +255,11 @@ namespace SoundByte.UWP.Views.Me
 
             switch (serviceType)
             {
-                case SoundByteService.ServiceType.SoundCloud:
+                case ServiceType.SoundCloud:
                     connectUri =
                         $"https://soundcloud.com/connect?scope=non-expiring&client_id={ApiKeyService.SoundCloudClientId}&response_type=code&display=popup&redirect_uri={_appCallback}&state={_stateVerification}";
                     break;
-                case SoundByteService.ServiceType.Fanburst:
+                case ServiceType.Fanburst:
                     connectUri =
                         $"https://fanburst.com/oauth/authorize?client_id={ApiKeyService.FanburstClientId}&response_type=code&redirect_uri={_appCallback}&state={_stateVerification}";
                     break;
@@ -276,12 +277,12 @@ namespace SoundByte.UWP.Views.Me
         {
             if (SoundByteService.Instance.IsSoundCloudAccountConnected)
             {
-                SoundByteService.Instance.DisconnectService(SoundByteService.ServiceType.SoundCloud);
+                SoundByteService.Instance.DisconnectService(ServiceType.SoundCloud);
                 RefreshUi();
             }
             else
             {
-                await ConnectAccountAsync(SoundByteService.ServiceType.SoundCloud);
+                await ConnectAccountAsync(ServiceType.SoundCloud);
             }
         }
 
@@ -289,12 +290,12 @@ namespace SoundByte.UWP.Views.Me
         {
             if (SoundByteService.Instance.IsFanBurstAccountConnected)
             {
-                SoundByteService.Instance.DisconnectService(SoundByteService.ServiceType.Fanburst);
+                SoundByteService.Instance.DisconnectService(ServiceType.Fanburst);
                 RefreshUi();
             }
             else
             {
-                await ConnectAccountAsync(SoundByteService.ServiceType.Fanburst);
+                await ConnectAccountAsync(ServiceType.Fanburst);
             }
         }
 

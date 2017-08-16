@@ -1,9 +1,7 @@
 ﻿using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
-using Microsoft.Azure.Mobile.Server;
 using Microsoft.Azure.Mobile.Server.Tables;
-using SoundByteBackendService.DataObjects;
 
 namespace SoundByteBackendService.Models
 {
@@ -16,13 +14,11 @@ namespace SoundByteBackendService.Models
         // For more information refer to the documentation:
         // http://msdn.microsoft.com/en-us/data/jj591621.aspx
 
-        private const string connectionStringName = "Name=MS_TableConnectionString";
+        private const string ConnectionStringName = "Name=MS_TableConnectionString";
 
-        public SoundByteBackendContext() : base(connectionStringName)
+        public SoundByteBackendContext() : base(ConnectionStringName)
         {
         } 
-
-        public DbSet<TodoItem> TodoItems { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
