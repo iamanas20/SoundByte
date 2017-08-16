@@ -69,6 +69,7 @@
                   VerticalAlignment="Stretch"
                   SelectionMode="None"
                   x:Name="StackPanel"
+                  ItemContainerStyle="{StaticResource MainGridViewItem}"
                   IsSwipeEnabled="False"
                   IsItemClickEnabled="True"
                   HorizontalAlignment="Stretch"

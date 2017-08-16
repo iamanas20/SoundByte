@@ -37,6 +37,7 @@
                   SelectionMode="None"
                   IsSwipeEnabled="False"
                   IsItemClickEnabled="True"
+                  ItemContainerStyle="{StaticResource MainGridViewItem}"
                   HorizontalAlignment="Stretch"
                   ShowsScrollingPlaceholders="False"
                   IsMultiSelectCheckBoxEnabled="False"

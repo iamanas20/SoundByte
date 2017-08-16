@@ -127,6 +127,8 @@
                               ItemsSource="{x:Bind ViewModel.ChartsModel}"
                               VerticalAlignment="Stretch"
                               SelectionMode="None"
+                              ItemContainerStyle="{StaticResource MainGridViewItem}"
+
                               IsSwipeEnabled="False"
                               Margin="-4,0,100,0"
                               x:Name="StackPanel"

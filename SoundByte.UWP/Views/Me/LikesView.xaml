@@ -76,6 +76,7 @@
 
         <GridView ItemClick="{x:Bind PlayItem}"
                   ItemsSource="{x:Bind LikesModel}"
+                  ItemContainerStyle="{StaticResource MainGridViewItem}"
                   Padding="10,0"
                   x:Name="StackPanel"
                   VerticalAlignment="Stretch"
