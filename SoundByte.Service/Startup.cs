@@ -1,9 +1,9 @@
 using Microsoft.Owin;
 using Owin;
 
-[assembly: OwinStartup(typeof(SoundByteBackendService.Startup))]
+[assembly: OwinStartup(typeof(SoundByte.Service.Startup))]
 
-namespace SoundByteBackendService
+namespace SoundByte.Service
 {
     public partial class Startup
     {

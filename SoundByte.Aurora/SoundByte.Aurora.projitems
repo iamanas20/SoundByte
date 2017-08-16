@@ -9,9 +9,6 @@
     <Import_RootNamespace>SoundByte.Aurora</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)API\" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Providers\AuthenticationProviders\AuthenticationProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Providers\AuthenticationProviders\SoundCloudAuthenticationProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Providers\ServiceProviders\IServiceProvider.cs" />
