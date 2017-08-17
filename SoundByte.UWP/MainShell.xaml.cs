@@ -87,6 +87,7 @@ namespace SoundByte.UWP
                 MainSplitView.IsPaneOpen = false;
                 MainSplitView.DisplayMode = SplitViewDisplayMode.CompactOverlay;
                 MainSplitView.Margin = new Thickness();
+                MainSplitView.LightDismissOverlayMode = LightDismissOverlayMode.On;
 
                 // Center all navigation icons
                 NavbarScrollViewer.VerticalAlignment = VerticalAlignment.Center;

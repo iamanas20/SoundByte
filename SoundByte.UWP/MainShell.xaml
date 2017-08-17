@@ -14,34 +14,48 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="RadioButton">
 
-                        <Grid x:Name="RootGrid" Background="Transparent" BorderThickness="1"
-                              BorderBrush="{StaticResource ButtonBorderLightingBrush}">
+                        <Grid x:Name="RootGrid" Background="Transparent">
 
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup x:Name="Common">
                                     <VisualState x:Name="Normal" />
                                     <VisualState x:Name="PointerOver">
                                         <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames
-                                                Storyboard.TargetName="RootGrid"
-                                                Storyboard.TargetProperty="Background">
-                                                <DiscreteObjectKeyFrame KeyTime="0"
-                                                                        Value="{StaticResource ButtonLightingBrush}" />
+                                            <DoubleAnimation Storyboard.TargetName="ContentSolidBackground" Storyboard.TargetProperty="Opacity"  From="0" To="1" Duration="0:0:0.15" />
+                                            <DoubleAnimation Storyboard.TargetName="HighlightGrid" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.15" />
+
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HighlightGrid" Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource ButtonLightingBrush}" />
                                             </ObjectAnimationUsingKeyFrames>
                                         </Storyboard>
                                     </VisualState>
                                     <VisualState x:Name="Pressed">
                                         <Storyboard>
-                                            <PointerDownThemeAnimation Storyboard.TargetName="RootGrid" />
-                                            <ObjectAnimationUsingKeyFrames
-                                                Storyboard.TargetName="RootGrid"
-                                                Storyboard.TargetProperty="Background">
-                                                <DiscreteObjectKeyFrame KeyTime="0"
-                                                                        Value="{StaticResource ButtonPressedLightingBrush}" />
+                                            <DoubleAnimation Storyboard.TargetName="ContentSolidBackground" Storyboard.TargetProperty="Opacity" From="1" To="1" Duration="0:0:0.15" AutoReverse="False"  />
+                                            <DoubleAnimation Storyboard.TargetName="HighlightGrid" Storyboard.TargetProperty="Opacity" From="1" To="1" Duration="0:0:0.15" />
+
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HighlightGrid" Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource ButtonPressedLightingBrush}" />
                                             </ObjectAnimationUsingKeyFrames>
+
+                                            <PointerDownThemeAnimation TargetName="RootGrid" />
                                         </Storyboard>
                                     </VisualState>
-                                    <VisualState x:Name="Disabled" />
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="FocusStates">
+                                    <VisualState x:Name="Unfocused"/>
+                                    <VisualState x:Name="Focused">
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="ContentSolidBackground" Storyboard.TargetProperty="Opacity"  From="0" To="1" Duration="0:0:0.15" />
+                                            <DoubleAnimation Storyboard.TargetName="HighlightGrid" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.15" />
+
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HighlightGrid" Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource ButtonLightingBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+
+                                            <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
+                                        </Storyboard>
+                                    </VisualState>
                                 </VisualStateGroup>
                                 <VisualStateGroup x:Name="CheckedStates">
                                     <VisualState x:Name="Checked">
@@ -68,6 +82,22 @@
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
 
+                            <!-- Highlight Background -->
+                            <Grid x:Name="ContentSolidBackground" 
+                                  Grid.Column="0" 
+                                  Opacity="0"
+                                  Grid.ColumnSpan="3"
+                                  IsHitTestVisible="False"
+                                  Background="{ThemeResource SystemControlHighlightListLowBrush}" />
+
+                            <!-- Highlight background effect -->
+                            <Grid x:Name="HighlightGrid" 
+                                  Grid.Column="0"
+                                  Opacity="0"
+                                  Grid.ColumnSpan="3"
+                                  Background="{StaticResource ButtonLightingBrush}"
+                                  IsHitTestVisible="False" />
+
                             <Rectangle x:Name="SelectedIcon"
                                        Grid.Column="0"
                                        Margin="0,8,0,8"
@@ -76,12 +106,19 @@
                                     <SolidColorBrush x:Name="Brush" Color="{Binding Path=Background}" />
                                 </Rectangle.Fill>
                             </Rectangle>
-
+                            
                             <FontIcon x:Name="Icon" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center"
                                       HorizontalAlignment="Right" FontFamily="{ThemeResource SymbolThemeFontFamily}"
                                       Glyph="{TemplateBinding Tag}" FontSize="21" />
                             <TextBlock x:Name="Text" FontWeight="Normal" Grid.Column="2" VerticalAlignment="Center"
                                        HorizontalAlignment="Stretch" Margin="35,8,8,8" Text="{TemplateBinding Content}" />
+
+                            <!-- Highlight border effects -->
+                            <Rectangle Stroke="{StaticResource ButtonBorderLightingBrush}" 
+                                       Grid.Column="0"
+                                       Grid.ColumnSpan="3"
+                                       IsHitTestVisible="False"
+                                       StrokeThickness="1" />
                         </Grid>
 
                     </ControlTemplate>
@@ -97,49 +134,49 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
 
-                        <Grid x:Name="RootGrid" Background="Transparent" BorderThickness="1"
-                              BorderBrush="{StaticResource ButtonBorderLightingBrush}">
+                        <Grid x:Name="RootGrid" Background="Transparent">
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup x:Name="Common">
                                     <VisualState x:Name="Normal" />
                                     <VisualState x:Name="PointerOver">
                                         <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames
-                                                Storyboard.TargetName="RootGrid"
-                                                Storyboard.TargetProperty="Background">
-                                                <DiscreteObjectKeyFrame KeyTime="0"
-                                                                        Value="{StaticResource ButtonLightingBrush}" />
+                                            <DoubleAnimation Storyboard.TargetName="ContentSolidBackground" Storyboard.TargetProperty="Opacity"  From="0" To="1" Duration="0:0:0.15" />
+                                            <DoubleAnimation Storyboard.TargetName="HighlightGrid" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.15" />
+
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HighlightGrid" Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource ButtonLightingBrush}" />
                                             </ObjectAnimationUsingKeyFrames>
                                         </Storyboard>
                                     </VisualState>
                                     <VisualState x:Name="Pressed">
                                         <Storyboard>
-                                            <PointerDownThemeAnimation Storyboard.TargetName="RootGrid" />
-                                            <ObjectAnimationUsingKeyFrames
-                                                Storyboard.TargetName="RootGrid"
-                                                Storyboard.TargetProperty="Background">
-                                                <DiscreteObjectKeyFrame KeyTime="0"
-                                                                        Value="{StaticResource ButtonPressedLightingBrush}" />
+                                            <DoubleAnimation Storyboard.TargetName="ContentSolidBackground" Storyboard.TargetProperty="Opacity" From="1" To="1" Duration="0:0:0.15" AutoReverse="False"  />
+                                            <DoubleAnimation Storyboard.TargetName="HighlightGrid" Storyboard.TargetProperty="Opacity" From="1" To="1" Duration="0:0:0.15" />
+
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HighlightGrid" Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource ButtonPressedLightingBrush}" />
                                             </ObjectAnimationUsingKeyFrames>
+
+                                            <PointerDownThemeAnimation TargetName="RootGrid" />
                                         </Storyboard>
                                     </VisualState>
-                                    <VisualState x:Name="Disabled" />
                                 </VisualStateGroup>
-                                <VisualStateGroup x:Name="CheckedStates">
-                                    <VisualState x:Name="Checked">
+                                <VisualStateGroup x:Name="FocusStates">
+                                    <VisualState x:Name="Unfocused"/>
+                                    <VisualState x:Name="Focused">
                                         <Storyboard>
-                                            <ColorAnimation Storyboard.TargetName="Brush"
-                                                            Storyboard.TargetProperty="Color"
-                                                            From="{Binding Path=Background}"
-                                                            To="{StaticResource SystemAccentColor}" Duration="0:0:0"
-                                                            FillBehavior="HoldEnd" />
+                                            <DoubleAnimation Storyboard.TargetName="ContentSolidBackground" Storyboard.TargetProperty="Opacity"  From="0" To="1" Duration="0:0:0.15" />
+                                            <DoubleAnimation Storyboard.TargetName="HighlightGrid" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.15" />
+
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HighlightGrid" Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource ButtonLightingBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+
+                                            <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
                                         </Storyboard>
                                     </VisualState>
-                                    <VisualState x:Name="Unchecked" />
-                                    <VisualState x:Name="Indeterminate" />
                                 </VisualStateGroup>
                             </VisualStateManager.VisualStateGroups>
-
 
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="48" />
@@ -151,6 +188,22 @@
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
 
+                            <!-- Highlight Background -->
+                            <Grid x:Name="ContentSolidBackground" 
+                                  Grid.Column="0" 
+                                  Opacity="0"
+                                  Grid.ColumnSpan="3"
+                                  IsHitTestVisible="False"
+                                  Background="{ThemeResource SystemControlHighlightListLowBrush}" />
+
+                            <!-- Highlight background effect -->
+                            <Grid x:Name="HighlightGrid" 
+                                  Grid.Column="0"
+                                  Opacity="0"
+                                  Grid.ColumnSpan="3"
+                                  Background="{StaticResource ButtonLightingBrush}"
+                                  IsHitTestVisible="False" />
+
                             <!-- use extra left margin to align the icon with NavigationButtonStyle'd controls -->
                             <FontIcon x:Name="Icon" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center"
                                       HorizontalAlignment="Right" FontFamily="{ThemeResource SymbolThemeFontFamily}"
@@ -159,8 +212,13 @@
                             <TextBlock x:Name="Text" FontWeight="Normal" Grid.Column="2" VerticalAlignment="Center"
                                        HorizontalAlignment="Stretch" Margin="35,8,8,8" Text="{TemplateBinding Content}" />
 
+                            <!-- Highlight border effects -->
+                            <Rectangle Stroke="{StaticResource ButtonBorderLightingBrush}" 
+                                       Grid.Column="0"
+                                       Grid.ColumnSpan="3"
+                                       IsHitTestVisible="False"
+                                       StrokeThickness="1" />
                         </Grid>
-
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -227,9 +285,9 @@
                         <StackPanel>
                             <!-- Button that opens/closes the splitview pane -->
                             <Button x:Name="HamburgerButton"
-                                    FocusVisualPrimaryThickness="1"
-                                    FocusVisualSecondaryThickness="1"
-                                    FocusVisualMargin="1"
+                                    FocusVisualPrimaryThickness="0"
+                                    FocusVisualSecondaryThickness="0"
+                                    FocusVisualMargin="0"
                                     Style="{StaticResource MenuItemButtonStyle}"
                                     HorizontalAlignment="Stretch"
                                     Tag="&#xE700;"
@@ -237,9 +295,9 @@
 
                             <!-- Stream Button -->
                             <RadioButton x:Name="HomeTab"
-                                         FocusVisualPrimaryThickness="1"
-                                         FocusVisualSecondaryThickness="1"
-                                         FocusVisualMargin="1"
+                                         FocusVisualPrimaryThickness="0"
+                                         FocusVisualSecondaryThickness="0"
+                                         FocusVisualMargin="0"
                                          HorizontalAlignment="Stretch"
                                          GroupName="NavPaneButtons"
                                          Style="{StaticResource NavigationButtonStyle}"
@@ -252,9 +310,9 @@
 
                             <!-- User likes -->
                             <RadioButton x:Name="LikesTab"
-                                         FocusVisualPrimaryThickness="1"
-                                         FocusVisualSecondaryThickness="1"
-                                         FocusVisualMargin="1"
+                                         FocusVisualPrimaryThickness="0"
+                                         FocusVisualSecondaryThickness="0"
+                                         FocusVisualMargin="0"
                                          HorizontalAlignment="Stretch"
                                          GroupName="NavPaneButtons"
                                          Style="{StaticResource NavigationButtonStyle}"
@@ -264,9 +322,9 @@
 
                             <!-- User sets -->
                             <RadioButton x:Name="SetsTab"
-                                         FocusVisualPrimaryThickness="1"
-                                         FocusVisualSecondaryThickness="1"
-                                         FocusVisualMargin="1"
+                                         FocusVisualPrimaryThickness="0"
+                                         FocusVisualSecondaryThickness="0"
+                                         FocusVisualMargin="0"
                                          HorizontalAlignment="Stretch"
                                          GroupName="NavPaneButtons"
                                          Style="{StaticResource NavigationButtonStyle}"
@@ -276,9 +334,9 @@
 
                             <!-- User history -->
                             <RadioButton x:Name="HistoryTab"
-                                         FocusVisualPrimaryThickness="1"
-                                         FocusVisualSecondaryThickness="1"
-                                         FocusVisualMargin="1"
+                                         FocusVisualPrimaryThickness="0"
+                                         FocusVisualSecondaryThickness="0"
+                                         FocusVisualMargin="0"
                                          HorizontalAlignment="Stretch"
                                          GroupName="NavPaneButtons"
                                          Style="{StaticResource NavigationButtonStyle}"
@@ -288,9 +346,9 @@
 
                             <!-- User notifications -->
                             <RadioButton x:Name="NotificationsTab"
-                                         FocusVisualPrimaryThickness="1"
-                                         FocusVisualSecondaryThickness="1"
-                                         FocusVisualMargin="1"
+                                         FocusVisualPrimaryThickness="0"
+                                         FocusVisualSecondaryThickness="0"
+                                         FocusVisualMargin="0"
                                          HorizontalAlignment="Stretch"
                                          GroupName="NavPaneButtons"
                                          Style="{StaticResource NavigationButtonStyle}"
@@ -300,9 +358,9 @@
 
                             <!-- Navigate to the settings page -->
                             <RadioButton x:Name="DonateTab"
-                                         FocusVisualPrimaryThickness="1"
-                                         FocusVisualSecondaryThickness="1"
-                                         FocusVisualMargin="1"
+                                         FocusVisualPrimaryThickness="0"
+                                         FocusVisualSecondaryThickness="0"
+                                         FocusVisualMargin="0"
                                          HorizontalAlignment="Stretch"
                                          GroupName="NavPaneButtons"
                                          Style="{StaticResource NavigationButtonStyle}"
@@ -313,9 +371,9 @@
 
                             <!-- Navigate to the settings page -->
                             <RadioButton x:Name="SettingsTab"
-                                         FocusVisualPrimaryThickness="1"
-                                         FocusVisualSecondaryThickness="1"
-                                         FocusVisualMargin="1"
+                                         FocusVisualPrimaryThickness="0"
+                                         FocusVisualSecondaryThickness="0"
+                                         FocusVisualMargin="0"
                                          HorizontalAlignment="Stretch"
                                          GroupName="NavPaneButtons"
                                          Style="{StaticResource NavigationButtonStyle}"
@@ -325,9 +383,9 @@
 
                             <!-- Let the user login to their account -->
                             <RadioButton x:Name="AccountTab"
-                                         FocusVisualPrimaryThickness="1"
-                                         FocusVisualSecondaryThickness="1"
-                                         FocusVisualMargin="1"
+                                         FocusVisualPrimaryThickness="0"
+                                         FocusVisualSecondaryThickness="0"
+                                         FocusVisualMargin="0"
                                          HorizontalAlignment="Stretch"
                                          GroupName="NavPaneButtons"
                                          Style="{StaticResource NavigationButtonStyle}"
