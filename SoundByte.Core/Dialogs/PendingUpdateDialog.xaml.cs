@@ -33,6 +33,8 @@ namespace SoundByte.Core.Dialogs
 
         private async void UpdateNow(object sender, RoutedEventArgs e)
         {
+            ProgressRing.Visibility = Visibility.Visible;
+
             // Setup the UI
             UpdateBar.Visibility = Visibility.Visible;
             UpdateButton.IsEnabled = false;
@@ -57,6 +59,7 @@ namespace SoundByte.Core.Dialogs
 
             await downloadOperation.AsTask();
 
+            ProgressRing.Visibility = Visibility.Collapsed;
             Hide();
         }
     }

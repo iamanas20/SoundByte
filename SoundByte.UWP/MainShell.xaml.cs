@@ -220,9 +220,9 @@ namespace SoundByte.UWP
                 if (updates.Count > 0)
                     await new PendingUpdateDialog().ShowAsync();
             }
-            catch (Exception e)
+            catch
             {
-                TelemetryService.Instance.TrackException(e);
+                // Ignore
             }
 
             try
@@ -230,9 +230,9 @@ namespace SoundByte.UWP
                 var engagementManager = StoreServicesEngagementManager.GetDefault();
                 await engagementManager.RegisterNotificationChannelAsync();
             }
-            catch (Exception e)
+            catch
             {
-                TelemetryService.Instance.TrackException(e);
+                // Ignore
             }
 
             try
@@ -241,9 +241,9 @@ namespace SoundByte.UWP
                 var vcdStorageFile = await Package.Current.InstalledLocation.GetFileAsync(@"SoundByteCommands.xml");
                 await VoiceCommandDefinitionManager.InstallCommandDefinitionsFromStorageFileAsync(vcdStorageFile);
             }
-            catch (Exception e)
+            catch
             {
-                TelemetryService.Instance.TrackException(e);
+                // Ignore
             }
 
             try
@@ -253,9 +253,9 @@ namespace SoundByte.UWP
                     BackgroundTaskHelper.Register("NotificationTask", "SoundByte.Notifications.NotificationTask",
                         new TimeTrigger(15, false));
             }
-            catch (Exception e)
+            catch
             {
-                TelemetryService.Instance.TrackException(e);
+                // Ignore
             }
         }
 

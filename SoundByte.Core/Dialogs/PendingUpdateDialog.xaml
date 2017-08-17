@@ -39,6 +39,8 @@
 
             <ProgressBar x:Name="UpdateBar" Margin="20,30,20,0" Visibility="Collapsed" />
 
+            <ProgressRing IsActive="True" Visibility="Collapsed" x:Name="ProgressRing" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="20,30,20,0" />
+            
             <Button Content="Update Now"
                     Width="250"
                     Click="UpdateNow"
