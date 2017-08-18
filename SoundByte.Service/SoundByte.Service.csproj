@@ -166,6 +166,7 @@
   <ItemGroup />
   <ItemGroup>
     <Compile Include="App_Start\Startup.MobileApp.cs" />
+    <Compile Include="Hubs\LoginHub.cs" />
     <Compile Include="Hubs\PlaybackHub.cs" />
     <Compile Include="Models\SoundByteBackendContext.cs" />
     <Compile Include="Startup.cs" />

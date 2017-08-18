@@ -30,6 +30,9 @@ namespace SoundByte.Core.Services
         private readonly MobileServiceClient _mobileService;
         private readonly HubConnection _mobileHub;
         private IHubProxy _playbackHub;
+        private IHubProxy _loginHub;
+
+        public IHubProxy LoginHub => _loginHub;
 
         private BackendService()
         {
@@ -44,6 +47,69 @@ namespace SoundByte.Core.Services
 
             // Create the playback hub
             _playbackHub = _mobileHub.CreateHubProxy("PlaybackHub");
+            _loginHub = _mobileHub.CreateHubProxy("LoginHub");
+        }
+
+        public async Task LoginXboxConnect(string code)
+        {
+            try
+            {
+                // Try connect if disconnected
+                if (_mobileHub.State != ConnectionState.Connected)
+                    await _mobileHub.Start();
+
+                // Only perform is connected
+                if (_mobileHub.State == ConnectionState.Connected)
+                {
+                    await _loginHub.Invoke("Connect", code);
+                }
+            }
+            catch
+            {
+                // Do Nothing
+            }
+        }
+
+        public async Task LoginXboxDisconnect(string code)
+        {
+            try
+            {
+                // Try connect if disconnected
+                if (_mobileHub.State != ConnectionState.Connected)
+                    await _mobileHub.Start();
+
+                // Only perform is connected
+                if (_mobileHub.State == ConnectionState.Connected)
+                {
+                    await _loginHub.Invoke("Disconnect", code);
+                }
+            }
+            catch
+            {
+                // Do Nothing
+            }
+        }
+
+        public async Task<string> LoginSendInfoAsync(LoginInfo info)
+        {
+            try
+            {
+                // Try connect if disconnected
+                if (_mobileHub.State != ConnectionState.Connected)
+                    await _mobileHub.Start();
+
+                // Only perform is connected
+                if (_mobileHub.State == ConnectionState.Connected)
+                {
+                    return await _loginHub.Invoke<string>("SendLoginInfo", info);
+                }
+
+                return "Not Connected";     
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
         }
 
         /// <summary>
@@ -64,10 +130,14 @@ namespace SoundByte.Core.Services
                 if (_mobileHub.State != ConnectionState.Connected)
                     await _mobileHub.Start();
 
+                // Append the SoundCloud Account ID
+                _mobileHub.Headers["soundcloud-account-id"] = SoundByteService.Instance.SoundCloudUser?.Id;
+                _mobileHub.Headers["fanburst-account-id"] = SoundByteService.Instance.FanburstUser?.Id;
+
                 // Only perform is connected
                 if (_mobileHub.State == ConnectionState.Connected)
                 {
-                    //todo
+                    await _playbackHub.Invoke("PushTrack", track);
                 }
             }
             catch

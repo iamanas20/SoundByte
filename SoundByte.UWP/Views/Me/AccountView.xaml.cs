@@ -26,6 +26,7 @@ using Windows.UI.Xaml.Navigation;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Newtonsoft.Json;
 using SoundByte.API.Endpoints;
+using SoundByte.Core.Helpers;
 using SoundByte.Core.Services;
 
 namespace SoundByte.UWP.Views.Me
@@ -38,6 +39,7 @@ namespace SoundByte.UWP.Views.Me
         private readonly string _appCallback;
         private ServiceType _loginService;
         private string _stateVerification;
+        private bool _isXboxConnect;
 
         public AccountView()
         {
@@ -63,6 +65,15 @@ namespace SoundByte.UWP.Views.Me
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             TelemetryService.Instance.TrackPage("Account View");
+
+            MainView.Visibility = Visibility.Visible;
+            ConnectAccountView.Visibility = Visibility.Collapsed;
+
+            if (DeviceHelper.IsXbox)
+            {
+                XboxConnectPanel.Visibility = Visibility.Collapsed;
+                XboxConnectPanelHost.Visibility = Visibility.Visible;
+            }
 
             RefreshUi();
         }
@@ -198,33 +209,72 @@ namespace SoundByte.UWP.Views.Me
                                             // Get the class from the json
                                             var response = serializer.Deserialize<SoundByteService.Token>(textReader);
 
-                                            // Create the password vault
-                                            var vault = new PasswordVault();
-
-                                            if (_loginService == ServiceType.SoundCloud)
+                                            if (_isXboxConnect)
                                             {
-                                                // Store the values in the vault
-                                                vault.Add(new PasswordCredential("SoundByte.SoundCloud", "Token",
-                                                    response.AccessToken));
-                                                vault.Add(new PasswordCredential("SoundByte.SoundCloud", "Scope",
-                                                    response.Scope));
+                                                LoadingSection.Visibility = Visibility.Visible;
+
+                                                var serviceResponse = await BackendService.Instance.LoginSendInfoAsync(
+                                                    new LoginInfo
+                                                    {
+                                                        ServiceType = _loginService,
+                                                        LoginCode = LoginCodeTextBox.Text,
+                                                        AccessToken = response.AccessToken
+                                                    });
+
+                                                if (string.IsNullOrEmpty(serviceResponse))
+                                                {
+                                                    LoadingSection.Visibility = Visibility.Collapsed;
+                                                    LoginWebView.Visibility = Visibility.Collapsed;
+                                                    RefreshUi();
+
+                                                    TelemetryService.Instance.TrackEvent("Login Successful",
+                                                        new Dictionary<string, string>
+                                                        {
+                                                            {"Service", "Xbox Connect"}
+                                                        });
+
+                                                    MainView.Visibility = Visibility.Visible;
+                                                    ConnectAccountView.Visibility = Visibility.Collapsed;
+                                                }
+                                                else
+                                                {
+                                                    await new MessageDialog("Could not connect to your Xbox One. Please check that the codes match and try again.\n\n" + serviceResponse, "Xbox Connect Error").ShowAsync();
+                                                    MainView.Visibility = Visibility.Visible;
+                                                    ConnectAccountView.Visibility = Visibility.Collapsed;
+                                                    LoadingSection.Visibility = Visibility.Collapsed;
+                                                    LoginWebView.Visibility = Visibility.Collapsed;
+                                                }                      
                                             }
                                             else
                                             {
-                                                // Store the values in the vault
-                                                vault.Add(new PasswordCredential("SoundByte.FanBurst", "Token",
-                                                    response.AccessToken));
-                                            }
+                                                // Create the password vault
+                                                var vault = new PasswordVault();
 
-                                            LoadingSection.Visibility = Visibility.Collapsed;
-                                            LoginWebView.Visibility = Visibility.Collapsed;
-                                            RefreshUi();
-
-                                            TelemetryService.Instance.TrackEvent("Login Successful",
-                                                new Dictionary<string, string>
+                                                if (_loginService == ServiceType.SoundCloud)
                                                 {
-                                                    {"service", _loginService.ToString()}
-                                                });
+                                                    // Store the values in the vault
+                                                    vault.Add(new PasswordCredential("SoundByte.SoundCloud", "Token",
+                                                        response.AccessToken));
+                                                    vault.Add(new PasswordCredential("SoundByte.SoundCloud", "Scope",
+                                                        response.Scope));
+                                                }
+                                                else
+                                                {
+                                                    // Store the values in the vault
+                                                    vault.Add(new PasswordCredential("SoundByte.FanBurst", "Token",
+                                                        response.AccessToken));
+                                                }
+
+                                                LoadingSection.Visibility = Visibility.Collapsed;
+                                                LoginWebView.Visibility = Visibility.Collapsed;
+                                                RefreshUi();
+
+                                                TelemetryService.Instance.TrackEvent("Login Successful",
+                                                    new Dictionary<string, string>
+                                                    {
+                                                        {"Service", _loginService.ToString()}
+                                                    });
+                                            }                             
                                         }
                                     }
                                 }
@@ -275,6 +325,8 @@ namespace SoundByte.UWP.Views.Me
 
         private async void ToggleSoundCloud(object sender, RoutedEventArgs e)
         {
+            _isXboxConnect = false;
+
             if (SoundByteService.Instance.IsSoundCloudAccountConnected)
             {
                 SoundByteService.Instance.DisconnectService(ServiceType.SoundCloud);
@@ -288,6 +340,8 @@ namespace SoundByte.UWP.Views.Me
 
         private async void ToggleFanburst(object sender, RoutedEventArgs e)
         {
+            _isXboxConnect = false;
+
             if (SoundByteService.Instance.IsFanBurstAccountConnected)
             {
                 SoundByteService.Instance.DisconnectService(ServiceType.Fanburst);
@@ -302,6 +356,23 @@ namespace SoundByte.UWP.Views.Me
         private void NavigateSoundCloudProfile(object sender, RoutedEventArgs e)
         {
             App.NavigateTo(typeof(UserView), SoundByteService.Instance.SoundCloudUser);
+        }
+
+        private void ConnectXboxOne(object sender, RoutedEventArgs e)
+        {
+            MainView.Visibility = Visibility.Collapsed;
+            ConnectAccountView.Visibility = Visibility.Visible;
+        }
+
+        private async void XboxOneConnectRequest(object sender, RoutedEventArgs e)
+        {
+            _isXboxConnect = true;
+            await ConnectAccountAsync(ServiceType.SoundCloud);         
+        }
+
+        private void NavigateToXboxConnect(object sender, RoutedEventArgs e)
+        {
+            App.NavigateTo(typeof(XboxAccountView));
         }
     }
 }
