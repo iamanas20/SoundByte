@@ -20,5 +20,12 @@
       <Navigate />
     </Command>
 
+    <Command Name="playUserStream">
+      <Example> Play my SoundCloud Stream using SoundByte.</Example>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase"> play [my] [soundcloud] stream </ListenFor>
+      <Feedback> Playing your SoundCloud Stream... </Feedback>
+      <Navigate />
+    </Command>
+    
   </CommandSet>
 </VoiceCommands>

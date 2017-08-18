@@ -68,11 +68,15 @@ namespace SoundByte.UWP.Models
                 {
                     try
                     {
+                        // At least 10 tracks at once
+                        if (count < 10)
+                            count = 10;
+
                         // Get items from the users stream
                         var streamTracks = await SoundByteService.Instance.GetAsync<StreamTrackHolder>("/e1/me/stream",
                             new Dictionary<string, string>
                             {
-                                {"limit", "50"},
+                                {"limit", count.ToString()},
                                 {"cursor", Token}
                             });
 

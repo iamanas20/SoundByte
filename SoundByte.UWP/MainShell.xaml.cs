@@ -42,6 +42,7 @@ using SoundByte.UWP.Services;
 using SoundByte.UWP.Views;
 using SoundByte.UWP.Views.Application;
 using SoundByte.UWP.Views.CoreApp;
+using SoundByte.UWP.Views.General;
 using SoundByte.UWP.Views.Me;
 using UICompositionAnimations.Brushes;
 using Playlist = SoundByte.API.Endpoints.Playlist;
@@ -287,6 +288,12 @@ namespace SoundByte.UWP
                     return;
             }
 
+            var clickText = "Tap here to read what's new.";
+            if (DeviceHelper.IsDesktop)
+                clickText = "Click here to read what's new.";
+            if (DeviceHelper.IsXbox)
+                clickText = "Hold down the Xbox button to read what's new.";
+
             // Generate a notification
             var toastContent = new ToastContent
             {
@@ -305,11 +312,13 @@ namespace SoundByte.UWP
                             {
                                 Text = string.IsNullOrEmpty(storedAppVersionString)
                                     ? "Thank you for downloading SoundByte!"
-                                    : $"SoundByte was updated to version {currentAppVersionString}."
+                                    : $"SoundByte was updated to version {currentAppVersionString}. {clickText}"
                             }
                         }
-                    }
-                }
+                    }           
+                },
+                ActivationType = ToastActivationType.Protocol,
+                Launch = "soundbyte://core/changelog"
             };
 
             // Show the notification
@@ -327,20 +336,51 @@ namespace SoundByte.UWP
                 {
                     if (path == "playUserLikes" || path == "shufflePlayUserLikes")
                     {
-                        // Get and load the user liked items
-                        var userLikes = new LikeModel(SoundByteService.Instance.SoundCloudUser);
+                        if (SoundByteService.Instance.IsSoundCloudAccountConnected)
+                        {
+                            // Navigate to the now playing screen
+                            RootFrame.Navigate(typeof(NowPlayingView));
 
-                        while (userLikes.HasMoreItems)
-                            await userLikes.LoadMoreItemsAsync(500);
+                            // Get and load the user liked items
+                            var userLikes = new LikeModel(SoundByteService.Instance.SoundCloudUser);
 
-                        // Play the list of items
-                        await PlaybackService.Instance.StartMediaPlayback(userLikes.ToList(), path,
-                            path == "shufflePlayUserLikes");
+                            while (userLikes.HasMoreItems)
+                                await userLikes.LoadMoreItemsAsync(500);
 
-                        // Navigate to the now playing screen
-                        RootFrame.Navigate(typeof(NowPlayingView));
+                            // Play the list of items
+                            await PlaybackService.Instance.StartMediaPlayback(userLikes.ToList(), path,
+                                path == "shufflePlayUserLikes");
 
-                        return;
+                            return;
+                        }
+                    }
+
+                    if (path == "playUserStream")
+                    {
+                        if (SoundByteService.Instance.IsSoundCloudAccountConnected)
+                        {
+                            // Navigate to the now playing screen
+                            RootFrame.Navigate(typeof(NowPlayingView));
+
+                            // Get and load the user stream items
+                            var userStream = new StreamModel();
+
+                            // Counter so we don't get an insane amount of items
+                            var i = 0;
+
+                            // Grab all the users stream / 5 items
+                            while (userStream.HasMoreItems && i <= 5)
+                            {
+                                i++;
+                                await userStream.LoadMoreItemsAsync(500);
+                            }
+
+                            // Play the list of items
+                            await PlaybackService.Instance.StartMediaPlayback(
+                                userStream.Where(x => x.Track != null).Select(x => x.Track).ToList(), path);
+
+                            return;
+                        }
                     }
 
                     var parser = DeepLinkParser.Create(path);
@@ -365,11 +405,14 @@ namespace SoundByte.UWP
                             case "playlist":
                                 var playlist =
                                     await SoundByteService.Instance.GetAsync<Playlist>($"/playlists/{parser["id"]}");
-                                App.NavigateTo(typeof(Views.PlaylistView), playlist);
+                                App.NavigateTo(typeof(PlaylistView), playlist);
                                 return;
                             case "user":
                                 var user = await SoundByteService.Instance.GetAsync<User>($"/users/{parser["id"]}");
                                 App.NavigateTo(typeof(UserView), user);
+                                return;
+                            case "changelog":
+                                App.NavigateTo(typeof(WhatsNewView));
                                 return;
                         }
                 }
@@ -477,8 +520,6 @@ namespace SoundByte.UWP
                     UnknownTab.IsChecked = true;
                     break;
             }
-
-            RootFrame.Focus(FocusState.Keyboard);
 
             if (((Frame) sender).SourcePageType == typeof(HomeView) ||
                 ((Frame) sender).SourcePageType == typeof(MainShell))

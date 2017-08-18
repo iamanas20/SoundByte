@@ -236,8 +236,16 @@ namespace SoundByte.UWP
                 // Set the root shell as the window content
                 Window.Current.Content = rootShell;
 
-                // Enable lights on all platforms except Xbox
-                Window.Current.Content.Lights.Add(new PointerPositionSpotLight { Active = !DeviceHelper.IsXbox });
+                // Enable lights on all platforms except Xbox or if app is in light mode
+                var lightSpotlight = new PointerPositionSpotLight { Active = true };
+
+                if (!SettingsService.Instance.IsHighQualityArtwork)
+                    lightSpotlight.Active = false;
+
+                if (DeviceHelper.IsXbox)
+                    lightSpotlight.Active = false;
+
+                Window.Current.Content.Lights.Add(lightSpotlight);
 
                 // If on xbox display the screen to the full width and height
                 if (DeviceHelper.IsXbox)
@@ -422,8 +430,16 @@ namespace SoundByte.UWP
             // Set the root shell as the window content
             Window.Current.Content = rootShell;
 
-            // Enable lights on all platforms except Xbox
-            Window.Current.Content.Lights.Add(new PointerPositionSpotLight {Active = !DeviceHelper.IsXbox});
+            // Enable lights on all platforms except Xbox or if app is in light mode
+            var lightSpotlight = new PointerPositionSpotLight { Active = true };
+
+            if (!SettingsService.Instance.IsHighQualityArtwork)
+                lightSpotlight.Active = false;
+
+            if (DeviceHelper.IsXbox)
+                lightSpotlight.Active = false;
+
+            Window.Current.Content.Lights.Add(lightSpotlight);
 
             // If on xbox display the screen to the full width and height
             if (DeviceHelper.IsXbox)
@@ -455,8 +471,16 @@ namespace SoundByte.UWP
             // Set the root shell as the window content
             Window.Current.Content = rootShell;
 
-            // Enable lights on all platforms except Xbox
-            Window.Current.Content.Lights.Add(new PointerPositionSpotLight {Active = !DeviceHelper.IsXbox});
+            // Enable lights on all platforms except Xbox or if app is in light mode
+            var lightSpotlight = new PointerPositionSpotLight { Active = true };
+
+            if (!SettingsService.Instance.IsHighQualityArtwork)
+                lightSpotlight.Active = false;
+
+            if (DeviceHelper.IsXbox)
+                lightSpotlight.Active = false;
+
+            Window.Current.Content.Lights.Add(lightSpotlight);
 
             // If on xbox display the screen to the full width and height
             if (DeviceHelper.IsXbox)
