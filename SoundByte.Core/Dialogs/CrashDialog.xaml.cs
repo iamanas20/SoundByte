@@ -59,7 +59,7 @@ namespace SoundByte.Core.Dialogs
                         new KeyValuePair<string, string>("ContactEmail", Contact.Text)
                     };
 
-                    var request = await httpClient.PostAsync(new Uri("http://gridentertainment.net/Tickets/Create"),
+                    var request = await httpClient.PostAsync(new Uri("https://gridentertainment.net/Tickets/Create"),
                         new HttpFormUrlEncodedContent(param));
                     request.EnsureSuccessStatusCode();
                 }

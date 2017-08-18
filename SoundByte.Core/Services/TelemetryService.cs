@@ -123,7 +123,7 @@ namespace SoundByte.Core.Services
             }
         }
 
-        private  void PopDebugToast(string message)
+        private void PopDebugToast(string message)
         {
             if (!SettingsService.Instance.IsDebugModeEnabled)
                 return;

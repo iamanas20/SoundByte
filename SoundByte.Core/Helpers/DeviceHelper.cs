@@ -12,6 +12,7 @@
 
 using Windows.System.Profile;
 using Windows.UI.ViewManagement;
+using SoundByte.Core.Services;
 
 namespace SoundByte.Core.Helpers
 {
@@ -42,7 +43,13 @@ namespace SoundByte.Core.Helpers
 
         /// <summary>
         ///     Is the app currently in the background.
+        ///     Uses apps in built settings to share this state
+        ///     between UI/Background threads.
         /// </summary>
-        public static bool IsBackground { get; set; }
+        public static bool IsBackground
+        {
+            get => SettingsService.Instance.IsAppBackground;
+            set => SettingsService.Instance.IsAppBackground = value;
+        }
     }
 }

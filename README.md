@@ -78,7 +78,26 @@ There are a few main goals that I am aiming for the v2.1.x release. These are li
 SoundByte can be either downloaded from the Windows Store [here](https://www.microsoft.com/store/apps/9nblggh4xbjg) or downloaded from the build server. Windows 10 Creators Update or newer is required to run SoundByte.
 
 ## Development
-...
+
+Create a new file under SoundByte.UWP/Assets called app_keys.json. This file will contain all the keys needed to run the app.
+Insert the following JSON code into this file
+
+``` 
+{ "GoogleAnalytics": "key-here",
+  "HockeyAppClientID": "key-here",
+  "AzureMobileCenterClientID": "key-here",
+  "SoundCloudClientID": "key-here",
+  "SoundCloudClientSecret": "key-here",
+  "FanburstClientID": "key-here",
+  "FanbustClientSecret": "key-here",
+  "BackupSoundCloudPlaybackIDs": [
+    "key-here",
+    "key-here",
+    "key-here",
+    "key-here"
+  ]
+}
+```
 
 ## Credits
 

@@ -46,6 +46,7 @@ namespace SoundByte.Core.Services
         private const string DebugKey = "SoundByte.DebugModeEnabled";
         private const string TileStyleKey = "SoundByte.Tile.Style";
         private const string MenuCollapsedKey = "SoundByte.Desktop.MenuPosition";
+        private const string AppInBackgroundKey = "SoundByte.Core.AppBackground";
 
         #endregion
 
@@ -124,6 +125,16 @@ namespace SoundByte.Core.Services
                 return boolVal.HasValue && boolVal.Value;
             }
             set => SaveSettingsValue(DebugKey, value);
+        }
+
+        public bool IsAppBackground
+        {
+            get
+            {
+                var boolVal = ReadSettingsValue(AppInBackgroundKey) as bool?;
+                return boolVal.HasValue && boolVal.Value;
+            }
+            set => SaveSettingsValue(AppInBackgroundKey, value);
         }
 
         /// <summary>

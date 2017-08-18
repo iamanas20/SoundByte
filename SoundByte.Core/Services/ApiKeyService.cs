@@ -10,34 +10,100 @@
  * |----------------------------------------------------------------|
  */
 
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using Windows.Storage;
+using System.IO;
+using System.Threading.Tasks;
+using Windows.ApplicationModel;
+using Newtonsoft.Json;
+using SoundByte.Core.Helpers;
 
 namespace SoundByte.Core.Services
 {
     /// <summary>
     ///     This class contains any keys used by the app. For example
     ///     client IDs and client secrets.
+    ///     
+    ///     This class exposes two methods of accessing required keys,
+    ///     Async and Non-Async. Async is recomended to use 99.99% of the 
+    ///     time as it will not block the UI. In cases where async code cannot
+    ///     be used, getters are exposed.
+    /// 
     /// </summary>
     public static class ApiKeyService
     {
+        private class KeyObject
+        {
+            public string GoogleAnalytics { get; set; }
+            public string HockeyAppClientID { get; set; }
+            public string AzureMobileCenterClientID { get; set; }
+            public string SoundCloudClientID { get; set; }
+            public string SoundCloudClientSecret { get; set; }
+            public string FanburstClientID { get; set; }
+            public string FanbustClientSecret { get; set; }
+            public List<string> BackupSoundCloudPlaybackIDs { get; set; }
+        }
+
+        private static bool _loaded;
+
+        private static string _googleAnalyticsTrackerId;
+        private static string _hockeyAppClientId;
+        private static string _azureMobileCenterClientId;
+        private static string _soundCloudClientId;
+        private static string _soundCloudClientSecret;
+        private static string _fanburstClientId;
+        private static string _fanburstClientSecret;
+        private static List<string> _soundCloudPlaybackClientIds;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static void Init()
+        {
+            if (_loaded)
+                return;
+
+            AsyncHelper.RunSync(async () =>
+            {
+                await InitAsync();
+            });
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public static async Task InitAsync()
+        {
+            _loaded = false;
+
+            await Task.Run(async () =>
+            {
+                var dataFile = await Package.Current.InstalledLocation.GetFileAsync(@"Assets\app_keys.json");
+                var keys = JsonConvert.DeserializeObject<KeyObject>(File.ReadAllText(dataFile.Path));
+
+                _googleAnalyticsTrackerId = keys.GoogleAnalytics;
+                _hockeyAppClientId = keys.HockeyAppClientID;
+                _azureMobileCenterClientId = keys.AzureMobileCenterClientID;
+                _soundCloudClientId = keys.SoundCloudClientID;
+                _soundCloudClientSecret = keys.SoundCloudClientSecret;
+                _fanburstClientId = keys.FanburstClientID;
+                _fanburstClientSecret = keys.FanbustClientSecret;
+                _soundCloudPlaybackClientIds = keys.BackupSoundCloudPlaybackIDs;
+
+            }).ContinueWith(task =>
+            {
+                _loaded = task.Exception == null;
+            });
+        }
+
         public static string GoogleAnalyticsTrackerId
         {
             get
             {
-                // Check if the key has been stored locally
-                var key = ApplicationData.Current.LocalSettings.Values.ContainsKey("SoundByte.Keys.GA")
-                    ? ApplicationData.Current.LocalSettings.Values["SoundByte.Keys.GA"]
-                    : null;
+                Init();
 
-                if (key != null)
-                    return key.ToString();
-
-                var liveKey = SoundByteService.Instance.GetSoundByteKey("ga");
-                ApplicationData.Current.LocalSettings.Values.Add("SoundByte.Keys.GA", liveKey);
-
-                return liveKey;
+                return _googleAnalyticsTrackerId;
             }
         }
 
@@ -45,18 +111,9 @@ namespace SoundByte.Core.Services
         {
             get
             {
-                // Check if the key has been stored locally
-                var key = ApplicationData.Current.LocalSettings.Values.ContainsKey("SoundByte.Keys.HAC")
-                    ? ApplicationData.Current.LocalSettings.Values["SoundByte.Keys.HAC"]
-                    : null;
+                Init();
 
-                if (key != null)
-                    return key.ToString();
-
-                var liveKey = SoundByteService.Instance.GetSoundByteKey("hac");
-                ApplicationData.Current.LocalSettings.Values.Add("SoundByte.Keys.HAC", liveKey);
-
-                return liveKey;
+                return _hockeyAppClientId;
             }
         }
 
@@ -64,18 +121,9 @@ namespace SoundByte.Core.Services
         {
             get
             {
-                // Check if the key has been stored locally
-                var key = ApplicationData.Current.LocalSettings.Values.ContainsKey("SoundByte.Keys.AMCC")
-                    ? ApplicationData.Current.LocalSettings.Values["SoundByte.Keys.AMCC"]
-                    : null;
+                Init();
 
-                if (key != null)
-                    return key.ToString();
-
-                var liveKey = SoundByteService.Instance.GetSoundByteKey("amcc");
-                ApplicationData.Current.LocalSettings.Values.Add("SoundByte.Keys.AMCC", liveKey);
-
-                return liveKey;
+                return _azureMobileCenterClientId;
             }
         }
 
@@ -83,18 +131,9 @@ namespace SoundByte.Core.Services
         {
             get
             {
-                // Check if the key has been stored locally
-                var key = ApplicationData.Current.LocalSettings.Values.ContainsKey("SoundByte.Keys.SCC")
-                    ? ApplicationData.Current.LocalSettings.Values["SoundByte.Keys.SCC"]
-                    : null;
+                Init();
 
-                if (key != null)
-                    return key.ToString();
-
-                var liveKey = SoundByteService.Instance.GetSoundByteKey("scc");
-                ApplicationData.Current.LocalSettings.Values.Add("SoundByte.Keys.SCC", liveKey);
-
-                return liveKey;
+                return _soundCloudClientId;
             }
         }
 
@@ -102,18 +141,9 @@ namespace SoundByte.Core.Services
         {
             get
             {
-                // Check if the key has been stored locally
-                var key = ApplicationData.Current.LocalSettings.Values.ContainsKey("SoundByte.Keys.SCS")
-                    ? ApplicationData.Current.LocalSettings.Values["SoundByte.Keys.SCS"]
-                    : null;
+                Init();
 
-                if (key != null)
-                    return key.ToString();
-
-                var liveKey = SoundByteService.Instance.GetSoundByteKey("scs");
-                ApplicationData.Current.LocalSettings.Values.Add("SoundByte.Keys.SCS", liveKey);
-
-                return liveKey;
+                return _soundCloudClientSecret;
             }
         }
 
@@ -121,18 +151,9 @@ namespace SoundByte.Core.Services
         {
             get
             {
-                // Check if the key has been stored locally
-                var key = ApplicationData.Current.LocalSettings.Values.ContainsKey("SoundByte.Keys.FBC")
-                    ? ApplicationData.Current.LocalSettings.Values["SoundByte.Keys.FBC"]
-                    : null;
+                Init();
 
-                if (key != null)
-                    return key.ToString();
-
-                var liveKey = SoundByteService.Instance.GetSoundByteKey("fbc");
-                ApplicationData.Current.LocalSettings.Values.Add("SoundByte.Keys.FBC", liveKey);
-
-                return liveKey;
+                return _fanburstClientId;
             }
         }
 
@@ -140,18 +161,9 @@ namespace SoundByte.Core.Services
         {
             get
             {
-                // Check if the key has been stored locally
-                var key = ApplicationData.Current.LocalSettings.Values.ContainsKey("SoundByte.Keys.FBS")
-                    ? ApplicationData.Current.LocalSettings.Values["SoundByte.Keys.FBS"]
-                    : null;
+                Init();
 
-                if (key != null)
-                    return key.ToString();
-
-                var liveKey = SoundByteService.Instance.GetSoundByteKey("fbs");
-                ApplicationData.Current.LocalSettings.Values.Add("SoundByte.Keys.FBS", liveKey);
-
-                return liveKey;
+                return _fanburstClientSecret;
             }
         }
 
@@ -159,18 +171,9 @@ namespace SoundByte.Core.Services
         {
             get
             {
-                // Check if the key has been stored locally
-                var key = ApplicationData.Current.LocalSettings.Values.ContainsKey("SoundByte.Keys.SCPI")
-                    ? ApplicationData.Current.LocalSettings.Values["SoundByte.Keys.SCPI"] as string
-                    : null;
+                Init();
 
-                if (key != null)
-                    return key.Split(',').ToList();
-
-                var liveKey = SoundByteService.Instance.GetSoundBytePlaybackKeys();
-                ApplicationData.Current.LocalSettings.Values.Add("SoundByte.Keys.SCPI", string.Join(",", liveKey));
-
-                return liveKey;
+                return _soundCloudPlaybackClientIds;
             }
         }
     }

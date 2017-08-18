@@ -61,9 +61,9 @@ namespace SoundByte.Core.Services
             else
             {
                 TelemetryService.Instance.TrackEvent("Donation Failed",
-                    new Dictionary<string, string> {{"StoreID", storeId}, {"Reason", result.ExtendedError.Message}});
+                    new Dictionary<string, string> {{"StoreID", storeId}, {"Reason", result?.ExtendedError?.Message}});
 
-                await new MessageDialog("Your account has not been charged:\n" + result.ExtendedError.Message,
+                await new MessageDialog("Your account has not been charged:\n" + result?.ExtendedError?.Message,
                     "SoundByte").ShowAsync();
             }
 

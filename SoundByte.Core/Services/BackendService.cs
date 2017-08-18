@@ -54,18 +54,25 @@ namespace SoundByte.Core.Services
         /// <param name="track">The track to push up.</param>
         public async Task PushCurrentTrackAsync(Track track)
         {
-            // Don't do this is the user is not logged in.
-            if (!SoundByteService.Instance.IsAccountConnected)
-                return;
-
-            // Try connect if disconnected
-            if (_mobileHub.State != ConnectionState.Connected)
-                await _mobileHub.Start();
-
-            // Only perform is connected
-            if (_mobileHub.State == ConnectionState.Connected)
+            try
             {
-              //todo
+                // Don't do this is the user is not logged in.
+                if (!SoundByteService.Instance.IsAccountConnected)
+                    return;
+
+                // Try connect if disconnected
+                if (_mobileHub.State != ConnectionState.Connected)
+                    await _mobileHub.Start();
+
+                // Only perform is connected
+                if (_mobileHub.State == ConnectionState.Connected)
+                {
+                    //todo
+                }
+            }
+            catch
+            {
+                // ignore
             }
         }
     }

@@ -55,6 +55,9 @@ namespace SoundByte.UWP
             if (!SettingsService.Instance.IsDefaultTheme)
                 RequestedTheme = SettingsService.Instance.ThemeType;
 
+            // Init Keys
+            ApiKeyService.Init();
+
             // Handle App Crashes
             CrashHelper.HandleAppCrashes(Current);
 
