@@ -101,13 +101,12 @@ namespace SoundByte.Core.Services
                 // ignored
             }
 
-            PopDebugToast(properties != null
-                ? $"[{eventName}]:\n{string.Join(Environment.NewLine, properties.Select(kvp => kvp.Key + ": " + kvp.Value.ToString()))}\n"
-                : $"[{eventName}]\n");
-
-            Debug.WriteLine(properties != null
-                ? $"[{eventName}]:\n{string.Join(Environment.NewLine, properties.Select(kvp => kvp.Key + ": " + kvp.Value.ToString()))}\n"
-                : $"[{eventName}]\n");
+            if (SettingsService.Instance.IsDebugModeEnabled)
+            {
+                PopDebugToast(properties != null
+                    ? $"[{eventName}]: {string.Join(Environment.NewLine, properties.Select(kvp => kvp.Key + ": " + kvp.Value.ToString()))}, "
+                    : $"[{eventName}]");
+            }
         }
 
         public void TrackException(Exception exception)

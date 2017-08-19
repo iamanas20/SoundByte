@@ -44,12 +44,6 @@ namespace SoundByte.UWP.UserControls
                         VisualStateManager.GoToState(this, "PlaylistItem", false);
                         break;
                 }
-
-                if (!DeviceHelper.IsDesktop)
-                {
-                    PlaylistExtendedDetailPane.Visibility = Visibility.Collapsed;
-                    TrackExtendedDetailPane.Visibility = Visibility.Collapsed;
-                }
             };
         }
 

@@ -10,6 +10,7 @@
  * |----------------------------------------------------------------|
  */
 
+using System;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using SoundByte.Core.Services;
@@ -25,6 +26,11 @@ namespace SoundByte.UWP.Views.Me
         public PlaylistsView()
         {
             InitializeComponent();
+
+            Unloaded += (sender, args) =>
+            {
+                GC.Collect();
+            };
         }
 
         /// <summary>

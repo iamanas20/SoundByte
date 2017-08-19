@@ -332,10 +332,12 @@ namespace SoundByte.UWP.Services
 
             // Update the live tile
             UpdateNormalTiles();
-
             // Run all this on the UI thread
             await DispatcherHelper.ExecuteOnUIThreadAsync(async () =>
             {
+                if (DeviceHelper.IsBackground && DeviceHelper.IsXbox)
+                    return;
+
                 // Set the new current track, updating the UI
                 CurrentTrack = track;
 
@@ -368,12 +370,10 @@ namespace SoundByte.UWP.Services
             TelemetryService.Instance.TrackEvent("Background Song Change", new Dictionary<string, string>
             {
                 {"PlaylistCount", Playlist.Count.ToString()},
+                {"CurrentUsage", MemoryManager.AppMemoryUsage / 1024 / 1024 + "M"},
                 {"SoundCloudConnected", SoundByteService.Instance.IsSoundCloudAccountConnected.ToString()},
                 {"FanburstConnected", SoundByteService.Instance.IsFanBurstAccountConnected.ToString()},
-                {"CurrentUsage", MemoryManager.AppMemoryUsage / 1024 / 1024 + "M"}
             });
-
-            await Task.Run(async () => await BackendService.Instance.PushCurrentTrackAsync(track));  
         }
 
         private static async Task<string> GetCorrectApiKey()
@@ -587,6 +587,9 @@ namespace SoundByte.UWP.Services
         /// </summary>
         private void PlayingSliderUpdate(object sender, object e)
         {
+            if (DeviceHelper.IsBackground)
+                return;
+
             // Only call the following if the player exists, is playing
             // and the time is greater then 0.
             if (Player == null ||

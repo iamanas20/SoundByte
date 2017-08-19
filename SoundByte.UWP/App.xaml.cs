@@ -27,6 +27,7 @@ using Microsoft.Toolkit.Uwp;
 using SoundByte.Core.Helpers;
 using SoundByte.Core.Services;
 using SoundByte.UWP.Views;
+using SoundByte.UWP.Views.CoreApp;
 using UICompositionAnimations.Lights;
 
 namespace SoundByte.UWP
@@ -371,8 +372,22 @@ namespace SoundByte.UWP
                     var shell = Window.Current.Content as MainShell;
                     if (shell == null) return;
 
+                    shell.RootFrame.Navigate(typeof(BlankPage));
                     shell.Dispose();
+
+                    // Clear the page cache
+                    var cacheSize = shell.RootFrame.CacheSize;
+                    shell.RootFrame.CacheSize = 0;
+                    shell.RootFrame.CacheSize = cacheSize;
+
+                    // Clear backstack
+                    shell.RootFrame.BackStack.Clear();
+
+                    // Clear refrences
                     VisualTreeHelper.DisconnectChildrenRecursive(shell.RootFrame);
+                    VisualTreeHelper.DisconnectChildrenRecursive(shell);
+
+                    shell.RootFrame = null;
 
                     // Clear the view content. Note that views should rely on
                     // events like Page.Unloaded to further release resources.
@@ -380,18 +395,16 @@ namespace SoundByte.UWP
                     // prevent objects from being collected.
                     Window.Current.Content = null;
 
-                    TelemetryService.Instance.TrackEvent("Dispose UI", new Dictionary<string, string>
-                    {
-                        {"CurrentUsage", MemoryManager.AppMemoryUsage / 1024 / 1024 + "M"}
-                    });
+                    GC.Collect();
                 });
             }
             catch
             {
                 // This will crash if no main view is active
+                var i = 0;
             }  
 
-            // Run the GC to collect released resources.
+            // Run the GC to collect released resources on background thread.
             GC.Collect();
         }
 

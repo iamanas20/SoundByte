@@ -68,13 +68,13 @@ namespace SoundByte.UWP
             Loaded += async (sender, args) => await PerformAsyncWork(path);
 
             // Unload events
-            Unloaded += (snder, args) => Dispose();
+            Unloaded += (sender, args) => Dispose();
 
             // This is a dirty to show the now playing
             // bar when a track is played. This method
             // updates the required layout for the now
             // playing bar.
-            Service.PropertyChanged += ServiceOnPropertyChanged;
+            PlaybackService.Instance.PropertyChanged += ServiceOnPropertyChanged;
 
             // Create a shell frame shadow for mobile and desktop
             if (DeviceHelper.IsDesktop || DeviceHelper.IsMobile)
@@ -140,7 +140,7 @@ namespace SoundByte.UWP
             if (propertyChangedEventArgs.PropertyName != "CurrentTrack")
                 return;
 
-            if (Service.CurrentTrack == null || !DeviceHelper.IsDesktop ||
+            if (PlaybackService.Instance.CurrentTrack == null || !DeviceHelper.IsDesktop ||
                 RootFrame.CurrentSourcePageType == typeof(NowPlayingView))
                 HideNowPlayingBar();
             else
@@ -155,7 +155,7 @@ namespace SoundByte.UWP
         public void Dispose()
         {
             SystemNavigationManager.GetForCurrentView().BackRequested -= OnBackRequested;
-            Service.PropertyChanged -= ServiceOnPropertyChanged;
+            PlaybackService.Instance.PropertyChanged -= ServiceOnPropertyChanged;
         }
 
         private void OnBackRequested(object sender, BackRequestedEventArgs e)
@@ -552,7 +552,7 @@ namespace SoundByte.UWP
                     MainSplitView.CompactPaneLength = 84;
                     MainSplitView.IsPaneOpen = SettingsService.Instance.IsMenuOpen;
 
-                    if (Service.CurrentTrack == null)
+                    if (PlaybackService.Instance.CurrentTrack == null)
                         HideNowPlayingBar();
                     else
                         ShowNowPlayingBar();
@@ -642,6 +642,7 @@ namespace SoundByte.UWP
 
                 return RootFrame;
             }
+            set => ShellFrame = value;
         }
 
         #endregion
