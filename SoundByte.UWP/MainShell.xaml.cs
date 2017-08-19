@@ -109,18 +109,21 @@ namespace SoundByte.UWP
             // Events for Mobile
             if (DeviceHelper.IsMobile)
             {
-                // Amoled Magic
-                Application.Current.Resources["ShellBackground"] =
-                    new SolidColorBrush(Application.Current.RequestedTheme == ApplicationTheme.Dark
-                        ? Colors.Black
-                        : Colors.White);
-
                 // Splitview pane gets background
                 SplitViewPaneGrid.Background =
-                    Application.Current.Resources["InAppBackgroundBrush"] as CustomAcrylicBrush;
+                    Application.Current.Resources["MobileBlurHeader"] as CustomAcrylicBrush;
+
+                // Amoled Magic
+                Application.Current.Resources["ShellBackground"] =
+                   new SolidColorBrush(Application.Current.RequestedTheme == ApplicationTheme.Dark
+                       ? Colors.Black
+                        : Colors.White);
 
                 MainSplitView.IsPaneOpen = false;
                 MainSplitView.DisplayMode = SplitViewDisplayMode.Overlay;
+                MainSplitView.Margin = new Thickness(0);
+
+                SplitViewPaneGrid.Margin = new Thickness {Top = 48};
 
                 MobileMenu.Visibility = Visibility.Visible;
                 HamburgerButton.Visibility = Visibility.Collapsed;
@@ -558,6 +561,9 @@ namespace SoundByte.UWP
                         ShowNowPlayingBar();
                 }
 
+            if (DeviceHelper.IsMobile)
+                MainSplitView.IsPaneOpen = false;
+
             if (DeviceHelper.IsXbox)
                 if (((Frame) sender).SourcePageType == typeof(NowPlayingView))
                 {
@@ -578,9 +584,14 @@ namespace SoundByte.UWP
             UnknownTab.IsChecked = true;
             NowPlaying.Visibility = Visibility.Collapsed;
 
-            MainSplitView.Margin = DeviceHelper.IsXbox
-                ? new Thickness {Bottom = 0, Top = 0}
-                : new Thickness {Bottom = 0, Top = 32};
+            if (DeviceHelper.IsMobile || DeviceHelper.IsXbox)
+            {
+                MainSplitView.Margin = new Thickness {Bottom = 0, Top = 0};
+            }
+            else
+            {
+                MainSplitView.Margin = new Thickness { Bottom = 0, Top = 32 };
+            } 
         }
 
         private void ShowNowPlayingBar()

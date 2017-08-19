@@ -44,9 +44,7 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
 
-        <Grid x:Name="MobileGrid" Visibility="Visible" Background="{ThemeResource ShellNavigationBackground}"
-              BorderThickness="0,0,0,1"
-              BorderBrush="{ThemeResource SystemControlBackgroundBaseLowBrush}"
+        <Grid x:Name="MobileGrid" Visibility="Visible" Background="{StaticResource MobileBlurHeader}"
               VerticalAlignment="Top" HorizontalAlignment="Stretch" Height="48" Canvas.ZIndex="100">
             <TextBlock Text="Manage Accounts" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="SemiBold" FontSize="18" />
         </Grid>
@@ -59,7 +57,7 @@
                  DefaultBackgroundColor="Transparent"
                  VerticalAlignment="Stretch" />
 
-        <StackPanel x:Name="ConnectAccountView" Orientation="Vertical" VerticalAlignment="Center" Visibility="Collapsed">
+        <StackPanel x:Name="ConnectAccountView" Orientation="Vertical" VerticalAlignment="Center" Visibility="Collapsed" Background="{StaticResource MobileBlurHeader}">
             <TextBlock Text="&#xE990;" 
                        TextAlignment="Center"
                        FontFamily="Segoe MDL2 Assets"

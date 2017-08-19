@@ -94,4 +94,12 @@
                                 Tint="#FF111111"
                                 TintMix="0.4"
                                 NoiseTextureUri="/Assets/Misc/lightnoise.png" />
+
+    <brushes:CustomAcrylicBrush x:Key="MobileBlurHeader"
+                                Mode="InAppBlur"
+                                BlurAmount="18"
+                                Tint="{StaticResource ShellNavigationBackgroundColor}"
+                                TintMix="0.8"
+                                NoiseTextureUri="/Assets/Misc/lightnoise.png" />
+
 </ResourceDictionary>

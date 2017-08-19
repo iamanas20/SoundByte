@@ -15,6 +15,7 @@
     xmlns:stateTriggers="using:SoundByte.UWP.StateTriggers"
     x:Class="SoundByte.UWP.Resources.DataTemplates">
 
+  
     <!-- Template for the playlist item -->
     <DataTemplate x:Key="PlaylistItem" x:DataType="endpoints:Playlist">
         <StackPanel Height="245"
@@ -90,7 +91,10 @@
                        FontWeight="SemiBold" />
         </StackPanel>
     </DataTemplate>
+    
+    
 
+    
     <!-- Template for the track item -->
     <DataTemplate x:Key="TrackItem" x:DataType="endpoints:Track">
         <StackPanel x:Name="StackPanel"
@@ -110,7 +114,10 @@
                             <stateTriggers:DeviceStateTrigger DeviceFamily="Windows.Mobile" />
                         </VisualState.StateTriggers>
                         <VisualState.Setters>
-                            <Setter Target="StackPanel.Orientation" Value="Horizontal" />
+                            <Setter Target="TrackImage.Width" Value="80" />
+
+
+                            <!--<Setter Target="StackPanel.Orientation" Value="Horizontal" />
                             <Setter Target="StackPanel.Margin" Value="0" />
                             <Setter Target="TitlePanel.VerticalAlignment" Value="Center" />
                             <Setter Target="TitlePanel.Margin" Value="10,0,0,0" />
@@ -119,7 +126,7 @@
                             <Setter Target="ShadowPanel.Width" Value="80" />
                             <Setter Target="ShadowPanel.Height" Value="80" />
                             <Setter Target="TitleText.TextAlignment" Value="Left" />
-                            <Setter Target="TitleDescription.TextAlignment" Value="Left" />
+                            <Setter Target="TitleDescription.TextAlignment" Value="Left" />-->
                         </VisualState.Setters>
                     </VisualState>
                 </VisualStateGroup>
@@ -141,6 +148,7 @@
                            VerticalAlignment="Stretch"
                            HorizontalAlignment="Stretch"
                            IsHitTestVisible="False"
+                           x:Name="TrackImage"
                            x:Phase="5"
                            Width="160"
                            Height="160"
@@ -178,6 +186,7 @@
             </StackPanel>
         </StackPanel>
     </DataTemplate>
+
 
     <!-- User Item -->
     <DataTemplate x:Key="UserItem" x:DataType="endpoints:User">

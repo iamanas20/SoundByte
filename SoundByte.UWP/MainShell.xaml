@@ -126,6 +126,87 @@
             </Setter>
         </Style>
 
+        <Style TargetType="Button" x:Name="MobileMenuItemButtonStyle" x:Key="MobileMenuItemButtonStyle">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="MinHeight" Value="{ThemeResource ListViewItemMinHeight}" />
+            <Setter Property="MinWidth" Value="{ThemeResource SplitViewCompactPaneThemeLength}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+
+                        <Grid x:Name="RootGrid" Background="Transparent">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="Common">
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="PointerOver">
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="ContentSolidBackground" Storyboard.TargetProperty="Opacity"  From="0" To="1" Duration="0:0:0.15" />
+                                            <DoubleAnimation Storyboard.TargetName="HighlightGrid" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.15" />
+
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HighlightGrid" Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource ButtonLightingBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="ContentSolidBackground" Storyboard.TargetProperty="Opacity" From="1" To="1" Duration="0:0:0.15" AutoReverse="False"  />
+                                            <DoubleAnimation Storyboard.TargetName="HighlightGrid" Storyboard.TargetProperty="Opacity" From="1" To="1" Duration="0:0:0.15" />
+
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HighlightGrid" Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource ButtonPressedLightingBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+
+                                            <PointerDownThemeAnimation TargetName="RootGrid" />
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="FocusStates">
+                                    <VisualState x:Name="Unfocused"/>
+                                    <VisualState x:Name="Focused">
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="ContentSolidBackground" Storyboard.TargetProperty="Opacity"  From="0" To="1" Duration="0:0:0.15" />
+                                            <DoubleAnimation Storyboard.TargetName="HighlightGrid" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.15" />
+
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HighlightGrid" Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource ButtonLightingBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+
+                                            <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+
+      
+                            <!-- Highlight Background -->
+                            <Grid x:Name="ContentSolidBackground" 
+                                  Opacity="0"
+                                  IsHitTestVisible="False"
+                                  Background="{ThemeResource SystemControlHighlightListLowBrush}" />
+
+                            <!-- Highlight background effect -->
+                            <Grid x:Name="HighlightGrid" 
+                                  Opacity="0"
+                                  Background="{StaticResource ButtonLightingBrush}"
+                                  IsHitTestVisible="False" />
+
+                            <!-- use extra left margin to align the icon with NavigationButtonStyle'd controls -->
+                            <FontIcon x:Name="Icon" VerticalAlignment="Center"
+                                      HorizontalAlignment="Center" FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                                      Glyph="{TemplateBinding Tag}" FontSize="21" />
+
+                            <!-- Highlight border effects -->
+                            <Rectangle Stroke="{StaticResource ButtonBorderLightingBrush}" 
+                                       IsHitTestVisible="False"
+                                       StrokeThickness="1" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+        </Style>
+
         <Style TargetType="Button" x:Name="MenuItemButtonStyle" x:Key="MenuItemButtonStyle">
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="MinHeight" Value="{ThemeResource ListViewItemMinHeight}" />
@@ -420,11 +501,10 @@
         <Button x:Name="MobileMenu"
                 Height="48"
                 Width="48"
-                Visibility="Collapsed"
                 FocusVisualPrimaryThickness="1"
                 FocusVisualSecondaryThickness="1"
                 FocusVisualMargin="1"
-                Style="{StaticResource MenuItemButtonStyle}"
+                Style="{StaticResource MobileMenuItemButtonStyle}"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
                 Tag="&#xE700;"
