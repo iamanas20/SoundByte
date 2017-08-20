@@ -501,6 +501,7 @@
         <Button x:Name="MobileMenu"
                 Height="48"
                 Width="48"
+                Visibility="Collapsed"
                 FocusVisualPrimaryThickness="1"
                 FocusVisualSecondaryThickness="1"
                 FocusVisualMargin="1"
