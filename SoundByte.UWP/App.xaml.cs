@@ -150,28 +150,52 @@ namespace SoundByte.UWP
         #endregion
 
         /// <summary>
-        ///     Create the main app shell and load app logic
+        ///     Creates the window and performs any protocol logic needed
         /// </summary>
-        /// <returns>The main app shell</returns>
-        private async Task<MainShell> CreateMainShellAsync(string path = null)
+        /// <param name="parameters">Param string, (soundbyte://core/user?id=454345)</param>
+        /// <returns></returns>
+        private async Task InitializeShellAsync(string parameters = null)
         {
             // Get the main shell
             var shell = Window.Current.Content as MainShell;
-            // If the shell is null, we need to set it up.
-            if (shell != null)
-            {
-                if (!string.IsNullOrEmpty(path))
-                    await shell.HandleProtocolAsync(path);
 
-                return shell;
+            // If the shell is null, we need to set it up.
+            if (shell == null)
+            {
+                shell = new MainShell(parameters);
+
+                // Hook the key pressed event for the global app
+                Window.Current.CoreWindow.KeyUp += CoreWindowOnKeyUp;
+            }
+            else
+            {
+                await shell.HandleProtocolAsync(parameters);
             }
 
-            // Create the main shell
-            shell = new MainShell(path);
-            // Hook the key pressed event for the global app
-            Window.Current.CoreWindow.KeyUp += CoreWindowOnKeyUp;
-            // Return the created shell
-            return shell;
+            // Set the root shell as the window content
+            Window.Current.Content = shell;
+
+            try
+            {
+                // Setup the lights
+                LightsSourceHelper.Initialize(() => new PointerPositionSpotLight
+                {
+                    Active = !(!SettingsService.Instance.IsHighQualityArtwork || DeviceHelper.IsXbox)
+                });
+
+                LightsSourceHelper.SetIsLightsContainer(Window.Current.Content, true);
+            }
+            catch         
+            {
+               // Temp fix around light helper already existing, proper fix later
+            }
+
+            // If on xbox display the screen to the full width and height
+            if (DeviceHelper.IsXbox)
+                ApplicationView.GetForCurrentView().SetDesiredBoundsMode(ApplicationViewBoundsMode.UseCoreWindow);
+
+            // Activate the window
+            Window.Current.Activate();
         }
       
         #region Static App Helpers
@@ -199,16 +223,9 @@ namespace SoundByte.UWP
         /// </summary>
         public static bool IsLoading
         {
-            get
-            {
-                var loadingRing = (Window.Current?.Content as MainShell)?.FindName("LoadingRing") as ProgressBar;
-                return loadingRing?.Visibility == Visibility.Visible;
-            }
-
             set
             {
-                var loadingRing = (Window.Current?.Content as MainShell)?.FindName("LoadingRing") as ProgressBar;
-                if (loadingRing != null)
+                if ((Window.Current?.Content as MainShell)?.FindName("LoadingRing") is ProgressBar loadingRing)
                     loadingRing.Visibility = value ? Visibility.Visible : Visibility.Collapsed;
             }
         }
@@ -231,20 +248,7 @@ namespace SoundByte.UWP
             // Restore view content if it was previously unloaded
             if(Window.Current != null && Window.Current.Content == null)
             {
-                // Create / Get the main shell
-                var rootShell = await CreateMainShellAsync();
-
-                // Set the root shell as the window content
-                Window.Current.Content = rootShell;
-
-                SetupLights();
-
-                // If on xbox display the screen to the full width and height
-                if (DeviceHelper.IsXbox)
-                    ApplicationView.GetForCurrentView().SetDesiredBoundsMode(ApplicationViewBoundsMode.UseCoreWindow);
-
-                // Activate the window
-                Window.Current.Activate();                
+                 await InitializeShellAsync();              
             }
         }
 
@@ -427,20 +431,7 @@ namespace SoundByte.UWP
                     break;
             }
 
-            // Create / Get the main shell
-            var rootShell = await CreateMainShellAsync(path);
-
-            // Set the root shell as the window content
-            Window.Current.Content = rootShell;
-
-            SetupLights();
-
-            // If on xbox display the screen to the full width and height
-            if (DeviceHelper.IsXbox)
-                ApplicationView.GetForCurrentView().SetDesiredBoundsMode(ApplicationViewBoundsMode.UseCoreWindow);
-
-            // Activate the window
-            Window.Current.Activate();
+            await InitializeShellAsync(path);       
         }
 
         /// <summary>
@@ -455,44 +446,13 @@ namespace SoundByte.UWP
             if (!string.IsNullOrEmpty(e.TileId))
                 path = e.Arguments;
 
-            // Create / Get the main shell
-            var rootShell = await CreateMainShellAsync(path);
-
             // If this is just a prelaunch, don't 
             // actually set the content to the frame.
             if (e.PrelaunchActivated) return;
 
-            // Set the root shell as the window content
-            Window.Current.Content = rootShell;
-
-            SetupLights();
-
-            // If on xbox display the screen to the full width and height
-            if (DeviceHelper.IsXbox)
-                ApplicationView.GetForCurrentView().SetDesiredBoundsMode(ApplicationViewBoundsMode.UseCoreWindow);
-
-            // Activate the window
-            Window.Current.Activate();
+            // Create / Get the main shell
+            await InitializeShellAsync(path);
         }
         #endregion
-
-        /// <summary>
-        /// 
-        /// </summary>
-        private void SetupLights()
-        {
-            // Enable lights on all platforms except Xbox or if app is in light mode
-            var lightSpotlight = new PointerPositionSpotLight { Active = true };
-
-            if (!SettingsService.Instance.IsHighQualityArtwork)
-                lightSpotlight.Active = false;
-
-            if (DeviceHelper.IsXbox)
-                lightSpotlight.Active = false;
-
-            LightsSourceHelper.Initialize(() => lightSpotlight);
-
-            LightsSourceHelper.SetIsLightsContainer(Window.Current.Content, true);
-        }
     }
 }
