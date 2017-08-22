@@ -185,11 +185,14 @@
                             <TextBlock Text="About" FontSize="18" Opacity="0.9" FontWeight="SemiBold"
                                        VerticalAlignment="Center" Padding="0,2" />
                         </PivotItem.Header>
-                        <controls:MarkdownTextBlock TextWrapping="WrapWholeWords"
+                        <RichTextBlock TextWrapping="WrapWholeWords" TextAlignment="Left" x:Name="Description" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" FontSize="16"/>
+
+
+                        <!-- <controls:MarkdownTextBlock TextWrapping="WrapWholeWords"
                                                     HorizontalAlignment="Stretch"
                                                     VerticalAlignment="Stretch"
                                                     Margin="0,10,0,0"
-                                                    Text="{x:Bind ViewModel.User.Description, Mode=OneWay}" />
+                                                    Text="{x:Bind ViewModel.User.Description, Mode=OneWay}" /> -->
                     </PivotItem>
 
                     <!-- The users tracks -->

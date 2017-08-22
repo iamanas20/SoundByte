@@ -15,6 +15,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using SoundByte.API.Endpoints;
+using SoundByte.Core.Helpers;
 using SoundByte.Core.Services;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.ViewModels;
@@ -71,16 +72,24 @@ namespace SoundByte.UWP.Views
             // the view model.
             if (targetUser != null)
             {
-                // Create the model
-                await ViewModel.UpdateModel(targetUser);
+                // Reset the selected page for the pivot
+                MainPivot.SelectedIndex = 0;
+
+                // Clear description
+                Description.Blocks.Clear();
 
                 // Show the upload button on the users profile
                 UploadButton.Visibility = targetUser.Id == SoundByteService.Instance.SoundCloudUser?.Id
                     ? Visibility.Visible
                     : Visibility.Collapsed;
 
-                // Reset the selected page for the pivot
-                MainPivot.SelectedIndex = 0;
+                // Create the model
+                await ViewModel.UpdateModel(targetUser);
+
+                if (!string.IsNullOrEmpty(ViewModel.User.Description))
+                {
+                    TextHelper.ConvertTextToFormattedTextBlock(ViewModel.User.Description, ref Description);
+                }
             }
 
             // Track Event

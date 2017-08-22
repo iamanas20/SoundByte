@@ -23,12 +23,19 @@ namespace SoundByte.Core.Converters
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            // Get our value
-            var inValue = value as int?;
+            try
+            {
+                // Get our value
+                var inValue = value as int?;
 
-            // Does this null int have a value
-            if (inValue.HasValue)
-                return inValue.Value == 0 ? "0" : NumberFormatHelper.GetFormattedLargeNumber(inValue.Value);
+                // Does this null int have a value
+                if (inValue.HasValue)
+                    return inValue.Value == 0 ? "0" : NumberFormatHelper.GetFormattedLargeNumber(inValue.Value);
+            }
+            catch (Exception)
+            {
+                return "0";
+            }   
 
             return "0";
         }

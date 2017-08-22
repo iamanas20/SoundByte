@@ -67,33 +67,41 @@ namespace SoundByte.Core.Converters
         /// <returns>A string to the object</returns>
         public static string ConvertObjectToImage(object value)
         {
-            if (value == null)
-                return "";
+            try
+            {
+                if (value == null)
+                    return "";
 
-            // Grab the source object type
-            var sourceType = value.GetType();
+                // Grab the source object type
+                var sourceType = value.GetType();
 
-            // Check that we can use this object
-            if (!(sourceType == typeof(Track) || sourceType == typeof(Playlist) || sourceType == typeof(User)))
+                // Check that we can use this object
+                if (!(sourceType == typeof(Track) || sourceType == typeof(Playlist) || sourceType == typeof(User)))
+                    throw new ArgumentException(
+                        $"Expected object to convert is either Track, Playlist or User. {sourceType} was passed instead.",
+                        nameof(value));
+
+                // Switch between all the options
+                switch (sourceType.Name)
+                {
+                    case "Track":
+                        return GetTrackImage(value as Track);
+                    case "User":
+                        return GetUserImage(value as User);
+                    case "Playlist":
+                        return GetPlaylistImage(value as Playlist);
+                }
+
+                // If we reach here, something went wrong, this should never happen
                 throw new ArgumentException(
                     $"Expected object to convert is either Track, Playlist or User. {sourceType} was passed instead.",
                     nameof(value));
-
-            // Switch between all the options
-            switch (sourceType.Name)
-            {
-                case "Track":
-                    return GetTrackImage(value as Track);
-                case "User":
-                    return GetUserImage(value as User);
-                case "Playlist":
-                    return GetPlaylistImage(value as Playlist);
             }
-
-            // If we reach here, something went wrong, this should never happen
-            throw new ArgumentException(
-                $"Expected object to convert is either Track, Playlist or User. {sourceType} was passed instead.",
-                nameof(value));
+            catch (Exception e)
+            {
+                var i = 0;
+                return null;
+            }
         }
 
         #region Image Getters
@@ -126,20 +134,28 @@ namespace SoundByte.Core.Converters
         /// <returns>A url to the image</returns>
         private static string GetUserImage(User user)
         {
-            // If there is no uri, return the default image image
-            if (string.IsNullOrEmpty(user.ArtworkLink))
-                return "http://a1.sndcdn.com/images/default_avatar_large.png";
+            try
+            {
+                // If there is no uri, return the default image image
+                if (string.IsNullOrEmpty(user.ArtworkLink))
+                    return "http://a1.sndcdn.com/images/default_avatar_large.png";
 
-            // If the avatar is defaut, just return it
-            if (user.ArtworkLink.Contains("default_avatar"))
+                // If the avatar is defaut, just return it
+                if (user.ArtworkLink.Contains("default_avatar"))
+                    return user.ArtworkLink;
+
+                // Check if this image supports high resolution
+                if (user.ArtworkLink.Contains("large"))
+                    return SettingsService.Instance.IsHighQualityArtwork
+                        ? user.ArtworkLink.Replace("large", "t500x500")
+                        : user.ArtworkLink.Replace("large", "t300x300");
+            }
+            catch
+            {
+                // This image does not support high resoultion
                 return user.ArtworkLink;
-
-            // Check if this image supports high resolution
-            if (user.ArtworkLink.Contains("large"))
-                return SettingsService.Instance.IsHighQualityArtwork
-                    ? user.ArtworkLink.Replace("large", "t500x500")
-                    : user.ArtworkLink.Replace("large", "t300x300");
-
+            }
+         
             // This image does not support high resoultion
             return user.ArtworkLink;
         }

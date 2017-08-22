@@ -237,16 +237,7 @@ namespace SoundByte.UWP
                 // Set the root shell as the window content
                 Window.Current.Content = rootShell;
 
-                // Enable lights on all platforms except Xbox or if app is in light mode
-                var lightSpotlight = new PointerPositionSpotLight { Active = true };
-
-                if (!SettingsService.Instance.IsHighQualityArtwork)
-                    lightSpotlight.Active = false;
-
-                if (DeviceHelper.IsXbox)
-                    lightSpotlight.Active = false;
-
-                Window.Current.Content.Lights.Add(lightSpotlight);
+                SetupLights();
 
                 // If on xbox display the screen to the full width and height
                 if (DeviceHelper.IsXbox)
@@ -401,7 +392,6 @@ namespace SoundByte.UWP
             catch
             {
                 // This will crash if no main view is active
-                var i = 0;
             }  
 
             // Run the GC to collect released resources on background thread.
@@ -443,16 +433,7 @@ namespace SoundByte.UWP
             // Set the root shell as the window content
             Window.Current.Content = rootShell;
 
-            // Enable lights on all platforms except Xbox or if app is in light mode
-            var lightSpotlight = new PointerPositionSpotLight { Active = true };
-
-            if (!SettingsService.Instance.IsHighQualityArtwork)
-                lightSpotlight.Active = false;
-
-            if (DeviceHelper.IsXbox)
-                lightSpotlight.Active = false;
-
-            Window.Current.Content.Lights.Add(lightSpotlight);
+            SetupLights();
 
             // If on xbox display the screen to the full width and height
             if (DeviceHelper.IsXbox)
@@ -484,6 +465,22 @@ namespace SoundByte.UWP
             // Set the root shell as the window content
             Window.Current.Content = rootShell;
 
+            SetupLights();
+
+            // If on xbox display the screen to the full width and height
+            if (DeviceHelper.IsXbox)
+                ApplicationView.GetForCurrentView().SetDesiredBoundsMode(ApplicationViewBoundsMode.UseCoreWindow);
+
+            // Activate the window
+            Window.Current.Activate();
+        }
+        #endregion
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private void SetupLights()
+        {
             // Enable lights on all platforms except Xbox or if app is in light mode
             var lightSpotlight = new PointerPositionSpotLight { Active = true };
 
@@ -493,16 +490,9 @@ namespace SoundByte.UWP
             if (DeviceHelper.IsXbox)
                 lightSpotlight.Active = false;
 
-            Window.Current.Content.Lights.Add(lightSpotlight);
+            LightsSourceHelper.Initialize(() => lightSpotlight);
 
-            // If on xbox display the screen to the full width and height
-            if (DeviceHelper.IsXbox)
-                ApplicationView.GetForCurrentView().SetDesiredBoundsMode(ApplicationViewBoundsMode.UseCoreWindow);
-
-            // Activate the window
-            Window.Current.Activate();
+            LightsSourceHelper.SetIsLightsContainer(Window.Current.Content, true);
         }
-
-        #endregion
     }
 }
