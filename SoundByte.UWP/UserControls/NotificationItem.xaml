@@ -260,5 +260,6 @@
     <ContentPresenter x:Name="RootContentPane"
                       HorizontalAlignment="Stretch"
                       Height="100"
+                      Margin="-10,0"
                       Background="Transparent" />
 </UserControl>

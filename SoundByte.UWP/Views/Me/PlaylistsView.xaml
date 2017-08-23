@@ -64,7 +64,7 @@
 
         <GridView ItemClick="{x:Bind NavigatePlaylist}"
                   ItemsSource="{x:Bind PlaylistModel}"
-                  Padding="10,0"
+                  Padding="5,0"
                   VerticalAlignment="Stretch"
                   SelectionMode="None"
                   x:Name="StackPanel"

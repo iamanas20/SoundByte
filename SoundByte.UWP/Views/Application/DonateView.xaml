@@ -57,7 +57,7 @@
                                     Margin="0"
                                     Width="170"
                                     Padding="0,15,0,0"
-                                    Background="{ThemeResource SoundByteButtonBackground}">
+                                    Background="{StaticResource MobileBlurHeader}">
                             <!-- Icon -->
                             <TextBlock Text="&#xE006;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center"
                                        Padding="5" TextAlignment="Center" FontSize="48" />
@@ -78,7 +78,7 @@
                                         Margin="0"
                                         Width="170"
                                         Padding="0,15,0,0"
-                                        Background="{ThemeResource SoundByteButtonBackground}">
+                                    Background="{StaticResource MobileBlurHeader}">
                             <!-- Icon -->
                             <TextBlock Text="&#xE006;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center"
                                            Padding="5" TextAlignment="Center" FontSize="48" />
@@ -99,7 +99,7 @@
                                         Margin="0"
                                         Width="170"
                                         Padding="0,15,0,0"
-                                        Background="{ThemeResource SoundByteButtonBackground}">
+                                        Background="{StaticResource MobileBlurHeader}">
                             <!-- Icon -->
                             <TextBlock Text="&#xE006;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center"
                                            Padding="5" TextAlignment="Center" FontSize="48" />
@@ -120,7 +120,7 @@
                                         Margin="0"
                                         Width="170"
                                         Padding="0,15,0,0"
-                                        Background="{ThemeResource SoundByteButtonBackground}">
+                                    Background="{StaticResource MobileBlurHeader}">
                             <!-- Icon -->
                             <TextBlock Text="&#xE006;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center"
                                            Padding="5" TextAlignment="Center" FontSize="48" />

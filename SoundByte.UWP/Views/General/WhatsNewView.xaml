@@ -42,7 +42,7 @@
         </Grid>
 
         <ScrollViewer HorizontalAlignment="Stretch">
-            <StackPanel x:Name="StackPanel" Padding="10,0">
+            <StackPanel x:Name="StackPanel" Padding="15,20,15,0">
                 <TextBlock x:Name="TextHeader" Opacity="0" Text="What's New" FontWeight="Bold" FontSize="25"
                            Margin="0,0,0,0" />
                 <controls:MarkdownTextBlock x:Name="ChangelogView"

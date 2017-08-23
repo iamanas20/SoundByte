@@ -40,7 +40,7 @@
                         <AdaptiveTrigger MinWindowWidth="768" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="HomePivot.Padding" Value="50,100,50,0" />
+                        <Setter Target="HomePivot.Margin" Value="50,100,50,0" />
                         <Setter Target="TextHeader.FontSize" Value="55" />
                         <Setter Target="TextHeader.Margin" Value="10,30,0,0" />
                         <Setter Target="TextHeader.Opacity" Value="0.8" />
@@ -67,7 +67,7 @@
                    Padding="50,0" />
 
 
-        <Pivot x:Name="HomePivot" Padding="10,50,10,0">
+        <Pivot x:Name="HomePivot" Margin="5,50,5,0" Canvas.ZIndex="105">
             <PivotItem x:Name="StreamPivotItem">
                 <PivotItem.Header>
                     <TextBlock Text="Stream" FontSize="18" Opacity="0.9" FontWeight="SemiBold"
@@ -82,7 +82,7 @@
                               ItemsSource="{x:Bind Path=ViewModel.StreamItems}"
                               ItemTemplate="{StaticResource StreamItem}"
                               SelectionMode="None"
-                              Margin="-20,0,90,0"
+                              Margin="-20,0,0,0"
                               IsSwipeEnabled="False"
                               IsItemClickEnabled="True"
                               ItemClick="{x:Bind ViewModel.NavigateStream}"
@@ -118,7 +118,7 @@
                 <Grid>
                     <!-- Info Pane for Model -->
                     <elements:InfoPane x:Name="ChartModelInfoPane" Canvas.ZIndex="50" VerticalAlignment="Stretch"
-                                       HorizontalAlignment="Stretch" Visibility="Collapsed" Margin="-20,0,60,0" />
+                                       HorizontalAlignment="Stretch" Visibility="Collapsed" Margin="-10,0,-10,0" />
 
                     <GridView ItemClick="{x:Bind ViewModel.PlayChartItem}"
                               ItemsSource="{x:Bind ViewModel.ChartsModel}"
@@ -127,7 +127,7 @@
                               ItemContainerStyle="{StaticResource MainGridViewItem}"
 
                               IsSwipeEnabled="False"
-                              Margin="-4,0,100,0"
+                              Margin="-5,0,0,0"
                               x:Name="StackPanel"
                               IsItemClickEnabled="True"
                               HorizontalAlignment="Stretch"
@@ -149,7 +149,7 @@
                                     <ComboBox BorderThickness="1"
                                               BorderBrush="{ThemeResource SystemControlDisabledListMediumBrush}"
                                               x:Name="ExploreTypeCombo" Grid.Column="0"
-                                              SelectionChanged="{x:Bind ViewModel.OnComboBoxChanged}" Margin="5,5,0,5"
+                                              SelectionChanged="{x:Bind ViewModel.OnComboBoxChanged}" Margin="0,5,0,5"
                                               HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch">
                                         <ComboBoxItem Tag="top" x:Uid="ExploreTypeCombo_top" IsSelected="True" />
                                         <ComboBoxItem Tag="trending" x:Uid="ExploreTypeCombo_trending" />
@@ -160,7 +160,7 @@
                                               x:Name="ExploreGenreCombo"
                                               Grid.Column="1"
                                               SelectionChanged="{x:Bind ViewModel.OnComboBoxChanged}"
-                                              Margin="5"
+                                              Margin="5,5,5,5"
                                               HorizontalContentAlignment="Stretch"
                                               HorizontalAlignment="Stretch">
                                         <ComboBoxItem Content="GENERAL" IsEnabled="False" />

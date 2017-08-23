@@ -95,9 +95,10 @@
                            TextWrapping="Wrap" Text="Manage your connected SoundCloud and Fanburst Account." />
 
 
-                <StackPanel x:Name="AccountPanel" Margin="-5,5,-5,0" Orientation="Vertical">
+                <StackPanel x:Name="AccountPanel" Margin="-5,5,-5,0" Orientation="Vertical" >
 
                     <StackPanel x:Name="SoundCloudPanel"
+                                Background="{StaticResource MobileBlurHeader}"
                                 HorizontalAlignment="Stretch"
                                 Margin="5"
                                 Padding="5"
@@ -120,7 +121,7 @@
                         </Button>
                     </StackPanel>
 
-                    <StackPanel 
+                    <StackPanel  Background="{StaticResource MobileBlurHeader}"
                                 x:Name="FanburstPanel"
                                 HorizontalAlignment="Stretch"
                                 Margin="5"
@@ -157,6 +158,7 @@
                     </StackPanel>
 
                     <StackPanel x:Name="XboxConnectPanel"
+                                Background="{StaticResource MobileBlurHeader}"
                                 HorizontalAlignment="Stretch"
                                 Margin="5"
                                 Padding="5"

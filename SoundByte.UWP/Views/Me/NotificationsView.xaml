@@ -74,7 +74,7 @@
                   SelectionMode="None"
                   IsSwipeEnabled="False"
                   IsItemClickEnabled="True"
-                  Padding="10,0"
+                  Padding="5,0"
                   x:Name="StackPanel"
                   ItemClick="{x:Bind ViewModel.NotificationNavigate}"
                   ItemContainerStyle="{StaticResource MainListViewItem}"

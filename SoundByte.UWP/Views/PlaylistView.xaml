@@ -23,7 +23,58 @@
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
+            <VisualStateGroup x:Name="WindowSize">
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="768" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="TracksView.Padding" Value="50,0" />
+                        <Setter Target="MobileCommandBar.Visibility" Value="Collapsed" />
+                        <Setter Target="DesktopCommandBar.Visibility" Value="Visible" />
+                        <Setter Target="TracksView.ItemTemplate" Value="{StaticResource TrackItem}" />
+                        <Setter Target="TracksView.ItemsPanel" Value="{StaticResource DesktopGridPanel}" />
+                        <Setter Target="PlaylistImage.Width" Value="240" />
+                        <Setter Target="PlaylistImage.Height" Value="240" />
+                        <Setter Target="PlaylistBg1.Width" Value="230" />
+                        <Setter Target="PlaylistBg1.Height" Value="230" />
+                        <Setter Target="PlaylistBg2.Width" Value="220" />
+                        <Setter Target="PlaylistBg2.Height" Value="220" />
+                        <Setter Target="PlaylistImageHolder.Margin" Value="10,50,0,20" />
+                        <Setter Target="HeaderPanel.Background" Value="Transparent" />
+                        <Setter Target="PlaylistTitle.FontSize" Value="50" />
+                        <Setter Target="PlaylistTitle.FontWeight" Value="Bold" />
+                        <Setter Target="PlaylistUser.FontSize" Value="20" />
+                        <Setter Target="TitlePanel.Margin" Value="40,0,0,0" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+
         </VisualStateManager.VisualStateGroups>
+
+        <CommandBar x:Name="MobileCommandBar" VerticalAlignment="Bottom" HorizontalAlignment="Stretch"
+                    Background="{StaticResource MobileBlurHeader}"                    
+                    Canvas.ZIndex="100">
+            <CommandBar.PrimaryCommands>
+                <AppBarButton Label="Play All" Click="{x:Bind ViewModel.NavigatePlay}">
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="&#xE768;" />
+                    </AppBarButton.Icon>
+                </AppBarButton>
+
+                <AppBarButton Label="Shuffle Play" Click="{x:Bind ViewModel.ShuffleItemsAsync}">
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="&#xE8B1;" />
+                    </AppBarButton.Icon>
+                </AppBarButton>
+
+                <AppBarButton Label="{x:Bind ViewModel.PinButtonText, Mode=OneWay}" Click="{x:Bind ViewModel.PinPlaylist}">
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="{x:Bind ViewModel.PinButtonIcon, Mode=OneWay}" />
+                    </AppBarButton.Icon>
+                </AppBarButton>
+            </CommandBar.PrimaryCommands>
+        </CommandBar>
 
         <ui:InfoPane x:Name="PlaylistInfoPane" Margin="0,50,0,0" VerticalAlignment="Stretch"
                      HorizontalAlignment="Stretch" Visibility="Collapsed" />
@@ -31,9 +82,10 @@
         <!-- Displays playlists -->
         <GridView x:Name="TracksView"
                   ItemsSource="{x:Bind ViewModel.Tracks}"
-                  ItemTemplate="{StaticResource TrackItem}"
-                  Padding="50,0"
+                  ItemTemplate="{StaticResource MobileTrackItem}"
+                  ItemsPanel="{StaticResource MobileGridPanel}"
                   VerticalAlignment="Stretch"
+                  Padding="5,0"
                   SelectionMode="None"
                   IsSwipeEnabled="False"
                   IsItemClickEnabled="True"
@@ -48,11 +100,12 @@
             </interactivity:Interaction.Behaviors>
             <GridView.Header>
                 <StackPanel Orientation="Vertical">
-
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+    
+                    <StackPanel x:Name="HeaderPanel" Orientation="Horizontal" HorizontalAlignment="Stretch" Background="{StaticResource MobileBlurHeader}" Margin="-5,0,-5,5">
                         <!-- Track Image -->
                         <controls:DropShadowPanel BlurRadius="20"
-                                                  Margin="10,50,0,20"
+                                                  x:Name="PlaylistImageHolder"
+                                                  Margin="15,10,0,20"
                                                   ShadowOpacity="0.7"
                                                   OffsetX="0"
                                                   OffsetY="5"
@@ -61,22 +114,25 @@
                               
 
                                 <Grid Background="#FF444444"
-                                      Width="220"
+                                      x:Name="PlaylistBg2"
+                                      Width="120"
                                       Margin="0,-30,0,0"
-                                      Height="220"
+                                      Height="120"
                                       VerticalAlignment="Stretch"
                                       HorizontalAlignment="Stretch" />
 
                                 <Grid Background="#FF666666"
-                                      Width="230"
+                                      x:Name="PlaylistBg1"
+                                      Width="130"
                                       Margin="0,-17,0,0"
-                                      Height="230"
+                                      Height="130"
                                       VerticalAlignment="Stretch"
                                       HorizontalAlignment="Stretch" />
 
                                 <Image
-                                    Width="240"
-                                    Height="240"
+                                    x:Name="PlaylistImage"
+                                    Width="140"
+                                    Height="140"
                                     Source="{x:Bind ViewModel.Playlist, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
                                     VerticalAlignment="Stretch"
                                     HorizontalAlignment="Stretch" />
@@ -87,11 +143,15 @@
                         </controls:DropShadowPanel>
 
                         <!-- Detail Section -->
-                        <StackPanel VerticalAlignment="Center" Margin="40,0,0,0">
-                            <TextBlock Text="{x:Bind ViewModel.Playlist.Title, Mode=OneWay}" FontWeight="Bold"
-                                       FontSize="50" TextTrimming="CharacterEllipsis" Opacity="0.8" />
-                            <TextBlock Text="{x:Bind ViewModel.Playlist.User.Username, Mode=OneWay}" Opacity="0.7"
-                                       FontSize="20" Margin="0,5,0,10" HorizontalAlignment="Left" TextWrapping="Wrap" />
+                        <StackPanel VerticalAlignment="Center" Margin="20,0,0,0" x:Name="TitlePanel">
+                            <TextBlock Text="{x:Bind ViewModel.Playlist.Title, Mode=OneWay}" 
+                                       x:Name="PlaylistTitle"
+                                       FontWeight="SemiBold"
+                                       FontSize="26" TextTrimming="CharacterEllipsis" Opacity="0.8" />
+                            <TextBlock Text="{x:Bind ViewModel.Playlist.User.Username, Mode=OneWay}" 
+                                       x:Name="PlaylistUser"
+                                       Opacity="0.7"
+                                       FontSize="14" Margin="0,5,0,10" HorizontalAlignment="Left" TextWrapping="Wrap" />
 
                             <!-- Tracks -->
                             <StackPanel Orientation="Horizontal" Margin="0,15,0,0">
@@ -121,7 +181,7 @@
 
                     </StackPanel>
 
-                    <StackPanel Orientation="Horizontal" Margin="10,20,0,20">
+                    <StackPanel Orientation="Horizontal" Margin="10,20,0,20" x:Name="DesktopCommandBar" Visibility="Collapsed">
                         <ui:SoundByteButton Glyph="&#xE768;" Label="Play All" Click="{x:Bind ViewModel.NavigatePlay}"
                                             Margin="0,0,25,0" />
                         <ui:SoundByteButton Glyph="&#xE8B1;" Label="Shuffle Play"
