@@ -185,6 +185,9 @@
     <PackageReference Include="NotificationsExtensions.Win10">
       <Version>14332.0.2</Version>
     </PackageReference>
+    <PackageReference Include="UICompositionAnimations">
+      <Version>2.10.3</Version>
+    </PackageReference>
     <PackageReference Include="UWP.SDKforGoogleAnalytics.Managed">
       <Version>1.5.2</Version>
     </PackageReference>

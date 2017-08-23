@@ -59,7 +59,7 @@
         </CommandBar>
 
         <userControls:InfoPane x:Name="UserPlaylistModelInfoPane" VerticalAlignment="Stretch"
-                               HorizontalAlignment="Stretch" Visibility="Collapsed" Canvas.ZIndex="50" />
+                               HorizontalAlignment="Stretch" Visibility="Collapsed" Canvas.ZIndex="250" />
 
 
         <GridView ItemClick="{x:Bind NavigatePlaylist}"

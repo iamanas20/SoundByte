@@ -15,6 +15,7 @@ using Windows.Services.Store;
 using Windows.UI.Xaml;
 using Microsoft.Toolkit.Uwp;
 using SoundByte.Core.Services;
+using UICompositionAnimations.Lights;
 
 namespace SoundByte.Core.Dialogs
 {
@@ -23,6 +24,8 @@ namespace SoundByte.Core.Dialogs
         public PendingUpdateDialog()
         {
             InitializeComponent();
+
+            LightsSourceHelper.SetIsLightsContainer(RootGrid, true);
         }
 
         public void DeferUpdate()

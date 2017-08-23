@@ -18,6 +18,7 @@ using Windows.UI.Xaml;
 using Windows.Web.Http;
 using SoundByte.Core.Helpers;
 using SoundByte.Core.Services;
+using UICompositionAnimations.Lights;
 
 namespace SoundByte.Core.Dialogs
 {
@@ -32,6 +33,8 @@ namespace SoundByte.Core.Dialogs
 
             ContinueButton.Focus(FocusState.Programmatic);
             MoreInfo.Text = ex.Message;
+
+            LightsSourceHelper.SetIsLightsContainer(RootGrid, true);
         }
 
         private async Task Send()
