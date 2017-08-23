@@ -55,7 +55,7 @@
               Height="170"
               HorizontalAlignment="Stretch"
               Margin="0,5,0,5"
-              x:Load="False">
+              x:DeferLoadStrategy="Lazy" >
 
             <!-- Item Image -->
             <control:DropShadowPanel Canvas.ZIndex="5"
@@ -189,7 +189,7 @@
               Visibility="Collapsed"
               Height="170"
               Margin="0,5,0,5"
-              x:Load="False"
+              x:DeferLoadStrategy="Lazy"
               HorizontalAlignment="Stretch">
 
             <!-- Item Image -->

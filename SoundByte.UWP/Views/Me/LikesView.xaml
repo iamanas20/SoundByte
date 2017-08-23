@@ -35,6 +35,8 @@
                         <Setter Target="DesktopCommandBar.Visibility" Value="Visible" />
                         <Setter Target="MobileGrid.Visibility" Value="Collapsed" />
                         <Setter Target="MobileCommandBar.Visibility" Value="Collapsed" />
+                        <Setter Target="StackPanel.ItemTemplate" Value="{StaticResource TrackItem}" />
+                        <Setter Target="StackPanel.ItemsPanel" Value="{StaticResource DesktopGridPanel}" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -76,7 +78,7 @@
         <GridView ItemClick="{x:Bind PlayItem}"
                   ItemsSource="{x:Bind LikesModel}"
                   ItemContainerStyle="{StaticResource MainGridViewItem}"
-                  Padding="10,0"
+                  Padding="5,0"
                   x:Name="StackPanel"
                   VerticalAlignment="Stretch"
                   SelectionMode="None"
@@ -85,7 +87,8 @@
                   HorizontalAlignment="Stretch"
                   IsMultiSelectCheckBoxEnabled="False"
                   animations:ReorderGridAnimation.Duration="150"
-                  ItemTemplate="{StaticResource TrackItem}">
+                  ItemsPanel="{StaticResource MobileGridPanel}"
+                  ItemTemplate="{StaticResource MobileTrackItem}">
             <GridView.Header>
                 <StackPanel Canvas.ZIndex="20">
                     <TextBlock Opacity="0" x:Name="TextHeader" Text="Likes" FontWeight="Bold" FontSize="25"

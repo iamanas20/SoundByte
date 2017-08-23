@@ -15,7 +15,15 @@
     xmlns:stateTriggers="using:SoundByte.UWP.StateTriggers"
     x:Class="SoundByte.UWP.Resources.DataTemplates">
 
-  
+    <ItemsPanelTemplate x:Key="DesktopGridPanel">
+        <ItemsWrapGrid Orientation="Horizontal" />
+    </ItemsPanelTemplate>
+
+    <ItemsPanelTemplate x:Key="MobileGridPanel">
+        <ItemsStackPanel Orientation="Vertical" />
+    </ItemsPanelTemplate>
+
+
     <!-- Template for the playlist item -->
     <DataTemplate x:Key="PlaylistItem" x:DataType="endpoints:Playlist">
         <StackPanel Height="245"
@@ -93,12 +101,76 @@
     </DataTemplate>
     
     
+    <!-- Mobile template for the track item -->
+    <DataTemplate x:Key="MobileTrackItem" x:DataType="endpoints:Track">
+        <Grid HorizontalAlignment="Stretch" 
+              Margin="5">
+            <!-- On Hover, show the full track title -->
+            <ToolTipService.ToolTip>
+                <TextBlock Text="{x:Bind Title, Mode=OneWay}" />
+            </ToolTipService.ToolTip>
 
-    
-    <!-- Template for the track item -->
+            <!-- Drop Shadow for track image -->
+            <controls:DropShadowPanel x:Name="ShadowPanel"
+                                      VerticalAlignment="Top"
+                                      BlurRadius="15"
+                                      ShadowOpacity="0.8"
+                                      OffsetX="0"
+                                      IsTabStop="False"
+                                      IsHitTestVisible="False"
+                                      Margin="5,5,5,8"
+                                      OffsetY="5"
+                                      Color="Black">
+                <Grid>
+                    <Image Source="{x:Bind Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
+                           VerticalAlignment="Stretch"
+                           HorizontalAlignment="Stretch"
+                           IsHitTestVisible="False"
+                           x:Name="TrackImage"
+                           x:Phase="5"
+                           Width="90"
+                           Height="90"
+                           Stretch="Uniform" />
+
+                    <!-- Length of track, bottom-right -->
+                    <Grid RequestedTheme="Dark" Background="{StaticResource InAppBackgroundBrush}" Padding="6" HorizontalAlignment="Right"
+                          VerticalAlignment="Bottom">
+                        <TextBlock RequestedTheme="Dark"
+                                   Text="{x:Bind Duration, Mode=OneWay, Converter={StaticResource TimeStampConverter}}"
+                                   x:Phase="3"
+                                   FontSize="12"
+                                   FontWeight="Normal" />
+                    </Grid>
+                </Grid>
+            </controls:DropShadowPanel>
+            <!-- Playlist info below image -->
+            <StackPanel Orientation="Vertical" x:Name="TitlePanel" Margin="110,5,5,5" VerticalAlignment="Center" >
+                <TextBlock x:Name="TitleText"
+                           Text="{x:Bind Title, Mode=OneWay}"
+                           x:Phase="3"
+                           FontWeight="SemiLight"
+                           Margin="0,0,0,4"
+                           TextAlignment="Left"
+                           FontSize="19"
+                           TextWrapping="WrapWholeWords"
+                           MaxHeight="51"
+                           Opacity="0.9"
+                           TextTrimming="CharacterEllipsis" />
+
+                <TextBlock x:Name="TitleDescription"
+                           Text="{x:Bind User.Username, Mode=OneWay}"
+                           x:Phase="3"
+                           FontSize="14"
+                           Opacity="0.7"
+                           TextAlignment="Left"
+                           FontWeight="SemiBold" />
+            </StackPanel>
+        </Grid>
+    </DataTemplate>
+
+     <!-- Template for the track item -->
     <DataTemplate x:Key="TrackItem" x:DataType="endpoints:Track">
-        <StackPanel x:Name="StackPanel"
-                    Height="245"
+        <StackPanel Height="245"
                     Width="170"
                     Margin="5"
                     Orientation="Vertical">
@@ -106,32 +178,7 @@
             <ToolTipService.ToolTip>
                 <TextBlock Text="{x:Bind Title, Mode=OneWay}" />
             </ToolTipService.ToolTip>
-            <!-- Adjust style when running on Windows Phones -->
-            <VisualStateManager.VisualStateGroups>
-                <VisualStateGroup>
-                    <VisualState>
-                        <VisualState.StateTriggers>
-                            <stateTriggers:DeviceStateTrigger DeviceFamily="Windows.Mobile" />
-                        </VisualState.StateTriggers>
-                        <VisualState.Setters>
-                            <Setter Target="TrackImage.Width" Value="80" />
-
-
-                            <!--<Setter Target="StackPanel.Orientation" Value="Horizontal" />
-                            <Setter Target="StackPanel.Margin" Value="0" />
-                            <Setter Target="TitlePanel.VerticalAlignment" Value="Center" />
-                            <Setter Target="TitlePanel.Margin" Value="10,0,0,0" />
-                            <Setter Target="StackPanel.Width" Value="Auto" />
-                            <Setter Target="StackPanel.Height" Value="Auto" />
-                            <Setter Target="ShadowPanel.Width" Value="80" />
-                            <Setter Target="ShadowPanel.Height" Value="80" />
-                            <Setter Target="TitleText.TextAlignment" Value="Left" />
-                            <Setter Target="TitleDescription.TextAlignment" Value="Left" />-->
-                        </VisualState.Setters>
-                    </VisualState>
-                </VisualStateGroup>
-            </VisualStateManager.VisualStateGroups>
-
+    
             <!-- Drop Shadow for track image -->
             <controls:DropShadowPanel x:Name="ShadowPanel"
                                       VerticalAlignment="Top"

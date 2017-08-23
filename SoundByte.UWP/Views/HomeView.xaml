@@ -48,6 +48,8 @@
                         <Setter Target="MobileGrid.Visibility" Value="Collapsed" />
                         <Setter Target="DesktopCommandBarStream.Visibility" Value="Visible" />
                         <Setter Target="DesktopCommandBarChart.Visibility" Value="Visible" />
+                        <Setter Target="StackPanel.ItemTemplate" Value="{StaticResource TrackItem}" />
+                        <Setter Target="StackPanel.ItemsPanel" Value="{StaticResource DesktopGridPanel}" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -132,7 +134,8 @@
                               ShowsScrollingPlaceholders="False"
                               IsMultiSelectCheckBoxEnabled="False"
                               animations:ReorderGridAnimation.Duration="150"
-                              ItemTemplate="{StaticResource TrackItem}">
+                              ItemsPanel="{StaticResource MobileGridPanel}"
+                              ItemTemplate="{StaticResource MobileTrackItem}">
                         <GridView.Header>
                             <StackPanel Canvas.ZIndex="20">
                                 <!-- Holds the two drop down boxes for selecting data -->
