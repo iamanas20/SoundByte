@@ -35,6 +35,8 @@ namespace SoundByte.Core.Services
         // Store Context used to access the store.
         private readonly StoreContext _storeContext;
 
+        public readonly List<KeyValuePair<string, StoreProduct>> Products = new List<KeyValuePair<string, StoreProduct>>();
+
         private MonitizeService()
         {
             _storeContext = StoreContext.GetDefault();
@@ -46,7 +48,7 @@ namespace SoundByte.Core.Services
                 new Dictionary<string, string> {{"StoreID", storeId}});
 
             // Get the item
-            var item = (await GetProductInfoAsync()).FirstOrDefault(x => x.Key.ToLower() == storeId).Value;
+            var item = Products.FirstOrDefault(x => x.Key.ToLower() == storeId).Value;
             // Request to purchase the item
             var result = await item.RequestPurchaseAsync();
 
@@ -70,9 +72,10 @@ namespace SoundByte.Core.Services
             return true;
         }
 
-        public async Task<List<KeyValuePair<string, StoreProduct>>> GetProductInfoAsync()
+        public async Task InitProductInfoAsync()
         {
-            var list = new List<KeyValuePair<string, StoreProduct>>();
+            if (Products.Count > 0)
+                return;
 
             // Specify the kinds of add-ons to retrieve.
             var filterList = new List<string> {"Durable", "Consumable", "UnmanagedConsumable"};
@@ -87,16 +90,7 @@ namespace SoundByte.Core.Services
             };
 
             var results = await _storeContext.GetStoreProductsAsync(filterList, storeIds);
-
-            if (results.ExtendedError != null)
-            {
-                await new MessageDialog(results.ExtendedError.Message).ShowAsync();
-                return list;
-            }
-
-            list.AddRange(results.Products);
-
-            return list;
+            Products.AddRange(results.Products);
         }
     }
 }

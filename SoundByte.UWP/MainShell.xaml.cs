@@ -207,6 +207,9 @@ namespace SoundByte.UWP
             // Navigate to the first page
             await HandleProtocolAsync(path);
 
+            // Handle donation logic
+            await MonitizeService.Instance.InitProductInfoAsync();
+
             // Test Version and tell user app upgraded
             HandleNewAppVersion();
 

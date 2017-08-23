@@ -10,6 +10,8 @@
  * |----------------------------------------------------------------|
  */
 
+using System;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Navigation;
 using SoundByte.Core.Services;
@@ -34,21 +36,28 @@ namespace SoundByte.UWP.Views.Application
             App.IsLoading = true;
 
             // Get all the products
-            var donateProducts = await MonitizeService.Instance.GetProductInfoAsync();
+            await MonitizeService.Instance.InitProductInfoAsync();
 
-            LooseChangePrice.Text = donateProducts.Exists(t => t.Key.ToLower() == "9p3vls5wtft6")
-                ? donateProducts.Find(t => t.Key.ToLower() == "9p3vls5wtft6").Value.Price.FormattedBasePrice
-                : "Unknown";
-            SmallCoffeePrice.Text = donateProducts.Exists(t => t.Key.ToLower() == "9msxrvnlnlj7")
-                ? donateProducts.Find(t => t.Key.ToLower() == "9msxrvnlnlj7").Value.Price.FormattedBasePrice
-                : "Unknown";
-            RegularCoffeePrice.Text = donateProducts.Exists(t => t.Key.ToLower() == "9nrgs6r2grsz")
-                ? donateProducts.Find(t => t.Key.ToLower() == "9nrgs6r2grsz").Value.Price.FormattedBasePrice
-                : "Unknown";
-            LargeCoffeePrice.Text = donateProducts.Exists(t => t.Key.ToLower() == "9pnsd6hskwpk")
-                ? donateProducts.Find(t => t.Key.ToLower() == "9pnsd6hskwpk").Value.Price.FormattedBasePrice
-                : "Unknown";
-
+            if (MonitizeService.Instance.Products.Count > 0)
+            {
+                LooseChangePrice.Text = MonitizeService.Instance.Products.Exists(t => t.Key.ToLower() == "9p3vls5wtft6")
+                    ? MonitizeService.Instance.Products.Find(t => t.Key.ToLower() == "9p3vls5wtft6").Value.Price.FormattedBasePrice
+                    : "Unknown";
+                SmallCoffeePrice.Text = MonitizeService.Instance.Products.Exists(t => t.Key.ToLower() == "9msxrvnlnlj7")
+                    ? MonitizeService.Instance.Products.Find(t => t.Key.ToLower() == "9msxrvnlnlj7").Value.Price.FormattedBasePrice
+                    : "Unknown";
+                RegularCoffeePrice.Text = MonitizeService.Instance.Products.Exists(t => t.Key.ToLower() == "9nrgs6r2grsz")
+                    ? MonitizeService.Instance.Products.Find(t => t.Key.ToLower() == "9nrgs6r2grsz").Value.Price.FormattedBasePrice
+                    : "Unknown";
+                LargeCoffeePrice.Text = MonitizeService.Instance.Products.Exists(t => t.Key.ToLower() == "9pnsd6hskwpk")
+                    ? MonitizeService.Instance.Products.Find(t => t.Key.ToLower() == "9pnsd6hskwpk").Value.Price.FormattedBasePrice
+                    : "Unknown";
+            }
+            else
+            {
+                await new MessageDialog("Could not load donation options...").ShowAsync();
+            }
+          
             // We are not loading now
             App.IsLoading = false;
         }
