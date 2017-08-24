@@ -164,7 +164,7 @@ namespace SoundByte.Core.Dialogs
             foreach (var playlist in userPlaylists)
             {
                 // Check if the track in in the playlist
-                playlist.IsTrackInInternalSet = playlist.Tracks.FirstOrDefault(x => x.Id == Track.Id) != null;
+                playlist.IsTrackInInternalSet = playlist.Tracks?.FirstOrDefault(x => x.Id == Track.Id) != null;
 
                 // Add the track to the UI
                 Playlist.Add(playlist);

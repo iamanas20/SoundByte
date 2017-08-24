@@ -127,32 +127,39 @@ namespace SoundByte.Core.Services
             if (!SettingsService.Instance.IsDebugModeEnabled)
                 return;
 
-            // Generate a notification
-            var toastContent = new ToastContent
+            try
             {
-                Visual = new ToastVisual
+                // Generate a notification
+                var toastContent = new ToastContent
                 {
-                    BindingGeneric = new ToastBindingGeneric
+                    Visual = new ToastVisual
                     {
-                        Children =
+                        BindingGeneric = new ToastBindingGeneric
                         {
-                            new AdaptiveText
+                            Children =
                             {
-                                Text = "SoundByte Debugging"
-                            },
+                                new AdaptiveText
+                                {
+                                    Text = "SoundByte Debugging"
+                                },
 
-                            new AdaptiveText
-                            {
-                                Text = message
+                                new AdaptiveText
+                                {
+                                    Text = message
+                                }
                             }
                         }
                     }
-                }
-            };
+                };
 
-            // Show the notification
-            var toast = new ToastNotification(toastContent.GetXml()) { ExpirationTime = DateTime.Now.AddMinutes(30) };
-            ToastNotificationManager.CreateToastNotifier().Show(toast);
+                // Show the notification
+                var toast = new ToastNotification(toastContent.GetXml()) {ExpirationTime = DateTime.Now.AddMinutes(30)};
+                ToastNotificationManager.CreateToastNotifier().Show(toast);
+            }
+            catch
+            {
+                // Notification platform may not exist, it does not really matter if this is not called
+            }  
         }
 
         #region Service Setup
