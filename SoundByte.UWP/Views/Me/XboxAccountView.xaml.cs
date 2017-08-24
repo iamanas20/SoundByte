@@ -13,6 +13,7 @@
 using System;
 using System.Collections.Generic;
 using Windows.Security.Credentials;
+using Windows.UI.Popups;
 using Windows.UI.Xaml.Navigation;
 using Microsoft.AspNet.SignalR.Client;
 using SoundByte.API.Endpoints;
@@ -41,8 +42,10 @@ namespace SoundByte.UWP.Views.Me
             RandomCodeText.Text = randomCode;
             await BackendService.Instance.LoginXboxConnect(randomCode);
 
-            BackendService.Instance.LoginHub.On<LoginInfo>("RecieveLoginInfo", info =>
+            BackendService.Instance.LoginHub.On<LoginInfo>("RecieveLoginInfo", async info =>
             {
+                
+
                 // Create the password vault
                 var vault = new PasswordVault();
 
@@ -67,14 +70,13 @@ namespace SoundByte.UWP.Views.Me
                         {"Service", "Xbox Connect"}
                     });
 
+                await new MessageDialog("Connected!").ShowAsync();
+
                 App.NavigateTo(typeof(HomeView));
             });
         }
 
-        private void XboxAccountView_Received(System.Collections.Generic.IList<Newtonsoft.Json.Linq.JToken> obj)
-        {
-            throw new NotImplementedException();
-        }
+  
 
         protected override async void OnNavigatedFrom(NavigationEventArgs e)
         {

@@ -122,6 +122,7 @@ namespace SoundByte.UWP
                 MainSplitView.IsPaneOpen = false;
                 MainSplitView.DisplayMode = SplitViewDisplayMode.Overlay;
                 MainSplitView.Margin = new Thickness(0);
+                MainSplitView.LightDismissOverlayMode = LightDismissOverlayMode.On;
 
                 SplitViewPaneGrid.Margin = new Thickness {Top = 48};
 

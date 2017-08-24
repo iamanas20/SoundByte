@@ -12,6 +12,7 @@
 
 using System;
 using System.Threading.Tasks;
+using Windows.UI.Popups;
 using Microsoft.AspNet.SignalR.Client;
 using Microsoft.WindowsAzure.MobileServices;
 using SoundByte.API.Endpoints;
@@ -63,9 +64,14 @@ namespace SoundByte.Core.Services
                 {
                     await _loginHub.Invoke("Connect", code);
                 }
+                else
+                {
+                    await new MessageDialog("Could not Connect...").ShowAsync();
+                }
             }
             catch
             {
+                await new MessageDialog("Could not Connect...").ShowAsync();
                 // Do Nothing
             }
         }
@@ -90,6 +96,8 @@ namespace SoundByte.Core.Services
             }
         }
 
+
+
         public async Task<string> LoginSendInfoAsync(LoginInfo info)
         {
             try
@@ -101,7 +109,8 @@ namespace SoundByte.Core.Services
                 // Only perform is connected
                 if (_mobileHub.State == ConnectionState.Connected)
                 {
-                    return await _loginHub.Invoke<string>("SendLoginInfo", info);
+                    await _loginHub.Invoke("SendLoginInfo", info);
+                    return string.Empty;
                 }
 
                 return "Not Connected";     
@@ -109,40 +118,6 @@ namespace SoundByte.Core.Services
             catch (Exception ex)
             {
                 return ex.Message;
-            }
-        }
-
-        /// <summary>
-        /// Pushes the current track up to the backend. This will allow the
-        /// user to continue their current song in the future (after app restart, or onto
-        /// another device). This is done as a track changes.
-        /// </summary>
-        /// <param name="track">The track to push up.</param>
-        public async Task PushCurrentTrackAsync(Track track)
-        {
-            try
-            {
-                // Don't do this is the user is not logged in.
-                if (!SoundByteService.Instance.IsAccountConnected)
-                    return;
-
-                // Try connect if disconnected
-                if (_mobileHub.State != ConnectionState.Connected)
-                    await _mobileHub.Start();
-
-                // Append the SoundCloud Account ID
-                _mobileHub.Headers["soundcloud-account-id"] = SoundByteService.Instance.SoundCloudUser?.Id;
-                _mobileHub.Headers["fanburst-account-id"] = SoundByteService.Instance.FanburstUser?.Id;
-
-                // Only perform is connected
-                if (_mobileHub.State == ConnectionState.Connected)
-                {
-                    await _playbackHub.Invoke("PushTrack", track);
-                }
-            }
-            catch
-            {
-                // ignore
             }
         }
     }

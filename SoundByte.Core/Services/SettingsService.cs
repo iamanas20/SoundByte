@@ -47,6 +47,7 @@ namespace SoundByte.Core.Services
         private const string TileStyleKey = "SoundByte.Tile.Style";
         private const string MenuCollapsedKey = "SoundByte.Desktop.MenuPosition";
         private const string AppInBackgroundKey = "SoundByte.Core.AppBackground";
+        private const string LastVolumeSliderKey = "SoundByte.Playback.Volume";
 
         #endregion
 
@@ -277,6 +278,19 @@ namespace SoundByte.Core.Services
                 SaveSettingsValue(CurrentTrackKey, value);
             }
         }
+
+        public double PlaybackVolume
+        {
+            get
+            {
+                var value = ReadSettingsValue(LastVolumeSliderKey, true) as double?;
+
+                return value ?? 1.0;
+            }
+
+            set => SaveSettingsValue(LastVolumeSliderKey, value);
+        }
+
 
         /// <summary>
         ///     Gets if settings syncing is enabled or not

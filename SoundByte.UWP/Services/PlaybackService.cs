@@ -44,7 +44,35 @@ namespace SoundByte.UWP.Services
         private PlaybackService()
         {
             // Create the player instance
-            Player = new MediaPlayer { AutoPlay = false };
+            Player = new MediaPlayer { AutoPlay = false, Volume = SettingsService.Instance.PlaybackVolume };
+
+            var adjustedVolume = SettingsService.Instance.PlaybackVolume * 100;
+
+            if ((int)adjustedVolume == 0)
+            {
+                Player.IsMuted = true;
+                VolumeIcon = "\uE74F";
+            }
+            else if (adjustedVolume < 25)
+            {
+                Player.IsMuted = false;
+                VolumeIcon = "\uE992";
+            }
+            else if (adjustedVolume < 50)
+            {
+                Player.IsMuted = false;
+                VolumeIcon = "\uE993";
+            }
+            else if (adjustedVolume < 75)
+            {
+                Player.IsMuted = false;
+                VolumeIcon = "\uE994";
+            }
+            else
+            {
+                Player.IsMuted = false;
+                VolumeIcon = "\uE767";
+            }
 
             Player.PlaybackSession.PlaybackStateChanged += PlaybackSessionStateChanged;
 
@@ -98,13 +126,14 @@ namespace SoundByte.UWP.Services
         /// </summary>
         public double MediaVolume
         {
-            get => Player.Volume * 100;
+            get => SettingsService.Instance.PlaybackVolume * 100;
             set
             {
                 UpdateProperty();
 
                 // Set the volume
                 Player.Volume = value / 100;
+                SettingsService.Instance.PlaybackVolume = value / 100;
 
                 // Update the UI
                 if ((int)value == 0)
@@ -330,8 +359,6 @@ namespace SoundByte.UWP.Services
             if (track == null)
                 return;
 
-            // Update the live tile
-            UpdateNormalTiles();
             // Run all this on the UI thread
             await DispatcherHelper.ExecuteOnUIThreadAsync(async () =>
             {
@@ -345,6 +372,9 @@ namespace SoundByte.UWP.Services
                 TimeListened = "00:00";
                 CurrentTimeValue = 0;
                 MaxTimeValue = 0;
+
+                // Update the live tile
+                UpdateNormalTiles();
 
                 try
                 {

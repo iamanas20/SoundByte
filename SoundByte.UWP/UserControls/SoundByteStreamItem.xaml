@@ -8,19 +8,6 @@
     <Grid>
         <!-- Used to show and hide each element -->
         <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup x:Name="DeviceStates">
-                <VisualState x:Name="Xbox">
-                    <VisualState.StateTriggers>
-                        <stateTriggers:DeviceStateTrigger DeviceFamily="Windows.Xbox" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="TrackExtendedDetailPane.Visibility" Value="Collapsed" />
-                        <Setter Target="PlaylistExtendedDetailPane.Visibility" Value="Collapsed" />
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
-            
-            
             <VisualStateGroup x:Name="Type">
                 <VisualState x:Name="TrackItem">
                     <Storyboard>

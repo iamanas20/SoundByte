@@ -16,12 +16,9 @@ namespace SoundByte.Service.Hubs
         {
             Groups.Remove(Context.ConnectionId, code);
         }
-
-        public string SendLoginInfo(LoginInfo info)
+        public void SendLoginInfo(LoginInfo info)
         {
-            Clients.Group(info.LoginCode).RecieveLoginInfo(info);
-
-            return string.Empty;
+            Clients.Group(info.LoginCode).RecieveLoginInfo<LoginInfo>(info);
         }
     }
 }

@@ -218,7 +218,8 @@ namespace SoundByte.UWP.Views.Me
                                                     {
                                                         ServiceType = _loginService,
                                                         LoginCode = LoginCodeTextBox.Text,
-                                                        AccessToken = response.AccessToken
+                                                        AccessToken = response.AccessToken,
+                                                        Scope = response.Scope
                                                     });
 
                                                 if (string.IsNullOrEmpty(serviceResponse))
@@ -373,6 +374,12 @@ namespace SoundByte.UWP.Views.Me
         private void NavigateToXboxConnect(object sender, RoutedEventArgs e)
         {
             App.NavigateTo(typeof(XboxAccountView));
+        }
+
+        private void XboxConnectGoBack(object sender, RoutedEventArgs e)
+        {
+            MainView.Visibility = Visibility.Visible;
+            ConnectAccountView.Visibility = Visibility.Collapsed;
         }
     }
 }

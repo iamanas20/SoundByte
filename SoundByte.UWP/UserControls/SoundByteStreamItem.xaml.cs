@@ -38,10 +38,19 @@ namespace SoundByte.UWP.UserControls
                     case "track-repost":
                     case "track":
                         VisualStateManager.GoToState(this, "TrackItem", false);
+
+                        if (DeviceHelper.IsXbox || DeviceHelper.IsMobile)
+                            TrackExtendedDetailPane.Visibility = Visibility.Collapsed;
+
                         break;
                     case "playlist-repost":
                     case "playlist":
                         VisualStateManager.GoToState(this, "PlaylistItem", false);
+
+
+                        if (DeviceHelper.IsXbox || DeviceHelper.IsMobile)
+                            PlaylistExtendedDetailPane.Visibility = Visibility.Collapsed;
+
                         break;
                 }
             };

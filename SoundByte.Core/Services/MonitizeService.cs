@@ -42,34 +42,41 @@ namespace SoundByte.Core.Services
             _storeContext = StoreContext.GetDefault();
         }
 
-        public async Task<bool> PurchaseDonation(string storeId)
+        public async Task PurchaseDonation(string storeId)
         {
             TelemetryService.Instance.TrackEvent("Donation Attempt",
                 new Dictionary<string, string> {{"StoreID", storeId}});
 
             // Get the item
             var item = Products.FirstOrDefault(x => x.Key.ToLower() == storeId).Value;
-            // Request to purchase the item
-            var result = await item.RequestPurchaseAsync();
 
-            // Check if the purchase was successful
-            if (result.Status == StorePurchaseStatus.Succeeded)
+            if (item != null)
             {
-                TelemetryService.Instance.TrackEvent("Donation Successful",
-                    new Dictionary<string, string> {{"StoreID", storeId}});
+                // Request to purchase the item
+                var result = await item.RequestPurchaseAsync();
 
-                await new MessageDialog("Thank you for your donation!", "SoundByte").ShowAsync();
+                // Check if the purchase was successful
+                if (result.Status == StorePurchaseStatus.Succeeded)
+                {
+                    TelemetryService.Instance.TrackEvent("Donation Successful",
+                        new Dictionary<string, string> { { "StoreID", storeId } });
+
+                    await new MessageDialog("Thank you for your donation!", "SoundByte").ShowAsync();
+                }
+                else
+                {
+                    TelemetryService.Instance.TrackEvent("Donation Failed",
+                        new Dictionary<string, string> { { "StoreID", storeId }, { "Reason", result?.ExtendedError?.Message } });
+
+                    await new MessageDialog("Your account has not been charged:\n" + result?.ExtendedError?.Message,
+                        "SoundByte").ShowAsync();
+                }
             }
             else
             {
-                TelemetryService.Instance.TrackEvent("Donation Failed",
-                    new Dictionary<string, string> {{"StoreID", storeId}, {"Reason", result?.ExtendedError?.Message}});
-
-                await new MessageDialog("Your account has not been charged:\n" + result?.ExtendedError?.Message,
+                await new MessageDialog("Your account has not been charged:\n" + "Unkown Error",
                     "SoundByte").ShowAsync();
             }
-
-            return true;
         }
 
         public async Task InitProductInfoAsync()

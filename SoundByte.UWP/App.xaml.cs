@@ -178,10 +178,7 @@ namespace SoundByte.UWP
             try
             {
                 // Setup the lights
-                LightsSourceHelper.Initialize(() => new PointerPositionSpotLight
-                {
-                    Active = !(!SettingsService.Instance.IsHighQualityArtwork || DeviceHelper.IsXbox)
-                });
+                LightsSourceHelper.Initialize(() => new PointerPositionSpotLight());
 
                 LightsSourceHelper.SetIsLightsContainer(Window.Current.Content, true);
             }
@@ -204,9 +201,12 @@ namespace SoundByte.UWP
         ///     Navigate to a certain page using the main shells
         ///     rootfrom navigate method
         /// </summary>
-        public static void NavigateTo(Type page, object param = null)
+        public static async void NavigateTo(Type page, object param = null)
         {
-            (Window.Current.Content as MainShell)?.RootFrame.Navigate(page, param);
+            await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
+            {
+                (Window.Current.Content as MainShell)?.RootFrame.Navigate(page, param);
+            });
         }
 
         /// <summary>
