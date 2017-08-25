@@ -31,7 +31,6 @@
     <SolidColorBrush x:Key="ShellBackground" Color="{ThemeResource ShellBackgroundColor}" />
     <SolidColorBrush x:Key="SoundByteButtonBackground" Color="{ThemeResource SoundByteButtonBackgroundColor}" />
 
-
     <!-- Used for hover effects over button -->
     <brushes:LightingBrush x:Key="ButtonLightingBrush"
                            SpecularShine=".01"

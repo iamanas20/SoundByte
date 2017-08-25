@@ -550,21 +550,6 @@
   <data name="UserPlaylists_Header" xml:space="preserve">
     <value>Nothing to hear here</value>
   </data>
-  <data name="WelcomePageBrowse.Content" xml:space="preserve">
-    <value>Browse</value>
-  </data>
-  <data name="WelcomePageDescription.Text" xml:space="preserve">
-    <value>Find the music you love. Discover new tracks. Connect directly with your favorite artists.</value>
-  </data>
-  <data name="WelcomePageError.ErrorText" xml:space="preserve">
-    <value>SoundByte encountered an error while trying to login. Please try again.</value>
-  </data>
-  <data name="WelcomePageLogin.Content" xml:space="preserve">
-    <value>Get Started</value>
-  </data>
-  <data name="WelcomePageError.ErrorHeader" xml:space="preserve">
-    <value>Login Error</value>
-  </data>
   <data name="ExploreGenreCombo_alternativerock.Content" xml:space="preserve">
     <value>Alternative Rock</value>
   </data>
@@ -906,5 +891,56 @@
   </data>
   <data name="SoundByte_Control_Unlike" xml:space="preserve">
     <value>Unlike</value>
+  </data>
+  <data name="SoundByte_CrashDialogContact.PlaceholderText" xml:space="preserve">
+    <value>Contact Email (Optional)</value>
+  </data>
+  <data name="SoundByte_CrashDialogContinueButton.Content" xml:space="preserve">
+    <value>Continue</value>
+  </data>
+  <data name="SoundByte_CrashDialogDescription.PlaceholderText" xml:space="preserve">
+    <value>What were you doing? (Optional)</value>
+  </data>
+  <data name="SoundByte_CrashDialogMoreInfo.Text" xml:space="preserve">
+    <value>More Information: </value>
+    <comment>More information sub heading</comment>
+  </data>
+  <data name="SoundByte_CrashDialogRestartButton.Content" xml:space="preserve">
+    <value>Restart (Recommended)</value>
+  </data>
+  <data name="SoundByte_CrashDialogSubTitle.Text" xml:space="preserve">
+    <value>SoundByte has encountered a problem and needs to close, we are sorry for the inconvenience. If you would like to help us fix this problem, fill in the box below.</value>
+    <comment>Subtitle for the crash dialog</comment>
+  </data>
+  <data name="SoundByte_CrashDialogTitle.Text" xml:space="preserve">
+    <value>Something Went Wrong</value>
+    <comment>Title for the crash dialog.</comment>
+  </data>
+  <data name="SoundByte_FilterDialogApply.Content" xml:space="preserve">
+    <value>Apply</value>
+  </data>
+  <data name="SoundByte_FilterDialogBPM.Header" xml:space="preserve">
+    <value>BPM</value>
+  </data>
+  <data name="SoundByte_FilterDialogLicense.Header" xml:space="preserve">
+    <value>License</value>
+  </data>
+  <data name="SoundByte_FilterDialogSubTitle.Text" xml:space="preserve">
+    <value>(Tracks)</value>
+  </data>
+  <data name="SoundByte_FilterDialogTagError" xml:space="preserve">
+    <value>Warning: Each tag needs to be seperated by a comma.</value>
+  </data>
+  <data name="SoundByte_FilterDialogTagList.Header" xml:space="preserve">
+    <value>Tags or Genres</value>
+  </data>
+  <data name="SoundByte_FilterDialogTagList.PlaceholderText" xml:space="preserve">
+    <value>Comma Separated List</value>
+  </data>
+  <data name="SoundByte_FilterDialogTitle.Text" xml:space="preserve">
+    <value>Filter Search</value>
+  </data>
+  <data name="SoundByte_FilterDialogType.Header" xml:space="preserve">
+    <value>Type</value>
   </data>
 </root>

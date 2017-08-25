@@ -27,7 +27,10 @@ namespace SoundByte.Core.Dialogs
     /// </summary>
     public sealed partial class CrashDialog
     {
-        public CrashDialog(Exception ex)
+        public CrashDialog() : this(new Exception("This is not a real error message"))
+        { }
+
+        public CrashDialog(Exception ex) 
         {
             InitializeComponent();
 

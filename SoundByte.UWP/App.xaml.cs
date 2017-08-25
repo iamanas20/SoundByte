@@ -24,8 +24,10 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Microsoft.Toolkit.Uwp;
+using SoundByte.Core.Dialogs;
 using SoundByte.Core.Helpers;
 using SoundByte.Core.Services;
+using SoundByte.UWP.Services;
 using SoundByte.UWP.Views;
 using SoundByte.UWP.Views.CoreApp;
 using UICompositionAnimations.Lights;
@@ -55,6 +57,14 @@ namespace SoundByte.UWP
             // picked theme.
             if (!SettingsService.Instance.IsDefaultTheme)
                 RequestedTheme = SettingsService.Instance.ThemeType;
+
+            // Registor the dialogs
+            NavigationService.Current.RegisterTypeAsDialog<CrashDialog>();
+            NavigationService.Current.RegisterTypeAsDialog<FilterDialog>();
+            NavigationService.Current.RegisterTypeAsDialog<PendingUpdateDialog>();
+            NavigationService.Current.RegisterTypeAsDialog<PinTileDialog>();
+            NavigationService.Current.RegisterTypeAsDialog<PlaylistDialog>();
+            NavigationService.Current.RegisterTypeAsDialog<ShareDialog>();
 
             // Init Keys
             ApiKeyService.Init();

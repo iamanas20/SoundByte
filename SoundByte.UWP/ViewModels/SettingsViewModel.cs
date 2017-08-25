@@ -18,6 +18,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using SoundByte.Core.Helpers;
 using SoundByte.Core.Services;
+using SoundByte.UWP.Views.Application;
 
 namespace SoundByte.UWP.ViewModels
 {
@@ -59,6 +60,11 @@ namespace SoundByte.UWP.ViewModels
             await rootCacheFolder.DeleteAsync();
             // Remove all toast notifications
             ToastNotificationManager.History.Clear();
+        }
+
+        public void NavigateDebugOptions()
+        {
+            App.NavigateTo(typeof(DebugView));
         }
 
         /// <summary>

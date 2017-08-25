@@ -99,7 +99,12 @@
                                       OnContent="Adjust for Appearance"
                                       OffContent="Adjust for Performance"
                                       IsOn="{x:Bind SettingsService.IsHighQualityArtwork, Mode=TwoWay}" />
-                        
+
+                        <Button BorderThickness="0" Margin="0,15,0,20" Padding="15,10"
+                                RequestedTheme="Dark"
+                                Background="{ThemeResource SystemControlBackgroundAccentBrush}" FontSize="16"
+                                Click="{x:Bind ViewModel.NavigateDebugOptions}" Content="Debug Options" Width="200" />
+
                         <Button BorderThickness="0" Margin="0,15,0,20" Padding="15,10"
                                 RequestedTheme="Dark"
                                 Background="{ThemeResource SystemControlBackgroundAccentBrush}" FontSize="16"
