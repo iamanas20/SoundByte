@@ -17,24 +17,24 @@
             <TextBlock x:Name="RandomCodeText" Text="00000" TextAlignment="Center" Margin="0,20,0,0" FontWeight="SemiBold" FontSize="76" />
             <TextBlock Opacity="0.8"
                        FontWeight="Normal"
-                       FontSize="18"
+                       FontSize="16"
                        Margin="0,25,0,0"
                        TextAlignment="Center"               
-                       Text="Download SoundByte onto your Computer, Click 'Login'/'Connected Accounts' and then click 'Connect' under Connect Xbox One" MaxWidth="800" TextWrapping="Wrap"/>
+                       Text="First, download SoundByte onto your Windows 10 PC (via the Windows Store). Click 'Login'/'Connected Accounts' and then click 'Connect' under Connect Xbox One" MaxWidth="600" TextWrapping="Wrap"/>
             <TextBlock Opacity="0.8"
                        FontWeight="Normal"
-                       FontSize="18"
+                       FontSize="16"
                        Margin="0,5,0,0"
                        TextAlignment="Center"               
-                       Text="Copy the code displayed on your Xbox into the box on your PC and click 'Connect'"/>
+                       Text="Copy the code displayed above into the box on your PC and click 'Connect'. "/>
 
 
             <TextBlock Opacity="0.6"
                        FontWeight="Normal"
-                       FontSize="12"
-                       Margin="0,45,0,0"
+                       FontSize="10"
+                       Margin="0,15,0,0"
                        TextAlignment="Center"               
-                       Text="SoundByte v2.1.80 or higher is required. Only Supported on Windows 10 Creators Update."/>
+                       Text="SoundByte v2.1.91 or higher is required. Only Supported on Windows 10 Creators Update. Can take up to 30 seconds to process."/>
         </StackPanel>
         
     </Grid>

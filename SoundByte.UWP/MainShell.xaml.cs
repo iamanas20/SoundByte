@@ -580,6 +580,8 @@ namespace SoundByte.UWP
                     MainSplitView.CompactPaneLength = 84;
                 }
 
+            RootFrame.Focus(FocusState.Programmatic);
+
             BlockNavigation = false;
         }
 

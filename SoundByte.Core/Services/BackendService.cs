@@ -14,6 +14,7 @@ using System;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
 using Microsoft.AspNet.SignalR.Client;
+using Microsoft.Toolkit.Uwp;
 using Microsoft.WindowsAzure.MobileServices;
 using SoundByte.API.Endpoints;
 
@@ -30,7 +31,6 @@ namespace SoundByte.Core.Services
 
         private readonly MobileServiceClient _mobileService;
         private readonly HubConnection _mobileHub;
-        private IHubProxy _playbackHub;
         private IHubProxy _loginHub;
 
         public IHubProxy LoginHub => _loginHub;
@@ -40,14 +40,6 @@ namespace SoundByte.Core.Services
             _mobileService = new MobileServiceClient(_backendAzureServiceUrl);
             _mobileHub = new HubConnection(_backendAzureServiceUrl);
 
-            // Add user auth.
-            if (_mobileService.CurrentUser != null)
-            {
-                _mobileHub.Headers["x-zumo-auth"] = _mobileService.CurrentUser.MobileServiceAuthenticationToken;
-            }
-
-            // Create the playback hub
-            _playbackHub = _mobileHub.CreateHubProxy("PlaybackHub");
             _loginHub = _mobileHub.CreateHubProxy("LoginHub");
         }
 
@@ -55,19 +47,25 @@ namespace SoundByte.Core.Services
         {
             try
             {
-                // Try connect if disconnected
-                if (_mobileHub.State != ConnectionState.Connected)
-                    await _mobileHub.Start();
+                await Task.Run(async () =>
+                {
+                    // Try connect if disconnected
+                    if (_mobileHub.State != ConnectionState.Connected)
+                        await _mobileHub.Start();
 
-                // Only perform is connected
-                if (_mobileHub.State == ConnectionState.Connected)
-                {
-                    await _loginHub.Invoke("Connect", code);
-                }
-                else
-                {
-                    await new MessageDialog("Could not Connect...").ShowAsync();
-                }
+                    // Only perform is connected
+                    if (_mobileHub.State == ConnectionState.Connected)
+                    {
+                        await _loginHub.Invoke("Connect", code);
+                    }
+                    else
+                    {
+                        await DispatcherHelper.ExecuteOnUIThreadAsync(async () =>
+                        {
+                            await new MessageDialog("Could not Connect...").ShowAsync();
+                        });
+                    }
+                });
             }
             catch
             {
@@ -95,8 +93,6 @@ namespace SoundByte.Core.Services
                 // Do Nothing
             }
         }
-
-
 
         public async Task<string> LoginSendInfoAsync(LoginInfo info)
         {

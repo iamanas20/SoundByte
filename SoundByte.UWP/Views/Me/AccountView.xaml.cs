@@ -363,6 +363,7 @@ namespace SoundByte.UWP.Views.Me
         {
             MainView.Visibility = Visibility.Collapsed;
             ConnectAccountView.Visibility = Visibility.Visible;
+            LoginCodeTextBox.Text = string.Empty;
         }
 
         private async void XboxOneConnectRequest(object sender, RoutedEventArgs e)
