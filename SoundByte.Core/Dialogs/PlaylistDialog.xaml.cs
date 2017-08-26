@@ -142,11 +142,19 @@ namespace SoundByte.Core.Dialogs
 
         private async void LoadContent(ContentDialog sender, ContentDialogOpenedEventArgs args)
         {
-            // If we are not logged in, close the dialog
-            if (!SoundByteService.Instance.IsSoundCloudAccountConnected)
+            if ((Track.ServiceType == ServiceType.Fanburst && !SoundByteService.Instance.IsFanBurstAccountConnected)
+                || (Track.ServiceType == ServiceType.SoundCloud &&
+                    !SoundByteService.Instance.IsSoundCloudAccountConnected))
             {
                 Hide();
-                await new MessageDialog("You need to be logged in to perform this task :/").ShowAsync();
+                await new MessageDialog("You must first login to add tracks to playlists.", "Login Required").ShowAsync();
+                return;
+            }
+
+            if (Track.ServiceType == ServiceType.Fanburst)
+            {
+                Hide();
+                await new MessageDialog("Adding Fanburst tracks to playlists is not currently supported.", "Not Supported").ShowAsync();
                 return;
             }
 
@@ -156,7 +164,8 @@ namespace SoundByte.Core.Dialogs
             _blockItemsLoading = true;
 
             // Get a list of the user playlists
-            var userPlaylists = await SoundByteService.Instance.GetAsync<List<Playlist>>("/me/playlists");
+            var userPlaylists =
+                await SoundByteService.Instance.GetAsync<List<Playlist>>(ServiceType.SoundCloud, "/me/playlists");
 
             Playlist.Clear();
 

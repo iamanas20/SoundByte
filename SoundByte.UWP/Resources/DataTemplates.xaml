@@ -100,7 +100,7 @@
         </StackPanel>
     </DataTemplate>
     
-    
+   
     <!-- Mobile template for the track item -->
     <DataTemplate x:Key="MobileTrackItem" x:DataType="endpoints:Track">
         <Grid HorizontalAlignment="Stretch" 
@@ -234,16 +234,14 @@
         </StackPanel>
     </DataTemplate>
 
-
     <!-- User Item -->
     <DataTemplate x:Key="UserItem" x:DataType="endpoints:User">
-        <StackPanel Height="270"
-                    Width="200"
+        <StackPanel Height="245"
+                    Width="170"
                     Margin="5"
                     Orientation="Vertical">
-            <controls:DropShadowPanel Width="190"
-                                      Height="190"
-                                      VerticalAlignment="Top"
+            <controls:DropShadowPanel VerticalAlignment="Top"
+                                      HorizontalAlignment="Center"
                                       BlurRadius="15"
                                       ShadowOpacity="0.8"
                                       OffsetX="0"
@@ -255,8 +253,8 @@
                 <Ellipse VerticalAlignment="Stretch"
                          HorizontalAlignment="Stretch"
                          IsHitTestVisible="False"
-                         Width="190"
-                         Height="190"
+                         Width="160"
+                         Height="160"
                          Stretch="Uniform">
                     <Ellipse.Fill>
                         <ImageBrush ImageSource="{x:Bind Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
@@ -264,9 +262,19 @@
                     </Ellipse.Fill>
                 </Ellipse>
             </controls:DropShadowPanel>
-            <TextBlock Text="{x:Bind Username, Mode=OneWay}" Margin="0,0,0,4" TextAlignment="Center" FontSize="16"
-                       TextWrapping="Wrap" MaxHeight="50" TextTrimming="CharacterEllipsis" />
-            <TextBlock Text="{x:Bind Country, Mode=OneWay}" FontSize="12" Opacity="0.6" TextAlignment="Center"
+            <TextBlock Text="{x:Bind Username, Mode=OneWay}" 
+                       x:Phase="3"
+                       Margin="0,10,0,2" 
+                       TextAlignment="Center" 
+                       FontSize="15"
+                       TextWrapping="Wrap" 
+                       MaxHeight="50" 
+                       TextTrimming="CharacterEllipsis" />
+            <TextBlock Text="{x:Bind Country, Mode=OneWay}" 
+                       FontSize="13" 
+                       x:Phase="3"
+                       Opacity="0.6" 
+                       TextAlignment="Center"
                        FontWeight="SemiBold" />
         </StackPanel>
     </DataTemplate>

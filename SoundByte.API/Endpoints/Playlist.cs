@@ -62,7 +62,7 @@ namespace SoundByte.API.Endpoints
         ///     Internal ID of this object.
         /// </summary>
         [JsonProperty("id")]
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         /// <summary>
         ///     The date and time of this objects creation

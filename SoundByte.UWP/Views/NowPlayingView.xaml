@@ -316,9 +316,10 @@
                 Click="ShowTransition"
                 HorizontalAlignment="Center"
                 Width="32"
+                x:Name="EnhanceButton"
                 Height="32">
             <Button.Content>
-                <TextBlock x:Name="EnhanceButton" OpticalMarginAlignment="TrimSideBearings" Text="&#xE014;"
+                <TextBlock  OpticalMarginAlignment="TrimSideBearings" Text="&#xE014;"
                            FontWeight="Light" FontSize="12" FontFamily="Segoe MDL2 Assets"
                            AutomationProperties.Name="Back" TextAlignment="Center" />
             </Button.Content>

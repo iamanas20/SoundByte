@@ -79,7 +79,7 @@ namespace SoundByte.UWP.Views
                 ApplicationView.GetForCurrentView().TitleBar.ButtonForegroundColor = Colors.White;
                 ApplicationView.GetForCurrentView().TitleBar.ButtonHoverForegroundColor = Colors.White;
                 ApplicationView.GetForCurrentView().TitleBar.ButtonPressedForegroundColor = Colors.White;
-            }
+            }                
 
             // Hide the overlay for a new session
             HideOverlay();
@@ -88,6 +88,7 @@ namespace SoundByte.UWP.Views
             {
                 CompactViewButton.Visibility = Visibility.Collapsed;
                 FullScreenButton.Visibility = Visibility.Collapsed;
+                EnhanceButton.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -121,7 +122,10 @@ namespace SoundByte.UWP.Views
                 ApplicationView.GetForCurrentView().TitleBar.ButtonForegroundColor = textColor;
                 ApplicationView.GetForCurrentView().TitleBar.ButtonHoverForegroundColor = textColor;
                 ApplicationView.GetForCurrentView().TitleBar.ButtonPressedForegroundColor = textColor;
+
             }
+
+            
 
             HideOverlay();
         }

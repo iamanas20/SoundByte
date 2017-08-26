@@ -43,7 +43,7 @@ namespace SoundByte.Core.Dialogs
                 dataPackage.Properties.Title = "SoundByte";
                 dataPackage.Properties.Description = "Share this track with Windows 10.";
                 dataPackage.SetText("Listen to " + Track.Title + " by " + Track.User.Username +
-                                    " on #SoundByte #Windows10: " + Track.PermalinkUri);
+                                    " on #SoundByte #Windows10 " + Track.PermalinkUri);
             }
 
             // Remove any old share events
@@ -77,7 +77,7 @@ namespace SoundByte.Core.Dialogs
             // Create a data package
             var dataPackage = new DataPackage {RequestedOperation = DataPackageOperation.Copy};
             // Set the link to the track on soundcloud
-            dataPackage.SetText("soundbyte://core/track?id=" + Track.Id);
+            dataPackage.SetText($"soundbyte://core/track?id={Track.Id}&service={Track.ServiceType.ToString().ToLower()}");
             // Set the clipboard content
             Clipboard.SetContent(dataPackage);
             // Hide the popup

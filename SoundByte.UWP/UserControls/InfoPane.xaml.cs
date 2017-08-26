@@ -120,9 +120,12 @@ namespace SoundByte.UWP.UserControls
         /// </summary>
         public void ClosePane()
         {
-            // Hide the pane
-            Visibility = Visibility.Collapsed;
-            Opacity = 0;
+            if (LoadingRing.Visibility == Visibility.Visible)
+            {
+                // Hide the pane
+                Visibility = Visibility.Collapsed;
+                Opacity = 0;
+            }
         }
 
         #endregion

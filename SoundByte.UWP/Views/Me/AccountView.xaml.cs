@@ -68,6 +68,7 @@ namespace SoundByte.UWP.Views.Me
 
             MainView.Visibility = Visibility.Visible;
             ConnectAccountView.Visibility = Visibility.Collapsed;
+            LoginWebView.Visibility = Visibility.Collapsed;
 
             if (DeviceHelper.IsXbox)
             {
