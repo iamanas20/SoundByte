@@ -90,6 +90,7 @@ Insert the following JSON code into this file
   "SoundCloudClientSecret": "key-here",
   "FanburstClientID": "key-here",
   "FanbustClientSecret": "key-here",
+  "YouTubeClientID": "key-here",
   "BackupSoundCloudPlaybackIDs": [
     "key-here",
     "key-here",
