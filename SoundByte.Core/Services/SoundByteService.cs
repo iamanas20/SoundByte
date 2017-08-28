@@ -638,6 +638,10 @@ namespace SoundByte.Core.Services
                     requestUri =
                         $"https://api.fanburst.com/{endpoint}?client_id={ApiKeyService.FanburstClientId}&client_secret={ApiKeyService.FanburstClientSecret}";
                     break;
+                case ServiceType.YouTube:
+                    requestUri =
+                        $"https://www.googleapis.com/youtube/v3/{endpoint}?key={ApiKeyService.YouTubeClientId}";
+                    break;
             }
 
             // Check that there are optional params then loop through all 
@@ -679,6 +683,8 @@ namespace SoundByte.Core.Services
                                 if (IsFanBurstAccountConnected)
                                     client.DefaultRequestHeaders.Authorization =
                                         new HttpCredentialsHeaderValue("OAuth", FanburstToken.AccessToken);
+                                break;
+                            default:
                                 break;
                         }
 

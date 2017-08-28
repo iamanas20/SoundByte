@@ -25,11 +25,13 @@ using Windows.Storage.Streams;
 using Windows.System;
 using Windows.UI.Notifications;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Microsoft.Toolkit.Uwp;
 using SoundByte.API.Endpoints;
 using SoundByte.Core.Converters;
 using SoundByte.Core.Helpers;
 using SoundByte.Core.Services;
+using YoutubeExplode;
 using User = SoundByte.API.Endpoints.User;
 
 namespace SoundByte.UWP.Services
@@ -496,18 +498,26 @@ namespace SoundByte.UWP.Services
                     if (track == null)
                         continue;
 
+                    if (track.ServiceType == ServiceType.YouTube && string.IsNullOrEmpty(track.StreamUrl))
+                        continue;
+
                     MediaSource source;
 
-                    if (track.ServiceType == ServiceType.SoundCloud)
-                        source = MediaSource.CreateFromUri(new Uri("http://api.soundcloud.com/tracks/" + track.Id +
-                                                                   "/stream?client_id=" + apiKey));
-                    else if (track.ServiceType == ServiceType.Fanburst)
-                        source = MediaSource.CreateFromUri(new Uri("https://api.fanburst.com/tracks/" + track.Id +
-                                                                   "/stream?client_id=" + ApiKeyService
-                                                                       .FanburstClientId));
-                    else
-                        source = MediaSource.CreateFromUri(new Uri("http://api.soundcloud.com/tracks/" + track.Id +
-                                                                   "/stream?client_id=" + apiKey));
+                    switch (track.ServiceType)
+                    {
+                        case ServiceType.SoundCloud:
+                            source = MediaSource.CreateFromUri(new Uri("http://api.soundcloud.com/tracks/" + track.Id + "/stream?client_id=" + apiKey));
+                            break;
+                        case ServiceType.Fanburst:
+                            source = MediaSource.CreateFromUri(new Uri("https://api.fanburst.com/tracks/" + track.Id + "/stream?client_id=" + ApiKeyService.FanburstClientId));
+                            break;
+                        case ServiceType.YouTube:
+                            source = MediaSource.CreateFromUri(new Uri(track.StreamUrl));
+                            break;
+                        default:
+                            source = MediaSource.CreateFromUri(new Uri("http://api.soundcloud.com/tracks/" + track.Id + "/stream?client_id=" + apiKey));
+                            break;
+                    }
 
                     // So we can access the item later
                     source.CustomProperties["SoundByteItem.ID"] = track.Id;
@@ -601,10 +611,22 @@ namespace SoundByte.UWP.Services
         /// <summary>
         ///     Called when the user adjusts the playing slider
         /// </summary>
-        public void PlayingSliderChange()
+        public async void PlayingSliderChange()
         {
             // Set the track position
             Instance.Player.PlaybackSession.Position = TimeSpan.FromSeconds(CurrentTimeValue);
+
+            await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
+            {
+                var overlay = App.CurrentFrame.FindName("VideoOverlay") as MediaElement;
+
+                if (overlay == null) return;
+
+                if (CurrentTrack.ServiceType == ServiceType.YouTube)
+                {
+                    overlay.Position = PlaybackService.Instance.Player.PlaybackSession.Position;
+                }
+            });
         }
 
         ~PlaybackService()
@@ -615,7 +637,7 @@ namespace SoundByte.UWP.Services
         /// <summary>
         ///     Timer method that is run to make sure the UI is kept up to date
         /// </summary>
-        private void PlayingSliderUpdate(object sender, object e)
+        private async void PlayingSliderUpdate(object sender, object e)
         {
             if (DeviceHelper.IsBackground)
                 return;

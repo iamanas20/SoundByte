@@ -18,6 +18,7 @@ using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.StartScreen;
 using Windows.UI.ViewManagement;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Microsoft.Toolkit.Uwp;
 using SoundByte.API.Endpoints;
@@ -61,6 +62,22 @@ namespace SoundByte.UWP.ViewModels
                 if (Service.CurrentTrack == null)
                     return;
 
+                var overlay = App.CurrentFrame.FindName("VideoOverlay") as MediaElement;
+
+                if (overlay != null)
+                {
+                    if (Service.CurrentTrack.ServiceType == ServiceType.YouTube)
+                    {
+                        overlay.Source = new Uri(Service.CurrentTrack.StreamUrl);
+                        overlay.Position = PlaybackService.Instance.Player.PlaybackSession.Position;
+                        overlay.Visibility = Visibility.Visible;
+                    }
+                    else
+                    {
+                        overlay.Visibility = Visibility.Collapsed;
+                    }
+                }
+             
                 // Set the pin button text
                 PinButtonText = TileService.Instance.DoesTileExist("Track_" + Service.CurrentTrack.Id) ? "Unpin" : "Pin";
 
@@ -190,6 +207,25 @@ namespace SoundByte.UWP.ViewModels
             // Bind the method once we know a playback list exists
             if (PlaybackService.Instance.PlaybackList != null)
                 PlaybackService.Instance.PlaybackList.CurrentItemChanged += CurrentItemChanged;
+
+            var overlay = App.CurrentFrame.FindName("VideoOverlay") as MediaElement;
+
+            if (overlay != null)
+            {
+                if (Service.CurrentTrack == null)
+                    return;
+
+                if (Service.CurrentTrack.ServiceType == ServiceType.YouTube)
+                {
+                    overlay.Source = new Uri(Service.CurrentTrack.StreamUrl);
+                    overlay.Position = PlaybackService.Instance.Player.PlaybackSession.Position;
+                    overlay.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    overlay.Visibility = Visibility.Collapsed;
+                }
+            }
         }
 
         public void MakeFullScreen()

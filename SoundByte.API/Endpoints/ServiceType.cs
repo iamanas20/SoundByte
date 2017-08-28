@@ -15,6 +15,7 @@ namespace SoundByte.API.Endpoints
     public enum ServiceType
     {
         Fanburst,
-        SoundCloud
+        SoundCloud,
+        YouTube
     }
 }

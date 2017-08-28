@@ -82,9 +82,9 @@
     <!-- Backdrop acrylic blur used for app main page (seen through nav menu and titlebar) -->
     <brushes:CustomAcrylicBrush x:Key="AppHostBackgroundBrush"
                                 Mode="HostBackdrop"
-                                BlurAmount="12"
+                                BlurAmount="16"
                                 Tint="{StaticResource ShellNavigationBackgroundColor}"
-                                TintMix="0.7"
+                                TintMix="0.8"
                                 NoiseTextureUri="/Assets/Misc/lightnoise.png" />
 
     <brushes:CustomAcrylicBrush x:Key="InAppBackgroundBrush"

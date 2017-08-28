@@ -39,6 +39,8 @@
                         <Setter Target="TracksView.ItemsPanel" Value="{StaticResource DesktopGridPanel}" />
                         <Setter Target="FanburstView.ItemTemplate" Value="{StaticResource TrackItem}" />
                         <Setter Target="FanburstView.ItemsPanel" Value="{StaticResource DesktopGridPanel}" />
+                        <Setter Target="YouTubeView.ItemTemplate" Value="{StaticResource TrackItem}" />
+                        <Setter Target="YouTubeView.ItemsPanel" Value="{StaticResource DesktopGridPanel}" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -185,6 +187,33 @@
                     <!-- Displays searched tracks -->
                     <GridView x:Name="FanburstView"
                               ItemsSource="{x:Bind Path=ViewModel.FanburstTracks}"
+                              ItemTemplate="{StaticResource MobileTrackItem}"
+                              ItemsPanel="{StaticResource MobileGridPanel}"
+                              SelectionMode="None"
+                              IsSwipeEnabled="False"
+                              IsItemClickEnabled="True"
+                              ItemContainerStyle="{StaticResource MainGridViewItem}"
+                              ItemClick="{x:Bind ViewModel.NavigateItem}"
+                              ShowsScrollingPlaceholders="False"
+                              IsMultiSelectCheckBoxEnabled="False"
+                              animations:ReorderGridAnimation.Duration="150"
+                              HorizontalAlignment="Stretch"
+                              VerticalAlignment="Stretch" />
+                </Grid>
+            </PivotItem>
+
+            <PivotItem x:Name="YouTubePivot">
+                <PivotItem.Header>
+                    <TextBlock Text="YouTube (Alpha)" FontSize="18" Opacity="0.9" FontWeight="SemiBold"
+                               VerticalAlignment="Center" Padding="0,2" />
+                </PivotItem.Header>
+                <Grid>
+                    <!-- Used to display any errors that may occur when loading the content -->
+                    <uiElements:InfoPane x:Name="YouTubeSearchModelInfoPane" VerticalAlignment="Stretch"
+                                         HorizontalAlignment="Stretch" Visibility="Collapsed" Canvas.ZIndex="50" />
+                    <!-- Displays searched tracks -->
+                    <GridView x:Name="YouTubeView"
+                              ItemsSource="{x:Bind Path=ViewModel.YouTubeTracks}"
                               ItemTemplate="{StaticResource MobileTrackItem}"
                               ItemsPanel="{StaticResource MobileGridPanel}"
                               SelectionMode="None"

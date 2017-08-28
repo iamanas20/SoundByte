@@ -67,7 +67,7 @@
         <controls:ImageEx
             x:Name="BackgroundImage"
             Source="{x:Bind ViewModel.Service.CurrentTrack, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
-            PlaceholderSource="/Assets/Misc/XboxBG.png"
+            PlaceholderSource="/Assets/PlaceholderBackground.png"
             PlaceholderStretch="UniformToFill"
             Stretch="UniformToFill"
             Margin="-40"
@@ -76,6 +76,17 @@
             VerticalAlignment="Center"
             Canvas.ZIndex="1" />
 
+        <MediaElement IsMuted="True" 
+                      x:Name="VideoOverlay"
+                      HorizontalAlignment="Stretch"
+                      Canvas.ZIndex="2"
+                      VerticalAlignment="Stretch"
+                      Stretch="UniformToFill"
+                      Volume="0"
+                      Visibility="Collapsed"
+                      AudioCategory="Other"
+                      IsLooping="False" />
+        
         <!-- Transparent element that covers background canvas, makes image darker so white text and icons are easy to see -->
         <Grid x:Name="Overlay"
               Canvas.ZIndex="3"

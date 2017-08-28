@@ -41,6 +41,9 @@ namespace SoundByte.Core.Services
             public string SoundCloudClientSecret { get; set; }
             public string FanburstClientID { get; set; }
             public string FanbustClientSecret { get; set; }
+
+            public string YouTubeClientID { get; set; }
+
             public List<string> BackupSoundCloudPlaybackIDs { get; set; }
         }
 
@@ -53,6 +56,7 @@ namespace SoundByte.Core.Services
         private static string _soundCloudClientSecret;
         private static string _fanburstClientId;
         private static string _fanburstClientSecret;
+        private static string _youTubeClientId;
         private static List<string> _soundCloudPlaybackClientIds;
 
         /// <summary>
@@ -90,6 +94,7 @@ namespace SoundByte.Core.Services
                 _fanburstClientId = keys.FanburstClientID;
                 _fanburstClientSecret = keys.FanbustClientSecret;
                 _soundCloudPlaybackClientIds = keys.BackupSoundCloudPlaybackIDs;
+                _youTubeClientId = keys.YouTubeClientID;
 
             }).ContinueWith(task =>
             {
@@ -164,6 +169,16 @@ namespace SoundByte.Core.Services
                 Init();
 
                 return _fanburstClientSecret;
+            }
+        }
+
+        public static string YouTubeClientId
+        {
+            get
+            {
+                Init();
+
+                return _youTubeClientId;
             }
         }
 

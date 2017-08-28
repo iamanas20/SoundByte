@@ -11,6 +11,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Windows.ApplicationModel.Resources;
 using Windows.UI.Popups;
@@ -51,6 +52,8 @@ namespace SoundByte.UWP.ViewModels
         // Model for the user searches
         public SearchUserModel SearchUsers { get; private set; } = new SearchUserModel();
 
+        public YouTubeSearchModel YouTubeTracks { get; private set; } = new YouTubeSearchModel();
+
         #endregion
 
         #region Getters and Setters
@@ -81,6 +84,9 @@ namespace SoundByte.UWP.ViewModels
 
                 FanburstTracks.Query = value;
                 FanburstTracks.RefreshItems();
+
+                YouTubeTracks.Query = value;
+                YouTubeTracks.RefreshItems();
             }
         }
 
@@ -115,6 +121,7 @@ namespace SoundByte.UWP.ViewModels
             SearchPlaylists.RefreshItems();
             SearchUsers.RefreshItems();
             FanburstTracks.RefreshItems();
+            YouTubeTracks.RefreshItems();
         }
 
         public void Search(object sender, AutoSuggestBoxQuerySubmittedEventArgs args)
@@ -169,6 +176,18 @@ namespace SoundByte.UWP.ViewModels
                             var startPlayback =
                                 await PlaybackService.Instance.StartMediaPlayback(FanburstTracks.ToList(),
                                     FanburstTracks.Token, false, searchItem);
+                            if (!startPlayback.success)
+                                await new MessageDialog(startPlayback.message, "Error playing searched track.")
+                                    .ShowAsync();
+                        }
+                        else if (searchItem.ServiceType == ServiceType.YouTube)
+                        {
+                            // Let the user know this is buggy as hell
+                            await new MessageDialog("Read: YouTube support is still in very early alpha. Expect this feature to not work at all. Currently only plays the clicked song and does not support playlists.", "WARNING").ShowAsync();
+
+                            var startPlayback =
+                                await PlaybackService.Instance.StartMediaPlayback(new List<Track> { searchItem }, 
+                                    YouTubeTracks.Token, false, searchItem);
                             if (!startPlayback.success)
                                 await new MessageDialog(startPlayback.message, "Error playing searched track.")
                                     .ShowAsync();

@@ -130,5 +130,10 @@ namespace SoundByte.API.Endpoints
         /// </summary>
         [JsonProperty("user_favorite")]
         public bool? UserFavorite { get; set; } = false;
+
+        /// <summary>
+        /// Only currenty used for YouTube
+        /// </summary>
+        public string StreamUrl { get; set; }
     }
 }
