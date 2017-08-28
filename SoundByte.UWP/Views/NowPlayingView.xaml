@@ -29,7 +29,7 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="90" />
                 </Grid.ColumnDefinitions>
 
               
@@ -77,13 +77,15 @@
             Canvas.ZIndex="1" />
 
         <MediaElement IsMuted="True" 
+                      IsHitTestVisible="False"
+                      Margin="-40"
                       x:Name="VideoOverlay"
                       HorizontalAlignment="Stretch"
                       Canvas.ZIndex="2"
                       VerticalAlignment="Stretch"
                       Stretch="UniformToFill"
                       Volume="0"
-                      Visibility="Collapsed"
+                      Opacity="0"
                       AudioCategory="Other"
                       IsLooping="False" />
         

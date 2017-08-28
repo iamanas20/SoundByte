@@ -56,6 +56,110 @@ namespace SoundByte.UWP.Models
         /// </summary>
         public bool HasMoreItems => Token != "eol";
 
+        private async Task RunYouTubeLogic(uint count)
+        {
+            // Get the comments
+            var comments = await SoundByteService.Instance.GetAsync<dynamic>(ServiceType.YouTube, "commentThreads", new Dictionary<string, string>
+            {
+                { "maxResults", "50"},
+                { "part", "snippet"},
+                { "videoId", _track.Id},
+                { "pageToken", Token }
+            });
+
+            var offset = (string)comments.nextPageToken;
+
+            // Get the comment offset
+            Token = string.IsNullOrEmpty(offset) ? "eol" : offset;
+
+            // Make sure that there are comments in the list
+            if (comments.items.Count > 0)
+            {
+                // Set the count variable
+                count = (uint)comments.items.Count;
+
+                foreach (var comment in comments.items)
+                {
+                    // Loop though all the comments on the UI thread
+                    await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
+                    {
+                        Add(new Comment
+                        {
+                            Id = comment.id,
+                            Body = comment.snippet.topLevelComment.snippet.textDisplay,
+                            CreatedAt = comment.snippet.topLevelComment.snippet.publishedAt,
+                            Timestamp = "0",
+                            Track = _track,
+                            User = new User
+                            {
+                                Id = "",
+                                ArtworkLink = comment.snippet.topLevelComment.snippet.authorProfileImageUrl,
+                                Username = comment.snippet.topLevelComment.snippet.authorDisplayName
+                            }            
+                        });
+                    });
+                }   
+            }
+            else
+            {
+                // There are no items, so we added no items
+                count = 0;
+
+                // Reset the token
+                Token = "eol";
+
+                // No items tell the user
+                await DispatcherHelper.ExecuteOnUIThreadAsync(async () =>
+                {
+                    await new MessageDialog("Be the first to post a comment.", "No Comments").ShowAsync();
+                });
+            }
+        }
+
+        private async Task RunSoundCloudLogic(uint count)
+        {
+            // Get the comments
+            var comments = await SoundByteService.Instance.GetAsync<CommentListHolder>(
+                string.Format("/tracks/{0}/comments", _track.Id), new Dictionary<string, string>
+                {
+                    {"limit", "50"},
+                    {"cursor", Token},
+                    {"linked_partitioning", "1"}
+                });
+
+            // Parse uri for offset
+            var param = new QueryParameterCollection(comments.NextList);
+            var offset = param.FirstOrDefault(x => x.Key == "offset").Value;
+
+            // Get the comment offset
+            Token = string.IsNullOrEmpty(offset) ? "eol" : offset;
+
+            // Make sure that there are comments in the list
+            if (comments.Items.Count > 0)
+            {
+                // Set the count variable
+                count = (uint)comments.Items.Count;
+
+                // Loop though all the comments on the UI thread
+                await DispatcherHelper.ExecuteOnUIThreadAsync(() => { comments.Items.ForEach(Add); });
+            }
+            else
+            {
+                // There are no items, so we added no items
+                count = 0;
+
+                // Reset the token
+                Token = "eol";
+
+                // No items tell the user
+                await DispatcherHelper.ExecuteOnUIThreadAsync(async () =>
+                {
+                    await new MessageDialog("Be the first to post a comment.", "No Comments").ShowAsync();
+                });
+            }
+        }
+
+
         /// <summary>
         ///     Loads stream items from the souncloud api
         /// </summary>
@@ -76,45 +180,17 @@ namespace SoundByte.UWP.Models
 
                 try
                 {
-                    // Get the comments
-                    var comments = await SoundByteService.Instance.GetAsync<CommentListHolder>(
-                        string.Format("/tracks/{0}/comments", _track.Id), new Dictionary<string, string>
-                        {
-                            {"limit", "50"},
-                            {"cursor", Token},
-                            {"linked_partitioning", "1"}
-                        });
-
-                    // Parse uri for offset
-                    var param = new QueryParameterCollection(comments.NextList);
-                    var offset = param.FirstOrDefault(x => x.Key == "offset").Value;
-
-                    // Get the comment offset
-                    Token = string.IsNullOrEmpty(offset) ? "eol" : offset;
-
-                    // Make sure that there are comments in the list
-                    if (comments.Items.Count > 0)
+                    switch (_track.ServiceType)
                     {
-                        // Set the count variable
-                        count = (uint) comments.Items.Count;
+                        case ServiceType.SoundCloud:
+                            await RunSoundCloudLogic(count);
+                            break;
+                        case ServiceType.YouTube:
+                            await RunYouTubeLogic(count);
+                            break;
 
-                        // Loop though all the comments on the UI thread
-                        await DispatcherHelper.ExecuteOnUIThreadAsync(() => { comments.Items.ForEach(Add); });
                     }
-                    else
-                    {
-                        // There are no items, so we added no items
-                        count = 0;
 
-                        // Reset the token
-                        Token = "eol";
-
-                        // No items tell the user
-                        await DispatcherHelper.ExecuteOnUIThreadAsync(async () =>
-                        {
-                            await new MessageDialog("Be the first to post a comment.", "No Comments").ShowAsync();
-                        });
-                    }
                 }
                 catch (SoundByteException ex)
                 {

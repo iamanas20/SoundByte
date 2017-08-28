@@ -37,7 +37,7 @@ namespace SoundByte.API.Endpoints
         ///     Object ID
         /// </summary>
         [JsonProperty("id")]
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         /// <summary>
         ///     The track that this comment was posted on

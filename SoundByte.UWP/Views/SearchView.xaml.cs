@@ -47,6 +47,9 @@ namespace SoundByte.UWP.Views
         /// <param name="e">Args</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            if (e.NavigationMode == NavigationMode.Back)
+                return;
+
             // Set the search string
             ViewModel.SearchQuery = e.Parameter != null ? e.Parameter as string : string.Empty;
             // Track Event

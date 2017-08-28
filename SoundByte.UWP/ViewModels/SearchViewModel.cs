@@ -182,11 +182,8 @@ namespace SoundByte.UWP.ViewModels
                         }
                         else if (searchItem.ServiceType == ServiceType.YouTube)
                         {
-                            // Let the user know this is buggy as hell
-                            await new MessageDialog("Read: YouTube support is still in very early alpha. Expect this feature to not work at all. Currently only plays the clicked song and does not support playlists.", "WARNING").ShowAsync();
-
                             var startPlayback =
-                                await PlaybackService.Instance.StartMediaPlayback(new List<Track> { searchItem }, 
+                                await PlaybackService.Instance.StartMediaPlayback(YouTubeTracks.ToList(), 
                                     YouTubeTracks.Token, false, searchItem);
                             if (!startPlayback.success)
                                 await new MessageDialog(startPlayback.message, "Error playing searched track.")

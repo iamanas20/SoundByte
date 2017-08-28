@@ -29,6 +29,7 @@ using SoundByte.Core.Services;
 using SoundByte.UWP.Models;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.Views;
+using WinRTXamlToolkit.Controls.Extensions;
 
 namespace SoundByte.UWP.ViewModels
 {
@@ -68,13 +69,15 @@ namespace SoundByte.UWP.ViewModels
                 {
                     if (Service.CurrentTrack.ServiceType == ServiceType.YouTube)
                     {
-                        overlay.Source = new Uri(Service.CurrentTrack.StreamUrl);
+                        overlay.Source = new Uri(Service.CurrentTrack.VideoStreamUrl);
                         overlay.Position = PlaybackService.Instance.Player.PlaybackSession.Position;
-                        overlay.Visibility = Visibility.Visible;
+                        overlay.Opacity = 1;
                     }
                     else
                     {
-                        overlay.Visibility = Visibility.Collapsed;
+                        overlay.Opacity = 0;
+                        overlay.Stop();
+                        overlay.Source = null;
                     }
                 }
              
@@ -217,13 +220,15 @@ namespace SoundByte.UWP.ViewModels
 
                 if (Service.CurrentTrack.ServiceType == ServiceType.YouTube)
                 {
-                    overlay.Source = new Uri(Service.CurrentTrack.StreamUrl);
+                    overlay.Source = new Uri(Service.CurrentTrack.VideoStreamUrl);
                     overlay.Position = PlaybackService.Instance.Player.PlaybackSession.Position;
-                    overlay.Visibility = Visibility.Visible;
+                    overlay.Opacity = 1;
                 }
                 else
                 {
-                    overlay.Visibility = Visibility.Collapsed;
+                    overlay.Opacity = 0;
+                    overlay.Stop();
+                    overlay.Source = null;
                 }
             }
         }
@@ -244,6 +249,15 @@ namespace SoundByte.UWP.ViewModels
             // Unbind the events
             if (PlaybackService.Instance.PlaybackList != null)
                 PlaybackService.Instance.PlaybackList.CurrentItemChanged -= CurrentItemChanged;
+
+            var overlay = App.CurrentFrame.FindName("VideoOverlay") as MediaElement;
+
+            if (overlay != null)
+            {
+                overlay.Opacity = 0;
+                overlay.Stop();
+                overlay.Source = null;
+            }
         }
 
         #endregion

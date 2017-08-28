@@ -98,8 +98,13 @@ namespace SoundByte.UWP.UserControls
         {
             // Update the needed variables
             Header = header;
+            HeaderTextBlock.Text = header;
+
             Text = text;
+            TextTextBlock.Text = text;
+
             Glyph = glyph;
+            GlyphTextBlock.Text = glyph;
 
             // Logic to show or hide the buton
             CloseButton.Visibility = showButton ? Visibility.Visible : Visibility.Collapsed;
@@ -113,6 +118,13 @@ namespace SoundByte.UWP.UserControls
             // Show the control
             Visibility = Visibility.Visible;
             Opacity = 1;
+        }
+
+        public void ClosePaneButtonClick()
+        {
+            // Hide the pane
+            Visibility = Visibility.Collapsed;
+            Opacity = 0;
         }
 
         /// <summary>

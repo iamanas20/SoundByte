@@ -637,7 +637,7 @@ namespace SoundByte.UWP.Services
         /// <summary>
         ///     Timer method that is run to make sure the UI is kept up to date
         /// </summary>
-        private async void PlayingSliderUpdate(object sender, object e)
+        private void PlayingSliderUpdate(object sender, object e)
         {
             if (DeviceHelper.IsBackground)
                 return;

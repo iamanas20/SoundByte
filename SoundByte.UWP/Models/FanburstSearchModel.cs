@@ -72,7 +72,7 @@ namespace SoundByte.UWP.Models
                         ServiceType.Fanburst, "tracks/search", new Dictionary<string, string>
                         {
                             {"query", WebUtility.UrlEncode(Query)},
-                            {"count", count.ToString()}
+                            {"per_page", count.ToString()}
                         });
 
                     // Parse uri for offset

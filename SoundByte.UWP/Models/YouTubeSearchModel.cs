@@ -17,14 +17,17 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
 using Windows.Foundation;
+using Windows.Graphics.Printing;
 using Windows.UI.Popups;
 using Windows.UI.Xaml.Data;
 using Microsoft.Toolkit.Uwp;
 using SoundByte.API.Endpoints;
 using SoundByte.API.Exceptions;
 using SoundByte.Core.Services;
+using SoundByte.UWP.UserControls;
 using YoutubeExplode;
 using YoutubeExplode.Models;
+using YoutubeExplode.Models.MediaStreams;
 
 namespace SoundByte.UWP.Models
 {
@@ -74,13 +77,15 @@ namespace SoundByte.UWP.Models
                     return new LoadMoreItemsResult { Count = 0 };
 
                 // We are loading
-                await DispatcherHelper.ExecuteOnUIThreadAsync(() => { App.IsLoading = true; });
+                await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
+                {
+                    (App.CurrentFrame?.FindName("YouTubeSearchModelInfoPane") as InfoPane)?.ShowLoading();
+                });
 
                 // Get the resource loader
                 var resources = ResourceLoader.GetForViewIndependentUse();
 
-                // At least 10 tracks at once
-                if (count < 10)
+                // only 10 tracks at once
                     count = 10;
 
                 try
@@ -91,12 +96,13 @@ namespace SoundByte.UWP.Models
                         {
                             {"part", "snippet"},
                             {"maxResults", count.ToString() },
-                            { "q", Query }
+                            { "q", Query },
+                            { "pageToken", Token }
                         });
 
                     // Parse uri for offset
                     //   var param = new QueryParameterCollection(searchTracks.NextList);
-                    var offset = "eol"; //param.FirstOrDefault(x => x.Key == "offset").Value;
+                    var offset = (string)searchTracks.nextPageToken;
 
                     // Get the search offset
                     Token = string.IsNullOrEmpty(offset) ? "eol" : offset;
@@ -120,24 +126,34 @@ namespace SoundByte.UWP.Models
                                     // Loop though all the tracks on the UI thread
                                     await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                                     {
-                                        Add(new Track
+                                        var track = new Track
                                         {
                                             ServiceType = ServiceType.YouTube,
                                             Id = item.id.videoId,
                                             Kind = "track",
-                                            Duration = (int)video.Duration.TotalMilliseconds,
+                                            Duration = (int) video.Duration.TotalMilliseconds,
                                             CreationDate = item.snippet.publishedAt,
                                             Description = video.Description,
-                                            LikesCount = (int)video.LikeCount,
-                                            PlaybackCount = (int)video.ViewCount,
+                                            LikesCount = (int) video.LikeCount,
+                                            PlaybackCount = (int) video.ViewCount,
                                             ArtworkLink = video.ImageHighResUrl,
-                                            Title = item.snippet.title,
-                                            StreamUrl = video.MixedStreams.OrderBy(s => s.VideoQuality).Last()?.Url,
+                                            Title = item.snippet.title,               
+                                            VideoStreamUrl = video.MixedStreams.OrderBy(s => s.VideoQuality).Last()?.Url,
                                             User = new User
                                             {
                                                 Username = item.snippet.channelTitle
                                             }
-                                        });
+                                        };
+
+                                        // Prefer 720p (still sounds good)
+                                        var wantedQuality = video.MixedStreams.FirstOrDefault(x => x.VideoQuality == VideoQuality.Medium480)?.Url;
+
+                                        if (string.IsNullOrEmpty(wantedQuality))
+                                            wantedQuality = video.MixedStreams.OrderBy(s => s.VideoQuality).Last()?.Url;
+
+                                        track.StreamUrl = wantedQuality;
+
+                                        Add(track);
                                     });
                                 }
                             }
@@ -152,9 +168,11 @@ namespace SoundByte.UWP.Models
                         Token = "eol";
 
                         // No items tell the user
-                        await DispatcherHelper.ExecuteOnUIThreadAsync(async () =>
+                        await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                         {
-                            await new MessageDialog(resources.GetString("SearchTrack_Content"), resources.GetString("SearchTrack_Header")).ShowAsync();
+                            (App.CurrentFrame?.FindName("YouTubeSearchModelInfoPane") as InfoPane)?.ShowMessage(
+                                resources.GetString("SearchTrack_Header"),
+                                resources.GetString("SearchTrack_Content"), "", false);
                         });
                     }
                 }
@@ -167,14 +185,18 @@ namespace SoundByte.UWP.Models
                     Token = "eol";
 
                     // Exception, display error to the user
-                    await DispatcherHelper.ExecuteOnUIThreadAsync(async () =>
+                    await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                     {
-                        await new MessageDialog(ex.ErrorDescription, ex.ErrorTitle).ShowAsync();
+                        (App.CurrentFrame?.FindName("YouTubeSearchModelInfoPane") as InfoPane)?.ShowMessage(
+                            ex.ErrorTitle, ex.ErrorDescription, ex.ErrorGlyph);
                     });
                 }
 
                 // We are not loading
-                await DispatcherHelper.ExecuteOnUIThreadAsync(() => { App.IsLoading = false; });
+                await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
+                {
+                    (App.CurrentFrame?.FindName("YouTubeSearchModelInfoPane") as InfoPane)?.ClosePane();
+                });
 
                 // Return the result
                 return new LoadMoreItemsResult { Count = count };

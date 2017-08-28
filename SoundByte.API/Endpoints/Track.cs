@@ -135,5 +135,7 @@ namespace SoundByte.API.Endpoints
         /// Only currenty used for YouTube
         /// </summary>
         public string StreamUrl { get; set; }
+
+        public string VideoStreamUrl { get; set; }
     }
 }
