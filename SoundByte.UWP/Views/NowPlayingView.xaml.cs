@@ -10,15 +10,19 @@
  * |----------------------------------------------------------------|
  */
 
+using System;
 using Windows.ApplicationModel.Core;
 using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Navigation;
+using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI.Animations;
+using SoundByte.API.Endpoints;
 using SoundByte.Core.Helpers;
 using SoundByte.Core.Services;
+using SoundByte.UWP.Services;
 using SoundByte.UWP.ViewModels;
 
 namespace SoundByte.UWP.Views
@@ -90,6 +94,19 @@ namespace SoundByte.UWP.Views
                 FullScreenButton.Visibility = Visibility.Collapsed;
                 EnhanceButton.Visibility = Visibility.Collapsed;
             }
+
+            PlaybackService.Instance.Player.PlaybackSession.PositionChanged += PlaybackSession_PositionChanged;
+        }
+
+        private async void PlaybackSession_PositionChanged(Windows.Media.Playback.MediaPlaybackSession sender, object args)
+        {
+            if (PlaybackService.Instance.CurrentTrack.ServiceType != ServiceType.YouTube)
+                return;
+
+            await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
+            {
+              
+            });        
         }
 
         private void Track_BackRequested(object sender, BackRequestedEventArgs e)
@@ -107,6 +124,9 @@ namespace SoundByte.UWP.Views
             var textColor = Windows.UI.Xaml.Application.Current.RequestedTheme == ApplicationTheme.Dark
                 ? Colors.White
                 : Colors.Black;
+
+            PlaybackService.Instance.Player.PlaybackSession.PositionChanged -= PlaybackSession_PositionChanged;
+
 
             if (DeviceHelper.IsDesktop)
             {
@@ -196,6 +216,12 @@ namespace SoundByte.UWP.Views
                 HideOverlay();
             else
                 ShowOverlay();
+        }
+
+        private void VideoOverlay_OnMediaOpened(object sender, RoutedEventArgs e)
+        {
+            VideoOverlay.Position = PlaybackService.Instance.Player.PlaybackSession.Position;
+
         }
     }
 }

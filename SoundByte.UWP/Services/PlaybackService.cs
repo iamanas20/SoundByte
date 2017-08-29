@@ -611,22 +611,12 @@ namespace SoundByte.UWP.Services
         /// <summary>
         ///     Called when the user adjusts the playing slider
         /// </summary>
-        public async void PlayingSliderChange()
+        public void PlayingSliderChange()
         {
             // Set the track position
             Instance.Player.PlaybackSession.Position = TimeSpan.FromSeconds(CurrentTimeValue);
 
-            await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
-            {
-                var overlay = App.CurrentFrame.FindName("VideoOverlay") as MediaElement;
-
-                if (overlay == null) return;
-
-                if (CurrentTrack.ServiceType == ServiceType.YouTube)
-                {
-                    overlay.Position = PlaybackService.Instance.Player.PlaybackSession.Position;
-                }
-            });
+          
         }
 
         ~PlaybackService()
@@ -637,7 +627,7 @@ namespace SoundByte.UWP.Services
         /// <summary>
         ///     Timer method that is run to make sure the UI is kept up to date
         /// </summary>
-        private void PlayingSliderUpdate(object sender, object e)
+        private async void PlayingSliderUpdate(object sender, object e)
         {
             if (DeviceHelper.IsBackground)
                 return;
@@ -663,6 +653,28 @@ namespace SoundByte.UWP.Services
 
             // Set the maximum value
             MaxTimeValue = Player.PlaybackSession.NaturalDuration.TotalSeconds;
+
+            await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
+            {
+                var overlay = App.CurrentFrame.FindName("VideoOverlay") as MediaElement;
+
+                if (overlay == null) return;
+
+                if (CurrentTrack.ServiceType == ServiceType.YouTube)
+                {
+                    var currentVideoPosition = overlay.Position;
+                    var currentAudioPosition = Player.PlaybackSession.Position;
+
+                    var difference = currentVideoPosition - currentAudioPosition;
+
+                    if (Math.Abs(difference.TotalMilliseconds) > 150)
+                    {
+                        overlay.Pause();
+                        overlay.Position = Player.PlaybackSession.Position;
+                        overlay.Play();
+                    }
+                }
+            });
         }
 
 
