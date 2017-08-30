@@ -98,9 +98,8 @@ namespace SoundByte.Core.Converters
                     $"Expected object to convert is either Track, Playlist or User. {sourceType} was passed instead.",
                     nameof(value));
             }
-            catch (Exception e)
+            catch
             {
-                var i = 0;
                 return null;
             }
         }

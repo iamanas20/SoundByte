@@ -26,7 +26,7 @@ namespace SoundByte.API.Endpoints
         ///     How long is the total playlists
         /// </summary>
         [JsonProperty("duration")]
-        public int Duration { get; set; }
+        public double Duration { get; set; }
 
         /// <summary>
         ///     This title of this playlist
@@ -91,12 +91,12 @@ namespace SoundByte.API.Endpoints
         ///     The number of likes that this playlist has
         /// </summary>
         [JsonProperty("likes_count")]
-        public int? LikesCount { get; set; }
+        public double? LikesCount { get; set; }
 
         /// <summary>
         ///     The number of tracks in this playlist
         /// </summary>
         [JsonProperty("track_count")]
-        public int? TrackCount { get; set; }
+        public double? TrackCount { get; set; }
     }
 }

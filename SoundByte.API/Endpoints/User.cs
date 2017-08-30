@@ -60,24 +60,24 @@ namespace SoundByte.API.Endpoints
         ///     The number of tracks the user has uploaded
         /// </summary>
         [JsonProperty("track_count")]
-        public int? TrackCount { get; set; }
+        public double? TrackCount { get; set; }
 
         /// <summary>
         ///     The amount of playlists the user owns
         /// </summary>
         [JsonProperty("playlist_count")]
-        public int? PlaylistCount { get; set; }
+        public double? PlaylistCount { get; set; }
 
         /// <summary>
         ///     The amount of followers this user has
         /// </summary>
         [JsonProperty("followers_count")]
-        public int? FollowersCount { get; set; }
+        public double? FollowersCount { get; set; }
 
         /// <summary>
         ///     The amount of followings this user has
         /// </summary>
         [JsonProperty("followings_count")]
-        public int? FollowingsCount { get; set; }
+        public double? FollowingsCount { get; set; }
     }
 }

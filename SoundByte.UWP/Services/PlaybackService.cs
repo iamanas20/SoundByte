@@ -133,8 +133,8 @@ namespace SoundByte.UWP.Services
                 UpdateProperty();
 
                 // Set the volume
-                Player.Volume = value / 100;
                 SettingsService.Instance.PlaybackVolume = value / 100;
+                Player.Volume = value / 100;
 
                 // Update the UI
                 if ((int)value == 0)
@@ -282,11 +282,14 @@ namespace SoundByte.UWP.Services
         {
             await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
             {
+                var overlay = App.CurrentFrame.FindName("VideoOverlay") as MediaElement;
+
                 switch (sender.PlaybackState)
                 {
                     case MediaPlaybackState.Playing:
                         App.IsLoading = false;
                         PlayButtonContent = "\uE769";
+                        overlay?.Play();
                         break;
                     case MediaPlaybackState.Buffering:
                         App.IsLoading = true;
@@ -301,10 +304,12 @@ namespace SoundByte.UWP.Services
                     case MediaPlaybackState.Paused:
                         App.IsLoading = false;
                         PlayButtonContent = "\uE768";
+                        overlay?.Pause();
                         break;
                     default:
                         App.IsLoading = false;
                         PlayButtonContent = "\uE768";
+                        overlay?.Play();
                         break;
                 }
             });
@@ -369,33 +374,36 @@ namespace SoundByte.UWP.Services
                 // Set the new current track, updating the UI
                 CurrentTrack = track;
 
-                TimeRemaining = "-00:00";
+                TimeRemaining = "-" + NumberFormatHelper.FormatTimeString(CurrentTrack.Duration);
                 TimeListened = "00:00";
                 CurrentTimeValue = 0;
-                MaxTimeValue = 0;
+                MaxTimeValue = TimeSpan.FromMilliseconds(CurrentTrack.Duration).TotalSeconds;
 
                 // Update the live tile
                 UpdateNormalTiles();
 
-                try
+                if (CurrentTrack.ServiceType == ServiceType.SoundCloud)
                 {
-                    LikeIcon = await SoundByteService.Instance.ExistsAsync("/me/favorites/" + CurrentTrack.Id)
-                        ? "\uEB52"
-                        : "\uEB51";
-                }
-                catch
-                {
-                    LikeIcon = "\uEB51";
-                }
+                    try
+                    {
+                        LikeIcon = await SoundByteService.Instance.ExistsAsync("/me/favorites/" + CurrentTrack.Id)
+                            ? "\uEB52"
+                            : "\uEB51";
+                    }
+                    catch
+                    {
+                        LikeIcon = "\uEB51";
+                    }
 
-                try
-                {
-                    CurrentTrack.User = await SoundByteService.Instance.GetAsync<User>($"/users/{CurrentTrack.User.Id}");
-                }
-                catch
-                {
-                    // ignored
-                }
+                    try
+                    {
+                        CurrentTrack.User = await SoundByteService.Instance.GetAsync<User>($"/users/{CurrentTrack.User.Id}");
+                    }
+                    catch
+                    {
+                        // ignored
+                    }
+                }  
             });
 
             TelemetryService.Instance.TrackEvent("Background Song Change", new Dictionary<string, string>
