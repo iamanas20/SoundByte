@@ -129,7 +129,7 @@ namespace SoundByte.UWP.Models
                                             ServiceType = ServiceType.YouTube,
                                             Id = item.id.videoId,
                                             Kind = "track",
-                                            Duration = (int) video.Duration.TotalMilliseconds,
+                                            Duration = video.Duration.TotalMilliseconds,
                                             CreationDate = item.snippet.publishedAt,
                                             Description = video.Description,
                                             LikesCount = (int) video.LikeCount,

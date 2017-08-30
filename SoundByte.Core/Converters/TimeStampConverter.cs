@@ -33,6 +33,9 @@ namespace SoundByte.Core.Converters
                 if (value is int)
                     timeSpan = TimeSpan.FromMilliseconds((int) value);
 
+                if (value is double)
+                    timeSpan = TimeSpan.FromMilliseconds((double)value);
+
                 if (value is string)
                     timeSpan = TimeSpan.FromMilliseconds(int.Parse(value.ToString()));
 

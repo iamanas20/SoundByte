@@ -27,22 +27,22 @@ namespace SoundByte.Core.Helpers
         /// </summary>
         /// <param name="number">The number to format</param>
         /// <returns>Formatted String</returns>
-        public static string GetFormattedLargeNumber(int number)
+        public static string GetFormattedLargeNumber(double number)
         {
             if (number > 1000000000)
-                return Math.Round((double)number / 1000000000, 1) + "B";
+                return Math.Round(number / 1000000000, 1) + "B";
 
             if (number > 100000000)
-                return Math.Round((double) number / 1000000, 0) + "M";
+                return Math.Round(number / 1000000, 0) + "M";
 
             if (number > 1000000)
-                return Math.Round((double) number / 1000000, 1) + "M";
+                return Math.Round(number / 1000000, 1) + "M";
 
             if (number > 100000)
-                return Math.Round((double) number / 1000, 0) + "K";
+                return Math.Round(number / 1000, 0) + "K";
 
             if (number > 10000)
-                return Math.Round((double) number / 1000, 1) + "K";
+                return Math.Round(number / 1000, 1) + "K";
 
             return string.Format("{0:n0}", number);
         }

@@ -105,25 +105,25 @@ namespace SoundByte.API.Endpoints
         ///     Duration object of the track
         /// </summary>
         [JsonProperty("duration")]
-        public int Duration { get; set; }
+        public double Duration { get; set; }
 
         /// <summary>
         ///     Amount of comments on this track
         /// </summary>
         [JsonProperty("comment_count")]
-        public int? CommentCount { get; set; }
+        public double? CommentCount { get; set; }
 
         /// <summary>
         ///     About of plays on this track
         /// </summary>
         [JsonProperty("playback_count")]
-        public int? PlaybackCount { get; set; }
+        public double? PlaybackCount { get; set; }
 
         /// <summary>
         ///     Amount of likes on this track
         /// </summary>
         [JsonProperty("likes_count")]
-        public int? LikesCount { get; set; }
+        public double? LikesCount { get; set; }
 
         /// <summary>
         ///     User Favourited (only auth requests)

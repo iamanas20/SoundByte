@@ -26,11 +26,11 @@ namespace SoundByte.Core.Converters
             try
             {
                 // Get our value
-                var inValue = value as int?;
+                var inValue = value as double?;
 
                 // Does this null int have a value
                 if (inValue.HasValue)
-                    return inValue.Value == 0 ? "0" : NumberFormatHelper.GetFormattedLargeNumber(inValue.Value);
+                    return NumberFormatHelper.GetFormattedLargeNumber(inValue.Value);
             }
             catch (Exception)
             {

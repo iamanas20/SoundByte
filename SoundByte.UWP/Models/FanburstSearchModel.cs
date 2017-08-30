@@ -98,7 +98,7 @@ namespace SoundByte.UWP.Models
                                     Id = item.id,
                                     Title = item.title,
                                     PermalinkUri = item.permalink,
-                                    Duration = (int)TimeSpan.FromSeconds((int)item.duration).TotalMilliseconds,
+                                    Duration = TimeSpan.FromSeconds((double)item.duration).TotalMilliseconds,
                                     CreationDate = (DateTime) item.published_at.Value,
                                     Kind = "track",
                                     User = new User
