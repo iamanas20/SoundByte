@@ -310,8 +310,9 @@
 
     <Grid>
         <!-- Used to let the user know we are loading stuff -->
-        <ProgressRing x:Name="LoadingRing" Width="50" Height="50" VerticalAlignment="Center"
-                      HorizontalAlignment="Center" IsActive="True" />
+        <ProgressBar x:Name="LoadingRing" VerticalAlignment="Center" IsIndeterminate="True"
+                     Visibility="Collapsed"
+                      HorizontalAlignment="Stretch" />
 
         <ScrollViewer HorizontalAlignment="Stretch"
                       VerticalScrollBarVisibility="Hidden">
@@ -413,14 +414,14 @@
                                                    Text="{Binding Title}"
                                                    FontSize="18"
                                                    Margin="0,0,10,0"
-                                                   FontWeight="SemiBold" />
+                                                   FontWeight="SemiLight" />
                                         <!-- Playlist Creation Date -->
                                         <TextBlock
                                             Text="{Binding CreationDate, Converter={StaticResource ModernDateTimeConverter}}"
                                             TextTrimming="CharacterEllipsis"
-                                            FontSize="12"
-                                            Margin="0,2,10,0"
-                                            FontWeight="Normal"
+                                            FontSize="14"
+                                            Margin="0,4,10,0"
+                                            FontWeight="SemiBold"
                                             Opacity="0.6" />
                                     </StackPanel>
                                 </Grid>

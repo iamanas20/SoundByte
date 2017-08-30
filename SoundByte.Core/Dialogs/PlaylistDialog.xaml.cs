@@ -159,7 +159,7 @@ namespace SoundByte.Core.Dialogs
             }
 
             // We are loading content
-            LoadingRing.IsActive = true;
+            LoadingRing.Visibility = Visibility.Visible;
 
             _blockItemsLoading = true;
 
@@ -172,17 +172,18 @@ namespace SoundByte.Core.Dialogs
             // Loop though all the playlists
             foreach (var playlist in userPlaylists)
             {
+                _blockItemsLoading = true;
                 // Check if the track in in the playlist
                 playlist.IsTrackInInternalSet = playlist.Tracks?.FirstOrDefault(x => x.Id == Track.Id) != null;
-
                 // Add the track to the UI
                 Playlist.Add(playlist);
+                _blockItemsLoading = false;
             }
 
             _blockItemsLoading = false;
 
             // We are done loading content
-            LoadingRing.IsActive = false;
+            LoadingRing.Visibility = Visibility.Collapsed;
         }
 
         /// <summary>
@@ -196,10 +197,10 @@ namespace SoundByte.Core.Dialogs
             if (_blockItemsLoading) return;
 
             // Show the loading ring to let the user know that we are doing something
-            LoadingRing.IsActive = true;
+            LoadingRing.Visibility = Visibility.Visible;
 
             // Get the playlist id
-            var playlistId = ((CheckBox) e.OriginalSource).Tag.ToString();
+            var playlistId = int.Parse(((CheckBox) e.OriginalSource).Tag.ToString());
             // Check that the playlist id is not null
 
             try
@@ -248,9 +249,10 @@ namespace SoundByte.Core.Dialogs
                         "An unknown error occured while removing the current sound from this set. Make sure that you are connected to the internet and try again.")
                     .ShowAsync();
             }
-
-            // Hide the loading bar to let the user know that we have finished
-            LoadingRing.IsActive = false;
+            finally
+            {
+                LoadingRing.Visibility = Visibility.Collapsed;
+            }
         }
 
         /// <summary>
@@ -263,10 +265,10 @@ namespace SoundByte.Core.Dialogs
             if (_blockItemsLoading) return;
 
             // Show the loading ring to let the user know that we are doing something
-            LoadingRing.IsActive = true;
+            LoadingRing.Visibility = Visibility.Visible;
 
             // Get the playlist id
-            var playlistId = ((CheckBox) e.OriginalSource).Tag.ToString();
+            var playlistId = int.Parse(((CheckBox) e.OriginalSource).Tag.ToString());
 
             try
             {
@@ -282,7 +284,7 @@ namespace SoundByte.Core.Dialogs
                 // Create the http request
                 var response =
                     await SoundByteService.Instance.PutAsync(
-                        "/playlists/" + playlistObject.Id + "/?secret-token=" + playlistObject.SecretToken,
+                        "/playlists/" + int.Parse(playlistObject.Id) + "/?secret-token=" + playlistObject.SecretToken,
                         new HttpStringContent(json, UnicodeEncoding.Utf8, "application/json"));
 
                 // Check that the update was successful
@@ -308,10 +310,10 @@ namespace SoundByte.Core.Dialogs
                     "An unknown error occured while adding the current sound to this set. Make sure that you are connected to the internet and try again. Error:\n" +
                     ex).ShowAsync();
             }
-
-
-            // Hide the loading bar to let the user know that we have finished
-            LoadingRing.IsActive = false;
+            finally
+            {
+                LoadingRing.Visibility = Visibility.Collapsed;
+            }
         }
     }
 }

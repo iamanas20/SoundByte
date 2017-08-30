@@ -12,15 +12,12 @@
 
 using System;
 using System.Linq;
-using Windows.ApplicationModel.Core;
 using Windows.Media.Playback;
-using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.StartScreen;
 using Windows.UI.ViewManagement;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Microsoft.Toolkit.Uwp;
+using Microsoft.Toolkit.Uwp.Helpers;
 using SoundByte.API.Endpoints;
 using SoundByte.Core.Converters;
 using SoundByte.Core.Dialogs;
@@ -29,7 +26,6 @@ using SoundByte.Core.Services;
 using SoundByte.UWP.Models;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.Views;
-using WinRTXamlToolkit.Controls.Extensions;
 
 namespace SoundByte.UWP.ViewModels
 {

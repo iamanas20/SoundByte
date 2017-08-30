@@ -879,7 +879,7 @@ namespace SoundByte.Core.Services
                     {
                         // Setup the request readers for user agent
                         // and requested data type.
-                        client.DefaultRequestHeaders.UserAgent.Add(new HttpProductInfoHeaderValue("SoundByte",
+                        client.DefaultRequestHeaders.UserAgent.Add(new HttpProductInfoHeaderValue("SoundByte SBB",
                             Package.Current.Id.Version.Major + "." + Package.Current.Id.Version.Minor + "." +
                             Package.Current.Id.Version.Build));
                         client.DefaultRequestHeaders.Accept.Add(

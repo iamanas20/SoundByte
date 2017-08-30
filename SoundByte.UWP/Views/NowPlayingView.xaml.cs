@@ -94,19 +94,6 @@ namespace SoundByte.UWP.Views
                 FullScreenButton.Visibility = Visibility.Collapsed;
                 EnhanceButton.Visibility = Visibility.Collapsed;
             }
-
-            PlaybackService.Instance.Player.PlaybackSession.PositionChanged += PlaybackSession_PositionChanged;
-        }
-
-        private async void PlaybackSession_PositionChanged(Windows.Media.Playback.MediaPlaybackSession sender, object args)
-        {
-            if (PlaybackService.Instance.CurrentTrack.ServiceType != ServiceType.YouTube)
-                return;
-
-            await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
-            {
-              
-            });        
         }
 
         private void Track_BackRequested(object sender, BackRequestedEventArgs e)
@@ -124,9 +111,6 @@ namespace SoundByte.UWP.Views
             var textColor = Windows.UI.Xaml.Application.Current.RequestedTheme == ApplicationTheme.Dark
                 ? Colors.White
                 : Colors.Black;
-
-            PlaybackService.Instance.Player.PlaybackSession.PositionChanged -= PlaybackSession_PositionChanged;
-
 
             if (DeviceHelper.IsDesktop)
             {

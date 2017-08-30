@@ -14,7 +14,7 @@ using System;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
 using Microsoft.AspNet.SignalR.Client;
-using Microsoft.Toolkit.Uwp;
+using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.WindowsAzure.MobileServices;
 using SoundByte.API.Endpoints;
 
@@ -31,16 +31,15 @@ namespace SoundByte.Core.Services
 
         private readonly MobileServiceClient _mobileService;
         private readonly HubConnection _mobileHub;
-        private IHubProxy _loginHub;
 
-        public IHubProxy LoginHub => _loginHub;
+        public IHubProxy LoginHub { get; }
 
         private BackendService()
         {
             _mobileService = new MobileServiceClient(_backendAzureServiceUrl);
             _mobileHub = new HubConnection(_backendAzureServiceUrl);
 
-            _loginHub = _mobileHub.CreateHubProxy("LoginHub");
+            LoginHub = _mobileHub.CreateHubProxy("LoginHub");
         }
 
         public async Task LoginXboxConnect(string code)
@@ -56,7 +55,7 @@ namespace SoundByte.Core.Services
                     // Only perform is connected
                     if (_mobileHub.State == ConnectionState.Connected)
                     {
-                        await _loginHub.Invoke("Connect", code);
+                        await LoginHub.Invoke("Connect", code);
                     }
                     else
                     {
@@ -85,7 +84,7 @@ namespace SoundByte.Core.Services
                 // Only perform is connected
                 if (_mobileHub.State == ConnectionState.Connected)
                 {
-                    await _loginHub.Invoke("Disconnect", code);
+                    await LoginHub.Invoke("Disconnect", code);
                 }
             }
             catch
@@ -105,7 +104,7 @@ namespace SoundByte.Core.Services
                 // Only perform is connected
                 if (_mobileHub.State == ConnectionState.Connected)
                 {
-                    await _loginHub.Invoke("SendLoginInfo", info);
+                    await LoginHub.Invoke("SendLoginInfo", info);
                     return string.Empty;
                 }
 

@@ -13,7 +13,7 @@
 using System;
 using Windows.Services.Store;
 using Windows.UI.Xaml;
-using Microsoft.Toolkit.Uwp;
+using Microsoft.Toolkit.Uwp.Helpers;
 using SoundByte.Core.Services;
 using UICompositionAnimations.Lights;
 

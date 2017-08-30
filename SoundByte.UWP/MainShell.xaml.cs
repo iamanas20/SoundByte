@@ -30,7 +30,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Microsoft.Services.Store.Engagement;
-using Microsoft.Toolkit.Uwp;
+using Microsoft.Toolkit.Uwp.Helpers;
 using NotificationsExtensions;
 using NotificationsExtensions.Toasts;
 using SoundByte.API.Endpoints;
@@ -261,10 +261,7 @@ namespace SoundByte.UWP
 
             try
             {
-                // Register the background task
-                if (!BackgroundTaskHelper.IsBackgroundTaskRegistered("NotificationTask"))
-                    BackgroundTaskHelper.Register("NotificationTask", "SoundByte.Notifications.NotificationTask",
-                        new TimeTrigger(15, false));
+                BackgroundTaskHelper.Register("NotificationTask", "SoundByte.Notifications.NotificationTask", new TimeTrigger(15, false), true);
             }
             catch
             {

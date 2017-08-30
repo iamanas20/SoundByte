@@ -26,12 +26,11 @@ using Windows.System;
 using Windows.UI.Notifications;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Microsoft.Toolkit.Uwp;
+using Microsoft.Toolkit.Uwp.Helpers;
 using SoundByte.API.Endpoints;
 using SoundByte.Core.Converters;
 using SoundByte.Core.Helpers;
 using SoundByte.Core.Services;
-using YoutubeExplode;
 using User = SoundByte.API.Endpoints.User;
 
 namespace SoundByte.UWP.Services
