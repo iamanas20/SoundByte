@@ -89,7 +89,7 @@ namespace SoundByte.UWP.Models
                 try
                 {
                     // Search for matching tracks
-                    var searchTracks = await SoundByteService.Instance.GetAsync<dynamic>(
+                    var searchTracks = await SoundByteService.Instance.GetAsync<YTRootObject>(
                         ServiceType.YouTube, "search", new Dictionary<string, string>
                         {
                             {"part", "snippet"},
@@ -100,7 +100,7 @@ namespace SoundByte.UWP.Models
 
                     // Parse uri for offset
                     //   var param = new QueryParameterCollection(searchTracks.NextList);
-                    var offset = (string)searchTracks.nextPageToken;
+                    var offset = searchTracks.nextPageToken;
 
                     // Get the search offset
                     Token = string.IsNullOrEmpty(offset) ? "eol" : offset;
@@ -130,7 +130,7 @@ namespace SoundByte.UWP.Models
                                             Id = item.id.videoId,
                                             Kind = "track",
                                             Duration = video.Duration.TotalMilliseconds,
-                                            CreationDate = item.snippet.publishedAt,
+                                            CreationDate = DateTime.Parse(item.snippet.publishedAt),
                                             Description = video.Description,
                                             LikesCount = video.LikeCount,
                                             PlaybackCount = video.ViewCount,
@@ -194,5 +194,80 @@ namespace SoundByte.UWP.Models
                 return new LoadMoreItemsResult { Count = count };
             }).AsAsyncOperation();
         }
+
+
+        // --- TEMP BECAUSE WE CANNOT USE DYNAMIC IN RELEASE MODE ---- //
+
+        public class YTPageInfo
+        {
+            public int totalResults { get; set; }
+            public int resultsPerPage { get; set; }
+        }
+
+        public class YTId
+        {
+            public string kind { get; set; }
+            public string channelId { get; set; }
+            public string videoId { get; set; }
+            public string playlistId { get; set; }
+        }
+
+        public class YTDefault
+        {
+            public string url { get; set; }
+            public int? width { get; set; }
+            public int? height { get; set; }
+        }
+
+        public class YTMedium
+        {
+            public string url { get; set; }
+            public int? width { get; set; }
+            public int? height { get; set; }
+        }
+
+        public class YTHigh
+        {
+            public string url { get; set; }
+            public int? width { get; set; }
+            public int? height { get; set; }
+        }
+
+        public class YTThumbnails
+        {
+            public YTDefault @default { get; set; }
+            public YTMedium medium { get; set; }
+            public YTHigh high { get; set; }
+        }
+
+        public class YTSnippet
+        {
+            public string publishedAt { get; set; }
+            public string channelId { get; set; }
+            public string title { get; set; }
+            public string description { get; set; }
+            public YTThumbnails thumbnails { get; set; }
+            public string channelTitle { get; set; }
+            public string liveBroadcastContent { get; set; }
+        }
+
+        public class YTItem
+        {
+            public string kind { get; set; }
+            public string etag { get; set; }
+            public YTId id { get; set; }
+            public YTSnippet snippet { get; set; }
+        }
+
+        public class YTRootObject
+        {
+            public string kind { get; set; }
+            public string etag { get; set; }
+            public string nextPageToken { get; set; }
+            public string regionCode { get; set; }
+            public YTPageInfo pageInfo { get; set; }
+            public List<YTItem> items { get; set; }
+        }
+
     }
 }

@@ -255,10 +255,10 @@
                          IsHitTestVisible="False"
                          Width="160"
                          Height="160"
-                         Stretch="UniformToFill">
+                         Stretch="Uniform">
                     <Ellipse.Fill>
                         <ImageBrush ImageSource="{x:Bind Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
-                                    Stretch="UniformToFill" />
+                                    Stretch="Uniform" />
                     </Ellipse.Fill>
                 </Ellipse>
             </controls:DropShadowPanel>

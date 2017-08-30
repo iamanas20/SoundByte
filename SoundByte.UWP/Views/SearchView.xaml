@@ -162,6 +162,7 @@
                     <GridView x:Name="PeopleView"
                               ItemsSource="{x:Bind Path=ViewModel.SearchUsers}"
                               ItemTemplate="{StaticResource UserItem}"
+                              ItemsPanel="{StaticResource DesktopGridPanel}"
                               SelectionMode="None"
                               IsSwipeEnabled="False"
                               IsItemClickEnabled="True"
@@ -177,7 +178,7 @@
 
             <PivotItem x:Name="FanburstPivot">
                 <PivotItem.Header>
-                    <TextBlock Text="Fanburst" FontSize="18" Opacity="0.9" FontWeight="SemiBold"
+                    <TextBlock Text="Fanburst (Beta)" FontSize="18" Opacity="0.9" FontWeight="SemiBold"
                                VerticalAlignment="Center" Padding="0,2" />
                 </PivotItem.Header>
                 <Grid>

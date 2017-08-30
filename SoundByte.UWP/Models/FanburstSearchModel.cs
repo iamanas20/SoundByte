@@ -44,6 +44,41 @@ namespace SoundByte.UWP.Models
         /// </summary>
         public bool HasMoreItems => Token != "eol";
 
+        // --- TEMP BECAUSE WE CANNOT USE DYNAMIC IN RELEASE MODE ---- //
+        public class FBImages
+        {
+            public string square_150 { get; set; }
+            public string square_250 { get; set; }
+            public string square_500 { get; set; }
+        }
+
+        public class FBUser
+        {
+            public string id { get; set; }
+            public string name { get; set; }
+            public string permalink { get; set; }
+            public string url { get; set; }
+            public string avatar_url { get; set; }
+            public string location { get; set; }
+        }
+
+        public class FBRootObject
+        {
+            public string id { get; set; }
+            public string title { get; set; }
+            public string permalink { get; set; }
+            public int duration { get; set; }
+            public string url { get; set; }
+            public string published_at { get; set; }
+            public bool @private { get; set; }
+            public bool downloadable { get; set; }
+            public string image_url { get; set; }
+            public FBImages images { get; set; }
+            public string stream_url { get; set; }
+            public FBUser user { get; set; }
+        }
+
+
         /// <summary>
         ///     Loads search track items from the souncloud api
         /// </summary>
@@ -68,7 +103,7 @@ namespace SoundByte.UWP.Models
                 try
                 {
                     // Search for matching tracks
-                    var searchTracks = await SoundByteService.Instance.GetAsync<List<dynamic>>(
+                    var searchTracks = await SoundByteService.Instance.GetAsync<List<FBRootObject>>(
                         ServiceType.Fanburst, "tracks/search", new Dictionary<string, string>
                         {
                             {"query", WebUtility.UrlEncode(Query)},
@@ -98,8 +133,8 @@ namespace SoundByte.UWP.Models
                                     Id = item.id,
                                     Title = item.title,
                                     PermalinkUri = item.permalink,
-                                    Duration = TimeSpan.FromSeconds((double)item.duration).TotalMilliseconds,
-                                    CreationDate = (DateTime) item.published_at.Value,
+                                    Duration = TimeSpan.FromSeconds(item.duration).TotalMilliseconds,
+                                    CreationDate = DateTime.Parse(item.published_at),
                                     Kind = "track",
                                     User = new User
                                     {
