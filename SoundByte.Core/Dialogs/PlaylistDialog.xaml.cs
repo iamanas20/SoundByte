@@ -199,7 +199,7 @@ namespace SoundByte.Core.Dialogs
             LoadingRing.IsActive = true;
 
             // Get the playlist id
-            var playlistId = (int) ((CheckBox) e.OriginalSource).Tag;
+            var playlistId = ((CheckBox) e.OriginalSource).Tag.ToString();
             // Check that the playlist id is not null
 
             try
@@ -266,7 +266,7 @@ namespace SoundByte.Core.Dialogs
             LoadingRing.IsActive = true;
 
             // Get the playlist id
-            var playlistId = (int) ((CheckBox) e.OriginalSource).Tag;
+            var playlistId = ((CheckBox) e.OriginalSource).Tag.ToString();
 
             try
             {

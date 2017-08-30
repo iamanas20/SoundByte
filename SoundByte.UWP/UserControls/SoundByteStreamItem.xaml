@@ -61,7 +61,7 @@
                        VerticalAlignment="Stretch"
                        HorizontalAlignment="Stretch"
                        IsHitTestVisible="False"
-                       Stretch="Uniform" />
+                       Stretch="UniformToFill" />
             </control:DropShadowPanel>
 
             <!-- Basic Item Detail -->
@@ -211,7 +211,7 @@
                        VerticalAlignment="Stretch"
                        HorizontalAlignment="Stretch"
                        IsHitTestVisible="False"
-                       Stretch="Uniform" />
+                       Stretch="UniformToFill" />
                 </Grid>
                 
                

@@ -42,6 +42,7 @@ namespace SoundByte.Core.Converters
             if (string.IsNullOrEmpty(source)) return null;
 
             var image = new BitmapImage {UriSource = new Uri(source)};
+
             return image;
         }
 

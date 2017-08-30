@@ -86,7 +86,7 @@ namespace SoundByte.UWP.Models
                 var resources = ResourceLoader.GetForViewIndependentUse();
 
                 // only 10 tracks at once
-                    count = 10;
+                count = 10;
 
                 try
                 {
@@ -137,12 +137,14 @@ namespace SoundByte.UWP.Models
                                             LikesCount = (int) video.LikeCount,
                                             PlaybackCount = (int) video.ViewCount,
                                             ArtworkLink = video.ImageHighResUrl,
-                                            Title = item.snippet.title,               
+                                            Title = item.snippet.title, 
+                                            Genre = "YouTube",
                                             VideoStreamUrl = video.MixedStreams.OrderBy(s => s.VideoQuality).Last()?.Url,
                                             User = new User
                                             {
                                                 Username = item.snippet.channelTitle
-                                            }
+                                            },
+                                            PermalinkUri = $"https://www.youtube.com/watch?v={item.id.videoId}"
                                         };
 
                                         // Prefer 720p (still sounds good)

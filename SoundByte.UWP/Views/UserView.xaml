@@ -126,7 +126,7 @@
                             <Ellipse.Fill>
                                 <ImageBrush
                                     ImageSource="{x:Bind Path=ViewModel.User, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
-                                    Stretch="Uniform" />
+                                    Stretch="UniformToFill" />
                             </Ellipse.Fill>
                         </Ellipse>
                     </controls:DropShadowPanel>

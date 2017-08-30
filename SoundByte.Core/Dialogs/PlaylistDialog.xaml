@@ -398,7 +398,7 @@
                                                    Height="80"
                                                    Width="80"
                                                    HorizontalAlignment="Left"
-                                                   Stretch="Uniform" />
+                                                   Stretch="UniformToFill" />
                                         </Grid>
                                         
                                         

@@ -130,7 +130,7 @@
                            x:Phase="5"
                            Width="90"
                            Height="90"
-                           Stretch="Uniform" />
+                           Stretch="UniformToFill" />
 
                     <!-- Length of track, bottom-right -->
                     <Grid RequestedTheme="Dark" Background="{StaticResource InAppBackgroundBrush}" Padding="6" HorizontalAlignment="Right"
@@ -199,7 +199,7 @@
                            x:Phase="5"
                            Width="160"
                            Height="160"
-                           Stretch="Uniform" />
+                           Stretch="UniformToFill" />
                   
                     <!-- Length of track, bottom-right -->
                     <Grid RequestedTheme="Dark" Background="{StaticResource InAppBackgroundBrush}" Padding="8" HorizontalAlignment="Right"
@@ -255,10 +255,10 @@
                          IsHitTestVisible="False"
                          Width="160"
                          Height="160"
-                         Stretch="Uniform">
+                         Stretch="UniformToFill">
                     <Ellipse.Fill>
                         <ImageBrush ImageSource="{x:Bind Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
-                                    Stretch="Uniform" />
+                                    Stretch="UniformToFill" />
                     </Ellipse.Fill>
                 </Ellipse>
             </controls:DropShadowPanel>

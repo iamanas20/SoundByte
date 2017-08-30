@@ -456,7 +456,7 @@
                                             <Ellipse.Fill>
                                                 <ImageBrush
                                                     ImageSource="{x:Bind Path=ViewModel.Service.CurrentTrack.User, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
-                                                    Stretch="Uniform" />
+                                                    Stretch="UniformToFill" />
                                             </Ellipse.Fill>
                                         </Ellipse>
 
@@ -518,7 +518,7 @@
                                         <Ellipse.Fill>
                                             <ImageBrush
                                                 ImageSource="{Binding User, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
-                                                Stretch="Uniform" />
+                                                Stretch="UniformToFill" />
                                         </Ellipse.Fill>
                                     </Ellipse>
 
@@ -529,7 +529,7 @@
                                                    Text="{Binding User.Username}" FontSize="16" FontWeight="SemiLight"
                                                    Opacity="0.9" HorizontalAlignment="Left" VerticalAlignment="Top" />
                                         <TextBlock
-                                            Text="{Binding Timestamp, Converter={StaticResource TimeStampConverter}}"
+                                            Text="{Binding CreatedAt, Converter={StaticResource ModernDateTimeConverter}}"
                                             FontWeight="SemiBold" Margin="70,0,10,0" VerticalAlignment="Top" FontSize="12"
                                             Opacity="0.7" />
                                         <TextBlock Text="{Binding Body}" FontSize="14" TextWrapping="Wrap"

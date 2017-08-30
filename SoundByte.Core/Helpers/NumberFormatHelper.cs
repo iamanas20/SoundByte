@@ -23,14 +23,17 @@ namespace SoundByte.Core.Helpers
     {
         /// <summary>
         ///     Converts a large number into a more human
-        ///     readable form by adding suffixes. e.g: 6M, 9.3K
+        ///     readable form by adding suffixes. e.g: 6M, 9.3K, 8.2B
         /// </summary>
         /// <param name="number">The number to format</param>
         /// <returns>Formatted String</returns>
         public static string GetFormattedLargeNumber(int number)
         {
+            if (number > 1000000000)
+                return Math.Round((double)number / 1000000000, 1) + "B";
+
             if (number > 100000000)
-                return Math.Round((double) number / 100000, 0) + "M";
+                return Math.Round((double) number / 1000000, 0) + "M";
 
             if (number > 1000000)
                 return Math.Round((double) number / 1000000, 1) + "M";
