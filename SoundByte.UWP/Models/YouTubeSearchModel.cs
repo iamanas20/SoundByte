@@ -124,7 +124,7 @@ namespace SoundByte.UWP.Models
                                     // Loop though all the tracks on the UI thread
                                     await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                                     {
-                                        var track = new Track
+                                        Add(new Track
                                         {
                                             ServiceType = ServiceType.YouTube,
                                             Id = item.id.videoId,
@@ -132,28 +132,20 @@ namespace SoundByte.UWP.Models
                                             Duration = video.Duration.TotalMilliseconds,
                                             CreationDate = item.snippet.publishedAt,
                                             Description = video.Description,
-                                            LikesCount = (int) video.LikeCount,
-                                            PlaybackCount = (int) video.ViewCount,
+                                            LikesCount = video.LikeCount,
+                                            PlaybackCount = video.ViewCount,
                                             ArtworkLink = video.ImageHighResUrl,
                                             Title = item.snippet.title, 
                                             Genre = "YouTube",
-                                            VideoStreamUrl = video.MixedStreams.OrderBy(s => s.VideoQuality).Last()?.Url,
+                                            VideoStreamUrl = video.VideoStreams.OrderBy(s => s.VideoQuality).Last()?.Url,
+                                            StreamUrl = video.AudioStreams.OrderBy(q => q.AudioEncoding).Last()?.Url,
                                             User = new User
                                             {
-                                                Username = item.snippet.channelTitle
+                                                Username = item.snippet.channelTitle,
+                                                ArtworkLink = video.Author.LogoUrl
                                             },
                                             PermalinkUri = $"https://www.youtube.com/watch?v={item.id.videoId}"
-                                        };
-
-                                        // Prefer 720p (still sounds good)
-                                        var wantedQuality = video.MixedStreams.FirstOrDefault(x => x.VideoQuality == VideoQuality.Medium480)?.Url;
-
-                                        if (string.IsNullOrEmpty(wantedQuality))
-                                            wantedQuality = video.MixedStreams.OrderBy(s => s.VideoQuality).Last()?.Url;
-
-                                        track.StreamUrl = wantedQuality;
-
-                                        Add(track);
+                                        });
                                     });
                                 }
                             }
