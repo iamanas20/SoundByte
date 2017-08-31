@@ -79,7 +79,12 @@ namespace SoundByte.UWP.Services
 
             var pageTimer = new DispatcherTimer
             {
-                Interval = TimeSpan.FromMilliseconds(1000)
+                Interval = TimeSpan.FromMilliseconds(500)
+            };
+
+            var audioVideoSyncTimer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromMilliseconds(10)
             };
 
             _tileUpdater = TileUpdateManager.CreateTileUpdaterForApplication("App");
@@ -87,10 +92,14 @@ namespace SoundByte.UWP.Services
 
             // Setup the tick event
             pageTimer.Tick += PlayingSliderUpdate;
+            audioVideoSyncTimer.Tick += SyncAudioVideo;
 
             // If the timer is ready, start it
             if (!pageTimer.IsEnabled)
                 pageTimer.Start();
+
+            if (!audioVideoSyncTimer.IsEnabled)
+                audioVideoSyncTimer.Start();
         }
 
         public Track CurrentTrack
@@ -265,7 +274,7 @@ namespace SoundByte.UWP.Services
             get => Player?.IsLoopingEnabled ?? false;
             set
             {
-                if(Player == null) return;
+                if (Player == null) return;
 
                 if (Player.IsLoopingEnabled == value)
                     return;
@@ -359,7 +368,7 @@ namespace SoundByte.UWP.Services
 
             // Try get the track
             var track = Playlist.FirstOrDefault(
-                x => x.Id == (string) args.NewItem.Source.CustomProperties["SoundByteItem.ID"]);
+                x => x.Id == (string)args.NewItem.Source.CustomProperties["SoundByteItem.ID"]);
 
             // If the track does not exist, do nothing
             if (track == null)
@@ -403,7 +412,7 @@ namespace SoundByte.UWP.Services
                     {
                         // ignored
                     }
-                }  
+                }
             });
 
             TelemetryService.Instance.TrackEvent("Background Song Change", new Dictionary<string, string>
@@ -618,12 +627,18 @@ namespace SoundByte.UWP.Services
         /// <summary>
         ///     Called when the user adjusts the playing slider
         /// </summary>
-        public void PlayingSliderChange()
+        public async void PlayingSliderChange()
         {
             // Set the track position
-            Instance.Player.PlaybackSession.Position = TimeSpan.FromSeconds(CurrentTimeValue);
+            Player.PlaybackSession.Position = TimeSpan.FromSeconds(CurrentTimeValue);
 
-          
+            await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
+            {
+                var overlay = App.CurrentFrame.FindName("VideoOverlay") as MediaElement;
+                if (overlay == null) return;
+
+                overlay.Position = TimeSpan.FromSeconds(CurrentTimeValue);
+            });
         }
 
         ~PlaybackService()
@@ -631,10 +646,57 @@ namespace SoundByte.UWP.Services
             _tileUpdater.Clear();
         }
 
+        private void SyncAudioVideo(object sender, object e)
+        {
+            if (DeviceHelper.IsBackground)
+                return;
+
+            // Only call the following if the player exists, is playing
+            // and the time is greater then 0.
+            if (Player == null ||
+                Player.PlaybackSession.PlaybackState != MediaPlaybackState.Playing ||
+                Player.PlaybackSession.Position.Milliseconds <= 0)
+                return;
+
+            var overlay = App.CurrentFrame.FindName("VideoOverlay") as MediaElement;
+            if (overlay == null) return;
+
+            if (CurrentTrack.ServiceType == ServiceType.YouTube)
+            {
+                var difference = overlay.Position - Player.PlaybackSession.Position;
+
+                if (Math.Abs(difference.TotalMilliseconds) >= 1000)
+                {
+                    overlay.PlaybackRate = 1;
+                    overlay.Position = Player.PlaybackSession.Position;
+                    System.Diagnostics.Debug.WriteLine("OUT OF SYNC: SKIPPING (>= 1000ms)");
+                }
+                else if (Math.Abs(difference.TotalMilliseconds) >= 500)
+                {
+                    overlay.PlaybackRate = difference.TotalMilliseconds > 0 ? 0.25 : 1.75;
+                    System.Diagnostics.Debug.WriteLine("OUT OF SYNC: CHANGE PLAYBACK RATE (>= 500ms)");
+                }
+                else if (Math.Abs(difference.TotalMilliseconds) >= 250)
+                {
+                    overlay.PlaybackRate = difference.TotalMilliseconds > 0 ? 0.5 : 1.5;
+                    System.Diagnostics.Debug.WriteLine("OUT OF SYNC: CHANGE PLAYBACK RATE (>= 250ms)");
+                }
+                else if (Math.Abs(difference.TotalMilliseconds) >= 100)
+                {
+                    overlay.PlaybackRate = difference.TotalMilliseconds > 0 ? 0.75 : 1.25;
+                    System.Diagnostics.Debug.WriteLine("OUT OF SYNC: CHANGE PLAYBACK RATE (>= 100ms)");
+                }
+                else
+                {
+                    overlay.PlaybackRate = 1;
+                }
+            }
+        }
+
         /// <summary>
         ///     Timer method that is run to make sure the UI is kept up to date
         /// </summary>
-        private async void PlayingSliderUpdate(object sender, object e)
+        private void PlayingSliderUpdate(object sender, object e)
         {
             if (DeviceHelper.IsBackground)
                 return;
@@ -660,28 +722,6 @@ namespace SoundByte.UWP.Services
 
             // Set the maximum value
             MaxTimeValue = Player.PlaybackSession.NaturalDuration.TotalSeconds;
-
-            await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
-            {
-                var overlay = App.CurrentFrame.FindName("VideoOverlay") as MediaElement;
-
-                if (overlay == null) return;
-
-                if (CurrentTrack.ServiceType == ServiceType.YouTube)
-                {
-                    var currentVideoPosition = overlay.Position;
-                    var currentAudioPosition = Player.PlaybackSession.Position;
-
-                    var difference = currentVideoPosition - currentAudioPosition;
-
-                    if (Math.Abs(difference.TotalMilliseconds) > 150)
-                    {
-                        overlay.Pause();
-                        overlay.Position = Player.PlaybackSession.Position;
-                        overlay.Play();
-                    }
-                }
-            });
         }
 
 

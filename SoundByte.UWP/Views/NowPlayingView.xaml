@@ -134,6 +134,7 @@
                     Height="150"
                     Width="150"
                     IsHitTestVisible="False"
+                    Stretch="UniformToFill"
                     Source="{x:Bind Path=ViewModel.Service.CurrentTrack, Mode=OneWay, Converter={StaticResource ArtworkConverter}}" />
             </controls:DropShadowPanel>
 

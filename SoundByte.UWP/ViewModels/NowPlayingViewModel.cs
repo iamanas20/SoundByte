@@ -66,13 +66,12 @@ namespace SoundByte.UWP.ViewModels
                     if (Service.CurrentTrack.ServiceType == ServiceType.YouTube)
                     {
                         overlay.Source = new Uri(Service.CurrentTrack.VideoStreamUrl);
-                        overlay.Position = PlaybackService.Instance.Player.PlaybackSession.Position;
-                        overlay.Opacity = 1;
+                        overlay.Play();
                     }
                     else
                     {
                         overlay.Opacity = 0;
-                        overlay.Stop();
+                        overlay.Pause();
                         overlay.Source = null;
                     }
                 }
@@ -217,13 +216,12 @@ namespace SoundByte.UWP.ViewModels
                 if (Service.CurrentTrack.ServiceType == ServiceType.YouTube)
                 {
                     overlay.Source = new Uri(Service.CurrentTrack.VideoStreamUrl);
-                    overlay.Position = PlaybackService.Instance.Player.PlaybackSession.Position;
-                    overlay.Opacity = 1;
+                    overlay.Play();
                 }
                 else
                 {
                     overlay.Opacity = 0;
-                    overlay.Stop();
+                    overlay.Pause();
                     overlay.Source = null;
                 }
             }
@@ -251,7 +249,7 @@ namespace SoundByte.UWP.ViewModels
             if (overlay != null)
             {
                 overlay.Opacity = 0;
-                overlay.Stop();
+                overlay.Pause();
                 overlay.Source = null;
             }
         }

@@ -124,7 +124,7 @@ namespace SoundByte.UWP.Models
                                     // Loop though all the tracks on the UI thread
                                     await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                                     {
-                                        Add(new Track
+                                        var track = new Track
                                         {
                                             ServiceType = ServiceType.YouTube,
                                             Id = item.id.videoId,
@@ -135,9 +135,8 @@ namespace SoundByte.UWP.Models
                                             LikesCount = video.LikeCount,
                                             PlaybackCount = video.ViewCount,
                                             ArtworkLink = video.ImageHighResUrl,
-                                            Title = item.snippet.title, 
-                                            Genre = "YouTube",
-                                            VideoStreamUrl = video.VideoStreams.OrderBy(s => s.VideoQuality).Last()?.Url,
+                                            Title = item.snippet.title,
+                                            Genre = "YouTube",                                         
                                             StreamUrl = video.AudioStreams.OrderBy(q => q.AudioEncoding).Last()?.Url,
                                             User = new User
                                             {
@@ -145,7 +144,20 @@ namespace SoundByte.UWP.Models
                                                 ArtworkLink = video.Author.LogoUrl
                                             },
                                             PermalinkUri = $"https://www.youtube.com/watch?v={item.id.videoId}"
-                                        });
+                                        };
+
+                                        // 720p is max quality we want
+                                        var wantedQuality = video.VideoStreams.FirstOrDefault(x => x.VideoQuality == VideoQuality.High720)?.Url;
+
+                                        // If quality is not there, just get the highest (480p for example).
+                                        if (string.IsNullOrEmpty(wantedQuality))
+                                            wantedQuality = video.VideoStreams.OrderBy(s => s.VideoQuality).Last()?.Url;
+
+
+                                        track.VideoStreamUrl = wantedQuality;
+
+                                        // Add the track
+                                        Add(track);
                                     });
                                 }
                             }
