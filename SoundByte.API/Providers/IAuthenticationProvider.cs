@@ -12,29 +12,12 @@
 
 using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
-using SoundByte.API.Endpoints;
-using SoundByte.API.Items.User;
+using System.Text;
 
-namespace SoundByte.API.Holders
+namespace SoundByte.API.Providers
 {
-    /// <summary>
-    ///     Holds a list of users
-    /// </summary>
-    [JsonObject]
-    [Obsolete]
-    public class UserListHolder
+    public interface IAuthenticationProvider
     {
-        /// <summary>
-        ///     List of users
-        /// </summary>
-        [JsonProperty("collection")]
-        public List<SoundCloudUser> Users { get; set; }
-
-        /// <summary>
-        ///     The next list of items
-        /// </summary>
-        [JsonProperty("next_href")]
-        public string NextList { get; set; }
+        string Test();
     }
 }

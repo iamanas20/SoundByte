@@ -21,6 +21,7 @@ namespace SoundByte.API.Endpoints
     ///     A user notification
     /// </summary>
     [JsonObject]
+    [Obsolete]
     public class Notification
     {
         /// <summary>

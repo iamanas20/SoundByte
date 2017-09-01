@@ -21,6 +21,7 @@ namespace SoundByte.API.Endpoints
     ///     This class represents a comment object within the SoundCloud API
     /// </summary>
     [JsonObject]
+    [Obsolete]
     public class Comment
     {
         /// <summary>

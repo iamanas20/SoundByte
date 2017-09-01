@@ -18,6 +18,7 @@ using Windows.UI.StartScreen;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml.Controls;
 using Microsoft.Toolkit.Uwp.Helpers;
+using SoundByte.API;
 using SoundByte.API.Endpoints;
 using SoundByte.API.Items.Track;
 using SoundByte.API.Items.User;

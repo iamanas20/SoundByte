@@ -10,13 +10,23 @@
  * |----------------------------------------------------------------|
  */
 
-namespace SoundByte.API.Endpoints
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace SoundByte.API.Services
 {
-    public enum ServiceType
+    public class AuthenticationService
     {
-        Fanburst,
-        SoundCloud,
-        SoundCloudV2,
-        YouTube
+        private static readonly Lazy<AuthenticationService> InstanceHolder =
+            new Lazy<AuthenticationService>(() => new AuthenticationService());
+
+        public static AuthenticationService Current => InstanceHolder.Value;
+
+        public string BuildLoginString(Func<string> test)
+        {
+            return string.Empty;
+        }
+
     }
 }

@@ -10,6 +10,7 @@
  * |----------------------------------------------------------------|
  */
 
+using System;
 using Newtonsoft.Json;
 
 namespace SoundByte.API.Endpoints
@@ -18,6 +19,7 @@ namespace SoundByte.API.Endpoints
     ///     Info about the current build
     /// </summary>
     [JsonObject]
+    [Obsolete]
     public class BuildInfo
     {
         /// <summary>

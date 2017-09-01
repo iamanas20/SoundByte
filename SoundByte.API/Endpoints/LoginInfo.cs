@@ -10,11 +10,13 @@
  * |----------------------------------------------------------------|
  */
 
+using System;
 using Newtonsoft.Json;
 
 namespace SoundByte.API.Endpoints
 {
     [JsonObject]
+    [Obsolete]
     public class LoginInfo
     {
         public ServiceType ServiceType { get; set; }

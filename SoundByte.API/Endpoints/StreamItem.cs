@@ -10,6 +10,7 @@
  * |----------------------------------------------------------------|
  */
 
+using System;
 using Newtonsoft.Json;
 using SoundByte.API.Items.Track;
 using SoundByte.API.Items.User;
@@ -20,6 +21,7 @@ namespace SoundByte.API.Endpoints
     ///     A stream collection containing all items that may be on the users stream
     /// </summary>
     [JsonObject]
+    [Obsolete]
     public class StreamItem
     {
         /// <summary>

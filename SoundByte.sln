@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.16
+VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoundByte.Core", "SoundByte.Core\SoundByte.Core.csproj", "{FD743CA3-A8F6-4136-A50F-9DF134D3422E}"
 EndProject
@@ -9,17 +9,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoundByte.UWP", "SoundByte.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoundByte.Notifications", "SoundByte.Notifications\SoundByte.Notifications.csproj", "{1475A6DD-F6ED-46C3-8644-D86992C7EA9E}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SoundByte.Aurora", "SoundByte.Aurora\SoundByte.Aurora.shproj", "{82BA6C78-612C-4143-9CF6-F2585EB34F5A}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoundByte.API", "SoundByte.API\SoundByte.API.csproj", "{0D914B48-FC03-4D63-BD76-13C1476E09C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoundByte.API", "SoundByte.API\SoundByte.API.csproj", "{0D914B48-FC03-4D63-BD76-13C1476E09C0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoundByte.Service", "SoundByte.Service\SoundByte.Service.csproj", "{209FA716-A7AD-4095-BD70-C8710FC66FA7}"
 EndProject
 Global
-	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		SoundByte.Aurora\SoundByte.Aurora.projitems*{52b496ef-b47c-4a78-a1cf-af86dff078ae}*SharedItemsImports = 4
-		SoundByte.Aurora\SoundByte.Aurora.projitems*{82ba6c78-612c-4143-9cf6-f2585eb34f5a}*SharedItemsImports = 13
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|ARM = Debug|ARM
@@ -114,5 +108,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3E20F076-0F95-4898-980E-0845BAAFE6C1}
 	EndGlobalSection
 EndGlobal

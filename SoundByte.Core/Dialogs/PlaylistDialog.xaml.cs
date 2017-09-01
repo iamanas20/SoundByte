@@ -20,6 +20,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.Web.Http;
+using SoundByte.API;
 using SoundByte.API.Endpoints;
 using SoundByte.API.Items.Track;
 using SoundByte.Core.Services;

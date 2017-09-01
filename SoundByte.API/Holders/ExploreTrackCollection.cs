@@ -10,6 +10,7 @@
  * |----------------------------------------------------------------|
  */
 
+using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using SoundByte.API.Endpoints;
@@ -18,6 +19,7 @@ using SoundByte.API.Items.Track;
 namespace SoundByte.API.Holders
 {
     [JsonObject]
+    [Obsolete]
     public class ExploreTrackCollection
     {
         /// <summary>
@@ -32,6 +34,7 @@ namespace SoundByte.API.Holders
     ///     the uri to the next list.
     /// </summary>
     [JsonObject]
+    [Obsolete]
     public class ExploreTrackHolder
     {
         /// <summary>

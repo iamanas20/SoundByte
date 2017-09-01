@@ -10,6 +10,7 @@
  * |----------------------------------------------------------------|
  */
 
+using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using SoundByte.API.Endpoints;
@@ -20,6 +21,7 @@ namespace SoundByte.API.Holders
     ///     Holds a playlist
     /// </summary>
     [JsonObject]
+    [Obsolete]
     public class LikePlaylistBootstrap
     {
         /// <summary>
@@ -33,6 +35,7 @@ namespace SoundByte.API.Holders
     ///     Holds the users playlists
     /// </summary>
     [JsonObject]
+    [Obsolete]
     public class PlaylistHolder
     {
         /// <summary>
@@ -52,6 +55,7 @@ namespace SoundByte.API.Holders
     ///     Holder for searched playlist items
     /// </summary>
     [JsonObject]
+    [Obsolete]
     public class SearchPlaylistHolder
     {
         /// <summary>

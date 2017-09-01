@@ -22,6 +22,7 @@ using Windows.Web.Http;
 using Windows.Web.Http.Filters;
 using Windows.Web.Http.Headers;
 using Newtonsoft.Json;
+using SoundByte.API;
 using SoundByte.Core.Helpers;
 using SoundByte.API.Endpoints;
 using SoundByte.API.Exceptions;

@@ -11,6 +11,7 @@
  * |----------------------------------------------------------------|
  */
 
+using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using SoundByte.API.Endpoints;
@@ -21,6 +22,7 @@ namespace SoundByte.API.Holders
     ///     Small class for holding comments
     /// </summary>
     [JsonObject]
+    [Obsolete]
     public class CommentListHolder
     {
         /// <summary>

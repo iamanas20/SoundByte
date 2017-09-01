@@ -10,6 +10,7 @@
  * |----------------------------------------------------------------|
  */
 
+using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using SoundByte.API.Endpoints;
@@ -20,6 +21,7 @@ namespace SoundByte.API.Holders
     ///     Holds all the stream tracks
     /// </summary>
     [JsonObject]
+    [Obsolete]
     public class StreamTrackHolder
     {
         /// <summary>

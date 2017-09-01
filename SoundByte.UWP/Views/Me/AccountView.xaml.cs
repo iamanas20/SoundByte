@@ -25,7 +25,9 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Newtonsoft.Json;
+using SoundByte.API;
 using SoundByte.API.Endpoints;
+using SoundByte.API.Services;
 using SoundByte.Core.Helpers;
 using SoundByte.Core.Services;
 
@@ -304,6 +306,8 @@ namespace SoundByte.UWP.Views.Me
 
             // Create the URI
             var connectUri = string.Empty;
+
+            AuthenticationService.Current.BuildLoginString(() => string.Empty);
 
             switch (serviceType)
             {

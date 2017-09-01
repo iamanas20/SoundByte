@@ -20,6 +20,7 @@ using Windows.Foundation;
 using Windows.UI.Xaml.Data;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Newtonsoft.Json;
+using SoundByte.API;
 using SoundByte.API.Endpoints;
 using SoundByte.API.Exceptions;
 using SoundByte.API.Items.Track;

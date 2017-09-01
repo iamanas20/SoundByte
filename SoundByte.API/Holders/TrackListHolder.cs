@@ -10,6 +10,7 @@
  * |----------------------------------------------------------------|
  */
 
+using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using SoundByte.API.Endpoints;
@@ -21,6 +22,7 @@ namespace SoundByte.API.Holders
     ///     Holds a list of track
     /// </summary>
     [JsonObject]
+    [Obsolete]
     public class TrackListHolder
     {
         /// <summary>

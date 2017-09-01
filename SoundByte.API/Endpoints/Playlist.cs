@@ -22,6 +22,7 @@ namespace SoundByte.API.Endpoints
     ///     Represents a playlist within the SoundCloud API
     /// </summary>
     [JsonObject]
+    [Obsolete]
     public class Playlist
     {
         /// <summary>
