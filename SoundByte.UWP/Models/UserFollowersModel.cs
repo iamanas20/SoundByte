@@ -19,18 +19,17 @@ using Windows.ApplicationModel.Resources;
 using Windows.Foundation;
 using Windows.UI.Popups;
 using Windows.UI.Xaml.Data;
-using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Helpers;
-using SoundByte.API.Endpoints;
 using SoundByte.API.Exceptions;
 using SoundByte.API.Holders;
+using SoundByte.API.Items.User;
 using SoundByte.Core.Services;
 
 namespace SoundByte.UWP.Models
 {
-    public class UserFollowersModel : ObservableCollection<User>, ISupportIncrementalLoading
+    public class UserFollowersModel : ObservableCollection<BaseUser>, ISupportIncrementalLoading
     {
-        public UserFollowersModel(User user, string type)
+        public UserFollowersModel(BaseUser user, string type)
         {
             User = user;
             Type = type;
@@ -39,7 +38,7 @@ namespace SoundByte.UWP.Models
         /// <summary>
         ///     User object that we will used to get the follower / followings for
         /// </summary>
-        public User User { get; set; }
+        public BaseUser User { get; set; }
 
         /// <summary>
         ///     What type of object is this (followers, followings)
@@ -98,7 +97,13 @@ namespace SoundByte.UWP.Models
                         count = (uint) userPlaylists.Users.Count;
 
                         // Loop though all the playlists on the UI thread
-                        await DispatcherHelper.ExecuteOnUIThreadAsync(() => { userPlaylists.Users.ForEach(Add); });
+                        await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
+                        {
+                            foreach (var user in userPlaylists.Users)
+                            {
+                                Add(user.ToBaseUser());
+                            }
+                        });
                     }
                     else
                     {

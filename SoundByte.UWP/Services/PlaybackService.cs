@@ -28,10 +28,11 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Microsoft.Toolkit.Uwp.Helpers;
 using SoundByte.API.Endpoints;
+using SoundByte.API.Items.Track;
+using SoundByte.API.Items.User;
 using SoundByte.Core.Converters;
 using SoundByte.Core.Helpers;
 using SoundByte.Core.Services;
-using User = SoundByte.API.Endpoints.User;
 
 namespace SoundByte.UWP.Services
 {
@@ -102,7 +103,7 @@ namespace SoundByte.UWP.Services
                 audioVideoSyncTimer.Start();
         }
 
-        public Track CurrentTrack
+        public BaseTrack CurrentTrack
         {
             get => _currentTrack;
             set
@@ -246,7 +247,7 @@ namespace SoundByte.UWP.Services
         /// <summary>
         ///     The data model of the active playlist.
         /// </summary>
-        public ObservableCollection<Track> Playlist { get; set; } = new ObservableCollection<Track>();
+        public ObservableCollection<BaseTrack> Playlist { get; set; } = new ObservableCollection<BaseTrack>();
 
         /// <summary>
         ///     Are tracks shuffled
@@ -383,10 +384,10 @@ namespace SoundByte.UWP.Services
                 // Set the new current track, updating the UI
                 CurrentTrack = track;
 
-                TimeRemaining = "-" + NumberFormatHelper.FormatTimeString(CurrentTrack.Duration);
+                TimeRemaining = "-" + NumberFormatHelper.FormatTimeString(CurrentTrack.Duration.TotalMilliseconds);
                 TimeListened = "00:00";
                 CurrentTimeValue = 0;
-                MaxTimeValue = TimeSpan.FromMilliseconds(CurrentTrack.Duration).TotalSeconds;
+                MaxTimeValue = CurrentTrack.Duration.TotalSeconds;
 
                 // Update the live tile
                 UpdateNormalTiles();
@@ -406,7 +407,7 @@ namespace SoundByte.UWP.Services
 
                     try
                     {
-                        CurrentTrack.User = await SoundByteService.Instance.GetAsync<User>($"/users/{CurrentTrack.User.Id}");
+                        CurrentTrack.User = (await SoundByteService.Instance.GetAsync<SoundCloudUser>($"/users/{CurrentTrack.User.Id}")).ToBaseUser();
                     }
                     catch
                     {
@@ -463,8 +464,8 @@ namespace SoundByte.UWP.Services
         /// <param name="isShuffled">Should the tracks be played shuffled.</param>
         /// <param name="startingItem">What track to start with.</param>
         /// <returns></returns>
-        public async Task<(bool success, string message)> StartMediaPlayback(List<Track> playlist, string token,
-            bool isShuffled = false, Track startingItem = null)
+        public async Task<(bool success, string message)> StartMediaPlayback(List<BaseTrack> playlist, string token,
+            bool isShuffled = false, BaseTrack startingItem = null)
         {
             // If no playlist was specified, skip
             if (playlist == null || playlist.Count == 0)
@@ -514,7 +515,7 @@ namespace SoundByte.UWP.Services
                     if (track == null)
                         continue;
 
-                    if (track.ServiceType == ServiceType.YouTube && string.IsNullOrEmpty(track.StreamUrl))
+                    if (track.ServiceType == ServiceType.YouTube && string.IsNullOrEmpty(track.AudioStreamUrl))
                         continue;
 
                     MediaSource source;
@@ -528,7 +529,7 @@ namespace SoundByte.UWP.Services
                             source = MediaSource.CreateFromUri(new Uri("https://api.fanburst.com/tracks/" + track.Id + "/stream?client_id=" + ApiKeyService.FanburstClientId));
                             break;
                         case ServiceType.YouTube:
-                            source = MediaSource.CreateFromUri(new Uri(track.StreamUrl));
+                            source = MediaSource.CreateFromUri(new Uri(track.AudioStreamUrl));
                             break;
                         default:
                             source = MediaSource.CreateFromUri(new Uri("http://api.soundcloud.com/tracks/" + track.Id + "/stream?client_id=" + apiKey));
@@ -750,7 +751,7 @@ namespace SoundByte.UWP.Services
         private MediaPlaybackList _playbackList;
 
         // The current playing track
-        private Track _currentTrack;
+        private BaseTrack _currentTrack;
 
         // The amount of time spent listening to the track
         private string _timeListened = "00:00";

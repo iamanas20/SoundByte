@@ -11,6 +11,8 @@
  */
 
 using Newtonsoft.Json;
+using SoundByte.API.Items.Track;
+using SoundByte.API.Items.User;
 
 namespace SoundByte.API.Endpoints
 {
@@ -24,13 +26,13 @@ namespace SoundByte.API.Endpoints
         ///     Track detail
         /// </summary>
         [JsonProperty("track")]
-        public Track Track { get; set; }
+        public SoundCloudTrack Track { get; set; }
 
         /// <summary>
         ///     User detail
         /// </summary>
         [JsonProperty("user")]
-        public User User { get; set; }
+        public SoundCloudUser User { get; set; }
 
         /// <summary>
         ///     Playlist detail

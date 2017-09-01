@@ -13,6 +13,8 @@
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using SoundByte.API.Items.Track;
+using SoundByte.API.Items.User;
 
 namespace SoundByte.API.Endpoints
 {
@@ -56,7 +58,7 @@ namespace SoundByte.API.Endpoints
         ///     A list of track objects that are within this playlist
         /// </summary>
         [JsonProperty("tracks")]
-        public List<Track> Tracks { get; set; }
+        public List<SoundCloudTrack> Tracks { get; set; }
 
         /// <summary>
         ///     Internal ID of this object.
@@ -80,7 +82,7 @@ namespace SoundByte.API.Endpoints
         ///     The user who posted this track
         /// </summary>
         [JsonProperty("user")]
-        public User User { get; set; }
+        public SoundCloudUser User { get; set; }
 
         /// <summary>
         ///     Used by SoundByte to determine if the track is in a set

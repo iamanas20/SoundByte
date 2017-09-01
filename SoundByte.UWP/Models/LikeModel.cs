@@ -18,11 +18,11 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
 using Windows.Foundation;
 using Windows.UI.Xaml.Data;
-using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Helpers;
-using SoundByte.API.Endpoints;
 using SoundByte.API.Exceptions;
 using SoundByte.API.Holders;
+using SoundByte.API.Items.Track;
+using SoundByte.API.Items.User;
 using SoundByte.Core.Services;
 using SoundByte.UWP.UserControls;
 
@@ -31,19 +31,19 @@ namespace SoundByte.UWP.Models
     /// <summary>
     ///     Model for user likes
     /// </summary>
-    public class LikeModel : ObservableCollection<Track>, ISupportIncrementalLoading
+    public class LikeModel : ObservableCollection<BaseTrack>, ISupportIncrementalLoading
     {
         /// <summary>
         ///     Setsup the like view model for a user
         /// </summary>
         /// <param name="user">The user to retrieve likes for</param>
-        public LikeModel(User user)
+        public LikeModel(BaseUser user)
         {
             User = user;
         }
         // User object that we will used to get the likes for
 
-        public User User { get; set; }
+        public BaseUser User { get; set; }
 
         /// <summary>
         ///     The position of the track, will be 'eol'
@@ -107,7 +107,13 @@ namespace SoundByte.UWP.Models
                             count = (uint) likeTracks.Tracks.Count;
 
                             // Loop though all the tracks on the UI thread
-                            await DispatcherHelper.ExecuteOnUIThreadAsync(() => { likeTracks.Tracks.ForEach(Add); });
+                            await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
+                            {
+                                foreach (var track in likeTracks.Tracks)
+                                {
+                                    Add(track.ToBaseTrack());
+                                }
+                            });
                         }
                         else
                         {

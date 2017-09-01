@@ -12,7 +12,7 @@
 
 using Windows.ApplicationModel.DataTransfer;
 using Windows.UI.Xaml;
-using SoundByte.API.Endpoints;
+using SoundByte.API.Items.Track;
 using SoundByte.Core.Services;
 using UICompositionAnimations.Lights;
 
@@ -20,7 +20,7 @@ namespace SoundByte.Core.Dialogs
 {
     public sealed partial class ShareDialog
     {
-        public ShareDialog(Track trackItem)
+        public ShareDialog(BaseTrack trackItem)
         {
             // Do this before the xaml is loaded, to make sure
             // the object can be binded to.
@@ -32,7 +32,7 @@ namespace SoundByte.Core.Dialogs
             LightsSourceHelper.SetIsLightsContainer(RootGrid, true);
         }
 
-        public Track Track { get; }
+        public BaseTrack Track { get; }
 
         private void ShareWindows(object sender, RoutedEventArgs e)
         {
@@ -43,7 +43,7 @@ namespace SoundByte.Core.Dialogs
                 dataPackage.Properties.Title = "SoundByte";
                 dataPackage.Properties.Description = "Share this track with Windows 10.";
                 dataPackage.SetText("Listen to " + Track.Title + " by " + Track.User.Username +
-                                    " on #SoundByte #Windows10 " + Track.PermalinkUri);
+                                    " on #SoundByte #Windows10 " + Track.Link);
             }
 
             // Remove any old share events
@@ -63,7 +63,7 @@ namespace SoundByte.Core.Dialogs
             // Create a data package
             var data = new DataPackage {RequestedOperation = DataPackageOperation.Copy};
             // Set the link to the track on soundcloud
-            data.SetText(Track.PermalinkUri);
+            data.SetText(Track.Link);
             // Set the clipboard content
             Clipboard.SetContent(data);
             // Hide the popup

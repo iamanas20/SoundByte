@@ -16,6 +16,7 @@ using Windows.UI.Popups;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using SoundByte.API.Endpoints;
+using SoundByte.API.Items.Track;
 using SoundByte.Core.Services;
 using SoundByte.UWP.Models;
 using SoundByte.UWP.Services;
@@ -69,7 +70,7 @@ namespace SoundByte.UWP.Views.Me
 
             var startPlayback =
                 await PlaybackService.Instance.StartMediaPlayback(LikesModel.ToList(), LikesModel.Token, false,
-                    (Track) e.ClickedItem);
+                    (BaseTrack) e.ClickedItem);
 
             if (!startPlayback.success)
                 await new MessageDialog(startPlayback.message, "Error playing likes.").ShowAsync();

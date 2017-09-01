@@ -18,6 +18,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using SoundByte.API.Endpoints;
 using SoundByte.API.Exceptions;
+using SoundByte.API.Items.Track;
 using SoundByte.UWP.Models;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.Views;
@@ -90,7 +91,7 @@ namespace SoundByte.UWP.ViewModels
                     case "track-like":
                         // Play this item
                         var startPlayback =
-                            await PlaybackService.Instance.StartMediaPlayback(new List<Track> {notification.Track},
+                            await PlaybackService.Instance.StartMediaPlayback(new List<BaseTrack> {notification.Track.ToBaseTrack()},
                                 $"Notification-{notification.Track.Id}");
                         if (!startPlayback.success)
                             await new MessageDialog(startPlayback.message, "Error opening Notification.").ShowAsync();
@@ -99,7 +100,7 @@ namespace SoundByte.UWP.ViewModels
                         // Play this item
                         var startPlaybackComment =
                             await PlaybackService.Instance.StartMediaPlayback(
-                                new List<Track> {notification.Comment.Track},
+                                new List<BaseTrack> {notification.Comment.Track.ToBaseTrack()},
                                 $"Notification-{notification.Comment.Track.Id}");
                         if (!startPlaybackComment.success)
                             await new MessageDialog(startPlaybackComment.message, "Error opening Notification.")

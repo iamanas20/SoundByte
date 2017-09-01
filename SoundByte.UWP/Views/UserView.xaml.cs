@@ -14,7 +14,7 @@ using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using SoundByte.API.Endpoints;
+using SoundByte.API.Items.User;
 using SoundByte.Core.Helpers;
 using SoundByte.Core.Services;
 using SoundByte.UWP.Services;
@@ -48,7 +48,7 @@ namespace SoundByte.UWP.Views
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             // Get the target user (may be null)
-            var targetUser = e.Parameter as User;
+            var targetUser = e.Parameter as BaseUser;
 
             // If we have both objects and they equal, do
             // nothing and return (we are navigating to the

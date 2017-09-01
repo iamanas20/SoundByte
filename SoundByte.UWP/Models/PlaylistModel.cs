@@ -19,11 +19,11 @@ using Windows.ApplicationModel.Resources;
 using Windows.Foundation;
 using Windows.UI.Popups;
 using Windows.UI.Xaml.Data;
-using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Helpers;
 using SoundByte.API.Endpoints;
 using SoundByte.API.Exceptions;
 using SoundByte.API.Holders;
+using SoundByte.API.Items.User;
 using SoundByte.Core.Services;
 
 namespace SoundByte.UWP.Models
@@ -37,13 +37,13 @@ namespace SoundByte.UWP.Models
         ///     Setsup a new view model for playlists
         /// </summary>
         /// <param name="user">The user to retrieve playlists for</param>
-        public PlaylistModel(User user)
+        public PlaylistModel(BaseUser user)
         {
             User = user;
         }
 
         // User object that we will used to get the likes for
-        public User User { get; set; }
+        public BaseUser User { get; set; }
 
         /// <summary>
         ///     The position of the track, will be 'eol'

@@ -14,6 +14,8 @@ using System;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media.Imaging;
 using SoundByte.API.Endpoints;
+using SoundByte.API.Items.Track;
+using SoundByte.API.Items.User;
 using SoundByte.Core.Services;
 
 namespace SoundByte.Core.Converters
@@ -77,7 +79,7 @@ namespace SoundByte.Core.Converters
                 var sourceType = value.GetType();
 
                 // Check that we can use this object
-                if (!(sourceType == typeof(Track) || sourceType == typeof(Playlist) || sourceType == typeof(User)))
+                if (!(sourceType == typeof(BaseTrack) || sourceType == typeof(Playlist) || sourceType == typeof(BaseUser)))
                     throw new ArgumentException(
                         $"Expected object to convert is either Track, Playlist or User. {sourceType} was passed instead.",
                         nameof(value));
@@ -86,9 +88,9 @@ namespace SoundByte.Core.Converters
                 switch (sourceType.Name)
                 {
                     case "Track":
-                        return GetTrackImage(value as Track);
+                        return GetTrackImage(value as BaseTrack);
                     case "User":
-                        return GetUserImage(value as User);
+                        return GetUserImage(value as BaseUser);
                     case "Playlist":
                         return GetPlaylistImage(value as Playlist);
                 }
@@ -111,20 +113,20 @@ namespace SoundByte.Core.Converters
         /// </summary>
         /// <param name="track">The track to get an image for</param>
         /// <returns>A url to the image</returns>
-        private static string GetTrackImage(Track track)
+        private static string GetTrackImage(BaseTrack track)
         {
             // If there is no uri, return the users image
-            if (string.IsNullOrEmpty(track.ArtworkLink))
+            if (string.IsNullOrEmpty(track.ArtworkUrl))
                 return GetUserImage(track.User);
 
             // Check if this image supports high resolution
-            if (track.ArtworkLink.Contains("large"))
+            if (track.ArtworkUrl.Contains("large"))
                 return SettingsService.Instance.IsHighQualityArtwork
-                    ? track.ArtworkLink.Replace("large", "t500x500")
-                    : track.ArtworkLink.Replace("large", "t300x300");
+                    ? track.ArtworkUrl.Replace("large", "t500x500")
+                    : track.ArtworkUrl.Replace("large", "t300x300");
 
             // This image does not support high resoultion
-            return track.ArtworkLink;
+            return track.ArtworkUrl;
         }
 
         /// <summary>
@@ -132,7 +134,7 @@ namespace SoundByte.Core.Converters
         /// </summary>
         /// <param name="user">The user to get an image for</param>
         /// <returns>A url to the image</returns>
-        private static string GetUserImage(User user)
+        private static string GetUserImage(BaseUser user)
         {
             try
             {
@@ -169,7 +171,7 @@ namespace SoundByte.Core.Converters
         {
             // If there is no uri, return the users image
             if (string.IsNullOrEmpty(playlist.ArtworkLink))
-                return GetUserImage(playlist.User);
+                return GetUserImage(playlist.User.ToBaseUser());
 
             // Check if this image supports high resolution
             if (playlist.ArtworkLink.Contains("large"))

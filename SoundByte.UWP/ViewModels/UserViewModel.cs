@@ -18,6 +18,8 @@ using Windows.UI.Popups;
 using Windows.UI.StartScreen;
 using Windows.UI.Xaml.Controls;
 using SoundByte.API.Endpoints;
+using SoundByte.API.Items.Track;
+using SoundByte.API.Items.User;
 using SoundByte.Core.Converters;
 using SoundByte.Core.Services;
 using SoundByte.UWP.Models;
@@ -41,7 +43,7 @@ namespace SoundByte.UWP.ViewModels
         private PivotItem _selectedPivotItem;
 
         private bool _showFollowButton = true;
-        private User _user;
+        private BaseUser _user;
 
         public bool ShowFollowButton
         {
@@ -124,7 +126,7 @@ namespace SoundByte.UWP.ViewModels
             }
         }
 
-        public User User
+        public BaseUser User
         {
             get => _user;
             private set
@@ -140,7 +142,7 @@ namespace SoundByte.UWP.ViewModels
         ///     Setup this viewmodel for a specific user
         /// </summary>
         /// <param name="user"></param>
-        public async Task UpdateModel(User user)
+        public async Task UpdateModel(BaseUser user)
         {
             // Set the new user
             User = user;
@@ -294,7 +296,7 @@ namespace SoundByte.UWP.ViewModels
 
             var startPlayback =
                 await PlaybackService.Instance.StartMediaPlayback(TracksList.ToList(), TracksList.Token, false,
-                    (Track) e.ClickedItem);
+                    (BaseTrack) e.ClickedItem);
             if (!startPlayback.success)
                 await new MessageDialog(startPlayback.message, "Error playing user track.").ShowAsync();
 
@@ -307,7 +309,7 @@ namespace SoundByte.UWP.ViewModels
 
             var startPlayback =
                 await PlaybackService.Instance.StartMediaPlayback(LikeItems.ToList(), LikeItems.Token, false,
-                    (Track) e.ClickedItem);
+                    (BaseTrack) e.ClickedItem);
             if (!startPlayback.success)
                 await new MessageDialog(startPlayback.message, "Error playing liked user track.").ShowAsync();
 
@@ -321,7 +323,7 @@ namespace SoundByte.UWP.ViewModels
 
         public void NavigateToUser(object sender, ItemClickEventArgs e)
         {
-            App.NavigateTo(typeof(UserView), e.ClickedItem as User);
+            App.NavigateTo(typeof(UserView), e.ClickedItem as BaseUser);
         }
 
         #region Models

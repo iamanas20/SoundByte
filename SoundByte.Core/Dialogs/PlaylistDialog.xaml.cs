@@ -21,6 +21,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.Web.Http;
 using SoundByte.API.Endpoints;
+using SoundByte.API.Items.Track;
 using SoundByte.Core.Services;
 
 namespace SoundByte.Core.Dialogs
@@ -34,7 +35,7 @@ namespace SoundByte.Core.Dialogs
         // Stop the check event when loading
         private bool _blockItemsLoading;
 
-        public PlaylistDialog(Track trackItem)
+        public PlaylistDialog(BaseTrack trackItem)
         {
             // Do this before the xaml is loaded, to make sure
             // the object can be binded to.
@@ -50,7 +51,7 @@ namespace SoundByte.Core.Dialogs
         /// <summary>
         ///     The track that we want to add to a playlist
         /// </summary>
-        public Track Track { get; }
+        public BaseTrack Track { get; }
 
         /// <summary>
         ///     A list of user playlists that we can add
@@ -174,7 +175,7 @@ namespace SoundByte.Core.Dialogs
             {
                 _blockItemsLoading = true;
                 // Check if the track in in the playlist
-                playlist.IsTrackInInternalSet = playlist.Tracks?.FirstOrDefault(x => x.Id == Track.Id) != null;
+                playlist.IsTrackInInternalSet = playlist.Tracks?.FirstOrDefault(x => x.Id == int.Parse(Track.Id)) != null;
                 // Add the track to the UI
                 Playlist.Add(playlist);
                 _blockItemsLoading = false;
@@ -208,7 +209,7 @@ namespace SoundByte.Core.Dialogs
                 // Get the playlist object from the internet
                 var playlistObject = await SoundByteService.Instance.GetAsync<Playlist>("/playlists/" + playlistId);
                 // Get the track within the object
-                var trackObject = playlistObject.Tracks.FirstOrDefault(x => x.Id == Track.Id);
+                var trackObject = playlistObject.Tracks.FirstOrDefault(x => x.Id == int.Parse(Track.Id));
 
                 // Check that the track exits
                 if (trackObject != null)

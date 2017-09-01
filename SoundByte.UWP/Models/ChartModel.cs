@@ -18,11 +18,10 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
 using Windows.Foundation;
 using Windows.UI.Xaml.Data;
-using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Helpers;
-using SoundByte.API.Endpoints;
 using SoundByte.API.Exceptions;
 using SoundByte.API.Holders;
+using SoundByte.API.Items.Track;
 using SoundByte.Core.Services;
 using SoundByte.UWP.UserControls;
 
@@ -31,7 +30,7 @@ namespace SoundByte.UWP.Models
     /// <summary>
     ///     Model for the soundcloud charts
     /// </summary>
-    public class ChartModel : ObservableCollection<Track>, ISupportIncrementalLoading
+    public class ChartModel : ObservableCollection<BaseTrack>, ISupportIncrementalLoading
     {
         // The genre to search for
         private string _genre = "all-music";
@@ -128,7 +127,7 @@ namespace SoundByte.UWP.Models
                         // Loop though all the tracks on the UI thread
                         await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                         {
-                            exploreTracks.Items.ForEach(t => Add(t.Track));
+                            exploreTracks.Items.ForEach(t => Add(t.Track.ToBaseTrack()));
                         });
                     }
                     else

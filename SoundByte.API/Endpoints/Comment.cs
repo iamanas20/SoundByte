@@ -12,6 +12,8 @@
 
 using System;
 using Newtonsoft.Json;
+using SoundByte.API.Items.Track;
+using SoundByte.API.Items.User;
 
 namespace SoundByte.API.Endpoints
 {
@@ -43,7 +45,7 @@ namespace SoundByte.API.Endpoints
         ///     The track that this comment was posted on
         /// </summary>
         [JsonProperty("track")]
-        public Track Track { get; set; }
+        public SoundCloudTrack Track { get; set; }
 
         /// <summary>
         ///     At what time in the track was this posted
@@ -55,6 +57,6 @@ namespace SoundByte.API.Endpoints
         ///     The user who posted this comment
         /// </summary>
         [JsonProperty("user")]
-        public User User { get; set; }
+        public SoundCloudUser User { get; set; }
     }
 }

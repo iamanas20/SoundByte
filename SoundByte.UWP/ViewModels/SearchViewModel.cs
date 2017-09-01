@@ -18,6 +18,8 @@ using Windows.UI.Popups;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml.Controls;
 using SoundByte.API.Endpoints;
+using SoundByte.API.Items.Track;
+using SoundByte.API.Items.User;
 using SoundByte.Core.Dialogs;
 using SoundByte.Core.Services;
 using SoundByte.UWP.Models;
@@ -150,9 +152,9 @@ namespace SoundByte.UWP.ViewModels
             // Show the loading ring
             App.IsLoading = true;
 
-            if (e.ClickedItem.GetType().Name == "Track")
+            if (e.ClickedItem.GetType().Name == "BaseTrack")
             {
-                var searchItem = e.ClickedItem as Track;
+                var searchItem = e.ClickedItem as BaseTrack;
 
                 // Get the resource loader
                 var resources = ResourceLoader.GetForCurrentView();
@@ -228,7 +230,7 @@ namespace SoundByte.UWP.ViewModels
             }
             else if (e.ClickedItem.GetType().Name == "User")
             {
-                App.NavigateTo(typeof(UserView), e.ClickedItem as API.Endpoints.User);
+                App.NavigateTo(typeof(UserView), e.ClickedItem as BaseUser);
             }
             else if (e.ClickedItem.GetType().Name == "Playlist")
             {

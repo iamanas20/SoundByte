@@ -18,11 +18,11 @@ using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.UI.Popups;
 using Windows.UI.Xaml.Data;
-using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Helpers;
 using SoundByte.API.Endpoints;
 using SoundByte.API.Exceptions;
 using SoundByte.API.Holders;
+using SoundByte.API.Items.Track;
 using SoundByte.Core.Services;
 using SoundByte.UWP.Services;
 
@@ -34,13 +34,13 @@ namespace SoundByte.UWP.Models
     public class CommentModel : ObservableCollection<Comment>, ISupportIncrementalLoading
     {
         // The track we want to get comments for
-        private Track _track;
+        private BaseTrack _track;
 
         /// <summary>
         ///     Get comments for a track
         /// </summary>
         /// <param name="track"></param>
-        public CommentModel(Track track)
+        public CommentModel(BaseTrack track)
         {
             _track = track;
         }
@@ -89,13 +89,13 @@ namespace SoundByte.UWP.Models
                             Body = comment.snippet.topLevelComment.snippet.textDisplay,
                             CreatedAt = comment.snippet.topLevelComment.snippet.publishedAt,
                             Timestamp = "0",
-                            Track = _track,
-                            User = new User
-                            {
-                                Id = "",
-                                ArtworkLink = comment.snippet.topLevelComment.snippet.authorProfileImageUrl,
-                                Username = comment.snippet.topLevelComment.snippet.authorDisplayName
-                            }            
+                           // Track = _track,
+                        //    User = new User
+                         //   {
+                          //      Id = "",
+                          //      ArtworkLink = comment.snippet.topLevelComment.snippet.authorProfileImageUrl,
+                           //     Username = comment.snippet.topLevelComment.snippet.authorDisplayName
+                           // }            
                         });
                     });
                 }   

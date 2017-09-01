@@ -16,6 +16,7 @@ using Windows.UI.Popups;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using SoundByte.API.Endpoints;
+using SoundByte.API.Items.Track;
 using SoundByte.Core.Services;
 using SoundByte.UWP.Models;
 using SoundByte.UWP.Services;
@@ -62,7 +63,7 @@ namespace SoundByte.UWP.Views.Me
             App.IsLoading = true;
 
             var startPlayback = await PlaybackService.Instance.StartMediaPlayback(HistoryModel.ToList(),
-                HistoryModel.Token, false, (Track) e.ClickedItem);
+                HistoryModel.Token, false, (BaseTrack) e.ClickedItem);
             if (!startPlayback.success)
                 await new MessageDialog(startPlayback.message, "Error playing track.").ShowAsync();
 

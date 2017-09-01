@@ -5,7 +5,8 @@
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:endpoints="using:SoundByte.API.Endpoints"
     NavigationCacheMode="Enabled"
-    xmlns:converters="using:SoundByte.Core.Converters">
+    xmlns:converters="using:SoundByte.Core.Converters"
+    xmlns:track="using:SoundByte.API.Items.Track">
     <Page.Transitions>
         <TransitionCollection>
             <NavigationThemeTransition>
@@ -17,7 +18,7 @@
     <Page.Resources>
         <converters:SliderValueConverter x:Key="SliderValueConverter" />
         <!-- Related Items Template -->
-        <DataTemplate x:DataType="endpoints:Track" x:Key="RelatedItemTemplate">
+        <DataTemplate x:DataType="track:BaseTrack" x:Key="RelatedItemTemplate">
             <Grid HorizontalAlignment="Stretch"
                   FocusVisualPrimaryThickness="0"
                   BorderThickness="0,0,0,1"
@@ -377,7 +378,7 @@
                                                AutomationProperties.Name="Views" Margin="0,4,6,0" FontSize="14"
                                                Opacity="0.8" />
                                     <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap"
-                                               Text="{x:Bind Path=ViewModel.Service.CurrentTrack.PlaybackCount,Converter={StaticResource FormattedValueConverter}, Mode=OneWay}"
+                                               Text="{x:Bind Path=ViewModel.Service.CurrentTrack.ViewCount,Converter={StaticResource FormattedValueConverter}, Mode=OneWay}"
                                                VerticalAlignment="Top" FontSize="15" Opacity="0.8"
                                                FontWeight="SemiLight" />
                                     <TextBlock Text="Views" HorizontalAlignment="Left" Margin="5,0,0,0"
@@ -386,7 +387,7 @@
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" Margin="0,5,10,0" HorizontalAlignment="Right">
                                     <TextBlock
-                                        Text="{x:Bind Path=ViewModel.Service.CurrentTrack.CreationDate, Mode=OneWay, Converter={StaticResource ModernDateTimeConverter}}"
+                                        Text="{x:Bind Path=ViewModel.Service.CurrentTrack.Created, Mode=OneWay, Converter={StaticResource ModernDateTimeConverter}}"
                                         TextWrapping="Wrap" VerticalAlignment="Top" FontSize="15" Opacity="0.8"
                                         FontWeight="SemiLight" />
                                     <TextBlock Text="&#xE787;" FontFamily="Segoe MDL2 Assets"
@@ -401,7 +402,7 @@
                                                AutomationProperties.Name="Like" Margin="0,4,6,0" FontSize="14"
                                                Opacity="0.8" />
                                     <TextBlock
-                                        Text="{x:Bind Path=ViewModel.Service.CurrentTrack.LikesCount,Converter={StaticResource FormattedValueConverter}, Mode=OneWay}"
+                                        Text="{x:Bind Path=ViewModel.Service.CurrentTrack.LikeCount,Converter={StaticResource FormattedValueConverter}, Mode=OneWay}"
                                         HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top"
                                         FontSize="15" Opacity="0.8" FontWeight="SemiLight" />
                                     <TextBlock Text="Likes" HorizontalAlignment="Left" Margin="5,0,0,0"

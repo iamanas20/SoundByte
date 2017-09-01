@@ -16,8 +16,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
-using SoundByte.API.Endpoints;
-using SoundByte.Core.Helpers;
+using SoundByte.API.Items.Track;
 using SoundByte.UWP.Services;
 
 namespace SoundByte.UWP.ViewModels
@@ -49,7 +48,7 @@ namespace SoundByte.UWP.ViewModels
         /// </summary>
         /// <param name="tracks"></param>
         /// <param name="token"></param>
-        public static async Task ShuffleTracksAsync(List<Track> tracks, string token)
+        public static async Task ShuffleTracksAsync(List<BaseTrack> tracks, string token)
         {
             App.IsLoading = true;
 

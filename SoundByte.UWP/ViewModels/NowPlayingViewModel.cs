@@ -19,6 +19,8 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml.Controls;
 using Microsoft.Toolkit.Uwp.Helpers;
 using SoundByte.API.Endpoints;
+using SoundByte.API.Items.Track;
+using SoundByte.API.Items.User;
 using SoundByte.Core.Converters;
 using SoundByte.Core.Dialogs;
 using SoundByte.Core.Helpers;
@@ -273,7 +275,7 @@ namespace SoundByte.UWP.ViewModels
         {
             var startPlayback =
                 await PlaybackService.Instance.StartMediaPlayback(PlaybackService.Instance.Playlist.ToList(),
-                    PlaybackService.Instance.TokenValue, false, (Track)e.ClickedItem);
+                    PlaybackService.Instance.TokenValue, false, (BaseTrack)e.ClickedItem);
             if (!startPlayback.success)
                 await new MessageDialog(startPlayback.message, "Error playing related track.").ShowAsync();
         }
@@ -433,13 +435,13 @@ namespace SoundByte.UWP.ViewModels
             }
 
             // Get the user object
-            var currentUser = await SoundByteService.Instance.GetAsync<User>("/users/" + Service.CurrentTrack.User.Id);
+            var currentUser = await SoundByteService.Instance.GetAsync<SoundCloudUser>("/users/" + Service.CurrentTrack.User.Id);
 
             // Hide the loading ring
             App.IsLoading = false;
 
             // Navigate to the user page
-            App.NavigateTo(typeof(UserView), currentUser);
+            App.NavigateTo(typeof(UserView), currentUser.ToBaseUser());
         }
 
         #endregion

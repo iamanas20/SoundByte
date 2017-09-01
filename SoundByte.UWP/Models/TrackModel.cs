@@ -18,28 +18,28 @@ using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.UI.Popups;
 using Windows.UI.Xaml.Data;
-using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Helpers;
-using SoundByte.API.Endpoints;
 using SoundByte.API.Exceptions;
 using SoundByte.API.Holders;
+using SoundByte.API.Items.Track;
+using SoundByte.API.Items.User;
 using SoundByte.Core.Services;
 
 namespace SoundByte.UWP.Models
 {
-    public class TrackModel : ObservableCollection<Track>, ISupportIncrementalLoading
+    public class TrackModel : ObservableCollection<BaseTrack>, ISupportIncrementalLoading
     {
         /// <summary>
         ///     Setsup a new view model for playlists
         /// </summary>
         /// <param name="user">The user to retrieve playlists for</param>
-        public TrackModel(User user)
+        public TrackModel(BaseUser user)
         {
             User = user;
         }
 
         // User object that we will used to get the likes for
-        public User User { get; set; }
+        public BaseUser User { get; set; }
 
         /// <summary>
         ///     The position of the track, will be 'eol'
@@ -90,7 +90,13 @@ namespace SoundByte.UWP.Models
                         count = (uint) userTracks.Tracks.Count;
 
                         // Loop though all the tracks on the UI thread
-                        await DispatcherHelper.ExecuteOnUIThreadAsync(() => { userTracks.Tracks.ForEach(Add); });
+                        await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
+                        {
+                            foreach (var track in userTracks.Tracks)
+                            {
+                                Add(track.ToBaseTrack());
+                            }
+                        });
                     }
                     else
                     {

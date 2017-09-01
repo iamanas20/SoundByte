@@ -19,17 +19,16 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
 using Windows.Foundation;
 using Windows.UI.Xaml.Data;
-using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Helpers;
-using SoundByte.API.Endpoints;
 using SoundByte.API.Exceptions;
 using SoundByte.API.Holders;
+using SoundByte.API.Items.Track;
 using SoundByte.Core.Services;
 using SoundByte.UWP.UserControls;
 
 namespace SoundByte.UWP.Models
 {
-    public class SearchTrackModel : ObservableCollection<Track>, ISupportIncrementalLoading
+    public class SearchTrackModel : ObservableCollection<BaseTrack>, ISupportIncrementalLoading
     {
         /// <summary>
         ///     The position of the track, will be 'eol'
@@ -96,7 +95,13 @@ namespace SoundByte.UWP.Models
                         count = (uint) searchTracks.Tracks.Count;
 
                         // Loop though all the tracks on the UI thread
-                        await DispatcherHelper.ExecuteOnUIThreadAsync(() => { searchTracks.Tracks.ForEach(Add); });
+                        await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
+                        {
+                            foreach (var track in searchTracks.Tracks)
+                            {
+                                Add(track.ToBaseTrack());
+                            }
+                        });
                     }
                     else
                     {

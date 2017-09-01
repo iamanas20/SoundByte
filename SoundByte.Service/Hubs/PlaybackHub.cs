@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNet.SignalR;
-using SoundByte.API.Endpoints;
+using SoundByte.API.Items.Track;
 
 namespace SoundByte.Service.Hubs
 {
     public class PlaybackHub : Hub
     {
-        public void PushTrack(Track track)
+        public void PushTrack(BaseTrack track)
         {
              
         }

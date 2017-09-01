@@ -13,6 +13,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using SoundByte.API.Endpoints;
+using SoundByte.API.Items.Track;
 
 namespace SoundByte.API.Holders
 {
@@ -26,7 +27,7 @@ namespace SoundByte.API.Holders
         ///     Collection of tracks
         /// </summary>
         [JsonProperty("collection")]
-        public List<Track> Tracks { get; set; }
+        public List<SoundCloudTrack> Tracks { get; set; }
 
         /// <summary>
         ///     The next list of items

@@ -33,7 +33,8 @@ using Microsoft.Services.Store.Engagement;
 using Microsoft.Toolkit.Uwp.Helpers;
 using NotificationsExtensions;
 using NotificationsExtensions.Toasts;
-using SoundByte.API.Endpoints;
+using SoundByte.API.Items.Track;
+using SoundByte.API.Items.User;
 using SoundByte.Core.Dialogs;
 using SoundByte.Core.Helpers;
 using SoundByte.Core.Services;
@@ -380,8 +381,8 @@ namespace SoundByte.UWP
                             }
 
                             // Play the list of items
-                            await PlaybackService.Instance.StartMediaPlayback(
-                                userStream.Where(x => x.Track != null).Select(x => x.Track).ToList(), path);
+                         //   await PlaybackService.Instance.StartMediaPlayback(
+                          //      userStream.Where(x => x.Track != null).Select(x => x.Track).ToList(), path);
 
                             return;
                         }
@@ -397,10 +398,10 @@ namespace SoundByte.UWP
                         switch (page)
                         {
                             case "track":
-                                var track = await SoundByteService.Instance.GetAsync<Track>($"/tracks/{parser["id"]}");
+                                var track = await SoundByteService.Instance.GetAsync<SoundCloudTrack>($"/tracks/{parser["id"]}");
 
                                 var startPlayback =
-                                    await PlaybackService.Instance.StartMediaPlayback(new List<Track> {track},
+                                    await PlaybackService.Instance.StartMediaPlayback(new List<BaseTrack> {track.ToBaseTrack()},
                                         $"Protocol-{track.Id}");
 
                                 if (!startPlayback.success)
@@ -412,8 +413,8 @@ namespace SoundByte.UWP
                                 App.NavigateTo(typeof(PlaylistView), playlist);
                                 return;
                             case "user":
-                                var user = await SoundByteService.Instance.GetAsync<User>($"/users/{parser["id"]}");
-                                App.NavigateTo(typeof(UserView), user);
+                                var user = await SoundByteService.Instance.GetAsync<SoundCloudUser>($"/users/{parser["id"]}");
+                                App.NavigateTo(typeof(UserView), user.ToBaseUser());
                                 return;
                             case "changelog":
                                 App.NavigateTo(typeof(WhatsNewView));

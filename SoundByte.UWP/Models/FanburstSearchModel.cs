@@ -21,12 +21,13 @@ using Windows.UI.Xaml.Data;
 using Microsoft.Toolkit.Uwp.Helpers;
 using SoundByte.API.Endpoints;
 using SoundByte.API.Exceptions;
+using SoundByte.API.Items.Track;
 using SoundByte.Core.Services;
 using SoundByte.UWP.UserControls;
 
 namespace SoundByte.UWP.Models
 {
-    public class FanburstSearchModel : ObservableCollection<Track>, ISupportIncrementalLoading
+    public class FanburstSearchModel : ObservableCollection<BaseTrack>, ISupportIncrementalLoading
     {
         /// <summary>
         ///     The position of the track, will be 'eol'
@@ -43,42 +44,7 @@ namespace SoundByte.UWP.Models
         ///     Are there more items to load
         /// </summary>
         public bool HasMoreItems => Token != "eol";
-
-        // --- TEMP BECAUSE WE CANNOT USE DYNAMIC IN RELEASE MODE ---- //
-        public class FBImages
-        {
-            public string square_150 { get; set; }
-            public string square_250 { get; set; }
-            public string square_500 { get; set; }
-        }
-
-        public class FBUser
-        {
-            public string id { get; set; }
-            public string name { get; set; }
-            public string permalink { get; set; }
-            public string url { get; set; }
-            public string avatar_url { get; set; }
-            public string location { get; set; }
-        }
-
-        public class FBRootObject
-        {
-            public string id { get; set; }
-            public string title { get; set; }
-            public string permalink { get; set; }
-            public int duration { get; set; }
-            public string url { get; set; }
-            public string published_at { get; set; }
-            public bool @private { get; set; }
-            public bool downloadable { get; set; }
-            public string image_url { get; set; }
-            public FBImages images { get; set; }
-            public string stream_url { get; set; }
-            public FBUser user { get; set; }
-        }
-
-
+     
         /// <summary>
         ///     Loads search track items from the souncloud api
         /// </summary>
@@ -103,7 +69,7 @@ namespace SoundByte.UWP.Models
                 try
                 {
                     // Search for matching tracks
-                    var searchTracks = await SoundByteService.Instance.GetAsync<List<FBRootObject>>(
+                    var searchTracks = await SoundByteService.Instance.GetAsync<List<FanburstTrack>>(
                         ServiceType.Fanburst, "tracks/search", new Dictionary<string, string>
                         {
                             {"query", WebUtility.UrlEncode(Query)},
@@ -127,24 +93,7 @@ namespace SoundByte.UWP.Models
                         await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                         {
                             foreach (var item in searchTracks)
-                                Add(new Track
-                                {
-                                    ServiceType = ServiceType.Fanburst,
-                                    Id = item.id,
-                                    Title = item.title,
-                                    PermalinkUri = item.permalink,
-                                    Duration = TimeSpan.FromSeconds(item.duration).TotalMilliseconds,
-                                    CreationDate = DateTime.Parse(item.published_at),
-                                    Kind = "track",
-                                    User = new User
-                                    {
-                                        Id = item.user.id,
-                                        Username = item.user.name,
-                                        Country = item.user.location,
-                                        ArtworkLink = item.user.avatar_url
-                                    },
-                                    ArtworkLink = item.images.square_500
-                                });
+                                Add(item.ToBaseTrack());
                         });
                     }
                     else

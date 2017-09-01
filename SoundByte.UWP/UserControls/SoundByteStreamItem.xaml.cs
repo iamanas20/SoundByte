@@ -11,9 +11,9 @@
  */
 
 using System;
-using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using SoundByte.API.Endpoints;
+using SoundByte.API.Items.Track;
 using SoundByte.Core.Dialogs;
 using SoundByte.Core.Helpers;
 
@@ -78,7 +78,7 @@ namespace SoundByte.UWP.UserControls
 
         // The track object
         public static readonly DependencyProperty TrackProperty =
-            DependencyProperty.Register("Track", typeof(Track), typeof(SoundByteStreamItem), null);
+            DependencyProperty.Register("Track", typeof(BaseTrack), typeof(SoundByteStreamItem), null);
 
         // The playlist object
         public static readonly DependencyProperty PlaylistProperty =
@@ -109,9 +109,9 @@ namespace SoundByte.UWP.UserControls
         /// <summary>
         ///     The track object
         /// </summary>
-        public Track Track
+        public BaseTrack Track
         {
-            get => GetValue(TrackProperty) as Track;
+            get => GetValue(TrackProperty) as BaseTrack;
             set => SetValue(TrackProperty, value);
         }
 

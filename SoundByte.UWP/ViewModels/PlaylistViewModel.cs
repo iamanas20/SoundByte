@@ -19,6 +19,7 @@ using Windows.UI.Popups;
 using Windows.UI.StartScreen;
 using Windows.UI.Xaml.Controls;
 using SoundByte.API.Endpoints;
+using SoundByte.API.Items.Track;
 using SoundByte.Core.Converters;
 using SoundByte.Core.Services;
 using SoundByte.UWP.Services;
@@ -30,7 +31,7 @@ namespace SoundByte.UWP.ViewModels
     {
         public PlaylistViewModel()
         {
-            Tracks = new ObservableCollection<Track>();
+            Tracks = new ObservableCollection<BaseTrack>();
         }
 
         public async Task SetupView(Playlist newPlaylist)
@@ -73,7 +74,7 @@ namespace SoundByte.UWP.ViewModels
                     // Get the playlist tracks
                     var playlistTracks =
                         (await SoundByteService.Instance.GetAsync<Playlist>("/playlists/" + Playlist.Id)).Tracks;
-                    playlistTracks.ForEach(x => Tracks.Add(x));
+                    playlistTracks.ForEach(x => Tracks.Add(x.ToBaseTrack()));
                     // Hide the loading ring
                     (App.CurrentFrame?.FindName("PlaylistInfoPane") as InfoPane)?.ClosePane();
                 }
@@ -95,7 +96,7 @@ namespace SoundByte.UWP.ViewModels
         private Playlist _playlist;
 
         // List of tracks on the UI
-        private ObservableCollection<Track> _tracks;
+        private ObservableCollection<BaseTrack> _tracks;
 
         // Icon for the pin button
         private string _pinButtonIcon = "\uE718";
@@ -116,7 +117,7 @@ namespace SoundByte.UWP.ViewModels
         /// <summary>
         ///     Gets or sets a list of tracks in the playlist
         /// </summary>
-        public ObservableCollection<Track> Tracks
+        public ObservableCollection<BaseTrack> Tracks
         {
             get => _tracks;
             set
@@ -255,7 +256,7 @@ namespace SoundByte.UWP.ViewModels
         public async void TrackClicked(object sender, ItemClickEventArgs e)
         {
             // Get the Click item
-            var item = (Track) e.ClickedItem;
+            var item = (BaseTrack) e.ClickedItem;
 
             var startPlayback =
                 await PlaybackService.Instance.StartMediaPlayback(Tracks.ToList(), $"playlist-{Playlist.Id}", false,

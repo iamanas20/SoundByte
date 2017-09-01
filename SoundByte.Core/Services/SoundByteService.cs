@@ -25,6 +25,7 @@ using Newtonsoft.Json;
 using SoundByte.Core.Helpers;
 using SoundByte.API.Endpoints;
 using SoundByte.API.Exceptions;
+using SoundByte.API.Items.User;
 
 namespace SoundByte.Core.Services
 {
@@ -75,8 +76,8 @@ namespace SoundByte.Core.Services
 
         private Token _soundCloudToken;
         private Token _fanburstToken;
-        private User _currentSoundCloudUser;
-        private User _currentFanBurstUser;
+        private BaseUser _currentSoundCloudUser;
+        private BaseUser _currentFanBurstUser;
 
         #endregion
 
@@ -185,7 +186,7 @@ namespace SoundByte.Core.Services
         /// <summary>
         ///     The current logged in fanburst user
         /// </summary>
-        public User FanburstUser
+        public BaseUser FanburstUser
         {
             get
             {
@@ -203,7 +204,7 @@ namespace SoundByte.Core.Services
                 try
                 {
                     _currentFanBurstUser =
-                        AsyncHelper.RunSync(async () => await GetAsync<User>(ServiceType.Fanburst, "/me"));
+                        AsyncHelper.RunSync(async () => await GetAsync<FanburstUser>(ServiceType.Fanburst, "/me")).ToBaseUser();
                     return _currentFanBurstUser;
                 }
                 catch
@@ -217,7 +218,7 @@ namespace SoundByte.Core.Services
         /// <summary>
         ///     The current logged in soundcloud user
         /// </summary>
-        public User SoundCloudUser
+        public BaseUser SoundCloudUser
         {
             get
             {
@@ -234,7 +235,7 @@ namespace SoundByte.Core.Services
 
                 try
                 {
-                    _currentSoundCloudUser = AsyncHelper.RunSync(async () => await GetAsync<User>("/me"));
+                    _currentSoundCloudUser = AsyncHelper.RunSync(async () => await GetAsync<SoundCloudUser>("/me")).ToBaseUser();
                     return _currentSoundCloudUser;
                 }
                 catch

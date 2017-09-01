@@ -13,6 +13,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using SoundByte.API.Endpoints;
+using SoundByte.API.Items.Track;
 
 namespace SoundByte.API.Holders
 {
@@ -26,7 +27,7 @@ namespace SoundByte.API.Holders
         ///     A playlist
         /// </summary>
         [JsonProperty("track")]
-        public Track Track { get; set; }
+        public SoundCloudTrack Track { get; set; }
     }
 
     [JsonObject]

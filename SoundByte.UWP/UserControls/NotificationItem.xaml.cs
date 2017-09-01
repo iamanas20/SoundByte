@@ -12,6 +12,8 @@
 
 using Windows.UI.Xaml;
 using SoundByte.API.Endpoints;
+using SoundByte.API.Items.Track;
+using SoundByte.API.Items.User;
 
 namespace SoundByte.UWP.UserControls
 {
@@ -58,13 +60,13 @@ namespace SoundByte.UWP.UserControls
         #region Variables
 
         private static readonly DependencyProperty TrackDataProperty =
-            DependencyProperty.Register("TrackData", typeof(Track), typeof(NotificationItem), null);
+            DependencyProperty.Register("TrackData", typeof(SoundCloudTrack), typeof(NotificationItem), null);
 
         private static readonly DependencyProperty PlaylistDataProperty =
             DependencyProperty.Register("PlaylistData", typeof(Playlist), typeof(NotificationItem), null);
 
         private static readonly DependencyProperty UserDataProperty =
-            DependencyProperty.Register("UserData", typeof(User), typeof(NotificationItem), null);
+            DependencyProperty.Register("UserData", typeof(SoundCloudUser), typeof(NotificationItem), null);
 
         private static readonly DependencyProperty CommentProperty =
             DependencyProperty.Register("CommentData", typeof(Comment), typeof(NotificationItem), null);
@@ -82,9 +84,9 @@ namespace SoundByte.UWP.UserControls
         /// <summary>
         ///     The track object
         /// </summary>
-        public Track TrackData
+        public SoundCloudTrack TrackData
         {
-            get => GetValue(TrackDataProperty) as Track;
+            get => GetValue(TrackDataProperty) as SoundCloudTrack;
             set => SetValue(TrackDataProperty, value);
         }
 
@@ -100,9 +102,9 @@ namespace SoundByte.UWP.UserControls
         /// <summary>
         ///     The user object
         /// </summary>
-        public User UserData
+        public SoundCloudUser UserData
         {
-            get => GetValue(UserDataProperty) as User;
+            get => GetValue(UserDataProperty) as SoundCloudUser;
             set => SetValue(UserDataProperty, value);
         }
 

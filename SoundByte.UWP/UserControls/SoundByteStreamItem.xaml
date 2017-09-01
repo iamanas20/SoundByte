@@ -109,7 +109,7 @@
                            FontSize="14"
                            Opacity="0.8" />
                 <TextBlock
-                    Text="{x:Bind Path=Track.PlaybackCount, Converter={StaticResource FormattedValueConverter}, Mode=OneWay}"
+                    Text="{x:Bind Path=Track.ViewCount, Converter={StaticResource FormattedValueConverter}, Mode=OneWay}"
                     HorizontalAlignment="Left"
                     TextWrapping="Wrap"
                     VerticalAlignment="Top"
@@ -124,7 +124,7 @@
                            FontSize="14"
                            Opacity="0.8" />
                 <TextBlock
-                    Text="{x:Bind Path=Track.LikesCount, Converter={StaticResource FormattedValueConverter}, Mode=OneWay}"
+                    Text="{x:Bind Path=Track.LikeCount, Converter={StaticResource FormattedValueConverter}, Mode=OneWay}"
                     HorizontalAlignment="Left"
                     TextWrapping="Wrap"
                     VerticalAlignment="Top"

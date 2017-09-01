@@ -13,6 +13,7 @@
 using System;
 using Newtonsoft.Json;
 using SoundByte.API.Endpoints;
+using SoundByte.API.Items.User;
 
 namespace SoundByte.API.Items.Track
 {
@@ -30,28 +31,6 @@ namespace SoundByte.API.Items.Track
 
             [JsonProperty("square_500")]
             public string Square500 { get; set; }
-        }
-
-        [JsonObject]
-        public class FanburstUser
-        {
-            [JsonProperty("id")]
-            public string Id { get; set; }
-
-            [JsonProperty("name")]
-            public string Name { get; set; }
-
-            [JsonProperty("permalink")]
-            public string Permalink { get; set; }
-
-            [JsonProperty("url")]
-            public string Url { get; set; }
-
-            [JsonProperty("avatar_url")]
-            public string AvatarUrl { get; set; }
-
-            [JsonProperty("location")]
-            public string Location { get; set; }
         }
 
         [JsonProperty("id")]
@@ -110,7 +89,8 @@ namespace SoundByte.API.Items.Track
                 DislikeCount = 0,
                 ViewCount = 0,
                 CommentCount = 0,
-                Genre = "Unkown"
+                Genre = "Unkown",
+                User = User.ToBaseUser()
             };
         }
     }

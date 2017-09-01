@@ -18,11 +18,10 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
 using Windows.Foundation;
 using Windows.UI.Xaml.Data;
-using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Helpers;
-using SoundByte.API.Endpoints;
 using SoundByte.API.Exceptions;
 using SoundByte.API.Holders;
+using SoundByte.API.Items.Track;
 using SoundByte.Core.Services;
 using SoundByte.UWP.UserControls;
 
@@ -31,7 +30,7 @@ namespace SoundByte.UWP.Models
     /// <summary>
     ///     Model for the users play history
     /// </summary>
-    public class HistoryModel : ObservableCollection<Track>, ISupportIncrementalLoading
+    public class HistoryModel : ObservableCollection<BaseTrack>, ISupportIncrementalLoading
     {
         /// <summary>
         ///     The position of the track, will be 'eol'
@@ -92,7 +91,7 @@ namespace SoundByte.UWP.Models
                             // Loop though all the tracks on the UI thread
                             await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                             {
-                                userPlayHistory.Tracks.ForEach(t => Add(t.Track));
+                                userPlayHistory.Tracks.ForEach(t => Add(t.Track.ToBaseTrack()));
                             });
                         }
                         else
