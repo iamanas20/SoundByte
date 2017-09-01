@@ -98,6 +98,8 @@ namespace SoundByte.API.Items.Track
         [JsonProperty("user")]
         public SoundCloudUser User { get; set; }
 
+        public BaseTrack AsBaseTrack => ToBaseTrack();
+
         /// <summary>
         /// Convert this SoundCloud specific track to a universal track.
         /// </summary>

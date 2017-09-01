@@ -23,6 +23,7 @@ using Newtonsoft.Json;
 using SoundByte.API.Endpoints;
 using SoundByte.API.Exceptions;
 using SoundByte.API.Items.Track;
+using SoundByte.API.Items.User;
 using SoundByte.Core.Services;
 using SoundByte.UWP.UserControls;
 using YoutubeExplode;
@@ -116,7 +117,7 @@ namespace SoundByte.UWP.Models
 
                         foreach (var item in searchTracks.Items)
                         {
-                            if (item.Kind == "youtube#video")
+                            if (item.Id.Kind == "youtube#video")
                             {
                                 if (item.Snippet.LiveBroadcastContent == "none")
                                 {
@@ -135,9 +136,14 @@ namespace SoundByte.UWP.Models
                                         track.ViewCount = video.ViewCount;
                                         track.ArtworkUrl = video.ImageHighResUrl;
                                         track.AudioStreamUrl = video.AudioStreams.OrderBy(q => q.AudioEncoding).Last()?.Url;
-                                       
-                                        // 720p is max quality we want
-                                        var wantedQuality = video.VideoStreams.FirstOrDefault(x => x.VideoQuality == VideoQuality.High720)?.Url;
+                                        track.User = new BaseUser
+                                        {
+                                            Username = video.Author.Title,
+                                            ArtworkLink = video.Author.LogoUrl
+                                        };
+
+                                         // 720p is max quality we want
+                                         var wantedQuality = video.VideoStreams.FirstOrDefault(x => x.VideoQuality == VideoQuality.High720)?.Url;
 
                                         // If quality is not there, just get the highest (480p for example).
                                         if (string.IsNullOrEmpty(wantedQuality))

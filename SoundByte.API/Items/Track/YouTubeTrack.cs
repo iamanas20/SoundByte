@@ -95,6 +95,8 @@ namespace SoundByte.API.Items.Track
         [JsonProperty("snippet")]
         public YouTubeSnippet Snippet { get; set; }
 
+        public BaseTrack AsBaseTrack => ToBaseTrack();
+
         /// <summary>
         /// Convert this YouTube specific track to a universal track.
         /// </summary>
@@ -115,7 +117,7 @@ namespace SoundByte.API.Items.Track
 
             // Get the correct kind value for the
             // universal object
-            switch (Kind)
+            switch (Id.Kind)
             {
                 case "youtube#video":
                     track.Kind = "track";

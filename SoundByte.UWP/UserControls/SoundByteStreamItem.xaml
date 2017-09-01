@@ -57,7 +57,7 @@
                                      Color="Black">
                 <Image Width="148"
                        Height="148"
-                       Source="{x:Bind Path=Track, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
+                       Source="{x:Bind Path=Track.AsBaseTrack, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
                        VerticalAlignment="Stretch"
                        HorizontalAlignment="Stretch"
                        IsHitTestVisible="False"
@@ -78,7 +78,7 @@
                                Opacity="0.7"
                                FontWeight="SemiLight" />
 
-                    <TextBlock Text="{x:Bind Track.User.Username, Mode=OneWay}"
+                    <TextBlock Text="{x:Bind Track.AsBaseTrack.User.Username, Mode=OneWay}"
                                FontSize="16"
                                FontWeight="SemiBold"
                                Opacity="0.8"
@@ -86,7 +86,7 @@
                 </StackPanel>
 
                 <!-- track title -->
-                <TextBlock Text="{x:Bind Track.Title, Mode=OneWay}"
+                <TextBlock Text="{x:Bind Track.AsBaseTrack.Title, Mode=OneWay}"
                            FontSize="24"
                            Margin="0,18,0,2"
                            Opacity="0.8"
@@ -109,7 +109,7 @@
                            FontSize="14"
                            Opacity="0.8" />
                 <TextBlock
-                    Text="{x:Bind Path=Track.ViewCount, Converter={StaticResource FormattedValueConverter}, Mode=OneWay}"
+                    Text="{x:Bind Path=Track.AsBaseTrack.ViewCount, Converter={StaticResource FormattedValueConverter}, Mode=OneWay}"
                     HorizontalAlignment="Left"
                     TextWrapping="Wrap"
                     VerticalAlignment="Top"
@@ -124,7 +124,7 @@
                            FontSize="14"
                            Opacity="0.8" />
                 <TextBlock
-                    Text="{x:Bind Path=Track.LikeCount, Converter={StaticResource FormattedValueConverter}, Mode=OneWay}"
+                    Text="{x:Bind Path=Track.AsBaseTrack.LikeCount, Converter={StaticResource FormattedValueConverter}, Mode=OneWay}"
                     HorizontalAlignment="Left"
                     TextWrapping="Wrap"
                     VerticalAlignment="Top"
@@ -147,7 +147,7 @@
                            FontWeight="SemiBold" />
 
 
-                <TextBlock Text="{x:Bind Track.Duration, Mode=OneWay, Converter={StaticResource TimeStampConverter}}"
+                <TextBlock Text="{x:Bind Track.AsBaseTrack.Duration, Mode=OneWay, Converter={StaticResource TimeStampConverter}}"
                            Margin="0,0,0,0"
                            TextAlignment="Right"
                            FontSize="16"

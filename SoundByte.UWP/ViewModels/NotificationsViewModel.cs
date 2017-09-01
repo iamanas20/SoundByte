@@ -108,7 +108,7 @@ namespace SoundByte.UWP.ViewModels
                         break;
                     case "affiliation":
                         // Navigate to the user page
-                        App.NavigateTo(typeof(UserView), notification.User);
+                        App.NavigateTo(typeof(UserView), notification.User.ToBaseUser());
                         break;
                 }
             }

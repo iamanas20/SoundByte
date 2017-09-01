@@ -592,9 +592,9 @@ namespace SoundByte.Core.Services
         }
 
         /// <summary>
-        ///     A wrapper function moving the service call to the
-        ///     front of the function. This should be used for all
-        ///     future code.
+        ///     Fetches an object from the soundcloud api and returns it back
+        ///     to the user. Note: This class will return a SoundByteException
+        ///     if anything goes wrong. Make sure to handle this exception.
         /// </summary>
         /// <typeparam name="T">The object type we will serialize</typeparam>
         /// <param name="service">The service that we want to connect to</param>
@@ -603,24 +603,7 @@ namespace SoundByte.Core.Services
         /// <param name="useV2Api">Use the v2 SoundCloud API</param>
         /// <returns></returns>
         public async Task<T> GetAsync<T>(ServiceType service, string endpoint,
-            Dictionary<string, string> optionalParams = null, bool useV2Api = false)
-        {
-            return await GetAsync<T>(endpoint, optionalParams, useV2Api, service);
-        }
-
-        /// <summary>
-        ///     Fetches an object from the soundcloud api and returns it back
-        ///     to the user. Note: This class will return a SoundByteException
-        ///     if anything goes wrong. Make sure to handle this exception.
-        /// </summary>
-        /// <typeparam name="T">The object type we will serialize</typeparam>
-        /// <param name="endpoint">SoundClouud API endpoint to contact</param>
-        /// <param name="optionalParams">A list of any optional params to send in the URI</param>
-        /// <param name="useV2Api">If true, the v2 version of the soundcloud API will be contacted instead.</param>
-        /// <param name="service">The service that we want to connect to</param>
-        /// <returns>The object you specified</returns>
-        public async Task<T> GetAsync<T>(string endpoint, Dictionary<string, string> optionalParams = null,
-            bool useV2Api = false, ServiceType service = ServiceType.SoundCloud)
+            Dictionary<string, string> optionalParams = null)
         {
             // Strip out the / infront of the endpoint if it exists
             endpoint = endpoint.TrimStart('/');
@@ -631,10 +614,15 @@ namespace SoundByte.Core.Services
             switch (service)
             {
                 case ServiceType.SoundCloud:
-                    requestUri = useV2Api
-                        ? $"https://api-v2.soundcloud.com/{endpoint}?client_id={ApiKeyService.SoundCloudClientId}&client_secret={ApiKeyService.SoundCloudClientSecret}"
-                        : $"https://api.soundcloud.com/{endpoint}?client_id={ApiKeyService.SoundCloudClientId}&client_secret={ApiKeyService.SoundCloudClientSecret}";
+                    requestUri = 
+                        $"https://api.soundcloud.com/{endpoint}?client_id={ApiKeyService.SoundCloudClientId}&client_secret={ApiKeyService.SoundCloudClientSecret}";
                     break;
+
+                case ServiceType.SoundCloudV2:
+                    requestUri = 
+                        $"https://api-v2.soundcloud.com/{endpoint}?client_id={ApiKeyService.SoundCloudClientId}&client_secret={ApiKeyService.SoundCloudClientSecret}";
+                    break;
+
                 case ServiceType.Fanburst:
                     requestUri =
                         $"https://api.fanburst.com/{endpoint}?client_id={ApiKeyService.FanburstClientId}&client_secret={ApiKeyService.FanburstClientSecret}";
@@ -660,7 +648,7 @@ namespace SoundByte.Core.Services
                 return await Task.Run(async () =>
                 {
                     // Create the client
-                    using (var client = new HttpClient(new HttpBaseProtocolFilter {AutomaticDecompression = true}))
+                    using (var client = new HttpClient(new HttpBaseProtocolFilter { AutomaticDecompression = true }))
                     {
                         // Setup the request readers for user agent
                         // and requested data type.
@@ -675,6 +663,7 @@ namespace SoundByte.Core.Services
                         switch (service)
                         {
                             case ServiceType.SoundCloud:
+                            case ServiceType.SoundCloudV2:
                                 if (IsSoundCloudAccountConnected)
                                     client.DefaultRequestHeaders.Authorization =
                                         new HttpCredentialsHeaderValue("OAuth", SoundCloudToken.AccessToken);
@@ -684,8 +673,6 @@ namespace SoundByte.Core.Services
                                 if (IsFanBurstAccountConnected)
                                     client.DefaultRequestHeaders.Authorization =
                                         new HttpCredentialsHeaderValue("OAuth", FanburstToken.AccessToken);
-                                break;
-                            default:
                                 break;
                         }
 
@@ -711,7 +698,7 @@ namespace SoundByte.Core.Services
                                     {
                                         // Used to get the data from JSON
                                         var serializer =
-                                            new JsonSerializer {NullValueHandling = NullValueHandling.Ignore};
+                                            new JsonSerializer { NullValueHandling = NullValueHandling.Ignore };
                                         // Return the data
                                         return serializer.Deserialize<T>(textReader);
                                     }
@@ -736,6 +723,27 @@ namespace SoundByte.Core.Services
                 throw new SoundByteException(resources.GetString("GeneralError_Header"),
                     string.Format(resources.GetString("GeneralError_Content"), ex.Message), "\uE007");
             }
+
+
+        }
+
+        /// <summary>
+        /// A wrapper function 
+        /// </summary>
+        /// <typeparam name="T">The object type we will serialize</typeparam>
+        /// <param name="endpoint">SoundClouud API endpoint to contact</param>
+        /// <param name="optionalParams">A list of any optional params to send in the URI</param>
+        /// <param name="useV2Api">If true, the v2 version of the soundcloud API will be contacted instead.</param>
+        /// <param name="service">The service that we want to connect to</param>
+        /// <returns>The object you specified</returns>
+        [Obsolete("This method is obsolete. Use GetAsync<T>(service, endpoint, optionalParams) instead.")]
+        public async Task<T> GetAsync<T>(string endpoint, Dictionary<string, string> optionalParams = null,
+            bool useV2Api = false, ServiceType service = ServiceType.SoundCloud)
+        {
+            if (service == ServiceType.SoundCloud && useV2Api)
+                service = ServiceType.SoundCloudV2;
+
+            return await GetAsync<T>(service, endpoint, optionalParams);
         }
 
         /// <summary>

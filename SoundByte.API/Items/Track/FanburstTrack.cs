@@ -66,6 +66,8 @@ namespace SoundByte.API.Items.Track
         [JsonProperty("user")]
         public FanburstUser User { get; set; }
 
+        public BaseTrack AsBaseTrack => ToBaseTrack();
+
         /// <summary>
         /// Convert this Fanburst specific track to a universal track.
         /// </summary>

@@ -20,19 +20,19 @@
                          HorizontalAlignment="Left"
                          Canvas.ZIndex="5">
                     <Ellipse.Fill>
-                        <ImageBrush ImageSource="{x:Bind User, Converter={StaticResource ArtworkConverter}}"
+                        <ImageBrush ImageSource="{x:Bind User.AsBaseUser, Converter={StaticResource ArtworkConverter}}"
                                     Stretch="Uniform" />
                     </Ellipse.Fill>
                 </Ellipse>
                 <!-- The track that has been liked iamge -->
                 <Image Margin="10" Width="80" Height="80"
-                       Source="{x:Bind Track, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
+                       Source="{x:Bind Track.AsBaseTrack, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
                        VerticalAlignment="Top" HorizontalAlignment="Left" Stretch="Uniform" />
                 <!-- The message and track title -->
                 <StackPanel Margin="105,5,5,5" VerticalAlignment="Center">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock TextWrapping="Wrap" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"
-                                   Text="{x:Bind User.Username, Mode=OneWay}" FontSize="12" Opacity="1"
+                                   Text="{x:Bind User.AsBaseUser.Username, Mode=OneWay}" FontSize="12" Opacity="1"
                                    Foreground="{ThemeResource ButtonForegroundThemeBrush}"
                                    HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="0" />
                         <TextBlock x:Uid="Notification_HasLikedSound" TextWrapping="Wrap"
@@ -41,7 +41,7 @@
                                    HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="0" />
                     </StackPanel>
                     <TextBlock TextWrapping="Wrap" TextTrimming="CharacterEllipsis"
-                               Text="{x:Bind Track.Title, Mode=OneWay}" FontWeight="SemiBold" FontSize="16"
+                               Text="{x:Bind Track.AsBaseTrack.Title, Mode=OneWay}" FontWeight="SemiBold" FontSize="16"
                                Foreground="{ThemeResource ButtonForegroundThemeBrush}" HorizontalAlignment="Stretch"
                                Opacity="0.9" VerticalAlignment="Top" Margin="0" />
 
@@ -51,7 +51,7 @@
                                        AutomationProperties.Name="Favorite" Margin="0,3,5,0" FontSize="12"
                                        Opacity="0.7" />
                             <TextBlock
-                                Text="{x:Bind Track.PlaybackCount, Converter={StaticResource FormattedValueConverter}, Mode=OneWay}"
+                                Text="{x:Bind Track.AsBaseTrack.ViewCount, Converter={StaticResource FormattedValueConverter}, Mode=OneWay}"
                                 TextTrimming="CharacterEllipsis" TextWrapping="WrapWholeWords" FontSize="12"
                                 FontWeight="Normal" Foreground="{ThemeResource ButtonForegroundThemeBrush}"
                                 Opacity="0.7" />
@@ -61,7 +61,7 @@
                                        AutomationProperties.Name="Favorite" Margin="0,3,5,0" FontSize="12" Opacity="1"
                                        Foreground="#FFFF4D47" />
                             <TextBlock
-                                Text="{x:Bind Track.LikesCount, Converter={StaticResource FormattedValueConverter}, Mode=OneWay}"
+                                Text="{x:Bind Track.AsBaseTrack.LikeCount, Converter={StaticResource FormattedValueConverter}, Mode=OneWay}"
                                 TextTrimming="CharacterEllipsis" TextWrapping="WrapWholeWords" FontSize="12"
                                 FontWeight="Normal" Foreground="{ThemeResource ButtonForegroundThemeBrush}"
                                 Opacity="0.7" />
@@ -71,7 +71,7 @@
                                        AutomationProperties.Name="Favorite" Margin="0,3,5,0" FontSize="12"
                                        Opacity="0.7" />
                             <TextBlock
-                                Text="{x:Bind Track.CommentCount, Converter={StaticResource FormattedValueConverter}, Mode=OneWay}"
+                                Text="{x:Bind Track.AsBaseTrack.CommentCount, Converter={StaticResource FormattedValueConverter}, Mode=OneWay}"
                                 TextTrimming="CharacterEllipsis" TextWrapping="WrapWholeWords" FontSize="12"
                                 FontWeight="Normal" Foreground="{ThemeResource ButtonForegroundThemeBrush}"
                                 Opacity="0.7" />
@@ -91,7 +91,7 @@
                          HorizontalAlignment="Left"
                          Canvas.ZIndex="5">
                     <Ellipse.Fill>
-                        <ImageBrush ImageSource="{x:Bind User, Converter={StaticResource ArtworkConverter}}"
+                        <ImageBrush ImageSource="{x:Bind User.AsBaseUser, Converter={StaticResource ArtworkConverter}}"
                                     Stretch="Uniform" />
                     </Ellipse.Fill>
                 </Ellipse>
@@ -103,7 +103,7 @@
                 <StackPanel Margin="105,5,5,5" VerticalAlignment="Center">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock TextWrapping="Wrap" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"
-                                   Text="{x:Bind User.Username, Mode=OneWay}" FontSize="12" Opacity="1"
+                                   Text="{x:Bind User.AsBaseUser.Username, Mode=OneWay}" FontSize="12" Opacity="1"
                                    Foreground="{ThemeResource ButtonForegroundThemeBrush}"
                                    HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="0" />
                         <TextBlock Text=" liked your playlist" TextWrapping="Wrap" TextTrimming="CharacterEllipsis"
@@ -150,19 +150,19 @@
                          HorizontalAlignment="Left"
                          Canvas.ZIndex="5">
                     <Ellipse.Fill>
-                        <ImageBrush ImageSource="{x:Bind User, Converter={StaticResource ArtworkConverter}}"
+                        <ImageBrush ImageSource="{x:Bind User.AsBaseUser, Converter={StaticResource ArtworkConverter}}"
                                     Stretch="Uniform" />
                     </Ellipse.Fill>
                 </Ellipse>
 
                 <Image Margin="10" Width="80" Height="80"
-                       Source="{x:Bind Comment.Track, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
+                       Source="{x:Bind Comment.Track.AsBaseTrack, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
                        VerticalAlignment="Top" HorizontalAlignment="Left" Stretch="Uniform" />
 
                 <StackPanel Margin="105,5,5,5" VerticalAlignment="Center">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock TextWrapping="Wrap" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"
-                                   Text="{x:Bind User.Username, Mode=OneWay}" FontSize="12" Opacity="1"
+                                   Text="{x:Bind User.AsBaseUser.Username, Mode=OneWay}" FontSize="12" Opacity="1"
                                    Foreground="{ThemeResource ButtonForegroundThemeBrush}"
                                    HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="0" />
                         <TextBlock x:Uid="Notification_CommentOnSound" TextWrapping="Wrap"
@@ -189,7 +189,7 @@
                                        AutomationProperties.Name="Favorite" Margin="0,3,5,0" FontSize="12"
                                        Opacity="0.7" />
                             <TextBlock
-                                Text="{x:Bind Comment.Track.PlaybackCount, Converter={StaticResource FormattedValueConverter}, Mode=OneWay}"
+                                Text="{x:Bind Comment.Track.AsBaseTrack.ViewCount, Converter={StaticResource FormattedValueConverter}, Mode=OneWay}"
                                 TextTrimming="CharacterEllipsis" TextWrapping="WrapWholeWords" FontSize="12"
                                 FontWeight="Normal" Foreground="{ThemeResource ButtonForegroundThemeBrush}"
                                 Opacity="0.7" />
@@ -199,7 +199,7 @@
                                        AutomationProperties.Name="Favorite" Margin="0,3,5,0" FontSize="12" Opacity="1"
                                        Foreground="#FFFF4D47" />
                             <TextBlock
-                                Text="{x:Bind Comment.Track.LikesCount, Converter={StaticResource FormattedValueConverter}, Mode=OneWay}"
+                                Text="{x:Bind Comment.Track.AsBaseTrack.LikeCount, Converter={StaticResource FormattedValueConverter}, Mode=OneWay}"
                                 TextTrimming="CharacterEllipsis" TextWrapping="WrapWholeWords" FontSize="12"
                                 FontWeight="Normal" Foreground="{ThemeResource ButtonForegroundThemeBrush}"
                                 Opacity="0.7" />
@@ -209,7 +209,7 @@
                                        AutomationProperties.Name="Favorite" Margin="0,3,5,0" FontSize="12"
                                        Opacity="0.7" />
                             <TextBlock
-                                Text="{x:Bind Comment.Track.CommentCount, Converter={StaticResource FormattedValueConverter}, Mode=OneWay}"
+                                Text="{x:Bind Comment.Track.AsBaseTrack.CommentCount, Converter={StaticResource FormattedValueConverter}, Mode=OneWay}"
                                 TextTrimming="CharacterEllipsis" TextWrapping="WrapWholeWords" FontSize="12"
                                 FontWeight="Normal" Foreground="{ThemeResource ButtonForegroundThemeBrush}"
                                 Opacity="0.7" />
@@ -229,7 +229,7 @@
                          HorizontalAlignment="Left">
                     <Ellipse.Fill>
                         <ImageBrush
-                            ImageSource="{x:Bind User, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
+                            ImageSource="{x:Bind User.AsBaseUser, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
                             Stretch="Uniform" />
                     </Ellipse.Fill>
                 </Ellipse>
@@ -237,7 +237,7 @@
                 <StackPanel Margin="105,5,5,5" VerticalAlignment="Center">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock TextWrapping="Wrap" TextTrimming="CharacterEllipsis" FontWeight="SemiBold"
-                                   Text="{x:Bind User.Username, Mode=OneWay}" FontSize="16"
+                                   Text="{x:Bind User.AsBaseUser.Username, Mode=OneWay}" FontSize="16"
                                    Foreground="{ThemeResource ButtonForegroundThemeBrush}"
                                    HorizontalAlignment="Stretch" Opacity="1" VerticalAlignment="Top" Margin="0" />
                         <TextBlock x:Uid="Notification_Follow" TextWrapping="Wrap" TextTrimming="CharacterEllipsis"
@@ -248,7 +248,7 @@
                         <TextBlock Text="&#xE716;" FontFamily="Segoe MDL2 Assets" AutomationProperties.Name="Favorite"
                                    Margin="0,3,5,0" FontSize="12" Opacity="0.7" />
                         <TextBlock
-                            Text="{x:Bind User.FollowersCount, Converter={StaticResource FormattedValueConverter}, Mode=OneWay}"
+                            Text="{x:Bind User.AsBaseUser.FollowersCount, Converter={StaticResource FormattedValueConverter}, Mode=OneWay}"
                             TextTrimming="CharacterEllipsis" TextWrapping="WrapWholeWords" FontSize="12"
                             FontWeight="Normal" Foreground="{ThemeResource ButtonForegroundThemeBrush}" Opacity="0.7" />
                     </StackPanel>

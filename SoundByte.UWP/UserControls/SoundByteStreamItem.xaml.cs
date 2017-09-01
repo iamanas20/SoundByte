@@ -58,12 +58,12 @@ namespace SoundByte.UWP.UserControls
 
         public async void ShareTrack()
         {
-            await new ShareDialog(Track).ShowAsync();
+            await new ShareDialog(Track.ToBaseTrack()).ShowAsync();
         }
 
         public async void AddTrackToPlaylist()
         {
-            await new PlaylistDialog(Track).ShowAsync();
+            await new PlaylistDialog(Track.ToBaseTrack()).ShowAsync();
         }
 
         #region Variables
@@ -78,7 +78,7 @@ namespace SoundByte.UWP.UserControls
 
         // The track object
         public static readonly DependencyProperty TrackProperty =
-            DependencyProperty.Register("Track", typeof(BaseTrack), typeof(SoundByteStreamItem), null);
+            DependencyProperty.Register("Track", typeof(SoundCloudTrack), typeof(SoundByteStreamItem), null);
 
         // The playlist object
         public static readonly DependencyProperty PlaylistProperty =
@@ -109,9 +109,9 @@ namespace SoundByte.UWP.UserControls
         /// <summary>
         ///     The track object
         /// </summary>
-        public BaseTrack Track
+        public SoundCloudTrack Track
         {
-            get => GetValue(TrackProperty) as BaseTrack;
+            get => GetValue(TrackProperty) as SoundCloudTrack;
             set => SetValue(TrackProperty, value);
         }
 

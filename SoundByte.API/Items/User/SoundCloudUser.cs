@@ -72,6 +72,8 @@ namespace SoundByte.API.Items.User
         [JsonProperty("followings_count")]
         public int? FollowingsCount { get; set; }
 
+        public BaseUser AsBaseUser => ToBaseUser();
+
         public BaseUser ToBaseUser()
         {
             return new BaseUser

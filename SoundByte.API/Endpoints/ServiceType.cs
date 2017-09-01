@@ -16,6 +16,7 @@ namespace SoundByte.API.Endpoints
     {
         Fanburst,
         SoundCloud,
+        SoundCloudV2,
         YouTube
     }
 }

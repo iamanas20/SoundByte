@@ -87,9 +87,9 @@ namespace SoundByte.Core.Converters
                 // Switch between all the options
                 switch (sourceType.Name)
                 {
-                    case "Track":
+                    case "BaseTrack":
                         return GetTrackImage(value as BaseTrack);
-                    case "User":
+                    case "BaseUser":
                         return GetUserImage(value as BaseUser);
                     case "Playlist":
                         return GetPlaylistImage(value as Playlist);

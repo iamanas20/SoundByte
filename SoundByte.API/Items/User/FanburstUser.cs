@@ -35,6 +35,8 @@ namespace SoundByte.API.Items.User
         [JsonProperty("location")]
         public string Location { get; set; }
 
+        public BaseUser AsBaseUser=> ToBaseUser();
+
         public BaseUser ToBaseUser()
         {
             return new BaseUser
