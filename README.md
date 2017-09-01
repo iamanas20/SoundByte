@@ -21,27 +21,31 @@ SoundByte is a Universal Windows Platform (UWP) App that connects with the Sound
 
 Please Note: SoundByte source code is to only be used for educational purposes. Distrubution of SoundByte source code in any form outside this repository is forbidden.
 
-SoundByte is split into a few projects:
+## SoundByte Structure
 
-### SoundByte.API
+SoundByte is split into five main projects. `SoundByte.API`, `SoundByte.Core`, `SoundByte.Notifications`, `SoundByte.Service` and `SoundByte.UWP`. Eash of these projects and containing files are mentioned in more detail below.
 
-This project contains cross platform classes and holders used to deserialize content from the SoundCloud and Fanburst API. This project is seperate allowing the backend service and UWP app to access the same classes. Build using .NET Standard.
 
-### SoundByte.Aurora
+**SoundByte.API:** This project contains cross platform classes and holders used to deserialize content from the SoundCloud and Fanburst API. This project is seperate allowing the backend service and UWP app to access the same classes. Built using .NET Standard. 
 
-SoundByte Aurora is a new work in progress muiltiplatform extendable engine for SoundByte. This engine will allow easy extensibility with other services while also allowing the ability for code sharing and reuse across muiltiple platforms (such as UWP and Android).
+*Note:* The `SoundByte.API.Endpoints` and `SoundByte.API.Holders` namespaces are no longer supported. Endpoints are now located in the items folder. This project may eventually be named as it grows beyond the API.
 
-### SoundByte.Core
+Each SoundByte endpoint has its own namespace within the `items` namespace. For example, information about tracks is stored in the `SoundByte.API.Items.Track` namespace. These namespaces will contain certain classes to aid in muilti-service support. Details about these classes are below:
 
-This project contains helper classes for common app functions such as settings control and deserializing JSON. Currently this project targets the UWP framework, but in the future it's planned to target a framework that works with both UWP and Xamarin, while also intergrating more of the networking code.
+|Class Name|Description|
+|:-|:-|
+|`Base{{EndpointName}}.cs`|This class contains all the UI bindings and information about a certain items (track, user, etc.). It is the general SoundByte universal track class, service specific classes should map their values to this class.|
+|`I{{EndpointName}}.cs`|Interface for all service specific items to extend off of. This interface has one overridable method allowing the conversion of service specific item into a universal 'Base{{EndpointName}}' item. A name for this method is `.ToBaseTrack();` for example.|
+|`{{ServiceName}}{{EndpointName}}.cs`|This is the raw deserializable class for the SoundByte Service to deserialize data into to. Each service in the app that wishes to expose tracks for example, would have to create a `SoundCloudTrack.cs` class extending off `ITrack.cs` implementing the overridable method to convert the `SoundCloudTrack.cs` class into a `BaseTrack.cs` class. When grabbing tracks from the SoundCloud API you would use the data type as `SoundCloudTrack.cs` but when you go to add the item to the UI / List, call the `.ToBaseTrack();` method on each item.|
 
-### SoundByte.Service
+Every item in SoundByte following the above logic. This allows easy extensions of the app to support more services in the future. It also allow very different APIs to convert their code into a universal SoundByte standard.
 
-This project is a web app that runs in Microsoft Azure. This web app will allow spotify like features in the app (login to xbox with PC, continue listening to a song on another device etc.)
 
-### SoundByte.UWP
+**SoundByte.Core:** This project contains helper classes for common app functions such as settings control and deserializing JSON. Currently this project targets the UWP framework, but in the future it's planned to target a framework that works with both UWP and Xamarin, while also intergrating more of the networking code.
 
-This project contains the main code for SoundByte on Windows 10 / Xbox One. Items such as brushes, view models, models, views, playback service etc. are all stored here.
+**SoundByte.Service:** This project is a web app that runs in Microsoft Azure. This web app will allow spotify like features in the app (login to xbox with PC, continue listening to a song on another device etc.)
+
+**SoundByte.UWP:** This project contains the main code for SoundByte on Windows 10 / Xbox One. Items such as brushes, view models, models, views, playback service etc. are all stored here.
 
 SoundByte logic is based around a central XAML/C# file called `MainShell.xaml`/`MainShell.xaml.cs`. This file displays key app elements such as the left hand navigation pane, and mobile navigation bar. It also supports app navigation, and is used to load key app resources at load time.
 
@@ -65,22 +69,13 @@ The `Models` folder contains models for the app. The name models may sound a lit
 
 - **Background Notifications:** Initial versions of SoundByte supported background notifications that were provided by a background timer service that ran every 15 minutes. This service would update a temporary list with all new items in the users stream since the last check, and display notifications for these items. This newly open-sourced version of SoundByte no longer supports this notification system due to instability issues. 
 
-## Goals for version 2.1.x
-There are a few main goals that I am aiming for the v2.1.x release. These are listed below:
-- Improved Mobile Support.
-- App Stability Improvements, better code.
-- Bring back notification support.
-- New logo to align with Windows Store app guidelines.
-- Better error messages.
-- Fanburst Intergration / start work on an extendable code base - allowing for other services to be added.
-
 ## Download
 SoundByte can be either downloaded from the Windows Store [here](https://www.microsoft.com/store/apps/9nblggh4xbjg) or downloaded from the build server. Windows 10 Creators Update or newer is required to run SoundByte.
 
 ## Development
 
 Create a new file under SoundByte.UWP/Assets called app_keys.json. This file will contain all the keys needed to run the app.
-Insert the following JSON code into this file
+Insert the following JSON code into this file:
 
 ``` 
 { "GoogleAnalytics": "key-here",
@@ -102,30 +97,15 @@ Insert the following JSON code into this file
 
 ## Credits
 
-- **[Dominic Maas](https://twitter.com/dominicjmaas)**  - *Initial App Development*
-- **[Dennis Bednarz](https://twitter.com/DennisBednarz)**  - *Initial App UI/UX Design*
+- **[Dominic Maas](https://twitter.com/dominicjmaas)**  - *App Development*
+- **[Dennis Bednarz](https://twitter.com/DennisBednarz)**  - *App UI/UX Design*
 
 See also the list of [contributors](https://github.com/DominicMaas/SoundByte/contributors) who participated in this project.
 
 ## License
-MIT License
 
-Copyright (c) 2017 Dominic Maas
+Copyright (c) 2017, Grid Entertainment
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+*All Rights Reserved*
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+This source code is to only be used for educational purposes. Distribution of SoundByte source code in any form outside this repository is forbidden. If you would like to contribute to the SoundByte source code, you are welcome.

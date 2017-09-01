@@ -19,17 +19,20 @@ using Windows.ApplicationModel.Resources;
 using Windows.Foundation;
 using Windows.UI.Xaml.Data;
 using Microsoft.Toolkit.Uwp.Helpers;
+using Newtonsoft.Json;
 using SoundByte.API.Endpoints;
 using SoundByte.API.Exceptions;
+using SoundByte.API.Items.Track;
 using SoundByte.Core.Services;
 using SoundByte.UWP.UserControls;
 using YoutubeExplode;
 using YoutubeExplode.Models;
 using YoutubeExplode.Models.MediaStreams;
+using BaseTrack = SoundByte.API.Items.Track.BaseTrack;
 
 namespace SoundByte.UWP.Models
 {
-    public class YouTubeSearchModel : ObservableCollection<Track>, ISupportIncrementalLoading
+    public class YouTubeSearchModel : ObservableCollection<BaseTrack>, ISupportIncrementalLoading
     {
         /// <summary>
         /// The position of the track, will be 'eol'
@@ -89,7 +92,7 @@ namespace SoundByte.UWP.Models
                 try
                 {
                     // Search for matching tracks
-                    var searchTracks = await SoundByteService.Instance.GetAsync<YTRootObject>(
+                    var searchTracks = await SoundByteService.Instance.GetAsync<YouTubeSearchList>(
                         ServiceType.YouTube, "search", new Dictionary<string, string>
                         {
                             {"part", "snippet"},
@@ -98,9 +101,7 @@ namespace SoundByte.UWP.Models
                             { "pageToken", Token }
                         });
 
-                    // Parse uri for offset
-                    //   var param = new QueryParameterCollection(searchTracks.NextList);
-                    var offset = searchTracks.nextPageToken;
+                    var offset = searchTracks.NextPageToken;
 
                     // Get the search offset
                     Token = string.IsNullOrEmpty(offset) ? "eol" : offset;
@@ -108,51 +109,39 @@ namespace SoundByte.UWP.Models
                     var client = new YoutubeClient();
 
                     // Make sure that there are tracks in the list
-                    if (searchTracks.items.Count > 0)
+                    if (searchTracks.Items.Count > 0)
                     {
                         // Set the count variable
-                        count = (uint)searchTracks.items.Count;
+                        count = (uint)searchTracks.Items.Count;
 
-                        foreach (var item in searchTracks.items)
+                        foreach (var item in searchTracks.Items)
                         {
-                            if (item.id.kind == "youtube#video")
+                            if (item.Kind == "youtube#video")
                             {
-                                if (item.snippet.liveBroadcastContent == "none")
+                                if (item.Snippet.LiveBroadcastContent == "none")
                                 {
-                                    VideoInfo video = await client.GetVideoInfoAsync((string)item.id.videoId);
+                                    VideoInfo video = await client.GetVideoInfoAsync(item.Id.VideoId);
 
                                     // Loop though all the tracks on the UI thread
                                     await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                                     {
-                                        var track = new Track
-                                        {
-                                            ServiceType = ServiceType.YouTube,
-                                            Id = item.id.videoId,
-                                            Kind = "track",
-                                            Duration = video.Duration.TotalMilliseconds,
-                                            CreationDate = DateTime.Parse(item.snippet.publishedAt),
-                                            Description = video.Description,
-                                            LikesCount = video.LikeCount,
-                                            PlaybackCount = video.ViewCount,
-                                            ArtworkLink = video.ImageHighResUrl,
-                                            Title = item.snippet.title,
-                                            Genre = "YouTube",                                         
-                                            StreamUrl = video.AudioStreams.OrderBy(q => q.AudioEncoding).Last()?.Url,
-                                            User = new User
-                                            {
-                                                Username = item.snippet.channelTitle,
-                                                ArtworkLink = video.Author.LogoUrl
-                                            },
-                                            PermalinkUri = $"https://www.youtube.com/watch?v={item.id.videoId}"
-                                        };
+                                        // Convert to a base track
+                                        var track = item.ToBaseTrack();
 
+                                        // Add missing details
+                                        track.Duration = video.Duration;
+                                        track.Description = video.Description;
+                                        track.LikeCount = video.LikeCount;
+                                        track.ViewCount = video.ViewCount;
+                                        track.ArtworkUrl = video.ImageHighResUrl;
+                                        track.AudioStreamUrl = video.AudioStreams.OrderBy(q => q.AudioEncoding).Last()?.Url;
+                                       
                                         // 720p is max quality we want
                                         var wantedQuality = video.VideoStreams.FirstOrDefault(x => x.VideoQuality == VideoQuality.High720)?.Url;
 
                                         // If quality is not there, just get the highest (480p for example).
                                         if (string.IsNullOrEmpty(wantedQuality))
                                             wantedQuality = video.VideoStreams.OrderBy(s => s.VideoQuality).Last()?.Url;
-
 
                                         track.VideoStreamUrl = wantedQuality;
 
@@ -207,79 +196,14 @@ namespace SoundByte.UWP.Models
             }).AsAsyncOperation();
         }
 
-
-        // --- TEMP BECAUSE WE CANNOT USE DYNAMIC IN RELEASE MODE ---- //
-
-        public class YTPageInfo
+        [JsonObject]
+        public class YouTubeSearchList
         {
-            public int totalResults { get; set; }
-            public int resultsPerPage { get; set; }
-        }
+            [JsonProperty("nextPageToken")]
+            public string NextPageToken { get; set; }
 
-        public class YTId
-        {
-            public string kind { get; set; }
-            public string channelId { get; set; }
-            public string videoId { get; set; }
-            public string playlistId { get; set; }
+            [JsonProperty("items")]
+            public List<YouTubeTrack> Items { get; set; }
         }
-
-        public class YTDefault
-        {
-            public string url { get; set; }
-            public int? width { get; set; }
-            public int? height { get; set; }
-        }
-
-        public class YTMedium
-        {
-            public string url { get; set; }
-            public int? width { get; set; }
-            public int? height { get; set; }
-        }
-
-        public class YTHigh
-        {
-            public string url { get; set; }
-            public int? width { get; set; }
-            public int? height { get; set; }
-        }
-
-        public class YTThumbnails
-        {
-            public YTDefault @default { get; set; }
-            public YTMedium medium { get; set; }
-            public YTHigh high { get; set; }
-        }
-
-        public class YTSnippet
-        {
-            public string publishedAt { get; set; }
-            public string channelId { get; set; }
-            public string title { get; set; }
-            public string description { get; set; }
-            public YTThumbnails thumbnails { get; set; }
-            public string channelTitle { get; set; }
-            public string liveBroadcastContent { get; set; }
-        }
-
-        public class YTItem
-        {
-            public string kind { get; set; }
-            public string etag { get; set; }
-            public YTId id { get; set; }
-            public YTSnippet snippet { get; set; }
-        }
-
-        public class YTRootObject
-        {
-            public string kind { get; set; }
-            public string etag { get; set; }
-            public string nextPageToken { get; set; }
-            public string regionCode { get; set; }
-            public YTPageInfo pageInfo { get; set; }
-            public List<YTItem> items { get; set; }
-        }
-
     }
 }
