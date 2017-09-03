@@ -6,29 +6,19 @@
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
-    xmlns:stateTriggers="using:SoundByte.UWP.StateTriggers"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     NavigationCacheMode="Enabled"
     Transitions="{StaticResource MainTransition}">
 
-    <Grid Background="{ThemeResource ShellBackground}" x:Name="RootGrid">
+    <Grid Background="Transparent" x:Name="RootGrid">
         <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup x:Name="DeviceStates">
-                <VisualState x:Name="Xbox">
-                    <VisualState.StateTriggers>
-                        <stateTriggers:DeviceStateTrigger DeviceFamily="Windows.Xbox" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="RootGrid.Background" Value="Transparent" />
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
+           
             <VisualStateGroup x:Name="WindowSize">
                 <VisualState>
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="768" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="StackPanel.Padding" Value="50,0" />
                         <Setter Target="TextHeader.FontSize" Value="55" />
                         <Setter Target="TextHeader.Margin" Value="10,30,0,0" />
                         <Setter Target="TextHeader.Opacity" Value="0.8" />
@@ -78,7 +68,6 @@
         <GridView ItemClick="{x:Bind PlayItem}"
                   ItemsSource="{x:Bind LikesModel}"
                   ItemContainerStyle="{StaticResource MainGridViewItem}"
-                  Padding="5,0"
                   x:Name="StackPanel"
                   VerticalAlignment="Stretch"
                   SelectionMode="None"
@@ -90,20 +79,22 @@
                   ItemsPanel="{StaticResource MobileGridPanel}"
                   ItemTemplate="{StaticResource MobileTrackItem}">
             <GridView.Header>
-                <StackPanel Canvas.ZIndex="20">
-                    <TextBlock Opacity="0" x:Name="TextHeader" Text="Likes" FontWeight="Bold" FontSize="25"
-                               Margin="0,18,0,0" />
+                <controls:ScrollHeader TargetListViewBase="{Binding ElementName=StackPanel}" Mode="Fade" >
+                    <StackPanel Canvas.ZIndex="20">
+                        <TextBlock Opacity="0" x:Name="TextHeader" Text="Likes" FontWeight="SemiBold" FontSize="25"
+                                   Margin="0,18,0,0" />
 
-                    <StackPanel x:Name="DesktopCommandBar" Visibility="Collapsed" Orientation="Horizontal"
-                                Margin="10,10,0,20">
-                        <userControls:SoundByteButton Glyph="&#xE768;" Label="Play All" Click="{x:Bind PlayAllItems}"
-                                                      Margin="0,0,25,0" />
-                        <userControls:SoundByteButton Glyph="&#xE8B1;" Label="Shuffle Play"
-                                                      Click="{x:Bind PlayShuffleItems}" Margin="0,0,25,0" />
-                        <userControls:SoundByteButton Glyph="&#xE72C;" Label="Refresh"
-                                                      Click="{x:Bind LikesModel.RefreshItems}" Margin="0,0,25,0" />
+                        <StackPanel x:Name="DesktopCommandBar" Visibility="Collapsed" Orientation="Horizontal"
+                                    Margin="10,10,0,20">
+                            <userControls:SoundByteButton Glyph="&#xE768;" Label="Play All" Click="{x:Bind PlayAllItems}"
+                                                          Margin="0,0,25,0" />
+                            <userControls:SoundByteButton Glyph="&#xE8B1;" Label="Shuffle Play"
+                                                          Click="{x:Bind PlayShuffleItems}" Margin="0,0,25,0" />
+                            <userControls:SoundByteButton Glyph="&#xE72C;" Label="Refresh"
+                                                          Click="{x:Bind LikesModel.RefreshItems}" Margin="0,0,25,0" />
+                        </StackPanel>
                     </StackPanel>
-                </StackPanel>
+                </controls:ScrollHeader>
             </GridView.Header>
             <interactivity:Interaction.Behaviors>
                 <behaviors:FadeHeaderBehavior />

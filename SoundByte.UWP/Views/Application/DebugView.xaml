@@ -5,9 +5,10 @@
     xmlns:local="using:SoundByte.UWP.Views.Application"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Transitions="{StaticResource MainTransition}"
     mc:Ignorable="d">
 
-    <StackPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <StackPanel Background="Transparent">
         <TextBox x:Name="Command" />
         <Button Content="Run" Click="ButtonBase_OnClick" />
     </StackPanel>

@@ -5,7 +5,6 @@
     xmlns:elements="using:SoundByte.UWP.UserControls"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
-    xmlns:stateTriggers="using:SoundByte.UWP.StateTriggers"
     NavigationCacheMode="Enabled"
     Transitions="{StaticResource MainTransition}">
     <Page.Resources>
@@ -78,18 +77,8 @@
         </Style>
     </Page.Resources>
 
-    <Grid Background="{ThemeResource ShellBackground}" x:Name="RootGrid">
+    <Grid Background="Transparent" x:Name="RootGrid">
         <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup x:Name="DeviceStates">
-                <VisualState x:Name="Xbox">
-                    <VisualState.StateTriggers>
-                        <stateTriggers:DeviceStateTrigger DeviceFamily="Windows.Xbox" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="RootGrid.Background" Value="Transparent" />
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
             <VisualStateGroup x:Name="WindowSize">
                 <VisualState>
                     <VisualState.StateTriggers>

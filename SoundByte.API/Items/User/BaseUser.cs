@@ -10,7 +10,7 @@
  * |----------------------------------------------------------------|
  */
 
-using SoundByte.API.Endpoints;
+using System.Diagnostics.CodeAnalysis;
 
 namespace SoundByte.API.Items.User
 {
@@ -19,6 +19,7 @@ namespace SoundByte.API.Items.User
     /// all service types. All elements are updateable by
     /// the UI.
     /// </summary>
+    [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
     public class BaseUser : BaseItem
     {
         /// <summary>
@@ -26,7 +27,6 @@ namespace SoundByte.API.Items.User
         /// performing service specific tasks such as following.
         /// </summary>
         public ServiceType ServiceType { get; set; }
-
         public string Id { get; set; }
         public string Username { get; set; }
         public string ArtworkLink { get; set; }

@@ -6,29 +6,19 @@
     NavigationCacheMode="Enabled"
     Transitions="{StaticResource MainTransition}">
 
-    <Grid Background="{ThemeResource ShellBackground}" x:Name="RootGrid">
+    <Grid Background="Transparent" x:Name="RootGrid">
         <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup x:Name="DeviceStates">
-                <VisualState x:Name="Xbox">
-                    <VisualState.StateTriggers>
-                        <stateTriggers:DeviceStateTrigger DeviceFamily="Windows.Xbox" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="RootGrid.Background" Value="Transparent" />
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
             <VisualStateGroup x:Name="WindowSize">
                 <VisualState>
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="768" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="StackPanel.Padding" Value="50,0" />
                         <Setter Target="TextHeader.FontSize" Value="55" />
                         <Setter Target="TextHeader.Margin" Value="0,30,0,0" />
                         <Setter Target="TextHeader.Opacity" Value="0.8" />
                         <Setter Target="MobileGrid.Visibility" Value="Collapsed" />
+                        <Setter Target="Progressbar.Margin" Value="-40,0,0,0" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -41,7 +31,7 @@
         </Grid>
 
         <ScrollViewer HorizontalAlignment="Stretch">
-            <StackPanel x:Name="StackPanel" Padding="10,0">
+            <StackPanel x:Name="StackPanel">
                 <TextBlock x:Name="TextHeader" Opacity="0" Text="Upload" FontWeight="Bold" FontSize="25"
                            Margin="0,0,0,0" />
                 <TextBlock MaxWidth="390" Opacity="0.7" FontSize="14" Margin="0,25,0,30" HorizontalAlignment="Left"
@@ -172,7 +162,7 @@
         </ScrollViewer>
 
         <!-- Upload Progress bar -->
-        <ProgressBar Canvas.ZIndex="200" x:Name="Progressbar" VerticalAlignment="Top" HorizontalAlignment="Stretch"
+        <ProgressBar Canvas.ZIndex="200" Margin="-10,-10,-10,0" x:Name="Progressbar" VerticalAlignment="Top" HorizontalAlignment="Stretch"
                      Height="5" />
     </Grid>
 </Page>

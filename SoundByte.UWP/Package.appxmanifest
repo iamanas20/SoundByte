@@ -34,8 +34,8 @@
       </uap:VisualElements>
       <Extensions>
         <uap:Extension Category="windows.protocol">
-          <uap:Protocol Name="soundbyte">
-            <uap:DisplayName>SoundByteProtocol</uap:DisplayName>
+          <uap:Protocol Name="sbdata">
+            <uap:DisplayName>SoundByte Backend Protocol</uap:DisplayName>
           </uap:Protocol>
         </uap:Extension>
         <Extension Category="windows.backgroundTasks" EntryPoint="SoundByte.Notifications.NotificationTask">
@@ -43,6 +43,11 @@
             <Task Type="timer" />
           </BackgroundTasks>
         </Extension>
+        <uap:Extension Category="windows.protocol">
+          <uap:Protocol Name="soundbyte">
+            <uap:DisplayName>SoundByte Protocol</uap:DisplayName>
+          </uap:Protocol>
+        </uap:Extension>
       </Extensions>
     </Application>
   </Applications>

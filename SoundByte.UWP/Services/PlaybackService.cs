@@ -34,6 +34,7 @@ using SoundByte.API.Items.User;
 using SoundByte.Core.Converters;
 using SoundByte.Core.Helpers;
 using SoundByte.Core.Services;
+using SoundByte.YouTubeParser;
 
 namespace SoundByte.UWP.Services
 {
@@ -514,9 +515,6 @@ namespace SoundByte.UWP.Services
                 {
                     // If the track is null, leave it alone
                     if (track == null)
-                        continue;
-
-                    if (track.ServiceType == ServiceType.YouTube && string.IsNullOrEmpty(track.AudioStreamUrl))
                         continue;
 
                     MediaSource source;

@@ -12,7 +12,6 @@
 
 using System;
 using Newtonsoft.Json;
-using SoundByte.API.Endpoints;
 
 namespace SoundByte.API.Items.Track
 {

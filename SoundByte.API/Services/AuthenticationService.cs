@@ -13,6 +13,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using SoundByte.API.Providers;
 
 namespace SoundByte.API.Services
 {
@@ -23,8 +24,12 @@ namespace SoundByte.API.Services
 
         public static AuthenticationService Current => InstanceHolder.Value;
 
-        public string BuildLoginString(Func<string> test)
+        public string BuildLoginString(Func<IAuthenticationProvider> provider)
         {
+            var prov = provider.Invoke();
+
+            prov.ServiceType();
+
             return string.Empty;
         }
 

@@ -10,25 +10,14 @@
     NavigationCacheMode="Enabled"
     Transitions="{StaticResource MainTransition}">
 
-    <Grid Background="{ThemeResource ShellBackground}" x:Name="RootGrid">
+    <Grid Background="Transparent" x:Name="RootGrid">
         <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup x:Name="DeviceStates">
-                <VisualState x:Name="Xbox">
-                    <VisualState.StateTriggers>
-                        <stateTriggers:DeviceStateTrigger DeviceFamily="Windows.Xbox" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="RootGrid.Background" Value="Transparent" />
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
             <VisualStateGroup x:Name="WindowSize">
                 <VisualState>
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="768" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="StackPanel.Padding" Value="50,0" />
                         <Setter Target="TextHeader.FontSize" Value="55" />
                         <Setter Target="TextHeader.Margin" Value="10,30,0,0" />
                         <Setter Target="TextHeader.Opacity" Value="0.8" />
@@ -64,7 +53,6 @@
 
         <GridView ItemClick="{x:Bind NavigatePlaylist}"
                   ItemsSource="{x:Bind PlaylistModel}"
-                  Padding="5,0"
                   VerticalAlignment="Stretch"
                   SelectionMode="None"
                   x:Name="StackPanel"

@@ -2,23 +2,12 @@
     x:Class="SoundByte.UWP.Views.Me.AccountView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:stateTriggers="using:SoundByte.UWP.StateTriggers"
     NavigationCacheMode="Enabled"
     Transitions="{StaticResource MainTransition}">
 
     <!-- Main Page -->
-    <Grid Background="{ThemeResource ShellBackground}" x:Name="RootGrid">
+    <Grid Background="Transparent" x:Name="RootGrid">
         <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup x:Name="DeviceStates">
-                <VisualState x:Name="Xbox">
-                    <VisualState.StateTriggers>
-                        <stateTriggers:DeviceStateTrigger DeviceFamily="Windows.Xbox" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="RootGrid.Background" Value="Transparent" />
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
             <VisualStateGroup x:Name="WindowSize">
                 <VisualState>
                     <VisualState.StateTriggers>
@@ -29,9 +18,8 @@
                         <Setter Target="MobileGrid.Visibility" Value="Collapsed" />
                         <Setter Target="TextHeader.Visibility" Value="Visible" />
                         <Setter Target="TextHeader.FontSize" Value="55" />
-                        <Setter Target="TextHeader.Margin" Value="0,30,0,0" />
+                        <Setter Target="TextHeader.Margin" Value="0,30,0,20" />
                         <Setter Target="TextHeader.Opacity" Value="0.8" />
-                        <Setter Target="StackPanel.Padding" Value="50,0" />
                         <Setter Target="AccountPanel.Orientation" Value="Horizontal" />
                         <Setter Target="SoundCloudPanel.Width" Value="200" />
                         <Setter Target="SoundCloudPanel.HorizontalAlignment" Value="Left" />
@@ -94,14 +82,12 @@
         
         <ScrollViewer HorizontalAlignment="Stretch"
                       Visibility="Visible"
-                      x:Name="MainView"
-                      VerticalScrollBarVisibility="Hidden">
-            <StackPanel x:Name="StackPanel" Padding="10,55,10,0">
-                <TextBlock x:Name="TextHeader" Text="Manage Connected Accounts" FontWeight="Bold" Opacity="0.8"
+                      x:Name="MainView">
+            <StackPanel x:Name="StackPanel">
+                <TextBlock x:Name="TextHeader" Text="Connected Accounts" FontWeight="Bold" Opacity="0.8"
                            Visibility="Collapsed"
                            FontSize="55" Margin="0,30,0,0" />
-                <TextBlock Opacity="0.7" FontSize="14" Margin="0,10,0,12" HorizontalAlignment="Left"
-                           TextWrapping="Wrap" Text="Manage your connected SoundCloud and Fanburst Account." />
+              
 
 
                 <StackPanel x:Name="AccountPanel" Margin="-5,5,-5,0" Orientation="Vertical" >

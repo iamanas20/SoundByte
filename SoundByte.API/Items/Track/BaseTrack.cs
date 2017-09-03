@@ -11,8 +11,7 @@
  */
 
 using System;
-using System.Threading.Tasks;
-using SoundByte.API.Endpoints;
+using System.Diagnostics.CodeAnalysis;
 using SoundByte.API.Items.User;
 
 namespace SoundByte.API.Items.Track
@@ -22,6 +21,7 @@ namespace SoundByte.API.Items.Track
     /// all service types. All elements are updateable by
     /// the UI.
     /// </summary>
+    [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
     public class BaseTrack : BaseItem
     {
         /// <summary>
@@ -46,18 +46,5 @@ namespace SoundByte.API.Items.Track
         public double CommentCount { get; set; }
         public string Genre { get; set; }
         public BaseUser User { get; set; }
-
-        #region Methods
-        /// <summary>
-        /// Likes the track using service specific API calls. The service
-        /// must be connected for this call to work.
-        /// </summary>
-        /// <returns>True if track is liked, false if any errors occured.</returns>
-        public async Task<bool> LikeTrackAsync()
-        {
-
-            throw new NotImplementedException();
-        }
-        #endregion
     }
 }

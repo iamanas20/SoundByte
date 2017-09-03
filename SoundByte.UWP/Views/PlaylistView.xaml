@@ -7,29 +7,17 @@
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
-    xmlns:stateTriggers="using:SoundByte.UWP.StateTriggers"
     NavigationCacheMode="Enabled"
     Transitions="{StaticResource MainTransition}">
 
-    <Grid Background="{ThemeResource ShellBackground}" x:Name="RootGrid">
+    <Grid Background="Transparent" x:Name="RootGrid">
         <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup x:Name="DeviceStates">
-                <VisualState x:Name="Xbox">
-                    <VisualState.StateTriggers>
-                        <stateTriggers:DeviceStateTrigger DeviceFamily="Windows.Xbox" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="RootGrid.Background" Value="Transparent" />
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
             <VisualStateGroup x:Name="WindowSize">
                 <VisualState>
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="768" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="TracksView.Padding" Value="50,0" />
                         <Setter Target="MobileCommandBar.Visibility" Value="Collapsed" />
                         <Setter Target="DesktopCommandBar.Visibility" Value="Visible" />
                         <Setter Target="TracksView.ItemTemplate" Value="{StaticResource TrackItem}" />
@@ -85,7 +73,6 @@
                   ItemTemplate="{StaticResource MobileTrackItem}"
                   ItemsPanel="{StaticResource MobileGridPanel}"
                   VerticalAlignment="Stretch"
-                  Padding="5,0"
                   SelectionMode="None"
                   IsSwipeEnabled="False"
                   IsItemClickEnabled="True"
@@ -101,7 +88,7 @@
             <GridView.Header>
                 <StackPanel Orientation="Vertical">
     
-                    <StackPanel x:Name="HeaderPanel" Orientation="Horizontal" HorizontalAlignment="Stretch" Background="{StaticResource MobileBlurHeader}" Margin="-5,0,-5,5">
+                    <StackPanel x:Name="HeaderPanel" Orientation="Horizontal" HorizontalAlignment="Stretch" Background="{StaticResource MobileBlurHeader}">
                         <!-- Track Image -->
                         <controls:DropShadowPanel BlurRadius="20"
                                                   x:Name="PlaylistImageHolder"

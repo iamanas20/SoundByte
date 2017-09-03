@@ -21,15 +21,14 @@ using Windows.UI.Xaml.Data;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Newtonsoft.Json;
 using SoundByte.API;
-using SoundByte.API.Endpoints;
 using SoundByte.API.Exceptions;
 using SoundByte.API.Items.Track;
 using SoundByte.API.Items.User;
 using SoundByte.Core.Services;
 using SoundByte.UWP.UserControls;
-using YoutubeExplode;
-using YoutubeExplode.Models;
-using YoutubeExplode.Models.MediaStreams;
+using SoundByte.YouTubeParser;
+using SoundByte.YouTubeParser.Models;
+using SoundByte.YouTubeParser.Models.MediaStreams;
 using BaseTrack = SoundByte.API.Items.Track.BaseTrack;
 
 namespace SoundByte.UWP.Models
@@ -130,24 +129,26 @@ namespace SoundByte.UWP.Models
                                         // Convert to a base track
                                         var track = item.ToBaseTrack();
 
-                                        // Add missing details
-                                        track.Duration = video.Duration;
-                                        track.Description = video.Description;
-                                        track.LikeCount = video.LikeCount;
-                                        track.ViewCount = video.ViewCount;
-                                        track.ArtworkUrl = video.ImageHighResUrl;
-                                        track.AudioStreamUrl = video.AudioStreams.OrderBy(q => q.AudioEncoding).Last()?.Url;
+                                        track.ArtworkUrl = item.Snippet.Thumbnails.DefaultSize.Url;
                                         track.User = new BaseUser
                                         {
-                                            Username = video.Author.Title,
-                                            ArtworkLink = video.Author.LogoUrl
+                                            Username = item.Snippet.ChannelTitle
                                         };
 
-                                         // 720p is max quality we want
-                                         var wantedQuality = video.VideoStreams.FirstOrDefault(x => x.VideoQuality == VideoQuality.High720)?.Url;
+                                        // Add missing details
+                                           track.Duration = video.Duration;
+                                          //  track.Description = video.Description;
+                                          //   track.LikeCount = video.LikeCount;
+                                          track.ViewCount = video.ViewCount;
+                                          track.ArtworkUrl = video.ImageHighResUrl;
+                                          track.AudioStreamUrl = video.AudioStreams.OrderBy(q => q.AudioEncoding).Last()?.Url;
+
+
+                                        // 720p is max quality we want
+                                          var wantedQuality = video.VideoStreams.FirstOrDefault(x => x.VideoQuality == VideoQuality.High720)?.Url;
 
                                         // If quality is not there, just get the highest (480p for example).
-                                        if (string.IsNullOrEmpty(wantedQuality))
+                                         if (string.IsNullOrEmpty(wantedQuality))
                                             wantedQuality = video.VideoStreams.OrderBy(s => s.VideoQuality).Last()?.Url;
 
                                         track.VideoStreamUrl = wantedQuality;

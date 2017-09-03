@@ -38,8 +38,8 @@
 
             <!-- Drop Shadow for playlist image -->
             <controls:DropShadowPanel VerticalAlignment="Top"
-                                      BlurRadius="15"
-                                      ShadowOpacity="0.8"
+                                      BlurRadius="25"
+                                      ShadowOpacity="0.6"
                                       OffsetX="0"
                                       OffsetY="5"                 
                                       IsTabStop="False"
@@ -183,8 +183,8 @@
             <!-- Drop Shadow for track image -->
             <controls:DropShadowPanel x:Name="ShadowPanel"
                                       VerticalAlignment="Top"
-                                      BlurRadius="15"
-                                      ShadowOpacity="0.8"
+                                      BlurRadius="25"
+                                      ShadowOpacity="0.6"
                                       OffsetX="0"
                                       IsTabStop="False"
                                       IsHitTestVisible="False"
@@ -243,8 +243,8 @@
                     Orientation="Vertical">
             <controls:DropShadowPanel VerticalAlignment="Top"
                                       HorizontalAlignment="Center"
-                                      BlurRadius="15"
-                                      ShadowOpacity="0.8"
+                                      BlurRadius="25"
+                                      ShadowOpacity="0.6"
                                       OffsetX="0"
                                       OffsetY="5"
                                       IsTabStop="False"

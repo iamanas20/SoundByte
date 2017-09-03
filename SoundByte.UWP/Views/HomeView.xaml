@@ -22,27 +22,17 @@
                                           Playlist="{Binding Playlist}" />
         </DataTemplate>
     </Page.Resources>
-    <Grid Background="{ThemeResource ShellBackground}" x:Name="RootGrid">
+    <Grid Background="Transparent" x:Name="RootGrid">
         <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup x:Name="DeviceStates">
-                <VisualState x:Name="Xbox">
-                    <VisualState.StateTriggers>
-                        <stateTriggers:DeviceStateTrigger DeviceFamily="Windows.Xbox" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="RootGrid.Background" Value="Transparent" />
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
             <VisualStateGroup x:Name="WindowSize">
                 <VisualState>
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="768" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="HomePivot.Margin" Value="50,100,50,0" />
+                        <Setter Target="HomePivot.Margin" Value="0,110,0,0" />
                         <Setter Target="TextHeader.FontSize" Value="55" />
-                        <Setter Target="TextHeader.Margin" Value="10,30,0,0" />
+                        <Setter Target="TextHeader.Margin" Value="10,40,0,0" />
                         <Setter Target="TextHeader.Opacity" Value="0.8" />
                         <Setter Target="TextHeader.Visibility" Value="Visible" />
                         <Setter Target="MobileGrid.Visibility" Value="Collapsed" />
@@ -63,11 +53,10 @@
         </Grid>
         
         <TextBlock Opacity="0.8" x:Name="TextHeader" Text="Home" FontWeight="Bold" FontSize="55" Margin="0,18,0,0"
-                   Visibility="Collapsed"
-                   Padding="50,0" />
+                   Visibility="Collapsed" />
 
 
-        <Pivot x:Name="HomePivot" Margin="5,50,5,0" Canvas.ZIndex="105">
+        <Pivot x:Name="HomePivot" Margin="0,50,0,0" Canvas.ZIndex="105">
             <PivotItem x:Name="StreamPivotItem">
                 <PivotItem.Header>
                     <TextBlock Text="Stream" FontSize="18" Opacity="0.9" FontWeight="SemiBold"
@@ -82,7 +71,6 @@
                               ItemsSource="{x:Bind Path=ViewModel.StreamItems}"
                               ItemTemplate="{StaticResource StreamItem}"
                               SelectionMode="None"
-                              Margin="-20,0,0,0"
                               IsSwipeEnabled="False"
                               IsItemClickEnabled="True"
                               ItemClick="{x:Bind ViewModel.NavigateStream}"
@@ -91,7 +79,7 @@
                               VerticalAlignment="Stretch">
                         <ListView.Header>
                             <StackPanel x:Name="DesktopCommandBarStream" Visibility="Collapsed"
-                                        Orientation="Horizontal" Margin="20,10,20,10">
+                                        Orientation="Horizontal" Margin="0,10,20,10">
                                 <elements:SoundByteButton Glyph="&#xE768;" Label="Play All Tracks"
                                                           Click="{x:Bind ViewModel.PlayAllStreamTracks}"
                                                           Margin="0,0,25,0" />

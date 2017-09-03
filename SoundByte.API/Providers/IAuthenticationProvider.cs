@@ -18,6 +18,9 @@ namespace SoundByte.API.Providers
 {
     public interface IAuthenticationProvider
     {
+        ServiceType ServiceType();
+
+
         string Test();
     }
 }

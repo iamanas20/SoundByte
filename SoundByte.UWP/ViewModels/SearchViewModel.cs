@@ -11,14 +11,12 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Windows.ApplicationModel.Resources;
 using Windows.UI.Popups;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml.Controls;
 using SoundByte.API;
-using SoundByte.API.Endpoints;
 using SoundByte.API.Items.Track;
 using SoundByte.API.Items.User;
 using SoundByte.Core.Dialogs;
