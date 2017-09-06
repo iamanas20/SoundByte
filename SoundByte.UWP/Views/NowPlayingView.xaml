@@ -3,10 +3,10 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:endpoints="using:SoundByte.API.Endpoints"
+    xmlns:endpoints="using:SoundByte.Core.Endpoints"
     NavigationCacheMode="Enabled"
     xmlns:converters="using:SoundByte.UWP.Converters"
-    xmlns:track="using:SoundByte.API.Items.Track">
+    xmlns:track="using:SoundByte.Core.Items.Track">
     <Page.Transitions>
         <TransitionCollection>
             <NavigationThemeTransition>
@@ -62,7 +62,9 @@
                             Text="{x:Bind ViewModel.RepostButtonText, Mode=TwoWay}" />
         </MenuFlyout>
     </Page.Resources>
-    <Grid Background="{ThemeResource ShellBackground}" x:Name="RootGrid">
+    <Grid Background="{ThemeResource ShellBackground}" 
+          
+          x:Name="RootGrid">
 
         <!-- Background Image -->
         <controls:ImageEx
@@ -86,9 +88,7 @@
                       Canvas.ZIndex="2"
                       VerticalAlignment="Stretch"
                       Stretch="UniformToFill"
-                      Volume="0"
                       Opacity="0"
-                      AudioCategory="Other"
                       IsLooping="False" />
         
         <!-- Transparent element that covers background canvas, makes image darker so white text and icons are easy to see -->
@@ -116,7 +116,7 @@
               Background="{StaticResource BackgroundTrackBlurBrush}"
               IsHitTestVisible="False" />
 
-        <Grid x:Name="TrackInfoHolder" VerticalAlignment="Bottom" Canvas.ZIndex="10">
+        <Grid x:Name="TrackInfoHolder" VerticalAlignment="Bottom" Canvas.ZIndex="10" Margin="-50,0,0,0">
             <!-- track artwork -->
             <controls:DropShadowPanel Canvas.ZIndex="30"
                                       Width="150"
@@ -159,7 +159,7 @@
         </Grid>
 
         <!-- Holds the lower navigation buttons -->
-        <Grid Canvas.ZIndex="40" x:Name="ButtonHolder" VerticalAlignment="Bottom">
+        <Grid Canvas.ZIndex="40" x:Name="ButtonHolder" VerticalAlignment="Bottom" Margin="-50,0,0,0">
             <Grid Margin="40,0,40,65">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -342,7 +342,7 @@
         </Button>
 
         <!-- Hidden away, this will be displayed on the enhanced screen -->
-        <Grid Canvas.ZIndex="50" x:Name="MoreInfoScreen" Margin="0,180,0,0" Visibility="Collapsed">
+        <Grid Canvas.ZIndex="50" x:Name="MoreInfoScreen" Margin="-50,180,0,0" Visibility="Collapsed">
             <Pivot Margin="30,20,20,10" RequestedTheme="Dark" x:Name="MoreInfoPivot">
                 <PivotItem>
                     <PivotItem.Header>

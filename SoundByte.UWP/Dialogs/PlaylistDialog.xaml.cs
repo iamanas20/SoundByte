@@ -20,9 +20,9 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.Web.Http;
-using SoundByte.API;
-using SoundByte.API.Items.Playlist;
-using SoundByte.API.Items.Track;
+using SoundByte.Core;
+using SoundByte.Core.Items.Playlist;
+using SoundByte.Core.Items.Track;
 using SoundByte.UWP.Services;
 
 namespace SoundByte.UWP.Dialogs

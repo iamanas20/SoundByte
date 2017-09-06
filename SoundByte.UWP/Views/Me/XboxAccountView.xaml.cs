@@ -16,8 +16,8 @@ using Windows.Security.Credentials;
 using Windows.UI.Popups;
 using Windows.UI.Xaml.Navigation;
 using Microsoft.AspNet.SignalR.Client;
-using SoundByte.API;
-using SoundByte.API.Items;
+using SoundByte.Core;
+using SoundByte.Core.Items;
 using SoundByte.UWP.Services;
 
 

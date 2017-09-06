@@ -20,11 +20,11 @@ using Windows.Foundation;
 using Windows.UI.Xaml.Data;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Newtonsoft.Json;
-using SoundByte.API;
-using SoundByte.API.Exceptions;
-using SoundByte.API.Items.Playlist;
-using SoundByte.API.Items.Track;
-using SoundByte.API.Items.User;
+using SoundByte.Core;
+using SoundByte.Core.Exceptions;
+using SoundByte.Core.Items.Playlist;
+using SoundByte.Core.Items.Track;
+using SoundByte.Core.Items.User;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.UserControls;
 

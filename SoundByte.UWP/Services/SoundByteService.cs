@@ -22,11 +22,11 @@ using Windows.Web.Http;
 using Windows.Web.Http.Filters;
 using Windows.Web.Http.Headers;
 using Newtonsoft.Json;
-using SoundByte.API;
+using SoundByte.Core;
 using SoundByte.UWP.Helpers;
-using SoundByte.API.Exceptions;
-using SoundByte.API.Items;
-using SoundByte.API.Items.User;
+using SoundByte.Core.Exceptions;
+using SoundByte.Core.Items;
+using SoundByte.Core.Items.User;
 
 namespace SoundByte.UWP.Services
 {

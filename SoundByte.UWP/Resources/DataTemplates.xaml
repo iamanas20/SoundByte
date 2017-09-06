@@ -11,9 +11,9 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:user="using:SoundByte.API.Items.User"
-    xmlns:track="using:SoundByte.API.Items.Track"
-    xmlns:playlist="using:SoundByte.API.Items.Playlist"
+    xmlns:user="using:SoundByte.Core.Items.User"
+    xmlns:track="using:SoundByte.Core.Items.Track"
+    xmlns:playlist="using:SoundByte.Core.Items.Playlist"
     x:Class="SoundByte.UWP.Resources.DataTemplates">
 
     <ItemsPanelTemplate x:Key="DesktopGridPanel">

@@ -16,7 +16,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
-using SoundByte.API.Items.Track;
+using SoundByte.Core.Items.Track;
 using SoundByte.UWP.Services;
 
 namespace SoundByte.UWP.ViewModels
