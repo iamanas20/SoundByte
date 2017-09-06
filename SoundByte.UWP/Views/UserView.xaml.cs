@@ -77,11 +77,6 @@ namespace SoundByte.UWP.Views
                 // Clear description
                 Description.Blocks.Clear();
 
-                // Show the upload button on the users profile
-                UploadButton.Visibility = targetUser.Id == SoundByteService.Instance.SoundCloudUser?.Id
-                    ? Visibility.Visible
-                    : Visibility.Collapsed;
-
                 // Create the model
                 await ViewModel.UpdateModel(targetUser);
 
@@ -98,11 +93,6 @@ namespace SoundByte.UWP.Views
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             SizeChanged -= UserView_SizeChanged;
-        }
-
-        public void UploadTrack(object sender, RoutedEventArgs e)
-        {
-            App.NavigateTo(typeof(UploadView));
         }
 
         private void UserView_SizeChanged(object sender, SizeChangedEventArgs e)

@@ -279,9 +279,6 @@
     <Compile Include="Views\Me\HistoryView.xaml.cs">
       <DependentUpon>HistoryView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Me\UploadView.xaml.cs">
-      <DependentUpon>UploadView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\UserView.xaml.cs">
       <DependentUpon>UserView.xaml</DependentUpon>
     </Compile>
@@ -433,10 +430,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Me\HistoryView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Me\UploadView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

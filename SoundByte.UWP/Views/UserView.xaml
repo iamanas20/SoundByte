@@ -173,8 +173,6 @@
                     <elements:SoundByteButton Glyph="{x:Bind ViewModel.PinButtonIcon, Mode=OneWay}"
                                               Label="{x:Bind ViewModel.PinButtonText, Mode=OneWay}"
                                               Click="{x:Bind ViewModel.PinUser}" Margin="0,0,25,0" />
-                    <elements:SoundByteButton x:Name="UploadButton" Glyph="&#xE898;" Label="Upload Track"
-                                              Click="{x:Bind UploadTrack}" Margin="0,0,25,0" />
                 </StackPanel>
 
                 <!-- Main Page Pivot -->
