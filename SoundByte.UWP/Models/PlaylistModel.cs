@@ -20,18 +20,19 @@ using Windows.Foundation;
 using Windows.UI.Popups;
 using Windows.UI.Xaml.Data;
 using Microsoft.Toolkit.Uwp.Helpers;
-using SoundByte.API.Endpoints;
+using SoundByte.API;
 using SoundByte.API.Exceptions;
 using SoundByte.API.Holders;
+using SoundByte.API.Items.Playlist;
 using SoundByte.API.Items.User;
-using SoundByte.Core.Services;
+using SoundByte.UWP.Services;
 
 namespace SoundByte.UWP.Models
 {
     /// <summary>
     ///     Model for playlist items
     /// </summary>
-    public class PlaylistModel : ObservableCollection<Playlist>, ISupportIncrementalLoading
+    public class PlaylistModel : ObservableCollection<BasePlaylist>, ISupportIncrementalLoading
     {
         /// <summary>
         ///     Setsup a new view model for playlists
@@ -76,7 +77,7 @@ namespace SoundByte.UWP.Models
                 try
                 {
                     // Get the users playlists using the V2 API
-                    var userPlaylists = await SoundByteService.Instance.GetAsync<SearchPlaylistHolder>(
+                    var userPlaylists = await SoundByteService.Instance.GetAsync<SearchPlaylistHolder>(ServiceType.SoundCloud,
                         $"/users/{User.Id}/playlists", new Dictionary<string, string>
                         {
                             {"limit", "50"},
@@ -98,7 +99,13 @@ namespace SoundByte.UWP.Models
                         count = (uint) userPlaylists.Playlists.Count;
 
                         // Loop though all the playlists on the UI thread
-                        await DispatcherHelper.ExecuteOnUIThreadAsync(() => { userPlaylists.Playlists.ForEach(Add); });
+                        await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
+                        {
+                            foreach (var playlist in userPlaylists.Playlists)
+                            {
+                                Add(playlist.ToBasePlaylist());
+                            }
+                        });
                     }
                     else
                     {

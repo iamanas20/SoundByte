@@ -24,7 +24,6 @@ using SoundByte.API.Endpoints;
 using SoundByte.API.Exceptions;
 using SoundByte.API.Holders;
 using SoundByte.API.Items.Track;
-using SoundByte.Core.Services;
 using SoundByte.UWP.Services;
 
 namespace SoundByte.UWP.Models

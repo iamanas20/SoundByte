@@ -28,13 +28,10 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Microsoft.Toolkit.Uwp.Helpers;
 using SoundByte.API;
-using SoundByte.API.Endpoints;
 using SoundByte.API.Items.Track;
 using SoundByte.API.Items.User;
-using SoundByte.Core.Converters;
-using SoundByte.Core.Helpers;
-using SoundByte.Core.Services;
-using SoundByte.YouTubeParser;
+using SoundByte.UWP.Converters;
+using SoundByte.UWP.Helpers;
 
 namespace SoundByte.UWP.Services
 {
@@ -409,7 +406,7 @@ namespace SoundByte.UWP.Services
 
                     try
                     {
-                        CurrentTrack.User = (await SoundByteService.Instance.GetAsync<SoundCloudUser>($"/users/{CurrentTrack.User.Id}")).ToBaseUser();
+                        CurrentTrack.User = (await SoundByteService.Instance.GetAsync<SoundCloudUser>(ServiceType.SoundCloud, $"/users/{CurrentTrack.User.Id}")).ToBaseUser();
                     }
                     catch
                     {

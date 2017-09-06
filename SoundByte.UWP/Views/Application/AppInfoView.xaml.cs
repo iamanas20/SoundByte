@@ -20,8 +20,8 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using Microsoft.Services.Store.Engagement;
 using Newtonsoft.Json;
-using SoundByte.API.Endpoints;
-using SoundByte.Core.Services;
+using SoundByte.API.Items;
+using SoundByte.UWP.Services;
 using SoundByte.UWP.ViewModels;
 using SoundByte.UWP.Views.General;
 
@@ -70,7 +70,7 @@ namespace SoundByte.UWP.Views.Application
 
             var dataFile = await Package.Current.InstalledLocation.GetFileAsync(@"Assets\build_info.json");
             var buildData =
-                await Task.Run(() => JsonConvert.DeserializeObject<BuildInfo>(File.ReadAllText(dataFile.Path)));
+                await Task.Run(() => JsonConvert.DeserializeObject<BuildInformation>(File.ReadAllText(dataFile.Path)));
 
             AppBuildBranch.Text = buildData.BuildBranch;
             AppBuildTime.Text = buildData.BuildTime;

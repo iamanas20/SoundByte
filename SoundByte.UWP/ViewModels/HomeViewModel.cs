@@ -15,9 +15,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Windows.UI.Popups;
 using Windows.UI.Xaml.Controls;
-using SoundByte.API.Endpoints;
 using SoundByte.API.Items.Track;
-using SoundByte.Core.Helpers;
+using SoundByte.UWP.Helpers;
 using SoundByte.UWP.Models;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.Views;
@@ -117,7 +116,7 @@ namespace SoundByte.UWP.ViewModels
             trackList.ToList().ForEach(x => baseTrackList.Add(x.ToBaseTrack()));
 
             // Get the clicked item
-            var streamItem = (StreamItem) e.ClickedItem;
+            var streamItem = (StreamModel.StreamItem) e.ClickedItem;
 
             switch (streamItem.Type)
             {

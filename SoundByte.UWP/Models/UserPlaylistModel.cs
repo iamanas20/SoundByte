@@ -18,12 +18,12 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
 using Windows.Foundation;
 using Windows.UI.Xaml.Data;
-using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Helpers;
-using SoundByte.API.Endpoints;
+using SoundByte.API;
 using SoundByte.API.Exceptions;
 using SoundByte.API.Holders;
-using SoundByte.Core.Services;
+using SoundByte.API.Items.Playlist;
+using SoundByte.UWP.Services;
 using SoundByte.UWP.UserControls;
 
 namespace SoundByte.UWP.Models
@@ -31,7 +31,7 @@ namespace SoundByte.UWP.Models
     /// <summary>
     ///     Gets the logged in users playlists and playlist likes
     /// </summary>
-    public class UserPlaylistModel : ObservableCollection<Playlist>, ISupportIncrementalLoading
+    public class UserPlaylistModel : ObservableCollection<BasePlaylist>, ISupportIncrementalLoading
     {
         /// <summary>
         ///     The position of the track, will be 'eol'
@@ -69,14 +69,14 @@ namespace SoundByte.UWP.Models
                     try
                     {
                         // Get the users playlists using the V2 API
-                        var userPlaylists = await SoundByteService.Instance.GetAsync<PlaylistHolder>(
+                        var userPlaylists = await SoundByteService.Instance.GetAsync<PlaylistHolder>(ServiceType.SoundCloudV2,
                             $"/users/{SoundByteService.Instance.SoundCloudUser.Id}/playlists/liked_and_owned",
                             new Dictionary<string, string>
                             {
                                 {"limit", "50"},
                                 {"offset", Token},
                                 {"linked_partitioning", "1"}
-                            }, true);
+                            });
 
                         // Parse uri for offset
                         var param = new QueryParameterCollection(userPlaylists.NextList);
@@ -94,7 +94,7 @@ namespace SoundByte.UWP.Models
                             // Loop though all the playlists on the UI thread
                             await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                             {
-                                userPlaylists.Playlists.ForEach(p => Add(p.Playlist));
+                                userPlaylists.Playlists.ForEach(p => Add(p.Playlist.ToBasePlaylist()));
                             });
                         }
                         else

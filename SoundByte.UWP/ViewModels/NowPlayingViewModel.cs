@@ -22,12 +22,11 @@ using SoundByte.API;
 using SoundByte.API.Endpoints;
 using SoundByte.API.Items.Track;
 using SoundByte.API.Items.User;
-using SoundByte.Core.Converters;
-using SoundByte.Core.Dialogs;
-using SoundByte.Core.Helpers;
-using SoundByte.Core.Services;
-using SoundByte.UWP.Models;
+using SoundByte.UWP.Converters;
+using SoundByte.UWP.Dialogs;
+using SoundByte.UWP.Helpers;
 using SoundByte.UWP.Services;
+using SoundByte.UWP.Models;
 using SoundByte.UWP.Views;
 
 namespace SoundByte.UWP.ViewModels

@@ -20,8 +20,8 @@ using Windows.UI.Xaml.Navigation;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI.Animations;
 using SoundByte.API.Endpoints;
-using SoundByte.Core.Helpers;
-using SoundByte.Core.Services;
+using SoundByte.UWP.Helpers;
+using SoundByte.UWP.Services;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.ViewModels;
 

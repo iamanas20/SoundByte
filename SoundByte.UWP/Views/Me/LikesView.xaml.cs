@@ -15,11 +15,9 @@ using System.Linq;
 using Windows.UI.Popups;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using SoundByte.API.Endpoints;
 using SoundByte.API.Items.Track;
-using SoundByte.Core.Services;
-using SoundByte.UWP.Models;
 using SoundByte.UWP.Services;
+using SoundByte.UWP.Models;
 using SoundByte.UWP.ViewModels;
 
 namespace SoundByte.UWP.Views.Me

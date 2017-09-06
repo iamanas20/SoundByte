@@ -449,18 +449,6 @@
                                          Content="History"
                                          Checked="NavigateHistory" />
 
-                            <!-- User notifications -->
-                            <RadioButton x:Name="NotificationsTab"
-                                         FocusVisualPrimaryThickness="0"
-                                         FocusVisualSecondaryThickness="0"
-                                         FocusVisualMargin="0"
-                                         HorizontalAlignment="Stretch"
-                                         GroupName="NavPaneButtons"
-                                         Style="{StaticResource NavigationButtonStyle}"
-                                         Tag="&#xEA8F;"
-                                         Content="Notifications"
-                                         Checked="NavigateNotifications" />
-
                             <!-- Navigate to the settings page -->
                             <RadioButton x:Name="DonateTab"
                                          FocusVisualPrimaryThickness="0"

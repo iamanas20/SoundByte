@@ -19,17 +19,17 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
 using Windows.Foundation;
 using Windows.UI.Xaml.Data;
-using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Helpers;
-using SoundByte.API.Endpoints;
+using SoundByte.API;
 using SoundByte.API.Exceptions;
 using SoundByte.API.Holders;
-using SoundByte.Core.Services;
+using SoundByte.API.Items.Playlist;
+using SoundByte.UWP.Services;
 using SoundByte.UWP.UserControls;
 
 namespace SoundByte.UWP.Models
 {
-    public class SearchPlaylistModel : ObservableCollection<Playlist>, ISupportIncrementalLoading
+    public class SearchPlaylistModel : ObservableCollection<BasePlaylist>, ISupportIncrementalLoading
     {
         /// <summary>
         ///     The position of the track, will be 'eol'
@@ -73,7 +73,7 @@ namespace SoundByte.UWP.Models
                 try
                 {
                     // Get the searched playlists
-                    var searchPlaylists = await SoundByteService.Instance.GetAsync<SearchPlaylistHolder>("/playlists",
+                    var searchPlaylists = await SoundByteService.Instance.GetAsync<SearchPlaylistHolder>(ServiceType.SoundCloud, "/playlists",
                         new Dictionary<string, string>
                         {
                             {"limit", SettingsService.TrackLimitor.ToString()},
@@ -98,7 +98,10 @@ namespace SoundByte.UWP.Models
                         // Loop though all the search playlists on the UI thread
                         await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                         {
-                            searchPlaylists.Playlists.ForEach(Add);
+                            foreach (var playlist in searchPlaylists.Playlists)
+                            {
+                                Add(playlist.ToBasePlaylist());
+                            }
                         });
                     }
                     else

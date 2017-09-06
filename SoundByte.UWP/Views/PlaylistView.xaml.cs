@@ -11,7 +11,8 @@
  */
 
 using Windows.UI.Xaml.Navigation;
-using SoundByte.Core.Services;
+using SoundByte.API.Items.Playlist;
+using SoundByte.UWP.Services;
 using SoundByte.UWP.ViewModels;
 
 namespace SoundByte.UWP.Views
@@ -45,7 +46,7 @@ namespace SoundByte.UWP.Views
             // Make sure the view is ready for the user
             // Track Event
             TelemetryService.Instance.TrackPage("Playlist View");
-            await ViewModel.SetupView(e.Parameter as API.Endpoints.Playlist);
+            await ViewModel.SetupView((BasePlaylist)e.Parameter);
         }
     }
 }

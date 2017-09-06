@@ -155,6 +155,40 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\ArtworkConverter.cs" />
+    <Compile Include="Converters\BoolToFontWeightConverter.cs" />
+    <Compile Include="Converters\DateTimeConverter.cs" />
+    <Compile Include="Converters\FormattedValueConverter.cs" />
+    <Compile Include="Converters\SliderValueConverter.cs" />
+    <Compile Include="Converters\TimeStampConverter.cs" />
+    <Compile Include="Dialogs\CrashDialog.xaml.cs">
+      <DependentUpon>CrashDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\FilterDialog.xaml.cs">
+      <DependentUpon>FilterDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\PendingUpdateDialog.xaml.cs">
+      <DependentUpon>PendingUpdateDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\PinTileDialog.xaml.cs">
+      <DependentUpon>PinTileDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\PlaylistDialog.xaml.cs">
+      <DependentUpon>PlaylistDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\ShareDialog.xaml.cs">
+      <DependentUpon>ShareDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Helpers\AsyncHelper.cs" />
+    <Compile Include="Helpers\CompositionHelper.cs" />
+    <Compile Include="Helpers\CrashHelper.cs" />
+    <Compile Include="Helpers\DeviceHelper.cs" />
+    <Compile Include="Helpers\ImageHelper.cs" />
+    <Compile Include="Helpers\JumplistHelper.cs" />
+    <Compile Include="Helpers\NetworkHelper.cs" />
+    <Compile Include="Helpers\NumberFormatHelper.cs" />
+    <Compile Include="Helpers\TextHelper.cs" />
+    <Compile Include="Helpers\TitlebarHelper.cs" />
     <Compile Include="Models\YouTubeSearchModel.cs" />
     <Compile Include="Resources\DataTemplates.cs" />
     <Compile Include="MainShell.xaml.cs">
@@ -165,7 +199,6 @@
     <Compile Include="Models\FanburstSearchModel.cs" />
     <Compile Include="Models\HistoryModel.cs" />
     <Compile Include="Models\LikeModel.cs" />
-    <Compile Include="Models\NotificationModel.cs" />
     <Compile Include="Models\PlaylistModel.cs" />
     <Compile Include="Models\TrackModel.cs" />
     <Compile Include="Models\UserPlaylistModel.cs" />
@@ -175,8 +208,15 @@
     <Compile Include="Models\StreamModel.cs" />
     <Compile Include="Models\UserFollowersModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\ApiKeyService.cs" />
+    <Compile Include="Services\BackendService.cs" />
+    <Compile Include="Services\MonitizeService.cs" />
     <Compile Include="Services\NavigationService.cs" />
     <Compile Include="Services\PlaybackService.cs" />
+    <Compile Include="Services\SettingsService.cs" />
+    <Compile Include="Services\SoundByteService.cs" />
+    <Compile Include="Services\TelemetryService.cs" />
+    <Compile Include="Services\TileService.cs" />
     <Compile Include="StateTriggers\DeviceStateTrigger.cs" />
     <Compile Include="UserControls\NowPlayingBar.xaml.cs">
       <DependentUpon>NowPlayingBar.xaml</DependentUpon>
@@ -187,9 +227,6 @@
     <Compile Include="UserControls\InfoPane.xaml.cs">
       <DependentUpon>InfoPane.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\NotificationItem.xaml.cs">
-      <DependentUpon>NotificationItem.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UserControls\SearchBox.xaml.cs">
       <DependentUpon>SearchBox.xaml</DependentUpon>
     </Compile>
@@ -198,7 +235,6 @@
     </Compile>
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
-    <Compile Include="ViewModels\NotificationsViewModel.cs" />
     <Compile Include="ViewModels\PlaylistViewModel.cs" />
     <Compile Include="ViewModels\SearchViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
@@ -221,9 +257,6 @@
     </Compile>
     <Compile Include="Views\Me\AccountView.xaml.cs">
       <DependentUpon>AccountView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Me\NotificationsView.xaml.cs">
-      <DependentUpon>NotificationsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Me\XboxAccountView.xaml.cs">
       <DependentUpon>XboxAccountView.xaml</DependentUpon>
@@ -278,6 +311,30 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Dialogs\CrashDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Dialogs\FilterDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Dialogs\PendingUpdateDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Dialogs\PinTileDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Dialogs\PlaylistDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Dialogs\ShareDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Resources\DataTemplates.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -319,10 +376,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\NotificationItem.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="UserControls\SearchBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -352,10 +405,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Me\AccountView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Me\NotificationsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -409,14 +458,6 @@
       <Project>{0d914b48-fc03-4d63-bd76-13c1476e09c0}</Project>
       <Name>SoundByte.API</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SoundByte.Core\SoundByte.Core.csproj">
-      <Project>{fd743ca3-a8f6-4136-a50f-9df134d3422e}</Project>
-      <Name>SoundByte.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SoundByte.Notifications\SoundByte.Notifications.csproj">
-      <Project>{1475a6dd-f6ed-46c3-8644-d86992c7ea9e}</Project>
-      <Name>SoundByte.Notifications</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <SDKReference Include="Microsoft.Services.Store.Engagement, Version=10.0">
@@ -433,6 +474,21 @@
     </SDKReference>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="HockeySDK.UWP">
+      <Version>4.1.6</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.AspNet.SignalR.Client">
+      <Version>2.2.2</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Azure.Mobile.Analytics">
+      <Version>0.15.0</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Azure.Mobile.Client">
+      <Version>4.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Azure.Mobile.Push">
+      <Version>0.15.0</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>5.4.0</Version>
     </PackageReference>
@@ -471,6 +527,9 @@
     </PackageReference>
     <PackageReference Include="UICompositionAnimations">
       <Version>2.11.1</Version>
+    </PackageReference>
+    <PackageReference Include="UWP.SDKforGoogleAnalytics.Managed">
+      <Version>1.5.2</Version>
     </PackageReference>
     <PackageReference Include="Win2D.uwp">
       <Version>1.21.0</Version>

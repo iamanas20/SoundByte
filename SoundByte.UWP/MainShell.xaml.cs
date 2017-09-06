@@ -17,7 +17,6 @@ using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
-using Windows.ApplicationModel.Background;
 using Windows.ApplicationModel.VoiceCommands;
 using Windows.Globalization;
 using Windows.Services.Store;
@@ -33,20 +32,20 @@ using Microsoft.Services.Store.Engagement;
 using Microsoft.Toolkit.Uwp.Helpers;
 using NotificationsExtensions;
 using NotificationsExtensions.Toasts;
+using SoundByte.API;
+using SoundByte.API.Items.Playlist;
 using SoundByte.API.Items.Track;
 using SoundByte.API.Items.User;
-using SoundByte.Core.Dialogs;
-using SoundByte.Core.Helpers;
-using SoundByte.Core.Services;
-using SoundByte.UWP.Models;
+using SoundByte.UWP.Dialogs;
+using SoundByte.UWP.Helpers;
 using SoundByte.UWP.Services;
+using SoundByte.UWP.Models;
 using SoundByte.UWP.Views;
 using SoundByte.UWP.Views.Application;
 using SoundByte.UWP.Views.CoreApp;
 using SoundByte.UWP.Views.General;
 using SoundByte.UWP.Views.Me;
 using UICompositionAnimations.Brushes;
-using Playlist = SoundByte.API.Endpoints.Playlist;
 using SearchBox = SoundByte.UWP.UserControls.SearchBox;
 
 namespace SoundByte.UWP
@@ -259,15 +258,6 @@ namespace SoundByte.UWP
             {
                 // Ignore
             }
-
-            try
-            {
-                BackgroundTaskHelper.Register("NotificationTask", "SoundByte.Notifications.NotificationTask", new TimeTrigger(15, false), true);
-            }
-            catch
-            {
-                // Ignore
-            }
         }
 
         private void HandleNewAppVersion()
@@ -398,7 +388,7 @@ namespace SoundByte.UWP
                         switch (page)
                         {
                             case "track":
-                                var track = await SoundByteService.Instance.GetAsync<SoundCloudTrack>($"/tracks/{parser["id"]}");
+                                var track = await SoundByteService.Instance.GetAsync<SoundCloudTrack>(ServiceType.SoundCloud, $"/tracks/{parser["id"]}");
 
                                 var startPlayback =
                                     await PlaybackService.Instance.StartMediaPlayback(new List<BaseTrack> {track.ToBaseTrack()},
@@ -409,11 +399,11 @@ namespace SoundByte.UWP
                                 break;
                             case "playlist":
                                 var playlist =
-                                    await SoundByteService.Instance.GetAsync<Playlist>($"/playlists/{parser["id"]}");
-                                App.NavigateTo(typeof(PlaylistView), playlist);
+                                    await SoundByteService.Instance.GetAsync<SoundCloudPlaylist>(ServiceType.SoundCloud, $"/playlists/{parser["id"]}");
+                                App.NavigateTo(typeof(PlaylistView), playlist.ToBasePlaylist());
                                 return;
                             case "user":
-                                var user = await SoundByteService.Instance.GetAsync<SoundCloudUser>($"/users/{parser["id"]}");
+                                var user = await SoundByteService.Instance.GetAsync<SoundCloudUser>(ServiceType.SoundCloud, $"/users/{parser["id"]}");
                                 App.NavigateTo(typeof(UserView), user.ToBaseUser());
                                 return;
                             case "changelog":
@@ -453,13 +443,6 @@ namespace SoundByte.UWP
             if (BlockNavigation) return;
 
             RootFrame.Navigate(typeof(AppInfoView));
-        }
-
-        private void NavigateNotifications(object sender, RoutedEventArgs e)
-        {
-            if (BlockNavigation) return;
-
-            RootFrame.Navigate(typeof(NotificationsView));
         }
 
         private void NavigateHistory(object sender, RoutedEventArgs e)
@@ -508,9 +491,6 @@ namespace SoundByte.UWP
                     break;
                 case "PlaylistsView":
                     SetsTab.IsChecked = true;
-                    break;
-                case "NotificationsView":
-                    NotificationsTab.IsChecked = true;
                     break;
                 case "HistoryView":
                     HistoryTab.IsChecked = true;
@@ -615,7 +595,6 @@ namespace SoundByte.UWP
         {
             LikesTab.Visibility = Visibility.Visible;
             SetsTab.Visibility = Visibility.Visible;
-            NotificationsTab.Visibility = Visibility.Visible;
             HistoryTab.Visibility = Visibility.Visible;
             AccountTab.Content = "Connected Accounts";
         }
@@ -624,7 +603,6 @@ namespace SoundByte.UWP
         {
             LikesTab.Visibility = Visibility.Collapsed;
             SetsTab.Visibility = Visibility.Collapsed;
-            NotificationsTab.Visibility = Visibility.Collapsed;
             HistoryTab.Visibility = Visibility.Collapsed;
             AccountTab.Content = "Login";
         }

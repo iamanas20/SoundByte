@@ -24,7 +24,7 @@ using SoundByte.API;
 using SoundByte.API.Exceptions;
 using SoundByte.API.Items.Track;
 using SoundByte.API.Items.User;
-using SoundByte.Core.Services;
+using SoundByte.UWP.Services;
 using SoundByte.UWP.UserControls;
 using SoundByte.YouTubeParser;
 using SoundByte.YouTubeParser.Models;

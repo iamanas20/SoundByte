@@ -15,7 +15,8 @@
 
   <ItemGroup>
     <Folder Include="Items\Comment\" />
-    <Folder Include="Items\Playlist\" />
+    <Folder Include="Providers\" />
+    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>

@@ -13,7 +13,7 @@
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:user="using:SoundByte.API.Items.User"
     xmlns:track="using:SoundByte.API.Items.Track"
-    xmlns:endpoints="using:SoundByte.API.Endpoints"
+    xmlns:playlist="using:SoundByte.API.Items.Playlist"
     x:Class="SoundByte.UWP.Resources.DataTemplates">
 
     <ItemsPanelTemplate x:Key="DesktopGridPanel">
@@ -26,7 +26,7 @@
 
 
     <!-- Template for the playlist item -->
-    <DataTemplate x:Key="PlaylistItem" x:DataType="endpoints:Playlist">
+    <DataTemplate x:Key="PlaylistItem" x:DataType="playlist:BasePlaylist">
         <StackPanel Height="245"
                     Width="170"
                     Margin="5"

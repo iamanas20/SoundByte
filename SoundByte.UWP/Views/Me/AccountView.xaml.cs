@@ -26,11 +26,9 @@ using Windows.UI.Xaml.Navigation;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Newtonsoft.Json;
 using SoundByte.API;
-using SoundByte.API.Endpoints;
-using SoundByte.API.Providers;
-using SoundByte.API.Services;
-using SoundByte.Core.Helpers;
-using SoundByte.Core.Services;
+using SoundByte.API.Items;
+using SoundByte.UWP.Helpers;
+using SoundByte.UWP.Services;
 
 namespace SoundByte.UWP.Views.Me
 {
@@ -211,14 +209,14 @@ namespace SoundByte.UWP.Views.Me
                                             };
 
                                             // Get the class from the json
-                                            var response = serializer.Deserialize<SoundByteService.Token>(textReader);
+                                            var response = serializer.Deserialize<LoginToken>(textReader);
 
                                             if (_isXboxConnect)
                                             {
                                                 LoadingSection.Visibility = Visibility.Visible;
 
                                                 var serviceResponse = await BackendService.Instance.LoginSendInfoAsync(
-                                                    new LoginInfo
+                                                    new LoginToken
                                                     {
                                                         ServiceType = _loginService,
                                                         LoginCode = LoginCodeTextBox.Text,
@@ -307,8 +305,6 @@ namespace SoundByte.UWP.Views.Me
 
             // Create the URI
             var connectUri = string.Empty;
-
-            var loginString = AuthenticationService.Current.BuildLoginString(() => new SoundCloudAuthenticationProvider());
 
             switch (serviceType)
             {

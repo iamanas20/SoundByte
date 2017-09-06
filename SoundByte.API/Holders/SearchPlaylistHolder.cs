@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using SoundByte.API.Endpoints;
+using SoundByte.API.Items.Playlist;
 
 namespace SoundByte.API.Holders
 {
@@ -28,7 +29,7 @@ namespace SoundByte.API.Holders
         ///     A playlist
         /// </summary>
         [JsonProperty("playlist")]
-        public Playlist Playlist { get; set; }
+        public SoundCloudPlaylist Playlist { get; set; }
     }
 
     /// <summary>
@@ -62,7 +63,7 @@ namespace SoundByte.API.Holders
         ///     List of playlists
         /// </summary>
         [JsonProperty("collection")]
-        public List<Playlist> Playlists { get; set; }
+        public List<SoundCloudPlaylist> Playlists { get; set; }
 
         /// <summary>
         ///     The next list of items

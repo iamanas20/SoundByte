@@ -12,10 +12,10 @@
 
 using System;
 using Windows.UI.Xaml;
-using SoundByte.API.Endpoints;
+using SoundByte.API.Items.Playlist;
 using SoundByte.API.Items.Track;
-using SoundByte.Core.Dialogs;
-using SoundByte.Core.Helpers;
+using SoundByte.UWP.Dialogs;
+using SoundByte.UWP.Helpers;
 
 namespace SoundByte.UWP.UserControls
 {
@@ -82,7 +82,7 @@ namespace SoundByte.UWP.UserControls
 
         // The playlist object
         public static readonly DependencyProperty PlaylistProperty =
-            DependencyProperty.Register("Playlist", typeof(Playlist), typeof(SoundByteStreamItem), null);
+            DependencyProperty.Register("Playlist", typeof(BasePlaylist), typeof(SoundByteStreamItem), null);
 
         #endregion
 
@@ -118,9 +118,9 @@ namespace SoundByte.UWP.UserControls
         /// <summary>
         ///     The track object
         /// </summary>
-        public Playlist Playlist
+        public BasePlaylist Playlist
         {
-            get => GetValue(PlaylistProperty) as Playlist;
+            get => GetValue(PlaylistProperty) as BasePlaylist;
             set => SetValue(PlaylistProperty, value);
         }
 

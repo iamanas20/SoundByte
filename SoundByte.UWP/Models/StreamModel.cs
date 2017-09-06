@@ -18,12 +18,14 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
 using Windows.Foundation;
 using Windows.UI.Xaml.Data;
-using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Helpers;
-using SoundByte.API.Endpoints;
+using Newtonsoft.Json;
+using SoundByte.API;
 using SoundByte.API.Exceptions;
-using SoundByte.API.Holders;
-using SoundByte.Core.Services;
+using SoundByte.API.Items.Playlist;
+using SoundByte.API.Items.Track;
+using SoundByte.API.Items.User;
+using SoundByte.UWP.Services;
 using SoundByte.UWP.UserControls;
 
 namespace SoundByte.UWP.Models
@@ -31,7 +33,7 @@ namespace SoundByte.UWP.Models
     /// <summary>
     ///     Model for the users stream
     /// </summary>
-    public class StreamModel : ObservableCollection<StreamItem>, ISupportIncrementalLoading
+    public class StreamModel : ObservableCollection<StreamModel.StreamItem>, ISupportIncrementalLoading
     {
         /// <summary>
         ///     The position of the track, will be 'eol'
@@ -73,7 +75,7 @@ namespace SoundByte.UWP.Models
                             count = 10;
 
                         // Get items from the users stream
-                        var streamTracks = await SoundByteService.Instance.GetAsync<StreamTrackHolder>("/e1/me/stream",
+                        var streamTracks = await SoundByteService.Instance.GetAsync<StreamTrackHolder>(ServiceType.SoundCloud, "/e1/me/stream",
                             new Dictionary<string, string>
                             {
                                 {"limit", count.ToString()},
@@ -164,6 +166,58 @@ namespace SoundByte.UWP.Models
         {
             Token = null;
             Clear();
+        }
+
+        public class StreamTrackHolder
+        {
+            /// <summary>
+            ///     List of stream items
+            /// </summary>
+            [JsonProperty("collection")]
+            public List<StreamItem> Items { get; set; }
+
+            /// <summary>
+            ///     Next items in the list
+            /// </summary>
+            [JsonProperty("next_href")]
+            public string NextList { get; set; }
+        }
+
+        /// <summary>
+        ///     A stream collection containing all items that may be on the users stream
+        /// </summary>
+        [JsonObject]
+        public class StreamItem
+        {
+            /// <summary>
+            ///     Track detail
+            /// </summary>
+            [JsonProperty("track")]
+            public SoundCloudTrack Track { get; set; }
+
+            /// <summary>
+            ///     User detail
+            /// </summary>
+            [JsonProperty("user")]
+            public SoundCloudUser User { get; set; }
+
+            /// <summary>
+            ///     Playlist detail
+            /// </summary>
+            [JsonProperty("playlist")]
+            public SoundCloudPlaylist Playlist { get; set; }
+
+            /// <summary>
+            ///     When this object was created
+            /// </summary>
+            [JsonProperty("created_at")]
+            public string CreatedAt { get; set; }
+
+            /// <summary>
+            ///     What type of object this is
+            /// </summary>
+            [JsonProperty("type")]
+            public string Type { get; set; }
         }
     }
 }

@@ -17,8 +17,8 @@ using Windows.UI.Popups;
 using Windows.UI.Xaml.Navigation;
 using Microsoft.AspNet.SignalR.Client;
 using SoundByte.API;
-using SoundByte.API.Endpoints;
-using SoundByte.Core.Services;
+using SoundByte.API.Items;
+using SoundByte.UWP.Services;
 
 
 namespace SoundByte.UWP.Views.Me
@@ -43,7 +43,7 @@ namespace SoundByte.UWP.Views.Me
             RandomCodeText.Text = randomCode;
             await BackendService.Instance.LoginXboxConnect(randomCode);
 
-            BackendService.Instance.LoginHub.On<LoginInfo>("RecieveLoginInfo", async info =>
+            BackendService.Instance.LoginHub.On<LoginToken>("RecieveLoginInfo", async info =>
             {
                 
 

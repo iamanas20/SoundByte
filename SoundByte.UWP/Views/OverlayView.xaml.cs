@@ -17,9 +17,9 @@ using Windows.UI.Core;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using Microsoft.Toolkit.Uwp.UI.Animations;
-using SoundByte.Core.Converters;
-using SoundByte.Core.Helpers;
-using SoundByte.Core.Services;
+using SoundByte.UWP.Converters;
+using SoundByte.UWP.Helpers;
+using SoundByte.UWP.Services;
 using SoundByte.UWP.ViewModels;
 
 namespace SoundByte.UWP.Views

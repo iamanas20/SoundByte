@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Microsoft.AspNet.SignalR;
-using SoundByte.API.Endpoints;
+﻿using Microsoft.AspNet.SignalR;
+using SoundByte.API.Items;
 
 namespace SoundByte.Service.Hubs
 {
@@ -16,9 +14,9 @@ namespace SoundByte.Service.Hubs
         {
             Groups.Remove(Context.ConnectionId, code);
         }
-        public void SendLoginInfo(LoginInfo info)
+        public void SendLoginInfo(LoginToken info)
         {
-            Clients.Group(info.LoginCode).RecieveLoginInfo<LoginInfo>(info);
+            Clients.Group(info.LoginCode).RecieveLoginInfo<LoginToken>(info);
         }
     }
 }

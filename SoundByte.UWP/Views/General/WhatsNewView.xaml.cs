@@ -13,7 +13,7 @@
 using System;
 using Windows.UI.Xaml.Navigation;
 using Windows.Web.Http;
-using SoundByte.Core.Services;
+using SoundByte.UWP.Services;
 
 namespace SoundByte.UWP.Views.General
 {

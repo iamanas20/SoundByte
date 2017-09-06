@@ -17,14 +17,13 @@ using Windows.UI.Popups;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml.Controls;
 using SoundByte.API;
+using SoundByte.API.Items.Playlist;
 using SoundByte.API.Items.Track;
 using SoundByte.API.Items.User;
-using SoundByte.Core.Dialogs;
-using SoundByte.Core.Services;
-using SoundByte.UWP.Models;
+using SoundByte.UWP.Dialogs;
 using SoundByte.UWP.Services;
+using SoundByte.UWP.Models;
 using SoundByte.UWP.Views;
-using Playlist = SoundByte.API.Endpoints.Playlist;
 
 namespace SoundByte.UWP.ViewModels
 {
@@ -204,8 +203,8 @@ namespace SoundByte.UWP.ViewModels
                         try
                         {
                             var playlist =
-                                await SoundByteService.Instance.GetAsync<Playlist>("/playlist/" + searchItem.Id);
-                            App.NavigateTo(typeof(PlaylistView), playlist);
+                                await SoundByteService.Instance.GetAsync<SoundCloudPlaylist>(ServiceType.SoundCloud, "/playlist/" + searchItem.Id);
+                            App.NavigateTo(typeof(PlaylistView), playlist.ToBasePlaylist());
                         }
                         catch (Exception)
                         {
@@ -216,8 +215,8 @@ namespace SoundByte.UWP.ViewModels
                         try
                         {
                             var playlistR =
-                                await SoundByteService.Instance.GetAsync<Playlist>("/playlist/" + searchItem.Id);
-                            App.NavigateTo(typeof(PlaylistView), playlistR);
+                                await SoundByteService.Instance.GetAsync<SoundCloudPlaylist>(ServiceType.SoundCloud, "/playlist/" + searchItem.Id);
+                            App.NavigateTo(typeof(PlaylistView), playlistR.ToBasePlaylist());
                         }
                         catch (Exception)
                         {
@@ -233,7 +232,7 @@ namespace SoundByte.UWP.ViewModels
             }
             else if (e.ClickedItem.GetType().Name == "Playlist")
             {
-                App.NavigateTo(typeof(Views.PlaylistView), e.ClickedItem as Playlist);
+                App.NavigateTo(typeof(PlaylistView), e.ClickedItem as BasePlaylist);
             }
 
             App.IsLoading = false;

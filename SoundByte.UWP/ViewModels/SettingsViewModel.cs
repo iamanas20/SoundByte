@@ -16,8 +16,8 @@ using Windows.Storage;
 using Windows.UI.Notifications;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using SoundByte.Core.Helpers;
-using SoundByte.Core.Services;
+using SoundByte.UWP.Helpers;
+using SoundByte.UWP.Services;
 using SoundByte.UWP.Views.Application;
 
 namespace SoundByte.UWP.ViewModels

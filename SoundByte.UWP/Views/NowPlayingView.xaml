@@ -5,7 +5,7 @@
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:endpoints="using:SoundByte.API.Endpoints"
     NavigationCacheMode="Enabled"
-    xmlns:converters="using:SoundByte.Core.Converters"
+    xmlns:converters="using:SoundByte.UWP.Converters"
     xmlns:track="using:SoundByte.API.Items.Track">
     <Page.Transitions>
         <TransitionCollection>

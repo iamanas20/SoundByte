@@ -23,7 +23,7 @@ using Microsoft.Toolkit.Uwp.Helpers;
 using SoundByte.API.Exceptions;
 using SoundByte.API.Holders;
 using SoundByte.API.Items.User;
-using SoundByte.Core.Services;
+using SoundByte.UWP.Services;
 
 namespace SoundByte.UWP.Models
 {

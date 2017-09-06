@@ -13,7 +13,8 @@
 using System;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using SoundByte.Core.Services;
+using SoundByte.API.Items.Playlist;
+using SoundByte.UWP.Services;
 using SoundByte.UWP.Models;
 
 namespace SoundByte.UWP.Views.Me
@@ -45,7 +46,7 @@ namespace SoundByte.UWP.Views.Me
 
         public void NavigatePlaylist(object sender, ItemClickEventArgs e)
         {
-            App.NavigateTo(typeof(PlaylistView), e.ClickedItem as API.Endpoints.Playlist);
+            App.NavigateTo(typeof(PlaylistView), e.ClickedItem as BasePlaylist);
         }
     }
 }

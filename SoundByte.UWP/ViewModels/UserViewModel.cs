@@ -17,13 +17,12 @@ using Windows.ApplicationModel.Resources;
 using Windows.UI.Popups;
 using Windows.UI.StartScreen;
 using Windows.UI.Xaml.Controls;
-using SoundByte.API.Endpoints;
+using SoundByte.API.Items.Playlist;
 using SoundByte.API.Items.Track;
 using SoundByte.API.Items.User;
-using SoundByte.Core.Converters;
-using SoundByte.Core.Services;
-using SoundByte.UWP.Models;
+using SoundByte.UWP.Converters;
 using SoundByte.UWP.Services;
+using SoundByte.UWP.Models;
 using SoundByte.UWP.Views;
 
 namespace SoundByte.UWP.ViewModels
@@ -318,7 +317,7 @@ namespace SoundByte.UWP.ViewModels
 
         public void NavigateToPlaylist(object sender, ItemClickEventArgs e)
         {
-            App.NavigateTo(typeof(PlaylistView), e.ClickedItem as Playlist);
+            App.NavigateTo(typeof(PlaylistView), e.ClickedItem as BasePlaylist);
         }
 
         public void NavigateToUser(object sender, ItemClickEventArgs e)

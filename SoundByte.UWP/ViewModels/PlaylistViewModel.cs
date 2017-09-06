@@ -18,10 +18,10 @@ using Windows.ApplicationModel.Resources;
 using Windows.UI.Popups;
 using Windows.UI.StartScreen;
 using Windows.UI.Xaml.Controls;
-using SoundByte.API.Endpoints;
+using SoundByte.API;
+using SoundByte.API.Items.Playlist;
 using SoundByte.API.Items.Track;
-using SoundByte.Core.Converters;
-using SoundByte.Core.Services;
+using SoundByte.UWP.Converters;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.UserControls;
 
@@ -34,7 +34,7 @@ namespace SoundByte.UWP.ViewModels
             Tracks = new ObservableCollection<BaseTrack>();
         }
 
-        public async Task SetupView(Playlist newPlaylist)
+        public async Task SetupView(BasePlaylist newPlaylist)
         {
             // Check if the models saved playlist is null
             if (newPlaylist != null && (Playlist == null || Playlist.Id != newPlaylist.Id))
@@ -73,7 +73,7 @@ namespace SoundByte.UWP.ViewModels
                     (App.CurrentFrame?.FindName("PlaylistInfoPane") as InfoPane)?.ShowLoading();
                     // Get the playlist tracks
                     var playlistTracks =
-                        (await SoundByteService.Instance.GetAsync<Playlist>("/playlists/" + Playlist.Id)).Tracks;
+                        (await SoundByteService.Instance.GetAsync<SoundCloudPlaylist>(ServiceType.SoundCloud, "/playlists/" + Playlist.Id)).Tracks;
                     playlistTracks.ForEach(x => Tracks.Add(x.ToBaseTrack()));
                     // Hide the loading ring
                     (App.CurrentFrame?.FindName("PlaylistInfoPane") as InfoPane)?.ClosePane();
@@ -93,7 +93,7 @@ namespace SoundByte.UWP.ViewModels
         #region Private Variables
 
         // The playlist object
-        private Playlist _playlist;
+        private BasePlaylist _playlist;
 
         // List of tracks on the UI
         private ObservableCollection<BaseTrack> _tracks;
@@ -132,7 +132,7 @@ namespace SoundByte.UWP.ViewModels
         /// <summary>
         ///     Gets or sets the current playlist object
         /// </summary>
-        public Playlist Playlist
+        public BasePlaylist Playlist
         {
             get => _playlist;
             set
