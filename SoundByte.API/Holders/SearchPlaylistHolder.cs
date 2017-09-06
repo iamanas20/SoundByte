@@ -13,7 +13,6 @@
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using SoundByte.API.Endpoints;
 using SoundByte.API.Items.Playlist;
 
 namespace SoundByte.API.Holders

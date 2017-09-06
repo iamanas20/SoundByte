@@ -19,6 +19,7 @@ using Windows.ApplicationModel.Resources;
 using Windows.Foundation;
 using Windows.UI.Xaml.Data;
 using Microsoft.Toolkit.Uwp.Helpers;
+using SoundByte.API;
 using SoundByte.API.Exceptions;
 using SoundByte.API.Holders;
 using SoundByte.API.Items.Track;
@@ -101,7 +102,7 @@ namespace SoundByte.UWP.Models
                 try
                 {
                     // Get the trending tracks
-                    var exploreTracks = await SoundByteService.Instance.GetAsync<ExploreTrackHolder>("/charts",
+                    var exploreTracks = await SoundByteService.Instance.GetAsync<ExploreTrackHolder>(ServiceType.SoundCloudV2, "/charts",
                         new Dictionary<string, string>
                         {
                             {"genre", "soundcloud%3Agenres%3A" + _genre},
@@ -109,7 +110,7 @@ namespace SoundByte.UWP.Models
                             {"limit", "50"},
                             {"offset", Token},
                             {"linked_partitioning", "1"}
-                        }, true);
+                        });
 
                     // Parse uri for offset
                     var param = new QueryParameterCollection(exploreTracks.NextList);
