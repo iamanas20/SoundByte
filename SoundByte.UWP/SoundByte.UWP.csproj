@@ -454,6 +454,12 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SoundByte.API\SoundByte.API.csproj">
+      <Project>{0d914b48-fc03-4d63-bd76-13c1476e09c0}</Project>
+      <Name>SoundByte.API</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <SDKReference Include="Microsoft.Services.Store.Engagement, Version=10.0">
       <Name>Microsoft Engagement Framework</Name>
     </SDKReference>
@@ -538,12 +544,6 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\SoundByte.Core\SoundByte.Core.csproj">
-      <Project>{f01e8bb9-fe3e-480a-9702-29d54764d00f}</Project>
-      <Name>SoundByte.Core</Name>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

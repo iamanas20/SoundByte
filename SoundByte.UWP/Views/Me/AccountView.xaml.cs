@@ -25,8 +25,8 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Newtonsoft.Json;
-using SoundByte.Core;
-using SoundByte.Core.Items;
+using SoundByte.API;
+using SoundByte.API.Items;
 using SoundByte.UWP.Helpers;
 using SoundByte.UWP.Services;
 

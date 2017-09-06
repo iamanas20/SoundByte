@@ -32,10 +32,10 @@ using Microsoft.Services.Store.Engagement;
 using Microsoft.Toolkit.Uwp.Helpers;
 using NotificationsExtensions;
 using NotificationsExtensions.Toasts;
-using SoundByte.Core;
-using SoundByte.Core.Items.Playlist;
-using SoundByte.Core.Items.Track;
-using SoundByte.Core.Items.User;
+using SoundByte.API;
+using SoundByte.API.Items.Playlist;
+using SoundByte.API.Items.Track;
+using SoundByte.API.Items.User;
 using SoundByte.UWP.Dialogs;
 using SoundByte.UWP.Helpers;
 using SoundByte.UWP.Services;
@@ -385,39 +385,17 @@ namespace SoundByte.UWP
 
                     App.IsLoading = true;
                     if (section == "core")
-                    {
-                        var service = parser["service"];
-
-                        if (string.IsNullOrEmpty(service))
-                            service = "soundcloud";
-
                         switch (page)
                         {
                             case "track":
+                                var track = await SoundByteService.Instance.GetAsync<SoundCloudTrack>(ServiceType.SoundCloud, $"/tracks/{parser["id"]}");
 
-                                BaseTrack track = null;
+                                var startPlayback =
+                                    await PlaybackService.Instance.StartMediaPlayback(new List<BaseTrack> {track.ToBaseTrack()},
+                                        $"Protocol-{track.Id}");
 
-                                switch (service)
-                                {
-                                    case "soundcloud":
-                                        track = (await SoundByteService.Instance.GetAsync<SoundCloudTrack>(ServiceType.SoundCloud, $"/tracks/{parser["id"]}")).ToBaseTrack();
-                                        break;
-                                    case "youtube":
-                                        break;
-                                    case "fanburst":
-                                        track = (await SoundByteService.Instance.GetAsync<FanburstTrack>(ServiceType.Fanburst, $"/videos/{parser["id"]}")).ToBaseTrack();
-                                        break;
-                                }
-
-                                if (track != null)
-                                {
-                                    var startPlayback =
-                                        await PlaybackService.Instance.StartMediaPlayback(new List<BaseTrack> { track },
-                                            $"Protocol-{track.Id}");
-
-                                    if (!startPlayback.success)
-                                        await new MessageDialog(startPlayback.message, "Error playing track.").ShowAsync();
-                                }
+                                if (!startPlayback.success)
+                                    await new MessageDialog(startPlayback.message, "Error playing track.").ShowAsync();
                                 break;
                             case "playlist":
                                 var playlist =
@@ -432,7 +410,6 @@ namespace SoundByte.UWP
                                 App.NavigateTo(typeof(WhatsNewView));
                                 return;
                         }
-                    }       
                 }
                 catch (Exception)
                 {

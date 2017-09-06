@@ -11,7 +11,7 @@
  */
 
 using Windows.UI.Xaml.Navigation;
-using SoundByte.Core.Items.Playlist;
+using SoundByte.API.Items.Playlist;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.ViewModels;
 

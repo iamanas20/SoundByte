@@ -27,9 +27,9 @@ using Windows.UI.Notifications;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Microsoft.Toolkit.Uwp.Helpers;
-using SoundByte.Core;
-using SoundByte.Core.Items.Track;
-using SoundByte.Core.Items.User;
+using SoundByte.API;
+using SoundByte.API.Items.Track;
+using SoundByte.API.Items.User;
 using SoundByte.UWP.Converters;
 using SoundByte.UWP.Helpers;
 

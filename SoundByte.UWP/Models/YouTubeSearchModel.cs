@@ -20,15 +20,16 @@ using Windows.Foundation;
 using Windows.UI.Xaml.Data;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Newtonsoft.Json;
-using SoundByte.Core;
-using SoundByte.Core.Exceptions;
-using SoundByte.Core.Items.Track;
-using SoundByte.Core.Items.User;
+using SoundByte.API;
+using SoundByte.API.Exceptions;
+using SoundByte.API.Items.Track;
+using SoundByte.API.Items.User;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.UserControls;
 using SoundByte.YouTubeParser;
 using SoundByte.YouTubeParser.Models;
 using SoundByte.YouTubeParser.Models.MediaStreams;
+using BaseTrack = SoundByte.API.Items.Track.BaseTrack;
 
 namespace SoundByte.UWP.Models
 {

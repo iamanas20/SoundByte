@@ -20,9 +20,9 @@ using Windows.Foundation;
 using Windows.UI.Popups;
 using Windows.UI.Xaml.Data;
 using Microsoft.Toolkit.Uwp.Helpers;
-using SoundByte.Core.Exceptions;
-using SoundByte.Core.Holders;
-using SoundByte.Core.Items.User;
+using SoundByte.API.Exceptions;
+using SoundByte.API.Holders;
+using SoundByte.API.Items.User;
 using SoundByte.UWP.Services;
 
 namespace SoundByte.UWP.Models

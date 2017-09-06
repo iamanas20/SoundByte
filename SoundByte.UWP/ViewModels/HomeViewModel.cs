@@ -15,7 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Windows.UI.Popups;
 using Windows.UI.Xaml.Controls;
-using SoundByte.Core.Items.Track;
+using SoundByte.API.Items.Track;
 using SoundByte.UWP.Helpers;
 using SoundByte.UWP.Models;
 using SoundByte.UWP.Services;

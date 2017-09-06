@@ -16,7 +16,7 @@ using Windows.UI.Popups;
 using Microsoft.AspNet.SignalR.Client;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.WindowsAzure.MobileServices;
-using SoundByte.Core.Items;
+using SoundByte.API.Items;
 
 namespace SoundByte.UWP.Services
 {

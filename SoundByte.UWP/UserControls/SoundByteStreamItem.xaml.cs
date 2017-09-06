@@ -12,8 +12,8 @@
 
 using System;
 using Windows.UI.Xaml;
-using SoundByte.Core.Items.Playlist;
-using SoundByte.Core.Items.Track;
+using SoundByte.API.Items.Playlist;
+using SoundByte.API.Items.Track;
 using SoundByte.UWP.Dialogs;
 using SoundByte.UWP.Helpers;
 

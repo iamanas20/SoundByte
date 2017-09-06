@@ -12,7 +12,7 @@
 
 using Windows.ApplicationModel.DataTransfer;
 using Windows.UI.Xaml;
-using SoundByte.Core.Items.Track;
+using SoundByte.API.Items.Track;
 using SoundByte.UWP.Services;
 using UICompositionAnimations.Lights;
 
