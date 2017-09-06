@@ -449,7 +449,7 @@
                                          Content="History"
                                          Checked="NavigateHistory" />
 
-                            <!-- Navigate to the settings page -->
+                            <!-- Navigate to the donate page -->
                             <RadioButton x:Name="DonateTab"
                                          FocusVisualPrimaryThickness="0"
                                          FocusVisualSecondaryThickness="0"
@@ -462,7 +462,7 @@
                                          Checked="NavigateDonate" />
 
 
-                            <!-- Navigate to the settings page -->
+                            <!-- Navigate to the info page -->
                             <RadioButton x:Name="SettingsTab"
                                          FocusVisualPrimaryThickness="0"
                                          FocusVisualSecondaryThickness="0"
@@ -471,7 +471,7 @@
                                          GroupName="NavPaneButtons"
                                          Style="{StaticResource NavigationButtonStyle}"
                                          Tag="&#xE713;"
-                                         Content="Settings"
+                                         Content="Settings/About"
                                          Checked="NavigateSettings" />
 
                             <!-- Let the user login to their account -->

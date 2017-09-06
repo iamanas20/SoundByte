@@ -22,15 +22,15 @@
                         <Setter Target="DesktopCommandBar.Visibility" Value="Visible" />
                         <Setter Target="TracksView.ItemTemplate" Value="{StaticResource TrackItem}" />
                         <Setter Target="TracksView.ItemsPanel" Value="{StaticResource DesktopGridPanel}" />
-                        <Setter Target="PlaylistImage.Width" Value="240" />
-                        <Setter Target="PlaylistImage.Height" Value="240" />
-                        <Setter Target="PlaylistBg1.Width" Value="230" />
-                        <Setter Target="PlaylistBg1.Height" Value="230" />
-                        <Setter Target="PlaylistBg2.Width" Value="220" />
-                        <Setter Target="PlaylistBg2.Height" Value="220" />
+                        <Setter Target="PlaylistImage.Width" Value="210" />
+                        <Setter Target="PlaylistImage.Height" Value="210" />
+                        <Setter Target="PlaylistBg1.Width" Value="200" />
+                        <Setter Target="PlaylistBg1.Height" Value="200" />
+                        <Setter Target="PlaylistBg2.Width" Value="190" />
+                        <Setter Target="PlaylistBg2.Height" Value="190" />
                         <Setter Target="PlaylistImageHolder.Margin" Value="10,50,0,20" />
                         <Setter Target="HeaderPanel.Background" Value="Transparent" />
-                        <Setter Target="PlaylistTitle.FontSize" Value="50" />
+                        <Setter Target="PlaylistTitle.FontSize" Value="42" />
                         <Setter Target="PlaylistTitle.FontWeight" Value="Bold" />
                         <Setter Target="PlaylistUser.FontSize" Value="20" />
                         <Setter Target="TitlePanel.Margin" Value="40,0,0,0" />

@@ -97,7 +97,7 @@
                       ViewChanged="MainScrollViewerViewChanged"
                       HorizontalAlignment="Stretch">
             <Grid>
-                <Grid Margin="50,0" x:Name="HeaderPanel" VerticalAlignment="Top">
+                <Grid x:Name="HeaderPanel" VerticalAlignment="Top">
                     <!-- User Image -->
                     <controls:DropShadowPanel HorizontalAlignment="Left" Margin="20,50,0,0"
                                               BlurRadius="25"
@@ -164,7 +164,7 @@
                     </StackPanel>
                 </Grid>
 
-                <StackPanel Orientation="Horizontal" Margin="65,330,0,0" VerticalAlignment="Top">
+                <StackPanel Orientation="Horizontal" Margin="15,330,0,0" VerticalAlignment="Top">
                     <elements:SoundByteButton Glyph="{x:Bind ViewModel.FollowUserIcon, Mode=OneWay}"
                                               Label="{x:Bind ViewModel.FollowUserText, Mode=OneWay}"
                                               Click="{x:Bind ViewModel.FollowUser}"
@@ -178,7 +178,7 @@
                 </StackPanel>
 
                 <!-- Main Page Pivot -->
-                <Pivot x:Name="MainPivot" Margin="50,370,50,0"
+                <Pivot x:Name="MainPivot" Margin="0,370,0,0"
                        SelectedItem="{x:Bind ViewModel.SelectedPivotItem, Mode=TwoWay}"
                        SelectionChanged="MainPivot_OnSelectionChanged">
                     <!-- About the user -->

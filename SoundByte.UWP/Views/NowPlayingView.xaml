@@ -116,7 +116,7 @@
               Background="{StaticResource BackgroundTrackBlurBrush}"
               IsHitTestVisible="False" />
 
-        <Grid x:Name="TrackInfoHolder" VerticalAlignment="Bottom" Canvas.ZIndex="10" Margin="-50,0,0,0">
+        <Grid x:Name="TrackInfoHolder" VerticalAlignment="Bottom" Canvas.ZIndex="10" Margin="-40,0,0,0">
             <!-- track artwork -->
             <controls:DropShadowPanel Canvas.ZIndex="30"
                                       Width="150"
@@ -159,7 +159,7 @@
         </Grid>
 
         <!-- Holds the lower navigation buttons -->
-        <Grid Canvas.ZIndex="40" x:Name="ButtonHolder" VerticalAlignment="Bottom" Margin="-50,0,0,0">
+        <Grid Canvas.ZIndex="40" x:Name="ButtonHolder" VerticalAlignment="Bottom" Margin="-40,0,0,0">
             <Grid Margin="40,0,40,65">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -342,7 +342,7 @@
         </Button>
 
         <!-- Hidden away, this will be displayed on the enhanced screen -->
-        <Grid Canvas.ZIndex="50" x:Name="MoreInfoScreen" Margin="-50,180,0,0" Visibility="Collapsed">
+        <Grid Canvas.ZIndex="50" x:Name="MoreInfoScreen" Margin="-40,180,0,0" Visibility="Collapsed">
             <Pivot Margin="30,20,20,10" RequestedTheme="Dark" x:Name="MoreInfoPivot">
                 <PivotItem>
                     <PivotItem.Header>

@@ -18,7 +18,6 @@ using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using Microsoft.Services.Store.Engagement;
 using Newtonsoft.Json;
 using SoundByte.Core.Items;
 using SoundByte.UWP.Services;
@@ -65,46 +64,13 @@ namespace SoundByte.UWP.Views.Application
             // Set the app version
             AppVersion.Text =
                 $"{Package.Current.Id.Version.Major}.{Package.Current.Id.Version.Minor}.{Package.Current.Id.Version.Build}.{Package.Current.Id.Version.Revision}";
-            AppBuildBranch.Text = "...";
             AppBuildTime.Text = "...";
 
             var dataFile = await Package.Current.InstalledLocation.GetFileAsync(@"Assets\build_info.json");
             var buildData =
                 await Task.Run(() => JsonConvert.DeserializeObject<BuildInformation>(File.ReadAllText(dataFile.Path)));
 
-            AppBuildBranch.Text = buildData.BuildBranch;
             AppBuildTime.Text = buildData.BuildTime;
-        }
-
-        public async void NavigateBugs()
-        {
-            await Launcher.LaunchUriAsync(new Uri("https://gridentertainment.net/fwlink/GvC5iXmJSo"));
-        }
-
-        public async void NavigateFeedback()
-        {
-            var launcher = StoreServicesFeedbackLauncher.GetDefault();
-            await launcher.LaunchAsync();
-        }
-
-        public async void NavigatePrivacy()
-        {
-            await Launcher.LaunchUriAsync(new Uri("https://gridentertainment.net/fwlink/Y5jGLtoFXs"));
-        }
-
-        public async void NavigateReddit()
-        {
-            await Launcher.LaunchUriAsync(new Uri("https://gridentertainment.net/fwlink/68vfoKLYJS"));
-        }
-
-        public async void NavigateFacebook()
-        {
-            await Launcher.LaunchUriAsync(new Uri("https://gridentertainment.net/fwlink/rOye5hzCXt"));
-        }
-
-        public async void NavigateGitHub()
-        {
-            await Launcher.LaunchUriAsync(new Uri("https://gridentertainment.net/fwlink/O3i37tbVVO"));
         }
 
         public void NavigateNew()

@@ -81,7 +81,7 @@
             <GridView.Header>
                 <controls:ScrollHeader TargetListViewBase="{Binding ElementName=StackPanel}" Mode="Fade" >
                     <StackPanel Canvas.ZIndex="20">
-                        <TextBlock Opacity="0" x:Name="TextHeader" Text="Likes" FontWeight="SemiBold" FontSize="25"
+                        <TextBlock Opacity="0" x:Name="TextHeader" Text="Likes" FontWeight="Bold" FontSize="25"
                                    Margin="0,18,0,0" />
 
                         <StackPanel x:Name="DesktopCommandBar" Visibility="Collapsed" Orientation="Horizontal"
