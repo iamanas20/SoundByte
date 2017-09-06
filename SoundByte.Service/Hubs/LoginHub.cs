@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNet.SignalR;
-using SoundByte.API.Items;
+using SoundByte.Core.Items;
 
 namespace SoundByte.Service.Hubs
 {

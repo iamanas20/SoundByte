@@ -236,9 +236,9 @@
     <Content Include="Scripts\jquery-3.1.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SoundByte.API\SoundByte.API.csproj">
-      <Project>{0d914b48-fc03-4d63-bd76-13c1476e09c0}</Project>
-      <Name>SoundByte.API</Name>
+    <ProjectReference Include="..\SoundByte.Core\SoundByte.Core.csproj">
+      <Project>{f01e8bb9-fe3e-480a-9702-29d54764d00f}</Project>
+      <Name>SoundByte.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

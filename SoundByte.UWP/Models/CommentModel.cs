@@ -19,11 +19,11 @@ using Windows.Foundation;
 using Windows.UI.Popups;
 using Windows.UI.Xaml.Data;
 using Microsoft.Toolkit.Uwp.Helpers;
-using SoundByte.API;
-using SoundByte.API.Endpoints;
-using SoundByte.API.Exceptions;
-using SoundByte.API.Holders;
-using SoundByte.API.Items.Track;
+using SoundByte.Core;
+using SoundByte.Core.Endpoints;
+using SoundByte.Core.Exceptions;
+using SoundByte.Core.Holders;
+using SoundByte.Core.Items.Track;
 using SoundByte.UWP.Services;
 
 namespace SoundByte.UWP.Models

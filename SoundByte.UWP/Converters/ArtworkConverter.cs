@@ -13,9 +13,9 @@
 using System;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media.Imaging;
-using SoundByte.API.Items.Playlist;
-using SoundByte.API.Items.Track;
-using SoundByte.API.Items.User;
+using SoundByte.Core.Items.Playlist;
+using SoundByte.Core.Items.Track;
+using SoundByte.Core.Items.User;
 using SoundByte.UWP.Services;
 
 namespace SoundByte.UWP.Converters
