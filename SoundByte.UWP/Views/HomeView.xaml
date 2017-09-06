@@ -5,7 +5,6 @@
     xmlns:elements="using:SoundByte.UWP.UserControls"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
-    xmlns:stateTriggers="using:SoundByte.UWP.StateTriggers"
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
     NavigationCacheMode="Enabled"
     Transitions="{StaticResource MainTransition}">

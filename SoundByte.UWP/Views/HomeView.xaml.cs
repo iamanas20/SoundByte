@@ -11,7 +11,6 @@
  */
 
 using System;
-using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.ViewModels;

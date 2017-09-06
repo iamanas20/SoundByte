@@ -435,7 +435,7 @@ namespace SoundByte.UWP.ViewModels
             }
 
             // Get the user object
-            var currentUser = await SoundByteService.Instance.GetAsync<SoundCloudUser>("/users/" + Service.CurrentTrack.User.Id);
+            var currentUser = await SoundByteService.Instance.GetAsync<SoundCloudUser>(ServiceType.SoundCloud, "/users/" + Service.CurrentTrack.User.Id);
 
             // Hide the loading ring
             App.IsLoading = false;

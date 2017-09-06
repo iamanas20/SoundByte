@@ -205,7 +205,7 @@
                           VerticalAlignment="Stretch"
                           HorizontalAlignment="Stretch" />
                     
-                     <Image Source="{x:Bind Path=Playlist, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
+                     <Image Source="{x:Bind Path=Playlist.AsBasePlaylist, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
                        Width="148"
                        Height="148"
                        VerticalAlignment="Stretch"
@@ -230,7 +230,7 @@
                                Opacity="0.7"
                                FontWeight="SemiLight" />
 
-                    <TextBlock Text="{x:Bind Playlist.User.Username, Mode=OneWay}"
+                    <TextBlock Text="{x:Bind Playlist.AsBasePlaylist.User.Username, Mode=OneWay}"
                                FontSize="16"
                                FontWeight="SemiBold"
                                Opacity="0.8"
@@ -238,7 +238,7 @@
                 </StackPanel>
 
                 <!-- Playlist title -->
-                <TextBlock Text="{x:Bind Playlist.Title, Mode=OneWay}"
+                <TextBlock Text="{x:Bind Playlist.AsBasePlaylist.Title, Mode=OneWay}"
                            FontSize="24"
                            Margin="0,18,0,2"
                            Opacity="0.8"
@@ -261,7 +261,7 @@
                            FontSize="14"
                            Opacity="0.8" />
                 <TextBlock
-                    Text="{x:Bind Path=Playlist.TrackCount, Converter={StaticResource FormattedValueConverter}, Mode=OneWay}"
+                    Text="{x:Bind Path=Playlist.AsBasePlaylist.TrackCount, Converter={StaticResource FormattedValueConverter}, Mode=OneWay}"
                     HorizontalAlignment="Left"
                     TextWrapping="Wrap"
                     VerticalAlignment="Top"
@@ -276,7 +276,7 @@
                            FontSize="14"
                            Opacity="0.8" />
                 <TextBlock
-                    Text="{x:Bind Path=Playlist.LikesCount, Converter={StaticResource FormattedValueConverter}, Mode=OneWay}"
+                    Text="{x:Bind Path=Playlist.AsBasePlaylist.LikesCount, Converter={StaticResource FormattedValueConverter}, Mode=OneWay}"
                     HorizontalAlignment="Left"
                     TextWrapping="Wrap"
                     VerticalAlignment="Top"
@@ -299,7 +299,7 @@
 
 
                 <TextBlock
-                    Text="{x:Bind Playlist.Duration, Mode=OneWay, Converter={StaticResource TimeStampConverter}}"
+                    Text="{x:Bind Playlist.AsBasePlaylist.Duration, Mode=OneWay, Converter={StaticResource TimeStampConverter}}"
                     Margin="0,0,0,0"
                     TextAlignment="Right"
                     FontSize="16"

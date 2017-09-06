@@ -116,16 +116,16 @@ namespace SoundByte.UWP.Views.Application
             switch (SettingsService.Instance.ApplicationThemeType)
             {
                 case AppTheme.Default:
-                    themeComboBox.SelectedItem = defaultTheme;
+                    ThemeComboBox.SelectedItem = DefaultTheme;
                     break;
                 case AppTheme.Light:
-                    themeComboBox.SelectedItem = lightTheme;
+                    ThemeComboBox.SelectedItem = LightTheme;
                     break;
                 case AppTheme.Dark:
-                    themeComboBox.SelectedItem = darkTheme;
+                    ThemeComboBox.SelectedItem = DarkTheme;
                     break;
                 default:
-                    themeComboBox.SelectedItem = defaultTheme;
+                    ThemeComboBox.SelectedItem = DefaultTheme;
                     break;
             }
 
@@ -138,17 +138,17 @@ namespace SoundByte.UWP.Views.Application
             if (ViewModel.IsComboboxBlockingEnabled)
                 return;
 
-            switch (((ComboBoxItem) (sender as ComboBox)?.SelectedItem)?.Name)
+            switch (((ComboBoxItem) (sender as ComboBox)?.SelectedItem)?.Name.ToLower())
             {
-                case "defaultTheme":
+                case "defaulttheme":
                     SettingsService.Instance.ApplicationThemeType = AppTheme.Default;
                     ((MainShell) Window.Current.Content).RequestedTheme = ElementTheme.Default;
                     break;
-                case "darkTheme":
+                case "darktheme":
                     SettingsService.Instance.ApplicationThemeType = AppTheme.Dark;
                     ((MainShell) Window.Current.Content).RequestedTheme = ElementTheme.Dark;
                     break;
-                case "lightTheme":
+                case "lighttheme":
                     SettingsService.Instance.ApplicationThemeType = AppTheme.Light;
                     ((MainShell) Window.Current.Content).RequestedTheme = ElementTheme.Light;
                     break;

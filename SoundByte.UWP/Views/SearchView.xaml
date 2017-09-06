@@ -15,10 +15,10 @@
                         <AdaptiveTrigger MinWindowWidth="768" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="Header.Margin" Value="50,0" />
+                        <Setter Target="Header.Margin" Value="0,0,40,0" />
                         <Setter Target="TextHeader.FontSize" Value="55" />
                         <Setter Target="TextHeader.Margin" Value="10,30,0,0" />
-                        <Setter Target="MainPivot.Margin" Value="50,210,50,0" />
+                        <Setter Target="MainPivot.Margin" Value="0,210,0,0" />
                         <Setter Target="TextHeader.Opacity" Value="0.8" />
                         <Setter Target="DesktopCommandBar.Visibility" Value="Visible" />
                         <Setter Target="MobileGrid.Visibility" Value="Collapsed" />

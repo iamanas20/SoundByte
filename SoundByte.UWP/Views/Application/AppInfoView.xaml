@@ -128,10 +128,10 @@
                 <ComboBox Padding="15,8" BorderThickness="1"
                           Margin="0,8,0,18"
                           BorderBrush="{ThemeResource SystemControlDisabledListMediumBrush}"
-                          x:Name="themeComboBox" SelectionChanged="AppThemeComboBoxChanged" Width="170">
-                    <ComboBoxItem x:Uid="Settings_ThemeDefaultLabel" x:Name="defaultTheme" />
-                    <ComboBoxItem x:Uid="Settings_ThemeDarkLabel" x:Name="darkTheme" />
-                    <ComboBoxItem x:Uid="Settings_ThemeLightLabel" x:Name="lightTheme" />
+                          x:Name="ThemeComboBox" SelectionChanged="AppThemeComboBoxChanged" Width="170">
+                    <ComboBoxItem x:Uid="Settings_ThemeDefaultLabel" x:Name="DefaultTheme" />
+                    <ComboBoxItem x:Uid="Settings_ThemeDarkLabel" x:Name="DarkTheme" />
+                    <ComboBoxItem x:Uid="Settings_ThemeLightLabel" x:Name="LightTheme" />
                 </ComboBox>
 
                 <TextBlock Text="LANGUAGE" 

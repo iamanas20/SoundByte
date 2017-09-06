@@ -135,7 +135,7 @@ namespace SoundByte.UWP.ViewModels
                     break;
                 case "playlist":
                 case "playlist-repost":
-                    App.NavigateTo(typeof(PlaylistView), streamItem.Playlist);
+                    App.NavigateTo(typeof(PlaylistView), streamItem.Playlist.ToBasePlaylist());
                     break;
             }
 

@@ -15,7 +15,6 @@ using System.Threading.Tasks;
 using Windows.UI.Popups;
 using Microsoft.AspNet.SignalR.Client;
 using Microsoft.Toolkit.Uwp.Helpers;
-using Microsoft.WindowsAzure.MobileServices;
 using SoundByte.Core.Items;
 
 namespace SoundByte.UWP.Services
@@ -29,14 +28,14 @@ namespace SoundByte.UWP.Services
 
         private string _backendAzureServiceUrl = "https://soundbytebackend.azurewebsites.net";
 
-        private readonly MobileServiceClient _mobileService;
+        //private readonly MobileServiceClient _mobileService;
         private readonly HubConnection _mobileHub;
 
         public IHubProxy LoginHub { get; }
 
         private BackendService()
         {
-            _mobileService = new MobileServiceClient(_backendAzureServiceUrl);
+           // _mobileService = new MobileServiceClient(_backendAzureServiceUrl);
             _mobileHub = new HubConnection(_backendAzureServiceUrl);
 
             LoginHub = _mobileHub.CreateHubProxy("LoginHub");

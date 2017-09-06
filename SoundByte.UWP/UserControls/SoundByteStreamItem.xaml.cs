@@ -82,7 +82,7 @@ namespace SoundByte.UWP.UserControls
 
         // The playlist object
         public static readonly DependencyProperty PlaylistProperty =
-            DependencyProperty.Register("Playlist", typeof(BasePlaylist), typeof(SoundByteStreamItem), null);
+            DependencyProperty.Register("Playlist", typeof(SoundCloudPlaylist), typeof(SoundByteStreamItem), null);
 
         #endregion
 
@@ -118,9 +118,9 @@ namespace SoundByte.UWP.UserControls
         /// <summary>
         ///     The track object
         /// </summary>
-        public BasePlaylist Playlist
+        public SoundCloudPlaylist Playlist
         {
-            get => GetValue(PlaylistProperty) as BasePlaylist;
+            get => GetValue(PlaylistProperty) as SoundCloudPlaylist;
             set => SetValue(PlaylistProperty, value);
         }
 

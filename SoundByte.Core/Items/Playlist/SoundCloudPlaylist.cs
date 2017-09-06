@@ -93,6 +93,8 @@ namespace SoundByte.Core.Items.Playlist
         [JsonProperty("track_count")]
         public double? TrackCount { get; set; }
 
+        public BasePlaylist AsBasePlaylist => ToBasePlaylist();
+
         public BasePlaylist ToBasePlaylist()
         {
             return new BasePlaylist
