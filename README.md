@@ -23,14 +23,14 @@ Please Note: SoundByte source code is to only be used for educational purposes. 
 
 ## SoundByte Structure
 
-SoundByte is split into five main projects. `SoundByte.API`, `SoundByte.Core`, `SoundByte.Notifications`, `SoundByte.Service` and `SoundByte.UWP`. Eash of these projects and containing files are mentioned in more detail below.
+SoundByte is split into three main projects. `SoundByte.Core`, `SoundByte.Service` and `SoundByte.UWP`. Eash of these projects and containing files are mentioned in more detail below.
 
 
-**SoundByte.API:** This project contains cross platform classes and holders used to deserialize content from the SoundCloud and Fanburst API. This project is seperate allowing the backend service and UWP app to access the same classes. Built using .NET Standard. 
+**SoundByte.Core:** This project contains cross platform classes and holders used to deserialize content from the SoundCloud and Fanburst API. This project is seperate allowing the backend service and UWP app to access the same classes. Built using .NET Standard. 
 
-*Note:* The `SoundByte.API.Endpoints` and `SoundByte.API.Holders` namespaces are no longer supported. Endpoints are now located in the items folder. This project may eventually be named as it grows beyond the API.
+*Note:* The `SoundByte.Core.Endpoints` and `SoundByte.Core.Holders` namespaces are no longer supported. Endpoints are now located in the items folder.
 
-Each SoundByte endpoint has its own namespace within the `items` namespace. For example, information about tracks is stored in the `SoundByte.API.Items.Track` namespace. These namespaces will contain certain classes to aid in muilti-service support. Details about these classes are below:
+Each SoundByte endpoint has its own namespace within the `items` namespace. For example, information about tracks is stored in the `SoundByte.Core.Items.Track` namespace. These namespaces will contain certain classes to aid in muilti-service support. Details about these classes are below:
 
 |Class Name|Description|
 |:-|:-|
@@ -39,9 +39,6 @@ Each SoundByte endpoint has its own namespace within the `items` namespace. For 
 |`{{ServiceName}}{{EndpointName}}.cs`|This is the raw deserializable class for the SoundByte Service to deserialize data into to. Each service in the app that wishes to expose tracks for example, would have to create a `SoundCloudTrack.cs` class extending off `ITrack.cs` implementing the overridable method to convert the `SoundCloudTrack.cs` class into a `BaseTrack.cs` class. When grabbing tracks from the SoundCloud API you would use the data type as `SoundCloudTrack.cs` but when you go to add the item to the UI / List, call the `.ToBaseTrack();` method on each item.|
 
 Every item in SoundByte following the above logic. This allows easy extensions of the app to support more services in the future. It also allow very different APIs to convert their code into a universal SoundByte standard.
-
-
-**SoundByte.Core:** This project contains helper classes for common app functions such as settings control and deserializing JSON. Currently this project targets the UWP framework, but in the future it's planned to target a framework that works with both UWP and Xamarin, while also intergrating more of the networking code.
 
 **SoundByte.Service:** This project is a web app that runs in Microsoft Azure. This web app will allow spotify like features in the app (login to xbox with PC, continue listening to a song on another device etc.)
 
