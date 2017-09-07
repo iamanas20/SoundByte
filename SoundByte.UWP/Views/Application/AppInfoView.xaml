@@ -43,19 +43,16 @@
                            Opacity="0.6" />
 
                 <TextBlock Text="SoundByte is a beautiful music client built for Windows 10 &amp; Xbox One. SoundByte supports muiltiple services such as SoundCloud, Fanburst and YouTube. Features include listening to music in the background (with gapless playback), watching YouTube music videos, easily searching accross muiltiple services, creating playlists and much more!" 
-                           Opacity="0.9" 
                            Margin="0,0,0,4" 
                            FontSize="16" 
                            TextWrapping="WrapWholeWords" />
 
                 <TextBlock Text="SoundByte is designed to be easily extendable. This allows easy additions of more services. Check out the SoundByte GitHub page (linked below) for more information."
-                           Opacity="0.9" 
                            Margin="0,0,0,4" 
                            FontSize="16" 
                            TextWrapping="WrapWholeWords"  />
 
                 <TextBlock Text="If you enjoy SoundByte, please consider donating, it will help a lot with development and hosting costs. If you would rather not donate, consider leaving a review. It really helps!" 
-                           Opacity="0.9" 
                            FontSize="16" 
                            TextWrapping="WrapWholeWords"  />
 
@@ -73,7 +70,6 @@
                            Opacity="0.6" />
 
                 <TextBlock Text="Hi. My name is Dominic Maas. I'm an 18yr old that has always been intrested in computers, from playing with VGA cables at age 3, to building my own PC, to creating my own software. I first got into UWP development at the end of 2015 when I was looking for a decent SoundCloud app. After not being able to find anything good (performance or design), I decided to take a shot at creating my own app. After 6 months of development (struggling) I finally released SoundByte on July 2016. " 
-                           Opacity="0.9" 
                            Margin="0,0,0,18"
                            FontSize="16"
                            TextWrapping="WrapWholeWords" />
@@ -86,7 +82,6 @@
                 <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
                     <TextBlock Text="Version: "
                                Margin="0,0,5,0"
-                               Opacity="0.9"
                                FontSize="16" />
 
                     <TextBlock x:Name="AppVersion"
@@ -98,7 +93,6 @@
                 <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
                     <TextBlock Text="Build Time: "
                                Margin="0,0,5,0"
-                               Opacity="0.9"
                                FontSize="16" />
                     <TextBlock x:Name="AppBuildTime"
                                Opacity="0.7"
@@ -173,49 +167,34 @@
                 <!-- Thanks To -->
                 <TextBlock Text="THANKS TO" FontWeight="SemiBold" FontSize="13" Opacity="0.6" />
                 <TextBlock Text="Dennis Bednarz for helping out with app design and creating the logo. (Really awesome guy, check him out on twitter (@DennisBednarz))." 
-                           Opacity="0.9" 
                            Margin="0,0,0,4" 
                            FontSize="16" 
                            TextWrapping="WrapWholeWords" />
                 <TextBlock Text="My friends for just being awesome!" 
-                           Opacity="0.9" 
                            Margin="0,0,0,4" 
                            FontSize="16" 
                            TextWrapping="WrapWholeWords" />
                 <TextBlock Text="Zac Bowden for getting me hooked into the Windows world! (WinBeta podcasts ~2015)." 
-                           Opacity="0.9" 
                            Margin="0,0,0,4" 
                            FontSize="16" 
                            TextWrapping="WrapWholeWords" />
                 <TextBlock Text="My family for always being there to help me when ever I may need help." 
-                           Opacity="0.9" 
                            Margin="0,0,0,4" 
                            FontSize="16" 
                            TextWrapping="WrapWholeWords" />
                 <TextBlock Text="Mr. C - The best teacher out there! Enjoy your retirement." 
-                           Opacity="0.9" 
                            Margin="0,0,0,4" 
                            FontSize="16" 
                            TextWrapping="WrapWholeWords" />
                 <TextBlock Text="Dennis Bednarz, Justin, Kesava, thmnmlist for all the help with beta testing. Thanks guys for always being there to help me out :)" 
-                           Opacity="0.9" 
                            Margin="0,0,0,18" 
                            FontSize="16" 
                            TextWrapping="WrapWholeWords" />
-
-                <!-- Dedicated To -->
-                <TextBlock Text="DEDICATED TO" FontWeight="SemiBold" FontSize="13" Opacity="0.6" />
-                <TextBlock Text="My Nanna, Grandad and past pets. May you all rest in peace." 
-                           Opacity="0.9" 
-                           Margin="0,0,0,18" 
-                           FontSize="16" 
-                           TextWrapping="WrapWholeWords" />
-
 
                 <!-- Legal -->
                 <TextBlock Text="AWESOME LEGAL STUFF" FontWeight="SemiBold" FontSize="13" Opacity="0.6" />
-                <TextBlock Text="Copyright © Grid Entertainment 2016 - 2017. All Rights Reserved" Opacity="0.9" Margin="0,0,0,4" FontSize="16" TextWrapping="WrapWholeWords" />
-                <TextBlock Text="Source code is licensed under educational use." Opacity="0.9" Margin="0,0,0,0" FontSize="16" TextWrapping="WrapWholeWords" />
+                <TextBlock Text="Copyright © Grid Entertainment 2016 - 2017. All Rights Reserved" Margin="0,0,0,4" FontSize="16" TextWrapping="WrapWholeWords" />
+                <TextBlock Text="Source code is licensed under educational use." Margin="0,0,0,0" FontSize="16" TextWrapping="WrapWholeWords" />
                 <HyperlinkButton Content="Privacy Policy" Foreground="{ThemeResource DefaultTextForegroundThemeBrush}" NavigateUri="https://gridentertainment.net/fwlink/Y5jGLtoFXs" Margin="0,0,0,18" ContentTemplate="{StaticResource HyperlinkClean}" FontSize="16" FontWeight="SemiBold"  />
 
                 <TextBlock Text="ADVANCED" 

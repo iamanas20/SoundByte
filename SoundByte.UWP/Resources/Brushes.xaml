@@ -35,13 +35,13 @@
     <brushes:LightingBrush x:Key="ButtonLightingBrush"
                            SpecularShine=".01"
                            SpecularAmount=".01"
-                           DiffuseAmount="0.3"
-                           Opacity=".5"
+                           DiffuseAmount="0.8"
+                           Opacity=".3"
                            lights:PointerPositionSpotLight.IsTarget="True" />
 
     <!-- Border lighting effect when hover near button  -->
     <brushes:LightingBrush x:Key="ButtonBorderLightingBrush"
-                           SpecularShine=".1"
+                           SpecularShine="1.0"
                            SpecularAmount=".1"
                            DiffuseAmount=".8"
                            Opacity="1"
