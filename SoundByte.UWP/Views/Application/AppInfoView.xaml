@@ -63,16 +63,6 @@
                                  FontSize="16" 
                                  FontWeight="SemiBold"  />
 
-                <!-- About Me -->
-                <TextBlock Text="ABOUT ME" 
-                           FontWeight="SemiBold"
-                           FontSize="13" 
-                           Opacity="0.6" />
-
-                <TextBlock Text="Hi. My name is Dominic Maas. I'm an 18yr old that has always been intrested in computers, from playing with VGA cables at age 3, to building my own PC, to creating my own software. I first got into UWP development at the end of 2015 when I was looking for a decent SoundCloud app. After not being able to find anything good (performance or design), I decided to take a shot at creating my own app. After 6 months of development (struggling) I finally released SoundByte on July 2016. " 
-                           Margin="0,0,0,18"
-                           FontSize="16"
-                           TextWrapping="WrapWholeWords" />
 
                 <!-- App version -->
                 <TextBlock Text="VERSION" 
@@ -109,9 +99,9 @@
 
                 <!-- More links -->
                 <TextBlock Text="MORE LINKS" FontWeight="SemiBold" FontSize="13" Opacity="0.6" />
-                <HyperlinkButton Foreground="{ThemeResource DefaultTextForegroundThemeBrush}" Content="Facebook" NavigateUri="https://gridentertainment.net/fwlink/rOye5hzCXt" Margin="0,0,0,-10" ContentTemplate="{StaticResource HyperlinkClean}" FontSize="16" FontWeight="SemiBold"  />
-                <HyperlinkButton Foreground="{ThemeResource DefaultTextForegroundThemeBrush}" Content="Reddit" NavigateUri="https://gridentertainment.net/fwlink/68vfoKLYJS" Margin="0,0,0,-10" ContentTemplate="{StaticResource HyperlinkClean}" FontSize="16" FontWeight="SemiBold"  />
-                <HyperlinkButton Foreground="{ThemeResource DefaultTextForegroundThemeBrush}" Content="Send Feedback / Report Bug" NavigateUri="https://gridentertainment.net/fwlink/GvC5iXmJSo" Margin="0,0,0,-10" ContentTemplate="{StaticResource HyperlinkClean}" FontSize="16" FontWeight="SemiBold"  />
+                <HyperlinkButton Foreground="{ThemeResource DefaultTextForegroundThemeBrush}" Content="Facebook" NavigateUri="https://gridentertainment.net/fwlink/rOye5hzCXt" Margin="0,-2.5,0,-2.5" ContentTemplate="{StaticResource HyperlinkClean}" FontSize="16" FontWeight="SemiBold"  />
+                <HyperlinkButton Foreground="{ThemeResource DefaultTextForegroundThemeBrush}" Content="Reddit" NavigateUri="https://gridentertainment.net/fwlink/68vfoKLYJS" Margin="0,-2.5,0,-2.5" ContentTemplate="{StaticResource HyperlinkClean}" FontSize="16" FontWeight="SemiBold"  />
+                <HyperlinkButton Foreground="{ThemeResource DefaultTextForegroundThemeBrush}" Content="Send Feedback / Report Bug" NavigateUri="https://gridentertainment.net/fwlink/GvC5iXmJSo" Margin="0,-2.5,0,-2.5" ContentTemplate="{StaticResource HyperlinkClean}" FontSize="16" FontWeight="SemiBold"  />
                 <HyperlinkButton Foreground="{ThemeResource DefaultTextForegroundThemeBrush}" Content="GitHub Repo" NavigateUri="https://gridentertainment.net/fwlink/O3i37tbVVO" Margin="0,0,0,18" ContentTemplate="{StaticResource HyperlinkClean}" FontSize="16" FontWeight="SemiBold"  />
 
                 <TextBlock Text="THEME" 
@@ -207,13 +197,14 @@
                                  Foreground="{ThemeResource DefaultTextForegroundThemeBrush}"
                                  ContentTemplate="{StaticResource HyperlinkClean}" 
                                  FontSize="16"
+                                 Margin="0,0,0,-2.5"
                                  FontWeight="SemiBold" />
 
                 <HyperlinkButton Click="{x:Bind ViewModel.ClearAppCache}" 
                                  Content="Clear Application Cache" 
                                  Foreground="{ThemeResource DefaultTextForegroundThemeBrush}"
                                  ContentTemplate="{StaticResource HyperlinkClean}" 
-                                 Margin="0,-10,0,18"
+                                 Margin="0,-2.5,0,18"
                                  FontSize="16"
                                  FontWeight="SemiBold" />
 

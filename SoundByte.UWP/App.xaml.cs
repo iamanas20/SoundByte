@@ -188,13 +188,13 @@ namespace SoundByte.UWP
             {
                 // Setup the lights
                 LightsSourceHelper.Initialize(() => new PointerPositionSpotLight());
-
-                LightsSourceHelper.SetIsLightsContainer(Window.Current.Content, true);
             }
             catch         
             {
                // Temp fix around light helper already existing, proper fix later
             }
+
+            LightsSourceHelper.SetIsLightsContainer(Window.Current.Content, true);
 
             // If on xbox display the screen to the full width and height
             if (DeviceHelper.IsXbox)
