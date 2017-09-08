@@ -11,5 +11,6 @@
     <converters:TimeStampConverter x:Key="TimeStampConverter" />
     <converters:SliderValueConverter x:Key="SliderValueConverter" />
     <converters:BoolToFontWeightConverter x:Key="BoolToFontWeightConverter" />
-
+    <converters:ServiceToImageConverter x:Key="ServiceToImageConverter" />
+    
 </ResourceDictionary>

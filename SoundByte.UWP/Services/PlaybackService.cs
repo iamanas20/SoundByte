@@ -399,19 +399,19 @@ namespace SoundByte.UWP.Services
             });
         }
 
-        private static async Task<string> GetCorrectApiKey(BaseTrack soundCloudTrack)
+        private static async Task<string> GetCorrectApiKey()
         {
             return await Task.Run(async () =>
             {
                 // Check if we have hit the soundcloud api limit
                 if (await SoundByteService.Instance.ApiCheck(
-                    $"https://api.soundcloud.com/tracks/{soundCloudTrack.Id}/stream?client_id={ApiKeyService.SoundCloudClientId}"))
+                    $"https://api.soundcloud.com/tracks/320126814/stream?client_id={ApiKeyService.SoundCloudClientId}"))
                     return ApiKeyService.SoundCloudClientId;
 
                 // Loop through all the backup keys
                 foreach (var key in ApiKeyService.SoundCloudPlaybackClientIds)
                     if (await SoundByteService.Instance.ApiCheck(
-                        $"https://api.soundcloud.com/tracks/{soundCloudTrack.Id}/stream?client_id={key}"))
+                        $"https://api.soundcloud.com/tracks/320126814/stream?client_id={key}"))
                         return key;
 
                 return ApiKeyService.SoundCloudClientId;
@@ -465,15 +465,12 @@ namespace SoundByte.UWP.Services
             // Set the shuffle
             _playbackList.ShuffleEnabled = isShuffled;
 
-            // List of tracks that are for soundcloud ordered by duration
-            var scTracks = playlist.Where(x => x.ServiceType == ServiceType.SoundCloud).OrderBy(x => x.Duration);
-
             var apiKey = string.Empty;
 
-            // Get the API key that we will need using the shortest track for
-            // api checking.
-            if (scTracks.Any())
-                apiKey = await GetCorrectApiKey(scTracks.First());
+            // If the playlist contains any soundcloud tracks, we need to 
+            // grab the appropiate client ID.
+            if (playlist.Any(x => x.ServiceType == ServiceType.SoundCloud))
+                apiKey = await GetCorrectApiKey();
 
             // Loop through all the tracks
             foreach (var track in playlist)
@@ -498,8 +495,7 @@ namespace SoundByte.UWP.Services
                             source = MediaSource.CreateFromUri(new Uri(track.AudioStreamUrl));
                             break;
                         default:
-                            source = MediaSource.CreateFromUri(new Uri("http://api.soundcloud.com/tracks/" + track.Id + "/stream?client_id=" + apiKey));
-                            break;
+                           throw new Exception("Unknown Track Type: " + track.ServiceType);
                     }
 
                     // So we can access the item later
@@ -596,6 +592,9 @@ namespace SoundByte.UWP.Services
         /// </summary>
         public async void PlayingSliderChange()
         {
+            if (DeviceHelper.IsBackground)
+                return;
+
             // Set the track position
             Player.PlaybackSession.Position = TimeSpan.FromSeconds(CurrentTimeValue);
 
@@ -690,10 +689,6 @@ namespace SoundByte.UWP.Services
             // Set the maximum value
             MaxTimeValue = Player.PlaybackSession.NaturalDuration.TotalSeconds;
         }
-
-
-        //// --------------------------------- NEXT GEN v2.1 ITEMS --------------------------------- ////
-
 
         public void ToggleRepeat()
         {
@@ -800,9 +795,12 @@ namespace SoundByte.UWP.Services
                     new XmlLoadSettings { ValidateOnParse = true });
                 _tileUpdater.Update(new TileNotification(firstXml));
             }
-            catch
+            catch (Exception ex)
             {
-                // ignored
+                TelemetryService.Instance.TrackException(ex);
+#if  DEBUG
+                throw;
+#endif
             }
         }
 

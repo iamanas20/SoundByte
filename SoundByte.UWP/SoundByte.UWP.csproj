@@ -118,6 +118,9 @@
     <Content Include="Assets\Misc\noise.png" />
     <Content Include="Assets\Misc\XboxBG.png" />
     <Content Include="Assets\PlaceholderBackground.png" />
+    <Content Include="Assets\Services\fanburst.png" />
+    <Content Include="Assets\Services\soundcloud.png" />
+    <Content Include="Assets\Services\youtube.png" />
     <Content Include="Assets\SplashScreen.scale-400.png" />
     <Content Include="Assets\Square150x150Logo.scale-100.png" />
     <Content Include="Assets\Square150x150Logo.scale-400.png" />
@@ -159,6 +162,7 @@
     <Compile Include="Converters\BoolToFontWeightConverter.cs" />
     <Compile Include="Converters\DateTimeConverter.cs" />
     <Compile Include="Converters\FormattedValueConverter.cs" />
+    <Compile Include="Converters\ServiceToImageConverter.cs" />
     <Compile Include="Converters\SliderValueConverter.cs" />
     <Compile Include="Converters\TimeStampConverter.cs" />
     <Compile Include="Dialogs\CrashDialog.xaml.cs">
@@ -525,10 +529,7 @@
       <Version>2.3.0</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Assets\Tiles\Background\" />
-    <Folder Include="Assets\Tiles\Blank\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>

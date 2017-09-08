@@ -47,21 +47,32 @@
             <!-- Item Image -->
             <control:DropShadowPanel Canvas.ZIndex="5"
                                      HorizontalAlignment="Left"
-                                     BlurRadius="15"
-                                     ShadowOpacity="0.8"
+                                     BlurRadius="25"
+                                     ShadowOpacity="0.6"
                                      OffsetX="0"
                                      IsTabStop="False"
                                      IsHitTestVisible="False"
                                      Margin="10"
                                      OffsetY="5"
                                      Color="Black">
-                <Image Width="148"
-                       Height="148"
-                       Source="{x:Bind Path=Track.AsBaseTrack, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
-                       VerticalAlignment="Stretch"
-                       HorizontalAlignment="Stretch"
-                       IsHitTestVisible="False"
-                       Stretch="UniformToFill" />
+                <Grid>
+                    <Image Width="148"
+                           Height="148"
+                           Source="{x:Bind Path=Track.AsBaseTrack, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
+                           VerticalAlignment="Stretch"
+                           HorizontalAlignment="Stretch"
+                           IsHitTestVisible="False"
+                           Stretch="UniformToFill" />
+
+                    <Grid RequestedTheme="Dark" Background="{StaticResource InAppBackgroundBrush}" Padding="8" HorizontalAlignment="Stretch"
+                          VerticalAlignment="Bottom">
+                        <Image Source="../Assets/Services/soundcloud.png" 
+                               Stretch="Uniform" 
+                               HorizontalAlignment="Left" 
+                               Height="12" 
+                               VerticalAlignment="Center" />
+                    </Grid>
+                </Grid>
             </control:DropShadowPanel>
 
             <!-- Basic Item Detail -->
@@ -182,8 +193,8 @@
             <!-- Item Image -->
             <control:DropShadowPanel Canvas.ZIndex="5"
                                      HorizontalAlignment="Left"
-                                     BlurRadius="15"
-                                     ShadowOpacity="0.8"
+                                     BlurRadius="25"
+                                     ShadowOpacity="0.6"
                                      OffsetX="0"
                                      IsTabStop="False"
                                      IsHitTestVisible="False"
@@ -212,6 +223,16 @@
                        HorizontalAlignment="Stretch"
                        IsHitTestVisible="False"
                        Stretch="UniformToFill" />
+
+                    <Grid RequestedTheme="Dark" Background="{StaticResource InAppBackgroundBrush}" Padding="8" HorizontalAlignment="Stretch"
+                          VerticalAlignment="Bottom">
+                        <Image Source="../Assets/Services/soundcloud.png" 
+                               Stretch="Uniform" 
+                               HorizontalAlignment="Left" 
+                               Height="12" 
+                               VerticalAlignment="Center" />
+                    </Grid>
+
                 </Grid>
                 
                
