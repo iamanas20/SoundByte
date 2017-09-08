@@ -45,35 +45,7 @@ namespace SoundByte.UWP.Services
         private PlaybackService()
         {
             // Create the player instance
-            Player = new MediaPlayer { AutoPlay = false, Volume = SettingsService.Instance.PlaybackVolume };
-
-            var adjustedVolume = SettingsService.Instance.PlaybackVolume * 100;
-
-            if ((int)adjustedVolume == 0)
-            {
-                Player.IsMuted = true;
-                VolumeIcon = "\uE74F";
-            }
-            else if (adjustedVolume < 25)
-            {
-                Player.IsMuted = false;
-                VolumeIcon = "\uE992";
-            }
-            else if (adjustedVolume < 50)
-            {
-                Player.IsMuted = false;
-                VolumeIcon = "\uE993";
-            }
-            else if (adjustedVolume < 75)
-            {
-                Player.IsMuted = false;
-                VolumeIcon = "\uE994";
-            }
-            else
-            {
-                Player.IsMuted = false;
-                VolumeIcon = "\uE767";
-            }
+            Player = new MediaPlayer { AutoPlay = false };
 
             Player.PlaybackSession.PlaybackStateChanged += PlaybackSessionStateChanged;
 
@@ -84,7 +56,7 @@ namespace SoundByte.UWP.Services
 
             var audioVideoSyncTimer = new DispatcherTimer
             {
-                Interval = TimeSpan.FromMilliseconds(10)
+                Interval = TimeSpan.FromMilliseconds(50)
             };
 
             _tileUpdater = TileUpdateManager.CreateTileUpdaterForApplication("App");
@@ -136,13 +108,12 @@ namespace SoundByte.UWP.Services
         /// </summary>
         public double MediaVolume
         {
-            get => SettingsService.Instance.PlaybackVolume * 100;
+            get => Player.Volume * 100;
             set
             {
                 UpdateProperty();
 
                 // Set the volume
-                SettingsService.Instance.PlaybackVolume = value / 100;
                 Player.Volume = value / 100;
 
                 // Update the UI

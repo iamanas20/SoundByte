@@ -11,7 +11,6 @@
  */
 
 using System;
-using System.Globalization;
 using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Windows.UI.Xaml;
@@ -35,19 +34,13 @@ namespace SoundByte.UWP.Services
 
         private const string SettingsSyncKey = "SoundByte_SettingsSyncEnabled";
         private const string ThemeTypeKey = "SoundByte_ThemeType";
-        private const string CurrentTrackKey = "SoundByte_TrackID";
-        private const string LastViewedTrackKey = "SoundByte_LastViewedTack";
         private const string AppStoredVersionKey = "SoundByte_AppStoredVersionKey";
-        private const string NotificationPopupKey = "SoundByte_NotificationPopupEnabled";
-        private const string NotificationKey = "SoundByte_NotificationsEnabled";
         private const string ArtworkQualityKey = "SoundByte_ArtworkQualityColor";
         private const string LanguageKey = "SoundByte_DefaultLanguage";
 
         private const string DebugKey = "SoundByte.DebugModeEnabled";
-        private const string TileStyleKey = "SoundByte.Tile.Style";
         private const string MenuCollapsedKey = "SoundByte.Desktop.MenuPosition";
         private const string AppInBackgroundKey = "SoundByte.Core.AppBackground";
-        private const string LastVolumeSliderKey = "SoundByte.Playback.Volume";
 
         #endregion
 
@@ -154,48 +147,6 @@ namespace SoundByte.UWP.Services
         }
 
         /// <summary>
-        /// Should the blur background be shown on the tile
-        /// </summary>
-        public bool TileBackgroundStyleEnabled
-        {
-            get
-            {
-                var boolVal = ReadSettingsValue(TileStyleKey) as bool?;
-
-                return !boolVal.HasValue || boolVal.Value;
-            }
-            set => SaveSettingsValue(TileStyleKey, value, true);
-        }
-
-        /// <summary>
-        ///     Are notifications enabled for the app
-        /// </summary>
-        public bool IsNotificationsEnabled
-        {
-            get
-            {
-                var boolVal = ReadSettingsValue(NotificationKey) as bool?;
-
-                return !boolVal.HasValue || boolVal.Value;
-            }
-            set => SaveSettingsValue(NotificationKey, value, true);
-        }
-
-        /// <summary>
-        ///     Should the app popup notifications to the user
-        /// </summary>
-        public bool IsNotificationPopupEnabled
-        {
-            get
-            {
-                var boolVal = ReadSettingsValue(NotificationPopupKey) as bool?;
-
-                return boolVal.HasValue && boolVal.Value;
-            }
-            set => SaveSettingsValue(NotificationPopupKey, value);
-        }
-
-        /// <summary>
         ///     The last stored app version
         /// </summary>
         public string AppStoredVersion
@@ -211,30 +162,6 @@ namespace SoundByte.UWP.Services
         {
             get => ReadSettingsValue(LanguageKey, true) as string;
             set => SaveSettingsValue(LanguageKey, value);
-        }
-
-        /// <summary>
-        ///     The latest viewed track in the user stream
-        /// </summary>
-        public DateTime LatestViewedTrack
-        {
-            get
-            {
-                var stringVal = ReadSettingsValue(LastViewedTrackKey, true) as string;
-
-                if (string.IsNullOrEmpty(stringVal))
-                    return DateTime.UtcNow;
-
-                try
-                {
-                    return DateTime.Parse(stringVal);
-                }
-                catch (FormatException)
-                {
-                    return DateTime.UtcNow;
-                }
-            }
-            set => SaveSettingsValue(LastViewedTrackKey, value.ToString(CultureInfo.InvariantCulture));
         }
 
         /// <summary>
@@ -261,36 +188,6 @@ namespace SoundByte.UWP.Services
             }
             set => SaveSettingsValue(ThemeTypeKey, value.ToString(), true);
         }
-
-        /// <summary>
-        ///     The currently playing track in the background task
-        /// </summary>
-        public int? CurrentPlayingTrack
-        {
-            get => ReadSettingsValue(CurrentTrackKey, true) as int?;
-            set
-            {
-                if (value == -1)
-                {
-                    SaveSettingsValue(CurrentTrackKey, null);
-                    return;
-                }
-                SaveSettingsValue(CurrentTrackKey, value);
-            }
-        }
-
-        public double PlaybackVolume
-        {
-            get
-            {
-                var value = ReadSettingsValue(LastVolumeSliderKey, true) as double?;
-
-                return value ?? 1.0;
-            }
-
-            set => SaveSettingsValue(LastVolumeSliderKey, value);
-        }
-
 
         /// <summary>
         ///     Gets if settings syncing is enabled or not

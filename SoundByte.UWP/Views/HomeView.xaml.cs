@@ -56,8 +56,6 @@ namespace SoundByte.UWP.Views
 
             HomePivot.SelectedIndex = !SoundByteService.Instance.IsSoundCloudAccountConnected ? 1 : 0;
 
-            // Store the latest time (for notification task)
-            SettingsService.Instance.LatestViewedTrack = DateTime.UtcNow;
             // Track Event
             TelemetryService.Instance.TrackPage("Home View");
         }
