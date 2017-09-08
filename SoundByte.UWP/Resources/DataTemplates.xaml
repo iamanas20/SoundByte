@@ -63,7 +63,9 @@
                           Height="150"
                           VerticalAlignment="Stretch"
                           HorizontalAlignment="Stretch" />
-                    
+
+                    <Grid Width="160" Height="160" Background="DimGray" />
+
                     <Image Source="{x:Bind Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
                            Width="160"
                            x:Phase="5"
@@ -200,6 +202,9 @@
                                       OffsetY="5"
                                       Color="Black">
                 <Grid>
+                    
+                    <Grid Width="160" Height="160" Background="DimGray" />
+
                     <Image Source="{x:Bind Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
                            VerticalAlignment="Stretch"
                            HorizontalAlignment="Stretch"
@@ -209,7 +214,8 @@
                            Width="160"
                            Height="160"
                            Stretch="UniformToFill" />
-                  
+
+                    
                     <Grid RequestedTheme="Dark" Background="{StaticResource InAppBackgroundBrush}" Padding="8" HorizontalAlignment="Stretch"
                           VerticalAlignment="Bottom">
                         <TextBlock RequestedTheme="Dark"

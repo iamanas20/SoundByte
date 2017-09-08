@@ -78,7 +78,7 @@ namespace SoundByte.Core.Items.Track
                 ServiceType = ServiceType.Fanburst,
                 Id = Id,
                 Kind = "track", 
-                Link = Permalink,
+                Link = Url,
                 AudioStreamUrl = string.Empty,
                 VideoStreamUrl = string.Empty,
                 ArtworkUrl = Images.Square500,

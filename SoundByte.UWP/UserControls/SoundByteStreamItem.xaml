@@ -56,6 +56,9 @@
                                      OffsetY="5"
                                      Color="Black">
                 <Grid>
+
+                    <Grid Width="148" Height="148" Background="DimGray" />
+
                     <Image Width="148"
                            Height="148"
                            Source="{x:Bind Path=Track.AsBaseTrack, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
@@ -215,8 +218,10 @@
                           Height="138"
                           VerticalAlignment="Stretch"
                           HorizontalAlignment="Stretch" />
-                    
-                     <Image Source="{x:Bind Path=Playlist.AsBasePlaylist, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
+
+                    <Grid Width="148" Height="148" Background="DimGray" />
+
+                    <Image Source="{x:Bind Path=Playlist.AsBasePlaylist, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
                        Width="148"
                        Height="148"
                        VerticalAlignment="Stretch"
