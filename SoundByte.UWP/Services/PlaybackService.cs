@@ -260,6 +260,10 @@ namespace SoundByte.UWP.Services
         /// </summary>
         private async void PlaybackSessionStateChanged(MediaPlaybackSession sender, object args)
         {
+            // Don't run in the background
+            if (DeviceHelper.IsBackground)
+                return;
+
             await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
             {
                 var overlay = App.CurrentFrame.FindName("VideoOverlay") as MediaElement;
@@ -395,31 +399,19 @@ namespace SoundByte.UWP.Services
             });
         }
 
-        private static async Task<string> GetCorrectApiKey()
+        private static async Task<string> GetCorrectApiKey(BaseTrack soundCloudTrack)
         {
             return await Task.Run(async () =>
             {
-                // Prefer getting the key from the Grid Entertainment Website. More efficient
-                var geKey = await SoundByteService.Instance.GridEntertainmentSoundByteGetPlaybackKey();
-
-                if (!string.IsNullOrEmpty(geKey))
-                {
-                    if (await SoundByteService.Instance.ApiCheck("https://api.soundcloud.com/tracks/320126814/stream?client_id=" + geKey))
-                        return geKey;
-                }
-
-                // Log this event so I know if the web service fails.
-                TelemetryService.Instance.TrackEvent("Old Playback Key Method");
-
                 // Check if we have hit the soundcloud api limit
                 if (await SoundByteService.Instance.ApiCheck(
-                    "https://api.soundcloud.com/tracks/320126814/stream?client_id=" + ApiKeyService.SoundCloudClientId))
+                    $"https://api.soundcloud.com/tracks/{soundCloudTrack.Id}/stream?client_id={ApiKeyService.SoundCloudClientId}"))
                     return ApiKeyService.SoundCloudClientId;
 
                 // Loop through all the backup keys
                 foreach (var key in ApiKeyService.SoundCloudPlaybackClientIds)
                     if (await SoundByteService.Instance.ApiCheck(
-                        "https://api.soundcloud.com/tracks/320126814/stream?client_id=" + key))
+                        $"https://api.soundcloud.com/tracks/{soundCloudTrack.Id}/stream?client_id={key}"))
                         return key;
 
                 return ApiKeyService.SoundCloudClientId;
@@ -473,8 +465,15 @@ namespace SoundByte.UWP.Services
             // Set the shuffle
             _playbackList.ShuffleEnabled = isShuffled;
 
-            // Get the API key that we will need
-            var apiKey = await GetCorrectApiKey();
+            // List of tracks that are for soundcloud ordered by duration
+            var scTracks = playlist.Where(x => x.ServiceType == ServiceType.SoundCloud).OrderBy(x => x.Duration);
+
+            var apiKey = string.Empty;
+
+            // Get the API key that we will need using the shortest track for
+            // api checking.
+            if (scTracks.Any())
+                apiKey = await GetCorrectApiKey(scTracks.First());
 
             // Loop through all the tracks
             foreach (var track in playlist)

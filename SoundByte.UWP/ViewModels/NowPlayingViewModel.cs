@@ -246,7 +246,7 @@ namespace SoundByte.UWP.ViewModels
             if (PlaybackService.Instance.PlaybackList != null)
                 PlaybackService.Instance.PlaybackList.CurrentItemChanged -= CurrentItemChanged;
 
-            var overlay = App.CurrentFrame.FindName("VideoOverlay") as MediaElement;
+            var overlay = App.CurrentFrame?.FindName("VideoOverlay") as MediaElement;
 
             if (overlay != null)
             {
