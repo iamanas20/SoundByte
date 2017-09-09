@@ -19,7 +19,7 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml.Controls;
 using Microsoft.Toolkit.Uwp.Helpers;
 using SoundByte.Core;
-using SoundByte.Core.Endpoints;
+using SoundByte.Core.Items.Comment;
 using SoundByte.Core.Items.Track;
 using SoundByte.Core.Items.User;
 using SoundByte.UWP.Converters;
@@ -285,39 +285,42 @@ namespace SoundByte.UWP.ViewModels
         /// </summary>
         public async void PinTile()
         {
-            // Check if the tile exists
-            var tileExists = TileService.Instance.DoesTileExist("Track_" + Service.CurrentTrack.Id);
+            if (Service.CurrentTrack != null)
+            {
+                // Check if the tile exists
+                var tileExists = TileService.Instance.DoesTileExist("Track_" + Service.CurrentTrack.Id);
 
-            if (tileExists)
-            {
-                // Remove the tile and check if it was successful
-                if (await TileService.Instance.RemoveAsync("Track_" + Service.CurrentTrack.Id))
+                if (tileExists)
                 {
-                    PinButtonText = "Pin";
-                    // Track Event
-                    TelemetryService.Instance.TrackEvent("Unpin Track");
+                    // Remove the tile and check if it was successful
+                    if (await TileService.Instance.RemoveAsync("Track_" + Service.CurrentTrack.Id))
+                    {
+                        PinButtonText = "Pin";
+                        // Track Event
+                        TelemetryService.Instance.TrackEvent("Unpin Track");
+                    }
+                    else
+                    {
+                        PinButtonText = "Unpin";
+                    }
                 }
                 else
                 {
-                    PinButtonText = "Unpin";
+                    // Create a live tile and check if it was created
+                    if (await TileService.Instance.CreateTileAsync("Track_" + Service.CurrentTrack.Id,
+                        Service.CurrentTrack.Title, "soundbyte://core/track?id=" + Service.CurrentTrack.Id,
+                        new Uri(ArtworkConverter.ConvertObjectToImage(Service.CurrentTrack)), ForegroundText.Light))
+                    {
+                        PinButtonText = "Unpin";
+                        // Track Event
+                        TelemetryService.Instance.TrackEvent("Pin Track");
+                    }
+                    else
+                    {
+                        PinButtonText = "Pin";
+                    }
                 }
-            }
-            else
-            {
-                // Create a live tile and check if it was created
-                if (await TileService.Instance.CreateTileAsync("Track_" + Service.CurrentTrack.Id,
-                    Service.CurrentTrack.Title, "soundbyte://core/track?id=" + Service.CurrentTrack.Id,
-                    new Uri(ArtworkConverter.ConvertObjectToImage(Service.CurrentTrack)), ForegroundText.Light))
-                {
-                    PinButtonText = "Unpin";
-                    // Track Event
-                    TelemetryService.Instance.TrackEvent("Pin Track");
-                }
-                else
-                {
-                    PinButtonText = "Pin";
-                }
-            }
+            } 
         }
 
         /// <summary>
@@ -406,9 +409,10 @@ namespace SoundByte.UWP.ViewModels
         public void GoToCommentItemPosition(object sender, ItemClickEventArgs e)
         {
             // Get the comment object
-            var comment = e.ClickedItem as Comment;
+            var comment = (BaseComment)e.ClickedItem;
+
             // Set the current position
-            Service.Player.PlaybackSession.Position = TimeSpan.FromMilliseconds(int.Parse(comment?.Timestamp));
+            Service.Player.PlaybackSession.Position = comment.Timestamp;
         }
 
         public async void ShareTrack()
@@ -426,7 +430,7 @@ namespace SoundByte.UWP.ViewModels
             App.IsLoading = true;
 
             // We only support viewing soundcloud profiles at this time
-            if (Service.CurrentTrack.ServiceType != ServiceType.SoundCloud)
+            if (Service.CurrentTrack?.ServiceType != ServiceType.SoundCloud)
             {
                 await new MessageDialog(
                     "SoundByte does not currently supporting user profiles that are not from SoundCloud.",

@@ -14,7 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Items\Comment\" />
     <Folder Include="Providers\" />
   </ItemGroup>
 

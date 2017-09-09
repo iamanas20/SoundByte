@@ -15,14 +15,10 @@ using Newtonsoft.Json;
 using SoundByte.Core.Items.Track;
 using SoundByte.Core.Items.User;
 
-namespace SoundByte.Core.Endpoints
+namespace SoundByte.Core.Items.Comment
 {
-    /// <summary>
-    ///     This class represents a comment object within the SoundCloud API
-    /// </summary>
     [JsonObject]
-    [Obsolete]
-    public class Comment
+    public class SoundCloudComment : IComment
     {
         /// <summary>
         ///     Comment body
@@ -43,12 +39,6 @@ namespace SoundByte.Core.Endpoints
         public string Id { get; set; }
 
         /// <summary>
-        ///     The track that this comment was posted on
-        /// </summary>
-        [JsonProperty("track")]
-        public SoundCloudTrack Track { get; set; }
-
-        /// <summary>
         ///     At what time in the track was this posted
         /// </summary>
         [JsonProperty("timestamp")]
@@ -59,5 +49,18 @@ namespace SoundByte.Core.Endpoints
         /// </summary>
         [JsonProperty("user")]
         public SoundCloudUser User { get; set; }
+
+        public BaseComment ToBaseComment()
+        {
+            return new BaseComment
+            {
+                Body = Body,
+                CreatedAt = CreatedAt,
+                Id = Id,
+                ServiceType = ServiceType.SoundCloud,
+                Timestamp = TimeSpan.FromMilliseconds(double.Parse(Timestamp)),
+                User = User.ToBaseUser()
+            };
+        }
     }
 }

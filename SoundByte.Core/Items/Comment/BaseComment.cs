@@ -10,21 +10,30 @@
  * |----------------------------------------------------------------|
  */
 
-namespace SoundByte.Core.Items.Playlist
+using System;
+using System.Diagnostics.CodeAnalysis;
+using SoundByte.Core.Items.Track;
+using SoundByte.Core.Items.User;
+
+namespace SoundByte.Core.Items.Comment
 {
-    /// <summary>
-    /// Extend custom service playlist classes
-    /// off of this interface.
-    /// </summary>
-    public interface IPlaylist
+    [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
+
+    public class BaseComment
     {
+        public string Id { get; set; }
+
         /// <summary>
-        /// Convert the service specific playlist implementation to a
-        /// universal implementation. Overide this method and provide
-        /// the correct mapping between the service specific and universal
-        /// classes.
+        /// What service this playlist belongs to.
         /// </summary>
-        /// <returns>A base playlist item.</returns>
-        BasePlaylist ToBasePlaylist();
+        public ServiceType ServiceType { get; set; }
+
+        public string Body { get; set; }
+
+        public DateTime CreatedAt { get; set; }
+      
+        public TimeSpan Timestamp { get; set; }
+
+        public BaseUser User { get; set; }
     }
 }

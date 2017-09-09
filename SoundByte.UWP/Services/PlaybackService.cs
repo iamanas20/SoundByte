@@ -26,6 +26,7 @@ using Windows.System;
 using Windows.UI.Notifications;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using JetBrains.Annotations;
 using Microsoft.Toolkit.Uwp.Helpers;
 using SoundByte.Core;
 using SoundByte.Core.Items.Track;
@@ -74,6 +75,7 @@ namespace SoundByte.UWP.Services
                 audioVideoSyncTimer.Start();
         }
 
+        [CanBeNull]
         public BaseTrack CurrentTrack
         {
             get => _currentTrack;
@@ -366,7 +368,7 @@ namespace SoundByte.UWP.Services
                 // Update the live tile
                 UpdateNormalTiles();
 
-                if (CurrentTrack.ServiceType == ServiceType.SoundCloud)
+                if (CurrentTrack?.ServiceType == ServiceType.SoundCloud)
                 {
                     try
                     {
@@ -495,7 +497,7 @@ namespace SoundByte.UWP.Services
                             source = MediaSource.CreateFromUri(new Uri(track.AudioStreamUrl));
                             break;
                         default:
-                           throw new Exception("Unknown Track Type: " + track.ServiceType);
+                            throw new Exception("Unknown Track Type: " + track.ServiceType);
                     }
 
                     // So we can access the item later
@@ -614,6 +616,12 @@ namespace SoundByte.UWP.Services
 
         private void SyncAudioVideo(object sender, object e)
         {
+            // Only run this method if there is a track and it's a 
+            // youtube track
+            if (CurrentTrack == null || CurrentTrack.ServiceType != ServiceType.YouTube)
+                return;
+
+            // Don't run in the backround
             if (DeviceHelper.IsBackground)
                 return;
 
@@ -627,35 +635,32 @@ namespace SoundByte.UWP.Services
             var overlay = App.CurrentFrame.FindName("VideoOverlay") as MediaElement;
             if (overlay == null) return;
 
-            if (CurrentTrack.ServiceType == ServiceType.YouTube)
-            {
-                var difference = overlay.Position - Player.PlaybackSession.Position;
+            var difference = overlay.Position - Player.PlaybackSession.Position;
 
-                if (Math.Abs(difference.TotalMilliseconds) >= 1000)
-                {
-                    overlay.PlaybackRate = 1;
-                    overlay.Position = Player.PlaybackSession.Position;
-                    System.Diagnostics.Debug.WriteLine("OUT OF SYNC: SKIPPING (>= 1000ms)");
-                }
-                else if (Math.Abs(difference.TotalMilliseconds) >= 500)
-                {
-                    overlay.PlaybackRate = difference.TotalMilliseconds > 0 ? 0.25 : 1.75;
-                    System.Diagnostics.Debug.WriteLine("OUT OF SYNC: CHANGE PLAYBACK RATE (>= 500ms)");
-                }
-                else if (Math.Abs(difference.TotalMilliseconds) >= 250)
-                {
-                    overlay.PlaybackRate = difference.TotalMilliseconds > 0 ? 0.5 : 1.5;
-                    System.Diagnostics.Debug.WriteLine("OUT OF SYNC: CHANGE PLAYBACK RATE (>= 250ms)");
-                }
-                else if (Math.Abs(difference.TotalMilliseconds) >= 100)
-                {
-                    overlay.PlaybackRate = difference.TotalMilliseconds > 0 ? 0.75 : 1.25;
-                    System.Diagnostics.Debug.WriteLine("OUT OF SYNC: CHANGE PLAYBACK RATE (>= 100ms)");
-                }
-                else
-                {
-                    overlay.PlaybackRate = 1;
-                }
+            if (Math.Abs(difference.TotalMilliseconds) >= 1000)
+            {
+                overlay.PlaybackRate = 1;
+                overlay.Position = Player.PlaybackSession.Position;
+                System.Diagnostics.Debug.WriteLine("OUT OF SYNC: SKIPPING (>= 1000ms)");
+            }
+            else if (Math.Abs(difference.TotalMilliseconds) >= 500)
+            {
+                overlay.PlaybackRate = difference.TotalMilliseconds > 0 ? 0.25 : 1.75;
+                System.Diagnostics.Debug.WriteLine("OUT OF SYNC: CHANGE PLAYBACK RATE (>= 500ms)");
+            }
+            else if (Math.Abs(difference.TotalMilliseconds) >= 250)
+            {
+                overlay.PlaybackRate = difference.TotalMilliseconds > 0 ? 0.5 : 1.5;
+                System.Diagnostics.Debug.WriteLine("OUT OF SYNC: CHANGE PLAYBACK RATE (>= 250ms)");
+            }
+            else if (Math.Abs(difference.TotalMilliseconds) >= 100)
+            {
+                overlay.PlaybackRate = difference.TotalMilliseconds > 0 ? 0.75 : 1.25;
+                System.Diagnostics.Debug.WriteLine("OUT OF SYNC: CHANGE PLAYBACK RATE (>= 100ms)");
+            }
+            else
+            {
+                overlay.PlaybackRate = 1;
             }
         }
 

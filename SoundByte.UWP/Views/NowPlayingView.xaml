@@ -3,10 +3,10 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:endpoints="using:SoundByte.Core.Endpoints"
     NavigationCacheMode="Enabled"
     xmlns:converters="using:SoundByte.UWP.Converters"
-    xmlns:track="using:SoundByte.Core.Items.Track">
+    xmlns:track="using:SoundByte.Core.Items.Track"
+    xmlns:comment="using:SoundByte.Core.Items.Comment">
     <Page.Transitions>
         <TransitionCollection>
             <NavigationThemeTransition>
@@ -516,7 +516,7 @@
                               IsMultiSelectCheckBoxEnabled="False">
                        
                         <ListView.ItemTemplate>
-                            <DataTemplate>
+                            <DataTemplate x:DataType="comment:BaseComment">
                                 <Grid BorderThickness="0" Margin="0,5" BorderBrush="{x:Null}" Padding="0"
                                       RequestedTheme="Dark">
                                     <Ellipse Width="58"
@@ -526,7 +526,7 @@
                                              Margin="5,0,0,0">
                                         <Ellipse.Fill>
                                             <ImageBrush
-                                                ImageSource="{Binding User, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
+                                                ImageSource="{x:Bind Path=User, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
                                                 Stretch="UniformToFill" />
                                         </Ellipse.Fill>
                                     </Ellipse>
@@ -535,13 +535,13 @@
                                                 
                                                 HorizontalAlignment="Stretch">
                                         <TextBlock Height="25" Margin="70,7,10,0" TextWrapping="WrapWholeWords"
-                                                   Text="{Binding User.Username}" FontSize="16" FontWeight="SemiLight"
+                                                   Text="{x:Bind User.Username}" FontSize="16" FontWeight="SemiLight"
                                                    Opacity="0.9" HorizontalAlignment="Left" VerticalAlignment="Top" />
                                         <TextBlock
-                                            Text="{Binding CreatedAt, Converter={StaticResource ModernDateTimeConverter}}"
+                                            Text="{x:Bind CreatedAt, Converter={StaticResource ModernDateTimeConverter}}"
                                             FontWeight="SemiBold" Margin="70,0,10,0" VerticalAlignment="Top" FontSize="12"
                                             Opacity="0.7" />
-                                        <TextBlock Text="{Binding Body}" FontSize="14" TextWrapping="Wrap"
+                                        <TextBlock Text="{x:Bind Body}" FontSize="14" TextWrapping="Wrap"
                                                    Margin="70,5,10,5" HorizontalAlignment="Left" FontWeight="Normal"
                                                    FontFamily="Segoe UI" Height="Auto" Opacity="0.8" />
                                     </StackPanel>

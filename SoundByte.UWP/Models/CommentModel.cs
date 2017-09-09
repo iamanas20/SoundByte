@@ -19,10 +19,10 @@ using Windows.Foundation;
 using Windows.UI.Popups;
 using Windows.UI.Xaml.Data;
 using Microsoft.Toolkit.Uwp.Helpers;
+using Newtonsoft.Json;
 using SoundByte.Core;
-using SoundByte.Core.Endpoints;
 using SoundByte.Core.Exceptions;
-using SoundByte.Core.Holders;
+using SoundByte.Core.Items.Comment;
 using SoundByte.Core.Items.Track;
 using SoundByte.UWP.Services;
 
@@ -31,7 +31,7 @@ namespace SoundByte.UWP.Models
     /// <summary>
     ///     Gets comments for a supplied track
     /// </summary>
-    public class CommentModel : ObservableCollection<Comment>, ISupportIncrementalLoading
+    public class CommentModel : ObservableCollection<BaseComment>, ISupportIncrementalLoading
     {
         // The track we want to get comments for
         private BaseTrack _track;
@@ -59,7 +59,7 @@ namespace SoundByte.UWP.Models
         private async Task RunYouTubeLogic(uint count)
         {
             // Get the comments
-            var comments = await SoundByteService.Instance.GetAsync<dynamic>(ServiceType.YouTube, "commentThreads", new Dictionary<string, string>
+            var comments = await SoundByteService.Instance.GetAsync<YouTubeCommentHolder>(ServiceType.YouTube, "commentThreads", new Dictionary<string, string>
             {
                 { "maxResults", "50"},
                 { "part", "snippet"},
@@ -67,36 +67,23 @@ namespace SoundByte.UWP.Models
                 { "pageToken", Token }
             });
 
-            var offset = (string)comments.nextPageToken;
+            var offset = comments.NextPageToken;
 
             // Get the comment offset
             Token = string.IsNullOrEmpty(offset) ? "eol" : offset;
 
             // Make sure that there are comments in the list
-            if (comments.items.Count > 0)
+            if (comments.Items.Count > 0)
             {
                 // Set the count variable
-                count = (uint)comments.items.Count;
+                count = (uint)comments.Items.Count;
 
-                foreach (var comment in comments.items)
+                foreach (var comment in comments.Items)
                 {
                     // Loop though all the comments on the UI thread
                     await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                     {
-                        Add(new Comment
-                        {
-                            Id = comment.id,
-                            Body = comment.snippet.topLevelComment.snippet.textDisplay,
-                            CreatedAt = comment.snippet.topLevelComment.snippet.publishedAt,
-                            Timestamp = "0",
-                           // Track = _track,
-                        //    User = new User
-                         //   {
-                          //      Id = "",
-                          //      ArtworkLink = comment.snippet.topLevelComment.snippet.authorProfileImageUrl,
-                           //     Username = comment.snippet.topLevelComment.snippet.authorDisplayName
-                           // }            
-                        });
+                        Add(comment.ToBaseComment());
                     });
                 }   
             }
@@ -119,7 +106,7 @@ namespace SoundByte.UWP.Models
         private async Task RunSoundCloudLogic(uint count)
         {
             // Get the comments
-            var comments = await SoundByteService.Instance.GetAsync<CommentListHolder>(
+            var comments = await SoundByteService.Instance.GetAsync<CommentListHolder>(ServiceType.SoundCloud,
                 string.Format("/tracks/{0}/comments", _track.Id), new Dictionary<string, string>
                 {
                     {"limit", "50"},
@@ -141,7 +128,7 @@ namespace SoundByte.UWP.Models
                 count = (uint)comments.Items.Count;
 
                 // Loop though all the comments on the UI thread
-                await DispatcherHelper.ExecuteOnUIThreadAsync(() => { comments.Items.ForEach(Add); });
+                await DispatcherHelper.ExecuteOnUIThreadAsync(() => { comments.Items.ForEach(x => Add(x.ToBaseComment())); });
             }
             else
             {
@@ -223,6 +210,32 @@ namespace SoundByte.UWP.Models
         {
             Token = null;
             Clear();
+        }
+
+        [JsonObject]
+        public class YouTubeCommentHolder
+        {
+            [JsonProperty("nextPageToken")]
+            public string NextPageToken { get; set; }
+
+            [JsonProperty("items")]
+            public List<YouTubeComment> Items { get; set; }
+        }
+
+        [JsonObject]
+        public class CommentListHolder
+        {
+            /// <summary>
+            ///     List of comments
+            /// </summary>
+            [JsonProperty("collection")]
+            public List<SoundCloudComment> Items { get; set; }
+
+            /// <summary>
+            ///     Next items in the list
+            /// </summary>
+            [JsonProperty("next_href")]
+            public string NextList { get; set; }
         }
     }
 }

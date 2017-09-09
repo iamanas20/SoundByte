@@ -1,5 +1,4 @@
-﻿//*********************************************************
-/* |----------------------------------------------------------------|
+﻿/* |----------------------------------------------------------------|
  * | Copyright (c) 2017, Grid Entertainment                         |
  * | All Rights Reserved                                            |
  * |                                                                |
@@ -11,30 +10,21 @@
  * |----------------------------------------------------------------|
  */
 
-using System;
-using System.Collections.Generic;
-using Newtonsoft.Json;
-using SoundByte.Core.Endpoints;
-
-namespace SoundByte.Core.Holders
+namespace SoundByte.Core.Items.Comment
 {
     /// <summary>
-    ///     Small class for holding comments
+    /// Extend custom service comment classes
+    /// off of this interface.
     /// </summary>
-    [JsonObject]
-    [Obsolete]
-    public class CommentListHolder
+    public interface IComment
     {
         /// <summary>
-        ///     List of comments
+        /// Convert the service specific comment implementation to a
+        /// universal implementation. Overide this method and provide
+        /// the correct mapping between the service specific and universal
+        /// classes.
         /// </summary>
-        [JsonProperty("collection")]
-        public List<Comment> Items { get; set; }
-
-        /// <summary>
-        ///     Next items in the list
-        /// </summary>
-        [JsonProperty("next_href")]
-        public string NextList { get; set; }
+        /// <returns>A base comment item.</returns>
+        BaseComment ToBaseComment();
     }
 }
