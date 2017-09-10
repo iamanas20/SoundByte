@@ -195,8 +195,6 @@ namespace SoundByte.UWP
 
         private async Task PerformAsyncWork(string path)
         {
-            App.IsLoading = true;
-
             // Set the app language
             ApplicationLanguages.PrimaryLanguageOverride =
                 string.IsNullOrEmpty(SettingsService.Instance.CurrentAppLanguage)

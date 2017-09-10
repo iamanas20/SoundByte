@@ -227,11 +227,11 @@ namespace SoundByte.UWP.ViewModels
                         break;
                 }
             }
-            else if (e.ClickedItem.GetType().Name == "User")
+            else if (e.ClickedItem.GetType().Name == "BaseUser")
             {
                 App.NavigateTo(typeof(UserView), e.ClickedItem as BaseUser);
             }
-            else if (e.ClickedItem.GetType().Name == "Playlist")
+            else if (e.ClickedItem.GetType().Name == "BasePlaylist")
             {
                 App.NavigateTo(typeof(PlaylistView), e.ClickedItem as BasePlaylist);
             }
