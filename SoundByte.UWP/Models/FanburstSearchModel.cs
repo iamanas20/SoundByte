@@ -22,6 +22,7 @@ using Microsoft.Toolkit.Uwp.Helpers;
 using SoundByte.Core;
 using SoundByte.Core.Exceptions;
 using SoundByte.Core.Items.Track;
+using SoundByte.Core.Services;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.UserControls;
 
@@ -69,7 +70,7 @@ namespace SoundByte.UWP.Models
                 try
                 {
                     // Search for matching tracks
-                    var searchTracks = await SoundByteService.Instance.GetAsync<List<FanburstTrack>>(
+                    var searchTracks = await SoundByteV3Service.Current.GetAsync<List<FanburstTrack>>(
                         ServiceType.Fanburst, "tracks/search", new Dictionary<string, string>
                         {
                             {"query", WebUtility.UrlEncode(Query)},

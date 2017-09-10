@@ -23,6 +23,7 @@ using SoundByte.Core;
 using SoundByte.Core.Exceptions;
 using SoundByte.Core.Holders;
 using SoundByte.Core.Items.Track;
+using SoundByte.Core.Services;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.UserControls;
 
@@ -102,7 +103,7 @@ namespace SoundByte.UWP.Models
                 try
                 {
                     // Get the trending tracks
-                    var exploreTracks = await SoundByteService.Instance.GetAsync<ExploreTrackHolder>(ServiceType.SoundCloudV2, "/charts",
+                    var exploreTracks = await SoundByteV3Service.Current.GetAsync<ExploreTrackHolder>(ServiceType.SoundCloudV2, "/charts",
                         new Dictionary<string, string>
                         {
                             {"genre", "soundcloud%3Agenres%3A" + _genre},

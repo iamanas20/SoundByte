@@ -76,7 +76,7 @@ namespace SoundByte.UWP.Models
                             count = 10;
 
                         // Get items from the users stream
-                        var streamTracks = await SoundByteService.Instance.GetAsync<StreamTrackHolder>(ServiceType.SoundCloud, "/e1/me/stream",
+                        var streamTracks = await SoundByteV3Service.Current.GetAsync<StreamTrackHolder>(ServiceType.SoundCloud, "/e1/me/stream",
                             new Dictionary<string, string>
                             {
                                 {"limit", count.ToString()},

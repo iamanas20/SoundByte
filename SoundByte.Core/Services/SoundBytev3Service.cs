@@ -235,6 +235,17 @@ namespace SoundByte.Core.Services
                         // We want json
                         client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
+                        // Add the user agent
+                        client.DefaultRequestHeaders.UserAgent.Add(
+                            new ProductInfoHeaderValue("SoundByte.Core", "1.0.0"));
+
+                        // Add the service only if it's connected
+                        if (IsServiceConnected(type))
+                        {
+                            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("OAuth", 
+                                ServiceSecrets.FirstOrDefault(x => x.Service == type)?.UserToken.AccessToken);
+                        }
+
                         // escape the url
                         var escapedUri = new Uri(Uri.EscapeUriString(requestUri));
 
@@ -268,6 +279,14 @@ namespace SoundByte.Core.Services
             catch (OperationCanceledException)
             {
                 return default(T);
+            }
+            catch (JsonSerializationException jsex)
+            {
+                throw new SoundByteException("JSON ERROR", jsex.Message, "\uEB63");
+            }
+            catch (Exception ex)
+            {
+                throw new SoundByteException("GENERAL ERROR", ex.Message, "\uE007");
             }
         }
         #endregion

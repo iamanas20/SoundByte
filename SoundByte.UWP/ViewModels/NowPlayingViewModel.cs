@@ -22,6 +22,7 @@ using SoundByte.Core;
 using SoundByte.Core.Items.Comment;
 using SoundByte.Core.Items.Track;
 using SoundByte.Core.Items.User;
+using SoundByte.Core.Services;
 using SoundByte.UWP.Converters;
 using SoundByte.UWP.Dialogs;
 using SoundByte.UWP.Helpers;
@@ -439,7 +440,7 @@ namespace SoundByte.UWP.ViewModels
             }
 
             // Get the user object
-            var currentUser = await SoundByteService.Instance.GetAsync<SoundCloudUser>(ServiceType.SoundCloud, "/users/" + Service.CurrentTrack.User.Id);
+            var currentUser = await SoundByteV3Service.Current.GetAsync<SoundCloudUser>(ServiceType.SoundCloud, "/users/" + Service.CurrentTrack.User.Id);
 
             // Hide the loading ring
             App.IsLoading = false;

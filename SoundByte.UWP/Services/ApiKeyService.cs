@@ -100,6 +100,8 @@ namespace SoundByte.UWP.Services
             {
                 _loaded = task.Exception == null;
             });
+
+
         }
 
         public static string GoogleAnalyticsTrackerId

@@ -168,7 +168,7 @@ namespace SoundByte.UWP.Dialogs
 
             // Get a list of the user playlists
             var userPlaylists =
-                await SoundByteService.Instance.GetAsync<List<SoundCloudPlaylist>>(ServiceType.SoundCloud, "/me/playlists");
+                await SoundByteV3Service.Current.GetAsync<List<SoundCloudPlaylist>>(ServiceType.SoundCloud, "/me/playlists");
 
             Playlist.Clear();
 
@@ -211,7 +211,7 @@ namespace SoundByte.UWP.Dialogs
             try
             {
                 // Get the playlist object from the internet
-                var playlistObject = await SoundByteService.Instance.GetAsync<SoundCloudPlaylist>(ServiceType.SoundCloud, "/playlists/" + playlistId);
+                var playlistObject = await SoundByteV3Service.Current.GetAsync<SoundCloudPlaylist>(ServiceType.SoundCloud, "/playlists/" + playlistId);
                 // Get the track within the object
                 var trackObject = playlistObject.Tracks.FirstOrDefault(x => x.Id == int.Parse(Track.Id));
 
@@ -278,7 +278,7 @@ namespace SoundByte.UWP.Dialogs
             try
             {
                 // Get the playlist object from the internet
-                var playlistObject = await SoundByteService.Instance.GetAsync<SoundCloudPlaylist>(ServiceType.SoundCloud, "/playlists/" + playlistId);
+                var playlistObject = await SoundByteV3Service.Current.GetAsync<SoundCloudPlaylist>(ServiceType.SoundCloud, "/playlists/" + playlistId);
 
                 // Start creating the json track string with the basic json
                 var json = playlistObject.Tracks.Aggregate("{\"playlist\":{\"tracks\":[",

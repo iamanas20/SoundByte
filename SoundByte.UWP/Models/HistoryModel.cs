@@ -24,7 +24,6 @@ using SoundByte.Core.Exceptions;
 using SoundByte.Core.Holders;
 using SoundByte.Core.Items.Track;
 using SoundByte.Core.Services;
-using SoundByte.UWP.Services;
 using SoundByte.UWP.UserControls;
 
 namespace SoundByte.UWP.Models
@@ -69,13 +68,14 @@ namespace SoundByte.UWP.Models
                 {
                     try
                     {
-                        var userPlayHistory = await SoundByteService.Instance.GetAsync<HistoryListHolder>(
+                        var userPlayHistory = await SoundByteV3Service.Current.GetAsync<HistoryListHolder>(
+                            ServiceType.SoundCloudV2,
                             "/me/play-history/tracks", new Dictionary<string, string>
                             {
                                 {"limit", "50"},
                                 {"offset", Token},
                                 {"linked_partitioning", "1"}
-                            }, true);
+                            });
 
                         // Parse uri for offset
                         var param = new QueryParameterCollection(userPlayHistory.NextList);

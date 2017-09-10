@@ -20,9 +20,11 @@ using Windows.ApplicationModel.Resources;
 using Windows.Foundation;
 using Windows.UI.Xaml.Data;
 using Microsoft.Toolkit.Uwp.Helpers;
+using SoundByte.Core;
 using SoundByte.Core.Exceptions;
 using SoundByte.Core.Holders;
 using SoundByte.Core.Items.User;
+using SoundByte.Core.Services;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.UserControls;
 
@@ -70,7 +72,7 @@ namespace SoundByte.UWP.Models
                 try
                 {
                     // Get the searched users
-                    var searchUsers = await SoundByteService.Instance.GetAsync<UserListHolder>("/users",
+                    var searchUsers = await SoundByteV3Service.Current.GetAsync<UserListHolder>(ServiceType.SoundCloud,"/users",
                         new Dictionary<string, string>
                         {
                             {"limit", SettingsService.TrackLimitor.ToString()},

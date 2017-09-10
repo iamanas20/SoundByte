@@ -24,6 +24,7 @@ using SoundByte.Core;
 using SoundByte.Core.Exceptions;
 using SoundByte.Core.Items.Track;
 using SoundByte.Core.Items.User;
+using SoundByte.Core.Services;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.UserControls;
 using SoundByte.YouTubeParser;
@@ -92,7 +93,7 @@ namespace SoundByte.UWP.Models
                 try
                 {
                     // Search for matching tracks
-                    var searchTracks = await SoundByteService.Instance.GetAsync<YouTubeSearchList>(
+                    var searchTracks = await SoundByteV3Service.Current.GetAsync<YouTubeSearchList>(
                         ServiceType.YouTube, "search", new Dictionary<string, string>
                         {
                             {"part", "snippet"},

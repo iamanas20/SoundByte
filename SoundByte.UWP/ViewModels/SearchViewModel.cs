@@ -20,6 +20,7 @@ using SoundByte.Core;
 using SoundByte.Core.Items.Playlist;
 using SoundByte.Core.Items.Track;
 using SoundByte.Core.Items.User;
+using SoundByte.Core.Services;
 using SoundByte.UWP.Dialogs;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.Models;
@@ -203,7 +204,7 @@ namespace SoundByte.UWP.ViewModels
                         try
                         {
                             var playlist =
-                                await SoundByteService.Instance.GetAsync<SoundCloudPlaylist>(ServiceType.SoundCloud, "/playlist/" + searchItem.Id);
+                                await SoundByteV3Service.Current.GetAsync<SoundCloudPlaylist>(ServiceType.SoundCloud, "/playlist/" + searchItem.Id);
                             App.NavigateTo(typeof(PlaylistView), playlist.ToBasePlaylist());
                         }
                         catch (Exception)
@@ -215,7 +216,7 @@ namespace SoundByte.UWP.ViewModels
                         try
                         {
                             var playlistR =
-                                await SoundByteService.Instance.GetAsync<SoundCloudPlaylist>(ServiceType.SoundCloud, "/playlist/" + searchItem.Id);
+                                await SoundByteV3Service.Current.GetAsync<SoundCloudPlaylist>(ServiceType.SoundCloud, "/playlist/" + searchItem.Id);
                             App.NavigateTo(typeof(PlaylistView), playlistR.ToBasePlaylist());
                         }
                         catch (Exception)

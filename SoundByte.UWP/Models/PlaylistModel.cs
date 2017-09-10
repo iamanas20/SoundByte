@@ -25,6 +25,7 @@ using SoundByte.Core.Exceptions;
 using SoundByte.Core.Holders;
 using SoundByte.Core.Items.Playlist;
 using SoundByte.Core.Items.User;
+using SoundByte.Core.Services;
 using SoundByte.UWP.Services;
 
 namespace SoundByte.UWP.Models
@@ -77,7 +78,7 @@ namespace SoundByte.UWP.Models
                 try
                 {
                     // Get the users playlists using the V2 API
-                    var userPlaylists = await SoundByteService.Instance.GetAsync<SearchPlaylistHolder>(ServiceType.SoundCloud,
+                    var userPlaylists = await SoundByteV3Service.Current.GetAsync<SearchPlaylistHolder>(ServiceType.SoundCloud,
                         $"/users/{User.Id}/playlists", new Dictionary<string, string>
                         {
                             {"limit", "50"},

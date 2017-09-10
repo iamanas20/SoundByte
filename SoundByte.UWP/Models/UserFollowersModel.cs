@@ -20,9 +20,11 @@ using Windows.Foundation;
 using Windows.UI.Popups;
 using Windows.UI.Xaml.Data;
 using Microsoft.Toolkit.Uwp.Helpers;
+using SoundByte.Core;
 using SoundByte.Core.Exceptions;
 using SoundByte.Core.Holders;
 using SoundByte.Core.Items.User;
+using SoundByte.Core.Services;
 using SoundByte.UWP.Services;
 
 namespace SoundByte.UWP.Models
@@ -75,7 +77,7 @@ namespace SoundByte.UWP.Models
                 try
                 {
                     // Get the users playlists using the V2 API
-                    var userPlaylists = await SoundByteService.Instance.GetAsync<UserListHolder>(
+                    var userPlaylists = await SoundByteV3Service.Current.GetAsync<UserListHolder>(ServiceType.SoundCloud, 
                         $"/users/{User.Id}/{Type}", new Dictionary<string, string>
                         {
                             {"limit", "50"},

@@ -33,6 +33,7 @@ using SoundByte.Core.Items.Track;
 using SoundByte.Core.Items.User;
 using SoundByte.UWP.Converters;
 using SoundByte.UWP.Helpers;
+using SoundByte.Core.Services;
 
 namespace SoundByte.UWP.Services
 {
@@ -383,7 +384,7 @@ namespace SoundByte.UWP.Services
 
                     try
                     {
-                        CurrentTrack.User = (await SoundByteService.Instance.GetAsync<SoundCloudUser>(ServiceType.SoundCloud, $"/users/{CurrentTrack.User.Id}")).ToBaseUser();
+                        CurrentTrack.User = (await SoundByteV3Service.Current.GetAsync<SoundCloudUser>(ServiceType.SoundCloud, $"/users/{CurrentTrack.User.Id}")).ToBaseUser();
                     }
                     catch
                     {

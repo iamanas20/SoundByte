@@ -19,10 +19,12 @@ using Windows.Foundation;
 using Windows.UI.Popups;
 using Windows.UI.Xaml.Data;
 using Microsoft.Toolkit.Uwp.Helpers;
+using SoundByte.Core;
 using SoundByte.Core.Exceptions;
 using SoundByte.Core.Holders;
 using SoundByte.Core.Items.Track;
 using SoundByte.Core.Items.User;
+using SoundByte.Core.Services;
 using SoundByte.UWP.Services;
 
 namespace SoundByte.UWP.Models
@@ -68,7 +70,7 @@ namespace SoundByte.UWP.Models
                 try
                 {
                     // Get the users track
-                    var userTracks = await SoundByteService.Instance.GetAsync<TrackListHolder>(
+                    var userTracks = await SoundByteV3Service.Current.GetAsync<TrackListHolder>(ServiceType.SoundCloud, 
                         $"/users/{User.Id}/tracks", new Dictionary<string, string>
                         {
                             {"limit", "50"},

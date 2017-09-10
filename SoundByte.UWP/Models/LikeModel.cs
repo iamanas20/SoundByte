@@ -24,6 +24,7 @@ using SoundByte.Core.Exceptions;
 using SoundByte.Core.Holders;
 using SoundByte.Core.Items.Track;
 using SoundByte.Core.Items.User;
+using SoundByte.Core.Services;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.UserControls;
 
@@ -86,7 +87,7 @@ namespace SoundByte.UWP.Models
                             count = 10;
 
                         // Get the like tracks
-                        var likeTracks = await SoundByteService.Instance.GetAsync<TrackListHolder>(ServiceType.SoundCloud, 
+                        var likeTracks = await SoundByteV3Service.Current.GetAsync<TrackListHolder>(ServiceType.SoundCloud, 
                             $"/users/{User.Id}/favorites", new Dictionary<string, string>
                             {
                                 {"limit", count.ToString()},

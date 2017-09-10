@@ -50,8 +50,6 @@ namespace SoundByte.UWP.Services
                     _soundCloudToken = null;
                     break;
                 case ServiceType.Fanburst:
-                    // Remove the token
-                    _fanburstToken = null;
                     break;
             }
         }
@@ -70,102 +68,15 @@ namespace SoundByte.UWP.Services
         public static SoundByteService Instance => InstanceHolder.Value;
         #endregion
 
-        private SoundByteService()
-        {
-            // This is all temp, this service is acting as a wrapper for the new
-            // Gen3.0 service.
-            var secretList = new List<ServiceSecret>
-            {
-                new ServiceSecret
-                {
-                    Service = ServiceType.SoundCloud,
-                    ClientId = ApiKeyService.SoundCloudClientId,
-                    ClientSecret = ApiKeyService.SoundCloudClientSecret,
-                    UserToken = SoundCloudToken
-                },
-                new ServiceSecret
-                {
-                    Service = ServiceType.SoundCloudV2,
-                    ClientId = ApiKeyService.SoundCloudClientId,
-                    ClientSecret = ApiKeyService.SoundCloudClientSecret,
-                    UserToken = SoundCloudToken
-                },
-                new ServiceSecret
-                {
-                    Service = ServiceType.Fanburst,
-                    ClientId = ApiKeyService.FanburstClientId,
-                    ClientSecret = ApiKeyService.FanburstClientSecret,
-                    UserToken = FanburstToken
-                },
-                new ServiceSecret
-                {
-                    Service = ServiceType.YouTube,
-                    ClientId = ApiKeyService.YouTubeClientId
-                }
-            };
-
-            SoundByteV3Service.Current.Init(secretList);
-        }
-
         #region Secret Keys
 
         private LoginToken _soundCloudToken;
-        private LoginToken _fanburstToken;
         private BaseUser _currentSoundCloudUser;
         private BaseUser _currentFanBurstUser;
 
         #endregion
 
         #region Getters and Setters
-
-        /// <summary>
-        ///     Get the token needed to access fanburst resources
-        /// </summary>
-        private LoginToken FanburstToken
-        {
-            get
-            {
-                // If we already have the token, return it
-                if (_fanburstToken != null)
-                    return _fanburstToken;
-
-                // Perform a check to see if we are logged in
-                if (!SoundByteV3Service.Current.IsServiceConnected(ServiceType.Fanburst))
-                    return null;
-
-                // Get the password vault
-                var vault = new PasswordVault();
-
-                try
-                {
-                    // Get soundcloud recources
-                    var soundCloudResource = vault.FindAllByResource("SoundByte.FanBurst").FirstOrDefault();
-
-                    // If this resource does not exist, return false
-                    if (soundCloudResource == null)
-                        return null;
-
-                    // Get the soundcloud vault items
-                    var token = vault.Retrieve("SoundByte.FanBurst", "Token").Password;
-
-                    // Create a new token class
-                    var tokenHolder = new LoginToken
-                    {
-                        AccessToken = token
-                    };
-
-                    // Set the private token
-                    _fanburstToken = tokenHolder;
-
-                    // Return the newly created token
-                    return tokenHolder;
-                }
-                catch (Exception)
-                {
-                    return null;
-                }
-            }
-        }
 
         /// <summary>
         ///     Get the token needed to access soundcloud resources
@@ -177,10 +88,6 @@ namespace SoundByte.UWP.Services
                 // If we already have the token, return it
                 if (_soundCloudToken != null)
                     return _soundCloudToken;
-
-                // Perform a check to see if we are logged in
-                if (!SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud))
-                    return null;
 
                 // Get the password vault
                 var vault = new PasswordVault();
@@ -239,7 +146,7 @@ namespace SoundByte.UWP.Services
                 try
                 {
                     _currentFanBurstUser =
-                        AsyncHelper.RunSync(async () => await GetAsync<FanburstUser>(ServiceType.Fanburst, "/me")).ToBaseUser();
+                        AsyncHelper.RunSync(async () => await SoundByteV3Service.Current.GetAsync<FanburstUser>(ServiceType.Fanburst, "/me")).ToBaseUser();
                     return _currentFanBurstUser;
                 }
                 catch
@@ -270,7 +177,7 @@ namespace SoundByte.UWP.Services
 
                 try
                 {
-                    _currentSoundCloudUser = AsyncHelper.RunSync(async () => await GetAsync<SoundCloudUser>(ServiceType.SoundCloud, "/me")).ToBaseUser();
+                    _currentSoundCloudUser = AsyncHelper.RunSync(async () => await SoundByteV3Service.Current.GetAsync<SoundCloudUser>(ServiceType.SoundCloud, "/me")).ToBaseUser();
                     return _currentSoundCloudUser;
                 }
                 catch
@@ -281,22 +188,6 @@ namespace SoundByte.UWP.Services
             }
         }
 
-        #endregion
-
-        #region Account Connected Checks
-        /// <summary>
-        ///     Checks to see if a users Fanburst account is connected. This method currently wraps
-        ///     SoundByteV3Service.Current.IsServiceConnected(ServiceType.Fanburst);
-        /// </summary>
-        [Obsolete("Use SoundByteV3Service.Current.IsServiceConnected", true)]
-        public bool IsFanBurstAccountConnected => SoundByteV3Service.Current.IsServiceConnected(ServiceType.Fanburst);
-
-        /// <summary>
-        ///     Checks to see if a users SoundCloud account is connected. This method currently wraps
-        ///     SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud);
-        /// </summary>
-        [Obsolete ("Use SoundByteV3Service.Current.IsServiceConnected", true)]
-        public bool IsSoundCloudAccountConnected => SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud);
         #endregion
 
         #region WebAPI Helpers
@@ -404,24 +295,7 @@ namespace SoundByte.UWP.Services
             }
         }
 
-        public async Task<string> GridEntertainmentSoundByteGetPlaybackKey()
-        {
-            try
-            {
-                using (var client = new HttpClient(new HttpBaseProtocolFilter {AutomaticDecompression = true}))
-                {
-                    var key = await client.GetStringAsync(
-                        new Uri("https://gridentertainment.net/api/soundbyte/playback-key"));
-                    key = key.Trim('"');
-                    return key;
-                }
-            }
-            catch (Exception)
-            {
-                return null;
-            }
-        }
-
+ 
         public async Task<bool> ApiCheck(string url)
         {
             try
@@ -442,157 +316,6 @@ namespace SoundByte.UWP.Services
             {
                 return false;
             }
-        }
-
-        /// <summary>
-        ///     Fetches an object from the soundcloud api and returns it back
-        ///     to the user. Note: This class will return a SoundByteException
-        ///     if anything goes wrong. Make sure to handle this exception.
-        /// </summary>
-        /// <typeparam name="T">The object type we will serialize</typeparam>
-        /// <param name="service">The service that we want to connect to</param>
-        /// <param name="endpoint">The service endpoint that we want</param>
-        /// <param name="optionalParams">A list of any optional params to send in the URI</param>
-        /// <returns></returns>
-        public async Task<T> GetAsync<T>(ServiceType service, string endpoint,
-            Dictionary<string, string> optionalParams = null)
-        {
-            // Strip out the / infront of the endpoint if it exists
-            endpoint = endpoint.TrimStart('/');
-
-            // Start building the request URL
-            var requestUri = string.Empty;
-
-            switch (service)
-            {
-                case ServiceType.SoundCloud:
-                    requestUri = 
-                        $"https://api.soundcloud.com/{endpoint}?client_id={ApiKeyService.SoundCloudClientId}&client_secret={ApiKeyService.SoundCloudClientSecret}";
-                    break;
-
-                case ServiceType.SoundCloudV2:
-                    requestUri = 
-                        $"https://api-v2.soundcloud.com/{endpoint}?client_id={ApiKeyService.SoundCloudClientId}&client_secret={ApiKeyService.SoundCloudClientSecret}";
-                    break;
-
-                case ServiceType.Fanburst:
-                    requestUri =
-                        $"https://api.fanburst.com/{endpoint}?client_id={ApiKeyService.FanburstClientId}&client_secret={ApiKeyService.FanburstClientSecret}";
-                    break;
-                case ServiceType.YouTube:
-                    requestUri =
-                        $"https://www.googleapis.com/youtube/v3/{endpoint}?key={ApiKeyService.YouTubeClientId}";
-                    break;
-            }
-
-            // Check that there are optional params then loop through all 
-            // the params and add them onto the request URL
-            if (optionalParams != null)
-                requestUri = optionalParams
-                    .Where(param => !string.IsNullOrEmpty(param.Key) && !string.IsNullOrEmpty(param.Value))
-                    .Aggregate(requestUri, (current, param) => current + "&" + param.Key + "=" + param.Value);
-
-            // Get the resource loader
-            var resources = ResourceLoader.GetForViewIndependentUse();
-
-            try
-            {
-                return await Task.Run(async () =>
-                {
-                    // Create the client
-                    using (var client = new HttpClient(new HttpBaseProtocolFilter { AutomaticDecompression = true }))
-                    {
-                        // Setup the request readers for user agent
-                        // and requested data type.
-                        client.DefaultRequestHeaders.UserAgent.Add(new HttpProductInfoHeaderValue("SoundByte",
-                            Package.Current.Id.Version.Major + "." + Package.Current.Id.Version.Minor + "." +
-                            Package.Current.Id.Version.Build));
-                        client.DefaultRequestHeaders.Accept.Add(
-                            new HttpMediaTypeWithQualityHeaderValue("application/json"));
-
-                        // Auth headers for when the user is logged in
-                        // Different for each service
-                        switch (service)
-                        {
-                            case ServiceType.SoundCloud:
-                            case ServiceType.SoundCloudV2:
-                                if (SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud))
-                                    client.DefaultRequestHeaders.Authorization =
-                                        new HttpCredentialsHeaderValue("OAuth", SoundCloudToken.AccessToken);
-                                break;
-
-                            case ServiceType.Fanburst:
-                                if (SoundByteV3Service.Current.IsServiceConnected(ServiceType.Fanburst))
-                                    client.DefaultRequestHeaders.Authorization =
-                                        new HttpCredentialsHeaderValue("OAuth", FanburstToken.AccessToken);
-                                break;
-                        }
-
-                        // escape the url
-                        var escapedUri = new Uri(Uri.EscapeUriString(requestUri));
-
-
-                        // Get the URL
-                        using (var webRequest = await client.GetAsync(escapedUri))
-                        {
-                            // Throw exception if the request failed
-                            if (webRequest.StatusCode != HttpStatusCode.Ok)
-                                throw new SoundByteException("Connection Error", webRequest.ReasonPhrase, "\uEB63");
-
-                            // Get the body of the request as a stream
-                            using (var webStream = await webRequest.Content.ReadAsInputStreamAsync())
-                            {
-                                // Read the stream
-                                using (var streamReader = new StreamReader(webStream.AsStreamForRead()))
-                                {
-                                    // Get the text from the stream
-                                    using (var textReader = new JsonTextReader(streamReader))
-                                    {
-                                        // Used to get the data from JSON
-                                        var serializer =
-                                            new JsonSerializer { NullValueHandling = NullValueHandling.Ignore };
-                                        // Return the data
-                                        return serializer.Deserialize<T>(textReader);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                });
-            }
-            catch (OperationCanceledException)
-            {
-                return default(T);
-            }
-            catch (JsonSerializationException)
-            {
-                throw new SoundByteException(resources.GetString("HttpError_Header"),
-                    resources.GetString("HttpError_JsonError"), "\uEB63");
-            }
-            catch (Exception ex)
-            {
-                throw new SoundByteException(resources.GetString("GeneralError_Header"),
-                    string.Format(resources.GetString("GeneralError_Content"), ex.Message), "\uE007");
-            }
-        }
-
-        /// <summary>
-        /// A wrapper function 
-        /// </summary>
-        /// <typeparam name="T">The object type we will serialize</typeparam>
-        /// <param name="endpoint">SoundClouud API endpoint to contact</param>
-        /// <param name="optionalParams">A list of any optional params to send in the URI</param>
-        /// <param name="useV2Api">If true, the v2 version of the soundcloud API will be contacted instead.</param>
-        /// <param name="service">The service that we want to connect to</param>
-        /// <returns>The object you specified</returns>
-        [Obsolete("This method is obsolete. Use GetAsync<T>(service, endpoint, optionalParams) instead.")]
-        public async Task<T> GetAsync<T>(string endpoint, Dictionary<string, string> optionalParams = null,
-            bool useV2Api = false, ServiceType service = ServiceType.SoundCloud)
-        {
-            if (service == ServiceType.SoundCloud && useV2Api)
-                service = ServiceType.SoundCloudV2;
-
-            return await GetAsync<T>(service, endpoint, optionalParams);
         }
 
         /// <summary>

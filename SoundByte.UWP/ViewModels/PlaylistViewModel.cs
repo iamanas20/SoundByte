@@ -21,6 +21,7 @@ using Windows.UI.Xaml.Controls;
 using SoundByte.Core;
 using SoundByte.Core.Items.Playlist;
 using SoundByte.Core.Items.Track;
+using SoundByte.Core.Services;
 using SoundByte.UWP.Converters;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.UserControls;
@@ -73,7 +74,7 @@ namespace SoundByte.UWP.ViewModels
                     (App.CurrentFrame?.FindName("PlaylistInfoPane") as InfoPane)?.ShowLoading();
                     // Get the playlist tracks
                     var playlistTracks =
-                        (await SoundByteService.Instance.GetAsync<SoundCloudPlaylist>(ServiceType.SoundCloud, "/playlists/" + Playlist.Id)).Tracks;
+                        (await SoundByteV3Service.Current.GetAsync<SoundCloudPlaylist>(ServiceType.SoundCloud, "/playlists/" + Playlist.Id)).Tracks;
                     playlistTracks.ForEach(x => Tracks.Add(x.ToBaseTrack()));
                     // Hide the loading ring
                     (App.CurrentFrame?.FindName("PlaylistInfoPane") as InfoPane)?.ClosePane();

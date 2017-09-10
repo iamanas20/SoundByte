@@ -407,12 +407,12 @@ namespace SoundByte.UWP
                                 switch (service)
                                 {
                                     case "soundcloud":
-                                        track = (await SoundByteService.Instance.GetAsync<SoundCloudTrack>(ServiceType.SoundCloud, $"/tracks/{parser["id"]}")).ToBaseTrack();
+                                        track = (await SoundByteV3Service.Current.GetAsync<SoundCloudTrack>(ServiceType.SoundCloud, $"/tracks/{parser["id"]}")).ToBaseTrack();
                                         break;
                                     case "youtube":
                                         break;
                                     case "fanburst":
-                                        track = (await SoundByteService.Instance.GetAsync<FanburstTrack>(ServiceType.Fanburst, $"/videos/{parser["id"]}")).ToBaseTrack();
+                                        track = (await SoundByteV3Service.Current.GetAsync<FanburstTrack>(ServiceType.Fanburst, $"/videos/{parser["id"]}")).ToBaseTrack();
                                         break;
                                 }
 
@@ -428,11 +428,11 @@ namespace SoundByte.UWP
                                 break;
                             case "playlist":
                                 var playlist =
-                                    await SoundByteService.Instance.GetAsync<SoundCloudPlaylist>(ServiceType.SoundCloud, $"/playlists/{parser["id"]}");
+                                    await SoundByteV3Service.Current.GetAsync<SoundCloudPlaylist>(ServiceType.SoundCloud, $"/playlists/{parser["id"]}");
                                 App.NavigateTo(typeof(PlaylistView), playlist.ToBasePlaylist());
                                 return;
                             case "user":
-                                var user = await SoundByteService.Instance.GetAsync<SoundCloudUser>(ServiceType.SoundCloud, $"/users/{parser["id"]}");
+                                var user = await SoundByteV3Service.Current.GetAsync<SoundCloudUser>(ServiceType.SoundCloud, $"/users/{parser["id"]}");
                                 App.NavigateTo(typeof(UserView), user.ToBaseUser());
                                 return;
                             case "changelog":

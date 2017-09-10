@@ -21,13 +21,13 @@ using Windows.Foundation;
 using Windows.Security.Credentials;
 using Windows.System;
 using Windows.UI.Core;
-using Windows.UI.Popups;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Microsoft.Toolkit.Uwp.Helpers;
 using SoundByte.Core;
+using SoundByte.Core.Items;
 using SoundByte.Core.Services;
 using SoundByte.UWP.Dialogs;
 using SoundByte.UWP.Helpers;
@@ -73,6 +73,9 @@ namespace SoundByte.UWP
 
             // Init Keys
             ApiKeyService.Init();
+
+            // Init service
+            InitV3Service();
 
             // Handle App Crashes
             CrashHelper.HandleAppCrashes(Current);
@@ -155,6 +158,82 @@ namespace SoundByte.UWP
                 // Navigate to the explore view
                 NavigateTo(typeof(ExploreView));
             };
+        }
+
+        private void InitV3Service()
+        {
+            // Get the password vault
+            var vault = new PasswordVault();
+
+            LoginToken soundCloudToken = null;
+            LoginToken fanburstToken = null;
+            LoginToken youTubeToken = null;
+
+            try
+            {
+                var soundCloudResource = vault.FindAllByResource("SoundByte.SoundCloud");
+                if (soundCloudResource != null)
+                    soundCloudToken = new LoginToken { AccessToken = vault.Retrieve("SoundByte.SoundCloud", "Token").Password };
+            }
+            catch
+            {
+                // ignored
+            }
+
+            try
+            {
+                var fanburstResource = vault.FindAllByResource("SoundByte.FanBurst");
+                if (fanburstResource != null)
+                    fanburstToken = new LoginToken { AccessToken = vault.Retrieve("SoundByte.FanBurst", "Token").Password };
+            }
+            catch
+            {
+                // ignored
+            }
+
+            try
+            {
+                var youTubeResource = vault.FindAllByResource("SoundByte.YouTube");
+                if (youTubeResource != null)
+                    youTubeToken = new LoginToken { AccessToken = vault.Retrieve("SoundByte.YouTube", "Token").Password };
+            }
+            catch
+            {
+                // ignored
+            }
+
+            var secretList = new List<ServiceSecret>
+            {
+                new ServiceSecret
+                {
+                    Service = ServiceType.SoundCloud,
+                    ClientId = ApiKeyService.SoundCloudClientId,
+                    ClientSecret = ApiKeyService.SoundCloudClientSecret,
+                    UserToken = soundCloudToken
+                },
+                new ServiceSecret
+                {
+                    Service = ServiceType.SoundCloudV2,
+                    ClientId = ApiKeyService.SoundCloudClientId,
+                    ClientSecret = ApiKeyService.SoundCloudClientSecret,
+                    UserToken = soundCloudToken
+                },
+                new ServiceSecret
+                {
+                    Service = ServiceType.Fanburst,
+                    ClientId = ApiKeyService.FanburstClientId,
+                    ClientSecret = ApiKeyService.FanburstClientSecret,
+                    UserToken = fanburstToken
+                },
+                new ServiceSecret
+                {
+                    Service = ServiceType.YouTube,
+                    ClientId = ApiKeyService.YouTubeClientId,
+                    UserToken = youTubeToken
+                }
+            };
+
+            SoundByteV3Service.Current.Init(secretList);
         }
 
         #endregion

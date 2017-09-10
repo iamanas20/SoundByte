@@ -24,6 +24,7 @@ using SoundByte.Core;
 using SoundByte.Core.Exceptions;
 using SoundByte.Core.Holders;
 using SoundByte.Core.Items.Playlist;
+using SoundByte.Core.Services;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.UserControls;
 
@@ -73,7 +74,7 @@ namespace SoundByte.UWP.Models
                 try
                 {
                     // Get the searched playlists
-                    var searchPlaylists = await SoundByteService.Instance.GetAsync<SearchPlaylistHolder>(ServiceType.SoundCloud, "/playlists",
+                    var searchPlaylists = await SoundByteV3Service.Current.GetAsync<SearchPlaylistHolder>(ServiceType.SoundCloud, "/playlists",
                         new Dictionary<string, string>
                         {
                             {"limit", SettingsService.TrackLimitor.ToString()},

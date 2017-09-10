@@ -70,7 +70,7 @@ namespace SoundByte.UWP.Models
                     try
                     {
                         // Get the users playlists using the V2 API
-                        var userPlaylists = await SoundByteService.Instance.GetAsync<PlaylistHolder>(ServiceType.SoundCloudV2,
+                        var userPlaylists = await SoundByteV3Service.Current.GetAsync<PlaylistHolder>(ServiceType.SoundCloudV2,
                             $"/users/{SoundByteService.Instance.SoundCloudUser.Id}/playlists/liked_and_owned",
                             new Dictionary<string, string>
                             {
