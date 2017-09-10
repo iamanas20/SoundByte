@@ -460,6 +460,13 @@ namespace SoundByte.UWP
             RootFrame.Navigate(typeof(HomeView));
         }
 
+        private void NavigateExplore(object sender, RoutedEventArgs e)
+        {
+            if (BlockNavigation) return;
+
+            RootFrame.Navigate(typeof(ExploreView));
+        }
+
         private void NavigateDonate(object sender, RoutedEventArgs e)
         {
             if (BlockNavigation) return;
@@ -511,6 +518,9 @@ namespace SoundByte.UWP
             {
                 case "HomeView":
                     HomeTab.IsChecked = true;
+                    break;
+                case "ExploreView":
+                    ExploreTab.IsChecked = true;
                     break;
                 case "DonateView":
                     DonateTab.IsChecked = true;
@@ -626,6 +636,7 @@ namespace SoundByte.UWP
             SetsTab.Visibility = Visibility.Visible;
             HistoryTab.Visibility = Visibility.Visible;
             AccountTab.Content = "Connected Accounts";
+            HomeTab.Visibility = Visibility.Visible;
         }
 
         public void ShowLogoutContent()
@@ -633,6 +644,7 @@ namespace SoundByte.UWP
             LikesTab.Visibility = Visibility.Collapsed;
             SetsTab.Visibility = Visibility.Collapsed;
             HistoryTab.Visibility = Visibility.Collapsed;
+            HomeTab.Visibility = Visibility.Collapsed;
             AccountTab.Content = "Login";
         }
 

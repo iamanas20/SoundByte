@@ -17,7 +17,7 @@ using SoundByte.Core.Items;
 
 namespace SoundByte.Core.Services
 {
-    public class HttpService
+    public class SoundByteV3Service
     {
         #region Private Variables
         // Has this class performed basic load yet (using Init();)
@@ -54,7 +54,7 @@ namespace SoundByte.Core.Services
             _isLoaded = true;
         }
 
-        public void Login(ServiceType type, LoginToken token)
+        public void ConnectService(ServiceType type, LoginToken token)
         {
             var serviceSecret = ServiceSecrets.FirstOrDefault(x => x.Service == type);
 
@@ -65,11 +65,16 @@ namespace SoundByte.Core.Services
             serviceSecret.UserToken = token;
         }
 
-        #region Instance Setup
-        private static readonly Lazy<HttpService> InstanceHolder =
-            new Lazy<HttpService>(() => new HttpService());
+        public void DisconnectService(ServiceType type)
+        {
+            
+        }
 
-        public static HttpService Current => InstanceHolder.Value;
+        #region Instance Setup
+        private static readonly Lazy<SoundByteV3Service> InstanceHolder =
+            new Lazy<SoundByteV3Service>(() => new SoundByteV3Service());
+
+        public static SoundByteV3Service Current => InstanceHolder.Value;
         #endregion
     }
 }

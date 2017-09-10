@@ -326,7 +326,7 @@
                         <AdaptiveTrigger MinWindowWidth="768" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="ShellFrame.Padding" Value="40,0,0,0" />
+                        <Setter Target="ShellFrame.Padding" Value="40,0,40,0" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -409,6 +409,17 @@
                                          Tag="&#xE80F;"
                                          Content="Home"
                                          Checked="NavigateHome" />
+
+                            <RadioButton x:Name="ExploreTab"
+                                         FocusVisualPrimaryThickness="0"
+                                         FocusVisualSecondaryThickness="0"
+                                         FocusVisualMargin="0"
+                                         HorizontalAlignment="Stretch"
+                                         GroupName="NavPaneButtons"
+                                         Style="{StaticResource NavigationButtonStyle}"
+                                         Tag="&#xE909;"
+                                         Content="Explore"
+                                         Checked="NavigateExplore" />
 
                             <!-- The search box  -->
                             <sui:SearchBox x:Name="SearchTab" SearchSubmitted="SearchBox_SearchSubmitted" />

@@ -27,6 +27,7 @@ using SoundByte.UWP.Helpers;
 using SoundByte.Core.Exceptions;
 using SoundByte.Core.Items;
 using SoundByte.Core.Items.User;
+using SoundByte.Core.Services;
 
 namespace SoundByte.UWP.Services
 {
@@ -57,6 +58,9 @@ namespace SoundByte.UWP.Services
                     vault.FindAllByResource("SoundByte.FanBurst").ToList().ForEach(x => vault.Remove(x));
                     break;
             }
+
+            // Gen3.0 Service
+            SoundByteV3Service.Current.DisconnectService(serviceType);
         }
 
         #endregion
@@ -72,6 +76,12 @@ namespace SoundByte.UWP.Services
         /// </summary>
         public static SoundByteService Instance => InstanceHolder.Value;
         #endregion
+
+        private SoundByteService()
+        {
+
+
+        }
 
         #region Secret Keys
 

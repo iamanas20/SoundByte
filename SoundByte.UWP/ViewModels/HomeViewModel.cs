@@ -31,10 +31,7 @@ namespace SoundByte.UWP.ViewModels
         // Model for stream items
         public StreamModel StreamItems { get; } = new StreamModel();
 
-        /// <summary>
-        ///     The likes model that contains or the users liked tracks
-        /// </summary>
-        public ChartModel ChartsModel { get; } = new ChartModel();
+       
 
         /// <summary>
         ///     Refreshes the models depending on what
@@ -74,16 +71,7 @@ namespace SoundByte.UWP.ViewModels
             App.IsLoading = false;
         }
 
-        public async void PlayAllChartItems()
-        {
-            if (ChartsModel.FirstOrDefault() == null)
-                return;
-
-            var startPlayback =
-                await PlaybackService.Instance.StartMediaPlayback(ChartsModel.ToList(), ChartsModel.Token);
-            if (!startPlayback.success)
-                await new MessageDialog(startPlayback.message, "Error playing track.").ShowAsync();
-        }
+       
 
         public async void PlayShuffleStreamTracks()
         {
@@ -98,10 +86,7 @@ namespace SoundByte.UWP.ViewModels
             await ShuffleTracksAsync(baseTrackList, StreamItems.Token);
         }
 
-        public async void PlayShuffleChartItems()
-        {
-            await ShuffleTracksAsync(ChartsModel.ToList(), ChartsModel.Token);
-        }
+      
 
         public async void NavigateStream(object sender, ItemClickEventArgs e)
         {
@@ -140,44 +125,6 @@ namespace SoundByte.UWP.ViewModels
             }
 
             // We are not loading
-            App.IsLoading = false;
-        }
-
-
-        public async void PlayChartItem(object sender, ItemClickEventArgs e)
-        {
-            var startPlayback = await PlaybackService.Instance.StartMediaPlayback(ChartsModel.ToList(),
-                ChartsModel.Token, false, (BaseTrack) e.ClickedItem);
-            if (!startPlayback.success)
-                await new MessageDialog(startPlayback.message, "Error playing track.").ShowAsync();
-        }
-
-        /// <summary>
-        ///     Combobox for trending selection and
-        ///     type of song.
-        /// </summary>
-        public void OnComboBoxChanged(object sender, SelectionChangedEventArgs e)
-        {
-            // Dislay the loading ring
-            App.IsLoading = true;
-
-            // Get the combo box
-            var comboBox = sender as ComboBox;
-
-            // See which combo box we got
-            switch (comboBox?.Name)
-            {
-                case "ExploreTypeCombo":
-                    ChartsModel.Kind = (comboBox.SelectedItem as ComboBoxItem)?.Tag.ToString();
-                    break;
-                case "ExploreGenreCombo":
-                    ChartsModel.Genre = (comboBox.SelectedItem as ComboBoxItem)?.Tag.ToString();
-                    break;
-            }
-
-            ChartsModel.RefreshItems();
-
-            // Hide loading ring
             App.IsLoading = false;
         }
 

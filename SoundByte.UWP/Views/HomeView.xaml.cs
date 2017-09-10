@@ -10,7 +10,6 @@
  * |----------------------------------------------------------------|
  */
 
-using System;
 using Windows.UI.Xaml.Navigation;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.ViewModels;
@@ -45,16 +44,10 @@ namespace SoundByte.UWP.Views
         /// <summary>
         ///     Called when the user navigates to the page
         /// </summary>
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            // Only show the stream pivot when soundcloud account is connected
-            StreamPivotItem.IsEnabled = SoundByteService.Instance.IsSoundCloudAccountConnected;
-
-            // Bootstart the user stream
-            if (SoundByteService.Instance.IsSoundCloudAccountConnected && ViewModel.StreamItems.Count == 0)
-                await ViewModel.StreamItems.LoadMoreItemsAsync(5);
-
-            HomePivot.SelectedIndex = !SoundByteService.Instance.IsSoundCloudAccountConnected ? 1 : 0;
+            if (!SoundByteService.Instance.IsSoundCloudAccountConnected)
+                App.NavigateTo(typeof(ExploreView));
 
             // Track Event
             TelemetryService.Instance.TrackPage("Home View");

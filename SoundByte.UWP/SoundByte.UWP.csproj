@@ -253,6 +253,9 @@
     <Compile Include="Views\CoreApp\BlankPage.xaml.cs">
       <DependentUpon>BlankPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ExploreView.xaml.cs">
+      <DependentUpon>ExploreView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\General\WhatsNewView.xaml.cs">
       <DependentUpon>WhatsNewView.xaml</DependentUpon>
     </Compile>
@@ -394,6 +397,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CoreApp\BlankPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ExploreView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
