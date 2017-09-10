@@ -326,7 +326,7 @@
                         <AdaptiveTrigger MinWindowWidth="768" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="ShellFrame.Padding" Value="40,0,40,0" />
+                        <Setter Target="ShellFrame.Padding" Value="40,0,0,0" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>

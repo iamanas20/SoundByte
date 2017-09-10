@@ -22,6 +22,30 @@
         </DataTemplate>
     </Page.Resources>
     <Grid Background="Transparent" x:Name="RootGrid">
+        <VisualStateManager.VisualStateGroups>
+
+            <VisualStateGroup x:Name="WindowSize">
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="768" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="TextHeader.FontSize" Value="55" />
+                        <Setter Target="TextHeader.Margin" Value="14,30,0,0" />
+                        <Setter Target="TextHeader.Opacity" Value="0.8" />
+                        <Setter Target="DesktopCommandBar.Visibility" Value="Visible" />
+                        <Setter Target="MobileGrid.Visibility" Value="Collapsed" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+        <Grid x:Name="MobileGrid" Visibility="Visible" Background="{StaticResource MobileBlurHeader}"
+              VerticalAlignment="Top" HorizontalAlignment="Stretch" Height="48" Canvas.ZIndex="100">
+            <TextBlock Text="Stream" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="SemiBold"
+                       FontSize="18" />
+        </Grid>
+
         <!-- Info Pane for Model -->
         <elements:InfoPane x:Name="StreamModelInfoPane" Canvas.ZIndex="50" VerticalAlignment="Stretch"
                            HorizontalAlignment="Stretch" Visibility="Collapsed" Margin="-20,0,60,0" />
@@ -37,18 +61,26 @@
                   HorizontalAlignment="Stretch"
                   VerticalAlignment="Stretch">
             <ListView.Header>
-                <StackPanel x:Name="DesktopCommandBarStream" Visibility="Collapsed"
-                            Orientation="Horizontal" Margin="0,10,20,10">
-                    <elements:SoundByteButton Glyph="&#xE768;" Label="Play All Tracks"
-                                              Click="{x:Bind ViewModel.PlayAllStreamTracks}"
-                                              Margin="0,0,25,0" />
-                    <elements:SoundByteButton Glyph="&#xE8B1;" Label="Shuffle Play Tracks"
-                                              Click="{x:Bind ViewModel.PlayShuffleStreamTracks}"
-                                              Margin="0,0,25,0" />
-                    <elements:SoundByteButton Glyph="&#xE72C;" Label="Refresh"
-                                              Click="{x:Bind ViewModel.RefreshStreamItems}"
-                                              Margin="0,0,25,0" />
+                <StackPanel>
+                    <TextBlock Opacity="0" x:Name="TextHeader" Text="Home" FontWeight="Bold" FontSize="25"
+                               Margin="0,18,0,0" />
+
+                    <StackPanel x:Name="DesktopCommandBar" Visibility="Collapsed"
+                                Orientation="Horizontal" Margin="16,10,20,10">
+                        <elements:SoundByteButton Glyph="&#xE768;" Label="Play All Tracks"
+                                                  Click="{x:Bind ViewModel.PlayAllStreamTracks}"
+                                                  Margin="0,0,25,0" />
+                        <elements:SoundByteButton Glyph="&#xE8B1;" Label="Shuffle Play Tracks"
+                                                  Click="{x:Bind ViewModel.PlayShuffleStreamTracks}"
+                                                  Margin="0,0,25,0" />
+                        <elements:SoundByteButton Glyph="&#xE72C;" Label="Refresh"
+                                                  Click="{x:Bind ViewModel.RefreshStreamItems}"
+                                                  Margin="0,0,25,0" />
+                    </StackPanel>
                 </StackPanel>
+                
+                
+             
             </ListView.Header>
 
             <interactivity:Interaction.Behaviors>

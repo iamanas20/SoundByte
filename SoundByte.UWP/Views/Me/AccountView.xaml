@@ -39,6 +39,7 @@
         
         <WebView x:Name="LoginWebView"
                  Canvas.ZIndex="5"
+                 Margin="-40,0,0,0"
                  Visibility="Collapsed"
                  HorizontalAlignment="Stretch"
                  NavigationStarting="LoginWebView_OnNavigationStarting"
@@ -193,6 +194,7 @@
         </ScrollViewer>
 
         <Grid x:Name="LoadingSection" Canvas.ZIndex="10" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+              Margin="-40,0,0,0"
               Visibility="Collapsed" Background="{ThemeResource ShellNavigationBackground}">
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                 <ProgressRing IsActive="True" Width="80" Height="80" />

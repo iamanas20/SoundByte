@@ -636,7 +636,9 @@ namespace SoundByte.UWP
             SetsTab.Visibility = Visibility.Visible;
             HistoryTab.Visibility = Visibility.Visible;
             AccountTab.Content = "Connected Accounts";
-            HomeTab.Visibility = Visibility.Visible;
+
+            if (SoundByteService.Instance.IsSoundCloudAccountConnected)
+                HomeTab.Visibility = Visibility.Visible;
         }
 
         public void ShowLogoutContent()
