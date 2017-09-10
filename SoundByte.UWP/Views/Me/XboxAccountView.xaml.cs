@@ -11,13 +11,10 @@
  */
 
 using System;
-using System.Collections.Generic;
-using Windows.Security.Credentials;
-using Windows.UI.Popups;
 using Windows.UI.Xaml.Navigation;
 using Microsoft.AspNet.SignalR.Client;
-using SoundByte.Core;
 using SoundByte.Core.Items;
+using SoundByte.Core.Services;
 using SoundByte.UWP.Services;
 
 
@@ -43,41 +40,12 @@ namespace SoundByte.UWP.Views.Me
             RandomCodeText.Text = randomCode;
             await BackendService.Instance.LoginXboxConnect(randomCode);
 
-            BackendService.Instance.LoginHub.On<LoginToken>("RecieveLoginInfo", async info =>
+            BackendService.Instance.LoginHub.On<LoginToken>("RecieveLoginInfo", info =>
             {
-                
-
-                // Create the password vault
-                var vault = new PasswordVault();
-
-                if (info.ServiceType == ServiceType.SoundCloud)
-                {
-                    // Store the values in the vault
-                    vault.Add(new PasswordCredential("SoundByte.SoundCloud", "Token",
-                        info.AccessToken));
-                    vault.Add(new PasswordCredential("SoundByte.SoundCloud", "Scope",
-                        info.Scope));
-                }
-                else
-                {
-                    // Store the values in the vault
-                    vault.Add(new PasswordCredential("SoundByte.FanBurst", "Token",
-                        info.AccessToken));
-                }
-
-                TelemetryService.Instance.TrackEvent("Login Successful",
-                    new Dictionary<string, string>
-                    {
-                        {"Service", "Xbox Connect"}
-                    });
-
-                await new MessageDialog("Connected!").ShowAsync();
-
-                App.NavigateTo(typeof(HomeView));
+                // Login with the gen3.0 service
+                SoundByteV3Service.Current.ConnectService(info.ServiceType, info);
             });
         }
-
-  
 
         protected override async void OnNavigatedFrom(NavigationEventArgs e)
         {

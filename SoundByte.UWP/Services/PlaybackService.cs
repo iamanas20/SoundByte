@@ -396,8 +396,7 @@ namespace SoundByte.UWP.Services
             {
                 {"PlaylistCount", Playlist.Count.ToString()},
                 {"CurrentUsage", MemoryManager.AppMemoryUsage / 1024 / 1024 + "M"},
-                {"SoundCloudConnected", SoundByteService.Instance.IsSoundCloudAccountConnected.ToString()},
-                {"FanburstConnected", SoundByteService.Instance.IsFanBurstAccountConnected.ToString()},
+                {"TrackType", CurrentTrack?.ServiceType.ToString() ?? "Null"},
             });
         }
 

@@ -23,6 +23,7 @@ using Windows.Web.Http;
 using SoundByte.Core;
 using SoundByte.Core.Items.Playlist;
 using SoundByte.Core.Items.Track;
+using SoundByte.Core.Services;
 using SoundByte.UWP.Services;
 
 namespace SoundByte.UWP.Dialogs
@@ -144,9 +145,9 @@ namespace SoundByte.UWP.Dialogs
 
         private async void LoadContent(ContentDialog sender, ContentDialogOpenedEventArgs args)
         {
-            if ((Track.ServiceType == ServiceType.Fanburst && !SoundByteService.Instance.IsFanBurstAccountConnected)
+            if ((Track.ServiceType == ServiceType.Fanburst && !SoundByteV3Service.Current.IsServiceConnected(ServiceType.Fanburst))
                 || (Track.ServiceType == ServiceType.SoundCloud &&
-                    !SoundByteService.Instance.IsSoundCloudAccountConnected))
+                    !SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud)))
             {
                 Hide();
                 await new MessageDialog("You must first login to add tracks to playlists.", "Login Required").ShowAsync();

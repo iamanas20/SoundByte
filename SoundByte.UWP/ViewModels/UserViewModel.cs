@@ -17,9 +17,11 @@ using Windows.ApplicationModel.Resources;
 using Windows.UI.Popups;
 using Windows.UI.StartScreen;
 using Windows.UI.Xaml.Controls;
+using SoundByte.Core;
 using SoundByte.Core.Items.Playlist;
 using SoundByte.Core.Items.Track;
 using SoundByte.Core.Items.User;
+using SoundByte.Core.Services;
 using SoundByte.UWP.Converters;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.Models;
@@ -177,7 +179,7 @@ namespace SoundByte.UWP.ViewModels
                 PinButtonText = resources.GetString("AppBarUI_Pin_Raw");
             }
 
-            if (SoundByteService.Instance.IsSoundCloudAccountConnected &&
+            if (SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud) &&
                 User.Id == SoundByteService.Instance.SoundCloudUser.Id)
             {
                 FollowUserIcon = "\uE8FA";

@@ -11,6 +11,8 @@
  */
 
 using Windows.UI.Xaml.Navigation;
+using SoundByte.Core;
+using SoundByte.Core.Services;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.ViewModels;
 
@@ -46,7 +48,7 @@ namespace SoundByte.UWP.Views
         /// </summary>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            if (!SoundByteService.Instance.IsSoundCloudAccountConnected)
+            if (!SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud))
                 App.NavigateTo(typeof(ExploreView));
 
             // Track Event

@@ -25,6 +25,10 @@ using Newtonsoft.Json;
 
 namespace SoundByte.Core.Services
 {
+    /// <summary>
+    /// Next generation (Gen3.0) SoundByte Service. New features include portability (.NET Standard),
+    /// events (event based e.g OnServiceConnected), muiltiple services, easy to extend.
+    /// </summary>
     public class SoundByteV3Service
     {
         #region Delegates
@@ -38,13 +42,13 @@ namespace SoundByte.Core.Services
         /// When this event fires you should store the token somewhere within
         /// your application.
         /// </summary>
-        public event ServiceConnectedEventHandler ServiceConnected;
+        public event ServiceConnectedEventHandler OnServiceConnected;
 
         /// <summary>
         /// This event is fired when a service is disconnected. When this event fires
         /// you should remove any saved tokens and update the appropiate UI.
         /// </summary>
-        public event ServiceDisconnectedEventHandler ServiceDisconnected;
+        public event ServiceDisconnectedEventHandler OnServiceDisconnected;
         #endregion
 
         #region Private Variables
@@ -67,13 +71,16 @@ namespace SoundByte.Core.Services
         private static readonly Lazy<SoundByteV3Service> InstanceHolder =
             new Lazy<SoundByteV3Service>(() => new SoundByteV3Service());
 
+        /// <summary>
+        /// Gets the current instance of SoundByte V3 Service
+        /// </summary>
         public static SoundByteV3Service Current => InstanceHolder.Value;
         #endregion
 
         /// <summary>
-        /// 
+        /// Setup the service
         /// </summary>
-        /// <param name="secrets"></param>
+        /// <param name="secrets">A list of services and their secrets that will be used in the app</param>
         public void Init(List<ServiceSecret> secrets)
         {
             // A list of secrets must be provided
@@ -114,7 +121,7 @@ namespace SoundByte.Core.Services
             serviceSecret.UserToken = token;
 
             // Fire the event
-            ServiceConnected?.Invoke(type, token);
+            OnServiceConnected?.Invoke(type, token);
         }
 
         /// <summary>
@@ -133,7 +140,7 @@ namespace SoundByte.Core.Services
             service.UserToken = null;
 
             // Fire the event
-            ServiceDisconnected?.Invoke(type);
+            OnServiceDisconnected?.Invoke(type);
         }
 
         /// <summary>

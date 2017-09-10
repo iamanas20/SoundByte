@@ -40,27 +40,20 @@ namespace SoundByte.UWP.Services
         /// </summary>
         public void DisconnectService(ServiceType serviceType)
         {
-            // Get the password vault
-            var vault = new PasswordVault();
+            // Gen3.0 Service
+            SoundByteV3Service.Current.DisconnectService(serviceType);
 
             switch (serviceType)
             {
                 case ServiceType.SoundCloud:
                     // Remove the token
                     _soundCloudToken = null;
-                    // Remove everything in the vault
-                    vault.FindAllByResource("SoundByte.SoundCloud").ToList().ForEach(x => vault.Remove(x));
                     break;
                 case ServiceType.Fanburst:
                     // Remove the token
                     _fanburstToken = null;
-                    // Remove everything in the vault
-                    vault.FindAllByResource("SoundByte.FanBurst").ToList().ForEach(x => vault.Remove(x));
                     break;
             }
-
-            // Gen3.0 Service
-            SoundByteV3Service.Current.DisconnectService(serviceType);
         }
 
         #endregion
@@ -87,19 +80,22 @@ namespace SoundByte.UWP.Services
                 {
                     Service = ServiceType.SoundCloud,
                     ClientId = ApiKeyService.SoundCloudClientId,
-                    ClientSecret = ApiKeyService.SoundCloudClientSecret
+                    ClientSecret = ApiKeyService.SoundCloudClientSecret,
+                    UserToken = SoundCloudToken
                 },
                 new ServiceSecret
                 {
                     Service = ServiceType.SoundCloudV2,
                     ClientId = ApiKeyService.SoundCloudClientId,
-                    ClientSecret = ApiKeyService.SoundCloudClientSecret
+                    ClientSecret = ApiKeyService.SoundCloudClientSecret,
+                    UserToken = SoundCloudToken
                 },
                 new ServiceSecret
                 {
                     Service = ServiceType.Fanburst,
                     ClientId = ApiKeyService.FanburstClientId,
-                    ClientSecret = ApiKeyService.FanburstClientSecret
+                    ClientSecret = ApiKeyService.FanburstClientSecret,
+                    UserToken = FanburstToken
                 },
                 new ServiceSecret
                 {
@@ -125,7 +121,7 @@ namespace SoundByte.UWP.Services
         /// <summary>
         ///     Get the token needed to access fanburst resources
         /// </summary>
-        public LoginToken FanburstToken
+        private LoginToken FanburstToken
         {
             get
             {
@@ -134,7 +130,7 @@ namespace SoundByte.UWP.Services
                     return _fanburstToken;
 
                 // Perform a check to see if we are logged in
-                if (!IsFanBurstAccountConnected)
+                if (!SoundByteV3Service.Current.IsServiceConnected(ServiceType.Fanburst))
                     return null;
 
                 // Get the password vault
@@ -174,7 +170,7 @@ namespace SoundByte.UWP.Services
         /// <summary>
         ///     Get the token needed to access soundcloud resources
         /// </summary>
-        public LoginToken SoundCloudToken
+        private LoginToken SoundCloudToken
         {
             get
             {
@@ -183,7 +179,7 @@ namespace SoundByte.UWP.Services
                     return _soundCloudToken;
 
                 // Perform a check to see if we are logged in
-                if (!IsSoundCloudAccountConnected)
+                if (!SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud))
                     return null;
 
                 // Get the password vault
@@ -230,7 +226,7 @@ namespace SoundByte.UWP.Services
             get
             {
                 // Handle account disconnect
-                if (!IsFanBurstAccountConnected)
+                if (!SoundByteV3Service.Current.IsServiceConnected(ServiceType.Fanburst))
                 {
                     _currentFanBurstUser = null;
                     return null;
@@ -262,7 +258,7 @@ namespace SoundByte.UWP.Services
             get
             {
                 // Handle account disconnect
-                if (!IsSoundCloudAccountConnected)
+                if (!SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud))
                 {
                     _currentSoundCloudUser = null;
                     return null;
@@ -288,79 +284,19 @@ namespace SoundByte.UWP.Services
         #endregion
 
         #region Account Connected Checks
-
-        public bool IsAccountConnected => IsFanBurstAccountConnected || IsSoundCloudAccountConnected;
+        /// <summary>
+        ///     Checks to see if a users Fanburst account is connected. This method currently wraps
+        ///     SoundByteV3Service.Current.IsServiceConnected(ServiceType.Fanburst);
+        /// </summary>
+        [Obsolete("Use SoundByteV3Service.Current.IsServiceConnected", true)]
+        public bool IsFanBurstAccountConnected => SoundByteV3Service.Current.IsServiceConnected(ServiceType.Fanburst);
 
         /// <summary>
-        ///     Checks to see if the users fanbirst account is connected
+        ///     Checks to see if a users SoundCloud account is connected. This method currently wraps
+        ///     SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud);
         /// </summary>
-        public bool IsFanBurstAccountConnected
-        {
-            get
-            {
-                // Get the password vault
-                var vault = new PasswordVault();
-
-                if (vault.RetrieveAll().FirstOrDefault(x => x.Resource == "SoundByte.FanBurst") == null)
-                    return false;
-
-                try
-                {
-                    // Get FanBurst recources
-                    var appBurstResource = vault.FindAllByResource("SoundByte.FanBurst").FirstOrDefault();
-
-                    // If this resource does not exist, return false
-                    if (appBurstResource == null)
-                        return false;
-
-                    // Get the soundcloud token
-                    var tokenValue = vault.Retrieve("SoundByte.FanBurst", "Token").Password;
-
-                    // return true if the token exists
-                    return !string.IsNullOrEmpty(tokenValue);
-                }
-                catch (Exception)
-                {
-                    return false;
-                }
-            }
-        }
-
-        /// <summary>
-        ///     Checks to see if the users soundcloud account is connected
-        /// </summary>
-        public bool IsSoundCloudAccountConnected
-        {
-            get
-            {
-                // Get the password vault
-                var vault = new PasswordVault();
-
-                if (vault.RetrieveAll().FirstOrDefault(x => x.Resource == "SoundByte.SoundCloud") == null)
-                    return false;
-
-                try
-                {
-                    // Get soundcloud recources
-                    var soundCloudResource = vault.FindAllByResource("SoundByte.SoundCloud").FirstOrDefault();
-
-                    // If this resource does not exist, return false
-                    if (soundCloudResource == null)
-                        return false;
-
-                    // Get the soundcloud token
-                    var tokenValue = vault.Retrieve("SoundByte.SoundCloud", "Token").Password;
-
-                    // return true if the token exists
-                    return !string.IsNullOrEmpty(tokenValue);
-                }
-                catch (Exception)
-                {
-                    return false;
-                }
-            }
-        }
-
+        [Obsolete ("Use SoundByteV3Service.Current.IsServiceConnected", true)]
+        public bool IsSoundCloudAccountConnected => SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud);
         #endregion
 
         #region WebAPI Helpers
@@ -412,7 +348,7 @@ namespace SoundByte.UWP.Services
                             new HttpMediaTypeWithQualityHeaderValue("application/json"));
 
                         // Auth headers for when the user is logged in
-                        if (IsSoundCloudAccountConnected)
+                        if (SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud))
                             client.DefaultRequestHeaders.Authorization =
                                 new HttpCredentialsHeaderValue("OAuth", SoundCloudToken.AccessToken);
 
@@ -580,13 +516,13 @@ namespace SoundByte.UWP.Services
                         {
                             case ServiceType.SoundCloud:
                             case ServiceType.SoundCloudV2:
-                                if (IsSoundCloudAccountConnected)
+                                if (SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud))
                                     client.DefaultRequestHeaders.Authorization =
                                         new HttpCredentialsHeaderValue("OAuth", SoundCloudToken.AccessToken);
                                 break;
 
                             case ServiceType.Fanburst:
-                                if (IsFanBurstAccountConnected)
+                                if (SoundByteV3Service.Current.IsServiceConnected(ServiceType.Fanburst))
                                     client.DefaultRequestHeaders.Authorization =
                                         new HttpCredentialsHeaderValue("OAuth", FanburstToken.AccessToken);
                                 break;
@@ -692,7 +628,7 @@ namespace SoundByte.UWP.Services
                             new HttpMediaTypeWithQualityHeaderValue("application/json"));
 
                         // Auth headers for when the user is logged in
-                        if (IsSoundCloudAccountConnected)
+                        if (SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud))
                             client.DefaultRequestHeaders.Authorization =
                                 new HttpCredentialsHeaderValue("OAuth", SoundCloudToken.AccessToken);
 
@@ -746,7 +682,7 @@ namespace SoundByte.UWP.Services
                             new HttpMediaTypeWithQualityHeaderValue("application/json"));
 
                         // Auth headers for when the user is logged in
-                        if (IsSoundCloudAccountConnected)
+                        if (SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud))
                         {
                             client.DefaultRequestHeaders.Authorization =
                                 new HttpCredentialsHeaderValue("OAuth", SoundCloudToken.AccessToken);
@@ -808,7 +744,7 @@ namespace SoundByte.UWP.Services
                             new HttpMediaTypeWithQualityHeaderValue("application/json"));
 
                         // Auth headers for when the user is logged in
-                        if (IsSoundCloudAccountConnected)
+                        if (SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud))
                             client.DefaultRequestHeaders.Authorization =
                                 new HttpCredentialsHeaderValue("OAuth", SoundCloudToken.AccessToken);
 

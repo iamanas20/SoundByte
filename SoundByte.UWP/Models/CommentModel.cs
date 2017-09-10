@@ -64,6 +64,7 @@ namespace SoundByte.UWP.Models
             {
                 _track = PlaybackService.Instance.CurrentTrack;
 
+
                 if (_track == null)
                     return new LoadMoreItemsResult {Count = 0};
 
@@ -77,29 +78,11 @@ namespace SoundByte.UWP.Models
                     // Get the comment offset
                     Token = string.IsNullOrEmpty(trackComments.Token) ? "eol" : trackComments.Token;
 
-                    // Make sure that there are comments in the list
-                    if (trackComments.Comments.Count > 0)
-                    {
-                        // Set the count variable
-                        count = (uint)trackComments.Comments.Count;
+                    // Loop though all the comments on the UI thread
+                    await DispatcherHelper.ExecuteOnUIThreadAsync(() => { trackComments.Comments.ForEach(Add); });
 
-                        // Loop though all the comments on the UI thread
-                        await DispatcherHelper.ExecuteOnUIThreadAsync(() => { trackComments.Comments.ForEach(Add); });
-                    }
-                    else
-                    {
-                        // There are no items, so we added no items
-                        count = 0;
-
-                        // Reset the token
-                        Token = "eol";
-
-                        // No items tell the user
-                        await DispatcherHelper.ExecuteOnUIThreadAsync(async () =>
-                        {
-                            await new MessageDialog("Be the first to post a comment.", "No Comments").ShowAsync();
-                        });
-                    }
+                    // Set the count variable
+                    count = (uint)trackComments.Comments.Count;   
                 }
                 catch (SoundByteException ex)
                 {

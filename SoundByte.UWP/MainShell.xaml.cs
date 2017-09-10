@@ -36,6 +36,7 @@ using SoundByte.Core;
 using SoundByte.Core.Items.Playlist;
 using SoundByte.Core.Items.Track;
 using SoundByte.Core.Items.User;
+using SoundByte.Core.Services;
 using SoundByte.UWP.Dialogs;
 using SoundByte.UWP.Helpers;
 using SoundByte.UWP.Services;
@@ -337,7 +338,7 @@ namespace SoundByte.UWP
                 {
                     if (path == "playUserLikes" || path == "shufflePlayUserLikes")
                     {
-                        if (SoundByteService.Instance.IsSoundCloudAccountConnected)
+                        if (SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud))
                         {
                             // Navigate to the now playing screen
                             RootFrame.Navigate(typeof(NowPlayingView));
@@ -358,7 +359,7 @@ namespace SoundByte.UWP
 
                     if (path == "playUserStream")
                     {
-                        if (SoundByteService.Instance.IsSoundCloudAccountConnected)
+                        if (SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud))
                         {
                             // Navigate to the now playing screen
                             RootFrame.Navigate(typeof(NowPlayingView));
@@ -554,8 +555,8 @@ namespace SoundByte.UWP
                     AppViewBackButtonVisibility.Visible;
 
             // Update the UI depending if we are logged in or not
-            if (SoundByteService.Instance.IsSoundCloudAccountConnected ||
-                SoundByteService.Instance.IsFanBurstAccountConnected)
+            if (SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud) ||
+                SoundByteV3Service.Current.IsServiceConnected(ServiceType.Fanburst))
                 ShowLoginContent();
             else
                 ShowLogoutContent();
@@ -637,7 +638,7 @@ namespace SoundByte.UWP
             HistoryTab.Visibility = Visibility.Visible;
             AccountTab.Content = "Connected Accounts";
 
-            if (SoundByteService.Instance.IsSoundCloudAccountConnected)
+            if (SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud))
                 HomeTab.Visibility = Visibility.Visible;
         }
 

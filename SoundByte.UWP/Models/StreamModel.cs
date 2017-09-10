@@ -25,6 +25,7 @@ using SoundByte.Core.Exceptions;
 using SoundByte.Core.Items.Playlist;
 using SoundByte.Core.Items.Track;
 using SoundByte.Core.Items.User;
+using SoundByte.Core.Services;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.UserControls;
 
@@ -66,7 +67,7 @@ namespace SoundByte.UWP.Models
                 var resources = ResourceLoader.GetForViewIndependentUse();
 
                 // Check if the user is not logged in
-                if (SoundByteService.Instance.IsSoundCloudAccountConnected)
+                if (SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud))
                 {
                     try
                     {

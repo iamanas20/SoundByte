@@ -12,24 +12,30 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation;
+using Windows.Security.Credentials;
 using Windows.System;
 using Windows.UI.Core;
+using Windows.UI.Popups;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Microsoft.Toolkit.Uwp.Helpers;
+using SoundByte.Core;
+using SoundByte.Core.Services;
 using SoundByte.UWP.Dialogs;
 using SoundByte.UWP.Helpers;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.Views;
 using SoundByte.UWP.Views.CoreApp;
 using UICompositionAnimations.Lights;
+using WinRTXamlToolkit.Tools;
 
 namespace SoundByte.UWP
 {
@@ -85,6 +91,70 @@ namespace SoundByte.UWP
             // under a memory target to maintain priority to keep running.
             // Subscribe to the event that informs the app of this change.
             MemoryManager.AppMemoryUsageIncreased += MemoryManager_AppMemoryUsageIncreased;
+
+            // Run this code when a service is connected to SoundByte
+            SoundByteV3Service.Current.OnServiceConnected += (type, token) =>
+            {
+                var vault = new PasswordVault();
+
+                // Add the password to the vault so we can access it when restarting the app
+                switch (type)
+                {
+                    case ServiceType.SoundCloud:
+                    case ServiceType.SoundCloudV2:
+                        vault.Add(new PasswordCredential("SoundByte.SoundCloud", "Token", token.AccessToken));
+                        vault.Add(new PasswordCredential("SoundByte.SoundCloud", "Scope", token.Scope));
+                        break;
+                    case ServiceType.Fanburst:
+                        vault.Add(new PasswordCredential("SoundByte.FanBurst", "Token", token.AccessToken));
+                        break;
+                    case ServiceType.YouTube:
+                        vault.Add(new PasswordCredential("SoundByte.YouTube", "Token", token.AccessToken));
+                        break;
+                }
+
+                // Track the connect event
+                TelemetryService.Instance.TrackEvent("Service Connected",
+                    new Dictionary<string, string>
+                    {
+                        {"Service", type.ToString()}
+                    });
+
+                // Navigate home if we connected SoundCloud, else navigate to explore
+                NavigateTo(type == ServiceType.SoundCloud ? typeof(HomeView) : typeof(ExploreView));
+            };
+
+            // Run this code when a service is disconencted from SoundByte
+            SoundByteV3Service.Current.OnServiceDisconnected += type =>
+            {
+                // Get the password vault
+                var vault = new PasswordVault();
+
+                // Delte the vault depending on the service type
+                switch (type)
+                {
+                    case ServiceType.SoundCloud:
+                    case ServiceType.SoundCloudV2:
+                        vault.FindAllByResource("SoundByte.SoundCloud").ForEach(x => vault.Remove(x));
+                        break;
+                    case ServiceType.Fanburst:
+                        vault.FindAllByResource("SoundByte.FanBurst").ForEach(x => vault.Remove(x));
+                        break;
+                    case ServiceType.YouTube:
+                        vault.FindAllByResource("SoundByte.YouTube").ForEach(x => vault.Remove(x));
+                        break;
+                }
+
+                // Track the disconnect event
+                TelemetryService.Instance.TrackEvent("Service Disconnected",
+                    new Dictionary<string, string>
+                    {
+                        {"Service", type.ToString()}
+                    });
+
+                // Navigate to the explore view
+                NavigateTo(typeof(ExploreView));
+            };
         }
 
         #endregion
@@ -189,9 +259,9 @@ namespace SoundByte.UWP
                 // Setup the lights
                 LightsSourceHelper.Initialize(() => new PointerPositionSpotLight());
             }
-            catch         
+            catch
             {
-               // Temp fix around light helper already existing, proper fix later
+                // Temp fix around light helper already existing, proper fix later
             }
 
             LightsSourceHelper.SetIsLightsContainer(Window.Current.Content, true);
@@ -203,7 +273,7 @@ namespace SoundByte.UWP
             // Activate the window
             Window.Current.Activate();
         }
-      
+
         #region Static App Helpers
 
         /// <summary>
@@ -255,9 +325,9 @@ namespace SoundByte.UWP
             TelemetryService.Instance.TrackEvent("Leave Background");
 
             // Restore view content if it was previously unloaded
-            if(Window.Current != null && Window.Current.Content == null)
+            if (Window.Current != null && Window.Current.Content == null)
             {
-                 await InitializeShellAsync();              
+                await InitializeShellAsync();
             }
         }
 
@@ -405,7 +475,7 @@ namespace SoundByte.UWP
             catch
             {
                 // This will crash if no main view is active
-            }  
+            }
 
             // Run the GC to collect released resources on background thread.
             GC.Collect();
@@ -440,7 +510,7 @@ namespace SoundByte.UWP
                     break;
             }
 
-            await InitializeShellAsync(path);       
+            await InitializeShellAsync(path);
         }
 
         /// <summary>

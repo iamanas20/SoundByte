@@ -27,6 +27,7 @@ using Microsoft.Toolkit.Uwp.Helpers;
 using Newtonsoft.Json;
 using SoundByte.Core;
 using SoundByte.Core.Items;
+using SoundByte.Core.Services;
 using SoundByte.UWP.Helpers;
 using SoundByte.UWP.Services;
 
@@ -51,6 +52,10 @@ namespace SoundByte.UWP.Views.Me
 
             LoginWebView.NavigationCompleted += (sender, args) => { LoadingSection.Visibility = Visibility.Collapsed; };
 
+            // On disconnect and connect events refresh the UI
+            SoundByteV3Service.Current.OnServiceConnected += (type, token) => RefreshUi();
+            SoundByteV3Service.Current.OnServiceDisconnected += (type) => RefreshUi();
+
             // Handle new window requests, if a new window is requested, just navigate on the 
             // current page. 
             LoginWebView.NewWindowRequested += (view, eventArgs) =>
@@ -67,6 +72,7 @@ namespace SoundByte.UWP.Views.Me
         {
             TelemetryService.Instance.TrackPage("Account View");
 
+           
             MainView.Visibility = Visibility.Visible;
             ConnectAccountView.Visibility = Visibility.Collapsed;
             LoginWebView.Visibility = Visibility.Collapsed;
@@ -82,14 +88,14 @@ namespace SoundByte.UWP.Views.Me
 
         private void RefreshUi()
         {
-            SoundCloudText.Text = SoundByteService.Instance.IsSoundCloudAccountConnected ? "Logout" : "Login";
-            FanburstText.Text = SoundByteService.Instance.IsFanBurstAccountConnected ? "Logout" : "Login";
+            SoundCloudText.Text = SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud) ? "Logout" : "Login";
+            FanburstText.Text = SoundByteV3Service.Current.IsServiceConnected(ServiceType.Fanburst) ? "Logout" : "Login";
 
-            ViewSoundCloudProfileButton.IsEnabled = SoundByteService.Instance.IsSoundCloudAccountConnected;
+            ViewSoundCloudProfileButton.IsEnabled = SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud);
 
             // Update the UI depending if we are logged in or not
-            if (SoundByteService.Instance.IsSoundCloudAccountConnected ||
-                SoundByteService.Instance.IsFanBurstAccountConnected)
+            if (SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud) ||
+                SoundByteV3Service.Current.IsServiceConnected(ServiceType.Fanburst))
                 App.Shell.ShowLoginContent();
             else
                 App.Shell.ShowLogoutContent();
@@ -250,33 +256,11 @@ namespace SoundByte.UWP.Views.Me
                                             }
                                             else
                                             {
-                                                // Create the password vault
-                                                var vault = new PasswordVault();
-
-                                                if (_loginService == ServiceType.SoundCloud)
-                                                {
-                                                    // Store the values in the vault
-                                                    vault.Add(new PasswordCredential("SoundByte.SoundCloud", "Token",
-                                                        response.AccessToken));
-                                                    vault.Add(new PasswordCredential("SoundByte.SoundCloud", "Scope",
-                                                        response.Scope));
-                                                }
-                                                else
-                                                {
-                                                    // Store the values in the vault
-                                                    vault.Add(new PasswordCredential("SoundByte.FanBurst", "Token",
-                                                        response.AccessToken));
-                                                }
+                                                // Connect the service
+                                                SoundByteV3Service.Current.ConnectService(_loginService, response);
 
                                                 LoadingSection.Visibility = Visibility.Collapsed;
                                                 LoginWebView.Visibility = Visibility.Collapsed;
-                                                RefreshUi();
-
-                                                TelemetryService.Instance.TrackEvent("Login Successful",
-                                                    new Dictionary<string, string>
-                                                    {
-                                                        {"Service", _loginService.ToString()}
-                                                    });
                                             }                             
                                         }
                                     }
@@ -330,7 +314,7 @@ namespace SoundByte.UWP.Views.Me
         {
             _isXboxConnect = false;
 
-            if (SoundByteService.Instance.IsSoundCloudAccountConnected)
+            if (SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud))
             {
                 SoundByteService.Instance.DisconnectService(ServiceType.SoundCloud);
                 RefreshUi();
@@ -345,7 +329,7 @@ namespace SoundByte.UWP.Views.Me
         {
             _isXboxConnect = false;
 
-            if (SoundByteService.Instance.IsFanBurstAccountConnected)
+            if (SoundByteV3Service.Current.IsServiceConnected(ServiceType.Fanburst))
             {
                 SoundByteService.Instance.DisconnectService(ServiceType.Fanburst);
                 RefreshUi();
