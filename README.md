@@ -28,8 +28,6 @@ SoundByte is split into three main projects. `SoundByte.Core`, `SoundByte.Servic
 
 **SoundByte.Core:** This project contains cross platform classes and holders used to deserialize content from the SoundCloud and Fanburst API. This project is seperate allowing the backend service and UWP app to access the same classes. Built using .NET Standard. 
 
-*Note:* The `SoundByte.Core.Endpoints` and `SoundByte.Core.Holders` namespaces are no longer supported. Endpoints are now located in the items folder.
-
 Each SoundByte endpoint has its own namespace within the `items` namespace. For example, information about tracks is stored in the `SoundByte.Core.Items.Track` namespace. These namespaces will contain certain classes to aid in muilti-service support. Details about these classes are below:
 
 |Class Name|Description|
@@ -68,6 +66,11 @@ The `Models` folder contains models for the app. The name models may sound a lit
 
 ## Download
 SoundByte can be either downloaded from the Windows Store [here](https://www.microsoft.com/store/apps/9nblggh4xbjg) or downloaded from the build server. Windows 10 Creators Update or newer is required to run SoundByte.
+
+## Extending SoundByte
+
+SoundByte.Core Gen3 is designed to be easily extendable. More Information is coming soon...
+
 
 ## Development
 
