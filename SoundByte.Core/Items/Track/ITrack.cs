@@ -10,6 +10,10 @@
  * |----------------------------------------------------------------|
  */
 
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using SoundByte.Core.Items.Comment;
+
 namespace SoundByte.Core.Items.Track
 {
     /// <summary>
@@ -26,5 +30,13 @@ namespace SoundByte.Core.Items.Track
         /// </summary>
         /// <returns>A base track item.</returns>
         BaseTrack ToBaseTrack();
+
+        /// <summary>
+        /// Gets a list of base comments for this track.
+        /// </summary>
+        /// <param name="count">The amount of comments to get.</param>
+        /// <param name="token">Position in the comments (depends on service)</param>
+        /// <returns>A list of base comments and the next token</returns>
+        Task<(List<BaseComment> Comments, string Token)> GetCommentsAsync(uint count, string token);
     }
 }

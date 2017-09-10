@@ -11,13 +11,26 @@
  */
 
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
+using SoundByte.Core.Items.Comment;
+using SoundByte.Core.Services;
 
 namespace SoundByte.Core.Items.Track
 {
     [JsonObject]
     public class YouTubeTrack : ITrack
     {
+        public YouTubeTrack()
+        {
+        }
+
+        public YouTubeTrack(string id)
+        {
+            Id = new YouTubeId { VideoId = id };
+        }
+
         [JsonObject]
         public class YouTubeId
         {
@@ -127,6 +140,36 @@ namespace SoundByte.Core.Items.Track
             }
 
             return track;
+        }
+
+        public async Task<(List<BaseComment> Comments, string Token)> GetCommentsAsync(uint count, string token)
+        {
+            // Grab a list of YouTube comments
+            var youTubeComments = await SoundByteV3Service.Current.GetAsync<YouTubeCommentHolder>(ServiceType.YouTube,
+                "commentThreads", new Dictionary<string, string>
+                {
+                    {"maxResults", count.ToString()},
+                    { "part", "snippet"},
+                    { "videoId", Id.VideoId},
+                    { "pageToken", token }
+                });
+
+            // Convert our list of YouTube comments to base comments
+            var baseCommentList = new List<BaseComment>();
+            youTubeComments.Items.ForEach(x => baseCommentList.Add(x.ToBaseComment()));
+
+            // Return the data
+            return (baseCommentList, youTubeComments.NextPageToken);
+        }
+
+        [JsonObject]
+        public class YouTubeCommentHolder
+        {
+            [JsonProperty("nextPageToken")]
+            public string NextPageToken { get; set; }
+
+            [JsonProperty("items")]
+            public List<YouTubeComment> Items { get; set; }
         }
     }
 }

@@ -11,7 +11,10 @@
  */
 
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
+using SoundByte.Core.Items.Comment;
 using SoundByte.Core.Items.User;
 
 namespace SoundByte.Core.Items.Track
@@ -19,6 +22,15 @@ namespace SoundByte.Core.Items.Track
     [JsonObject]
     public class FanburstTrack : ITrack
     {
+        public FanburstTrack()
+        {
+        }
+
+        public FanburstTrack(string id)
+        {
+            Id = id;
+        }
+
         [JsonObject]
         public class FanburstImages
         {
@@ -93,6 +105,12 @@ namespace SoundByte.Core.Items.Track
                 Genre = "Unkown",
                 User = User.ToBaseUser()
             };
+        }
+
+        public async Task<(List<BaseComment> Comments, string Token)> GetCommentsAsync(uint count, string token)
+        {
+            // Fanburst does not support comments
+            return await Task.Run(() => (new List<BaseComment>(), string.Empty));
         }
     }
 }

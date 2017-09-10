@@ -11,16 +11,12 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.UI.Popups;
 using Windows.UI.Xaml.Data;
 using Microsoft.Toolkit.Uwp.Helpers;
-using Newtonsoft.Json;
-using SoundByte.Core;
 using SoundByte.Core.Exceptions;
 using SoundByte.Core.Items.Comment;
 using SoundByte.Core.Items.Track;
@@ -56,97 +52,6 @@ namespace SoundByte.UWP.Models
         /// </summary>
         public bool HasMoreItems => Token != "eol";
 
-        private async Task RunYouTubeLogic(uint count)
-        {
-            // Get the comments
-            var comments = await SoundByteService.Instance.GetAsync<YouTubeCommentHolder>(ServiceType.YouTube, "commentThreads", new Dictionary<string, string>
-            {
-                { "maxResults", "50"},
-                { "part", "snippet"},
-                { "videoId", _track.Id},
-                { "pageToken", Token }
-            });
-
-            var offset = comments.NextPageToken;
-
-            // Get the comment offset
-            Token = string.IsNullOrEmpty(offset) ? "eol" : offset;
-
-            // Make sure that there are comments in the list
-            if (comments.Items.Count > 0)
-            {
-                // Set the count variable
-                count = (uint)comments.Items.Count;
-
-                foreach (var comment in comments.Items)
-                {
-                    // Loop though all the comments on the UI thread
-                    await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
-                    {
-                        Add(comment.ToBaseComment());
-                    });
-                }   
-            }
-            else
-            {
-                // There are no items, so we added no items
-                count = 0;
-
-                // Reset the token
-                Token = "eol";
-
-                // No items tell the user
-                await DispatcherHelper.ExecuteOnUIThreadAsync(async () =>
-                {
-                    await new MessageDialog("Be the first to post a comment.", "No Comments").ShowAsync();
-                });
-            }
-        }
-
-        private async Task RunSoundCloudLogic(uint count)
-        {
-            // Get the comments
-            var comments = await SoundByteService.Instance.GetAsync<CommentListHolder>(ServiceType.SoundCloud,
-                string.Format("/tracks/{0}/comments", _track.Id), new Dictionary<string, string>
-                {
-                    {"limit", "50"},
-                    {"cursor", Token},
-                    {"linked_partitioning", "1"}
-                });
-
-            // Parse uri for offset
-            var param = new QueryParameterCollection(comments.NextList);
-            var offset = param.FirstOrDefault(x => x.Key == "offset").Value;
-
-            // Get the comment offset
-            Token = string.IsNullOrEmpty(offset) ? "eol" : offset;
-
-            // Make sure that there are comments in the list
-            if (comments.Items.Count > 0)
-            {
-                // Set the count variable
-                count = (uint)comments.Items.Count;
-
-                // Loop though all the comments on the UI thread
-                await DispatcherHelper.ExecuteOnUIThreadAsync(() => { comments.Items.ForEach(x => Add(x.ToBaseComment())); });
-            }
-            else
-            {
-                // There are no items, so we added no items
-                count = 0;
-
-                // Reset the token
-                Token = "eol";
-
-                // No items tell the user
-                await DispatcherHelper.ExecuteOnUIThreadAsync(async () =>
-                {
-                    await new MessageDialog("Be the first to post a comment.", "No Comments").ShowAsync();
-                });
-            }
-        }
-
-
         /// <summary>
         ///     Loads stream items from the souncloud api
         /// </summary>
@@ -167,17 +72,34 @@ namespace SoundByte.UWP.Models
 
                 try
                 {
-                    switch (_track.ServiceType)
+                    var trackComments = await _track.GetCommentsAsync(count, Token);
+
+                    // Get the comment offset
+                    Token = string.IsNullOrEmpty(trackComments.Token) ? "eol" : trackComments.Token;
+
+                    // Make sure that there are comments in the list
+                    if (trackComments.Comments.Count > 0)
                     {
-                        case ServiceType.SoundCloud:
-                            await RunSoundCloudLogic(count);
-                            break;
-                        case ServiceType.YouTube:
-                            await RunYouTubeLogic(count);
-                            break;
+                        // Set the count variable
+                        count = (uint)trackComments.Comments.Count;
 
+                        // Loop though all the comments on the UI thread
+                        await DispatcherHelper.ExecuteOnUIThreadAsync(() => { trackComments.Comments.ForEach(Add); });
                     }
+                    else
+                    {
+                        // There are no items, so we added no items
+                        count = 0;
 
+                        // Reset the token
+                        Token = "eol";
+
+                        // No items tell the user
+                        await DispatcherHelper.ExecuteOnUIThreadAsync(async () =>
+                        {
+                            await new MessageDialog("Be the first to post a comment.", "No Comments").ShowAsync();
+                        });
+                    }
                 }
                 catch (SoundByteException ex)
                 {
@@ -212,30 +134,8 @@ namespace SoundByte.UWP.Models
             Clear();
         }
 
-        [JsonObject]
-        public class YouTubeCommentHolder
-        {
-            [JsonProperty("nextPageToken")]
-            public string NextPageToken { get; set; }
+      
 
-            [JsonProperty("items")]
-            public List<YouTubeComment> Items { get; set; }
-        }
-
-        [JsonObject]
-        public class CommentListHolder
-        {
-            /// <summary>
-            ///     List of comments
-            /// </summary>
-            [JsonProperty("collection")]
-            public List<SoundCloudComment> Items { get; set; }
-
-            /// <summary>
-            ///     Next items in the list
-            /// </summary>
-            [JsonProperty("next_href")]
-            public string NextList { get; set; }
-        }
+       
     }
 }

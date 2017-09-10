@@ -11,8 +11,14 @@
  */
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
+using SoundByte.Core.Helpers;
+using SoundByte.Core.Items.Comment;
 using SoundByte.Core.Items.User;
+using SoundByte.Core.Services;
 
 namespace SoundByte.Core.Items.Track
 {
@@ -22,6 +28,15 @@ namespace SoundByte.Core.Items.Track
     [JsonObject]
     public class SoundCloudTrack : ITrack
     {
+        public SoundCloudTrack()
+        { 
+        }
+
+        public SoundCloudTrack(string id)
+        {
+            Id = int.Parse(id);
+        }
+
         [JsonProperty("artwork_url")]
         public string ArtworkUrl { get; set; }
 
@@ -125,6 +140,51 @@ namespace SoundByte.Core.Items.Track
                 Genre = Genre,
                 User = User.ToBaseUser()
             };
+        }
+
+        /// <summary>
+        /// Gets a list of base comments for this track.
+        /// </summary>
+        /// <param name="count">The amount of comments to get.</param>
+        /// <param name="token">Position in the comments (depends on service)</param>
+        /// <returns>A list of base comments and the next token</returns>
+        public async Task<(List<BaseComment> Comments, string Token)> GetCommentsAsync(uint count, string token)
+        {
+            // Grab a list of SoundCloud comments
+            var soundCloudComments = await SoundByteV3Service.Current.GetAsync<CommentListHolder>(ServiceType.SoundCloud,
+                $"/tracks/{Id}/comments", new Dictionary<string, string>
+                {
+                    {"limit", count.ToString()},
+                    {"offset", token},
+                    {"linked_partitioning", "1"}
+                });
+
+            // Parse the next URL and grab the token
+            var nextUri = new QueryParameterCollection(soundCloudComments.NextList);
+            var nextToken = nextUri.FirstOrDefault(x => x.Key == "offset").Value;
+
+            // Convert our list of SoundCloud comments to base comments
+            var baseCommentList = new List<BaseComment>();
+            soundCloudComments.Items.ForEach(x => baseCommentList.Add(x.ToBaseComment()));
+
+            // Return the data
+            return (baseCommentList, nextToken);
+        }
+
+        [JsonObject]
+        public class CommentListHolder
+        {
+            /// <summary>
+            ///     List of comments
+            /// </summary>
+            [JsonProperty("collection")]
+            public List<SoundCloudComment> Items { get; set; }
+
+            /// <summary>
+            ///     Next items in the list
+            /// </summary>
+            [JsonProperty("next_href")]
+            public string NextList { get; set; }
         }
     }
 }

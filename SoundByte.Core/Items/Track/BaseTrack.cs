@@ -11,7 +11,10 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Threading.Tasks;
+using SoundByte.Core.Items.Comment;
 using SoundByte.Core.Items.User;
 
 namespace SoundByte.Core.Items.Track
@@ -46,5 +49,26 @@ namespace SoundByte.Core.Items.Track
         public double CommentCount { get; set; }
         public string Genre { get; set; }
         public BaseUser User { get; set; }
+
+
+        public async Task<(List<BaseComment> Comments, string Token)> GetCommentsAsync(uint count, string token)
+        {
+            // Always at least 10 comments.
+            if (count <= 10)
+                count = 10;
+
+            switch (ServiceType)
+            {
+                case ServiceType.SoundCloud:
+                case ServiceType.SoundCloudV2:
+                    return await new SoundCloudTrack(Id).GetCommentsAsync(count, token);
+                case ServiceType.Fanburst:
+                    return await new FanburstTrack(Id).GetCommentsAsync(count, token);
+                case ServiceType.YouTube:
+                    return await new YouTubeTrack(Id).GetCommentsAsync(count, token);
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }   
+        }
     }
 }

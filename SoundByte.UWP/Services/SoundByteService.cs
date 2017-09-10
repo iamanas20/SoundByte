@@ -79,8 +79,36 @@ namespace SoundByte.UWP.Services
 
         private SoundByteService()
         {
+            // This is all temp, this service is acting as a wrapper for the new
+            // Gen3.0 service.
+            var secretList = new List<ServiceSecret>
+            {
+                new ServiceSecret
+                {
+                    Service = ServiceType.SoundCloud,
+                    ClientId = ApiKeyService.SoundCloudClientId,
+                    ClientSecret = ApiKeyService.SoundCloudClientSecret
+                },
+                new ServiceSecret
+                {
+                    Service = ServiceType.SoundCloudV2,
+                    ClientId = ApiKeyService.SoundCloudClientId,
+                    ClientSecret = ApiKeyService.SoundCloudClientSecret
+                },
+                new ServiceSecret
+                {
+                    Service = ServiceType.Fanburst,
+                    ClientId = ApiKeyService.FanburstClientId,
+                    ClientSecret = ApiKeyService.FanburstClientSecret
+                },
+                new ServiceSecret
+                {
+                    Service = ServiceType.YouTube,
+                    ClientId = ApiKeyService.YouTubeClientId
+                }
+            };
 
-
+            SoundByteV3Service.Current.Init(secretList);
         }
 
         #region Secret Keys
@@ -596,10 +624,9 @@ namespace SoundByte.UWP.Services
                     }
                 });
             }
-            catch (TaskCanceledException)
+            catch (OperationCanceledException)
             {
-                throw new SoundByteException(resources.GetString("HttpError_Header"),
-                    resources.GetString("HttpError_TaskCancel"), "\uE007");
+                return default(T);
             }
             catch (JsonSerializationException)
             {
@@ -611,8 +638,6 @@ namespace SoundByte.UWP.Services
                 throw new SoundByteException(resources.GetString("GeneralError_Header"),
                     string.Format(resources.GetString("GeneralError_Content"), ex.Message), "\uE007");
             }
-
-
         }
 
         /// <summary>
