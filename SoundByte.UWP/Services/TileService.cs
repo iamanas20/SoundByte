@@ -13,6 +13,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Windows.UI.Notifications;
 using Windows.UI.StartScreen;
 using SoundByte.Core.Helpers;
 using SoundByte.UWP.Dialogs;
@@ -26,6 +27,10 @@ namespace SoundByte.UWP.Services
     {
         private TileService()
         {
+            // Setup the tile updaters
+            TileUpdater = TileUpdateManager.CreateTileUpdaterForApplication("App");
+            TileUpdater.EnableNotificationQueue(true);
+
             // Gets all the tiles that are for the app
             var allTiles = AsyncHelper.RunSync(async () => await SecondaryTile.FindAllAsync());
             // Clear the list
@@ -46,6 +51,11 @@ namespace SoundByte.UWP.Services
         #region Variables
         // Stores all the tiles that are currently pinned to the users screen
         private readonly Dictionary<string, SecondaryTile> _mPTileList = new Dictionary<string, SecondaryTile>();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public TileUpdater TileUpdater { get; set; }
 
         #endregion
 

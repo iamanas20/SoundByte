@@ -12,7 +12,6 @@
 
 using System;
 using Newtonsoft.Json;
-using SoundByte.Core.Items.Track;
 using SoundByte.Core.Items.User;
 
 namespace SoundByte.Core.Items.Comment
@@ -58,7 +57,7 @@ namespace SoundByte.Core.Items.Comment
                 CreatedAt = CreatedAt,
                 Id = Id,
                 ServiceType = ServiceType.SoundCloud,
-                Timestamp = TimeSpan.FromMilliseconds(double.Parse(Timestamp)),
+                CommentTime = TimeSpan.FromMilliseconds(double.Parse(Timestamp)),
                 User = User.ToBaseUser()
             };
         }
