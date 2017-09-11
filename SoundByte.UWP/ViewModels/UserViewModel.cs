@@ -180,7 +180,7 @@ namespace SoundByte.UWP.ViewModels
             }
 
             if (SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud) &&
-                User.Id == SoundByteService.Instance.SoundCloudUser.Id)
+                User.Id == SoundByteV3Service.Current.GetConnectedUser(ServiceType.SoundCloud)?.Id)
             {
                 FollowUserIcon = "\uE8FA";
                 FollowUserText = "Follow User";
@@ -191,7 +191,7 @@ namespace SoundByte.UWP.ViewModels
                 ShowFollowButton = true;
 
                 // Check if we are following the user
-                if (await SoundByteService.Instance.ExistsAsync("/me/followings/" + User.Id))
+                if (await SoundByteV3Service.Current.ExistsAsync(ServiceType.SoundCloud, "/me/followings/" + User.Id))
                 {
                     FollowUserIcon = "\uE1E0";
                     FollowUserText = "Unfollow User";
@@ -213,10 +213,10 @@ namespace SoundByte.UWP.ViewModels
             App.IsLoading = true;
 
             // Check if we are following the user
-            if (await SoundByteService.Instance.ExistsAsync("/me/followings/" + User.Id))
+            if (await SoundByteV3Service.Current.ExistsAsync(ServiceType.SoundCloud, "/me/followings/" + User.Id))
             {
                 // Unfollow the user
-                if (await SoundByteService.Instance.DeleteAsync("/me/followings/" + User.Id))
+                if (await SoundByteV3Service.Current.DeleteAsync(ServiceType.SoundCloud, "/me/followings/" + User.Id))
                 {
                     TelemetryService.Instance.TrackEvent("Unfollow User");
                     FollowUserIcon = "\uE8FA";
@@ -231,7 +231,7 @@ namespace SoundByte.UWP.ViewModels
             else
             {
                 // Follow the user
-                if (await SoundByteService.Instance.PutAsync("/me/followings/" + User.Id))
+                if (await SoundByteV3Service.Current.PutAsync(ServiceType.SoundCloud, $"/me/followings/{User.Id}"))
                 {
                     TelemetryService.Instance.TrackEvent("Follow User");
                     FollowUserIcon = "\uE1E0";

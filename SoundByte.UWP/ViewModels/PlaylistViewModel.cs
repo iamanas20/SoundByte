@@ -63,7 +63,7 @@ namespace SoundByte.UWP.ViewModels
                     PinButtonText = resources.GetString("AppBarUI_Pin_Raw");
                 }
 
-                if (await SoundByteService.Instance.ExistsAsync($"/e1/me/playlist_likes/{Playlist.Id}"))
+                if (await SoundByteV3Service.Current.ExistsAsync(ServiceType.SoundCloud, $"/e1/me/playlist_likes/{Playlist.Id}"))
                     LikeButtonText = "Unlike Playlist";
                 else
                     LikeButtonText = "Like Playlist";

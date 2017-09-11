@@ -342,7 +342,7 @@ namespace SoundByte.UWP
                             RootFrame.Navigate(typeof(NowPlayingView));
 
                             // Get and load the user liked items
-                            var userLikes = new LikeModel(SoundByteService.Instance.SoundCloudUser);
+                            var userLikes = new LikeModel(SoundByteV3Service.Current.GetConnectedUser(ServiceType.SoundCloud));
 
                             while (userLikes.HasMoreItems)
                                 await userLikes.LoadMoreItemsAsync(500);

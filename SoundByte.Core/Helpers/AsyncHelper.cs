@@ -14,7 +14,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SoundByte.UWP.Helpers
+namespace SoundByte.Core.Helpers
 {
     /// <summary>
     ///     The class is used to run async methods in places where

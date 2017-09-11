@@ -15,7 +15,9 @@ using System.Linq;
 using Windows.UI.Popups;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using SoundByte.Core;
 using SoundByte.Core.Items.Track;
+using SoundByte.Core.Services;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.Models;
 using SoundByte.UWP.ViewModels;
@@ -35,7 +37,7 @@ namespace SoundByte.UWP.Views.Me
         /// <summary>
         ///     The likes model that contains or the users liked tracks
         /// </summary>
-        private LikeModel LikesModel { get; } = new LikeModel(SoundByteService.Instance.SoundCloudUser);
+        private LikeModel LikesModel { get; } = new LikeModel(SoundByteV3Service.Current.GetConnectedUser(ServiceType.SoundCloud));
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {

@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Net.Http;
 using Windows.Storage.Streams;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
@@ -103,8 +104,7 @@ namespace SoundByte.UWP.Dialogs
                     try
                     {
                         // Get the response message
-                        var response = await SoundByteService.Instance.PostAsync<BasePlaylist>("/playlists",
-                            new HttpStringContent(json, UnicodeEncoding.Utf8, "application/json"));
+                        var response = await SoundByteV3Service.Current.PostAsync<BasePlaylist>(ServiceType.SoundCloud, "/playlists", json);
 
                         // Check that the creation was successful
                         if (response != null)
@@ -228,8 +228,7 @@ namespace SoundByte.UWP.Dialogs
                 json = json.TrimEnd(',') + "]}}";
 
                 // Create the http request
-                var response = await SoundByteService.Instance.PutAsync("/playlists/" + playlistId,
-                    new HttpStringContent(json, UnicodeEncoding.Utf8, "application/json"));
+                var response = await SoundByteV3Service.Current.PutAsync(ServiceType.SoundCloud,  "/playlists/" + playlistId, json);
 
                 // Check that the remove was successful
                 if (!response)
@@ -287,10 +286,7 @@ namespace SoundByte.UWP.Dialogs
                 // Complete the json string by adding the current track
                 json += "{\"id\":\"" + Track.Id + "\"}]}}";
                 // Create the http request
-                var response =
-                    await SoundByteService.Instance.PutAsync(
-                        "/playlists/" + int.Parse(playlistObject.Id) + "/?secret-token=" + playlistObject.SecretToken,
-                        new HttpStringContent(json, UnicodeEncoding.Utf8, "application/json"));
+                var response = await SoundByteV3Service.Current.PutAsync(ServiceType.SoundCloud, $"/playlists/{playlistObject.Id}/?secret-token={playlistObject.SecretToken}", json);
 
                 // Check that the update was successful
                 if (!response)

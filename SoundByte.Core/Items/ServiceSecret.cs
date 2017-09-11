@@ -11,6 +11,8 @@
  */
 
 using System.Diagnostics.CodeAnalysis;
+using JetBrains.Annotations;
+using SoundByte.Core.Items.User;
 
 namespace SoundByte.Core.Items
 {
@@ -38,6 +40,14 @@ namespace SoundByte.Core.Items
         /// <summary>
         /// The logged in users token
         /// </summary>
+        [CanBeNull]
         public LoginToken UserToken { get; set; }
+
+        /// <summary>
+        /// The current logged in user. This can be null if no user is logged in
+        /// with this account
+        /// </summary>
+        [CanBeNull]
+        public BaseUser CurrentUser { get; set; }
     }
 }

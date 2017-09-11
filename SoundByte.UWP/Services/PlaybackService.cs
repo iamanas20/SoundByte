@@ -26,6 +26,8 @@ using Windows.System;
 using Windows.UI.Notifications;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.Web.Http;
+using Windows.Web.Http.Filters;
 using JetBrains.Annotations;
 using Microsoft.Toolkit.Uwp.Helpers;
 using SoundByte.Core;
@@ -311,7 +313,7 @@ namespace SoundByte.UWP.Services
             if (LikeIcon == "\uEB52")
             {
                 // Delete the like from the users likes and see if successful
-                if (await SoundByteService.Instance.DeleteAsync("/e1/me/track_likes/" + CurrentTrack.Id))
+                if (await SoundByteV3Service.Current.DeleteAsync(ServiceType.SoundCloud, "/e1/me/track_likes/" + CurrentTrack.Id))
                 {
                     LikeIcon = "\uEB51";
                     // Track Event
@@ -325,7 +327,7 @@ namespace SoundByte.UWP.Services
             else
             {
                 // Add a like to the users likes and see if successful
-                if (await SoundByteService.Instance.PutAsync("/e1/me/track_likes/" + CurrentTrack.Id))
+                if (await SoundByteV3Service.Current.PutAsync(ServiceType.SoundCloud, $"/e1/me/track_likes/{CurrentTrack.Id}"))
                 {
                     LikeIcon = "\uEB52";
                     // Track Event
@@ -373,7 +375,7 @@ namespace SoundByte.UWP.Services
                 {
                     try
                     {
-                        LikeIcon = await SoundByteService.Instance.ExistsAsync("/me/favorites/" + CurrentTrack.Id)
+                        LikeIcon = await SoundByteV3Service.Current.ExistsAsync(ServiceType.SoundCloud, "/me/favorites/" + CurrentTrack.Id)
                             ? "\uEB52"
                             : "\uEB51";
                     }
@@ -401,18 +403,41 @@ namespace SoundByte.UWP.Services
             });
         }
 
+        private static async Task<bool> ApiCheck(string url)
+        {
+            try
+            {
+                // Create the client
+                using (var client = new HttpClient(new HttpBaseProtocolFilter { AutomaticDecompression = true }))
+                {
+                    // No Auth for this
+                    client.DefaultRequestHeaders.Authorization = null;
+
+                    using (var webRequest = await client.GetAsync(new Uri(Uri.EscapeUriString(url))))
+                    {
+                        return webRequest.IsSuccessStatusCode;
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+
         private static async Task<string> GetCorrectApiKey()
         {
             return await Task.Run(async () =>
             {
                 // Check if we have hit the soundcloud api limit
-                if (await SoundByteService.Instance.ApiCheck(
+                if (await ApiCheck(
                     $"https://api.soundcloud.com/tracks/320126814/stream?client_id={ApiKeyService.SoundCloudClientId}"))
                     return ApiKeyService.SoundCloudClientId;
 
                 // Loop through all the backup keys
                 foreach (var key in ApiKeyService.SoundCloudPlaybackClientIds)
-                    if (await SoundByteService.Instance.ApiCheck(
+                    if (await ApiCheck(
                         $"https://api.soundcloud.com/tracks/320126814/stream?client_id={key}"))
                         return key;
 

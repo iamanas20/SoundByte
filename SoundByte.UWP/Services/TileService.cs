@@ -14,8 +14,8 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.UI.StartScreen;
+using SoundByte.Core.Helpers;
 using SoundByte.UWP.Dialogs;
-using SoundByte.UWP.Helpers;
 
 namespace SoundByte.UWP.Services
 {

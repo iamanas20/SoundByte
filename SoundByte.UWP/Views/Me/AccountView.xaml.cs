@@ -316,7 +316,7 @@ namespace SoundByte.UWP.Views.Me
 
             if (SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud))
             {
-                SoundByteService.Instance.DisconnectService(ServiceType.SoundCloud);
+                SoundByteV3Service.Current.DisconnectService(ServiceType.SoundCloud);
                 RefreshUi();
             }
             else
@@ -331,7 +331,7 @@ namespace SoundByte.UWP.Views.Me
 
             if (SoundByteV3Service.Current.IsServiceConnected(ServiceType.Fanburst))
             {
-                SoundByteService.Instance.DisconnectService(ServiceType.Fanburst);
+                SoundByteV3Service.Current.DisconnectService(ServiceType.Fanburst);
                 RefreshUi();
             }
             else
@@ -342,7 +342,7 @@ namespace SoundByte.UWP.Views.Me
 
         private void NavigateSoundCloudProfile(object sender, RoutedEventArgs e)
         {
-            App.NavigateTo(typeof(UserView), SoundByteService.Instance.SoundCloudUser);
+            App.NavigateTo(typeof(UserView), SoundByteV3Service.Current.GetConnectedUser(ServiceType.SoundCloud));
         }
 
         private void ConnectXboxOne(object sender, RoutedEventArgs e)

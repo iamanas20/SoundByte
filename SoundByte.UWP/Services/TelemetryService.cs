@@ -21,6 +21,7 @@ using Microsoft.Azure.Mobile.Push;
 using Microsoft.HockeyApp;
 using NotificationsExtensions;
 using NotificationsExtensions.Toasts;
+using SoundByte.Core.Helpers;
 using SoundByte.UWP.Helpers;
 
 namespace SoundByte.UWP.Services

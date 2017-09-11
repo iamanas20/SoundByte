@@ -16,6 +16,7 @@ using System.IO;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Newtonsoft.Json;
+using SoundByte.Core.Helpers;
 using SoundByte.UWP.Helpers;
 
 namespace SoundByte.UWP.Services
