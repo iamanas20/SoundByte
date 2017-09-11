@@ -41,7 +41,7 @@ namespace SoundByte.UWP.Views.Me
 
         public async void PlayShuffleItems()
         {
-            await BaseViewModel.ShuffleTracksAsync(HistoryModel.ToList(), HistoryModel.Token);
+            await BaseViewModel.ShuffleTracksAsync(HistoryModel);
         }
 
         public async void PlayAllItems()
@@ -49,7 +49,7 @@ namespace SoundByte.UWP.Views.Me
             App.IsLoading = true;
 
             var startPlayback =
-                await PlaybackService.Instance.StartMediaPlayback(HistoryModel.ToList(), HistoryModel.Token);
+                await PlaybackService.Instance.StartModelMediaPlaybackAsync(HistoryModel);
             if (!startPlayback.success)
                 await new MessageDialog(startPlayback.message, "Error playing track.").ShowAsync();
 
@@ -60,8 +60,7 @@ namespace SoundByte.UWP.Views.Me
         {
             App.IsLoading = true;
 
-            var startPlayback = await PlaybackService.Instance.StartMediaPlayback(HistoryModel.ToList(),
-                HistoryModel.Token, false, (BaseTrack) e.ClickedItem);
+            var startPlayback = await PlaybackService.Instance.StartModelMediaPlaybackAsync(HistoryModel, false, (BaseTrack) e.ClickedItem);
             if (!startPlayback.success)
                 await new MessageDialog(startPlayback.message, "Error playing track.").ShowAsync();
 

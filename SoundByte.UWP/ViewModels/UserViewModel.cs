@@ -11,7 +11,6 @@
  */
 
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
 using Windows.UI.Popups;
@@ -296,8 +295,7 @@ namespace SoundByte.UWP.ViewModels
             App.IsLoading = true;
 
             var startPlayback =
-                await PlaybackService.Instance.StartMediaPlayback(TracksList.ToList(), TracksList.Token, false,
-                    (BaseTrack) e.ClickedItem);
+                await PlaybackService.Instance.StartModelMediaPlaybackAsync(TracksList, false, (BaseTrack) e.ClickedItem);
             if (!startPlayback.success)
                 await new MessageDialog(startPlayback.message, "Error playing user track.").ShowAsync();
 
@@ -309,8 +307,7 @@ namespace SoundByte.UWP.ViewModels
             App.IsLoading = true;
 
             var startPlayback =
-                await PlaybackService.Instance.StartMediaPlayback(LikeItems.ToList(), LikeItems.Token, false,
-                    (BaseTrack) e.ClickedItem);
+                await PlaybackService.Instance.StartModelMediaPlaybackAsync(LikeItems, false, (BaseTrack) e.ClickedItem);
             if (!startPlayback.success)
                 await new MessageDialog(startPlayback.message, "Error playing liked user track.").ShowAsync();
 

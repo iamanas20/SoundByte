@@ -348,8 +348,7 @@ namespace SoundByte.UWP
                                 await userLikes.LoadMoreItemsAsync(500);
 
                             // Play the list of items
-                            await PlaybackService.Instance.StartMediaPlayback(userLikes.ToList(), path,
-                                path == "shufflePlayUserLikes");
+                            await PlaybackService.Instance.StartModelMediaPlaybackAsync(userLikes, path == "shufflePlayUserLikes");
 
                             return;
                         }
@@ -376,7 +375,7 @@ namespace SoundByte.UWP
                             }
 
                             // Play the list of items
-                         //   await PlaybackService.Instance.StartMediaPlayback(
+                         //   await PlaybackService.Instance.StartPlaylistMediaPlaybackAsync(
                           //      userStream.Where(x => x.Track != null).Select(x => x.Track).ToList(), path);
 
                             return;
@@ -417,8 +416,7 @@ namespace SoundByte.UWP
                                 if (track != null)
                                 {
                                     var startPlayback =
-                                        await PlaybackService.Instance.StartMediaPlayback(new List<BaseTrack> { track },
-                                            $"Protocol-{track.Id}");
+                                        await PlaybackService.Instance.StartPlaylistMediaPlaybackAsync(new List<BaseTrack> { track });
 
                                     if (!startPlayback.success)
                                         await new MessageDialog(startPlayback.message, "Error playing track.").ShowAsync();

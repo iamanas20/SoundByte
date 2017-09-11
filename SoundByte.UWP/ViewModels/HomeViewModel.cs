@@ -62,7 +62,7 @@ namespace SoundByte.UWP.ViewModels
             var baseTrackList = new List<BaseTrack>();
             trackList.ToList().ForEach(x => baseTrackList.Add(x.ToBaseTrack()));
 
-            var startPlayback = await PlaybackService.Instance.StartMediaPlayback(baseTrackList, StreamItems.Token);
+            var startPlayback = await PlaybackService.Instance.StartPlaylistMediaPlaybackAsync(baseTrackList);
 
             if (!startPlayback.success)
                 await new MessageDialog(startPlayback.message, "Error playing stream.").ShowAsync();
@@ -83,7 +83,7 @@ namespace SoundByte.UWP.ViewModels
             trackList.ToList().ForEach(x => baseTrackList.Add(x.ToBaseTrack()));
 
             // Shuffle and play the items
-            await ShuffleTracksAsync(baseTrackList, StreamItems.Token);
+            await ShuffleTracksAsync(baseTrackList);
         }
 
       
@@ -109,8 +109,7 @@ namespace SoundByte.UWP.ViewModels
                 case "track-repost":
                     if (streamItem.Track != null)
                     {
-                        var startPlayback = await PlaybackService.Instance.StartMediaPlayback(baseTrackList,
-                            StreamItems.Token, false, streamItem.Track.ToBaseTrack());
+                        var startPlayback = await PlaybackService.Instance.StartPlaylistMediaPlaybackAsync(baseTrackList, false, streamItem.Track.ToBaseTrack());
 
 
 

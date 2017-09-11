@@ -26,7 +26,6 @@ using SoundByte.Core.Items.Playlist;
 using SoundByte.Core.Items.Track;
 using SoundByte.Core.Items.User;
 using SoundByte.Core.Services;
-using SoundByte.UWP.Services;
 using SoundByte.UWP.UserControls;
 
 namespace SoundByte.UWP.Models

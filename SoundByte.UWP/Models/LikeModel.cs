@@ -10,22 +10,16 @@
  * |----------------------------------------------------------------|
  */
 
-using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
-using Windows.Foundation;
-using Windows.UI.Xaml.Data;
 using Microsoft.Toolkit.Uwp.Helpers;
 using SoundByte.Core;
 using SoundByte.Core.Exceptions;
 using SoundByte.Core.Holders;
-using SoundByte.Core.Items.Track;
 using SoundByte.Core.Items.User;
 using SoundByte.Core.Services;
-using SoundByte.UWP.Services;
 using SoundByte.UWP.UserControls;
 
 namespace SoundByte.UWP.Models
@@ -33,7 +27,7 @@ namespace SoundByte.UWP.Models
     /// <summary>
     ///     Model for user likes
     /// </summary>
-    public class LikeModel : ObservableCollection<BaseTrack>, ISupportIncrementalLoading
+    public class LikeModel : BaseTrackModel
     {
         /// <summary>
         ///     Setsup the like view model for a user
@@ -48,25 +42,14 @@ namespace SoundByte.UWP.Models
         public BaseUser User { get; set; }
 
         /// <summary>
-        ///     The position of the track, will be 'eol'
-        ///     if there are no new tracks
-        /// </summary>
-        public string Token { get; private set; }
-
-        /// <summary>
-        ///     Are there more items to load
-        /// </summary>
-        public bool HasMoreItems => Token != "eol";
-
-        /// <summary>
         ///     Loads stream items from the souncloud api
         /// </summary>
         /// <param name="count">The amount of items to load</param>
         // ReSharper disable once RedundantAssignment
-        public IAsyncOperation<LoadMoreItemsResult> LoadMoreItemsAsync(uint count)
+        protected override async Task<int> LoadMoreItemsAsync(int count)
         {
             // Return a task that will get the items
-            return Task.Run(async () =>
+            return await Task.Run(async () =>
             {
                 // We are loading
                 await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
@@ -87,7 +70,8 @@ namespace SoundByte.UWP.Models
                             count = 10;
 
                         // Get the like tracks
-                        var likeTracks = await SoundByteV3Service.Current.GetAsync<TrackListHolder>(ServiceType.SoundCloud, 
+                        var likeTracks = await SoundByteV3Service.Current.GetAsync<TrackListHolder>(
+                            ServiceType.SoundCloud,
                             $"/users/{User.Id}/favorites", new Dictionary<string, string>
                             {
                                 {"limit", count.ToString()},
@@ -106,7 +90,7 @@ namespace SoundByte.UWP.Models
                         if (likeTracks.Tracks.Count > 0)
                         {
                             // Set the count variable
-                            count = (uint) likeTracks.Tracks.Count;
+                            count = likeTracks.Tracks.Count;
 
                             // Loop though all the tracks on the UI thread
                             await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
@@ -171,18 +155,8 @@ namespace SoundByte.UWP.Models
                 });
 
                 // Return the result
-                return new LoadMoreItemsResult {Count = count};
-            }).AsAsyncOperation();
-        }
-
-        /// <summary>
-        ///     Refresh the list by removing any
-        ///     existing items and reseting the token.
-        /// </summary>
-        public void RefreshItems()
-        {
-            Token = null;
-            Clear();
+                return count;
+            });
         }
     }
 }

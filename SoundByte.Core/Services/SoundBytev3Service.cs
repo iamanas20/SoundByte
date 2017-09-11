@@ -79,7 +79,6 @@ namespace SoundByte.Core.Services
         /// Gets the current instance of SoundByte V3 Service
         /// </summary>
         public static SoundByteV3Service Current => InstanceHolder.Value;
-        #endregion
 
         /// <summary>
         /// Setup the service
@@ -130,7 +129,7 @@ namespace SoundByte.Core.Services
                         // Todo: There are many reasons why this could fail.
                         // For now we just delete the user token
                         secret.UserToken = null;
-                    }                
+                    }
                 }
 
                 ServiceSecrets.Add(secret);
@@ -138,6 +137,7 @@ namespace SoundByte.Core.Services
 
             _isLoaded = true;
         }
+        #endregion
 
         #region Service Methods
         /// <summary>
@@ -149,10 +149,13 @@ namespace SoundByte.Core.Services
         [CanBeNull]
         public BaseUser GetConnectedUser(ServiceType type)
         {
+            if (_isLoaded == false)
+                throw new SoundByteNotLoadedException();
+
             // Check that the service actually exists
             var serviceSecret = ServiceSecrets.FirstOrDefault(x => x.Service == type);
             if (serviceSecret == null)
-                throw new ServiceNotExistException(type);
+                throw new ServiceDoesNotExistException(type);
 
             // Return the connected user
             return serviceSecret.CurrentUser;
@@ -166,9 +169,12 @@ namespace SoundByte.Core.Services
         /// <param name="token">The required token</param>
         public void ConnectService(ServiceType type, LoginToken token)
         {
+            if (_isLoaded == false)
+                throw new SoundByteNotLoadedException();
+
             var serviceSecret = ServiceSecrets.FirstOrDefault(x => x.Service == type);
             if (serviceSecret == null)
-                throw new ServiceNotExistException(type);
+                throw new ServiceDoesNotExistException(type);
 
             // Set the token
             serviceSecret.UserToken = token;
@@ -184,10 +190,13 @@ namespace SoundByte.Core.Services
         /// <param name="type">The service to disconnect</param>
         public void DisconnectService(ServiceType type)
         {
+            if (_isLoaded == false)
+                throw new SoundByteNotLoadedException();
+
             // Get the service information
             var service = ServiceSecrets.FirstOrDefault(x => x.Service == type);
             if (service == null)
-                throw new ServiceNotExistException(type);
+                throw new ServiceDoesNotExistException(type);
 
             // Delete the user token
             service.UserToken = null;
@@ -204,11 +213,14 @@ namespace SoundByte.Core.Services
         /// <returns>If the user accounted is connected</returns>
         public bool IsServiceConnected(ServiceType type)
         {
+            if (_isLoaded == false)
+                throw new SoundByteNotLoadedException();
+
             // Get the service information
             var service = ServiceSecrets.FirstOrDefault(x => x.Service == type);
 
             if (service == null)
-                throw new ServiceNotExistException(type);
+                throw new ServiceDoesNotExistException(type);
 
             // If the user token is not null, we are connected
             return service.UserToken != null;
@@ -216,6 +228,55 @@ namespace SoundByte.Core.Services
         #endregion
 
         #region Web API
+        /// <summary>
+        /// This method builds the request url for the specified service.
+        /// </summary>
+        /// <param name="type">The service type to build the request url</param>
+        /// <param name="endpoint">User defiend endpoint</param>
+        /// <returns>Fully build request url</returns>
+        private string BuildRequestUrl(ServiceType type, string endpoint)
+        {
+            // Start building the request URL
+            string requestUri;
+
+            switch (type)
+            {
+                case ServiceType.SoundCloud:
+                    var soundCloudService = ServiceSecrets.FirstOrDefault(x => x.Service == ServiceType.SoundCloud);
+                    if (soundCloudService == null)
+                        throw new ServiceDoesNotExistException(ServiceType.SoundCloud);
+
+                    requestUri = $"https://api.soundcloud.com/{endpoint}?client_id={soundCloudService.ClientId}&client_secret={soundCloudService.ClientSecret}";
+                    break;
+
+                case ServiceType.SoundCloudV2:
+                    var soundCloudV2Service = ServiceSecrets.FirstOrDefault(x => x.Service == ServiceType.SoundCloudV2);
+                    if (soundCloudV2Service == null)
+                        throw new ServiceDoesNotExistException(ServiceType.SoundCloudV2);
+
+                    requestUri = $"https://api-v2.soundcloud.com/{endpoint}?client_id={soundCloudV2Service.ClientId}&client_secret={soundCloudV2Service.ClientSecret}";
+                    break;
+
+                case ServiceType.Fanburst:
+                    var fanburstService = ServiceSecrets.FirstOrDefault(x => x.Service == ServiceType.Fanburst);
+                    if (fanburstService == null)
+                        throw new ServiceDoesNotExistException(ServiceType.Fanburst);
+
+                    requestUri = $"https://api.fanburst.com/{endpoint}?client_id={fanburstService.ClientId}&client_secret={fanburstService.ClientSecret}";
+                    break;
+                case ServiceType.YouTube:
+                    var youtubeService = ServiceSecrets.FirstOrDefault(x => x.Service == ServiceType.YouTube);
+                    if (youtubeService == null)
+                        throw new ServiceDoesNotExistException(ServiceType.YouTube);
+
+                    requestUri = $"https://www.googleapis.com/youtube/v3/{endpoint}?key={youtubeService.ClientId}";
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
+            }
+
+            return requestUri;
+        }
 
         /// <summary>
         /// Fetches an object from the specified service API and returns it.
@@ -229,47 +290,13 @@ namespace SoundByte.Core.Services
         public async Task<T> GetAsync<T>(ServiceType type, string endpoint, Dictionary<string, string> optionalParams = null, CancellationTokenSource cancellationTokenSource = null)
         {
             if (_isLoaded == false)
-                throw new Exception("Not loaded");
+                throw new SoundByteNotLoadedException();
 
             // Strip out the / infront of the endpoint if it exists
             endpoint = endpoint.TrimStart('/');
 
             // Start building the request URL
-            var requestUri = string.Empty;
-
-            switch (type)
-            {
-                case ServiceType.SoundCloud:
-                    var soundCloudService = ServiceSecrets.FirstOrDefault(x => x.Service == ServiceType.SoundCloud);
-                    if (soundCloudService == null)
-                        throw new ServiceNotExistException(ServiceType.SoundCloud);
-
-                    requestUri = $"https://api.soundcloud.com/{endpoint}?client_id={soundCloudService.ClientId}&client_secret={soundCloudService.ClientSecret}";
-                    break;
-
-                case ServiceType.SoundCloudV2:
-                    var soundCloudV2Service = ServiceSecrets.FirstOrDefault(x => x.Service == ServiceType.SoundCloudV2);
-                    if (soundCloudV2Service == null)
-                        throw new ServiceNotExistException(ServiceType.SoundCloudV2);
-
-                    requestUri = $"https://api-v2.soundcloud.com/{endpoint}?client_id={soundCloudV2Service.ClientId}&client_secret={soundCloudV2Service.ClientSecret}";
-                    break;
-
-                case ServiceType.Fanburst:
-                    var fanburstService = ServiceSecrets.FirstOrDefault(x => x.Service == ServiceType.Fanburst);
-                    if (fanburstService == null)
-                        throw new ServiceNotExistException(ServiceType.Fanburst);
-
-                    requestUri = $"https://api.fanburst.com/{endpoint}?client_id={fanburstService.ClientId}&client_secret={fanburstService.ClientSecret}";
-                    break;
-                case ServiceType.YouTube:
-                    var youtubeService = ServiceSecrets.FirstOrDefault(x => x.Service == ServiceType.YouTube);
-                    if (youtubeService == null)
-                        throw new ServiceNotExistException(ServiceType.YouTube);
-
-                    requestUri = $"https://www.googleapis.com/youtube/v3/{endpoint}?key={youtubeService.ClientId}";
-                    break;
-            }
+            var requestUri = BuildRequestUrl(type, endpoint);
 
             // Check that there are optional params then loop through all 
             // the params and add them onto the request URL
@@ -359,47 +386,13 @@ namespace SoundByte.Core.Services
         public async Task<bool> PutAsync(ServiceType type, string endpoint, string content = null, CancellationTokenSource cancellationTokenSource = null)
         {
             if (_isLoaded == false)
-                throw new Exception("Service not loaded yet");
+                throw new SoundByteNotLoadedException();
 
             // Strip out the '/' in front of the end point (if there is one)
             endpoint = endpoint.TrimStart('/');
 
-            // Start building the request url
-            var requestUri = string.Empty;
-
-            switch (type)
-            {
-                case ServiceType.SoundCloud:
-                    var soundCloudService = ServiceSecrets.FirstOrDefault(x => x.Service == ServiceType.SoundCloud);
-                    if (soundCloudService == null)
-                        throw new ServiceNotExistException(ServiceType.SoundCloud);
-
-                    requestUri = $"https://api.soundcloud.com/{endpoint}?client_id={soundCloudService.ClientId}&client_secret={soundCloudService.ClientSecret}";
-                    break;
-
-                case ServiceType.SoundCloudV2:
-                    var soundCloudV2Service = ServiceSecrets.FirstOrDefault(x => x.Service == ServiceType.SoundCloudV2);
-                    if (soundCloudV2Service == null)
-                        throw new ServiceNotExistException(ServiceType.SoundCloudV2);
-
-                    requestUri = $"https://api-v2.soundcloud.com/{endpoint}?client_id={soundCloudV2Service.ClientId}&client_secret={soundCloudV2Service.ClientSecret}";
-                    break;
-
-                case ServiceType.Fanburst:
-                    var fanburstService = ServiceSecrets.FirstOrDefault(x => x.Service == ServiceType.Fanburst);
-                    if (fanburstService == null)
-                        throw new ServiceNotExistException(ServiceType.Fanburst);
-
-                    requestUri = $"https://api.fanburst.com/{endpoint}?client_id={fanburstService.ClientId}&client_secret={fanburstService.ClientSecret}";
-                    break;
-                case ServiceType.YouTube:
-                    var youtubeService = ServiceSecrets.FirstOrDefault(x => x.Service == ServiceType.YouTube);
-                    if (youtubeService == null)
-                        throw new ServiceNotExistException(ServiceType.YouTube);
-
-                    requestUri = $"https://www.googleapis.com/youtube/v3/{endpoint}?key={youtubeService.ClientId}";
-                    break;
-            }
+            // Start building the request URL
+            var requestUri = BuildRequestUrl(type, endpoint);
 
             try
             {
@@ -465,47 +458,13 @@ namespace SoundByte.Core.Services
             Dictionary<string, string> optionalParams = null, CancellationTokenSource cancellationTokenSource = null)
         {
             if (_isLoaded == false)
-                throw new Exception("Service not loaded yet");
+                throw new SoundByteNotLoadedException();
 
             // Strip out the / infront of the endpoint if it exists
             endpoint = endpoint.TrimStart('/');
 
             // Start building the request URL
-            var requestUri = string.Empty;
-
-            switch (type)
-            {
-                case ServiceType.SoundCloud:
-                    var soundCloudService = ServiceSecrets.FirstOrDefault(x => x.Service == ServiceType.SoundCloud);
-                    if (soundCloudService == null)
-                        throw new ServiceNotExistException(ServiceType.SoundCloud);
-
-                    requestUri = $"https://api.soundcloud.com/{endpoint}?client_id={soundCloudService.ClientId}&client_secret={soundCloudService.ClientSecret}";
-                    break;
-
-                case ServiceType.SoundCloudV2:
-                    var soundCloudV2Service = ServiceSecrets.FirstOrDefault(x => x.Service == ServiceType.SoundCloudV2);
-                    if (soundCloudV2Service == null)
-                        throw new ServiceNotExistException(ServiceType.SoundCloudV2);
-
-                    requestUri = $"https://api-v2.soundcloud.com/{endpoint}?client_id={soundCloudV2Service.ClientId}&client_secret={soundCloudV2Service.ClientSecret}";
-                    break;
-
-                case ServiceType.Fanburst:
-                    var fanburstService = ServiceSecrets.FirstOrDefault(x => x.Service == ServiceType.Fanburst);
-                    if (fanburstService == null)
-                        throw new ServiceNotExistException(ServiceType.Fanburst);
-
-                    requestUri = $"https://api.fanburst.com/{endpoint}?client_id={fanburstService.ClientId}&client_secret={fanburstService.ClientSecret}";
-                    break;
-                case ServiceType.YouTube:
-                    var youtubeService = ServiceSecrets.FirstOrDefault(x => x.Service == ServiceType.YouTube);
-                    if (youtubeService == null)
-                        throw new ServiceNotExistException(ServiceType.YouTube);
-
-                    requestUri = $"https://www.googleapis.com/youtube/v3/{endpoint}?key={youtubeService.ClientId}";
-                    break;
-            }
+            var requestUri = BuildRequestUrl(type, endpoint);
 
             // Check that there are optional params then loop through all 
             // the params and add them onto the request URL
@@ -596,47 +555,14 @@ namespace SoundByte.Core.Services
         public async Task<bool> DeleteAsync(ServiceType type, string endpoint, CancellationTokenSource cancellationTokenSource = null)
         {
             if (_isLoaded == false)
-                throw new Exception("Service not loaded yet");
+                throw new SoundByteNotLoadedException();
 
             // Strip out the / infront of the endpoint if it exists
             endpoint = endpoint.TrimStart('/');
 
             // Start building the request URL
-            var requestUri = string.Empty;
+            var requestUri = BuildRequestUrl(type, endpoint);
 
-            switch (type)
-            {
-                case ServiceType.SoundCloud:
-                    var soundCloudService = ServiceSecrets.FirstOrDefault(x => x.Service == ServiceType.SoundCloud);
-                    if (soundCloudService == null)
-                        throw new ServiceNotExistException(ServiceType.SoundCloud);
-
-                    requestUri = $"https://api.soundcloud.com/{endpoint}?client_id={soundCloudService.ClientId}&client_secret={soundCloudService.ClientSecret}";
-                    break;
-
-                case ServiceType.SoundCloudV2:
-                    var soundCloudV2Service = ServiceSecrets.FirstOrDefault(x => x.Service == ServiceType.SoundCloudV2);
-                    if (soundCloudV2Service == null)
-                        throw new ServiceNotExistException(ServiceType.SoundCloudV2);
-
-                    requestUri = $"https://api-v2.soundcloud.com/{endpoint}?client_id={soundCloudV2Service.ClientId}&client_secret={soundCloudV2Service.ClientSecret}";
-                    break;
-
-                case ServiceType.Fanburst:
-                    var fanburstService = ServiceSecrets.FirstOrDefault(x => x.Service == ServiceType.Fanburst);
-                    if (fanburstService == null)
-                        throw new ServiceNotExistException(ServiceType.Fanburst);
-
-                    requestUri = $"https://api.fanburst.com/{endpoint}?client_id={fanburstService.ClientId}&client_secret={fanburstService.ClientSecret}";
-                    break;
-                case ServiceType.YouTube:
-                    var youtubeService = ServiceSecrets.FirstOrDefault(x => x.Service == ServiceType.YouTube);
-                    if (youtubeService == null)
-                        throw new ServiceNotExistException(ServiceType.YouTube);
-
-                    requestUri = $"https://www.googleapis.com/youtube/v3/{endpoint}?key={youtubeService.ClientId}";
-                    break;
-            }
             try
             {
                 return await Task.Run(async () =>
@@ -689,47 +615,13 @@ namespace SoundByte.Core.Services
         public async Task<bool> ExistsAsync(ServiceType type, string endpoint, CancellationTokenSource cancellationTokenSource = null)
         {
             if (_isLoaded == false)
-                throw new Exception("Service not loaded yet");
+                throw new SoundByteNotLoadedException();
 
             // Strip out the / infront of the endpoint if it exists
             endpoint = endpoint.TrimStart('/');
 
             // Start building the request URL
-            var requestUri = string.Empty;
-
-            switch (type)
-            {
-                case ServiceType.SoundCloud:
-                    var soundCloudService = ServiceSecrets.FirstOrDefault(x => x.Service == ServiceType.SoundCloud);
-                    if (soundCloudService == null)
-                        throw new ServiceNotExistException(ServiceType.SoundCloud);
-
-                    requestUri = $"https://api.soundcloud.com/{endpoint}?client_id={soundCloudService.ClientId}&client_secret={soundCloudService.ClientSecret}";
-                    break;
-
-                case ServiceType.SoundCloudV2:
-                    var soundCloudV2Service = ServiceSecrets.FirstOrDefault(x => x.Service == ServiceType.SoundCloudV2);
-                    if (soundCloudV2Service == null)
-                        throw new ServiceNotExistException(ServiceType.SoundCloudV2);
-
-                    requestUri = $"https://api-v2.soundcloud.com/{endpoint}?client_id={soundCloudV2Service.ClientId}&client_secret={soundCloudV2Service.ClientSecret}";
-                    break;
-
-                case ServiceType.Fanburst:
-                    var fanburstService = ServiceSecrets.FirstOrDefault(x => x.Service == ServiceType.Fanburst);
-                    if (fanburstService == null)
-                        throw new ServiceNotExistException(ServiceType.Fanburst);
-
-                    requestUri = $"https://api.fanburst.com/{endpoint}?client_id={fanburstService.ClientId}&client_secret={fanburstService.ClientSecret}";
-                    break;
-                case ServiceType.YouTube:
-                    var youtubeService = ServiceSecrets.FirstOrDefault(x => x.Service == ServiceType.YouTube);
-                    if (youtubeService == null)
-                        throw new ServiceNotExistException(ServiceType.YouTube);
-
-                    requestUri = $"https://www.googleapis.com/youtube/v3/{endpoint}?key={youtubeService.ClientId}";
-                    break;
-            }
+            var requestUri = BuildRequestUrl(type, endpoint);
 
             try
             {

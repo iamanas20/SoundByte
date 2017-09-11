@@ -42,20 +42,19 @@ namespace SoundByte.UWP.Views
                 return;
 
             var startPlayback =
-                await PlaybackService.Instance.StartMediaPlayback(ChartsModel.ToList(), ChartsModel.Token);
+                await PlaybackService.Instance.StartModelMediaPlaybackAsync(ChartsModel);
             if (!startPlayback.success)
                 await new MessageDialog(startPlayback.message, "Error playing track.").ShowAsync();
         }
 
         public async void PlayShuffleChartItems()
         {
-            await BaseViewModel.ShuffleTracksAsync(ChartsModel.ToList(), ChartsModel.Token);
+            await BaseViewModel.ShuffleTracksAsync(ChartsModel);
         }
 
         public async void PlayChartItem(object sender, ItemClickEventArgs e)
         {
-            var startPlayback = await PlaybackService.Instance.StartMediaPlayback(ChartsModel.ToList(),
-                ChartsModel.Token, false, (BaseTrack)e.ClickedItem);
+            var startPlayback = await PlaybackService.Instance.StartModelMediaPlaybackAsync(ChartsModel, false, (BaseTrack)e.ClickedItem);
             if (!startPlayback.success)
                 await new MessageDialog(startPlayback.message, "Error playing track.").ShowAsync();
         }

@@ -10,34 +10,23 @@
  * |----------------------------------------------------------------|
  */
 
-using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
-using Windows.Foundation;
-using Windows.UI.Xaml.Data;
 using Microsoft.Toolkit.Uwp.Helpers;
 using SoundByte.Core;
 using SoundByte.Core.Exceptions;
 using SoundByte.Core.Holders;
-using SoundByte.Core.Items.Track;
 using SoundByte.Core.Services;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.UserControls;
 
 namespace SoundByte.UWP.Models
 {
-    public class SearchTrackModel : ObservableCollection<BaseTrack>, ISupportIncrementalLoading
+    public class SearchTrackModel : BaseTrackModel
     {
-        /// <summary>
-        ///     The position of the track, will be 'eol'
-        ///     if there are no new trackss
-        /// </summary>
-        public string Token { get; private set; }
-
         /// <summary>
         ///     What we are searching the soundcloud API for
         /// </summary>
@@ -49,18 +38,13 @@ namespace SoundByte.UWP.Models
         public string Filter { get; set; }
 
         /// <summary>
-        ///     Are there more items to load
-        /// </summary>
-        public bool HasMoreItems => Token != "eol";
-
-        /// <summary>
         ///     Loads search track items from the souncloud api
         /// </summary>
         /// <param name="count">The amount of items to load</param>
-        public IAsyncOperation<LoadMoreItemsResult> LoadMoreItemsAsync(uint count)
+        protected override async Task<int> LoadMoreItemsAsync(int count)
         {
             // Return a task that will get the items
-            return Task.Run(async () =>
+            return await Task.Run(async () =>
             {
                 // We are loading
                 await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
@@ -94,7 +78,7 @@ namespace SoundByte.UWP.Models
                     if (searchTracks.Tracks.Count > 0)
                     {
                         // Set the count variable
-                        count = (uint) searchTracks.Tracks.Count;
+                        count = searchTracks.Tracks.Count;
 
                         // Loop though all the tracks on the UI thread
                         await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
@@ -145,19 +129,8 @@ namespace SoundByte.UWP.Models
                 });
 
                 // Return the result
-                return new LoadMoreItemsResult {Count = count};
-            }).AsAsyncOperation();
-        }
-
-        /// <summary>
-        ///     Refresh the list by removing any
-        ///     existing items and reseting the token.
-        /// </summary>
-        public void RefreshItems()
-        {
-            Token = null;
-            Clear();
-            
+                return count;
+            });
         }
     }
 }

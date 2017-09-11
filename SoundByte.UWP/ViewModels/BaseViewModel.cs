@@ -17,6 +17,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
 using SoundByte.Core.Items.Track;
+using SoundByte.UWP.Models;
 using SoundByte.UWP.Services;
 
 namespace SoundByte.UWP.ViewModels
@@ -43,16 +44,25 @@ namespace SoundByte.UWP.ViewModels
          //   }
         }
 
+        public static async Task ShuffleTracksAsync(List<BaseTrack> tracks)
+        {
+            var startPlayback = await PlaybackService.Instance.StartPlaylistMediaPlaybackAsync(tracks, true);
+
+            if (!startPlayback.success)
+                await new MessageDialog(startPlayback.message, "Error playing shuffled tracks.").ShowAsync();
+
+            App.IsLoading = false;
+        }
+
         /// <summary>
         ///     Performs a shuffle of the tracks
         /// </summary>
-        /// <param name="tracks"></param>
-        /// <param name="token"></param>
-        public static async Task ShuffleTracksAsync(List<BaseTrack> tracks, string token)
+        /// <param name="model"></param>
+        public static async Task ShuffleTracksAsync(BaseTrackModel model)
         {
             App.IsLoading = true;
 
-            var startPlayback = await PlaybackService.Instance.StartMediaPlayback(tracks, token, true);
+            var startPlayback = await PlaybackService.Instance.StartModelMediaPlaybackAsync(model, true);
 
             if (!startPlayback.success)
                 await new MessageDialog(startPlayback.message, "Error playing shuffled tracks.").ShowAsync();

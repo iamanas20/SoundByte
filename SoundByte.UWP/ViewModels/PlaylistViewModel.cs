@@ -247,7 +247,7 @@ namespace SoundByte.UWP.ViewModels
         /// </summary>
         public async void ShuffleItemsAsync()
         {
-            await ShuffleTracksAsync(Tracks.ToList(), $"playlist-{Playlist.Id}");
+            await ShuffleTracksAsync(Tracks.ToList());
         }
 
         /// <summary>
@@ -260,8 +260,7 @@ namespace SoundByte.UWP.ViewModels
             var item = (BaseTrack) e.ClickedItem;
 
             var startPlayback =
-                await PlaybackService.Instance.StartMediaPlayback(Tracks.ToList(), $"playlist-{Playlist.Id}", false,
-                    item);
+                await PlaybackService.Instance.StartPlaylistMediaPlaybackAsync(Tracks.ToList(), false, item);
 
             if (!startPlayback.success)
                 await new MessageDialog(startPlayback.message, "Error playing playlist.").ShowAsync();
@@ -273,7 +272,7 @@ namespace SoundByte.UWP.ViewModels
         public async void NavigatePlay()
         {
             var startPlayback =
-                await PlaybackService.Instance.StartMediaPlayback(Tracks.ToList(), $"playlist-{Playlist.Id}");
+                await PlaybackService.Instance.StartPlaylistMediaPlaybackAsync(Tracks.ToList());
 
             if (!startPlayback.success)
                 await new MessageDialog(startPlayback.message, "Error playing playlist.").ShowAsync();

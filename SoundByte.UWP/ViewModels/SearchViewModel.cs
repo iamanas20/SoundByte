@@ -11,7 +11,6 @@
  */
 
 using System;
-using System.Linq;
 using Windows.ApplicationModel.Resources;
 using Windows.UI.Popups;
 using Windows.UI.ViewManagement;
@@ -175,8 +174,7 @@ namespace SoundByte.UWP.ViewModels
                         if (searchItem.ServiceType == ServiceType.Fanburst)
                         {
                             var startPlayback =
-                                await PlaybackService.Instance.StartMediaPlayback(FanburstTracks.ToList(),
-                                    FanburstTracks.Token, false, searchItem);
+                                await PlaybackService.Instance.StartModelMediaPlaybackAsync(FanburstTracks, false, searchItem);
                             if (!startPlayback.success)
                                 await new MessageDialog(startPlayback.message, "Error playing searched track.")
                                     .ShowAsync();
@@ -184,16 +182,14 @@ namespace SoundByte.UWP.ViewModels
                         else if (searchItem.ServiceType == ServiceType.YouTube)
                         {
                             var startPlayback =
-                                await PlaybackService.Instance.StartMediaPlayback(YouTubeTracks.ToList(), 
-                                    YouTubeTracks.Token, false, searchItem);
+                                await PlaybackService.Instance.StartModelMediaPlaybackAsync(YouTubeTracks, false, searchItem);
                             if (!startPlayback.success)
                                 await new MessageDialog(startPlayback.message, "Error playing searched track.")
                                     .ShowAsync();
                         }
                         else
                         {
-                            var startPlayback = await PlaybackService.Instance.StartMediaPlayback(SearchTracks.ToList(),
-                                SearchTracks.Token, false, searchItem);
+                            var startPlayback = await PlaybackService.Instance.StartModelMediaPlaybackAsync(SearchTracks, false, searchItem);
                             if (!startPlayback.success)
                                 await new MessageDialog(startPlayback.message, "Error playing searched track.")
                                     .ShowAsync();

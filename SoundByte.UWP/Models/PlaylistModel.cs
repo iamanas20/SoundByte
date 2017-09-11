@@ -26,7 +26,6 @@ using SoundByte.Core.Holders;
 using SoundByte.Core.Items.Playlist;
 using SoundByte.Core.Items.User;
 using SoundByte.Core.Services;
-using SoundByte.UWP.Services;
 
 namespace SoundByte.UWP.Models
 {

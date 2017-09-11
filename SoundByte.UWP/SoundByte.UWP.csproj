@@ -192,6 +192,7 @@
     <Compile Include="Helpers\NumberFormatHelper.cs" />
     <Compile Include="Helpers\TextHelper.cs" />
     <Compile Include="Helpers\TitlebarHelper.cs" />
+    <Compile Include="Models\BaseTrackModel.cs" />
     <Compile Include="Models\YouTubeSearchModel.cs" />
     <Compile Include="Resources\DataTemplates.cs" />
     <Compile Include="MainShell.xaml.cs">

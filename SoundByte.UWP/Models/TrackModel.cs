@@ -12,24 +12,19 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using Windows.Foundation;
 using Windows.UI.Popups;
-using Windows.UI.Xaml.Data;
 using Microsoft.Toolkit.Uwp.Helpers;
 using SoundByte.Core;
 using SoundByte.Core.Exceptions;
 using SoundByte.Core.Holders;
-using SoundByte.Core.Items.Track;
 using SoundByte.Core.Items.User;
 using SoundByte.Core.Services;
-using SoundByte.UWP.Services;
 
 namespace SoundByte.UWP.Models
 {
-    public class TrackModel : ObservableCollection<BaseTrack>, ISupportIncrementalLoading
+    public class TrackModel : BaseTrackModel
     {
         /// <summary>
         ///     Setsup a new view model for playlists
@@ -44,25 +39,14 @@ namespace SoundByte.UWP.Models
         public BaseUser User { get; set; }
 
         /// <summary>
-        ///     The position of the track, will be 'eol'
-        ///     if there are no new tracks
-        /// </summary>
-        public string Token { get; protected set; }
-
-        /// <summary>
-        ///     Are there more items to load
-        /// </summary>
-        public bool HasMoreItems => Token != "eol";
-
-        /// <summary>
         ///     Loads stream items from the souncloud api
         /// </summary>
         /// <param name="count">The amount of items to load</param>
         // ReSharper disable once RedundantAssignment
-        public IAsyncOperation<LoadMoreItemsResult> LoadMoreItemsAsync(uint count)
+        protected override async Task<int> LoadMoreItemsAsync(int count)
         {
             // Return a task that will get the items
-            return Task.Run(async () =>
+            return await Task.Run(async () =>
             {
                 // We are loading
                 await DispatcherHelper.ExecuteOnUIThreadAsync(() => { App.IsLoading = true; });
@@ -89,7 +73,7 @@ namespace SoundByte.UWP.Models
                     if (userTracks.Tracks.Count > 0)
                     {
                         // Set the count variable
-                        count = (uint) userTracks.Tracks.Count;
+                        count = userTracks.Tracks.Count;
 
                         // Loop though all the tracks on the UI thread
                         await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
@@ -133,18 +117,8 @@ namespace SoundByte.UWP.Models
                 await DispatcherHelper.ExecuteOnUIThreadAsync(() => { App.IsLoading = false; });
 
                 // Return the result
-                return new LoadMoreItemsResult {Count = count};
-            }).AsAsyncOperation();
-        }
-
-        /// <summary>
-        ///     Refresh the list by removing any
-        ///     existing items and reseting the token.
-        /// </summary>
-        public void RefreshItems()
-        {
-            Token = null;
-            Clear();
+                return count;
+            });
         }
     }
 }

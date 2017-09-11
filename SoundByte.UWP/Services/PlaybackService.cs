@@ -36,6 +36,7 @@ using SoundByte.Core.Items.User;
 using SoundByte.UWP.Converters;
 using SoundByte.UWP.Helpers;
 using SoundByte.Core.Services;
+using SoundByte.UWP.Models;
 
 namespace SoundByte.UWP.Services
 {
@@ -446,18 +447,41 @@ namespace SoundByte.UWP.Services
         }
 
         /// <summary>
+        /// This method starts media playback but using a playlist instead
+        /// of a model. The main disavantage of this approach is that you don't
+        /// get free track loading (when nearing the end of a playlist).
+        /// </summary>
+        /// <param name="playlist">A list of base track items to play.</param>
+        /// <param name="isShuffled">Should we shuffle the items?</param>
+        /// <param name="startingItem">The track to start playing from.</param>
+        /// <returns>A Tuple, if sucessful and if not, the error message.</returns>
+        public async Task<(bool success, string message)> StartPlaylistMediaPlaybackAsync(IEnumerable<BaseTrack> playlist,
+            bool isShuffled = false, BaseTrack startingItem = null)
+        {
+            // Create a dummy base track items
+            var dummyBaseTrackModel = new BaseTrackModel {Token = "eol"};
+
+            // Add all the playlist items to this dummy
+            foreach (var track in playlist)
+                dummyBaseTrackModel.Add(track);     
+
+            // Call the normal method
+            return await StartModelMediaPlaybackAsync(dummyBaseTrackModel, isShuffled, startingItem);
+        }
+
+
+        /// <summary>
         ///     Playlist a list of tracks with optional values.
         /// </summary>
-        /// <param name="playlist">The playlist (list of tracks) that we want to play.</param>
-        /// <param name="token">Unique token for this list. Is used to load playback items from cache.</param>
+        /// <param name="model">The model for the tracks we want to play</param>
         /// <param name="isShuffled">Should the tracks be played shuffled.</param>
         /// <param name="startingItem">What track to start with.</param>
         /// <returns></returns>
-        public async Task<(bool success, string message)> StartMediaPlayback(List<BaseTrack> playlist, string token,
+        public async Task<(bool success, string message)> StartModelMediaPlaybackAsync(BaseTrackModel model,
             bool isShuffled = false, BaseTrack startingItem = null)
         {
             // If no playlist was specified, skip
-            if (playlist == null || playlist.Count == 0)
+            if (model == null || model.Count == 0)
                 return (false,
                     "The playback list was missing or empty. This can be caused if there are not tracks avaliable (for example, you are trying to play your likes, but have not liked anything yet).\n\nAnother reason for this message is that if your playing a track from SoundCloud, SoundCloud has blocked these tracks from being played on 3rd party apps (such as SoundByte).");
 
@@ -479,14 +503,14 @@ namespace SoundByte.UWP.Services
             else
             {
                 // If the tokens do not match, reload the list
-                if (token != TokenValue)
-                {
+             //   if (token != TokenValue)
+             //   {
                     // Clear the playback list
                     _playbackList.Items.Clear();
 
                     // Clear the internal list
                     Playlist.Clear();
-                }
+             //   }
             }
 
             // Set the shuffle
@@ -496,11 +520,11 @@ namespace SoundByte.UWP.Services
 
             // If the playlist contains any soundcloud tracks, we need to 
             // grab the appropiate client ID.
-            if (playlist.Any(x => x.ServiceType == ServiceType.SoundCloud))
+            if (model.Any(x => x.ServiceType == ServiceType.SoundCloud))
                 apiKey = await GetCorrectApiKey();
 
             // Loop through all the tracks
-            foreach (var track in playlist)
+            foreach (var track in model)
             {
                 try
                 {
@@ -565,7 +589,7 @@ namespace SoundByte.UWP.Services
             Player.Source = _playbackList;
 
             // Update the stored token
-            TokenValue = token;
+        //    TokenValue = token;
 
             // If the track is shuffled, or no starting item is supplied, just play as usual
             if (isShuffled || startingItem == null)

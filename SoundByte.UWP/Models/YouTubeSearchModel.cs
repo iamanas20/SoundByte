@@ -10,14 +10,10 @@
  * |----------------------------------------------------------------|
  */
 
-using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
-using Windows.Foundation;
-using Windows.UI.Xaml.Data;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Newtonsoft.Json;
 using SoundByte.Core;
@@ -25,7 +21,6 @@ using SoundByte.Core.Exceptions;
 using SoundByte.Core.Items.Track;
 using SoundByte.Core.Items.User;
 using SoundByte.Core.Services;
-using SoundByte.UWP.Services;
 using SoundByte.UWP.UserControls;
 using SoundByte.YouTubeParser;
 using SoundByte.YouTubeParser.Models;
@@ -33,50 +28,24 @@ using SoundByte.YouTubeParser.Models.MediaStreams;
 
 namespace SoundByte.UWP.Models
 {
-    public class YouTubeSearchModel : ObservableCollection<BaseTrack>, ISupportIncrementalLoading
+    public class YouTubeSearchModel : BaseTrackModel
     {
-        /// <summary>
-        /// The position of the track, will be 'eol'
-        /// if there are no new trackss
-        /// </summary>
-        public string Token { get; private set; }
-
         /// <summary>
         /// What we are searching the soundcloud API for
         /// </summary>
         public string Query { get; set; }
 
         /// <summary>
-        /// Filter the search
-        /// </summary>
-        public string Filter { get; set; }
-
-        /// <summary>
-        /// Are there more items to load
-        /// </summary>
-        public bool HasMoreItems => Token != "eol";
-
-        /// <summary>
-        /// Refresh the list by removing any
-        /// existing items and reseting the token.
-        /// </summary>
-        public void RefreshItems()
-        {
-            Token = null;
-            Clear();
-        }
-
-        /// <summary>
         /// Loads search track items from the souncloud api
         /// </summary>
         /// <param name="count">The amount of items to load</param>
-        public IAsyncOperation<LoadMoreItemsResult> LoadMoreItemsAsync(uint count)
+        protected override async Task<int> LoadMoreItemsAsync(int count)
         {
             // Return a task that will get the items
-            return Task.Run(async () =>
+            return await Task.Run(async () =>
             {
                 if (string.IsNullOrEmpty(Query))
-                    return new LoadMoreItemsResult { Count = 0 };
+                    return 0;
 
                 // We are loading
                 await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
@@ -97,9 +66,9 @@ namespace SoundByte.UWP.Models
                         ServiceType.YouTube, "search", new Dictionary<string, string>
                         {
                             {"part", "snippet"},
-                            {"maxResults", count.ToString() },
-                            { "q", Query },
-                            { "pageToken", Token }
+                            {"maxResults", count.ToString()},
+                            {"q", Query},
+                            {"pageToken", Token}
                         });
 
                     var offset = searchTracks.NextPageToken;
@@ -113,7 +82,7 @@ namespace SoundByte.UWP.Models
                     if (searchTracks.Items.Count > 0)
                     {
                         // Set the count variable
-                        count = (uint)searchTracks.Items.Count;
+                        count = searchTracks.Items.Count;
 
                         foreach (var item in searchTracks.Items)
                         {
@@ -136,19 +105,22 @@ namespace SoundByte.UWP.Models
                                         };
 
                                         // Add missing details
-                                           track.Duration = video.Duration;
-                                          //  track.Description = video.Description;
-                                          //   track.LikeCount = video.LikeCount;
-                                          track.ViewCount = video.ViewCount;
-                                          track.ArtworkUrl = video.ImageHighResUrl;
-                                          track.AudioStreamUrl = video.AudioStreams.OrderBy(q => q.AudioEncoding).Last()?.Url;
+                                        track.Duration = video.Duration;
+                                        //  track.Description = video.Description;
+                                        //   track.LikeCount = video.LikeCount;
+                                        track.ViewCount = video.ViewCount;
+                                        track.ArtworkUrl = video.ImageHighResUrl;
+                                        track.AudioStreamUrl =
+                                            video.AudioStreams.OrderBy(q => q.AudioEncoding).Last()?.Url;
 
 
                                         // 720p is max quality we want
-                                          var wantedQuality = video.VideoStreams.FirstOrDefault(x => x.VideoQuality == VideoQuality.High720)?.Url;
+                                        var wantedQuality =
+                                            video.VideoStreams
+                                                .FirstOrDefault(x => x.VideoQuality == VideoQuality.High720)?.Url;
 
                                         // If quality is not there, just get the highest (480p for example).
-                                         if (string.IsNullOrEmpty(wantedQuality))
+                                        if (string.IsNullOrEmpty(wantedQuality))
                                             wantedQuality = video.VideoStreams.OrderBy(s => s.VideoQuality).Last()?.Url;
 
                                         track.VideoStreamUrl = wantedQuality;
@@ -200,8 +172,8 @@ namespace SoundByte.UWP.Models
                 });
 
                 // Return the result
-                return new LoadMoreItemsResult { Count = count };
-            }).AsAsyncOperation();
+                return count;
+            });
         }
 
         [JsonObject]
