@@ -181,8 +181,6 @@ namespace SoundByte.UWP.ViewModels
             if (SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud) &&
                 User.Id == SoundByteV3Service.Current.GetConnectedUser(ServiceType.SoundCloud)?.Id)
             {
-                FollowUserIcon = "\uE8FA";
-                FollowUserText = "Follow User";
                 ShowFollowButton = false;
             }
             else
@@ -191,6 +189,28 @@ namespace SoundByte.UWP.ViewModels
 
                 // Check if we are following the user
                 if (await SoundByteV3Service.Current.ExistsAsync(ServiceType.SoundCloud, "/me/followings/" + User.Id))
+                {
+                    FollowUserIcon = "\uE1E0";
+                    FollowUserText = "Unfollow User";
+                }
+                else
+                {
+                    FollowUserIcon = "\uE8FA";
+                    FollowUserText = "Follow User";
+                }
+            }
+
+            if (SoundByteV3Service.Current.IsServiceConnected(ServiceType.Fanburst) &&
+                User.Id == SoundByteV3Service.Current.GetConnectedUser(ServiceType.Fanburst)?.Id)
+            {
+                ShowFollowButton = false;
+            }
+            else
+            {
+                ShowFollowButton = true;
+
+                // Check if we are following the user
+                if (await SoundByteV3Service.Current.ExistsAsync(ServiceType.Fanburst, "/me/following/" + User.Id))
                 {
                     FollowUserIcon = "\uE1E0";
                     FollowUserText = "Unfollow User";

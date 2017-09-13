@@ -34,6 +34,15 @@ namespace SoundByte.Core.Items.User
         [JsonProperty("location")]
         public string Location { get; set; }
 
+        [JsonProperty("followers_count")]
+        public int FollowersCount { get; set; }
+
+        [JsonProperty("followings_count")]
+        public int FollowingsCount { get; set; }
+
+        [JsonProperty("track_count")]
+        public int TrackCount { get; set; }
+
         public BaseUser AsBaseUser=> ToBaseUser();
 
         public BaseUser ToBaseUser()
@@ -46,10 +55,10 @@ namespace SoundByte.Core.Items.User
                 ArtworkLink = AvatarUrl,
                 Country = Location,
                 PermalinkUri = Permalink,
-                TrackCount = 0,
-                FollowersCount = 0,
+                TrackCount = TrackCount,
+                FollowersCount = FollowersCount,
                 PlaylistCount = 0,
-                FollowingsCount = 0
+                FollowingsCount = FollowingsCount
             };
         }
     }

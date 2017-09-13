@@ -227,9 +227,6 @@ namespace SoundByte.Core.Items.Playlist
             get => _likesCount;
             set
             {
-                if (Math.Abs(value - _likesCount) < 0.1)
-                    return;
-
                 _likesCount = value;
                 UpdateProperty();
             }
@@ -241,12 +238,9 @@ namespace SoundByte.Core.Items.Playlist
         /// </summary>
         public double TrackCount
         {
-            get => _likesCount;
+            get => _trackCount;
             set
             {
-                if (Math.Abs(value - _trackCount) < 0.1)
-                    return;
-
                 _trackCount = value;
                 UpdateProperty();
             }

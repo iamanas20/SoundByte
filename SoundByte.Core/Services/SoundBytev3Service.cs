@@ -113,11 +113,11 @@ namespace SoundByte.Core.Services
                         switch (secret.Service)
                         {
                             case ServiceType.Fanburst:
-                                // Do this later
-                                secret.CurrentUser = AsyncHelper.RunSync(async () => await GetAsync<SoundCloudUser>(ServiceType.SoundCloud, "/me")).ToBaseUser();
+                                secret.CurrentUser = AsyncHelper.RunSync(async () => await GetAsync<FanburstUser>(ServiceType.Fanburst, "/me")).ToBaseUser();
                                 break;
                             case ServiceType.SoundCloud:
                             case ServiceType.SoundCloudV2:
+                                secret.CurrentUser = AsyncHelper.RunSync(async () => await GetAsync<SoundCloudUser>(ServiceType.SoundCloud, "/me")).ToBaseUser();
                                 break;
                             case ServiceType.YouTube:
                                 // Do this later
@@ -126,9 +126,7 @@ namespace SoundByte.Core.Services
                     }
                     catch
                     {
-                        // Todo: There are many reasons why this could fail.
-                        // For now we just delete the user token
-                        secret.UserToken = null;
+                        // ignored
                     }
                 }
 
@@ -157,6 +155,31 @@ namespace SoundByte.Core.Services
             if (serviceSecret == null)
                 throw new ServiceDoesNotExistException(type);
 
+            // If the user token is not null, but the user is null, update the user
+            if (serviceSecret.UserToken != null && serviceSecret.CurrentUser == null)
+            {
+                try
+                {
+                    switch (serviceSecret.Service)
+                    {
+                        case ServiceType.Fanburst:
+                            serviceSecret.CurrentUser = AsyncHelper.RunSync(async () => await GetAsync<FanburstUser>(ServiceType.Fanburst, "/me")).ToBaseUser();
+                            break;
+                        case ServiceType.SoundCloud:
+                        case ServiceType.SoundCloudV2:
+                            serviceSecret.CurrentUser = AsyncHelper.RunSync(async () => await GetAsync<SoundCloudUser>(ServiceType.SoundCloud, "/me")).ToBaseUser();
+                            break;
+                        case ServiceType.YouTube:
+                            // Do this later
+                            break;
+                    }
+                }
+                catch
+                {
+                    // ignored
+                }
+            }
+
             // Return the connected user
             return serviceSecret.CurrentUser;
         }
@@ -179,6 +202,32 @@ namespace SoundByte.Core.Services
             // Set the token
             serviceSecret.UserToken = token;
 
+            if (serviceSecret.UserToken != null)
+            {
+                try
+                {
+                    switch (serviceSecret.Service)
+                    {
+                        case ServiceType.Fanburst:
+                            // Do this later
+                            break;
+                        case ServiceType.SoundCloud:
+                        case ServiceType.SoundCloudV2:
+                            serviceSecret.CurrentUser = AsyncHelper.RunSync(async () => await GetAsync<SoundCloudUser>(ServiceType.SoundCloud, "/me")).ToBaseUser();
+                            break;
+                        case ServiceType.YouTube:
+                            // Do this later
+                            break;
+                    }
+                }
+                catch
+                {
+                    // Todo: There are many reasons why this could fail.
+                    // For now we just delete the user token
+                    serviceSecret.UserToken = null;
+                }
+            }
+
             // Fire the event
             OnServiceConnected?.Invoke(type, token);
         }
@@ -200,6 +249,7 @@ namespace SoundByte.Core.Services
 
             // Delete the user token
             service.UserToken = null;
+            service.CurrentUser = null;
 
             // Fire the event
             OnServiceDisconnected?.Invoke(type);
@@ -325,8 +375,18 @@ namespace SoundByte.Core.Services
                         // Add the service only if it's connected
                         if (IsServiceConnected(type))
                         {
-                            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("OAuth", 
-                                ServiceSecrets.FirstOrDefault(x => x.Service == type)?.UserToken?.AccessToken);
+                            // Get the token
+                            var token = ServiceSecrets.FirstOrDefault(x => x.Service == type)?.UserToken?.AccessToken;
+
+                            // Add the auth request
+                            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("OAuth", token);
+
+                            // Fanburst requires the access_token
+                            // param to be added to the request.
+                            if (type == ServiceType.Fanburst)
+                            {
+                                requestUri += $"&access_token={token}";
+                            }
                         }
 
                         // escape the url
@@ -493,8 +553,18 @@ namespace SoundByte.Core.Services
                         // Add the service only if it's connected
                         if (IsServiceConnected(type))
                         {
-                            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("OAuth",
-                                ServiceSecrets.FirstOrDefault(x => x.Service == type)?.UserToken?.AccessToken);
+                            // Get the token
+                            var token = ServiceSecrets.FirstOrDefault(x => x.Service == type)?.UserToken?.AccessToken;
+
+                            // Add the auth request
+                            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("OAuth", token);
+
+                            // Fanburst requires the access_token
+                            // param to be added to the request.
+                            if (type == ServiceType.Fanburst)
+                            {
+                                requestUri += $"&access_token={token}";
+                            }
                         }
 
                         // escape the url
@@ -583,8 +653,18 @@ namespace SoundByte.Core.Services
                         // Add the service only if it's connected
                         if (IsServiceConnected(type))
                         {
-                            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("OAuth",
-                                ServiceSecrets.FirstOrDefault(x => x.Service == type)?.UserToken?.AccessToken);
+                            // Get the token
+                            var token = ServiceSecrets.FirstOrDefault(x => x.Service == type)?.UserToken?.AccessToken;
+
+                            // Add the auth request
+                            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("OAuth", token);
+
+                            // Fanburst requires the access_token
+                            // param to be added to the request.
+                            if (type == ServiceType.Fanburst)
+                            {
+                                requestUri += $"&access_token={token}";
+                            }
                         }
 
                         // escape the url
@@ -642,8 +722,18 @@ namespace SoundByte.Core.Services
                         // Add the service only if it's connected
                         if (IsServiceConnected(type))
                         {
-                            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("OAuth",
-                                ServiceSecrets.FirstOrDefault(x => x.Service == type)?.UserToken?.AccessToken);
+                            // Get the token
+                            var token = ServiceSecrets.FirstOrDefault(x => x.Service == type)?.UserToken?.AccessToken;
+
+                            // Add the auth request
+                            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("OAuth", token);
+
+                            // Fanburst requires the access_token
+                            // param to be added to the request.
+                            if (type == ServiceType.Fanburst)
+                            {
+                                requestUri += $"&access_token={token}";
+                            }
                         }
 
                         // escape the url

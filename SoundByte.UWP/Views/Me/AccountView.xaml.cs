@@ -18,7 +18,6 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
-using Windows.Security.Credentials;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -54,7 +53,7 @@ namespace SoundByte.UWP.Views.Me
 
             // On disconnect and connect events refresh the UI
             SoundByteV3Service.Current.OnServiceConnected += (type, token) => RefreshUi();
-            SoundByteV3Service.Current.OnServiceDisconnected += (type) => RefreshUi();
+            SoundByteV3Service.Current.OnServiceDisconnected += type => RefreshUi();
 
             // Handle new window requests, if a new window is requested, just navigate on the 
             // current page. 
@@ -92,6 +91,7 @@ namespace SoundByte.UWP.Views.Me
             FanburstText.Text = SoundByteV3Service.Current.IsServiceConnected(ServiceType.Fanburst) ? "Logout" : "Login";
 
             ViewSoundCloudProfileButton.IsEnabled = SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud);
+            ViewFanburstProfileButton.IsEnabled = SoundByteV3Service.Current.IsServiceConnected(ServiceType.Fanburst);
 
             // Update the UI depending if we are logged in or not
             if (SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud) ||
@@ -367,6 +367,11 @@ namespace SoundByte.UWP.Views.Me
         {
             MainView.Visibility = Visibility.Visible;
             ConnectAccountView.Visibility = Visibility.Collapsed;
+        }
+
+        private void ViewFanburstProfile(object sender, RoutedEventArgs e)
+        {
+            App.NavigateTo(typeof(UserView), SoundByteV3Service.Current.GetConnectedUser(ServiceType.Fanburst));
         }
     }
 }

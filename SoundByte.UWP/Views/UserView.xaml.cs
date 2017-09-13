@@ -18,7 +18,6 @@ using SoundByte.Core.Items.User;
 using SoundByte.UWP.Helpers;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.ViewModels;
-using SoundByte.UWP.Views.Me;
 using WinRTXamlToolkit.Controls.Extensions;
 
 namespace SoundByte.UWP.Views

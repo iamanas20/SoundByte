@@ -34,22 +34,52 @@ namespace SoundByte.Core.Items.Track
         public ServiceType ServiceType { get; set; }
 
         public string Id { get; set; }
-        public string Kind { get; set; }
-        public string Link { get; set; }
-        public string AudioStreamUrl { get; set; }
-        public string VideoStreamUrl { get; set; }
-        public string ArtworkUrl { get; set; }
-        public string Title { get; set; }
-        public string Description { get; set; } 
-        public TimeSpan Duration { get; set; }
-        public DateTime Created { get; set; }
-        public double LikeCount { get; set; }
-        public double DislikeCount { get; set; }
-        public double ViewCount { get; set; }
-        public double CommentCount { get; set; }
-        public string Genre { get; set; }
-        public BaseUser User { get; set; }
+        private string _id;
 
+        public string Kind { get; set; }
+        private string _kind;
+
+        public string Link { get; set; }
+        private string _link;
+
+        public string AudioStreamUrl { get; set; }
+        private string _audioStreamurl;
+
+        public string VideoStreamUrl { get; set; }
+        private string _videoStreamUrl;
+
+        public string ArtworkUrl { get; set; }
+        private string _artworkUrl;
+
+        public string Title { get; set; }
+        private string _title;
+
+        public string Description { get; set; }
+        private string _description;
+
+        public TimeSpan Duration { get; set; }
+        private TimeSpan _duration;
+
+        public DateTime Created { get; set; }
+        private DateTime _created;
+
+        public double LikeCount { get; set; }
+        private double _likeCount;
+
+        public double DislikeCount { get; set; }
+        private double _dislikeCount;
+
+        public double ViewCount { get; set; }
+        private double _viewCount;
+
+        public double CommentCount { get; set; }
+        private double _commentCount;
+
+        public string Genre { get; set; }
+        private string _genre;
+
+        public BaseUser User { get; set; }
+        private BaseUser _user;
 
         public async Task<(List<BaseComment> Comments, string Token)> GetCommentsAsync(uint count, string token)
         {
