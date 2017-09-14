@@ -478,6 +478,9 @@ namespace SoundByte.Core.Services
                         // escape the url
                         var escapedUri = new Uri(Uri.EscapeUriString(requestUri));
 
+                        if (string.IsNullOrEmpty(content))
+                            content = "n/a";
+
                         // Full the body content if it is null
                         var httpContent = new StringContent(content, Encoding.UTF8, "application/json");
 
@@ -569,6 +572,9 @@ namespace SoundByte.Core.Services
 
                         // escape the url
                         var escapedUri = new Uri(Uri.EscapeUriString(requestUri));
+
+                        if (string.IsNullOrEmpty(content))
+                            content = "n/a";
 
                         // Full the body content if it is null
                         var httpContent = new StringContent(content, Encoding.UTF8, "application/json");

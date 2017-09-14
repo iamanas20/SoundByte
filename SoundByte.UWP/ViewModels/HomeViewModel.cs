@@ -31,8 +31,6 @@ namespace SoundByte.UWP.ViewModels
         // Model for stream items
         public StreamModel StreamItems { get; } = new StreamModel();
 
-       
-
         /// <summary>
         ///     Refreshes the models depending on what
         ///     page is being viewed
@@ -71,8 +69,6 @@ namespace SoundByte.UWP.ViewModels
             App.IsLoading = false;
         }
 
-       
-
         public async void PlayShuffleStreamTracks()
         {
             // Get a list of items
@@ -86,13 +82,8 @@ namespace SoundByte.UWP.ViewModels
             await ShuffleTracksAsync(baseTrackList);
         }
 
-      
-
         public async void NavigateStream(object sender, ItemClickEventArgs e)
         {
-            // We are loading
-            App.IsLoading = true;
-
             // Get a list of items
             var trackList = StreamItems.Where(t => t.Type == "track" || t.Type == "track-repost" && t.Type != null)
                 .Select(t => t.Track).ToList();
@@ -103,6 +94,12 @@ namespace SoundByte.UWP.ViewModels
             // Get the clicked item
             var streamItem = (StreamModel.StreamItem) e.ClickedItem;
 
+            if (streamItem == null)
+                return;
+
+            // We are loading
+            App.IsLoading = true;
+
             switch (streamItem.Type)
             {
                 case "track":
@@ -111,15 +108,14 @@ namespace SoundByte.UWP.ViewModels
                     {
                         var startPlayback = await PlaybackService.Instance.StartPlaylistMediaPlaybackAsync(baseTrackList, false, streamItem.Track.ToBaseTrack());
 
-
-
                         if (!startPlayback.success)
                             await new MessageDialog(startPlayback.message, "Error playing stream.").ShowAsync();
                     }
                     break;
                 case "playlist":
                 case "playlist-repost":
-                    App.NavigateTo(typeof(PlaylistView), streamItem.Playlist.ToBasePlaylist());
+                    if (streamItem.Playlist != null)
+                        App.NavigateTo(typeof(PlaylistView), streamItem.Playlist.ToBasePlaylist());
                     break;
             }
 
