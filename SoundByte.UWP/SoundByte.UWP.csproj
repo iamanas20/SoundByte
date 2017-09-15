@@ -191,6 +191,7 @@
     <Compile Include="Helpers\NetworkHelper.cs" />
     <Compile Include="Helpers\NumberFormatHelper.cs" />
     <Compile Include="Helpers\TextHelper.cs" />
+    <Compile Include="Helpers\TileHelper.cs" />
     <Compile Include="Helpers\TitlebarHelper.cs" />
     <Compile Include="Models\BaseTrackModel.cs" />
     <Compile Include="Models\YouTubeSearchModel.cs" />
@@ -219,7 +220,6 @@
     <Compile Include="Services\PlaybackService.cs" />
     <Compile Include="Services\SettingsService.cs" />
     <Compile Include="Services\TelemetryService.cs" />
-    <Compile Include="Services\TileService.cs" />
     <Compile Include="StateTriggers\DeviceStateTrigger.cs" />
     <Compile Include="UserControls\NowPlayingBar.xaml.cs">
       <DependentUpon>NowPlayingBar.xaml</DependentUpon>

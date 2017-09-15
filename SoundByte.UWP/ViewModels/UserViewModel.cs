@@ -22,6 +22,7 @@ using SoundByte.Core.Items.Track;
 using SoundByte.Core.Items.User;
 using SoundByte.Core.Services;
 using SoundByte.UWP.Converters;
+using SoundByte.UWP.Helpers;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.Models;
 using SoundByte.UWP.Views;
@@ -167,7 +168,7 @@ namespace SoundByte.UWP.ViewModels
             var resources = ResourceLoader.GetForCurrentView();
 
             // Check if the tile has been pinned
-            if (TileService.Instance.DoesTileExist("User_" + User.Id))
+            if (TileHelper.IsTilePinned("User_" + User.Id))
             {
                 PinButtonIcon = "\uE77A";
                 PinButtonText = resources.GetString("AppBarUI_Unpin_Raw");
@@ -274,10 +275,10 @@ namespace SoundByte.UWP.ViewModels
             var resources = ResourceLoader.GetForCurrentView();
 
             // Check if the tile exists
-            if (TileService.Instance.DoesTileExist("User_" + User.Id))
+            if (TileHelper.IsTilePinned("User_" + User.Id))
             {
                 // Try remove the tile
-                if (await TileService.Instance.RemoveAsync("User_" + User.Id))
+                if (await TileHelper.RemoveTileAsync("User_" + User.Id))
                 {
                     TelemetryService.Instance.TrackEvent("Unpin User");
                     PinButtonIcon = "\uE718";
@@ -292,7 +293,7 @@ namespace SoundByte.UWP.ViewModels
             else
             {
                 // Create the tile
-                if (await TileService.Instance.CreateTileAsync("User_" + User.Id, User.Username,
+                if (await TileHelper.CreateTileAsync("User_" + User.Id, User.Username,
                     "soundbyte://core/user?id=" + User.Id, new Uri(ArtworkConverter.ConvertObjectToImage(User)),
                     ForegroundText.Light))
                 {

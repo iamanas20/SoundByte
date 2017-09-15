@@ -12,7 +12,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
@@ -73,6 +72,9 @@ namespace SoundByte.UWP
 
             // Init Keys
             ApiKeyService.Init();
+
+            // Live tile helpers
+            TileHelper.Init();
 
             // Init service
             InitV3Service();

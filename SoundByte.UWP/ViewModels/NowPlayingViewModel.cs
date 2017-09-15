@@ -80,7 +80,7 @@ namespace SoundByte.UWP.ViewModels
                 }
              
                 // Set the pin button text
-                PinButtonText = TileService.Instance.DoesTileExist("Track_" + Service.CurrentTrack.Id) ? "Unpin" : "Pin";
+                PinButtonText = TileHelper.IsTilePinned("Track_" + Service.CurrentTrack.Id) ? "Unpin" : "Pin";
 
                 // Set the like button text
                 LikeButtonText = await SoundByteV3Service.Current.ExistsAsync(ServiceType.SoundCloud, "/me/favorites/" + Service.CurrentTrack.Id)
@@ -288,12 +288,12 @@ namespace SoundByte.UWP.ViewModels
             if (Service.CurrentTrack != null)
             {
                 // Check if the tile exists
-                var tileExists = TileService.Instance.DoesTileExist("Track_" + Service.CurrentTrack.Id);
+                var tileExists = TileHelper.IsTilePinned("Track_" + Service.CurrentTrack.Id);
 
                 if (tileExists)
                 {
                     // Remove the tile and check if it was successful
-                    if (await TileService.Instance.RemoveAsync("Track_" + Service.CurrentTrack.Id))
+                    if (await TileHelper.RemoveTileAsync("Track_" + Service.CurrentTrack.Id))
                     {
                         PinButtonText = "Pin";
                         // Track Event
@@ -307,7 +307,7 @@ namespace SoundByte.UWP.ViewModels
                 else
                 {
                     // Create a live tile and check if it was created
-                    if (await TileService.Instance.CreateTileAsync("Track_" + Service.CurrentTrack.Id,
+                    if (await TileHelper.CreateTileAsync("Track_" + Service.CurrentTrack.Id,
                         Service.CurrentTrack.Title, "soundbyte://core/track?id=" + Service.CurrentTrack.Id,
                         new Uri(ArtworkConverter.ConvertObjectToImage(Service.CurrentTrack)), ForegroundText.Light))
                     {

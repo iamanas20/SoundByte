@@ -54,7 +54,7 @@ namespace SoundByte.UWP.ViewModels
             App.IsLoading = true;
 
             // Get a list of items
-            var trackList = StreamItems.Where(t => t.Type == "track" || t.Type == "track-repost" && t.Type != null)
+            var trackList = StreamItems.Where(t => t.Type == "track" || t.Type == "track-repost" && t.Track != null)
                 .Select(t => t.Track).ToList();
 
             var baseTrackList = new List<BaseTrack>();

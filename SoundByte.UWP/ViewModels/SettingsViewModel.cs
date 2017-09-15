@@ -52,7 +52,7 @@ namespace SoundByte.UWP.ViewModels
             // Clear all jumplist items
             await JumplistHelper.RemoveAllAsync();
             // Clear all the live tiles
-            await TileService.Instance.RemoveAllAsync();
+            await TileHelper.RemoveAllTilesAsync();
             // Remove all cached images from the app
             var rootCacheFolder =
                 await ApplicationData.Current.LocalFolder.CreateFolderAsync("cache",

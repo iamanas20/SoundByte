@@ -890,7 +890,7 @@ namespace SoundByte.UWP.Services
 
             try
             {
-                TileService.Instance.TileUpdater.Clear();
+                TileHelper.TileUpdater.Clear();
 
                 var firstXml = new XmlDocument();
                 firstXml.LoadXml(
@@ -903,7 +903,7 @@ namespace SoundByte.UWP.Services
                     "\"/><text>Paused</text><text hint-style=\"captionsubtle\" hint-wrap=\"true\"><![CDATA[" +
                     CurrentTrack.Title.Replace("&", "&amp;") + "]]></text></binding></visual></tile>",
                     new XmlLoadSettings { ValidateOnParse = true });
-                TileService.Instance.TileUpdater.Update(new TileNotification(firstXml));
+                TileHelper.TileUpdater.Update(new TileNotification(firstXml));
             }
             catch
             {
@@ -920,7 +920,7 @@ namespace SoundByte.UWP.Services
 
             try
             {
-                TileService.Instance.TileUpdater.Clear();
+                TileHelper.TileUpdater.Clear();
 
                 var firstXml = new XmlDocument();
                 firstXml.LoadXml(
@@ -933,7 +933,7 @@ namespace SoundByte.UWP.Services
                     "\"/><text>Now Playing</text><text hint-style=\"captionsubtle\" hint-wrap=\"true\"><![CDATA[" +
                     CurrentTrack.Title.Replace("&", "&amp;") + "]]></text></binding></visual></tile>",
                     new XmlLoadSettings { ValidateOnParse = true });
-                TileService.Instance.TileUpdater.Update(new TileNotification(firstXml));
+                TileHelper.TileUpdater.Update(new TileNotification(firstXml));
             }
             catch (Exception ex)
             {
