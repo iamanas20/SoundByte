@@ -51,10 +51,10 @@ namespace SoundByte.UWP.Models
 
                         // Set the default token to zero
                         if (string.IsNullOrEmpty(Token))
-                            Token = "-" + count;
+                            Token = "0";
 
-                        // Set the new token;
-                        Token = (int.Parse(Token) + count).ToString();
+                        if (Token == "eol")
+                            Token = "0";
 
                         // Get items in date descending order, skip the token and take the count
                         var items = db.Tracks.Include(x => x.User).OrderByDescending(x => x.LastPlaybackDate).Skip(int.Parse(Token)).Take(count);
@@ -81,13 +81,21 @@ namespace SoundByte.UWP.Models
                             // Reset the token
                             Token = "eol";
 
-                            // No items tell the user
-                            await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
+                            if (Count == 0)
                             {
-                                (App.CurrentFrame?.FindName("HistoryModelInfoPane") as InfoPane)?.ShowMessage(
-                                    "No History", "Listen to some music to get started.", "", false);
-                            });
+                                // No items tell the user
+                                await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
+                                {
+                                    (App.CurrentFrame?.FindName("HistoryModelInfoPane") as InfoPane)?.ShowMessage(
+                                        "No History", "Listen to some music to get started.", "", false);
+                                });
+                            }
+                         
                         }
+
+                        // Set the new token;
+                        if (Token != "eol")
+                            Token = (int.Parse(Token) + count).ToString();
                     }   
                 }
                 catch (SoundByteException ex)

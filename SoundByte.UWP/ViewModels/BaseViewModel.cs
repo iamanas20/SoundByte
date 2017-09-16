@@ -44,7 +44,7 @@ namespace SoundByte.UWP.ViewModels
          //   }
         }
 
-        public static async Task ShuffleTracksAsync(List<BaseTrack> tracks)
+        public static async Task ShuffleTracksListAsync(IEnumerable<BaseTrack> tracks)
         {
             var startPlayback = await PlaybackService.Instance.StartPlaylistMediaPlaybackAsync(tracks, true);
 

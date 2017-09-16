@@ -248,7 +248,7 @@ namespace SoundByte.UWP.ViewModels
         /// </summary>
         public async void ShuffleItemsAsync()
         {
-            await ShuffleTracksAsync(Tracks.ToList());
+            await ShuffleTracksListAsync(Tracks);
         }
 
         /// <summary>

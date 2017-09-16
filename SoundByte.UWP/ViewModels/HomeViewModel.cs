@@ -69,14 +69,11 @@ namespace SoundByte.UWP.ViewModels
         public async void PlayShuffleStreamTracks()
         {
             // Get a list of items
-            var trackList = StreamItems.Where(t => t.Type == "track" || t.Type == "track-repost" && t.Type != null)
-                .Select(t => t.Track).ToList();
-
-            var baseTrackList = new List<BaseTrack>();
-            trackList.ToList().ForEach(x => baseTrackList.Add(x.ToBaseTrack()));
+            var trackList = StreamItems.Where(t => t.Type == "track" || t.Type == "track-repost" && t.Track != null)
+                .Select(t => t.Track?.ToBaseTrack());
 
             // Shuffle and play the items
-            await ShuffleTracksAsync(baseTrackList);
+            await ShuffleTracksListAsync(trackList);
         }
 
         public async void NavigateStream(object sender, ItemClickEventArgs e)
