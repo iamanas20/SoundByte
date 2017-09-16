@@ -37,6 +37,9 @@ using SoundByte.UWP.Helpers;
 using SoundByte.Core.Services;
 using SoundByte.UWP.DatabaseContexts;
 using SoundByte.UWP.Models;
+using SoundByte.YouTubeParser;
+using SoundByte.YouTubeParser.Models;
+using SoundByte.YouTubeParser.Models.MediaStreams;
 
 namespace SoundByte.UWP.Services
 {
@@ -304,6 +307,18 @@ namespace SoundByte.UWP.Services
 
             Player.PlaybackSession.PlaybackStateChanged += PlaybackSessionStateChanged;
 
+            // Create the new playback list (with autorepeat enabled)
+            _playbackList = new MediaPlaybackList
+            {
+                AutoRepeatEnabled = true
+            };
+
+            // Subscribe to the item change event
+            _playbackList.CurrentItemChanged += CurrentItemChanged;
+
+            // Set the playback list
+            Player.Source = _playbackList;
+
             // The page timer is used to update things like current position, time
             // remaining time etc.
             var pageTimer = new DispatcherTimer
@@ -516,6 +531,61 @@ namespace SoundByte.UWP.Services
         }
         #endregion
 
+        public MediaPlaybackItem CreateMediaPlaybackItem(BaseTrack track, string soundCloudApiKey)
+        {
+            try
+            {
+                MediaSource source;
+
+                switch (track.ServiceType)
+                {
+                    case ServiceType.SoundCloud:
+                        source = MediaSource.CreateFromUri(new Uri("http://api.soundcloud.com/tracks/" + track.Id + "/stream?client_id=" + soundCloudApiKey));
+                        break;
+                    case ServiceType.Fanburst:
+                        source = MediaSource.CreateFromUri(new Uri("https://api.fanburst.com/tracks/" + track.Id + "/stream?client_id=" + ApiKeyService.FanburstClientId));
+                        break;
+                    case ServiceType.YouTube:
+                        source = MediaSource.CreateFromUri(new Uri(track.AudioStreamUrl));
+                        break;
+                    default:
+                        throw new Exception("Unknown Track Type: " + track.ServiceType);
+                }
+
+                // So we can access the item later
+                source.CustomProperties["SoundByteItem.ID"] = track.Id;
+
+                // Create a configurable playback item backed by the media source
+                var playbackItem = new MediaPlaybackItem(source);
+
+                // Populate display properties for the item that will be used
+                // to automatically update SystemMediaTransportControls when
+                // the item is playing.
+                var displayProperties = playbackItem.GetDisplayProperties();
+                displayProperties.Type = MediaPlaybackType.Music;
+                displayProperties.MusicProperties.Title = track.Title;
+                displayProperties.MusicProperties.Artist = track.User.Username;
+                displayProperties.Thumbnail =
+                    RandomAccessStreamReference.CreateFromUri(
+                        new Uri(ArtworkConverter.ConvertObjectToImage(track)));
+
+                // Apply the properties
+                playbackItem.ApplyDisplayProperties(displayProperties);
+
+                // Add the item to the required lists
+                return playbackItem;
+            }
+            catch (Exception)
+            {
+                TelemetryService.Instance.TrackEvent("Could not add Playback Item",
+                    new Dictionary<string, string>
+                    {
+                        {"track_id", track.Id}
+                    });
+                return null;
+            }
+        }
+
         #region Setup/Start Media Playback Methods
         /// <summary>
         /// This method starts media playback but using a playlist instead
@@ -558,29 +628,8 @@ namespace SoundByte.UWP.Services
             // Pause Everything
             Player.Pause();
 
-            // If the playback list is not null, run this
-            if (_playbackList == null)
-            {
-                // Create the new playback list (with autorepeat enabled)
-                _playbackList = new MediaPlaybackList
-                {
-                    AutoRepeatEnabled = true
-                };
-
-                // Subscribe to the item change event
-                _playbackList.CurrentItemChanged += CurrentItemChanged;
-            }
-            else
-            {
-                // If the tokens do not match, reload the list
-                //   if (token != TokenValue)
-                //   {
-                // Clear the playback list
-                _playbackList.Items.Clear();
-
-                // Clear the internal list
-                //   }
-            }
+            // Clear the playback list
+            _playbackList.Items.Clear();
 
             // Set the model
             Playlist = model;
@@ -599,66 +648,14 @@ namespace SoundByte.UWP.Services
             // Loop through all the tracks
             foreach (var track in model)
             {
-                try
-                {
-                    // If the track is null, leave it alone
-                    if (track == null)
-                        continue;
+                var mediaPlaybackItem = CreateMediaPlaybackItem(track, soundCloudApiKey);
 
-                    MediaSource source;
-
-                    switch (track.ServiceType)
-                    {
-                        case ServiceType.SoundCloud:
-                            source = MediaSource.CreateFromUri(new Uri("http://api.soundcloud.com/tracks/" + track.Id + "/stream?client_id=" + soundCloudApiKey));
-                            break;
-                        case ServiceType.Fanburst:
-                            source = MediaSource.CreateFromUri(new Uri("https://api.fanburst.com/tracks/" + track.Id + "/stream?client_id=" + ApiKeyService.FanburstClientId));
-                            break;
-                        case ServiceType.YouTube:
-                            source = MediaSource.CreateFromUri(new Uri(track.AudioStreamUrl));
-                            break;
-                        default:
-                            throw new Exception("Unknown Track Type: " + track.ServiceType);
-                    }
-
-                    // So we can access the item later
-                    source.CustomProperties["SoundByteItem.ID"] = track.Id;
-
-                    // Create a configurable playback item backed by the media source
-                    var playbackItem = new MediaPlaybackItem(source);
-
-                    // Populate display properties for the item that will be used
-                    // to automatically update SystemMediaTransportControls when
-                    // the item is playing.
-                    var displayProperties = playbackItem.GetDisplayProperties();
-                    displayProperties.Type = MediaPlaybackType.Music;
-                    displayProperties.MusicProperties.Title = track.Title;
-                    displayProperties.MusicProperties.Artist = track.User.Username;
-                    displayProperties.Thumbnail =
-                        RandomAccessStreamReference.CreateFromUri(
-                            new Uri(ArtworkConverter.ConvertObjectToImage(track)));
-
-                    // Apply the properties
-                    playbackItem.ApplyDisplayProperties(displayProperties);
-
-                    // Add the item to the required lists
-                    _playbackList.Items.Add(playbackItem);
-                }
-                catch (Exception)
-                {
-                    TelemetryService.Instance.TrackEvent("Could not add Playback Item",
-                        new Dictionary<string, string>
-                        {
-                            {"track_id", track.Id}
-                        });
-                }
+                if (mediaPlaybackItem != null)
+                    _playbackList.Items.Add(mediaPlaybackItem);
             }
+
             // Update the controls that we are changing track
             Player.SystemMediaTransportControls.PlaybackStatus = MediaPlaybackStatus.Changing;
-
-            // Set the playback list
-            Player.Source = _playbackList;
 
             // If the track is shuffled, or no starting item is supplied, just play as usual
             if (isShuffled || startingItem == null)
@@ -720,7 +717,7 @@ namespace SoundByte.UWP.Services
 
             await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
             {
-                var overlay = App.CurrentFrame.FindName("VideoOverlay") as MediaElement;
+                var overlay = App.CurrentFrame?.FindName("VideoOverlay") as MediaElement;
 
                 switch (sender.PlaybackState)
                 {
@@ -735,9 +732,6 @@ namespace SoundByte.UWP.Services
                     case MediaPlaybackState.None:
                         App.IsLoading = false;
                         PlayButtonContent = "\uE768";
-                        break;
-                    case MediaPlaybackState.Opening:
-                        App.IsLoading = true;
                         break;
                     case MediaPlaybackState.Paused:
                         App.IsLoading = false;

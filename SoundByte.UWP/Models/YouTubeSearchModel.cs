@@ -106,13 +106,10 @@ namespace SoundByte.UWP.Models
 
                                         // Add missing details
                                         track.Duration = video.Duration;
-                                        //  track.Description = video.Description;
-                                        //   track.LikeCount = video.LikeCount;
                                         track.ViewCount = video.ViewCount;
                                         track.ArtworkUrl = video.ImageHighResUrl;
                                         track.AudioStreamUrl =
                                             video.AudioStreams.OrderBy(q => q.AudioEncoding).Last()?.Url;
-
 
                                         // 720p is max quality we want
                                         var wantedQuality =
