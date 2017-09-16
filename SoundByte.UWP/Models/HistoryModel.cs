@@ -10,15 +10,12 @@
  * |----------------------------------------------------------------|
  */
 
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Resources;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Toolkit.Uwp.Helpers;
-using SoundByte.Core;
 using SoundByte.Core.Exceptions;
-using SoundByte.Core.Holders;
-using SoundByte.Core.Services;
+using SoundByte.UWP.DatabaseContexts;
 using SoundByte.UWP.UserControls;
 
 namespace SoundByte.UWP.Models
@@ -44,40 +41,36 @@ namespace SoundByte.UWP.Models
                     (App.CurrentFrame?.FindName("HistoryModelInfoPane") as InfoPane)?.ShowLoading();
                 });
 
-                // Get the resource loader
-                var resources = ResourceLoader.GetForViewIndependentUse();
-
-                // Check if the user is logged in
-                if (SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud))
+                try
                 {
-                    try
+                    using (var db = new HistoryContext())
                     {
-                        var userPlayHistory = await SoundByteV3Service.Current.GetAsync<HistoryListHolder>(
-                            ServiceType.SoundCloudV2,
-                            "/me/play-history/tracks", new Dictionary<string, string>
-                            {
-                                {"limit", "50"},
-                                {"offset", Token},
-                                {"linked_partitioning", "1"}
-                            });
+                        // At least 10 items
+                        if (count <= 10)
+                            count = 10;
 
-                        // Parse uri for offset
-                        var param = new QueryParameterCollection(userPlayHistory.NextList);
-                        var offset = param.FirstOrDefault(x => x.Key == "offset").Value;
+                        // Set the default token to zero
+                        if (string.IsNullOrEmpty(Token))
+                            Token = "-" + count;
 
-                        // Get the history offset
-                        Token = string.IsNullOrEmpty(offset) ? "eol" : offset;
+                        // Set the new token;
+                        Token = (int.Parse(Token) + count).ToString();
 
-                        // Make sure that there are tracks in the list
-                        if (userPlayHistory.Tracks.Count > 0)
+                        // Get items in date descending order, skip the token and take the count
+                        var items = db.Tracks.Include(x => x.User).OrderByDescending(x => x.LastPlaybackDate).Skip(int.Parse(Token)).Take(count);
+
+                        if (items.Any())
                         {
                             // Set the count variable
-                            count = userPlayHistory.Tracks.Count;
+                            count = items.Count();
 
                             // Loop though all the tracks on the UI thread
                             await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                             {
-                                userPlayHistory.Tracks.ForEach(t => Add(t.Track.ToBaseTrack()));
+                                foreach (var track in items)
+                                {
+                                    Add(track);
+                                }
                             });
                         }
                         else
@@ -95,37 +88,21 @@ namespace SoundByte.UWP.Models
                                     "No History", "Listen to some music to get started.", "", false);
                             });
                         }
-                    }
-                    catch (SoundByteException ex)
-                    {
-                        // Exception, most likely did not add any new items
-                        count = 0;
-
-                        // Reset the token
-                        Token = "eol";
-
-                        // Exception, display error to the user
-                        await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
-                        {
-                            (App.CurrentFrame?.FindName("HistoryModelInfoPane") as InfoPane)?.ShowMessage(
-                                ex.ErrorTitle, ex.ErrorDescription, ex.ErrorGlyph);
-                        });
-                    }
+                    }   
                 }
-                else
+                catch (SoundByteException ex)
                 {
-                    // Not logged in, so no new items
+                    // Exception, most likely did not add any new items
                     count = 0;
 
                     // Reset the token
                     Token = "eol";
 
-                    // No items tell the user
+                    // Exception, display error to the user
                     await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                     {
                         (App.CurrentFrame?.FindName("HistoryModelInfoPane") as InfoPane)?.ShowMessage(
-                            resources.GetString("ErrorControl_LoginFalse_Header"),
-                            resources.GetString("ErrorControl_LoginFalse_Content"), "", false);
+                            ex.ErrorTitle, ex.ErrorDescription, ex.ErrorGlyph);
                     });
                 }
 

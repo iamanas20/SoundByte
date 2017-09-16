@@ -55,16 +55,13 @@ namespace SoundByte.UWP.ViewModels
 
             // Get a list of items
             var trackList = StreamItems.Where(t => t.Type == "track" || t.Type == "track-repost" && t.Track != null)
-                .Select(t => t.Track).ToList();
+                .Select(t => t.Track?.ToBaseTrack());
 
-            var baseTrackList = new List<BaseTrack>();
-            trackList.ToList().ForEach(x => baseTrackList.Add(x.ToBaseTrack()));
-
-            var startPlayback = await PlaybackService.Instance.StartPlaylistMediaPlaybackAsync(baseTrackList);
+            var startPlayback = await PlaybackService.Instance.StartPlaylistMediaPlaybackAsync(trackList);
 
             if (!startPlayback.success)
                 await new MessageDialog(startPlayback.message, "Error playing stream.").ShowAsync();
-
+            
             // We are not loading
             App.IsLoading = false;
         }

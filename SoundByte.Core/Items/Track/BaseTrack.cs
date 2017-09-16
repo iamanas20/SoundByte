@@ -63,6 +63,9 @@ namespace SoundByte.Core.Items.Track
         public DateTime Created { get; set; }
         private DateTime _created;
 
+        public DateTime LastPlaybackDate { get; set; }
+        private DateTime _lastPlaybackDate;
+
         public double LikeCount { get; set; }
         private double _likeCount;
 

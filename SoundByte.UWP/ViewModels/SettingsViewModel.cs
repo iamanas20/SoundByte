@@ -16,6 +16,8 @@ using Windows.Storage;
 using Windows.UI.Notifications;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Microsoft.EntityFrameworkCore;
+using SoundByte.UWP.DatabaseContexts;
 using SoundByte.UWP.Helpers;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.Views.Application;
@@ -35,7 +37,7 @@ namespace SoundByte.UWP.ViewModels
                 Content = new TextBlock
                 {
                     Text =
-                        "Warning: Clearing Application cache will delete the following things:\n• Cached Images.\n• Jumplist Items.\n• Pinned Live Tiles.\n• Notifications.\n\n To Continue press 'Clear Cache', this may take a while.",
+                        "Warning: Clearing Application cache will delete the following things:\n• Cached Images.\n• Jumplist Items.\n• Pinned Live Tiles.\n• Local Playback History.\n\n To Continue press 'Clear Cache', this may take a while.",
                     TextWrapping = TextWrapping.Wrap
                 },
                 PrimaryButtonText = "Clear Cache",
@@ -60,6 +62,12 @@ namespace SoundByte.UWP.ViewModels
             await rootCacheFolder.DeleteAsync();
             // Remove all toast notifications
             ToastNotificationManager.History.Clear();
+
+            using (var db = new HistoryContext())
+            {
+                db.Database.EnsureDeleted();
+                db.Database.Migrate();
+            }
         }
 
         public void NavigateDebugOptions()

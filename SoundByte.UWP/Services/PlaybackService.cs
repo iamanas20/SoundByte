@@ -35,6 +35,7 @@ using SoundByte.Core.Items.User;
 using SoundByte.UWP.Converters;
 using SoundByte.UWP.Helpers;
 using SoundByte.Core.Services;
+using SoundByte.UWP.DatabaseContexts;
 using SoundByte.UWP.Models;
 
 namespace SoundByte.UWP.Services
@@ -780,6 +781,9 @@ namespace SoundByte.UWP.Services
                 CurrentTimeValue = 0;
                 MaxTimeValue = CurrentTrack.Duration.TotalSeconds;
 
+                // Set the last playback date
+                CurrentTrack.LastPlaybackDate = DateTime.UtcNow;
+
                 // Update the live tile
                 UpdateNormalTiles();
 
@@ -806,6 +810,36 @@ namespace SoundByte.UWP.Services
                     }
                 }
             });
+
+            using (var db = new HistoryContext())
+            {
+                var existingUser = db.Users.FirstOrDefault(x => x.Id == track.User.Id);
+
+                if (existingUser == null)
+                    db.Users.Add(track.User);
+
+                await db.SaveChangesAsync();
+            }
+
+            using (var db = new HistoryContext())
+            {
+                var existingUser = db.Users.FirstOrDefault(x => x.Id == track.User.Id);
+
+                // Get the existing track in the database (if it exists)
+                var existingTrack = db.Tracks.FirstOrDefault(x => x.Id == track.Id);
+
+                if (existingTrack == null)
+                {
+                    track.User = existingUser;
+                    db.Tracks.Add(track);
+                }
+                else
+                {
+                    existingTrack.LastPlaybackDate = DateTime.UtcNow;
+                }
+
+                await db.SaveChangesAsync();
+            }
 
             TelemetryService.Instance.TrackEvent("Background Song Change", new Dictionary<string, string>
             {

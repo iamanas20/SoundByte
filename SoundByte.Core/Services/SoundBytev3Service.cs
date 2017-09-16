@@ -321,6 +321,9 @@ namespace SoundByte.Core.Services
 
                     requestUri = $"https://www.googleapis.com/youtube/v3/{endpoint}?key={youtubeService.ClientId}";
                     break;
+                case ServiceType.ITunesPodcast:
+                    requestUri = $"https://itunes.apple.com/{endpoint}";
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);
             }

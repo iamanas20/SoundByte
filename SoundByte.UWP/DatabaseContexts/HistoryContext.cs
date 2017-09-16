@@ -10,15 +10,20 @@
  * |----------------------------------------------------------------|
  */
 
-namespace SoundByte.Core
+using Microsoft.EntityFrameworkCore;
+using SoundByte.Core.Items.Track;
+using SoundByte.Core.Items.User;
+
+namespace SoundByte.UWP.DatabaseContexts
 {
-    public enum ServiceType
+    public class HistoryContext : DbContext
     {
-        Fanburst,
-        SoundCloud,
-        SoundCloudV2,
-        YouTube,
-        // ReSharper disable once InconsistentNaming
-        ITunesPodcast
+        public DbSet<BaseTrack> Tracks { get; set; }
+        public DbSet<BaseUser> Users { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlite("Data Source=sb.core.history.db"); 
+        }    
     }
 }

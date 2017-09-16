@@ -24,10 +24,12 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Toolkit.Uwp.Helpers;
 using SoundByte.Core;
 using SoundByte.Core.Items;
 using SoundByte.Core.Services;
+using SoundByte.UWP.DatabaseContexts;
 using SoundByte.UWP.Dialogs;
 using SoundByte.UWP.Helpers;
 using SoundByte.UWP.Services;
@@ -81,6 +83,12 @@ namespace SoundByte.UWP
 
             // Handle App Crashes
             CrashHelper.HandleAppCrashes(Current);
+
+            // Migrate and database changes
+            using (var db = new HistoryContext())
+            {
+                db.Database.Migrate();
+            }
 
             // Enter and Leaving background handlers
             EnteredBackground += AppEnteredBackground;
