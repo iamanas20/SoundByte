@@ -46,7 +46,8 @@
                                HorizontalAlignment="Left" 
                                Opacity="0.8" />
                     <uiElements:SoundByteButton HorizontalAlignment="Right"
-                                                Label="Show All" 
+                                                Label="View All" 
+                                                Click="{x:Bind ViewModel.NavigateSoundCloudTracks}"
                                                 Glyph="&#xE8A9;"/>
                 </Grid>
                 <!-- SoundCloud Tracks Content -->
@@ -86,7 +87,8 @@
                                HorizontalAlignment="Left" 
                                Opacity="0.8" />
                     <uiElements:SoundByteButton HorizontalAlignment="Right"
-                                                Label="Show All" 
+                                                Label="View All" 
+                                                Click="{x:Bind ViewModel.NavigateSoundCloudPlaylists}"
                                                 Glyph="&#xE8A9;"/>
                 </Grid>
                 <!-- SoundCloud Playlists Content -->
@@ -126,7 +128,8 @@
                                HorizontalAlignment="Left" 
                                Opacity="0.8" />
                     <uiElements:SoundByteButton HorizontalAlignment="Right"
-                                                Label="Show All" 
+                                                Click="{x:Bind ViewModel.NavigateSoundCloudUsers}"
+                                                Label="View All" 
                                                 Glyph="&#xE8A9;"/>
                 </Grid>
                 <!-- SoundCloud Users Content -->
@@ -165,7 +168,8 @@
                                HorizontalAlignment="Left" 
                                Opacity="0.8" />
                     <uiElements:SoundByteButton HorizontalAlignment="Right"
-                                                Label="Show All" 
+                                                Click="{x:Bind ViewModel.NavigateYouTubeTracks}"
+                                                Label="View All" 
                                                 Glyph="&#xE8A9;" />
                 </Grid>
                 <!-- YouTube Content -->
@@ -205,7 +209,8 @@
                                HorizontalAlignment="Left" 
                                Opacity="0.8" />
                     <uiElements:SoundByteButton HorizontalAlignment="Right"
-                                                Label="Show All" 
+                                                Click="{x:Bind ViewModel.NavigatePodcasts}"
+                                                Label="View All" 
                                                 Glyph="&#xE8A9;"/>
                 </Grid>
                 <Grid Height="280"
@@ -234,7 +239,8 @@
                                HorizontalAlignment="Left" 
                                Opacity="0.8" />
                     <uiElements:SoundByteButton HorizontalAlignment="Right"
-                                                Label="Show All" 
+                                                Click="{x:Bind ViewModel.NavigateFanburstTracks}"
+                                                Label="View All" 
                                                 Glyph="&#xE8A9;"
                     />
                 </Grid>

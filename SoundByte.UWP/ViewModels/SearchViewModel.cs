@@ -20,6 +20,7 @@ using SoundByte.Core.Items.User;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.Models;
 using SoundByte.UWP.Views;
+using SoundByte.UWP.Views.Search;
 
 namespace SoundByte.UWP.ViewModels
 {
@@ -112,6 +113,9 @@ namespace SoundByte.UWP.ViewModels
                     break;
                 case ServiceType.YouTube:
                     {
+                        // Load some more items
+                        await YouTubeTracks.LoadMoreItemsAsync(50);
+
                         var startPlayback =
                             await PlaybackService.Instance.StartModelMediaPlaybackAsync(YouTubeTracks, false, searchItem);
                         if (!startPlayback.success)
@@ -137,6 +141,40 @@ namespace SoundByte.UWP.ViewModels
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+
+        public async void NavigateSoundCloudTracks()
+        {
+           // App.NavigateTo(typeof(SearchTrackView), SearchTracks);
+            await new MessageDialog("This feature is coming in the next few days. Please wait.", "Coming Soon...").ShowAsync();
+        }
+
+        public async void NavigateSoundCloudPlaylists()
+        {
+            await new MessageDialog("This feature is coming in the next few days. Please wait.", "Coming Soon...").ShowAsync();
+        }
+
+        public async void NavigateSoundCloudUsers()
+        {
+            await new MessageDialog("This feature is coming in the next few days. Please wait.", "Coming Soon...").ShowAsync();
+        }
+
+        public async void NavigateYouTubeTracks()
+        {
+            await new MessageDialog("This feature is coming in the next few days. Please wait.", "Coming Soon...").ShowAsync();
+
+            //App.NavigateTo(typeof(SearchTrackView), YouTubeTracks);
+        }
+
+        public async void NavigateFanburstTracks()
+        {
+            await new MessageDialog("This feature is coming in the next few days. Please wait.", "Coming Soon...").ShowAsync();
+            //App.NavigateTo(typeof(SearchTrackView), FanburstTracks);
+        }
+
+        public async void NavigatePodcasts()
+        {
+            await new MessageDialog("This feature will come in a future update", "Coming Soon..").ShowAsync();
         }
         #endregion
     }
