@@ -198,6 +198,10 @@
     <Compile Include="Migrations\20170916061221_BaseItems.designer.cs">
       <DependentUpon>20170916061221_BaseItems.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\20170917093156_AddIsLive.cs" />
+    <Compile Include="Migrations\20170917093156_AddIsLive.designer.cs">
+      <DependentUpon>20170917093156_AddIsLive.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\HistoryContextModelSnapshot.cs" />
     <Compile Include="Models\BaseTrackModel.cs" />
     <Compile Include="Models\YouTubeSearchModel.cs" />

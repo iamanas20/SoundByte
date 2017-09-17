@@ -22,9 +22,6 @@ using SoundByte.Core.Items.Track;
 using SoundByte.Core.Items.User;
 using SoundByte.Core.Services;
 using SoundByte.UWP.UserControls;
-using SoundByte.YouTubeParser;
-using SoundByte.YouTubeParser.Models;
-using SoundByte.YouTubeParser.Models.MediaStreams;
 
 namespace SoundByte.UWP.Models
 {
@@ -76,8 +73,6 @@ namespace SoundByte.UWP.Models
                     // Get the search offset
                     Token = string.IsNullOrEmpty(offset) ? "eol" : offset;
 
-                    var client = new YoutubeClient();
-
                     // Make sure that there are tracks in the list
                     if (searchTracks.Items.Count > 0)
                     {
@@ -88,48 +83,28 @@ namespace SoundByte.UWP.Models
                         {
                             if (item.Id.Kind == "youtube#video")
                             {
-                                if (item.Snippet.LiveBroadcastContent == "none")
+                                // If an item of the same ID has already been added, skip it
+                                if (this.FirstOrDefault(x => x.Id == item.Id.VideoId) != null)
+                                    continue;
+
+                                // Loop though all the tracks on the UI thread
+                                await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                                 {
-                                    // If an item of the same ID has already been added, skip it
-                                    if (this.FirstOrDefault(x => x.Id == item.Id.VideoId) != null)
-                                        continue;
+                                    // Convert to a base track
+                                    var track = item.ToBaseTrack();
 
-                                    VideoInfo video = await client.GetVideoInfoAsync(item.Id.VideoId);
-
-                                    // Loop though all the tracks on the UI thread
-                                    await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
+                                    track.ArtworkUrl = item.Snippet.Thumbnails.HighSize.Url;
+                                    track.User = new BaseUser
                                     {
-                                        // Convert to a base track
-                                        var track = item.ToBaseTrack();
+                                        Username = item.Snippet.ChannelTitle,
+                                    };
 
-                                        track.ArtworkUrl = item.Snippet.Thumbnails.DefaultSize.Url;
-                                        track.User = new BaseUser
-                                        {
-                                            Username = item.Snippet.ChannelTitle
-                                        };
+                                    // Are we a live stream
+                                    track.IsLive = item.Snippet.LiveBroadcastContent != "none";
 
-                                        // Add missing details
-                                        track.Duration = video.Duration;
-                                        track.ViewCount = video.ViewCount;
-                                        track.ArtworkUrl = video.ImageHighResUrl;
-                                        track.AudioStreamUrl =
-                                            video.AudioStreams.OrderBy(q => q.AudioEncoding).Last()?.Url;
-
-                                        // 720p is max quality we want
-                                        var wantedQuality =
-                                            video.VideoStreams
-                                                .FirstOrDefault(x => x.VideoQuality == VideoQuality.High720)?.Url;
-
-                                        // If quality is not there, just get the highest (480p for example).
-                                        if (string.IsNullOrEmpty(wantedQuality))
-                                            wantedQuality = video.VideoStreams.OrderBy(s => s.VideoQuality).Last()?.Url;
-
-                                        track.VideoStreamUrl = wantedQuality;
-
-                                        // Add the track
-                                        Add(track);
-                                    });
-                                }
+                                    // Add the track
+                                    Add(track);
+                                });
                             }
                         }
                     }

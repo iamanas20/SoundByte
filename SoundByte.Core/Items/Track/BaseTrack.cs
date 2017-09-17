@@ -42,6 +42,9 @@ namespace SoundByte.Core.Items.Track
         public string Link { get; set; }
         private string _link;
 
+        public bool IsLive { get; set; }
+        private bool _isLive;
+
         public string AudioStreamUrl { get; set; }
         private string _audioStreamurl;
 

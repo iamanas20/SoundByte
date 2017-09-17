@@ -100,6 +100,9 @@ namespace SoundByte.UWP.ViewModels
             {
                 case ServiceType.Fanburst:
                     {
+                        // Load some more items
+                        await FanburstTracks.LoadMoreItemsAsync(50);
+
                         var startPlayback =
                             await PlaybackService.Instance.StartModelMediaPlaybackAsync(FanburstTracks, false, searchItem);
                         if (!startPlayback.success)
@@ -118,7 +121,11 @@ namespace SoundByte.UWP.ViewModels
                     break;
                 case ServiceType.SoundCloud:
                 case ServiceType.SoundCloudV2:
-                    {
+                {
+                        // Load some more items
+                        await SearchTracks.LoadMoreItemsAsync(50);
+
+                        // Start media playback
                         var startPlayback = await PlaybackService.Instance.StartModelMediaPlaybackAsync(SearchTracks, false, searchItem);
                         if (!startPlayback.success)
                             await new MessageDialog(startPlayback.message, "Error playing searched track.")

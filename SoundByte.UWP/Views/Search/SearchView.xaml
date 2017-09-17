@@ -208,6 +208,22 @@
                                                 Label="Show All" 
                                                 Glyph="&#xE8A9;"/>
                 </Grid>
+                <Grid Height="280"
+                            Margin="0,0,30,0">
+                    <StackPanel VerticalAlignment="Center"
+                                HorizontalAlignment="Center">
+                        <TextBlock Text="What's This?" 
+                                   TextAlignment="Center"
+                                   FontSize="24" 
+                                   Margin="0,0,0,10"
+                                   FontWeight="SemiBold" />
+                        <TextBlock Text="Podcast support is coming soon to SoundByte."
+                                   TextAlignment="Center"
+                                   />
+                    </StackPanel>
+                    
+                   
+                </Grid>
 
                 <!-- Fanburst Header -->
                 <Grid Margin="10,0,30,0">

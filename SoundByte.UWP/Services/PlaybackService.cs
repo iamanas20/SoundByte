@@ -37,6 +37,8 @@ using SoundByte.UWP.Helpers;
 using SoundByte.Core.Services;
 using SoundByte.UWP.DatabaseContexts;
 using SoundByte.UWP.Models;
+using SoundByte.YouTubeParser;
+using SoundByte.YouTubeParser.Models.MediaStreams;
 
 namespace SoundByte.UWP.Services
 {
@@ -511,20 +513,42 @@ namespace SoundByte.UWP.Services
                 Player.PlaybackSession.Position.Milliseconds <= 0)
                 return;
 
-            // Set the current time value
-            CurrentTimeValue = Player.PlaybackSession.Position.TotalSeconds;
+            if (CurrentTrack == null)
+                return;
 
-            // Get the remaining time for the track
-            var remainingTime = Player.PlaybackSession.NaturalDuration.Subtract(Player.PlaybackSession.Position);
+            if (CurrentTrack.IsLive)
+            {
+                // Set the current time value
+                CurrentTimeValue = 1;
 
-            // Set the time listened text
-            TimeListened = NumberFormatHelper.FormatTimeString(Player.PlaybackSession.Position.TotalMilliseconds);
+                // Set the time listened text
+                TimeListened = "LIVE";
 
-            // Set the time remaining text
-            TimeRemaining = "-" + NumberFormatHelper.FormatTimeString(remainingTime.TotalMilliseconds);
+                // Set the time remaining text
+                TimeRemaining = "LIVE";
 
-            // Set the maximum value
-            MaxTimeValue = Player.PlaybackSession.NaturalDuration.TotalSeconds;
+                // Set the maximum value
+                MaxTimeValue = 1;
+            }
+            else
+            {
+                // Set the current time value
+                CurrentTimeValue = Player.PlaybackSession.Position.TotalSeconds;
+
+                // Get the remaining time for the track
+                var remainingTime = Player.PlaybackSession.NaturalDuration.Subtract(Player.PlaybackSession.Position);
+
+                // Set the time listened text
+                TimeListened = NumberFormatHelper.FormatTimeString(Player.PlaybackSession.Position.TotalMilliseconds);
+
+                // Set the time remaining text
+                TimeRemaining = "-" + NumberFormatHelper.FormatTimeString(remainingTime.TotalMilliseconds);
+
+                // Set the maximum value
+                MaxTimeValue = Player.PlaybackSession.NaturalDuration.TotalSeconds;
+            }
+
+               
         }
         #endregion
 
@@ -543,7 +567,12 @@ namespace SoundByte.UWP.Services
                         source = MediaSource.CreateFromUri(new Uri("https://api.fanburst.com/tracks/" + track.Id + "/stream?client_id=" + ApiKeyService.FanburstClientId));
                         break;
                     case ServiceType.YouTube:
-                        source = MediaSource.CreateFromUri(new Uri(track.AudioStreamUrl));
+                        var binder = new MediaBinder
+                        {
+                            Token = track.Id
+                        };
+                        binder.Binding += Binder_Binding;
+                        source = MediaSource.CreateFromMediaBinder(binder);
                         break;
                     default:
                         throw new Exception("Unknown Track Type: " + track.ServiceType);
@@ -551,7 +580,7 @@ namespace SoundByte.UWP.Services
 
                 // So we can access the item later
                 source.CustomProperties["SoundByteItem.ID"] = track.Id;
-
+                
                 // Create a configurable playback item backed by the media source
                 var playbackItem = new MediaPlaybackItem(source);
 
@@ -581,6 +610,41 @@ namespace SoundByte.UWP.Services
                     });
                 return null;
             }
+        }
+
+        private async void Binder_Binding(MediaBinder sender, MediaBindingEventArgs args)
+        {
+            // We are performing
+            var defferal = args.GetDeferral();
+
+            var track = Playlist.FirstOrDefault(x => x.Id == args.MediaBinder.Token);
+
+            if (track == null)
+                return;
+
+            var video = await new YoutubeClient().GetVideoInfoAsync(track.Id);
+
+            // Add missing details
+            track.Duration = video.Duration;
+            track.ViewCount = video.ViewCount;
+            track.ArtworkUrl = video.ImageHighResUrl;
+            track.AudioStreamUrl =
+                video.AudioStreams.OrderBy(q => q.AudioEncoding).Last()?.Url;
+
+            // 720p is max quality we want
+            var wantedQuality =
+                video.VideoStreams
+                    .FirstOrDefault(x => x.VideoQuality == VideoQuality.High720)?.Url;
+
+            // If quality is not there, just get the highest (480p for example).
+            if (string.IsNullOrEmpty(wantedQuality))
+                wantedQuality = video.VideoStreams.OrderBy(s => s.VideoQuality).Last()?.Url;
+
+            track.VideoStreamUrl = wantedQuality;
+
+            args.SetUri(new Uri(track.AudioStreamUrl));
+
+            defferal.Complete();
         }
 
         #region Setup/Start Media Playback Methods
@@ -758,6 +822,8 @@ namespace SoundByte.UWP.Services
             if (track == null)
                 return;
 
+            Player.RealTimePlayback = track.IsLive;
+
             // Run all this on the UI thread
             await DispatcherHelper.ExecuteOnUIThreadAsync(async () =>
             {
@@ -767,11 +833,21 @@ namespace SoundByte.UWP.Services
                 // Set the new current track, updating the UI
                 CurrentTrack = track;
 
-                TimeRemaining = "-" + NumberFormatHelper.FormatTimeString(CurrentTrack.Duration.TotalMilliseconds);
-                TimeListened = "00:00";
-                CurrentTimeValue = 0;
-                MaxTimeValue = CurrentTrack.Duration.TotalSeconds;
-
+                if (!CurrentTrack.IsLive)
+                {
+                    TimeRemaining = "-" + NumberFormatHelper.FormatTimeString(CurrentTrack.Duration.TotalMilliseconds);
+                    TimeListened = "00:00";
+                    CurrentTimeValue = 0;
+                    MaxTimeValue = CurrentTrack.Duration.TotalSeconds;
+                }
+                else
+                {
+                    TimeRemaining = "LIVE";
+                    TimeListened = "LIVE";
+                    CurrentTimeValue = 1;
+                    MaxTimeValue = 1;
+                }
+              
                 // Set the last playback date
                 CurrentTrack.LastPlaybackDate = DateTime.UtcNow;
 

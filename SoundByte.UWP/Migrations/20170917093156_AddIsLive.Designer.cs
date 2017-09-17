@@ -9,9 +9,10 @@ using SoundByte.Core;
 namespace SoundByte.UWP.Migrations
 {
     [DbContext(typeof(HistoryContext))]
-    partial class HistoryContextModelSnapshot : ModelSnapshot
+    [Migration("20170917093156_AddIsLive")]
+    partial class AddIsLive
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2");
