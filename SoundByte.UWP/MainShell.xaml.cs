@@ -13,7 +13,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
@@ -46,6 +45,7 @@ using SoundByte.UWP.Views.Application;
 using SoundByte.UWP.Views.CoreApp;
 using SoundByte.UWP.Views.General;
 using SoundByte.UWP.Views.Me;
+using SoundByte.UWP.Views.Search;
 using UICompositionAnimations.Brushes;
 using SearchBox = SoundByte.UWP.UserControls.SearchBox;
 
@@ -631,18 +631,16 @@ namespace SoundByte.UWP
         {
             LikesTab.Visibility = Visibility.Visible;
             SetsTab.Visibility = Visibility.Visible;
-            HistoryTab.Visibility = Visibility.Visible;
             AccountTab.Content = "Connected Accounts";
 
-            if (SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud))
-                HomeTab.Visibility = Visibility.Visible;
+            // Only show this tab if the users soundcloud account is connected
+            HomeTab.Visibility = SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud) ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public void ShowLogoutContent()
         {
             LikesTab.Visibility = Visibility.Collapsed;
             SetsTab.Visibility = Visibility.Collapsed;
-            HistoryTab.Visibility = Visibility.Collapsed;
             HomeTab.Visibility = Visibility.Collapsed;
             AccountTab.Content = "Login";
         }

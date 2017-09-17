@@ -169,8 +169,8 @@
     <Compile Include="Dialogs\CrashDialog.xaml.cs">
       <DependentUpon>CrashDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Dialogs\FilterDialog.xaml.cs">
-      <DependentUpon>FilterDialog.xaml</DependentUpon>
+    <Compile Include="Dialogs\SearchDialog.xaml.cs">
+      <DependentUpon>SearchDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\PendingUpdateDialog.xaml.cs">
       <DependentUpon>PendingUpdateDialog.xaml</DependentUpon>
@@ -279,7 +279,7 @@
     <Compile Include="Views\PlaylistView.xaml.cs">
       <DependentUpon>PlaylistView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\SearchView.xaml.cs">
+    <Compile Include="Views\Search\SearchView.xaml.cs">
       <DependentUpon>SearchView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Application\AppInfoView.xaml.cs">
@@ -324,7 +324,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Dialogs\FilterDialog.xaml">
+    <Page Include="Dialogs\SearchDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -433,7 +433,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\SearchView.xaml">
+    <Page Include="Views\Search\SearchView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

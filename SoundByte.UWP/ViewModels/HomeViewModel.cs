@@ -79,11 +79,8 @@ namespace SoundByte.UWP.ViewModels
         public async void NavigateStream(object sender, ItemClickEventArgs e)
         {
             // Get a list of items
-            var trackList = StreamItems.Where(t => t.Type == "track" || t.Type == "track-repost" && t.Type != null)
-                .Select(t => t.Track).ToList();
-
-            var baseTrackList = new List<BaseTrack>();
-            trackList.ToList().ForEach(x => baseTrackList.Add(x.ToBaseTrack()));
+            var trackList = StreamItems.Where(t => t.Type == "track" || t.Type == "track-repost" && t.Track != null)
+                .Select(t => t.Track?.ToBaseTrack());
 
             // Get the clicked item
             var streamItem = (StreamModel.StreamItem) e.ClickedItem;
@@ -100,7 +97,7 @@ namespace SoundByte.UWP.ViewModels
                 case "track-repost":
                     if (streamItem.Track != null)
                     {
-                        var startPlayback = await PlaybackService.Instance.StartPlaylistMediaPlaybackAsync(baseTrackList, false, streamItem.Track.ToBaseTrack());
+                        var startPlayback = await PlaybackService.Instance.StartPlaylistMediaPlaybackAsync(trackList, false, streamItem.Track.ToBaseTrack());
 
                         if (!startPlayback.success)
                             await new MessageDialog(startPlayback.message, "Error playing stream.").ShowAsync();

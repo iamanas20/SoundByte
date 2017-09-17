@@ -38,9 +38,9 @@
                 <!-- About App -->
                 <TextBlock Text="ABOUT APP" 
                            FontWeight="SemiBold" 
-                           FontSize="13" 
+                           FontSize="14" 
                            
-                           Opacity="0.6" />
+                           Opacity="0.8" />
 
                 <TextBlock Text="SoundByte is a beautiful music client built for Windows 10 &amp; Xbox One. SoundByte supports muiltiple services such as SoundCloud, Fanburst and YouTube. Features include listening to music in the background (with gapless playback), watching YouTube music videos, easily searching accross muiltiple services, creating playlists and much more!" 
                            Margin="0,0,0,4" 
@@ -67,8 +67,8 @@
                 <!-- App version -->
                 <TextBlock Text="VERSION" 
                            FontWeight="SemiBold" 
-                           FontSize="13" 
-                           Opacity="0.6" />
+                           FontSize="14" 
+                           Opacity="0.8" />
                 <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
                     <TextBlock Text="Version: "
                                Margin="0,0,5,0"
@@ -98,7 +98,7 @@
                                  FontWeight="SemiBold"  />
 
                 <!-- More links -->
-                <TextBlock Text="MORE LINKS" FontWeight="SemiBold" FontSize="13" Opacity="0.6" />
+                <TextBlock Text="MORE LINKS" FontWeight="SemiBold" FontSize="14" Opacity="0.8" />
                 <HyperlinkButton Foreground="{ThemeResource DefaultTextForegroundThemeBrush}" Content="Facebook" NavigateUri="https://gridentertainment.net/fwlink/rOye5hzCXt" Margin="0,-2.5,0,-2.5" ContentTemplate="{StaticResource HyperlinkClean}" FontSize="16" FontWeight="SemiBold"  />
                 <HyperlinkButton Foreground="{ThemeResource DefaultTextForegroundThemeBrush}" Content="Reddit" NavigateUri="https://gridentertainment.net/fwlink/68vfoKLYJS" Margin="0,-2.5,0,-2.5" ContentTemplate="{StaticResource HyperlinkClean}" FontSize="16" FontWeight="SemiBold"  />
                 <HyperlinkButton Foreground="{ThemeResource DefaultTextForegroundThemeBrush}" Content="Send Feedback / Report Bug" NavigateUri="https://gridentertainment.net/fwlink/GvC5iXmJSo" Margin="0,-2.5,0,-2.5" ContentTemplate="{StaticResource HyperlinkClean}" FontSize="16" FontWeight="SemiBold"  />
@@ -106,8 +106,8 @@
 
                 <TextBlock Text="THEME" 
                            FontWeight="SemiBold" 
-                           FontSize="13" 
-                           Opacity="0.6" />
+                           FontSize="14" 
+                           Opacity="0.8" />
 
                 <ComboBox Padding="15,8" BorderThickness="1"
                           Margin="0,8,0,18"
@@ -120,8 +120,8 @@
 
                 <TextBlock Text="LANGUAGE" 
                            FontWeight="SemiBold" 
-                           FontSize="13" 
-                           Opacity="0.6" />
+                           FontSize="14" 
+                           Opacity="0.8" />
 
                 <ComboBox Padding="15,8" SelectionChanged="{x:Bind ViewModel.ChangeLangauge}"
                           BorderThickness="1"
@@ -135,16 +135,16 @@
 
                 <TextBlock Text="SYNC SETTINGS" 
                            FontWeight="SemiBold" 
-                           FontSize="13" 
-                           Opacity="0.6" />
+                           FontSize="14" 
+                           Opacity="0.8" />
 
                 <ToggleSwitch Margin="0,2,0,18" OffContent="No" OnContent="Yes"
                               FontSize="16" IsOn="{x:Bind SettingsService.IsSyncSettingsEnabled, Mode=TwoWay}" />
 
                 <TextBlock Text="USER INTERFACE LOOK AND FEEL" 
                            FontWeight="SemiBold" 
-                           FontSize="13" 
-                           Opacity="0.6" />
+                           FontSize="14" 
+                           Opacity="0.8" />
 
                 <!-- Use high quality artwork -->
                 <ToggleSwitch Margin="0,2,0,18" FontSize="16"
@@ -155,7 +155,7 @@
 
 
                 <!-- Thanks To -->
-                <TextBlock Text="THANKS TO" FontWeight="SemiBold" FontSize="13" Opacity="0.6" />
+                <TextBlock Text="THANKS TO" FontWeight="SemiBold" FontSize="14" Opacity="0.8" />
                 <TextBlock Text="Dennis Bednarz for helping out with app design and creating the logo. (Really awesome guy, check him out on twitter (@DennisBednarz))." 
                            Margin="0,0,0,4" 
                            FontSize="16" 
@@ -182,15 +182,15 @@
                            TextWrapping="WrapWholeWords" />
 
                 <!-- Legal -->
-                <TextBlock Text="AWESOME LEGAL STUFF" FontWeight="SemiBold" FontSize="13" Opacity="0.6" />
+                <TextBlock Text="AWESOME LEGAL STUFF" FontWeight="SemiBold" FontSize="14" Opacity="0.8" />
                 <TextBlock Text="Copyright © Grid Entertainment 2016 - 2017. All Rights Reserved" Margin="0,0,0,4" FontSize="16" TextWrapping="WrapWholeWords" />
                 <TextBlock Text="Source code is licensed under educational use." Margin="0,0,0,0" FontSize="16" TextWrapping="WrapWholeWords" />
                 <HyperlinkButton Content="Privacy Policy" Foreground="{ThemeResource DefaultTextForegroundThemeBrush}" NavigateUri="https://gridentertainment.net/fwlink/Y5jGLtoFXs" Margin="0,0,0,18" ContentTemplate="{StaticResource HyperlinkClean}" FontSize="16" FontWeight="SemiBold"  />
 
                 <TextBlock Text="ADVANCED" 
                            FontWeight="SemiBold" 
-                           FontSize="13" 
-                           Opacity="0.6" />
+                           FontSize="14" 
+                           Opacity="0.8" />
 
                 <HyperlinkButton Click="{x:Bind ViewModel.NavigateDebugOptions}" 
                                  Content="Debug Options" 

@@ -11,16 +11,12 @@
  */
 
 using System;
-using Windows.ApplicationModel.Resources;
 using Windows.UI.Popups;
-using Windows.UI.ViewManagement;
 using Windows.UI.Xaml.Controls;
 using SoundByte.Core;
 using SoundByte.Core.Items.Playlist;
 using SoundByte.Core.Items.Track;
 using SoundByte.Core.Items.User;
-using SoundByte.Core.Services;
-using SoundByte.UWP.Dialogs;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.Models;
 using SoundByte.UWP.Views;
@@ -30,34 +26,28 @@ namespace SoundByte.UWP.ViewModels
     public class SearchViewModel : BaseViewModel
     {
         #region Private Variables
-
-        // Args for filtering
-        private string _filterArgs;
-
         // The query string
         private string _searchQuery;
-
         #endregion
 
         #region Models
+        public SearchTrackModel SearchTracks { get; }
+        public FanburstSearchModel FanburstTracks { get; }
+        public SearchPlaylistModel SearchPlaylists { get; }
+        public SearchUserModel SearchUsers { get; }
+        public YouTubeSearchModel YouTubeTracks { get; }
 
-        // Model for the track searches
-        public SearchTrackModel SearchTracks { get; private set; } = new SearchTrackModel();
-
-        public FanburstSearchModel FanburstTracks { get; private set; } = new FanburstSearchModel();
-
-        // Model for the playlist searches
-        public SearchPlaylistModel SearchPlaylists { get; private set; } = new SearchPlaylistModel();
-
-        // Model for the user searches
-        public SearchUserModel SearchUsers { get; private set; } = new SearchUserModel();
-
-        public YouTubeSearchModel YouTubeTracks { get; private set; } = new YouTubeSearchModel();
-
+        public SearchViewModel()
+        {
+            SearchTracks = new SearchTrackModel();
+            FanburstTracks = new FanburstSearchModel();
+            SearchPlaylists = new SearchPlaylistModel();
+            SearchUsers = new SearchUserModel();
+            YouTubeTracks = new YouTubeSearchModel();
+        }
         #endregion
 
         #region Getters and Setters
-
         /// <summary>
         ///     The current pivot item that the user is viewing
         /// </summary>
@@ -74,167 +64,73 @@ namespace SoundByte.UWP.ViewModels
 
                 // Update the models
                 SearchTracks.Query = value;
-                SearchTracks.RefreshItems();
-
                 SearchPlaylists.Query = value;
-                SearchPlaylists.RefreshItems();
-
                 SearchUsers.Query = value;
-                SearchUsers.RefreshItems();
-
                 FanburstTracks.Query = value;
-                FanburstTracks.RefreshItems();
-
                 YouTubeTracks.Query = value;
-                YouTubeTracks.RefreshItems();
             }
         }
-
-        /// <summary>
-        ///     Args for filtering
-        /// </summary>
-        public string FilterArgs
-        {
-            get => _filterArgs;
-            set
-            {
-                if (value != _filterArgs)
-                {
-                    _filterArgs = value;
-                    UpdateProperty();
-                }
-
-                // Update the models
-                SearchTracks.Filter = value;
-                SearchTracks.RefreshItems();
-            }
-        }
-
         #endregion
 
         #region Method Bindings
-
-        public void RefreshAll()
-        {
-            // Update the models
-            SearchTracks.RefreshItems();
-            SearchPlaylists.RefreshItems();
-            SearchUsers.RefreshItems();
-            FanburstTracks.RefreshItems();
-            YouTubeTracks.RefreshItems();
-        }
-
-        public void Search(object sender, AutoSuggestBoxQuerySubmittedEventArgs args)
-        {
-            SearchQuery = args.QueryText;
-
-            InputPane.GetForCurrentView().TryHide();
-        }
-
-        public async void ShowFilterMenu()
-        {
-            var filterDialog = new FilterDialog();
-            filterDialog.FilterApplied += (sender, args) =>
-            {
-                FilterArgs = (args as FilterDialog.FilterAppliedArgs)?.FilterArgs;
-            };
-
-            await filterDialog.ShowAsync();
-        }
-
-        public async void NavigateItem(object sender, ItemClickEventArgs e)
+        public void NavigateSoundCloudPlaylist(object sender, ItemClickEventArgs e)
         {
             if (e.ClickedItem == null)
                 return;
 
-            // Show the loading ring
-            App.IsLoading = true;
-
-            if (e.ClickedItem.GetType().Name == "BaseTrack")
-            {
-                var searchItem = e.ClickedItem as BaseTrack;
-
-                // Get the resource loader
-                var resources = ResourceLoader.GetForCurrentView();
-                // Create the error dialog
-                var uiUpdateError = new ContentDialog
-                {
-                    Title = resources.GetString("PlaylistNavigateError_Title"),
-                    Content = resources.GetString("PlaylistNavigateError_Content"),
-                    IsPrimaryButtonEnabled = true,
-                    PrimaryButtonText = resources.GetString("PlaylistNavigateError_Button")
-                };
-
-                switch (searchItem?.Kind)
-                {
-                    case "track":
-                    case "track-repost":
-                        // Play this item
-
-                        if (searchItem.ServiceType == ServiceType.Fanburst)
-                        {
-                            var startPlayback =
-                                await PlaybackService.Instance.StartModelMediaPlaybackAsync(FanburstTracks, false, searchItem);
-                            if (!startPlayback.success)
-                                await new MessageDialog(startPlayback.message, "Error playing searched track.")
-                                    .ShowAsync();
-                        }
-                        else if (searchItem.ServiceType == ServiceType.YouTube)
-                        {
-                            var startPlayback =
-                                await PlaybackService.Instance.StartModelMediaPlaybackAsync(YouTubeTracks, false, searchItem);
-                            if (!startPlayback.success)
-                                await new MessageDialog(startPlayback.message, "Error playing searched track.")
-                                    .ShowAsync();
-                        }
-                        else
-                        {
-                            var startPlayback = await PlaybackService.Instance.StartModelMediaPlaybackAsync(SearchTracks, false, searchItem);
-                            if (!startPlayback.success)
-                                await new MessageDialog(startPlayback.message, "Error playing searched track.")
-                                    .ShowAsync();
-                        }
-
-                        break;
-                    case "playlist":
-                        try
-                        {
-                            var playlist =
-                                await SoundByteV3Service.Current.GetAsync<SoundCloudPlaylist>(ServiceType.SoundCloud, "/playlist/" + searchItem.Id);
-                            App.NavigateTo(typeof(PlaylistView), playlist.ToBasePlaylist());
-                        }
-                        catch (Exception)
-                        {
-                            await uiUpdateError.ShowAsync();
-                        }
-                        break;
-                    case "playlist-repost":
-                        try
-                        {
-                            var playlistR =
-                                await SoundByteV3Service.Current.GetAsync<SoundCloudPlaylist>(ServiceType.SoundCloud, "/playlist/" + searchItem.Id);
-                            App.NavigateTo(typeof(PlaylistView), playlistR.ToBasePlaylist());
-                        }
-                        catch (Exception)
-                        {
-                            await uiUpdateError.ShowAsync();
-                        }
-
-                        break;
-                }
-            }
-            else if (e.ClickedItem.GetType().Name == "BaseUser")
-            {
-                App.NavigateTo(typeof(UserView), e.ClickedItem as BaseUser);
-            }
-            else if (e.ClickedItem.GetType().Name == "BasePlaylist")
-            {
-                App.NavigateTo(typeof(PlaylistView), e.ClickedItem as BasePlaylist);
-            }
-
-            App.IsLoading = false;
+            App.NavigateTo(typeof(PlaylistView), e.ClickedItem as BasePlaylist);
         }
 
+        public void NavigateSoundCloudUser(object sender, ItemClickEventArgs e)
+        {
+            if (e.ClickedItem == null)
+                return;
+
+            App.NavigateTo(typeof(UserView), e.ClickedItem as BaseUser);
+        }
+
+        public async void NavigateTrack(object sender, ItemClickEventArgs e)
+        {
+            if (e.ClickedItem == null)
+                return;
+
+            var searchItem = (BaseTrack)e.ClickedItem;
+
+            switch (searchItem.ServiceType)
+            {
+                case ServiceType.Fanburst:
+                    {
+                        var startPlayback =
+                            await PlaybackService.Instance.StartModelMediaPlaybackAsync(FanburstTracks, false, searchItem);
+                        if (!startPlayback.success)
+                            await new MessageDialog(startPlayback.message, "Error playing searched track.")
+                                .ShowAsync();
+                    }
+                    break;
+                case ServiceType.YouTube:
+                    {
+                        var startPlayback =
+                            await PlaybackService.Instance.StartModelMediaPlaybackAsync(YouTubeTracks, false, searchItem);
+                        if (!startPlayback.success)
+                            await new MessageDialog(startPlayback.message, "Error playing searched track.")
+                                .ShowAsync();
+                    }
+                    break;
+                case ServiceType.SoundCloud:
+                case ServiceType.SoundCloudV2:
+                    {
+                        var startPlayback = await PlaybackService.Instance.StartModelMediaPlaybackAsync(SearchTracks, false, searchItem);
+                        if (!startPlayback.success)
+                            await new MessageDialog(startPlayback.message, "Error playing searched track.")
+                                .ShowAsync();
+                    }
+                    break;
+                case ServiceType.ITunesPodcast:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
         #endregion
     }
 }

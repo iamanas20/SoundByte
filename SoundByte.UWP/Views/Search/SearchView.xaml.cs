@@ -14,7 +14,7 @@ using Windows.UI.Xaml.Navigation;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.ViewModels;
 
-namespace SoundByte.UWP.Views
+namespace SoundByte.UWP.Views.Search
 {
     /// <summary>
     ///     This page lets the user search for tracks/playlists/people
@@ -23,7 +23,7 @@ namespace SoundByte.UWP.Views
     public sealed partial class SearchView
     {
         // The view model for the page
-        public SearchViewModel ViewModel = new SearchViewModel();
+        public SearchViewModel ViewModel;
 
         /// <summary>
         ///     Setup the page
@@ -32,12 +32,10 @@ namespace SoundByte.UWP.Views
         {
             // Initialize XAML Components
             InitializeComponent();
-            // Set the data context
-            DataContext = ViewModel;
 
             Unloaded += (s, e) =>
             {
-                ViewModel.Dispose();
+                ViewModel?.Dispose();
             };
         }
 
@@ -47,11 +45,15 @@ namespace SoundByte.UWP.Views
         /// <param name="e">Args</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            if (e.NavigationMode == NavigationMode.Back)
-                return;
-
             // Set the search string
-            ViewModel.SearchQuery = e.Parameter != null ? e.Parameter as string : string.Empty;
+            ViewModel = new SearchViewModel
+            {
+                SearchQuery = e.Parameter != null ? e.Parameter as string : string.Empty
+            };
+
+            // Set the data context
+            DataContext = ViewModel;
+
             // Track Event
             TelemetryService.Instance.TrackPage("Search View");
         }

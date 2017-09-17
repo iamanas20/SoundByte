@@ -90,6 +90,10 @@ namespace SoundByte.UWP.Models
                             {
                                 if (item.Snippet.LiveBroadcastContent == "none")
                                 {
+                                    // If an item of the same ID has already been added, skip it
+                                    if (this.FirstOrDefault(x => x.Id == item.Id.VideoId) != null)
+                                        continue;
+
                                     VideoInfo video = await client.GetVideoInfoAsync(item.Id.VideoId);
 
                                     // Loop though all the tracks on the UI thread

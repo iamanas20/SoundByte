@@ -70,9 +70,9 @@ namespace SoundByte.UWP.Models
                 {
                     try
                     {
-                        // At least 10 tracks at once
-                        if (count < 10)
-                            count = 10;
+                        // At least 20 tracks at once
+                        if (count < 20)
+                            count = 20;
 
                         // Get items from the users stream
                         var streamTracks = await SoundByteV3Service.Current.GetAsync<StreamTrackHolder>(ServiceType.SoundCloud, "/e1/me/stream",
@@ -96,7 +96,10 @@ namespace SoundByte.UWP.Models
                             count = (uint) streamTracks.Items.Count;
 
                             // Loop though all the tracks on the UI thread
-                            await DispatcherHelper.ExecuteOnUIThreadAsync(() => { streamTracks.Items.ForEach(Add); });
+                            await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
+                            {
+                                streamTracks.Items.ForEach(Add);
+                            });
                         }
                         else
                         {

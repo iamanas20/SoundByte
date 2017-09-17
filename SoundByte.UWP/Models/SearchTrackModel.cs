@@ -46,6 +46,9 @@ namespace SoundByte.UWP.Models
             // Return a task that will get the items
             return await Task.Run(async () =>
             {
+                if (string.IsNullOrEmpty(Query))
+                    return 0;
+
                 // We are loading
                 await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                 {

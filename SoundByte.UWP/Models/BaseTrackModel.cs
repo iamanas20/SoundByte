@@ -43,11 +43,10 @@ namespace SoundByte.UWP.Models
         ///     Refresh the list by removing any
         ///     existing items and reseting the token.
         /// </summary>
-        public async void RefreshItems()
+        public void RefreshItems()
         {
             Token = string.Empty;
             Clear();
-            await LoadMoreItemsAsync(1);
         }
     }
 }

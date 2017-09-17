@@ -37,9 +37,6 @@ using SoundByte.UWP.Helpers;
 using SoundByte.Core.Services;
 using SoundByte.UWP.DatabaseContexts;
 using SoundByte.UWP.Models;
-using SoundByte.YouTubeParser;
-using SoundByte.YouTubeParser.Models;
-using SoundByte.YouTubeParser.Models.MediaStreams;
 
 namespace SoundByte.UWP.Services
 {
@@ -467,7 +464,7 @@ namespace SoundByte.UWP.Services
                 Player.PlaybackSession.Position.Milliseconds <= 0)
                 return;
 
-            var overlay = App.CurrentFrame.FindName("VideoOverlay") as MediaElement;
+            var overlay = App.CurrentFrame?.FindName("VideoOverlay") as MediaElement;
             if (overlay == null) return;
 
             var difference = overlay.Position - Player.PlaybackSession.Position;

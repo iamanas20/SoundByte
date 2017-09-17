@@ -35,6 +35,7 @@ using SoundByte.UWP.Helpers;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.Views;
 using SoundByte.UWP.Views.CoreApp;
+using SoundByte.UWP.Views.Search;
 using UICompositionAnimations.Lights;
 using WinRTXamlToolkit.Tools;
 
@@ -66,7 +67,7 @@ namespace SoundByte.UWP
 
             // Registor the dialogs
             NavigationService.Current.RegisterTypeAsDialog<CrashDialog>();
-            NavigationService.Current.RegisterTypeAsDialog<FilterDialog>();
+            NavigationService.Current.RegisterTypeAsDialog<SearchDialog>();
             NavigationService.Current.RegisterTypeAsDialog<PendingUpdateDialog>();
             NavigationService.Current.RegisterTypeAsDialog<PinTileDialog>();
             NavigationService.Current.RegisterTypeAsDialog<PlaylistDialog>();

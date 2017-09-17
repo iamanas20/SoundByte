@@ -14,7 +14,8 @@ using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
-using SoundByte.UWP.Views;
+using SoundByte.UWP.Dialogs;
+using SoundByte.UWP.Services;
 
 namespace SoundByte.UWP.UserControls
 {
@@ -69,9 +70,9 @@ namespace SoundByte.UWP.UserControls
             SearchSubmitted?.Invoke(this, args);
         }
 
-        private void NavigateSearch(object sender, RoutedEventArgs e)
+        private async void NavigateSearch(object sender, RoutedEventArgs e)
         {
-            App.NavigateTo(typeof(SearchView));
+            await NavigationService.Current.CallDialogAsync<SearchDialog>();
         }
 
         /// <summary>
