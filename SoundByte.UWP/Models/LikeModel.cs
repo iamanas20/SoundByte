@@ -114,7 +114,7 @@ namespace SoundByte.UWP.Models
                             {
                                 (App.CurrentFrame?.FindName("LikeModelInfoPane") as InfoPane)?.ShowMessage(
                                     resources.GetString("LikeTracks_Header"),
-                                    resources.GetString("LikeTracks_Content"), "", false);
+                                    resources.GetString("LikeTracks_Content"), false);
                             });
                         }
                     }
@@ -127,7 +127,7 @@ namespace SoundByte.UWP.Models
                         await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                         {
                             (App.CurrentFrame?.FindName("LikeModelInfoPane") as InfoPane)?.ShowMessage(
-                                ex.ErrorTitle, ex.ErrorDescription, ex.ErrorGlyph);
+                                ex.ErrorTitle, ex.ErrorDescription);
                         });
                     }
                 }
@@ -144,7 +144,7 @@ namespace SoundByte.UWP.Models
                     {
                         (App.CurrentFrame?.FindName("LikeModelInfoPane") as InfoPane)?.ShowMessage(
                             resources.GetString("ErrorControl_LoginFalse_Header"),
-                            resources.GetString("ErrorControl_LoginFalse_Content"), "", false);
+                            resources.GetString("ErrorControl_LoginFalse_Content"), false);
                     });
                 }
 

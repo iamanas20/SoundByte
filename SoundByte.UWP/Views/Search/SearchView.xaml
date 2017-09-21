@@ -57,9 +57,9 @@
                                          HorizontalAlignment="Stretch" Visibility="Collapsed" Canvas.ZIndex="50" />
                     <GridView x:Name="TracksView"
                               Height="280"
-                              ScrollViewer.HorizontalScrollMode="Disabled"
+                              ScrollViewer.HorizontalScrollMode="Enabled"
                               ScrollViewer.VerticalScrollMode="Disabled"
-                              ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                              ScrollViewer.HorizontalScrollBarVisibility="Auto"
                               ScrollViewer.VerticalScrollBarVisibility="Hidden"
                               ItemsSource="{x:Bind Path=ViewModel.SearchTracks}"
                               ItemTemplate="{StaticResource MobileTrackItem}"
@@ -77,7 +77,120 @@
                         </GridView.ItemsPanel>
                     </GridView>
                 </Grid>
-                
+
+                <!-- YouTube Header -->
+                <Grid Margin="10,0,30,0">
+                    <TextBlock Text="YOUTUBE VIDEOS" 
+                               FontWeight="SemiBold" 
+                               VerticalAlignment="Center"
+                               FontSize="14" 
+                               HorizontalAlignment="Left" 
+                               Opacity="0.8" />
+                    <uiElements:SoundByteButton HorizontalAlignment="Right"
+                                                Click="{x:Bind ViewModel.NavigateYouTubeTracks}"
+                                                Label="View All" 
+                                                Glyph="&#xE8A9;" />
+                </Grid>
+                <!-- YouTube Content -->
+                <Grid Height="280"
+                      Margin="0,0,30,0">
+                    <uiElements:InfoPane x:Name="YouTubeSearchModelInfoPane" VerticalAlignment="Stretch"
+                                         HorizontalAlignment="Stretch" Visibility="Collapsed" Canvas.ZIndex="50" />
+                    <GridView x:Name="YouTubeView"
+                              Height="280"
+                              ScrollViewer.HorizontalScrollMode="Enabled"
+                              ScrollViewer.VerticalScrollMode="Disabled"
+                              ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                              ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                              ItemsSource="{x:Bind Path=ViewModel.YouTubeTracks}"
+                              ItemTemplate="{StaticResource MobileTrackItem}"
+                              SelectionMode="None"
+                              IsSwipeEnabled="False"
+                              IsItemClickEnabled="True"
+                              ItemContainerStyle="{StaticResource MainGridViewItem}"
+                              ItemClick="{x:Bind ViewModel.NavigateTrack}"
+                              IsMultiSelectCheckBoxEnabled="False"
+                              HorizontalAlignment="Stretch">
+                        <GridView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <ItemsWrapGrid Orientation="Vertical" />
+                            </ItemsPanelTemplate>
+                        </GridView.ItemsPanel>
+                    </GridView>
+                </Grid>
+
+                <!-- Fanburst Header -->
+                <Grid Margin="10,0,30,0">
+                    <TextBlock Text="FANBURST TRACKS" 
+                               FontWeight="SemiBold" 
+                               VerticalAlignment="Center"
+                               FontSize="14" 
+                               HorizontalAlignment="Left" 
+                               Opacity="0.8" />
+                    <uiElements:SoundByteButton HorizontalAlignment="Right"
+                                                Click="{x:Bind ViewModel.NavigateFanburstTracks}"
+                                                Label="View All" 
+                                                Glyph="&#xE8A9;"
+                    />
+                </Grid>
+                <!-- Fanburst Content -->
+                <Grid Height="280"
+                      Margin="0,0,30,0">
+                    <uiElements:InfoPane x:Name="FanburstSearchModelInfoPane" VerticalAlignment="Stretch"
+                                         HorizontalAlignment="Stretch" Visibility="Collapsed" Canvas.ZIndex="50" />
+                    <GridView x:Name="FanburstView"
+                              Height="280"
+                              ScrollViewer.HorizontalScrollMode="Enabled"
+                              ScrollViewer.VerticalScrollMode="Disabled"
+                              ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                              ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                              ItemsSource="{x:Bind Path=ViewModel.FanburstTracks}"
+                              ItemTemplate="{StaticResource MobileTrackItem}"
+                              SelectionMode="None"
+                              IsSwipeEnabled="False"
+                              IsItemClickEnabled="True"
+                              ItemContainerStyle="{StaticResource MainGridViewItem}"
+                              ItemClick="{x:Bind ViewModel.NavigateTrack}"
+                              IsMultiSelectCheckBoxEnabled="False"
+                              HorizontalAlignment="Stretch">
+                        <GridView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <ItemsWrapGrid Orientation="Vertical" />
+                            </ItemsPanelTemplate>
+                        </GridView.ItemsPanel>
+                    </GridView>
+                </Grid>
+
+                <!-- Podcast Header -->
+                <Grid Margin="10,0,30,0">
+                    <TextBlock Text="PODCASTS" 
+                               FontWeight="SemiBold" 
+                               VerticalAlignment="Center"
+                               FontSize="14" 
+                               HorizontalAlignment="Left" 
+                               Opacity="0.8" />
+                    <uiElements:SoundByteButton HorizontalAlignment="Right"
+                                                Click="{x:Bind ViewModel.NavigatePodcasts}"
+                                                Label="View All" 
+                                                Glyph="&#xE8A9;"/>
+                </Grid>
+                <Grid Height="280"
+                      Margin="0,0,30,0">
+                    <StackPanel VerticalAlignment="Center"
+                                HorizontalAlignment="Center">
+                        <TextBlock Text="What's This?" 
+                                   TextAlignment="Center"
+                                   FontSize="24" 
+                                   Margin="0,0,0,10"
+                                   FontWeight="SemiBold" />
+                        <TextBlock Text="Podcast support is coming soon to SoundByte."
+                                   TextAlignment="Center"
+                        />
+                    </StackPanel>
+
+
+                </Grid>
+
                 <!-- SoundCloud Playlists Header -->
                 <Grid Margin="10,0,40,0">
                     <TextBlock Text="SOUNDCLOUD PLAYLISTS" 
@@ -98,9 +211,9 @@
                                          HorizontalAlignment="Stretch" Visibility="Collapsed" Canvas.ZIndex="50" />
                     <GridView x:Name="PlaylistsView"
                               Height="280"
-                              ScrollViewer.HorizontalScrollMode="Disabled"
+                              ScrollViewer.HorizontalScrollMode="Enabled"
                               ScrollViewer.VerticalScrollMode="Disabled"
-                              ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                              ScrollViewer.HorizontalScrollBarVisibility="Auto"
                               ScrollViewer.VerticalScrollBarVisibility="Hidden"
                               ItemsSource="{x:Bind Path=ViewModel.SearchPlaylists}"
                               ItemTemplate="{StaticResource PlaylistItem}"
@@ -138,9 +251,9 @@
                     <uiElements:InfoPane x:Name="SearchUserModelInfoPane" VerticalAlignment="Stretch"
                                          HorizontalAlignment="Stretch" Visibility="Collapsed" Canvas.ZIndex="50" />
                     <GridView x:Name="PeopleView"
-                              ScrollViewer.HorizontalScrollMode="Disabled"
+                              ScrollViewer.HorizontalScrollMode="Enabled"
                               ScrollViewer.VerticalScrollMode="Disabled"
-                              ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                              ScrollViewer.HorizontalScrollBarVisibility="Auto"
                               ScrollViewer.VerticalScrollBarVisibility="Hidden"
                               ItemsSource="{x:Bind Path=ViewModel.SearchUsers}"
                               ItemTemplate="{StaticResource UserItem}"
@@ -159,118 +272,11 @@
                     </GridView>
                 </Grid>
 
-                <!-- YouTube Header -->
-                <Grid Margin="10,0,30,0">
-                    <TextBlock Text="YOUTUBE" 
-                               FontWeight="SemiBold" 
-                               VerticalAlignment="Center"
-                               FontSize="14" 
-                               HorizontalAlignment="Left" 
-                               Opacity="0.8" />
-                    <uiElements:SoundByteButton HorizontalAlignment="Right"
-                                                Click="{x:Bind ViewModel.NavigateYouTubeTracks}"
-                                                Label="View All" 
-                                                Glyph="&#xE8A9;" />
-                </Grid>
-                <!-- YouTube Content -->
-                <Grid Height="280"
-                      Margin="0,0,30,0">
-                    <uiElements:InfoPane x:Name="YouTubeSearchModelInfoPane" VerticalAlignment="Stretch"
-                                         HorizontalAlignment="Stretch" Visibility="Collapsed" Canvas.ZIndex="50" />
-                    <GridView x:Name="YouTubeView"
-                              Height="280"
-                              ScrollViewer.HorizontalScrollMode="Disabled"
-                              ScrollViewer.VerticalScrollMode="Disabled"
-                              ScrollViewer.HorizontalScrollBarVisibility="Hidden"
-                              ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                              ItemsSource="{x:Bind Path=ViewModel.YouTubeTracks}"
-                              ItemTemplate="{StaticResource MobileTrackItem}"
-                              SelectionMode="None"
-                              IsSwipeEnabled="False"
-                              IsItemClickEnabled="True"
-                              ItemContainerStyle="{StaticResource MainGridViewItem}"
-                              ItemClick="{x:Bind ViewModel.NavigateTrack}"
-                              IsMultiSelectCheckBoxEnabled="False"
-                              HorizontalAlignment="Stretch">
-                        <GridView.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <ItemsWrapGrid Orientation="Vertical" />
-                            </ItemsPanelTemplate>
-                        </GridView.ItemsPanel>
-                    </GridView>
-                </Grid>
-    
-                <!-- Podcast Header -->
-                <Grid Margin="10,0,30,0">
-                    <TextBlock Text="PODCASTS" 
-                               FontWeight="SemiBold" 
-                               VerticalAlignment="Center"
-                               FontSize="14" 
-                               HorizontalAlignment="Left" 
-                               Opacity="0.8" />
-                    <uiElements:SoundByteButton HorizontalAlignment="Right"
-                                                Click="{x:Bind ViewModel.NavigatePodcasts}"
-                                                Label="View All" 
-                                                Glyph="&#xE8A9;"/>
-                </Grid>
-                <Grid Height="280"
-                            Margin="0,0,30,0">
-                    <StackPanel VerticalAlignment="Center"
-                                HorizontalAlignment="Center">
-                        <TextBlock Text="What's This?" 
-                                   TextAlignment="Center"
-                                   FontSize="24" 
-                                   Margin="0,0,0,10"
-                                   FontWeight="SemiBold" />
-                        <TextBlock Text="Podcast support is coming soon to SoundByte."
-                                   TextAlignment="Center"
-                                   />
-                    </StackPanel>
-                    
-                   
-                </Grid>
 
-                <!-- Fanburst Header -->
-                <Grid Margin="10,0,30,0">
-                    <TextBlock Text="FANBURST" 
-                               FontWeight="SemiBold" 
-                               VerticalAlignment="Center"
-                               FontSize="14" 
-                               HorizontalAlignment="Left" 
-                               Opacity="0.8" />
-                    <uiElements:SoundByteButton HorizontalAlignment="Right"
-                                                Click="{x:Bind ViewModel.NavigateFanburstTracks}"
-                                                Label="View All" 
-                                                Glyph="&#xE8A9;"
-                    />
-                </Grid>
-                <!-- Fanburst Content -->
-                <Grid Height="280"
-                      Margin="0,0,30,0">
-                    <uiElements:InfoPane x:Name="FanburstSearchModelInfoPane" VerticalAlignment="Stretch"
-                                         HorizontalAlignment="Stretch" Visibility="Collapsed" Canvas.ZIndex="50" />
-                    <GridView x:Name="FanburstView"
-                              Height="280"
-                              ScrollViewer.HorizontalScrollMode="Disabled"
-                              ScrollViewer.VerticalScrollMode="Disabled"
-                              ScrollViewer.HorizontalScrollBarVisibility="Hidden"
-                              ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                              ItemsSource="{x:Bind Path=ViewModel.FanburstTracks}"
-                              ItemTemplate="{StaticResource MobileTrackItem}"
-                              SelectionMode="None"
-                              IsSwipeEnabled="False"
-                              IsItemClickEnabled="True"
-                              ItemContainerStyle="{StaticResource MainGridViewItem}"
-                              ItemClick="{x:Bind ViewModel.NavigateTrack}"
-                              IsMultiSelectCheckBoxEnabled="False"
-                              HorizontalAlignment="Stretch">
-                        <GridView.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <ItemsWrapGrid Orientation="Vertical" />
-                            </ItemsPanelTemplate>
-                        </GridView.ItemsPanel>
-                    </GridView>
-                </Grid>
+    
+              
+
+              
             </StackPanel>
         </ScrollViewer>
     </Grid>

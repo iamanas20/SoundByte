@@ -369,7 +369,8 @@ namespace SoundByte.Core.Services
                     }))
                     {
                         // We want json
-                        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                        client.DefaultRequestHeaders.Accept.Add(
+                            new MediaTypeWithQualityHeaderValue("application/json"));
 
                         // Add the user agent
                         client.DefaultRequestHeaders.UserAgent.Add(
@@ -412,7 +413,7 @@ namespace SoundByte.Core.Services
                                     {
                                         // Used to get the data from JSON
                                         var serializer =
-                                            new JsonSerializer { NullValueHandling = NullValueHandling.Ignore };
+                                            new JsonSerializer {NullValueHandling = NullValueHandling.Ignore};
                                         // Return the data
                                         return serializer.Deserialize<T>(textReader);
                                     }
@@ -428,11 +429,15 @@ namespace SoundByte.Core.Services
             }
             catch (JsonSerializationException jsex)
             {
-                throw new SoundByteException("JSON ERROR", jsex.Message, "\uEB63");
+                throw new SoundByteException("Parsing error", "An error occured when parsing the results. This could be caused by an API change. Report the following message to the app developer:\n" + jsex.Message);
+            }
+            catch (HttpRequestException)
+            {
+                throw new SoundByteException("No connection?", "Could not get any results, make sure you are connected to the internet.");
             }
             catch (Exception ex)
             {
-                throw new SoundByteException("GENERAL ERROR", ex.Message, "\uE007");
+                throw new SoundByteException("Something went wrong", ex.Message);
             }
         }
 
@@ -502,11 +507,15 @@ namespace SoundByte.Core.Services
             }
             catch (JsonSerializationException jsex)
             {
-                throw new SoundByteException("JSON ERROR", jsex.Message, "\uEB63");
+                throw new SoundByteException("Parsing error", "An error occured when parsing the results. This could be caused by an API change. Report the following message to the app developer:\n" + jsex.Message);
+            }
+            catch (HttpRequestException)
+            {
+                throw new SoundByteException("No connection?", "Could not perform the requested task, make sure you are connected to the internet.");
             }
             catch (Exception ex)
             {
-                throw new SoundByteException("GENERAL ERROR", ex.Message, "\uE007");
+                throw new SoundByteException("Something went wrong", ex.Message);
             }
         }
 
@@ -587,7 +596,7 @@ namespace SoundByte.Core.Services
                         {
                             // Throw exception if the request failed
                             if (webRequest.StatusCode != HttpStatusCode.OK)
-                                throw new SoundByteException("Connection Error", webRequest.ReasonPhrase, "\uEB63");
+                                throw new SoundByteException("No Connection?", webRequest.ReasonPhrase);
 
                             // Get the body of the request as a stream
                             using (var stream = await webRequest.Content.ReadAsStreamAsync())
@@ -616,11 +625,15 @@ namespace SoundByte.Core.Services
             }
             catch (JsonSerializationException jsex)
             {
-                throw new SoundByteException("JSON ERROR", jsex.Message, "\uEB63");
+                throw new SoundByteException("Parsing error", "An error occured when parsing the results. This could be caused by an API change. Report the following message to the app developer:\n" + jsex.Message);
+            }
+            catch (HttpRequestException)
+            {
+                throw new SoundByteException("No connection?", "Could not perform the requested task, make sure you are connected to the internet.");
             }
             catch (Exception ex)
             {
-                throw new SoundByteException("GENERAL ERROR", ex.Message, "\uE007");
+                throw new SoundByteException("Something went wrong", ex.Message);
             }
         }
 

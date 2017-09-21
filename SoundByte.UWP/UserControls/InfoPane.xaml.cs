@@ -37,9 +37,6 @@ namespace SoundByte.UWP.UserControls
         private static readonly DependencyProperty TextProperty =
             DependencyProperty.Register("Text", typeof(string), typeof(InfoPane), null);
 
-        private static readonly DependencyProperty GlyphProperty =
-            DependencyProperty.Register("Glyph", typeof(string), typeof(InfoPane), null);
-
         private static readonly DependencyProperty HeaderProperty =
             DependencyProperty.Register("Header", typeof(string), typeof(InfoPane), null);
 
@@ -57,15 +54,6 @@ namespace SoundByte.UWP.UserControls
         }
 
         /// <summary>
-        ///     The icon to show on the control
-        /// </summary>
-        public string Glyph
-        {
-            get => GetValue(GlyphProperty) as string;
-            private set => SetValue(GlyphProperty, value);
-        }
-
-        /// <summary>
         ///     The text to show on the error control
         /// </summary>
         public string Text
@@ -80,9 +68,8 @@ namespace SoundByte.UWP.UserControls
 
         public void ShowLoading()
         {
-            ShowMessage("Loading...", "Please Wait", "", false);
+            ShowMessage("Loading...", "Please Wait", false);
 
-            GlyphTextBlock.Visibility = Visibility.Collapsed;
             LoadingRing.Visibility = Visibility.Visible;
         }
 
@@ -92,9 +79,8 @@ namespace SoundByte.UWP.UserControls
         /// </summary>
         /// <param name="header">The title of the message</param>
         /// <param name="text">The text of the message</param>
-        /// <param name="glyph">The picture to show</param>
         /// <param name="showButton">Should we display the close button</param>
-        public void ShowMessage(string header, string text, string glyph, bool showButton = true)
+        public void ShowMessage(string header, string text, bool showButton = true)
         {
             // Update the needed variables
             Header = header;
@@ -103,14 +89,8 @@ namespace SoundByte.UWP.UserControls
             Text = text;
             TextTextBlock.Text = text;
 
-            Glyph = glyph;
-            GlyphTextBlock.Text = glyph;
-
             // Logic to show or hide the buton
             CloseButton.Visibility = showButton ? Visibility.Visible : Visibility.Collapsed;
-
-            // Hide glyph if not provided
-            GlyphTextBlock.Visibility = string.IsNullOrEmpty(glyph) ? Visibility.Collapsed : Visibility.Visible;
 
             // Hide loading ring
             LoadingRing.Visibility = Visibility.Collapsed;

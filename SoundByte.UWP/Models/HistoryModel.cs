@@ -87,7 +87,7 @@ namespace SoundByte.UWP.Models
                                 await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                                 {
                                     (App.CurrentFrame?.FindName("HistoryModelInfoPane") as InfoPane)?.ShowMessage(
-                                        "No History", "Listen to some music to get started.", "", false);
+                                        "No History", "Listen to some music to get started.", false);
                                 });
                             }
                          
@@ -110,7 +110,7 @@ namespace SoundByte.UWP.Models
                     await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                     {
                         (App.CurrentFrame?.FindName("HistoryModelInfoPane") as InfoPane)?.ShowMessage(
-                            ex.ErrorTitle, ex.ErrorDescription, ex.ErrorGlyph);
+                            ex.ErrorTitle, ex.ErrorDescription);
                     });
                 }
 

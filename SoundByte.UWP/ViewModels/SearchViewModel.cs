@@ -40,11 +40,11 @@ namespace SoundByte.UWP.ViewModels
 
         public SearchViewModel()
         {
-            SearchTracks = new SearchTrackModel();
-            FanburstTracks = new FanburstSearchModel();
+            SearchTracks = new SearchTrackModel { ModelHeader = "Search", ModelType = "SOUNDCLOUD TRACKS"};
+            FanburstTracks = new FanburstSearchModel { ModelHeader = "Search", ModelType = "FANBURST TRACKS" };
             SearchPlaylists = new SearchPlaylistModel();
             SearchUsers = new SearchUserModel();
-            YouTubeTracks = new YouTubeSearchModel();
+            YouTubeTracks = new YouTubeSearchModel { ModelHeader = "Search", ModelType = "YOUTUBE VIDEOS" };
         }
         #endregion
 
@@ -143,10 +143,9 @@ namespace SoundByte.UWP.ViewModels
             }
         }
 
-        public async void NavigateSoundCloudTracks()
+        public void NavigateSoundCloudTracks()
         {
-           // App.NavigateTo(typeof(SearchTrackView), SearchTracks);
-            await new MessageDialog("This feature is coming in the next few days. Please wait.", "Coming Soon...").ShowAsync();
+            App.NavigateTo(typeof(SearchTrackView), SearchTracks);
         }
 
         public async void NavigateSoundCloudPlaylists()
@@ -159,17 +158,14 @@ namespace SoundByte.UWP.ViewModels
             await new MessageDialog("This feature is coming in the next few days. Please wait.", "Coming Soon...").ShowAsync();
         }
 
-        public async void NavigateYouTubeTracks()
+        public void NavigateYouTubeTracks()
         {
-            await new MessageDialog("This feature is coming in the next few days. Please wait.", "Coming Soon...").ShowAsync();
-
-            //App.NavigateTo(typeof(SearchTrackView), YouTubeTracks);
+            App.NavigateTo(typeof(SearchTrackView), YouTubeTracks);
         }
 
-        public async void NavigateFanburstTracks()
+        public void NavigateFanburstTracks()
         {
-            await new MessageDialog("This feature is coming in the next few days. Please wait.", "Coming Soon...").ShowAsync();
-            //App.NavigateTo(typeof(SearchTrackView), FanburstTracks);
+            App.NavigateTo(typeof(SearchTrackView), FanburstTracks);
         }
 
         public async void NavigatePodcasts()

@@ -85,10 +85,17 @@ namespace SoundByte.UWP
             // Handle App Crashes
             CrashHelper.HandleAppCrashes(Current);
 
-            // Migrate and database changes
-            using (var db = new HistoryContext())
+            try
             {
-                db.Database.Migrate();
+                // Migrate and database changes
+                using (var db = new HistoryContext())
+                {
+                    db.Database.Migrate();
+                }
+            }
+            catch
+            {
+               // Don't worry about it
             }
 
             // Enter and Leaving background handlers

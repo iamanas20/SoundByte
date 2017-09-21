@@ -622,27 +622,38 @@ namespace SoundByte.UWP.Services
             if (track == null)
                 return;
 
-            var video = await new YoutubeClient().GetVideoInfoAsync(track.Id);
+            App.IsLoading = true;
 
-            // Add missing details
-            track.Duration = video.Duration;
-            track.ViewCount = video.ViewCount;
-            track.ArtworkUrl = video.ImageHighResUrl;
-            track.AudioStreamUrl =
-                video.AudioStreams.OrderBy(q => q.AudioEncoding).Last()?.Url;
+            try
+            {
+                var video = await new YoutubeClient().GetVideoInfoAsync(track.Id);
 
-            // 720p is max quality we want
-            var wantedQuality =
-                video.VideoStreams
-                    .FirstOrDefault(x => x.VideoQuality == VideoQuality.High720)?.Url;
+                // Add missing details
+                track.Duration = video.Duration;
+                track.ViewCount = video.ViewCount;
+                track.ArtworkUrl = video.ImageHighResUrl;
+                track.AudioStreamUrl =
+                    video.AudioStreams.OrderBy(q => q.AudioEncoding).Last()?.Url;
 
-            // If quality is not there, just get the highest (480p for example).
-            if (string.IsNullOrEmpty(wantedQuality))
-                wantedQuality = video.VideoStreams.OrderBy(s => s.VideoQuality).Last()?.Url;
+                // 720p is max quality we want
+                var wantedQuality =
+                    video.VideoStreams
+                        .FirstOrDefault(x => x.VideoQuality == VideoQuality.High720)?.Url;
 
-            track.VideoStreamUrl = wantedQuality;
+                // If quality is not there, just get the highest (480p for example).
+                if (string.IsNullOrEmpty(wantedQuality))
+                    wantedQuality = video.VideoStreams.OrderBy(s => s.VideoQuality).Last()?.Url;
 
-            args.SetUri(new Uri(track.AudioStreamUrl));
+                track.VideoStreamUrl = wantedQuality;
+
+                args.SetUri(new Uri(track.AudioStreamUrl));
+            }
+            catch (Exception)
+            {
+                // YouTube Red video, don't do anything
+            }
+
+            App.IsLoading = false;
 
             defferal.Complete();
         }
@@ -878,41 +889,51 @@ namespace SoundByte.UWP.Services
                 }
             });
 
-            using (var db = new HistoryContext())
+            try
             {
-                var existingUser = db.Users.FirstOrDefault(x => x.Id == track.User.Id);
-
-                if (existingUser == null)
-                    db.Users.Add(track.User);
-
-                await db.SaveChangesAsync();
-            }
-
-            using (var db = new HistoryContext())
-            {
-                var existingUser = db.Users.FirstOrDefault(x => x.Id == track.User.Id);
-
-                // Get the existing track in the database (if it exists)
-                var existingTrack = db.Tracks.FirstOrDefault(x => x.Id == track.Id);
-
-                if (existingTrack == null)
+                using (var db = new HistoryContext())
                 {
-                    track.User = existingUser;
-                    db.Tracks.Add(track);
-                }
-                else
-                {
-                    existingTrack.LastPlaybackDate = DateTime.UtcNow;
+                    var existingUser = db.Users.FirstOrDefault(x => x.Id == track.User.Id);
+
+                    if (existingUser == null)
+                        db.Users.Add(track.User);
+
+                    await db.SaveChangesAsync();
                 }
 
-                await db.SaveChangesAsync();
+                using (var db = new HistoryContext())
+                {
+                    var existingUser = db.Users.FirstOrDefault(x => x.Id == track.User.Id);
+
+                    // Get the existing track in the database (if it exists)
+                    var existingTrack = db.Tracks.FirstOrDefault(x => x.Id == track.Id);
+
+                    if (existingTrack == null)
+                    {
+                        track.User = existingUser;
+                        db.Tracks.Add(track);
+                    }
+                    else
+                    {
+                        existingTrack.LastPlaybackDate = DateTime.UtcNow;
+                    }
+
+                    await db.SaveChangesAsync();
+                }
+            }
+            catch
+            {
+                // This code is not vital, so we will swallow all exceptions
             }
 
-            TelemetryService.Instance.TrackEvent("Background Song Change", new Dictionary<string, string>
+            TelemetryService.Instance.TrackEvent("Current Song Changed", new Dictionary<string, string>
             {
-                {"PlaylistCount", Playlist.Count.ToString()},
-                {"CurrentUsage", MemoryManager.AppMemoryUsage / 1024 / 1024 + "M"},
-                {"TrackType", CurrentTrack?.ServiceType.ToString() ?? "Null"},
+                { "CurrentUsage", MemoryManager.AppMemoryUsage / 1024 / 1024 + "M" },
+                { "TrackType", CurrentTrack?.ServiceType.ToString() ?? "Null" },
+                { "IsSoundCloudConnected", SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud).ToString() },
+                { "IsFanburstConnected", SoundByteV3Service.Current.IsServiceConnected(ServiceType.Fanburst).ToString() },
+                { "IsYouTubeConnected", SoundByteV3Service.Current.IsServiceConnected(ServiceType.YouTube).ToString() }
+
             });
         }
 

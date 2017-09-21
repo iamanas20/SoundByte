@@ -122,7 +122,7 @@ namespace SoundByte.UWP.Models
                         {
                             (App.CurrentFrame?.FindName("ChartModelInfoPane") as InfoPane)?.ShowMessage(
                                 resources.GetString("ExploreTracks_Header"),
-                                resources.GetString("ExploreTracks_Content"), "", false);
+                                resources.GetString("ExploreTracks_Content"), false);
                         });
                     }
                 }
@@ -138,7 +138,7 @@ namespace SoundByte.UWP.Models
                     await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                     {
                         (App.CurrentFrame?.FindName("ChartModelInfoPane") as InfoPane)?.ShowMessage(ex.ErrorTitle,
-                            ex.ErrorDescription, ex.ErrorGlyph);
+                            ex.ErrorDescription);
                     });
                 }
 

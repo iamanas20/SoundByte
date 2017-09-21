@@ -39,6 +39,7 @@
         </Grid>
 
         <CommandBar x:Name="MobileCommandBar" VerticalAlignment="Bottom" HorizontalAlignment="Stretch"
+                    Margin="-10"
                     Background="{StaticResource MobileBlurHeader}"                    
                     Canvas.ZIndex="100">
             <CommandBar.PrimaryCommands>

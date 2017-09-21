@@ -20,12 +20,11 @@ namespace SoundByte.Core.Exceptions
     /// </summary>
     public class SoundByteException : Exception
     {
-        public SoundByteException(string title, string description, string glyph) : base(
+        public SoundByteException(string title, string description) : base(
             string.Format("Title: {0}, Description: {1}", title, description))
         {
             ErrorTitle = title;
             ErrorDescription = description;
-            ErrorGlyph = glyph;
         }
 
         /// <summary>
@@ -37,10 +36,5 @@ namespace SoundByte.Core.Exceptions
         ///     A description of the error message
         /// </summary>
         public string ErrorDescription { get; }
-
-        /// <summary>
-        ///     Picture that relates with the error message
-        /// </summary>
-        public string ErrorGlyph { get; }
     }
 }

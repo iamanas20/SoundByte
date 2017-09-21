@@ -114,7 +114,7 @@ namespace SoundByte.UWP.Models
                             {
                                 (App.CurrentFrame?.FindName("StreamModelInfoPane") as InfoPane)?.ShowMessage(
                                     resources.GetString("StreamTracks_Header"),
-                                    resources.GetString("StreamTracks_Content"), "", false);
+                                    resources.GetString("StreamTracks_Content"), false);
                             });
                         }
                     }
@@ -130,7 +130,7 @@ namespace SoundByte.UWP.Models
                         await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                         {
                             (App.CurrentFrame?.FindName("StreamModelInfoPane") as InfoPane)?.ShowMessage(
-                                ex.ErrorTitle, ex.ErrorDescription, ex.ErrorGlyph);
+                                ex.ErrorTitle, ex.ErrorDescription);
                         });
                     }
                 }
@@ -146,7 +146,7 @@ namespace SoundByte.UWP.Models
                     {
                         (App.CurrentFrame?.FindName("StreamModelInfoPane") as InfoPane)?.ShowMessage(
                             resources.GetString("ErrorControl_LoginFalse_Header"),
-                            resources.GetString("ErrorControl_LoginFalse_Content"), "", false);
+                            resources.GetString("ErrorControl_LoginFalse_Content"), false);
                     });
                 }
 

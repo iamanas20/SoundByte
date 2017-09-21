@@ -21,6 +21,10 @@ namespace SoundByte.UWP.Models
 {
     public class BaseTrackModel : ObservableCollection<BaseTrack>, ISupportIncrementalLoading
     {
+        public string ModelHeader { get; set; }
+
+        public string ModelType { get; set; }
+
         public string Token { get; set; }
 
         protected virtual async Task<int> LoadMoreItemsAsync(int count)

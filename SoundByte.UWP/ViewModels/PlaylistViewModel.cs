@@ -83,8 +83,7 @@ namespace SoundByte.UWP.ViewModels
                 catch (Exception)
                 {
                     (App.CurrentFrame?.FindName("PlaylistInfoPane") as InfoPane)?.ShowMessage("Could not load tracks",
-                        "Something went wrong when trying to load the tracks for this playlist, please make sure you are connected to the internet and then go back, and click on this playlist again.",
-                        "", false);
+                        "Something went wrong when trying to load the tracks for this playlist, please make sure you are connected to the internet and then go back, and click on this playlist again.", false);
                 }
 
                 // Hide the loading ring

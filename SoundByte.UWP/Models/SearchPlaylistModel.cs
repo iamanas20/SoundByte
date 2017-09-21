@@ -118,7 +118,7 @@ namespace SoundByte.UWP.Models
                         {
                             (App.CurrentFrame?.FindName("SearchPlaylistModelInfoPane") as InfoPane)?.ShowMessage(
                                 resources.GetString("SearchPlaylist_Header"),
-                                resources.GetString("SearchPlaylist_Content"), "", false);
+                                resources.GetString("SearchPlaylist_Content"), false);
                         });
                     }
                 }
@@ -134,7 +134,7 @@ namespace SoundByte.UWP.Models
                     await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                     {
                         (App.CurrentFrame?.FindName("SearchPlaylistModelInfoPane") as InfoPane)?.ShowMessage(
-                            ex.ErrorTitle, ex.ErrorDescription, ex.ErrorGlyph);
+                            ex.ErrorTitle, ex.ErrorDescription);
                     });
                 }
 

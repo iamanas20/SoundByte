@@ -115,8 +115,7 @@ namespace SoundByte.UWP.Models
                         await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                         {
                             (App.CurrentFrame?.FindName("SearchUserModelInfoPane") as InfoPane)?.ShowMessage(
-                                resources.GetString("SearchUser_Header"), resources.GetString("SearchUser_Content"),
-                                "", false);
+                                resources.GetString("SearchUser_Header"), resources.GetString("SearchUser_Content"), false);
                         });
                     }
                 }
@@ -132,7 +131,7 @@ namespace SoundByte.UWP.Models
                     await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                     {
                         (App.CurrentFrame?.FindName("SearchUserModelInfoPane") as InfoPane)?.ShowMessage(
-                            ex.ErrorTitle, ex.ErrorDescription, ex.ErrorGlyph);
+                            ex.ErrorTitle, ex.ErrorDescription);
                     });
                 }
 

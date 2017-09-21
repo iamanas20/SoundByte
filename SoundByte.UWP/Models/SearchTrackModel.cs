@@ -105,7 +105,7 @@ namespace SoundByte.UWP.Models
                         {
                             (App.CurrentFrame?.FindName("SearchTrackModelInfoPane") as InfoPane)?.ShowMessage(
                                 resources.GetString("SearchTrack_Header"),
-                                resources.GetString("SearchTrack_Content"), "", false);
+                                resources.GetString("SearchTrack_Content"), false);
                         });
                     }
                 }
@@ -121,7 +121,7 @@ namespace SoundByte.UWP.Models
                     await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                     {
                         (App.CurrentFrame?.FindName("SearchTrackModelInfoPane") as InfoPane)?.ShowMessage(
-                            ex.ErrorTitle, ex.ErrorDescription, ex.ErrorGlyph);
+                            ex.ErrorTitle, ex.ErrorDescription);
                     });
                 }
 
