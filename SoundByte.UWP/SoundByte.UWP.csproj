@@ -206,8 +206,8 @@
     <Compile Include="Models\BaseTrackModel.cs" />
     <Compile Include="Models\YouTubeSearchModel.cs" />
     <Compile Include="Resources\DataTemplates.cs" />
-    <Compile Include="MainShell.xaml.cs">
-      <DependentUpon>MainShell.xaml</DependentUpon>
+    <Compile Include="AppShell.xaml.cs">
+      <DependentUpon>AppShell.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\ChartModel.cs" />
     <Compile Include="Models\CommentModel.cs" />
@@ -259,8 +259,8 @@
     <Compile Include="Views\Application\DonateView.xaml.cs">
       <DependentUpon>DonateView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\CoreApp\BlankPage.xaml.cs">
-      <DependentUpon>BlankPage.xaml</DependentUpon>
+    <Compile Include="Views\Application\BlankView.xaml.cs">
+      <DependentUpon>BlankView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ExploreView.xaml.cs">
       <DependentUpon>ExploreView.xaml</DependentUpon>
@@ -362,7 +362,7 @@
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
-    <Page Include="MainShell.xaml">
+    <Page Include="AppShell.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -414,7 +414,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\CoreApp\BlankPage.xaml">
+    <Page Include="Views\Application\BlankView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

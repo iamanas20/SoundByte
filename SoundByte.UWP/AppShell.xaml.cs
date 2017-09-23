@@ -42,7 +42,6 @@ using SoundByte.UWP.Services;
 using SoundByte.UWP.Models;
 using SoundByte.UWP.Views;
 using SoundByte.UWP.Views.Application;
-using SoundByte.UWP.Views.CoreApp;
 using SoundByte.UWP.Views.General;
 using SoundByte.UWP.Views.Me;
 using SoundByte.UWP.Views.Search;
@@ -54,9 +53,9 @@ namespace SoundByte.UWP
     /// <summary>
     ///     An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class MainShell
+    public sealed partial class AppShell
     {
-        public MainShell(string path)
+        public AppShell(string path)
         {
             // Init the XAML
             InitializeComponent();
@@ -171,7 +170,7 @@ namespace SoundByte.UWP
             }
             else
             {
-                if (RootFrame.SourcePageType == typeof(BlankPage))
+                if (RootFrame.SourcePageType == typeof(BlankView))
                 {
                     RootFrame.BackStack.Clear();
                     RootFrame.Navigate(typeof(HomeView));
@@ -543,7 +542,7 @@ namespace SoundByte.UWP
             }
 
             if (((Frame) sender).SourcePageType == typeof(HomeView) ||
-                ((Frame) sender).SourcePageType == typeof(MainShell))
+                ((Frame) sender).SourcePageType == typeof(AppShell))
                 SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
                     AppViewBackButtonVisibility.Collapsed;
             else

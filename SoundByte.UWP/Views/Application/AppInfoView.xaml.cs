@@ -142,19 +142,19 @@ namespace SoundByte.UWP.Views.Application
             {
                 case "defaulttheme":
                     SettingsService.Instance.ApplicationThemeType = AppTheme.Default;
-                    ((MainShell) Window.Current.Content).RequestedTheme = ElementTheme.Default;
+                    ((AppShell) Window.Current.Content).RequestedTheme = ElementTheme.Default;
                     break;
                 case "darktheme":
                     SettingsService.Instance.ApplicationThemeType = AppTheme.Dark;
-                    ((MainShell) Window.Current.Content).RequestedTheme = ElementTheme.Dark;
+                    ((AppShell) Window.Current.Content).RequestedTheme = ElementTheme.Dark;
                     break;
                 case "lighttheme":
                     SettingsService.Instance.ApplicationThemeType = AppTheme.Light;
-                    ((MainShell) Window.Current.Content).RequestedTheme = ElementTheme.Light;
+                    ((AppShell) Window.Current.Content).RequestedTheme = ElementTheme.Light;
                     break;
                 default:
                     SettingsService.Instance.ApplicationThemeType = AppTheme.Default;
-                    ((MainShell) Window.Current.Content).RequestedTheme = ElementTheme.Default;
+                    ((AppShell) Window.Current.Content).RequestedTheme = ElementTheme.Default;
                     break;
             }
 

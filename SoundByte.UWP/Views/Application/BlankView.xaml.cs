@@ -10,11 +10,11 @@
  * |----------------------------------------------------------------|
  */
 
-namespace SoundByte.UWP.Views.CoreApp
+namespace SoundByte.UWP.Views.Application
 {
-    public sealed partial class BlankPage
+    public sealed partial class BlankView
     {
-        public BlankPage()
+        public BlankView()
         {
             InitializeComponent();
         }

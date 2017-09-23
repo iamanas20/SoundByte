@@ -34,7 +34,7 @@ using SoundByte.UWP.Dialogs;
 using SoundByte.UWP.Helpers;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.Views;
-using SoundByte.UWP.Views.CoreApp;
+using SoundByte.UWP.Views.Application;
 using SoundByte.UWP.Views.Search;
 using UICompositionAnimations.Lights;
 using WinRTXamlToolkit.Tools;
@@ -333,12 +333,12 @@ namespace SoundByte.UWP
         private async Task InitializeShellAsync(string parameters = null)
         {
             // Get the main shell
-            var shell = Window.Current.Content as MainShell;
+            var shell = Window.Current.Content as AppShell;
 
             // If the shell is null, we need to set it up.
             if (shell == null)
             {
-                shell = new MainShell(parameters);
+                shell = new AppShell(parameters);
 
                 // Hook the key pressed event for the global app
                 Window.Current.CoreWindow.KeyUp += CoreWindowOnKeyUp;
@@ -381,7 +381,7 @@ namespace SoundByte.UWP
         {
             await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
             {
-                (Window.Current.Content as MainShell)?.RootFrame.Navigate(page, param);
+                (Window.Current.Content as AppShell)?.RootFrame.Navigate(page, param);
             });
         }
 
@@ -390,9 +390,9 @@ namespace SoundByte.UWP
         /// </summary>
         public static bool OverrideBackEvent { get; set; }
 
-        public static Page CurrentFrame => (Window.Current?.Content as MainShell)?.RootFrame.Content as Page;
+        public static Page CurrentFrame => (Window.Current?.Content as AppShell)?.RootFrame.Content as Page;
 
-        public static MainShell Shell => Window.Current?.Content as MainShell;
+        public static AppShell Shell => Window.Current?.Content as AppShell;
 
         /// <summary>
         ///     Is anything currently loading
@@ -401,7 +401,7 @@ namespace SoundByte.UWP
         {
             set
             {
-                if ((Window.Current?.Content as MainShell)?.FindName("LoadingRing") is ProgressBar loadingRing)
+                if ((Window.Current?.Content as AppShell)?.FindName("LoadingRing") is ProgressBar loadingRing)
                     loadingRing.Visibility = value ? Visibility.Visible : Visibility.Collapsed;
             }
         }
@@ -540,10 +540,10 @@ namespace SoundByte.UWP
                     if (!DeviceHelper.IsBackground || Window.Current == null || Window.Current.Content == null) return;
 
                     // Get the main shell and only continue if it exists
-                    var shell = Window.Current.Content as MainShell;
+                    var shell = Window.Current.Content as AppShell;
                     if (shell == null) return;
 
-                    shell.RootFrame.Navigate(typeof(BlankPage));
+                    shell.RootFrame.Navigate(typeof(BlankView));
                     shell.Dispose();
 
                     // Clear the page cache

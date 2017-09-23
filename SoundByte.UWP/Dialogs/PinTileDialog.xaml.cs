@@ -56,7 +56,7 @@ namespace SoundByte.UWP.Dialogs
             var tileId = TileId;
             var tileTitle = TileTextBox.Text;
             var param = Param;
-            var imageUri = await ImageHelper.CreateCachedImageAsync(ImageUri.AbsoluteUri, "SoundCloudImg_" + tileId);
+            var imageUri = await ImageHelper.CreateCachedImageAsync(ImageUri.AbsoluteUri, "Img_" + tileId);
             var tileForground = ColorToggleSwitch.IsOn ? ForegroundText.Dark : ForegroundText.Light;
 
             // Check that the image is not false
