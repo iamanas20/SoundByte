@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.12
+VisualStudioVersion = 15.0.26730.15
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoundByte.UWP", "SoundByte.UWP\SoundByte.UWP.csproj", "{52B496EF-B47C-4A78-A1CF-AF86DFF078AE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoundByte.Service", "SoundByte.Service\SoundByte.Service.csproj", "{209FA716-A7AD-4095-BD70-C8710FC66FA7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoundByte.Core", "SoundByte.Core\SoundByte.Core.csproj", "{F01E8BB9-FE3E-480A-9702-29D54764D00F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoundByte.Android", "SoundByte.Android\SoundByte.Android.csproj", "{8E6AF6F3-3145-4EA5-8889-32188CE25DF4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -73,6 +75,30 @@ Global
 		{F01E8BB9-FE3E-480A-9702-29D54764D00F}.Release|x64.Build.0 = Release|Any CPU
 		{F01E8BB9-FE3E-480A-9702-29D54764D00F}.Release|x86.ActiveCfg = Release|Any CPU
 		{F01E8BB9-FE3E-480A-9702-29D54764D00F}.Release|x86.Build.0 = Release|Any CPU
+		{8E6AF6F3-3145-4EA5-8889-32188CE25DF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E6AF6F3-3145-4EA5-8889-32188CE25DF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E6AF6F3-3145-4EA5-8889-32188CE25DF4}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{8E6AF6F3-3145-4EA5-8889-32188CE25DF4}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{8E6AF6F3-3145-4EA5-8889-32188CE25DF4}.Debug|ARM.Build.0 = Debug|Any CPU
+		{8E6AF6F3-3145-4EA5-8889-32188CE25DF4}.Debug|ARM.Deploy.0 = Debug|Any CPU
+		{8E6AF6F3-3145-4EA5-8889-32188CE25DF4}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{8E6AF6F3-3145-4EA5-8889-32188CE25DF4}.Debug|x64.Build.0 = Debug|Any CPU
+		{8E6AF6F3-3145-4EA5-8889-32188CE25DF4}.Debug|x64.Deploy.0 = Debug|Any CPU
+		{8E6AF6F3-3145-4EA5-8889-32188CE25DF4}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8E6AF6F3-3145-4EA5-8889-32188CE25DF4}.Debug|x86.Build.0 = Debug|Any CPU
+		{8E6AF6F3-3145-4EA5-8889-32188CE25DF4}.Debug|x86.Deploy.0 = Debug|Any CPU
+		{8E6AF6F3-3145-4EA5-8889-32188CE25DF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E6AF6F3-3145-4EA5-8889-32188CE25DF4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E6AF6F3-3145-4EA5-8889-32188CE25DF4}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{8E6AF6F3-3145-4EA5-8889-32188CE25DF4}.Release|ARM.ActiveCfg = Release|Any CPU
+		{8E6AF6F3-3145-4EA5-8889-32188CE25DF4}.Release|ARM.Build.0 = Release|Any CPU
+		{8E6AF6F3-3145-4EA5-8889-32188CE25DF4}.Release|ARM.Deploy.0 = Release|Any CPU
+		{8E6AF6F3-3145-4EA5-8889-32188CE25DF4}.Release|x64.ActiveCfg = Release|Any CPU
+		{8E6AF6F3-3145-4EA5-8889-32188CE25DF4}.Release|x64.Build.0 = Release|Any CPU
+		{8E6AF6F3-3145-4EA5-8889-32188CE25DF4}.Release|x64.Deploy.0 = Release|Any CPU
+		{8E6AF6F3-3145-4EA5-8889-32188CE25DF4}.Release|x86.ActiveCfg = Release|Any CPU
+		{8E6AF6F3-3145-4EA5-8889-32188CE25DF4}.Release|x86.Build.0 = Release|Any CPU
+		{8E6AF6F3-3145-4EA5-8889-32188CE25DF4}.Release|x86.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
