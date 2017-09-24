@@ -6,6 +6,7 @@
     <Authors>Dominic Maas</Authors>
     <Description>API Endpoints used by SoundByte + Other related services.</Description>
     <Copyright>Copyright (c) Grid Entertainment 2017</Copyright>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>

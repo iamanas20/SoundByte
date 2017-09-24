@@ -1008,6 +1008,9 @@ namespace SoundByte.UWP.Services
             if (CurrentTrack == null)
                 return;
 
+            if (DeviceHelper.IsXbox)
+                return;
+
             if (!DeviceHelper.IsDesktop && !DeviceHelper.IsMobile) return;
 
             try
@@ -1036,6 +1039,9 @@ namespace SoundByte.UWP.Services
         private void UpdateNormalTiles()
         {
             if (CurrentTrack == null)
+                return;
+
+            if (DeviceHelper.IsXbox)
                 return;
 
             if (!DeviceHelper.IsDesktop && !DeviceHelper.IsMobile) return;

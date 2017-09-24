@@ -32,7 +32,8 @@ namespace SoundByte.UWP.Views.Search
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            Model = (BaseTrackModel) e.Parameter;
+            Model?.Clear();
+            Model = (BaseTrackModel) e.Parameter;        
             TextHeader.Text = Model.ModelHeader;
             MobileTitle.Text = Model.ModelHeader;
             ModelType.Text = Model.ModelType;

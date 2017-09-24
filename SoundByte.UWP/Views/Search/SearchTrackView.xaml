@@ -9,8 +9,7 @@
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
     NavigationCacheMode="Enabled"
     Transitions="{StaticResource MainTransition}">
-
-    
+  
     <Grid Background="Transparent">
         <VisualStateManager.VisualStateGroups>
 
@@ -65,8 +64,16 @@
             </CommandBar.PrimaryCommands>
         </CommandBar>
 
-        <userControls:InfoPane Canvas.ZIndex="50" x:Name="LikeModelInfoPane" VerticalAlignment="Stretch"
-                               HorizontalAlignment="Stretch" Visibility="Collapsed" />
+        <userControls:InfoPane x:Name="SearchTrackModelInfoPane" VerticalAlignment="Center"
+                             HorizontalAlignment="Stretch" Visibility="Collapsed" Canvas.ZIndex="50" />
+        <userControls:InfoPane x:Name="YouTubeSearchModelInfoPane" VerticalAlignment="Center"
+                             HorizontalAlignment="Stretch" Visibility="Collapsed" Canvas.ZIndex="50" />
+        <userControls:InfoPane x:Name="FanburstSearchModelInfoPane" VerticalAlignment="Center"
+                             HorizontalAlignment="Stretch" Visibility="Collapsed" Canvas.ZIndex="50" />
+        <userControls:InfoPane x:Name="SearchPlaylistModelInfoPane" VerticalAlignment="Center"
+                             HorizontalAlignment="Stretch" Visibility="Collapsed" Canvas.ZIndex="50" />
+        <userControls:InfoPane x:Name="SearchUserModelInfoPane" VerticalAlignment="Center"
+                             HorizontalAlignment="Stretch" Visibility="Collapsed" Canvas.ZIndex="50" />
 
         <GridView ItemClick="{x:Bind PlayItem}"
                   ItemsSource="{x:Bind Model}"

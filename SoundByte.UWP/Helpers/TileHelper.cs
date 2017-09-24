@@ -29,6 +29,9 @@ namespace SoundByte.UWP.Helpers
         /// </summary>
         public static void Init()
         {
+            if (DeviceHelper.IsXbox)
+                return;
+
             // Setup the tile updaters
             TileUpdater = TileUpdateManager.CreateTileUpdaterForApplication("App");
             TileUpdater.EnableNotificationQueue(true);
