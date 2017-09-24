@@ -53,8 +53,12 @@
                 <!-- SoundCloud Tracks Content -->
                 <Grid Height="280"
                       Margin="0,0,40,0">
-                    <uiElements:InfoPane x:Name="SearchTrackModelInfoPane" VerticalAlignment="Stretch"
-                                         HorizontalAlignment="Stretch" Visibility="Collapsed" Canvas.ZIndex="50" />
+                    <uiElements:InfoPane VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+                                         Visibility="Collapsed" Canvas.ZIndex="50"
+                                         Header="{x:Bind ViewModel.SearchTracks.ErrorHeader, Mode=OneWay}"
+                                         Text="{x:Bind ViewModel.SearchTracks.ErrorDescription, Mode=OneWay}"
+                                         IsLoading="{x:Bind ViewModel.SearchTracks.IsLoading, Mode=OneWay}"
+                                         IsError="{x:Bind ViewModel.SearchTracks.IsError, Mode=OneWay}" />
                     <GridView x:Name="TracksView"
                               Height="280"
                               ScrollViewer.HorizontalScrollMode="Enabled"
@@ -94,8 +98,12 @@
                 <!-- YouTube Content -->
                 <Grid Height="280"
                       Margin="0,0,30,0">
-                    <uiElements:InfoPane x:Name="YouTubeSearchModelInfoPane" VerticalAlignment="Stretch"
-                                         HorizontalAlignment="Stretch" Visibility="Collapsed" Canvas.ZIndex="50" />
+                    <uiElements:InfoPane VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+                                         Visibility="Collapsed" Canvas.ZIndex="50"
+                                         Header="{x:Bind ViewModel.YouTubeTracks.ErrorHeader, Mode=OneWay}"
+                                         Text="{x:Bind ViewModel.YouTubeTracks.ErrorDescription, Mode=OneWay}"
+                                         IsLoading="{x:Bind ViewModel.YouTubeTracks.IsLoading, Mode=OneWay}"
+                                         IsError="{x:Bind ViewModel.YouTubeTracks.IsError, Mode=OneWay}" />
                     <GridView x:Name="YouTubeView"
                               Height="280"
                               ScrollViewer.HorizontalScrollMode="Enabled"
@@ -136,8 +144,12 @@
                 <!-- Fanburst Content -->
                 <Grid Height="280"
                       Margin="0,0,30,0">
-                    <uiElements:InfoPane x:Name="FanburstSearchModelInfoPane" VerticalAlignment="Stretch"
-                                         HorizontalAlignment="Stretch" Visibility="Collapsed" Canvas.ZIndex="50" />
+                    <uiElements:InfoPane VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+                                         Visibility="Collapsed" Canvas.ZIndex="50"
+                                         Header="{x:Bind ViewModel.FanburstTracks.ErrorHeader, Mode=OneWay}"
+                                         Text="{x:Bind ViewModel.FanburstTracks.ErrorDescription, Mode=OneWay}"
+                                         IsLoading="{x:Bind ViewModel.FanburstTracks.IsLoading, Mode=OneWay}"
+                                         IsError="{x:Bind ViewModel.FanburstTracks.IsError, Mode=OneWay}" />
                     <GridView x:Name="FanburstView"
                               Height="280"
                               ScrollViewer.HorizontalScrollMode="Enabled"
@@ -207,8 +219,12 @@
                 <!-- SoundCloud Playlists Content -->
                 <Grid Height="280"
                       Margin="0,0,40,0">
-                    <uiElements:InfoPane x:Name="SearchPlaylistModelInfoPane" VerticalAlignment="Stretch"
-                                         HorizontalAlignment="Stretch" Visibility="Collapsed" Canvas.ZIndex="50" />
+                    <uiElements:InfoPane VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+                                         Visibility="Collapsed" Canvas.ZIndex="50"
+                                         Header="{x:Bind ViewModel.SearchPlaylists.ErrorHeader, Mode=OneWay}"
+                                         Text="{x:Bind ViewModel.SearchPlaylists.ErrorDescription, Mode=OneWay}"
+                                         IsLoading="{x:Bind ViewModel.SearchPlaylists.IsLoading, Mode=OneWay}"
+                                         IsError="{x:Bind ViewModel.SearchPlaylists.IsError, Mode=OneWay}" />
                     <GridView x:Name="PlaylistsView"
                               Height="280"
                               ScrollViewer.HorizontalScrollMode="Enabled"

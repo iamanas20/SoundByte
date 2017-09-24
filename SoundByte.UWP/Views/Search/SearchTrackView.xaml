@@ -35,7 +35,7 @@
 
         <Grid x:Name="MobileGrid" Visibility="Visible" Background="{StaticResource MobileBlurHeader}"
               VerticalAlignment="Top" HorizontalAlignment="Stretch" Height="48" Canvas.ZIndex="100">
-            <TextBlock x:Name="MobileTitle" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="SemiBold"
+            <TextBlock x:Name="MobileTitle" Text="{x:Bind ViewModel.Title, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="SemiBold"
                        FontSize="18" />
         </Grid>
 
@@ -44,19 +44,19 @@
                     Background="{StaticResource MobileBlurHeader}"                    
                     Canvas.ZIndex="100">
             <CommandBar.PrimaryCommands>
-                <AppBarButton Label="Play All" Click="{x:Bind PlayAllItems}">
+                <AppBarButton Label="Play All" Click="{x:Bind ViewModel.PlayAllItems}">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE768;" />
                     </AppBarButton.Icon>
                 </AppBarButton>
 
-                <AppBarButton Label="Shuffle Play" Click="{x:Bind PlayShuffleItems}">
+                <AppBarButton Label="Shuffle Play" Click="{x:Bind ViewModel.PlayShuffleItems}">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE8B1;" />
                     </AppBarButton.Icon>
                 </AppBarButton>
 
-                <AppBarButton Label="Refresh" Click="{x:Bind Model.RefreshItems}">
+                <AppBarButton Label="Refresh" Click="{x:Bind ViewModel.Model.RefreshItems}">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE72C;" />
                     </AppBarButton.Icon>
@@ -64,19 +64,15 @@
             </CommandBar.PrimaryCommands>
         </CommandBar>
 
-        <userControls:InfoPane x:Name="SearchTrackModelInfoPane" VerticalAlignment="Center"
-                             HorizontalAlignment="Stretch" Visibility="Collapsed" Canvas.ZIndex="50" />
-        <userControls:InfoPane x:Name="YouTubeSearchModelInfoPane" VerticalAlignment="Center"
-                             HorizontalAlignment="Stretch" Visibility="Collapsed" Canvas.ZIndex="50" />
-        <userControls:InfoPane x:Name="FanburstSearchModelInfoPane" VerticalAlignment="Center"
-                             HorizontalAlignment="Stretch" Visibility="Collapsed" Canvas.ZIndex="50" />
-        <userControls:InfoPane x:Name="SearchPlaylistModelInfoPane" VerticalAlignment="Center"
-                             HorizontalAlignment="Stretch" Visibility="Collapsed" Canvas.ZIndex="50" />
-        <userControls:InfoPane x:Name="SearchUserModelInfoPane" VerticalAlignment="Center"
-                             HorizontalAlignment="Stretch" Visibility="Collapsed" Canvas.ZIndex="50" />
+        <userControls:InfoPane VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+                             Visibility="Collapsed" Canvas.ZIndex="50"
+                             Header="{x:Bind ViewModel.Model.ErrorHeader, Mode=OneWay}"
+                             Text="{x:Bind ViewModel.Model.ErrorDescription, Mode=OneWay}"
+                             IsLoading="{x:Bind ViewModel.Model.IsLoading, Mode=OneWay}"
+                             IsError="{x:Bind ViewModel.Model.IsError, Mode=OneWay}" />
 
-        <GridView ItemClick="{x:Bind PlayItem}"
-                  ItemsSource="{x:Bind Model}"
+        <GridView ItemClick="{x:Bind ViewModel.PlayItem}"
+                  ItemsSource="{x:Bind ViewModel.Model}"
                   ItemContainerStyle="{StaticResource MainGridViewItem}"
                   x:Name="StackPanel"
                   VerticalAlignment="Stretch"
@@ -91,11 +87,11 @@
             <GridView.Header>
                 <controls:ScrollHeader TargetListViewBase="{Binding ElementName=StackPanel}" Mode="Fade" >
                     <StackPanel Canvas.ZIndex="20">
-                        <TextBlock Opacity="0" x:Name="TextHeader"  FontWeight="Bold" FontSize="25"
+                        <TextBlock Opacity="0" x:Name="TextHeader" Text="{x:Bind ViewModel.Title, Mode=OneWay}"  FontWeight="Bold" FontSize="25"
                                    Margin="0,18,0,10" />
 
                         <TextBlock  
-                                   x:Name="ModelType"
+                                   Text="{x:Bind ViewModel.SubTitle, Mode=OneWay}"
                                    FontWeight="SemiBold" 
                                    FontSize="14" 
                                    Margin="10,10,0,0"
@@ -105,12 +101,12 @@
 
                         <StackPanel x:Name="DesktopCommandBar" Visibility="Collapsed" Orientation="Horizontal"
                                     Margin="10,10,0,20">
-                            <userControls:SoundByteButton Glyph="&#xE768;" Label="Play All" Click="{x:Bind PlayAllItems}"
+                            <userControls:SoundByteButton Glyph="&#xE768;" Label="Play All" Click="{x:Bind ViewModel.PlayAllItems}"
                                                           Margin="0,0,25,0" />
                             <userControls:SoundByteButton Glyph="&#xE8B1;" Label="Shuffle Play"
-                                                          Click="{x:Bind PlayShuffleItems}" Margin="0,0,25,0" />
+                                                          Click="{x:Bind ViewModel.PlayShuffleItems}" Margin="0,0,25,0" />
                             <userControls:SoundByteButton Glyph="&#xE72C;" Label="Refresh"
-                                                          Click="{x:Bind Model.RefreshItems}" Margin="0,0,25,0" />
+                                                          Click="{x:Bind ViewModel.Model.RefreshItems}" Margin="0,0,25,0" />
                         </StackPanel>
                     </StackPanel>
                 </controls:ScrollHeader>

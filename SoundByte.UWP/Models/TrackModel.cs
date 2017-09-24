@@ -19,12 +19,13 @@ using Microsoft.Toolkit.Uwp.Helpers;
 using SoundByte.Core;
 using SoundByte.Core.Exceptions;
 using SoundByte.Core.Holders;
+using SoundByte.Core.Items.Track;
 using SoundByte.Core.Items.User;
 using SoundByte.Core.Services;
 
 namespace SoundByte.UWP.Models
 {
-    public class TrackModel : BaseTrackModel
+    public class TrackModel : BaseModel<BaseTrack>
     {
         /// <summary>
         ///     Setsup a new view model for playlists

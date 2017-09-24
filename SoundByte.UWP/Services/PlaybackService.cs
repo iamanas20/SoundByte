@@ -188,7 +188,7 @@ namespace SoundByte.UWP.Services
         /// <summary>
         ///     The data model of the active playlist.
         /// </summary>
-        public BaseTrackModel Playlist
+        public BaseModel<BaseTrack> Playlist
         {
             get => _playlist;
             private set
@@ -197,7 +197,7 @@ namespace SoundByte.UWP.Services
                 UpdateProperty();
             }
         }
-        private BaseTrackModel _playlist = new BaseTrackModel();
+        private BaseModel<BaseTrack> _playlist = new BaseModel<BaseTrack>();
 
         /// <summary>
         ///     The current value of the volume slider
@@ -672,7 +672,7 @@ namespace SoundByte.UWP.Services
             bool isShuffled = false, BaseTrack startingItem = null)
         {
             // Create a dummy base track items
-            var dummyBaseTrackModel = new BaseTrackModel { Token = "eol" };
+            var dummyBaseTrackModel = new BaseModel<BaseTrack> { Token = "eol" };
 
             // Add all the playlist items to this dummy
             foreach (var track in playlist)
@@ -689,7 +689,7 @@ namespace SoundByte.UWP.Services
         /// <param name="isShuffled">Should the tracks be played shuffled.</param>
         /// <param name="startingItem">What track to start with.</param>
         /// <returns></returns>
-        public async Task<(bool success, string message)> StartModelMediaPlaybackAsync(BaseTrackModel model,
+        public async Task<(bool success, string message)> StartModelMediaPlaybackAsync(BaseModel<BaseTrack> model,
             bool isShuffled = false, BaseTrack startingItem = null)
         {
             // If no playlist was specified, skip

@@ -18,11 +18,11 @@ using SoundByte.Core.Items.Playlist;
 using SoundByte.Core.Items.Track;
 using SoundByte.Core.Items.User;
 using SoundByte.UWP.Services;
-using SoundByte.UWP.Models;
+using SoundByte.UWP.Models.Search;
 using SoundByte.UWP.Views;
 using SoundByte.UWP.Views.Search;
 
-namespace SoundByte.UWP.ViewModels
+namespace SoundByte.UWP.ViewModels.Search
 {
     public class SearchViewModel : BaseViewModel
     {
@@ -32,19 +32,19 @@ namespace SoundByte.UWP.ViewModels
         #endregion
 
         #region Models
-        public SearchTrackModel SearchTracks { get; }
-        public FanburstSearchModel FanburstTracks { get; }
-        public SearchPlaylistModel SearchPlaylists { get; }
-        public SearchUserModel SearchUsers { get; }
-        public YouTubeSearchModel YouTubeTracks { get; }
+        public SearchSoundCloudTrackModel SearchTracks { get; }
+        public SearchFanburstTrackModel FanburstTracks { get; }
+        public SearchSoundCloudPlaylistModel SearchPlaylists { get; }
+        public SearchSoundCloudUserModel SearchUsers { get; }
+        public SearchYouTubeTrackModel YouTubeTracks { get; }
 
         public SearchViewModel()
         {
-            SearchTracks = new SearchTrackModel { ModelHeader = "Search", ModelType = "SOUNDCLOUD TRACKS"};
-            FanburstTracks = new FanburstSearchModel { ModelHeader = "Search", ModelType = "FANBURST TRACKS" };
-            SearchPlaylists = new SearchPlaylistModel();
-            SearchUsers = new SearchUserModel();
-            YouTubeTracks = new YouTubeSearchModel { ModelHeader = "Search", ModelType = "YOUTUBE VIDEOS" };
+            SearchTracks = new SearchSoundCloudTrackModel { ModelHeader = "Search", ModelType = "SOUNDCLOUD TRACKS"};
+            FanburstTracks = new SearchFanburstTrackModel { ModelHeader = "Search", ModelType = "FANBURST TRACKS" };
+            SearchPlaylists = new SearchSoundCloudPlaylistModel();
+            SearchUsers = new SearchSoundCloudUserModel();
+            YouTubeTracks = new SearchYouTubeTrackModel { ModelHeader = "Search", ModelType = "YOUTUBE VIDEOS" };
         }
         #endregion
 

@@ -18,6 +18,7 @@ using Microsoft.Toolkit.Uwp.Helpers;
 using SoundByte.Core;
 using SoundByte.Core.Exceptions;
 using SoundByte.Core.Holders;
+using SoundByte.Core.Items.Track;
 using SoundByte.Core.Services;
 using SoundByte.UWP.UserControls;
 
@@ -26,7 +27,7 @@ namespace SoundByte.UWP.Models
     /// <summary>
     ///     Model for the soundcloud charts
     /// </summary>
-    public class ChartModel : BaseTrackModel
+    public class ChartModel : BaseModel<BaseTrack>
     {
         // The genre to search for
         private string _genre = "all-music";

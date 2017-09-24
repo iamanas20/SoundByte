@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Toolkit.Uwp.Helpers;
 using SoundByte.Core.Exceptions;
+using SoundByte.Core.Items.Track;
 using SoundByte.UWP.DatabaseContexts;
 using SoundByte.UWP.UserControls;
 
@@ -23,7 +24,7 @@ namespace SoundByte.UWP.Models
     /// <summary>
     ///     Model for the users play history
     /// </summary>
-    public class HistoryModel : BaseTrackModel
+    public class HistoryModel : BaseModel<BaseTrack>
     {
         /// <summary>
         ///     Loads stream items from the souncloud api

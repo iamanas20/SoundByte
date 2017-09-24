@@ -18,6 +18,7 @@ using Microsoft.Toolkit.Uwp.Helpers;
 using SoundByte.Core;
 using SoundByte.Core.Exceptions;
 using SoundByte.Core.Holders;
+using SoundByte.Core.Items.Track;
 using SoundByte.Core.Items.User;
 using SoundByte.Core.Services;
 using SoundByte.UWP.UserControls;
@@ -27,7 +28,7 @@ namespace SoundByte.UWP.Models
     /// <summary>
     ///     Model for user likes
     /// </summary>
-    public class LikeModel : BaseTrackModel
+    public class LikeModel : BaseModel<BaseTrack>
     {
         /// <summary>
         ///     Setsup the like view model for a user

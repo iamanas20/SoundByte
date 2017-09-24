@@ -58,7 +58,7 @@ namespace SoundByte.UWP.ViewModels
         ///     Performs a shuffle of the tracks
         /// </summary>
         /// <param name="model"></param>
-        public static async Task ShuffleTracksAsync(BaseTrackModel model)
+        public static async Task ShuffleTracksAsync(BaseModel<BaseTrack> model)
         {
             App.IsLoading = true;
 

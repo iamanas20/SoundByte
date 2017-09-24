@@ -23,20 +23,20 @@ using Microsoft.Toolkit.Uwp.Helpers;
 using SoundByte.Core;
 using SoundByte.Core.Exceptions;
 using SoundByte.Core.Holders;
-using SoundByte.Core.Items.Playlist;
+using SoundByte.Core.Items.User;
 using SoundByte.Core.Services;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.UserControls;
 
-namespace SoundByte.UWP.Models
+namespace SoundByte.UWP.Models.Search
 {
-    public class SearchPlaylistModel : ObservableCollection<BasePlaylist>, ISupportIncrementalLoading
+    public class SearchSoundCloudUserModel : ObservableCollection<BaseUser>, ISupportIncrementalLoading
     {
         /// <summary>
         ///     The position of the track, will be 'eol'
         ///     if there are no new trackss
         /// </summary>
-        public string Token { get; protected set; }
+        public string Token { get; private set; }
 
         /// <summary>
         ///     What we are searching the soundcloud API for
@@ -49,23 +49,21 @@ namespace SoundByte.UWP.Models
         public bool HasMoreItems => Token != "eol";
 
         /// <summary>
-        ///     Loads search track items from the souncloud api
+        ///     Loads search user items from the souncloud api
         /// </summary>
         /// <param name="count">The amount of items to load</param>
-        // ReSharper disable once RedundantAssignment
         public IAsyncOperation<LoadMoreItemsResult> LoadMoreItemsAsync(uint count)
         {
             // Return a task that will get the items
             return Task.Run(async () =>
             {
-                // If the query is empty, tell the user that they can search something
                 if (string.IsNullOrEmpty(Query))
                     return new LoadMoreItemsResult {Count = 0};
 
                 // We are loading
                 await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                 {
-                    (App.CurrentFrame?.FindName("SearchPlaylistModelInfoPane") as InfoPane)?.ShowLoading();
+                    (App.CurrentFrame?.FindName("SearchUserModelInfoPane") as InfoPane)?.ShowLoading();
                 });
 
                 // Get the resource loader
@@ -73,8 +71,8 @@ namespace SoundByte.UWP.Models
 
                 try
                 {
-                    // Get the searched playlists
-                    var searchPlaylists = await SoundByteV3Service.Current.GetAsync<SearchPlaylistHolder>(ServiceType.SoundCloud, "/playlists",
+                    // Get the searched users
+                    var searchUsers = await SoundByteV3Service.Current.GetAsync<UserListHolder>(ServiceType.SoundCloud,"/users",
                         new Dictionary<string, string>
                         {
                             {"limit", SettingsService.TrackLimitor.ToString()},
@@ -84,24 +82,24 @@ namespace SoundByte.UWP.Models
                         });
 
                     // Parse uri for offset
-                    var param = new QueryParameterCollection(searchPlaylists.NextList);
+                    var param = new QueryParameterCollection(searchUsers.NextList);
                     var offset = param.FirstOrDefault(x => x.Key == "offset").Value;
 
-                    // Get the search playlists offset
+                    // Get the stream cursor
                     Token = string.IsNullOrEmpty(offset) ? "eol" : offset;
 
-                    // Make sure that there are playlists in the list
-                    if (searchPlaylists.Playlists.Count > 0)
+                    // Make sure that there are users in the list
+                    if (searchUsers.Users.Count > 0)
                     {
                         // Set the count variable
-                        count = (uint) searchPlaylists.Playlists.Count;
+                        count = (uint) searchUsers.Users.Count;
 
-                        // Loop though all the search playlists on the UI thread
+                        // Loop though all the tracks on the UI thread
                         await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                         {
-                            foreach (var playlist in searchPlaylists.Playlists)
+                            foreach (var user in searchUsers.Users)
                             {
-                                Add(playlist.ToBasePlaylist());
+                                Add(user.ToBaseUser());
                             }
                         });
                     }
@@ -116,9 +114,8 @@ namespace SoundByte.UWP.Models
                         // No items tell the user
                         await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                         {
-                            (App.CurrentFrame?.FindName("SearchPlaylistModelInfoPane") as InfoPane)?.ShowMessage(
-                                resources.GetString("SearchPlaylist_Header"),
-                                resources.GetString("SearchPlaylist_Content"), false);
+                            (App.CurrentFrame?.FindName("SearchUserModelInfoPane") as InfoPane)?.ShowMessage(
+                                resources.GetString("SearchUser_Header"), resources.GetString("SearchUser_Content"), false);
                         });
                     }
                 }
@@ -133,7 +130,7 @@ namespace SoundByte.UWP.Models
                     // Exception, display error to the user
                     await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                     {
-                        (App.CurrentFrame?.FindName("SearchPlaylistModelInfoPane") as InfoPane)?.ShowMessage(
+                        (App.CurrentFrame?.FindName("SearchUserModelInfoPane") as InfoPane)?.ShowMessage(
                             ex.ErrorTitle, ex.ErrorDescription);
                     });
                 }
@@ -142,7 +139,7 @@ namespace SoundByte.UWP.Models
                 // We are not loading
                 await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                 {
-                    (App.CurrentFrame?.FindName("SearchPlaylistModelInfoPane") as InfoPane)?.ClosePane();
+                    (App.CurrentFrame?.FindName("SearchUserModelInfoPane") as InfoPane)?.ClosePane();
                 });
 
                 // Return the result

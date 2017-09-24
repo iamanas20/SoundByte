@@ -10,6 +10,7 @@
  * |----------------------------------------------------------------|
  */
 
+using System;
 using Windows.UI.Xaml;
 
 namespace SoundByte.UWP.UserControls
@@ -40,6 +41,11 @@ namespace SoundByte.UWP.UserControls
         private static readonly DependencyProperty HeaderProperty =
             DependencyProperty.Register("Header", typeof(string), typeof(InfoPane), null);
 
+        private static readonly DependencyProperty IsLoadingProperty =
+            DependencyProperty.Register("IsLoading", typeof(bool), typeof(InfoPane), null);
+
+        private static readonly DependencyProperty IsErrorProperty =
+            DependencyProperty.Register("IsError", typeof(bool), typeof(InfoPane), null);
         #endregion
 
         #region Getters and Setters
@@ -50,7 +56,11 @@ namespace SoundByte.UWP.UserControls
         public string Header
         {
             get => GetValue(HeaderProperty) as string;
-            private set => SetValue(HeaderProperty, value);
+            set
+            {
+                SetValue(HeaderProperty, value);
+                HeaderTextBlock.Text = value;
+            }
         }
 
         /// <summary>
@@ -59,57 +69,89 @@ namespace SoundByte.UWP.UserControls
         public string Text
         {
             get => GetValue(TextProperty) as string;
-            private set => SetValue(TextProperty, value);
+            set
+            {
+                SetValue(TextProperty, value);
+                TextTextBlock.Text = value;
+            }
         }
+
+        public bool IsLoading
+        {
+            get => (bool)GetValue(IsLoadingProperty);
+            set
+            {
+                SetValue(IsLoadingProperty, value);
+
+                if (value)
+                {
+                    LoadingRing.Visibility = Visibility.Visible;
+                    Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    LoadingRing.Visibility = Visibility.Collapsed;
+
+                    if (!IsError)
+                        Visibility = Visibility.Collapsed;
+                }
+            }
+        }
+
+        public bool IsError
+        {
+            get => (bool)GetValue(IsErrorProperty);
+            set
+            {
+                SetValue(IsErrorProperty, value);
+
+                if (value)
+                {
+                    Visibility = Visibility.Visible;
+                    LoadingRing.Visibility = Visibility.Collapsed;
+                }
+                else
+                {
+                    if (!IsLoading)
+                        Visibility = Visibility.Collapsed;
+                }
+            }
+        }
+
+
 
         #endregion
 
         #region Methods
 
+        [Obsolete]
         public void ShowLoading()
         {
-            ShowMessage("Loading...", "Please Wait", false);
-
-            LoadingRing.Visibility = Visibility.Visible;
+            IsLoading = true;
         }
 
 
-        /// <summary>
-        ///     Shows a message on the screen
-        /// </summary>
-        /// <param name="header">The title of the message</param>
-        /// <param name="text">The text of the message</param>
-        /// <param name="showButton">Should we display the close button</param>
+        [Obsolete]
         public void ShowMessage(string header, string text, bool showButton = true)
         {
+            IsError = true;
             // Update the needed variables
             Header = header;
-            HeaderTextBlock.Text = header;
-
             Text = text;
-            TextTextBlock.Text = text;
 
             // Logic to show or hide the buton
-            CloseButton.Visibility = showButton ? Visibility.Visible : Visibility.Collapsed;
-
-            // Hide loading ring
-            LoadingRing.Visibility = Visibility.Collapsed;
-
-            // Show the control
-            Visibility = Visibility.Visible;
-            Opacity = 1;
+          //  CloseButton.Visibility = showButton ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public void ClosePaneButtonClick()
         {
-            // Hide the pane
-            Visibility = Visibility.Collapsed;
-            Opacity = 0;
+            IsError = false;
         }
 
         /// <summary>
         ///     Closes the pane
         /// </summary>
+        [Obsolete]
         public void ClosePane()
         {
             if (LoadingRing.Visibility == Visibility.Visible)
