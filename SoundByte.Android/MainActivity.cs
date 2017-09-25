@@ -4,7 +4,7 @@ using Android.OS;
 
 namespace SoundByte.Android
 {
-    [Activity(Label = "SoundByte", MainLauncher = true)]
+    [Activity(Label = "SoundByte.Android", MainLauncher = true)]
     public class MainActivity : Activity
     {
         protected override void OnCreate(Bundle savedInstanceState)

@@ -10,8 +10,11 @@
  * |----------------------------------------------------------------|
  */
 
+using System;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using SoundByte.UWP.Services;
+using WinRTXamlToolkit.Tools;
 
 namespace SoundByte.UWP.Views.Application
 {
@@ -28,6 +31,17 @@ namespace SoundByte.UWP.Views.Application
         private async void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
             await NavigationService.Current.CallDialogAsync(Command.Text);
+        }
+
+        private async void GetDialogList(object sender, RoutedEventArgs e)
+        {
+            var dialogs = NavigationService.Current.GetRegisteredDialogs();
+
+            var dialogList = string.Empty;
+
+            dialogs.ForEach(x => dialogList += "- " + x.Key + "\n");
+
+            await new MessageDialog(dialogList, "Registered Dialogs").ShowAsync();
         }
     }
 }

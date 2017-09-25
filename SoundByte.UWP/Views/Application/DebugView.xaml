@@ -6,9 +6,19 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Transitions="{StaticResource MainTransition}"
     mc:Ignorable="d">
-
-    <StackPanel Background="Transparent">
-        <TextBox x:Name="Command" />
-        <Button Content="Run" Click="ButtonBase_OnClick" />
-    </StackPanel>
+    <Grid>
+        <StackPanel>
+            <TextBlock Style="{StaticResource TitleStyle}" 
+                       Text="Debug Options" />
+            <TextBlock Text="NAVIGATION SERVICE (DIALOG)"     
+                       Style="{StaticResource SubTitleStyle}" />
+            <TextBlock Text="Debug registered soundbyte dialogs by typing in the name of the dialog below. For example `PendingUpdateDialog`. Invokes the navigation service." 
+                       Style="{StaticResource TextStyle}" />
+            <TextBox x:Name="Command" />
+            <Button Content="Run Command" Click="ButtonBase_OnClick" />
+            <Button Content="Get Dialog List" Click="GetDialogList" />
+        </StackPanel>
+    </Grid>
+    
+    
 </Page>

@@ -65,5 +65,10 @@ namespace SoundByte.UWP.Services
                 await ((ContentDialog) instance).ShowAsync();
             }
         }
+
+        public Dictionary<string, Type> GetRegisteredDialogs()
+        {
+            return _registeredDialogs;
+        }
     }
 }
