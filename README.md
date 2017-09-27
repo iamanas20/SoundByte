@@ -22,11 +22,31 @@ SoundByte is a Universal Windows Platform (UWP) App that connects with the Sound
 Please Note: SoundByte source code is to only be used for educational purposes. Distrubution of SoundByte source code in any form outside this repository is forbidden.
 
 ## SoundByte Structure
+SoundByte is split into four  projects. `SoundByte.Android`, `SoundByte.Core`, `SoundByte.Service` and `SoundByte.UWP`. Each of these projects and containing files are mentioned in more detail below.
 
-SoundByte is split into three main projects. `SoundByte.Core`, `SoundByte.Service` and `SoundByte.UWP`. Eash of these projects and containing files are mentioned in more detail below.
+|Project Name|Platform|Description|
+|--|--|--|
+|`SoundByte.Android`|Xamarin Native (Android)|WIP Xamarin Native app for Android phones|
+|`SoundByte.Core`|.NET Standard v1.4|Core logic used by all projects within SoundByte|
+|`SoundByte.Service`|ASP.NET Azure Mobile Service|Used for remote login. Will allow for user account creation in future|
+|`SoundByte.UWP`|UWP 10.0 - Creators Update|Windows 10 UWP App (Windows 10/Xbox One)|
 
+**SoundByte.Android:** WIP, shell project. Nothing done.
 
-**SoundByte.Core:** This project contains cross platform classes and holders used to deserialize content from the SoundCloud and Fanburst API. This project is seperate allowing the backend service and UWP app to access the same classes. Built using .NET Standard. 
+**SoundByte.Core:** SoundByte Core is a cross-platform library built using .NET standard. This library contains logic for interacting with muiltiple services such as Fanburst, SoundCloud and YouTube. The main entry point for accessing content in this library is the `SoundByteV3Service` class within the `SoundByte.Core.Services` namespace. Details on how to use this class are mentioned below:
+
+Before calling the `SoundByteV3Service` class, you must first set it up. This is done by calling `SoundByteV3Service.Current.Init();` This function takes in a list of service-secrets. A `ServiceSecret` is required for every service that you want to access information with. For example, if accessing information from SoundCloud, you must provide a SoundCloud service secret. An example of this is below.
+
+```
+var soundCloudSecret = new ServiceSecret
+{
+    Service = ServiceType.SoundCloud,
+    ClientId = "client_id",
+    ClientSecret = "client_secret"
+};
+```
+
+This is repeated for all the services you would like to use. When supplying the service secret, you can also provide a `LoginToken`. This is the logged in users state. You can also call `SoundByteV3Service.Current.ConnectService(ServiceType, LoginToken)`. Please note, the core SoundByte service is event based. This means that calling `ConnectService` will not return true or false, but instead call the `ServiceConnected` event handler which you bind to.
 
 Each SoundByte endpoint has its own namespace within the `items` namespace. For example, information about tracks is stored in the `SoundByte.Core.Items.Track` namespace. These namespaces will contain certain classes to aid in muilti-service support. Details about these classes are below:
 
@@ -42,7 +62,7 @@ Every item in SoundByte following the above logic. This allows easy extensions o
 
 **SoundByte.UWP:** This project contains the main code for SoundByte on Windows 10 / Xbox One. Items such as brushes, view models, models, views, playback service etc. are all stored here.
 
-SoundByte logic is based around a central XAML/C# file called `MainShell.xaml`/`MainShell.xaml.cs`. This file displays key app elements such as the left hand navigation pane, and mobile navigation bar. It also supports app navigation, and is used to load key app resources at load time.
+SoundByte logic is based around a central XAML/C# file called `AppShell.xaml`/`AppShell.xaml.cs`. This file displays key app elements such as the left hand navigation pane, and mobile navigation bar. It also supports app navigation, and is used to load key app resources at load time.
 
 The `Views` folder contains XAML pages used within the app. Generally there is one xaml page per app page (using visual state triggers to change certain UI elements depending on the platform). The code behind these pages is usually simple, only containing the view model logic and telemetry logic.
 
