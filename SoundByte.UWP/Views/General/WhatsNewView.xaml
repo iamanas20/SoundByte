@@ -33,6 +33,9 @@
             <StackPanel x:Name="StackPanel" Padding="0,20,0,0">
                 <TextBlock x:Name="TextHeader" Opacity="0" Text="What's New" FontWeight="Bold" FontSize="25"
                             />
+                <TextBlock Text="Current Version: "
+                           x:Name="CurrentVersion"
+                           Style="{StaticResource SubTitleStyle}" />
                 <controls:MarkdownTextBlock x:Name="ChangelogView"
                                             VerticalAlignment="Stretch"
                                             HorizontalAlignment="Stretch" />

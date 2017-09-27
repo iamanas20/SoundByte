@@ -11,6 +11,7 @@
  */
 
 using System;
+using Windows.ApplicationModel;
 using Windows.UI.Xaml.Navigation;
 using Windows.Web.Http;
 using SoundByte.UWP.Services;
@@ -30,6 +31,8 @@ namespace SoundByte.UWP.Views.General
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             TelemetryService.Instance.TrackPage("What's New View");
+
+            CurrentVersion.Text = $"Current Version: {Package.Current.Id.Version.Major}.{Package.Current.Id.Version.Minor}.{Package.Current.Id.Version.Build}.{Package.Current.Id.Version.Revision}";
 
             App.IsLoading = true;
 

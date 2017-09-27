@@ -232,10 +232,8 @@ namespace SoundByte.UWP
                 // if the update is mandatory or not).
                 if (updates.Count > 0)
                 {
-                    await new PendingUpdateDialog().ShowAsync();
-
+                    await new PendingUpdateDialog().ShowAsync();              
                 }
-
             }
             catch
             {

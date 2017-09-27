@@ -1,5 +1,8 @@
+using System.Collections.Generic;
 using Microsoft.Owin;
 using Owin;
+using SoundByte.Core.Items;
+using SoundByte.Core.Services;
 
 [assembly: OwinStartup(typeof(SoundByte.Service.Startup))]
 

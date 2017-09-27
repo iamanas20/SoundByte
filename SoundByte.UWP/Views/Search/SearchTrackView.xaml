@@ -44,19 +44,19 @@
                     Background="{StaticResource MobileBlurHeader}"                    
                     Canvas.ZIndex="100">
             <CommandBar.PrimaryCommands>
-                <AppBarButton Label="Play All" Click="{x:Bind ViewModel.PlayAllItems}">
+                <AppBarButton Label="Play All" Click="{x:Bind ViewModel.PlayAllItems, Mode=OneWay}">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE768;" />
                     </AppBarButton.Icon>
                 </AppBarButton>
 
-                <AppBarButton Label="Shuffle Play" Click="{x:Bind ViewModel.PlayShuffleItems}">
+                <AppBarButton Label="Shuffle Play" Click="{x:Bind ViewModel.PlayShuffleItems, Mode=OneWay}">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE8B1;" />
                     </AppBarButton.Icon>
                 </AppBarButton>
 
-                <AppBarButton Label="Refresh" Click="{x:Bind ViewModel.Model.RefreshItems}">
+                <AppBarButton Label="Refresh" Click="{x:Bind ViewModel.Model.RefreshItems, Mode=OneWay}">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE72C;" />
                     </AppBarButton.Icon>
@@ -70,9 +70,9 @@
                              Text="{x:Bind ViewModel.Model.ErrorDescription, Mode=OneWay}"
                              IsLoading="{x:Bind ViewModel.Model.IsLoading, Mode=OneWay}"
                              IsError="{x:Bind ViewModel.Model.IsError, Mode=OneWay}" />
-
-        <GridView ItemClick="{x:Bind ViewModel.PlayItem}"
-                  ItemsSource="{x:Bind ViewModel.Model}"
+        
+        <GridView ItemClick="{x:Bind ViewModel.PlayItem, Mode=OneWay}"
+                  ItemsSource="{x:Bind ViewModel.Model, Mode=OneWay}"
                   ItemContainerStyle="{StaticResource MainGridViewItem}"
                   x:Name="StackPanel"
                   VerticalAlignment="Stretch"
@@ -101,12 +101,12 @@
 
                         <StackPanel x:Name="DesktopCommandBar" Visibility="Collapsed" Orientation="Horizontal"
                                     Margin="10,10,0,20">
-                            <userControls:SoundByteButton Glyph="&#xE768;" Label="Play All" Click="{x:Bind ViewModel.PlayAllItems}"
+                            <userControls:SoundByteButton Glyph="&#xE768;" Label="Play All" Click="{x:Bind ViewModel.PlayAllItems, Mode=OneWay}"
                                                           Margin="0,0,25,0" />
                             <userControls:SoundByteButton Glyph="&#xE8B1;" Label="Shuffle Play"
-                                                          Click="{x:Bind ViewModel.PlayShuffleItems}" Margin="0,0,25,0" />
+                                                          Click="{x:Bind ViewModel.PlayShuffleItems, Mode=OneWay}" Margin="0,0,25,0" />
                             <userControls:SoundByteButton Glyph="&#xE72C;" Label="Refresh"
-                                                          Click="{x:Bind ViewModel.Model.RefreshItems}" Margin="0,0,25,0" />
+                                                          Click="{x:Bind ViewModel.Model.RefreshItems, Mode=OneWay}" Margin="0,0,25,0" />
                         </StackPanel>
                     </StackPanel>
                 </controls:ScrollHeader>
