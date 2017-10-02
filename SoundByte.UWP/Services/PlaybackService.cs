@@ -554,6 +554,9 @@ namespace SoundByte.UWP.Services
 
         public MediaPlaybackItem CreateMediaPlaybackItem(BaseTrack track)
         {
+            if (track == null)
+                return null;
+
             try
             {
                 var binder = new MediaBinder
@@ -592,7 +595,7 @@ namespace SoundByte.UWP.Services
                 TelemetryService.Instance.TrackEvent("Could not add Playback Item",
                     new Dictionary<string, string>
                     {
-                        {"track_id", track.Id}
+                        {"track_id", track?.Id}
                     });
                 return null;
             }
