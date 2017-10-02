@@ -46,6 +46,8 @@ namespace SoundByte.UWP.Helpers
                 // Show the exception UI
                 await HandleAppCrashAsync(args.Exception);
             };
+
+            System.Diagnostics.Debug.WriteLine("Now Handling App Crashes");
         }
 
 

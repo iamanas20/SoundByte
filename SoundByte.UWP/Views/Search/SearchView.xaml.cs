@@ -33,8 +33,6 @@ namespace SoundByte.UWP.Views.Search
             // Initialize XAML Components
             InitializeComponent();
 
-            DataContext = ViewModel;
-
             Unloaded += (s, e) =>
             {
                 ViewModel?.Dispose();
@@ -47,11 +45,8 @@ namespace SoundByte.UWP.Views.Search
         /// <param name="e">Args</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            // Don't reload page when going back
-            if (e.NavigationMode == NavigationMode.Back)
-                return;
-
             ViewModel.SearchQuery = e.Parameter != null ? e.Parameter as string : string.Empty;
+            DataContext = ViewModel;
 
             // Track Event
             TelemetryService.Instance.TrackPage("Search View");

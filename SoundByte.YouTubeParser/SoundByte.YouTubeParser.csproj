@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard1.1;net45;netcoreapp1.0</TargetFrameworks>
+    <Version>1.0.2</Version>
+    <Company>Grid Entertainment</Company>
+    <Authors>Tyrrrz, Dominic Maas</Authors>
+    <Copyright>Copyright (C) 2016-2017 Alexey Golub, Dominic Maas</Copyright>
+    <Description>A stripped down version of Tyrrrz's YouTubeExplode library to be used in SoundByte.</Description>
+    <PackageTags>youtube video download playlist user channel closed caption tracks subtitles parse extract metadata info net core standard</PackageTags>
+    <PackageProjectUrl>https://github.com/DominicMaas/SoundByte.YouTubeParser</PackageProjectUrl>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/DominicMaas/SoundByte.YouTubeParser/master/License.txt</PackageLicenseUrl>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+    <PackageId>SoundByte.YouTubeParser</PackageId>
+    <Product>SoundByte.YouTubeParser</Product>
+    <RepositoryUrl>https://github.com/DominicMaas/SoundByte.YouTubeParser</RepositoryUrl>
+    <RepositoryType>GitHub</RepositoryType>
+    <AssemblyName>SoundByte.YouTubeParser</AssemblyName>
+    <RootNamespace>SoundByte.YouTubeParser</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net45'">
+    <Reference Include="System.Net.Http" />
+  </ItemGroup>
+
+</Project>

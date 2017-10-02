@@ -74,7 +74,7 @@
     <!-- Blur used for the background of content dialogs -->
     <brushes:CustomAcrylicBrush x:Key="ContentDialogBackgroundBrush"
                                 Mode="InAppBlur"
-                                BlurAmount="18"
+                                BlurAmount="16"
                                 Tint="{StaticResource ShellNavigationBackgroundColor}"
                                 TintMix="0.6"
                                 NoiseTextureUri="/Assets/Misc/lightnoise.png" />
@@ -84,7 +84,7 @@
                                 Mode="HostBackdrop"
                                 BlurAmount="16"
                                 Tint="{StaticResource ShellNavigationBackgroundColor}"
-                                TintMix="0.8"
+                                TintMix="0.6"
                                 NoiseTextureUri="/Assets/Misc/lightnoise.png" />
 
     <brushes:CustomAcrylicBrush x:Key="InAppBackgroundBrush"

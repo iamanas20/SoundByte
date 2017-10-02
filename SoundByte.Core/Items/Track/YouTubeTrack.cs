@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SoundByte.Core.Items.Comment;
+using SoundByte.Core.Items.User;
 using SoundByte.Core.Services;
 
 namespace SoundByte.Core.Items.Track
@@ -124,7 +125,12 @@ namespace SoundByte.Core.Items.Track
                 Title = Snippet.Title,
                 Description = Snippet.Description,
                 Created = DateTime.Parse(Snippet.PublishedAt),
-                Genre = "YouTube"
+                Genre = "YouTube",
+                User = new BaseUser
+                {
+                    Id = Snippet.ChannelId,
+                    Username = Snippet.ChannelTitle
+                }
             };
 
             // Get the correct kind value for the

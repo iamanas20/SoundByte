@@ -92,6 +92,7 @@ namespace SoundByte.UWP
                 {
                     db.Database.Migrate();
                 }
+                System.Diagnostics.Debug.WriteLine("Database Migrated");
             }
             catch
             {
@@ -252,6 +253,7 @@ namespace SoundByte.UWP
             };
 
             SoundByteV3Service.Current.Init(secretList);
+            System.Diagnostics.Debug.WriteLine("V3 Service Setup");
         }
 
         #endregion

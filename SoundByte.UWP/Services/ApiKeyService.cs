@@ -82,6 +82,8 @@ namespace SoundByte.UWP.Services
         {
             _loaded = false;
 
+            System.Diagnostics.Debug.WriteLine("Loading API Keys from file.");
+
             await Task.Run(async () =>
             {
                 var dataFile = await Package.Current.InstalledLocation.GetFileAsync(@"Assets\app_keys.json");

@@ -20,6 +20,7 @@ using Windows.Data.Xml.Dom;
 using Windows.Media;
 using Windows.Media.Core;
 using Windows.Media.Playback;
+using Windows.Media.Streaming.Adaptive;
 using Windows.Storage.Streams;
 using Windows.System;
 using Windows.UI.Notifications;
@@ -619,6 +620,10 @@ namespace SoundByte.UWP.Services
                     case ServiceType.SoundCloud:
                     case ServiceType.SoundCloudV2:
                         var key = await GetCorrectApiKey(track);
+
+                        var ass = await AdaptiveMediaSource.CreateFromUriAsync(new Uri("http://api.soundcloud.com/tracks/" + track.Id + "/stream?client_id=" + key));
+
+
                         args.SetUri(new Uri("http://api.soundcloud.com/tracks/" + track.Id + "/stream?client_id=" + key));
                         break;
                     case ServiceType.YouTube:
@@ -642,6 +647,16 @@ namespace SoundByte.UWP.Services
 
                         track.VideoStreamUrl = wantedQuality;
 
+                        if (track.IsLive)
+                        {
+                            var source = await AdaptiveMediaSource.CreateFromUriAsync(new Uri(video.DashManifestUrl));
+                            if (source.Status == AdaptiveMediaSourceCreationStatus.Success)
+                            {
+                                args.SetAdaptiveMediaSource(source.MediaSource);
+                                break;
+                            }
+                        }
+
                         args.SetUri(new Uri(track.AudioStreamUrl));
                         break;
                     case ServiceType.ITunesPodcast:
@@ -652,9 +667,10 @@ namespace SoundByte.UWP.Services
 
 
             }
-            catch
+            catch (Exception ex)
             {
                 // ignored
+                var i = 0;
             }
 
             App.IsLoading = false;
@@ -701,6 +717,8 @@ namespace SoundByte.UWP.Services
                 return (false,
                     "The playback list was missing or empty. This can be caused if there are not tracks avaliable (for example, you are trying to play your likes, but have not liked anything yet).\n\nAnother reason for this message is that if your playing a track from SoundCloud, SoundCloud has blocked these tracks from being played on 3rd party apps (such as SoundByte).");
 
+            App.SetLoading(true);
+
             // Pause Everything
             Player.Pause();
 
@@ -731,6 +749,7 @@ namespace SoundByte.UWP.Services
             if (isShuffled || startingItem == null)
             {
                 Player.Play();
+                App.SetLoading(false);
                 return (true, string.Empty);
             }
 
@@ -756,6 +775,7 @@ namespace SoundByte.UWP.Services
                     // Begin playing
                     Player.Play();
 
+                    App.SetLoading(false);
                     return (true, string.Empty);
                 }
                 catch (Exception)
@@ -770,6 +790,8 @@ namespace SoundByte.UWP.Services
             {
                 {"track_id", startingItem.Id}
             });
+
+            App.SetLoading(false);
 
             return (false, "SoundByte could not play this track or list of tracks. Try again later.");
         }

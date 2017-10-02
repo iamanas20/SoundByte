@@ -101,35 +101,6 @@ namespace SoundByte.Core.Services
                 if (ServiceSecrets.FirstOrDefault(x => x.Service == secret.Service) != null)
                     throw new Exception("Only one key for each service!");
 
-                // If the user token is not null, we are logged in. This means we
-                // have to grab the user for this service and save it. This logic
-                // also serves as a way of making sure the user token is actually
-                // correct. Methods for getting the current user object are different
-                // for each platform, so we have to do a switch statement.
-                if (secret.UserToken != null)
-                {
-                    try
-                    {
-                        switch (secret.Service)
-                        {
-                            case ServiceType.Fanburst:
-                                secret.CurrentUser = AsyncHelper.RunSync(async () => await GetAsync<FanburstUser>(ServiceType.Fanburst, "/me")).ToBaseUser();
-                                break;
-                            case ServiceType.SoundCloud:
-                            case ServiceType.SoundCloudV2:
-                                secret.CurrentUser = AsyncHelper.RunSync(async () => await GetAsync<SoundCloudUser>(ServiceType.SoundCloud, "/me")).ToBaseUser();
-                                break;
-                            case ServiceType.YouTube:
-                                // Do this later
-                                break;
-                        }
-                    }
-                    catch
-                    {
-                        // ignored
-                    }
-                }
-
                 ServiceSecrets.Add(secret);
             }
 
