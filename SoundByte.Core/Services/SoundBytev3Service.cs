@@ -345,6 +345,10 @@ namespace SoundByte.Core.Services
             if (_isLoaded == false)
                 throw new SoundByteNotLoadedException();
 
+            // Create cancel token if not provided
+            if (cancellationTokenSource == null)
+                cancellationTokenSource = new CancellationTokenSource();
+
             // Strip out the / infront of the endpoint if it exists
             endpoint = endpoint.TrimStart('/');
 
@@ -397,7 +401,7 @@ namespace SoundByte.Core.Services
                         var escapedUri = new Uri(Uri.EscapeUriString(requestUri));
 
                         // Get the URL
-                        using (var webRequest = await client.GetAsync(escapedUri))
+                        using (var webRequest = await client.GetAsync(escapedUri, HttpCompletionOption.ResponseContentRead, cancellationTokenSource.Token))
                         {
                             // This request has to be successful
                             webRequest.EnsureSuccessStatusCode();
@@ -456,6 +460,10 @@ namespace SoundByte.Core.Services
             if (_isLoaded == false)
                 throw new SoundByteNotLoadedException();
 
+            // Create cancel token if not provided
+            if (cancellationTokenSource == null)
+                cancellationTokenSource = new CancellationTokenSource();
+
             // Strip out the '/' in front of the end point (if there is one)
             endpoint = endpoint.TrimStart('/');
 
@@ -493,7 +501,7 @@ namespace SoundByte.Core.Services
                         var httpContent = new StringContent(content, Encoding.UTF8, "application/json");
 
                         // Put the URL
-                        using (var webRequest = await client.PutAsync(escapedUri, httpContent))
+                        using (var webRequest = await client.PutAsync(escapedUri, httpContent, cancellationTokenSource.Token))
                         {
                             // Return if tsuccessful
                             return webRequest.IsSuccessStatusCode;
@@ -534,6 +542,10 @@ namespace SoundByte.Core.Services
         {
             if (_isLoaded == false)
                 throw new SoundByteNotLoadedException();
+
+            // Create cancel token if not provided
+            if (cancellationTokenSource == null)
+                cancellationTokenSource = new CancellationTokenSource();
 
             // Strip out the / infront of the endpoint if it exists
             endpoint = endpoint.TrimStart('/');
@@ -592,7 +604,7 @@ namespace SoundByte.Core.Services
                         var httpContent = new StringContent(content, Encoding.UTF8, "application/json");
 
                         // Post the URL
-                        using (var webRequest = await client.PostAsync(escapedUri, httpContent))
+                        using (var webRequest = await client.PostAsync(escapedUri, httpContent, cancellationTokenSource.Token))
                         {
                             // Throw exception if the request failed
                             if (webRequest.StatusCode != HttpStatusCode.OK)
@@ -649,6 +661,10 @@ namespace SoundByte.Core.Services
             if (_isLoaded == false)
                 throw new SoundByteNotLoadedException();
 
+            // Create cancel token if not provided
+            if (cancellationTokenSource == null)
+                cancellationTokenSource = new CancellationTokenSource();
+
             // Strip out the / infront of the endpoint if it exists
             endpoint = endpoint.TrimStart('/');
 
@@ -693,7 +709,7 @@ namespace SoundByte.Core.Services
                         var escapedUri = new Uri(Uri.EscapeUriString(requestUri));
 
                         // Get the URL
-                        using (var webRequest = await client.DeleteAsync(escapedUri))
+                        using (var webRequest = await client.DeleteAsync(escapedUri, cancellationTokenSource.Token))
                         {
                             // Return if successful
                             return webRequest.StatusCode == HttpStatusCode.OK;
@@ -718,6 +734,10 @@ namespace SoundByte.Core.Services
         {
             if (_isLoaded == false)
                 throw new SoundByteNotLoadedException();
+
+            // Create cancel token if not provided
+            if (cancellationTokenSource == null)
+                cancellationTokenSource = new CancellationTokenSource();
 
             // Strip out the / infront of the endpoint if it exists
             endpoint = endpoint.TrimStart('/');
@@ -762,7 +782,7 @@ namespace SoundByte.Core.Services
                         var escapedUri = new Uri(Uri.EscapeUriString(requestUri));
 
                         // Get the URL
-                        using (var webRequest = await client.GetAsync(escapedUri))
+                        using (var webRequest = await client.GetAsync(escapedUri, HttpCompletionOption.ResponseHeadersRead, cancellationTokenSource.Token))
                         {
                             // Return if the resource exists
                             return webRequest.IsSuccessStatusCode;

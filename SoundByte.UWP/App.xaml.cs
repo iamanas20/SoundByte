@@ -65,7 +65,7 @@ namespace SoundByte.UWP
             if (!SettingsService.Instance.IsDefaultTheme)
                 RequestedTheme = SettingsService.Instance.ThemeType;
 
-            // Registor the dialogs
+            // Register the dialogs
             NavigationService.Current.RegisterTypeAsDialog<CrashDialog>();
             NavigationService.Current.RegisterTypeAsDialog<SearchDialog>();
             NavigationService.Current.RegisterTypeAsDialog<PendingUpdateDialog>();
@@ -397,13 +397,37 @@ namespace SoundByte.UWP
         /// <summary>
         ///     Is anything currently loading
         /// </summary>
+        [Obsolete("Use await SetLoading(value) instead.")]
         public static bool IsLoading
         {
-            set
+            set => SetLoading(value);
+        }
+
+        /// <summary>
+        /// Updates the UI to either show a loading ring or not
+        /// </summary>
+        /// <param name="isLoading">Is the app loading</param>
+        /// <returns>A async task</returns>
+        public static async void SetLoading(bool isLoading)
+        {
+            // Don't run in background
+            if (DeviceHelper.IsBackground)
+                return;
+
+            try
             {
-                if ((Window.Current?.Content as AppShell)?.FindName("LoadingRing") is ProgressBar loadingRing)
-                    loadingRing.Visibility = value ? Visibility.Visible : Visibility.Collapsed;
+                await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
+                {
+                    if ((Window.Current?.Content as AppShell)?.FindName("LoadingRing") is ProgressBar loadingRing)
+                        loadingRing.Visibility = isLoading ? Visibility.Visible : Visibility.Collapsed;
+                });
             }
+            catch
+            { 
+                // This can crash if the UI thread does not exist.
+                // 99.9% of the time, the background switch will prevent
+                // this from happening though.
+            }          
         }
 
         #endregion

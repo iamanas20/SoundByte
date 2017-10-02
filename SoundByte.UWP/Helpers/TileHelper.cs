@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 using Windows.UI.Notifications;
 using Windows.UI.StartScreen;
 using SoundByte.UWP.Dialogs;
+using SoundByte.UWP.Services;
 
 namespace SoundByte.UWP.Helpers
 {
@@ -92,7 +93,7 @@ namespace SoundByte.UWP.Helpers
             if (IsTilePinned(tileId))
                 return false;
 
-            await new PinTileDialog(tileId, tileTitle, tileParam, tileImage).ShowAsync();
+            await NavigationService.Current.CallDialogAsync<PinTileDialog>(tileId, tileTitle, tileParam, tileImage);
             return true;
         }
 

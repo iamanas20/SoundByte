@@ -11,7 +11,6 @@
  */
 
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
 using Microsoft.Toolkit.Uwp.Helpers;
@@ -19,7 +18,6 @@ using Newtonsoft.Json;
 using SoundByte.Core;
 using SoundByte.Core.Exceptions;
 using SoundByte.Core.Items.Track;
-using SoundByte.Core.Items.User;
 using SoundByte.Core.Services;
 
 namespace SoundByte.UWP.Models.Search
@@ -74,28 +72,18 @@ namespace SoundByte.UWP.Models.Search
                     foreach (var item in searchTracks.Items)
                     {
                         if (item.Id.Kind == "youtube#video")
-                        {
-                            // If an item of the same ID has already been added, skip it
-                            if (this.FirstOrDefault(x => x.Id == item.Id.VideoId) != null)
-                                continue;
-
+                        {                          
                             // Loop though all the tracks on the UI thread
                             await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                             {
-                                    // Convert to a base track
-                                    var track = item.ToBaseTrack();
+                                // Convert to a base track
+                                var track = item.ToBaseTrack();
 
-                                track.ArtworkUrl = item.Snippet.Thumbnails.HighSize.Url;
-                                track.User = new BaseUser
-                                {
-                                    Username = item.Snippet.ChannelTitle,
-                                };
+                                // Are we a live stream
+                                track.IsLive = item.Snippet.LiveBroadcastContent != "none";
 
-                                    // Are we a live stream
-                                    track.IsLive = item.Snippet.LiveBroadcastContent != "none";
-
-                                    // Add the track
-                                    Add(track);
+                                // Add the track
+                                Add(track);
                             });
                         }
                     }

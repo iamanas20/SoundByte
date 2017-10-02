@@ -66,7 +66,7 @@ namespace SoundByte.UWP.Helpers
             }
             catch (Exception ex)
             {
-                TelemetryService.Instance.TrackException(ex);
+                TelemetryService.Instance.TrackException(ex, false);
                 return null;
             }
         }

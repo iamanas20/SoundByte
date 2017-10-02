@@ -205,7 +205,7 @@
                     
                     <Grid Width="160" Height="160" Background="DimGray" />
 
-                    <Image Source="{x:Bind Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
+                    <controls:ImageEx Source="{x:Bind Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
                            VerticalAlignment="Stretch"
                            HorizontalAlignment="Stretch"
                            IsHitTestVisible="False"

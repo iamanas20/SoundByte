@@ -58,7 +58,7 @@ namespace SoundByte.UWP.UserControls
         private void TextAdded(object sender, KeyRoutedEventArgs e)
         {
             // Check if enter key
-            if (e.Key == VirtualKey.Enter || e.Key == VirtualKey.GamepadMenu)
+            if (e.Key == VirtualKey.GamepadMenu)
                 SearchBoxSubmitted();
         }
 

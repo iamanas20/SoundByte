@@ -14,6 +14,7 @@ using System;
 using Windows.ApplicationModel.Resources;
 using Windows.Storage;
 using Windows.UI.Notifications;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Microsoft.EntityFrameworkCore;
@@ -30,29 +31,17 @@ namespace SoundByte.UWP.ViewModels
 
         public async void ClearAppCache()
         {
-            // Create a message dialog
-            var dialog = new ContentDialog
-            {
-                Title = "Clear Application Cache?",
-                Content = new TextBlock
-                {
-                    Text =
-                        "Warning: Clearing Application cache will delete the following things:\n• Cached Images.\n• Jumplist Items.\n• Pinned Live Tiles.\n• Local Playback History.\n\n To Continue press 'Clear Cache', this may take a while.",
-                    TextWrapping = TextWrapping.Wrap
-                },
-                PrimaryButtonText = "Clear Cache",
-                SecondaryButtonText = "Cancel",
-                IsPrimaryButtonEnabled = true,
-                IsSecondaryButtonEnabled = true
-            };
+            var dialog = new MessageDialog(
+                "Warning: Clearing Application cache will delete the following things:\n• Cached Images.\n• Jumplist Items.\n• Pinned Live Tiles.\n• Local Playback History.\n\n To Continue press 'Clear Cache', this may take a while."
+                , "Clear Application Cache?");
+            dialog.Commands.Add(new UICommand("Clear Cache", null, 0));
+            dialog.Commands.Add(new UICommand("Cancel", null, 1));
 
             var response = await dialog.ShowAsync();
 
-            if (response != ContentDialogResult.Primary)
+            if ((int)response.Id == 1)
                 return;
 
-            // Clear all jumplist items
-            await JumplistHelper.RemoveAllAsync();
             // Clear all the live tiles
             await TileHelper.RemoveAllTilesAsync();
             // Remove all cached images from the app

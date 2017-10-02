@@ -109,12 +109,15 @@ namespace SoundByte.UWP.Services
             }
         }
 
-        public void TrackException(Exception exception)
+        public void TrackException(Exception exception, bool isFatal)
         {
             try
             {
-                HockeyClient.Current.TrackException(exception);
-                GoogleAnalyticsClient.Send(HitBuilder.CreateException(exception.Message, false).Build());
+                HockeyClient.Current.TrackException(exception, new Dictionary<string, string>
+                {
+                    { "IsFatal", isFatal.ToString() }
+                });
+                GoogleAnalyticsClient.Send(HitBuilder.CreateException(exception.Message, isFatal).Build());
             }
             catch
             {

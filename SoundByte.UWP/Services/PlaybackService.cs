@@ -309,7 +309,8 @@ namespace SoundByte.UWP.Services
             // Create the new playback list (with autorepeat enabled)
             _playbackList = new MediaPlaybackList
             {
-                AutoRepeatEnabled = true
+                AutoRepeatEnabled = true,
+                MaxPlayedItemsToKeepOpen = 20
             };
 
             // Subscribe to the item change event
@@ -546,37 +547,21 @@ namespace SoundByte.UWP.Services
 
                 // Set the maximum value
                 MaxTimeValue = Player.PlaybackSession.NaturalDuration.TotalSeconds;
-            }
-
-               
+            }  
         }
         #endregion
 
-        public MediaPlaybackItem CreateMediaPlaybackItem(BaseTrack track, string soundCloudApiKey)
+        public MediaPlaybackItem CreateMediaPlaybackItem(BaseTrack track)
         {
             try
             {
-                MediaSource source;
-
-                switch (track.ServiceType)
+                var binder = new MediaBinder
                 {
-                    case ServiceType.SoundCloud:
-                        source = MediaSource.CreateFromUri(new Uri("http://api.soundcloud.com/tracks/" + track.Id + "/stream?client_id=" + soundCloudApiKey));
-                        break;
-                    case ServiceType.Fanburst:
-                        source = MediaSource.CreateFromUri(new Uri("https://api.fanburst.com/tracks/" + track.Id + "/stream?client_id=" + ApiKeyService.FanburstClientId));
-                        break;
-                    case ServiceType.YouTube:
-                        var binder = new MediaBinder
-                        {
-                            Token = track.Id
-                        };
-                        binder.Binding += Binder_Binding;
-                        source = MediaSource.CreateFromMediaBinder(binder);
-                        break;
-                    default:
-                        throw new Exception("Unknown Track Type: " + track.ServiceType);
-                }
+                    Token = track.Id
+                };
+                binder.Binding += Binder_Binding;
+
+                var source = MediaSource.CreateFromMediaBinder(binder);
 
                 // So we can access the item later
                 source.CustomProperties["SoundByteItem.ID"] = track.Id;
@@ -626,31 +611,50 @@ namespace SoundByte.UWP.Services
 
             try
             {
-                var video = await new YoutubeClient().GetVideoInfoAsync(track.Id);
+                switch (track.ServiceType)
+                {
+                    case ServiceType.Fanburst:
+                        args.SetUri(new Uri("https://api.fanburst.com/tracks/" + track.Id + "/stream?client_id=" + ApiKeyService.FanburstClientId));
+                        break;
+                    case ServiceType.SoundCloud:
+                    case ServiceType.SoundCloudV2:
+                        var key = await GetCorrectApiKey(track);
+                        args.SetUri(new Uri("http://api.soundcloud.com/tracks/" + track.Id + "/stream?client_id=" + key));
+                        break;
+                    case ServiceType.YouTube:
+                        var video = await new YoutubeClient().GetVideoInfoAsync(track.Id);
 
-                // Add missing details
-                track.Duration = video.Duration;
-                track.ViewCount = video.ViewCount;
-                track.ArtworkUrl = video.ImageHighResUrl;
-                track.AudioStreamUrl =
-                    video.AudioStreams.OrderBy(q => q.AudioEncoding).Last()?.Url;
+                        // Add missing details
+                        track.Duration = video.Duration;
+                        track.ViewCount = video.ViewCount;
+                        track.ArtworkUrl = video.ImageHighResUrl;
+                        track.AudioStreamUrl =
+                            video.AudioStreams.OrderBy(q => q.AudioEncoding).Last()?.Url;
 
-                // 720p is max quality we want
-                var wantedQuality =
-                    video.VideoStreams
-                        .FirstOrDefault(x => x.VideoQuality == VideoQuality.High720)?.Url;
+                        // 720p is max quality we want
+                        var wantedQuality =
+                            video.VideoStreams
+                                .FirstOrDefault(x => x.VideoQuality == VideoQuality.High720)?.Url;
 
-                // If quality is not there, just get the highest (480p for example).
-                if (string.IsNullOrEmpty(wantedQuality))
-                    wantedQuality = video.VideoStreams.OrderBy(s => s.VideoQuality).Last()?.Url;
+                        // If quality is not there, just get the highest (480p for example).
+                        if (string.IsNullOrEmpty(wantedQuality))
+                            wantedQuality = video.VideoStreams.OrderBy(s => s.VideoQuality).Last()?.Url;
 
-                track.VideoStreamUrl = wantedQuality;
+                        track.VideoStreamUrl = wantedQuality;
 
-                args.SetUri(new Uri(track.AudioStreamUrl));
+                        args.SetUri(new Uri(track.AudioStreamUrl));
+                        break;
+                    case ServiceType.ITunesPodcast:
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+
+
             }
-            catch (Exception)
+            catch
             {
-                // YouTube Red video, don't do anything
+                // ignored
             }
 
             App.IsLoading = false;
@@ -704,23 +708,17 @@ namespace SoundByte.UWP.Services
             _playbackList.Items.Clear();
 
             // Set the model
+            Playlist = null;
             Playlist = model;
+            Playlist.OnMoreItemsLoaded += PlaylistOnOnMoreItemsLoaded;
 
             // Set the shuffle
             _playbackList.ShuffleEnabled = isShuffled;
 
-            // The soundcloud API key
-            var soundCloudApiKey = string.Empty;
-
-            // If the playlist contains any soundcloud tracks, we need to 
-            // grab the appropiate client ID.
-            if (model.Any(x => x.ServiceType == ServiceType.SoundCloud))
-                soundCloudApiKey = await GetCorrectApiKey();
-
             // Loop through all the tracks
             foreach (var track in model)
             {
-                var mediaPlaybackItem = CreateMediaPlaybackItem(track, soundCloudApiKey);
+                var mediaPlaybackItem = CreateMediaPlaybackItem(track);
 
                 if (mediaPlaybackItem != null)
                     _playbackList.Items.Add(mediaPlaybackItem);
@@ -775,6 +773,19 @@ namespace SoundByte.UWP.Services
 
             return (false, "SoundByte could not play this track or list of tracks. Try again later.");
         }
+
+        private void PlaylistOnOnMoreItemsLoaded(IEnumerable<BaseTrack> newItems)
+        {
+            // Loop through all the tracks
+            foreach (var track in newItems)
+            {
+                var mediaPlaybackItem = CreateMediaPlaybackItem(track);
+
+                if (mediaPlaybackItem != null)
+                    _playbackList.Items.Add(mediaPlaybackItem);
+            }
+        }
+
         #endregion
 
         #region General Event Handlers
@@ -832,8 +843,6 @@ namespace SoundByte.UWP.Services
             // If the track does not exist, do nothing
             if (track == null)
                 return;
-
-            Player.RealTimePlayback = track.IsLive;
 
             // Run all this on the UI thread
             await DispatcherHelper.ExecuteOnUIThreadAsync(async () =>
@@ -981,7 +990,7 @@ namespace SoundByte.UWP.Services
                 return false;
             }
         }
-        private static async Task<string> GetCorrectApiKey()
+        private static async Task<string> GetCorrectApiKey(BaseTrack track)
         {
             return await Task.Run(async () =>
             {
@@ -1065,7 +1074,7 @@ namespace SoundByte.UWP.Services
             }
             catch (Exception ex)
             {
-                TelemetryService.Instance.TrackException(ex);
+                TelemetryService.Instance.TrackException(ex, false);
 #if  DEBUG
                 throw;
 #endif

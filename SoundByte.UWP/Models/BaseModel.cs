@@ -11,13 +11,16 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.UI.Xaml.Data;
 using Microsoft.Toolkit.Uwp.Helpers;
+using SoundByte.Core.Services;
 
 namespace SoundByte.UWP.Models
 {
@@ -27,6 +30,10 @@ namespace SoundByte.UWP.Models
     /// <typeparam name="T"></typeparam>
     public class BaseModel<T> : ObservableCollection<T>, ISupportIncrementalLoading
     {
+        public delegate void MoreItemsLoadedEventHandler(IEnumerable<T> newItems);
+        public event MoreItemsLoadedEventHandler OnMoreItemsLoaded;
+
+
         #region UI Bindings
         /// <summary>
         /// Is this model currently loading new items
@@ -118,7 +125,12 @@ namespace SoundByte.UWP.Models
                     IsLoading = true;
                 });
 
+                var previousItems = this.ToList();
                 var addedCount = await LoadMoreItemsAsync((int) count);
+                var allItems = this.ToList();
+
+                var newItems = allItems.Except(previousItems);
+                OnMoreItemsLoaded?.Invoke(newItems);
 
                 await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                 {

@@ -15,6 +15,7 @@ using System.IO;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.System;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -159,19 +160,7 @@ namespace SoundByte.UWP.Views.Application
             }
 
 
-            var restartDialog = new ContentDialog
-            {
-                Title = "App Restart",
-                Content = new TextBlock
-                {
-                    TextWrapping = TextWrapping.Wrap,
-                    Text = "The app needs to be restarted in order for the changes to correctly take effect."
-                },
-                IsPrimaryButtonEnabled = true,
-                PrimaryButtonText = "Close"
-            };
-
-            await restartDialog.ShowAsync();
+            await new MessageDialog("The app needs to be restarted in order for the changes to correctly take effect.", "App Restart").ShowAsync();
         }
     }
 }

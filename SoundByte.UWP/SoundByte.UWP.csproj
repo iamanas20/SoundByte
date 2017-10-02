@@ -188,7 +188,6 @@
     <Compile Include="Helpers\CrashHelper.cs" />
     <Compile Include="Helpers\DeviceHelper.cs" />
     <Compile Include="Helpers\ImageHelper.cs" />
-    <Compile Include="Helpers\JumplistHelper.cs" />
     <Compile Include="Helpers\NetworkHelper.cs" />
     <Compile Include="Helpers\NumberFormatHelper.cs" />
     <Compile Include="Helpers\TextHelper.cs" />
@@ -510,13 +509,13 @@
       <Version>2.2.2</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Azure.Mobile.Analytics">
-      <Version>0.15.0</Version>
+      <Version>0.15.2</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Azure.Mobile.Client">
       <Version>4.0.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Azure.Mobile.Push">
-      <Version>0.15.0</Version>
+      <Version>0.15.2</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite">
       <Version>1.1.2</Version>

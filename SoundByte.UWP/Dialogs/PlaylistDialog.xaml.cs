@@ -14,18 +14,15 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Net.Http;
-using Windows.Storage.Streams;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
-using Windows.Web.Http;
 using SoundByte.Core;
+using SoundByte.Core.Exceptions;
 using SoundByte.Core.Items.Playlist;
 using SoundByte.Core.Items.Track;
 using SoundByte.Core.Services;
-using SoundByte.UWP.Services;
 
 namespace SoundByte.UWP.Dialogs
 {
@@ -166,29 +163,39 @@ namespace SoundByte.UWP.Dialogs
 
             _blockItemsLoading = true;
 
-            // Get a list of the user playlists
-            var userPlaylists =
-                await SoundByteV3Service.Current.GetAsync<List<SoundCloudPlaylist>>(ServiceType.SoundCloud, "/me/playlists");
-
-            Playlist.Clear();
-
-            // Loop though all the playlists
-            foreach (var scPlaylist in userPlaylists)
+            try
             {
-                var playlist = scPlaylist.ToBasePlaylist();
+                // Get a list of the user playlists
+                var userPlaylists =
+                    await SoundByteV3Service.Current.GetAsync<List<SoundCloudPlaylist>>(ServiceType.SoundCloud,
+                        "/me/playlists");
 
-                _blockItemsLoading = true;
-                // Check if the track in in the playlist
-                playlist.IsTrackInInternalSet = playlist.Tracks?.FirstOrDefault(x => x.Id == Track.Id) != null;
-                // Add the track to the UI
-                Playlist.Add(playlist);
-                _blockItemsLoading = false;
+                Playlist.Clear();
+
+                // Loop though all the playlists
+                foreach (var scPlaylist in userPlaylists)
+                {
+                    var playlist = scPlaylist.ToBasePlaylist();
+
+                    _blockItemsLoading = true;
+                    // Check if the track in in the playlist
+                    playlist.IsTrackInInternalSet = playlist.Tracks?.FirstOrDefault(x => x.Id == Track.Id) != null;
+                    // Add the track to the UI
+                    Playlist.Add(playlist);
+                    _blockItemsLoading = false;
+                }
             }
+            catch (SoundByteException ex)
+            {
+                await new MessageDialog(ex.ErrorDescription, ex.ErrorTitle).ShowAsync();
+            }
+            finally
+            {
+                _blockItemsLoading = false;
 
-            _blockItemsLoading = false;
-
-            // We are done loading content
-            LoadingRing.Visibility = Visibility.Collapsed;
+                // We are done loading content
+                LoadingRing.Visibility = Visibility.Collapsed;
+            }        
         }
 
         /// <summary>

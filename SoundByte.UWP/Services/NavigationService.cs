@@ -44,14 +44,21 @@ namespace SoundByte.UWP.Services
             _registeredDialogs.Add(altName, typeof(T));
         }
 
-        public async Task CallDialogAsync<T>(object[] param = null)
+        public async Task CallDialogAsync<T>(params object[] param)
         {
             var dialogType = _registeredDialogs.FirstOrDefault(x => x.Value == typeof(T)).Value;
 
             if (dialogType != null)
             {
                 var instance = Activator.CreateInstance(dialogType, param);
-                await ((ContentDialog)instance).ShowAsync();
+                try
+                {
+                    await ((ContentDialog)instance).ShowAsync();
+                }
+                catch (Exception)
+                {
+                    // Crashes if another dialog is open
+                }
             }
         }
 
@@ -62,7 +69,14 @@ namespace SoundByte.UWP.Services
             if (dialogType != null)
             {
                 var instance = Activator.CreateInstance(dialogType, param);
-                await ((ContentDialog) instance).ShowAsync();
+                try
+                {
+                    await ((ContentDialog) instance).ShowAsync();
+                }
+                catch (Exception)
+                {
+                    // Crashes if another dialog is open
+                }
             }
         }
 

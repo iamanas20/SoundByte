@@ -266,7 +266,7 @@ namespace SoundByte.UWP.ViewModels
         /// </summary>
         public async void DisplayPlaylist()
         {
-            await new PlaylistDialog(Service.CurrentTrack).ShowAsync();
+            await NavigationService.Current.CallDialogAsync<PlaylistDialog>(Service.CurrentTrack);
         }
 
         /// <summary>
@@ -417,7 +417,7 @@ namespace SoundByte.UWP.ViewModels
 
         public async void ShareTrack()
         {
-            await new ShareDialog(Service.CurrentTrack).ShowAsync();
+            await NavigationService.Current.CallDialogAsync<ShareDialog>(Service.CurrentTrack);
         }
 
         /// <summary>

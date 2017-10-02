@@ -16,6 +16,7 @@ using SoundByte.Core.Items.Playlist;
 using SoundByte.Core.Items.Track;
 using SoundByte.UWP.Dialogs;
 using SoundByte.UWP.Helpers;
+using SoundByte.UWP.Services;
 
 namespace SoundByte.UWP.UserControls
 {
@@ -58,12 +59,12 @@ namespace SoundByte.UWP.UserControls
 
         public async void ShareTrack()
         {
-            await new ShareDialog(Track.ToBaseTrack()).ShowAsync();
+            await NavigationService.Current.CallDialogAsync<ShareDialog>(Track.ToBaseTrack());
         }
 
         public async void AddTrackToPlaylist()
         {
-            await new PlaylistDialog(Track.ToBaseTrack()).ShowAsync();
+            await NavigationService.Current.CallDialogAsync<PlaylistDialog>(Track.ToBaseTrack());
         }
 
         #region Variables

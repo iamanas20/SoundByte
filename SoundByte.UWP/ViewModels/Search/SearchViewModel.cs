@@ -61,14 +61,23 @@ namespace SoundByte.UWP.ViewModels.Search
                 {
                     _searchQuery = value;
                     UpdateProperty();
-                }
 
-                // Update the models
-                SearchTracks.Query = value;
-                SearchPlaylists.Query = value;
-                SearchUsers.Query = value;
-                FanburstTracks.Query = value;
-                YouTubeTracks.Query = value;
+                    // Update the models
+                    SearchTracks.Query = value;
+                    SearchTracks.RefreshItems();
+
+                    SearchPlaylists.Query = value;
+                    SearchPlaylists.RefreshItems();
+
+                    SearchUsers.Query = value;
+                    SearchUsers.RefreshItems();
+
+                    FanburstTracks.Query = value;
+                    FanburstTracks.RefreshItems();
+
+                    YouTubeTracks.Query = value;
+                    YouTubeTracks.RefreshItems();
+                }
             }
         }
         #endregion
@@ -150,12 +159,12 @@ namespace SoundByte.UWP.ViewModels.Search
 
         public async void NavigateSoundCloudPlaylists()
         {
-            await new MessageDialog("This feature is coming in the next few days. Please wait.", "Coming Soon...").ShowAsync();
+            await new MessageDialog("This feature is coming soon. Please wait.", "Coming Soon...").ShowAsync();
         }
 
         public async void NavigateSoundCloudUsers()
         {
-            await new MessageDialog("This feature is coming in the next few days. Please wait.", "Coming Soon...").ShowAsync();
+            await new MessageDialog("This feature is coming soon. Please wait.", "Coming Soon...").ShowAsync();
         }
 
         public void NavigateYouTubeTracks()
@@ -170,7 +179,7 @@ namespace SoundByte.UWP.ViewModels.Search
 
         public async void NavigatePodcasts()
         {
-            await new MessageDialog("This feature will come in a future update", "Coming Soon..").ShowAsync();
+            await new MessageDialog("This feature will come in a future update.", "Coming Soon..").ShowAsync();
         }
         #endregion
     }

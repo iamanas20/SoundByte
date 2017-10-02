@@ -51,15 +51,17 @@ namespace SoundByte.UWP.Helpers
 
         private static async Task HandleAppCrashAsync(Exception ex)
         {
-            // Track the error
-            TelemetryService.Instance.TrackException(ex);
+            TelemetryService.Instance.TrackException(ex, true);
 
             try
             {
                 if (!DeviceHelper.IsBackground)
                 {
                     await DispatcherHelper.ExecuteOnUIThreadAsync(
-                        async () => { await new CrashDialog(ex).ShowAsync(); });
+                        async () =>
+                        {
+                            await NavigationService.Current.CallDialogAsync<CrashDialog>(ex);
+                        });
                 }      
             }
             catch
