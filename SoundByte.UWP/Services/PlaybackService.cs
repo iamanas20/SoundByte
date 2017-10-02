@@ -649,9 +649,10 @@ namespace SoundByte.UWP.Services
 
                         if (track.IsLive)
                         {
-                            var source = await AdaptiveMediaSource.CreateFromUriAsync(new Uri(video.DashManifestUrl));
+                            var source = await AdaptiveMediaSource.CreateFromUriAsync(new Uri(video.AdaptiveLiveStreamUrl));
                             if (source.Status == AdaptiveMediaSourceCreationStatus.Success)
                             {
+                                track.VideoStreamUrl = video.AdaptiveLiveStreamUrl;
                                 args.SetAdaptiveMediaSource(source.MediaSource);
                                 break;
                             }
@@ -960,7 +961,7 @@ namespace SoundByte.UWP.Services
             TelemetryService.Instance.TrackEvent("Current Song Changed", new Dictionary<string, string>
             {
                 { "CurrentUsage", MemoryManager.AppMemoryUsage / 1024 / 1024 + "M" },
-                { "TrackType", CurrentTrack?.ServiceType.ToString() ?? "Null" },
+                { "TrackType", track?.ServiceType.ToString() ?? "Null" },
                 { "IsSoundCloudConnected", SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud).ToString() },
                 { "IsFanburstConnected", SoundByteV3Service.Current.IsServiceConnected(ServiceType.Fanburst).ToString() },
                 { "IsYouTubeConnected", SoundByteV3Service.Current.IsServiceConnected(ServiceType.YouTube).ToString() }
@@ -974,6 +975,12 @@ namespace SoundByte.UWP.Services
         public async void PlayingSliderChange()
         {
             if (DeviceHelper.IsBackground)
+                return;
+
+            if (CurrentTrack == null)
+                return;
+
+            if (CurrentTrack.IsLive)
                 return;
 
             // Set the track position

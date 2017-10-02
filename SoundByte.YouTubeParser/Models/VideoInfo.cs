@@ -48,13 +48,13 @@ namespace SoundByte.YouTubeParser.Models
         /// <summary>
         /// The URL of the dash manifest (if exist, used for adaptive live streams)
         /// </summary>
-        public string DashManifestUrl { get; set; }
+        public string AdaptiveLiveStreamUrl { get; set; }
 
         /// <inheritdoc />
         public VideoInfo(string id, string title, TimeSpan duration,
             IEnumerable<string> keywords, IEnumerable<string> watermarks, long viewCount, 
             bool isListed, bool isRatingAllowed, bool isMuted, bool isEmbeddingAllowed, IEnumerable<AudioStreamInfo> audioStreams,
-            IEnumerable<VideoStreamInfo> videoStreams, string dashManifestUrl)
+            IEnumerable<VideoStreamInfo> videoStreams, string adaptiveLiveStreamUrl)
             : base(id, title, duration, keywords, viewCount)
         {
             Watermarks = watermarks?.ToArray() ?? throw new ArgumentNullException(nameof(watermarks));
@@ -64,7 +64,7 @@ namespace SoundByte.YouTubeParser.Models
             IsEmbeddingAllowed = isEmbeddingAllowed;
             AudioStreams = audioStreams?.ToArray() ?? throw new ArgumentNullException(nameof(audioStreams));
             VideoStreams = videoStreams?.ToArray() ?? throw new ArgumentNullException(nameof(videoStreams));
-            DashManifestUrl = dashManifestUrl;
+            AdaptiveLiveStreamUrl = adaptiveLiveStreamUrl;
         }
     }
 }
