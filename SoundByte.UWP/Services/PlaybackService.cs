@@ -606,15 +606,15 @@ namespace SoundByte.UWP.Services
             // We are performing
             var defferal = args.GetDeferral();
 
-            var track = Playlist.FirstOrDefault(x => x.Id == args.MediaBinder.Token);
-
-            if (track == null)
-                return;
-
-            App.IsLoading = true;
+            App.SetLoading(true);
 
             try
             {
+                var track = Playlist.FirstOrDefault(x => x.Id == args.MediaBinder.Token);
+
+                if (track == null)
+                    return;
+
                 switch (track.ServiceType)
                 {
                     case ServiceType.Fanburst:
@@ -671,13 +671,12 @@ namespace SoundByte.UWP.Services
 
 
             }
-            catch (Exception ex)
+            catch
             {
                 // ignored
-                var i = 0;
             }
 
-            App.IsLoading = false;
+            App.SetLoading(false);
 
             defferal.Complete();
         }

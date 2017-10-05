@@ -121,7 +121,7 @@ namespace SoundByte.Core.Items.Track
                 ServiceType = ServiceType.YouTube,
                 Id = Id.VideoId,
                 Link = $"https://www.youtube.com/watch?v={Id.VideoId}",
-                ArtworkUrl = Snippet.Thumbnails.DefaultSize.Url,
+                ArtworkUrl = Snippet.Thumbnails.HighSize.Url,
                 Title = Snippet.Title,
                 Description = Snippet.Description,
                 Created = DateTime.Parse(Snippet.PublishedAt),

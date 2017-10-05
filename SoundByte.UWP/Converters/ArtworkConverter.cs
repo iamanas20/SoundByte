@@ -13,6 +13,7 @@
 using System;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media.Imaging;
+using SoundByte.Core;
 using SoundByte.Core.Items.Playlist;
 using SoundByte.Core.Items.Track;
 using SoundByte.Core.Items.User;
@@ -44,7 +45,6 @@ namespace SoundByte.UWP.Converters
             if (string.IsNullOrEmpty(source)) return null;
 
             var image = new BitmapImage {UriSource = new Uri(source)};
-
             return image;
         }
 

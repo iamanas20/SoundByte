@@ -215,12 +215,6 @@ namespace SoundByte.UWP
             // Clear the unread badge
             BadgeUpdateManager.CreateBadgeUpdaterForApplication().Clear();
 
-            // R.I.P mobile users, R.I.P Windows Phone, I'll miss ya! </3 
-            if (DeviceHelper.IsMobile)
-            {
-                await new MessageDialog("SoundByte for Windows Phone is no longer supported.\nWindows Phone will always stay in a special place in my heart - it was the platform that started my journey of app development (with the Lumia 520 being the first phone I bought with my own money). But it's time to say goodbye, I now have too many other projects to work on along side Schools/Exams. I can no longer invest time into mobile support.\n\nYou can continue using the app if you would like (I will improve the mobile layout every now and again - but don't expect top priority support).\n\nIf you are a developer and would like to help make SoundByte on mobile, contact me at dominic.maas@live.com.", "Not Supported </3").ShowAsync();
-            }
-
             // The methods below are sorted into try catch groups. many of them can fail, but they are not important
             try
             {
@@ -387,18 +381,13 @@ namespace SoundByte.UWP
                     App.IsLoading = true;
                     if (section == "core")
                     {
-                        var service = parser["service"];
-
-                        if (string.IsNullOrEmpty(service))
-                            service = "soundcloud";
-
                         switch (page)
                         {
                             case "track":
 
                                 BaseTrack track = null;
 
-                                switch (service)
+                                switch (parser["service"])
                                 {
                                     case "soundcloud":
                                         track = (await SoundByteV3Service.Current.GetAsync<SoundCloudTrack>(ServiceType.SoundCloud, $"/tracks/{parser["id"]}")).ToBaseTrack();
