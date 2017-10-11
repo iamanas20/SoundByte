@@ -88,7 +88,11 @@ namespace SoundByte.UWP.UserControls
 
         private void SoundByteItem_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
         {
-            switch(ItemType)
+            UnloadObject((Grid)FindName("DesktopPlaylistItem"));
+            UnloadObject((Grid)FindName("DesktopTrackItem"));
+            UnloadObject((Grid)FindName("DesktopUserItem"));
+
+            switch (ItemType)
             {
                 case ItemType.Playlist:
                     // Generate and show the desktop playlist item
@@ -99,6 +103,8 @@ namespace SoundByte.UWP.UserControls
                     ((Grid)FindName("DesktopTrackItem")).Visibility = Visibility.Visible;
                     break;
                 case ItemType.User:
+                    // Generate and show the desktop user item
+                    ((Grid)FindName("DesktopUserItem")).Visibility = Visibility.Visible;
                     break;
             }
         }

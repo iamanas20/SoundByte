@@ -819,8 +819,8 @@ namespace SoundByte.UWP.Services
         /// </summary>
         private async void PlaybackSessionStateChanged(MediaPlaybackSession sender, object args)
         {
-            // Don't run in the background
-            if (DeviceHelper.IsBackground)
+            // Don't run in the background if on Xbox
+            if (DeviceHelper.IsBackground && DeviceHelper.IsXbox)
                 return;
 
             await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
@@ -830,24 +830,25 @@ namespace SoundByte.UWP.Services
                 switch (sender.PlaybackState)
                 {
                     case MediaPlaybackState.Playing:
-                        App.IsLoading = false;
+                        App.SetLoading(false);
                         PlayButtonContent = "\uE769";
                         overlay?.Play();
                         break;
                     case MediaPlaybackState.Buffering:
-                        App.IsLoading = true;
+                    case MediaPlaybackState.Opening:
+                        App.SetLoading(true);
                         break;
                     case MediaPlaybackState.None:
-                        App.IsLoading = false;
+                        App.SetLoading(false);
                         PlayButtonContent = "\uE768";
                         break;
                     case MediaPlaybackState.Paused:
-                        App.IsLoading = false;
+                        App.SetLoading(false);
                         PlayButtonContent = "\uE768";
                         overlay?.Pause();
                         break;
                     default:
-                        App.IsLoading = false;
+                        App.SetLoading(false);
                         PlayButtonContent = "\uE768";
                         overlay?.Play();
                         break;

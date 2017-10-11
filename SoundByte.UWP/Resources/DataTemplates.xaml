@@ -108,47 +108,8 @@
 
     <!-- User Item -->
     <DataTemplate x:Key="UserItem" x:DataType="user:BaseUser">
-        <StackPanel Height="245"
-                    Width="170"
-                    Margin="5"
-                    Orientation="Vertical">
-            <controls:DropShadowPanel VerticalAlignment="Top"
-                                      HorizontalAlignment="Center"
-                                      BlurRadius="25"
-                                      ShadowOpacity="0.6"
-                                      OffsetX="0"
-                                      OffsetY="5"
-                                      IsTabStop="False"
-                                      IsHitTestVisible="False"
-                                      Margin="5,5,5,8"
-                                      Color="Black">
-                <Ellipse VerticalAlignment="Stretch"
-                         HorizontalAlignment="Stretch"
-                         IsHitTestVisible="False"
-                         Width="160"
-                         Height="160"
-                         Stretch="Uniform">
-                    <Ellipse.Fill>
-                        <ImageBrush ImageSource="{x:Bind Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
-                                    Stretch="Uniform" />
-                    </Ellipse.Fill>
-                </Ellipse>
-            </controls:DropShadowPanel>
-            <TextBlock Text="{x:Bind Username, Mode=OneWay}" 
-                       x:Phase="3"
-                       Margin="0,10,0,2" 
-                       TextAlignment="Center" 
-                       FontSize="15"
-                       TextWrapping="Wrap" 
-                       MaxHeight="50" 
-                       TextTrimming="CharacterEllipsis" />
-            <TextBlock Text="{x:Bind Country, Mode=OneWay}" 
-                       FontSize="13" 
-                       x:Phase="3"
-                       Opacity="0.6" 
-                       TextAlignment="Center"
-                       FontWeight="SemiBold" />
-        </StackPanel>
+        <usercontrols:SoundByteItem ItemType="User" 
+                                    User="{x:Bind}"/>
     </DataTemplate>
 
     <!-- Clean hyperlinks without underline -->
