@@ -27,6 +27,7 @@ SoundByte is split into four  projects. `SoundByte.Android`, `SoundByte.Core`, `
 |Project Name|Platform|Description|
 |--|--|--|
 |`SoundByte.Android`|Xamarin Native (Android)|WIP Xamarin Native app for Android phones|
+|`SoundByte.MacOS`|Xamarin Native (macOS)|WIP Xamarin Native app for macOS|
 |`SoundByte.Core`|.NET Standard v1.4|Core logic used by all projects within SoundByte|
 |`SoundByte.Service`|ASP.NET Azure Mobile Service|Used for remote login. Will allow for user account creation in future|
 |`SoundByte.UWP`|UWP 10.0 - Creators Update|Windows 10 UWP App (Windows 10/Xbox One)|
