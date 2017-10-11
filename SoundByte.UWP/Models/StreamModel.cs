@@ -33,7 +33,7 @@ namespace SoundByte.UWP.Models
     /// <summary>
     ///     Model for the users stream
     /// </summary>
-    public class StreamModel : ObservableCollection<StreamModel.StreamItem>, ISupportIncrementalLoading
+    public class StreamModel : ObservableCollection<GroupedItem>, ISupportIncrementalLoading
     {
         /// <summary>
         ///     The position of the track, will be 'eol'
@@ -98,7 +98,30 @@ namespace SoundByte.UWP.Models
                             // Loop though all the tracks on the UI thread
                             await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                             {
-                                streamTracks.Items.ForEach(Add);
+                                foreach (var item in streamTracks.Items)
+                                {
+                                    var type = ItemType.Track;
+
+                                    switch(item.Type)
+                                    {
+                                        case "track-repost":
+                                        case "track":
+                                            type = ItemType.Track;
+                                            break;
+                                        case "playlist-repost":
+                                        case "playlist":
+                                            type = ItemType.Playlist;
+                                            break;
+                                    }                          
+
+                                    Add(new GroupedItem
+                                    {
+                                        Type = type,
+                                        Track = item.Track?.ToBaseTrack(),
+                                        Playlist = item.Playlist?.ToBasePlaylist(),
+                                        User = item.User?.ToBaseUser()
+                                    });
+                                }
                             });
                         }
                         else
@@ -171,7 +194,7 @@ namespace SoundByte.UWP.Models
             Clear();
         }
 
-        public class StreamTrackHolder
+        private class StreamTrackHolder
         {
             /// <summary>
             ///     List of stream items
@@ -190,7 +213,7 @@ namespace SoundByte.UWP.Models
         ///     A stream collection containing all items that may be on the users stream
         /// </summary>
         [JsonObject]
-        public class StreamItem
+        private class StreamItem
         {
             /// <summary>
             ///     Track detail

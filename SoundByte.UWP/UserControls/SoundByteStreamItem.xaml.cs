@@ -48,7 +48,6 @@ namespace SoundByte.UWP.UserControls
                     case "playlist":
                         VisualStateManager.GoToState(this, "PlaylistItem", false);
 
-
                         if (DeviceHelper.IsXbox || DeviceHelper.IsMobile)
                             PlaylistExtendedDetailPane.Visibility = Visibility.Collapsed;
 

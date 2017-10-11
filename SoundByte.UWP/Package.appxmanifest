@@ -1,10 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" 
-         xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" 
-         xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" 
-         xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3" 
-         IgnorableNamespaces="uap uap3 mp">
-  
+<Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3" IgnorableNamespaces="uap uap3 mp">
   <Identity Name="18565GridEntertainment.SoundByte" Publisher="CN=5430F451-EAAC-423C-9CF5-6A0F7E5A9498" Version="17.10.99.0" />
   <mp:PhoneIdentity PhoneProductId="c0f1309c-1b03-4dba-b182-f93891a818c1" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
@@ -20,7 +15,7 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="SoundByte.UWP.App">
-      <uap:VisualElements DisplayName="SoundByte" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="Soundbyte is a SoundCloud App build for Windows 10 devices. Enjoy a beautiful user interface with plenty of features. Best of all, there are no ads!" BackgroundColor="transparent">
+      <uap:VisualElements DisplayName="SoundByte" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="SoundByte is a SoundCloud/YouTube/Fanburst/Podcast app for Windows 10 and Xbox One" BackgroundColor="transparent">
         <uap:LockScreen Notification="badge" BadgeLogo="Assets\BadgeLogo.png" />
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" ShortName="SoundByte" Square310x310Logo="Assets\Square310x310Logo.png" Square71x71Logo="Assets\Square71x71Logo.png">
           <uap:ShowNameOnTiles>
@@ -49,6 +44,7 @@
   <Capabilities>
     <Capability Name="internetClient" />
     <uap3:Capability Name="backgroundMediaPlayback" />
+    <uap:Capability Name="musicLibrary" />
     <DeviceCapability Name="proximity" />
   </Capabilities>
 </Package>

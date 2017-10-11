@@ -20,6 +20,7 @@ using SoundByte.UWP.Helpers;
 using SoundByte.UWP.Models;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.Views;
+using SoundByte.Core;
 
 namespace SoundByte.UWP.ViewModels
 {
@@ -54,8 +55,8 @@ namespace SoundByte.UWP.ViewModels
             App.IsLoading = true;
 
             // Get a list of items
-            var trackList = StreamItems.Where(t => t.Type == "track" || t.Type == "track-repost" && t.Track != null)
-                .Select(t => t.Track?.ToBaseTrack());
+            var trackList = StreamItems.Where(t => t.Type == Core.ItemType.Track && t.Track != null)
+                .Select(t => t.Track);
 
             var startPlayback = await PlaybackService.Instance.StartPlaylistMediaPlaybackAsync(trackList);
 
@@ -69,8 +70,8 @@ namespace SoundByte.UWP.ViewModels
         public async void PlayShuffleStreamTracks()
         {
             // Get a list of items
-            var trackList = StreamItems.Where(t => t.Type == "track" || t.Type == "track-repost" && t.Track != null)
-                .Select(t => t.Track?.ToBaseTrack());
+            var trackList = StreamItems.Where(t => t.Type == Core.ItemType.Track && t.Track != null)
+                .Select(t => t.Track);
 
             // Shuffle and play the items
             await ShuffleTracksListAsync(trackList);
@@ -79,11 +80,11 @@ namespace SoundByte.UWP.ViewModels
         public async void NavigateStream(object sender, ItemClickEventArgs e)
         {
             // Get a list of items
-            var trackList = StreamItems.Where(t => t.Type == "track" || t.Type == "track-repost" && t.Track != null)
-                .Select(t => t.Track?.ToBaseTrack());
+            var trackList = StreamItems.Where(t => t.Type == Core.ItemType.Track && t.Track != null)
+                .Select(t => t.Track);
 
             // Get the clicked item
-            var streamItem = (StreamModel.StreamItem) e.ClickedItem;
+            var streamItem = (GroupedItem) e.ClickedItem;
 
             if (streamItem == null)
                 return;
@@ -93,20 +94,18 @@ namespace SoundByte.UWP.ViewModels
 
             switch (streamItem.Type)
             {
-                case "track":
-                case "track-repost":
+                case ItemType.Track:
                     if (streamItem.Track != null)
                     {
-                        var startPlayback = await PlaybackService.Instance.StartPlaylistMediaPlaybackAsync(trackList, false, streamItem.Track.ToBaseTrack());
+                        var startPlayback = await PlaybackService.Instance.StartPlaylistMediaPlaybackAsync(trackList, false, streamItem.Track);
 
                         if (!startPlayback.success)
                             await new MessageDialog(startPlayback.message, "Error playing stream.").ShowAsync();
                     }
                     break;
-                case "playlist":
-                case "playlist-repost":
+                case ItemType.Playlist:
                     if (streamItem.Playlist != null)
-                        App.NavigateTo(typeof(PlaylistView), streamItem.Playlist.ToBasePlaylist());
+                        App.NavigateTo(typeof(PlaylistView), streamItem.Playlist);
                     break;
             }
 

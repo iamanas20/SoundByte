@@ -482,7 +482,7 @@
                                          GroupName="NavPaneButtons"
                                          Style="{StaticResource NavigationButtonStyle}"
                                          Tag="&#xE713;"
-                                         Content="Settings/About"
+                                         Content="Settings"
                                          Checked="NavigateSettings" />
 
                             <!-- Let the user login to their account -->
@@ -494,7 +494,7 @@
                                          GroupName="NavPaneButtons"
                                          Style="{StaticResource NavigationButtonStyle}"
                                          Tag="&#xE77B;"
-                                         Content="Manage Accounts"
+                                         Content="Accounts"
                                          Checked="NavigateAccounts" />
                         </StackPanel>
                     </ScrollViewer>

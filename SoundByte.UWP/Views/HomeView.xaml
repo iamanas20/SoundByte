@@ -11,14 +11,9 @@
     <Page.Resources>
         <!-- Data Template for stream items -->
         <DataTemplate x:Key="StreamItem">
-            <elements:SoundByteStreamItem Width="Auto"
-                                          HorizontalContentAlignment="Stretch"
-                                          HorizontalAlignment="Stretch"
-                                          VerticalAlignment="Stretch"
-                                          Track="{Binding Track}"
-                                          TrackType="{Binding Type}"
-                                          Created="{Binding CreatedAt}"
-                                          Playlist="{Binding Playlist}" />
+            <elements:SoundByteItem ItemType="{Binding Type}"
+                                    Track="{Binding Track}"
+                                    Playlist="{Binding Playlist}" />
         </DataTemplate>
     </Page.Resources>
     <Grid Background="Transparent" x:Name="RootGrid">
@@ -50,17 +45,19 @@
         <elements:InfoPane x:Name="StreamModelInfoPane" Canvas.ZIndex="50" VerticalAlignment="Stretch"
                            HorizontalAlignment="Stretch" Visibility="Collapsed" Margin="-20,0,60,0" />
         <!-- Displays the users stream -->
-        <ListView x:Name="StreamListView"
+        <GridView x:Name="StreamListView"
                   ItemsSource="{x:Bind Path=ViewModel.StreamItems}"
                   ItemTemplate="{StaticResource StreamItem}"
                   SelectionMode="None"
                   IsSwipeEnabled="False"
                   IsItemClickEnabled="True"
                   ItemClick="{x:Bind ViewModel.NavigateStream}"
-                  ItemContainerStyle="{StaticResource MainListViewItem}"
+                  ItemContainerStyle="{StaticResource MainGridViewItem}"
+                  ItemsPanel="{StaticResource DesktopGridPanel}"
+
                   HorizontalAlignment="Stretch"
                   VerticalAlignment="Stretch">
-            <ListView.Header>
+            <GridView.Header>
                 <StackPanel>
                     <TextBlock Opacity="0" x:Name="TextHeader" Text="Home" FontWeight="Bold" FontSize="25"
                                Margin="0,18,0,0" />
@@ -81,12 +78,12 @@
                 
                 
              
-            </ListView.Header>
+            </GridView.Header>
 
             <interactivity:Interaction.Behaviors>
                 <behaviors:FadeHeaderBehavior />
             </interactivity:Interaction.Behaviors>
-        </ListView>
+        </GridView>
 
     </Grid>
 </Page>

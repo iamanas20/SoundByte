@@ -617,7 +617,6 @@ namespace SoundByte.UWP
         {
             LikesTab.Visibility = Visibility.Visible;
             SetsTab.Visibility = Visibility.Visible;
-            AccountTab.Content = "Connected Accounts";
 
             // Only show this tab if the users soundcloud account is connected
             HomeTab.Visibility = SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud) ? Visibility.Visible : Visibility.Collapsed;
@@ -628,7 +627,6 @@ namespace SoundByte.UWP
             LikesTab.Visibility = Visibility.Collapsed;
             SetsTab.Visibility = Visibility.Collapsed;
             HomeTab.Visibility = Visibility.Collapsed;
-            AccountTab.Content = "Login";
         }
 
         private void HamburgerButton_Click(object sender, RoutedEventArgs e)
