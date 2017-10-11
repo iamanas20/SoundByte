@@ -578,10 +578,6 @@
       <Project>{f01e8bb9-fe3e-480a-9702-29d54764d00f}</Project>
       <Name>SoundByte.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SoundByte.YouTubeParser\SoundByte.YouTubeParser.csproj">
-      <Project>{55620518-4C66-4649-AF8E-97A4806376C1}</Project>
-      <Name>SoundByte.YouTubeParser</Name>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

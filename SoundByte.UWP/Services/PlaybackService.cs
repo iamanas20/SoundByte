@@ -38,8 +38,7 @@ using SoundByte.UWP.Helpers;
 using SoundByte.Core.Services;
 using SoundByte.UWP.DatabaseContexts;
 using SoundByte.UWP.Models;
-using SoundByte.YouTubeParser;
-using SoundByte.YouTubeParser.Models.MediaStreams;
+using SoundByte.Core.Models.MediaStreams;
 
 namespace SoundByte.UWP.Services
 {

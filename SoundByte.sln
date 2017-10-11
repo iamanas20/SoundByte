@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+VisualStudioVersion = 15.0.27004.2002
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoundByte.UWP", "SoundByte.UWP\SoundByte.UWP.csproj", "{52B496EF-B47C-4A78-A1CF-AF86DFF078AE}"
 EndProject
@@ -10,8 +10,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoundByte.Core", "SoundByte.Core\SoundByte.Core.csproj", "{F01E8BB9-FE3E-480A-9702-29D54764D00F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoundByte.Android", "SoundByte.Android\SoundByte.Android.csproj", "{697A6F5A-EA8E-4010-94E6-C028008A43CB}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoundByte.YouTubeParser", "SoundByte.YouTubeParser\SoundByte.YouTubeParser.csproj", "{55620518-4C66-4649-AF8E-97A4806376C1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoundByte.MacOS", "SoundByte.MacOS\SoundByte.MacOS.csproj", "{B93EE082-85F1-4634-9025-DFD6B9F04EE5}"
 EndProject
@@ -103,22 +101,6 @@ Global
 		{697A6F5A-EA8E-4010-94E6-C028008A43CB}.Release|x86.ActiveCfg = Release|Any CPU
 		{697A6F5A-EA8E-4010-94E6-C028008A43CB}.Release|x86.Build.0 = Release|Any CPU
 		{697A6F5A-EA8E-4010-94E6-C028008A43CB}.Release|x86.Deploy.0 = Release|Any CPU
-		{55620518-4C66-4649-AF8E-97A4806376C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{55620518-4C66-4649-AF8E-97A4806376C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{55620518-4C66-4649-AF8E-97A4806376C1}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{55620518-4C66-4649-AF8E-97A4806376C1}.Debug|ARM.Build.0 = Debug|Any CPU
-		{55620518-4C66-4649-AF8E-97A4806376C1}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{55620518-4C66-4649-AF8E-97A4806376C1}.Debug|x64.Build.0 = Debug|Any CPU
-		{55620518-4C66-4649-AF8E-97A4806376C1}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{55620518-4C66-4649-AF8E-97A4806376C1}.Debug|x86.Build.0 = Debug|Any CPU
-		{55620518-4C66-4649-AF8E-97A4806376C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{55620518-4C66-4649-AF8E-97A4806376C1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{55620518-4C66-4649-AF8E-97A4806376C1}.Release|ARM.ActiveCfg = Release|Any CPU
-		{55620518-4C66-4649-AF8E-97A4806376C1}.Release|ARM.Build.0 = Release|Any CPU
-		{55620518-4C66-4649-AF8E-97A4806376C1}.Release|x64.ActiveCfg = Release|Any CPU
-		{55620518-4C66-4649-AF8E-97A4806376C1}.Release|x64.Build.0 = Release|Any CPU
-		{55620518-4C66-4649-AF8E-97A4806376C1}.Release|x86.ActiveCfg = Release|Any CPU
-		{55620518-4C66-4649-AF8E-97A4806376C1}.Release|x86.Build.0 = Release|Any CPU
 		{B93EE082-85F1-4634-9025-DFD6B9F04EE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B93EE082-85F1-4634-9025-DFD6B9F04EE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B93EE082-85F1-4634-9025-DFD6B9F04EE5}.Debug|ARM.ActiveCfg = Debug|Any CPU

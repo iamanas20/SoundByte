@@ -10,13 +10,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="JetBrains.Annotations" Version="11.0.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
-    <PackageReference Include="System.ValueTuple" Version="4.4.0" />
+    <Compile Remove="Providers\**" />
+    <EmbeddedResource Remove="Providers\**" />
+    <None Remove="Providers\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Providers\" />
+    <PackageReference Include="JetBrains.Annotations" Version="11.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+    <PackageReference Include="System.ValueTuple" Version="4.4.0" />
   </ItemGroup>
 
 </Project>

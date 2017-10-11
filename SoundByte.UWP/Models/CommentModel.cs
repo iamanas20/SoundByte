@@ -21,6 +21,8 @@ using SoundByte.Core.Exceptions;
 using SoundByte.Core.Items.Comment;
 using SoundByte.Core.Items.Track;
 using SoundByte.UWP.Services;
+using WinRTXamlToolkit.Tools;
+using System.Linq;
 
 namespace SoundByte.UWP.Models
 {
@@ -82,7 +84,7 @@ namespace SoundByte.UWP.Models
                     await DispatcherHelper.ExecuteOnUIThreadAsync(() => { trackComments.Comments.ForEach(Add); });
 
                     // Set the count variable
-                    count = (uint)trackComments.Comments.Count;   
+                    count = (uint)trackComments.Comments.Count();   
                 }
                 catch (SoundByteException ex)
                 {

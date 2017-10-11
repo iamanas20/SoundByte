@@ -154,6 +154,9 @@ namespace SoundByte.Core.Items.Track
         /// <returns></returns>
         public static async Task<(IEnumerable<BaseTrack> Tracks, string Token)> SearchAsync(string searchTerm, uint count, string token, CancellationTokenSource cancellationTokenSource = null)
         {
+            if (count <= 10)
+                count = 10;
+
             // Search for matching tracks
             var searchTracks = await SoundByteV3Service.Current.GetAsync<TrackListHolder>(ServiceType.SoundCloud, "/tracks",
                 new Dictionary<string, string>
