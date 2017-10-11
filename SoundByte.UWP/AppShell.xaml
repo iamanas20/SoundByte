@@ -1,6 +1,8 @@
 ﻿<Page
     x:Class="SoundByte.UWP.AppShell"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:uap5="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,5)"
+    xmlns:uap="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract,5)"
     xmlns:sui="using:SoundByte.UWP.UserControls"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
@@ -308,7 +310,9 @@
         </Style>
     </Page.Resources>
 
-    <Grid Background="{StaticResource AppHostBackgroundBrush}" x:Name="RootGrid">
+    <Grid uap:Background="{StaticResource AppHostBackgroundBrush}" 
+          uap5:Background="{ThemeResource SystemControlAcrylicWindowMediumHighBrush}"
+          x:Name="RootGrid">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="DeviceStates">
                 <VisualState x:Name="Xbox">

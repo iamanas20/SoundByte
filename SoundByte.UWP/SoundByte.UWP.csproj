@@ -245,9 +245,6 @@
     <Compile Include="UserControls\SoundByteItem.xaml.cs">
       <DependentUpon>SoundByteItem.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\SoundByteStreamItem.xaml.cs">
-      <DependentUpon>SoundByteStreamItem.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
     <Compile Include="ViewModels\PlaylistViewModel.cs" />
@@ -406,10 +403,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\SoundByteItem.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UserControls\SoundByteStreamItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

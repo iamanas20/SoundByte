@@ -93,17 +93,10 @@ namespace SoundByte.UWP.UserControls
                 case ItemType.Playlist:
                     // Generate and show the desktop playlist item
                     ((Grid)FindName("DesktopPlaylistItem")).Visibility = Visibility.Visible;
-
-                    UnloadObject((Grid)FindName("DesktopTrackItem"));
-
-
                     break;
                 case ItemType.Track:
                     // Generate and show the desktop track item
                     ((Grid)FindName("DesktopTrackItem")).Visibility = Visibility.Visible;
-
-                    UnloadObject((Grid)FindName("DesktopPlaylistItem"));
-
                     break;
                 case ItemType.User:
                     break;
