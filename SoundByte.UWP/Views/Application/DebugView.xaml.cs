@@ -15,6 +15,7 @@ using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using SoundByte.UWP.Services;
 using WinRTXamlToolkit.Tools;
+using System.Linq;
 
 namespace SoundByte.UWP.Views.Application
 {
@@ -42,6 +43,20 @@ namespace SoundByte.UWP.Views.Application
             dialogs.ForEach(x => dialogList += "- " + x.Key + "\n");
 
             await new MessageDialog(dialogList, "Registered Dialogs").ShowAsync();
+        }
+
+        private async void GetItunes(object sender, RoutedEventArgs e)
+        {
+            var items = await Core.Items.PodcastShow.SearchAsync("WAN Show");
+            var wanShow = items.FirstOrDefault();
+
+            var wanShowItems = await wanShow.GetEpisodesAsync();
+
+            var itemsList = string.Empty;
+
+            wanShowItems.ForEach(x => itemsList += "- " + x.Title + "\n");
+
+            await new MessageDialog(itemsList, "WAN Show Episodes").ShowAsync();
         }
     }
 }

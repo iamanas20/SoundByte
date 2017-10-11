@@ -960,14 +960,33 @@ namespace SoundByte.UWP.Services
                 // This code is not vital, so we will swallow all exceptions
             }
 
+            var currentUsageLimit = string.Empty;
+            var memoryUsage = MemoryManager.AppMemoryUsage / 1024 / 1024;
+
+            if (memoryUsage > 512)
+            {
+                currentUsageLimit = "More than 512MB";
+            }
+            else if (memoryUsage > 256)
+            {
+                currentUsageLimit = "More than 256MB";
+            }
+            else if (memoryUsage > 128)
+            {
+                currentUsageLimit = "KMore than 128MB";
+            }
+            else
+            {
+                currentUsageLimit = "Less than 128MB";
+            }
+
             TelemetryService.Instance.TrackEvent("Current Song Changed", new Dictionary<string, string>
             {
-                { "CurrentUsage", MemoryManager.AppMemoryUsage / 1024 / 1024 + "M" },
+                { "CurrentUsage", currentUsageLimit },
                 { "TrackType", track?.ServiceType.ToString() ?? "Null" },
                 { "IsSoundCloudConnected", SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud).ToString() },
                 { "IsFanburstConnected", SoundByteV3Service.Current.IsServiceConnected(ServiceType.Fanburst).ToString() },
                 { "IsYouTubeConnected", SoundByteV3Service.Current.IsServiceConnected(ServiceType.YouTube).ToString() }
-
             });
         }
 

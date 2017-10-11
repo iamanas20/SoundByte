@@ -88,6 +88,13 @@ namespace SoundByte.UWP.ViewModels.Search
             if (e.ClickedItem == null)
                 return;
 
+            var gridView = App.CurrentFrame.FindName("PlaylistsView") as GridView;
+
+            if (gridView != null)
+            {
+                gridView.PrepareConnectedAnimation("PlaylistImage", e.ClickedItem as BasePlaylist, "ImagePanel");
+            }
+
             App.NavigateTo(typeof(PlaylistView), e.ClickedItem as BasePlaylist);
         }
 

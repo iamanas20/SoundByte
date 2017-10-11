@@ -249,6 +249,10 @@ namespace SoundByte.UWP
                     Service = ServiceType.YouTube,
                     ClientId = ApiKeyService.YouTubeClientId,
                     UserToken = youTubeToken
+                }, 
+                new ServiceSecret
+                {
+                    Service = ServiceType.ITunesPodcast
                 }
             };
 

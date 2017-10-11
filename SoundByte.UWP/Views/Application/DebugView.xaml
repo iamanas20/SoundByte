@@ -17,6 +17,8 @@
             <TextBox x:Name="Command" />
             <Button Content="Run Command" Click="ButtonBase_OnClick" />
             <Button Content="Get Dialog List" Click="GetDialogList" />
+            <Button Content="Search 'Space' podcasts via iTunes" Click="GetItunes" />
+
         </StackPanel>
     </Grid>
     

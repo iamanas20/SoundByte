@@ -7,8 +7,15 @@
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
-    NavigationCacheMode="Enabled"
-    Transitions="{StaticResource MainTransition}">
+    NavigationCacheMode="Enabled">
+    <Page.Transitions>
+        <TransitionCollection>
+            <NavigationThemeTransition>
+                <DrillInNavigationTransitionInfo />
+            </NavigationThemeTransition>
+        </TransitionCollection>
+        
+    </Page.Transitions>
 
     <Grid Background="Transparent" x:Name="RootGrid">
         <VisualStateManager.VisualStateGroups>

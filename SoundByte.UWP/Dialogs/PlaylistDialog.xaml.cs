@@ -23,6 +23,7 @@ using SoundByte.Core.Exceptions;
 using SoundByte.Core.Items.Playlist;
 using SoundByte.Core.Items.Track;
 using SoundByte.Core.Services;
+using JetBrains.Annotations;
 
 namespace SoundByte.UWP.Dialogs
 {
@@ -51,6 +52,7 @@ namespace SoundByte.UWP.Dialogs
         /// <summary>
         ///     The track that we want to add to a playlist
         /// </summary>
+        [CanBeNull]
         public BaseTrack Track { get; }
 
         /// <summary>
@@ -142,6 +144,9 @@ namespace SoundByte.UWP.Dialogs
 
         private async void LoadContent(ContentDialog sender, ContentDialogOpenedEventArgs args)
         {
+            if (Track == null)
+                return;
+
             if ((Track.ServiceType == ServiceType.Fanburst && !SoundByteV3Service.Current.IsServiceConnected(ServiceType.Fanburst))
                 || (Track.ServiceType == ServiceType.SoundCloud &&
                     !SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud)))

@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Navigation;
 using SoundByte.Core.Items.Playlist;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.ViewModels;
+using Windows.UI.Xaml.Media.Animation;
 
 namespace SoundByte.UWP.Views
 {
@@ -43,6 +44,14 @@ namespace SoundByte.UWP.Views
         /// </summary>
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
+
+            //PlaylistImageHolder
+            var imageAnimation = ConnectedAnimationService.GetForCurrentView().GetAnimation("PlaylistImage");
+            if (imageAnimation != null)
+            {
+                imageAnimation.TryStart(PlaylistImageHolder, new[] { TitlePanel });
+            }
+
             // Make sure the view is ready for the user
             // Track Event
             TelemetryService.Instance.TrackPage("Playlist View");

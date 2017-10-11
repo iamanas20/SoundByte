@@ -38,6 +38,7 @@
 
             <!-- Drop Shadow for playlist image -->
             <controls:DropShadowPanel VerticalAlignment="Top"
+                                      x:Name="ImagePanel"
                                       BlurRadius="25"
                                       ShadowOpacity="0.6"
                                       OffsetX="0"
