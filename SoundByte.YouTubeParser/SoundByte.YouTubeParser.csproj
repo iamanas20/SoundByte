@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.1;net45;netcoreapp1.0</TargetFrameworks>
+    <TargetFrameworks>net461;net45;netcoreapp1.0</TargetFrameworks>
     <Version>1.0.2</Version>
     <Company>Grid Entertainment</Company>
     <Authors>Tyrrrz, Dominic Maas</Authors>

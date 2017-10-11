@@ -7,11 +7,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoundByte.UWP", "SoundByte.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoundByte.Service", "SoundByte.Service\SoundByte.Service.csproj", "{209FA716-A7AD-4095-BD70-C8710FC66FA7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoundByte.Core", "SoundByte.Core\SoundByte.Core.csproj", "{F01E8BB9-FE3E-480A-9702-29D54764D00F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoundByte.Core", "SoundByte.Core\SoundByte.Core.csproj", "{F01E8BB9-FE3E-480A-9702-29D54764D00F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoundByte.Android", "SoundByte.Android\SoundByte.Android.csproj", "{697A6F5A-EA8E-4010-94E6-C028008A43CB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoundByte.YouTubeParser", "SoundByte.YouTubeParser\SoundByte.YouTubeParser.csproj", "{55620518-4C66-4649-AF8E-97A4806376C1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoundByte.YouTubeParser", "SoundByte.YouTubeParser\SoundByte.YouTubeParser.csproj", "{55620518-4C66-4649-AF8E-97A4806376C1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoundByte.MacOS", "SoundByte.MacOS\SoundByte.MacOS.csproj", "{B93EE082-85F1-4634-9025-DFD6B9F04EE5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -117,6 +119,22 @@ Global
 		{55620518-4C66-4649-AF8E-97A4806376C1}.Release|x64.Build.0 = Release|Any CPU
 		{55620518-4C66-4649-AF8E-97A4806376C1}.Release|x86.ActiveCfg = Release|Any CPU
 		{55620518-4C66-4649-AF8E-97A4806376C1}.Release|x86.Build.0 = Release|Any CPU
+		{B93EE082-85F1-4634-9025-DFD6B9F04EE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B93EE082-85F1-4634-9025-DFD6B9F04EE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B93EE082-85F1-4634-9025-DFD6B9F04EE5}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{B93EE082-85F1-4634-9025-DFD6B9F04EE5}.Debug|ARM.Build.0 = Debug|Any CPU
+		{B93EE082-85F1-4634-9025-DFD6B9F04EE5}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{B93EE082-85F1-4634-9025-DFD6B9F04EE5}.Debug|x64.Build.0 = Debug|Any CPU
+		{B93EE082-85F1-4634-9025-DFD6B9F04EE5}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B93EE082-85F1-4634-9025-DFD6B9F04EE5}.Debug|x86.Build.0 = Debug|Any CPU
+		{B93EE082-85F1-4634-9025-DFD6B9F04EE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B93EE082-85F1-4634-9025-DFD6B9F04EE5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B93EE082-85F1-4634-9025-DFD6B9F04EE5}.Release|ARM.ActiveCfg = Release|Any CPU
+		{B93EE082-85F1-4634-9025-DFD6B9F04EE5}.Release|ARM.Build.0 = Release|Any CPU
+		{B93EE082-85F1-4634-9025-DFD6B9F04EE5}.Release|x64.ActiveCfg = Release|Any CPU
+		{B93EE082-85F1-4634-9025-DFD6B9F04EE5}.Release|x64.Build.0 = Release|Any CPU
+		{B93EE082-85F1-4634-9025-DFD6B9F04EE5}.Release|x86.ActiveCfg = Release|Any CPU
+		{B93EE082-85F1-4634-9025-DFD6B9F04EE5}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
