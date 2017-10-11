@@ -605,7 +605,7 @@ namespace SoundByte.UWP.Services
             // We are performing
             var defferal = args.GetDeferral();
 
-            App.SetLoading(true);
+            await App.SetLoadingAsync(true);
 
             try
             {
@@ -675,7 +675,7 @@ namespace SoundByte.UWP.Services
                 // ignored
             }
 
-            App.SetLoading(false);
+            await App.SetLoadingAsync(false);
 
             defferal.Complete();
         }
@@ -719,7 +719,7 @@ namespace SoundByte.UWP.Services
                 return (false,
                     "The playback list was missing or empty. This can be caused if there are not tracks avaliable (for example, you are trying to play your likes, but have not liked anything yet).\n\nAnother reason for this message is that if your playing a track from SoundCloud, SoundCloud has blocked these tracks from being played on 3rd party apps (such as SoundByte).");
 
-            App.SetLoading(true);
+            await App.SetLoadingAsync(true);
 
             // Pause Everything
             Player.Pause();
@@ -751,7 +751,6 @@ namespace SoundByte.UWP.Services
             if (isShuffled || startingItem == null)
             {
                 Player.Play();
-                App.SetLoading(false);
                 return (true, string.Empty);
             }
 
@@ -777,7 +776,6 @@ namespace SoundByte.UWP.Services
                     // Begin playing
                     Player.Play();
 
-                    App.SetLoading(false);
                     return (true, string.Empty);
                 }
                 catch (Exception)
@@ -792,8 +790,6 @@ namespace SoundByte.UWP.Services
             {
                 {"track_id", startingItem.Id}
             });
-
-            App.SetLoading(false);
 
             return (false, "SoundByte could not play this track or list of tracks. Try again later.");
         }
@@ -822,32 +818,31 @@ namespace SoundByte.UWP.Services
             if (DeviceHelper.IsBackground && DeviceHelper.IsXbox)
                 return;
 
-            await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
+            await DispatcherHelper.ExecuteOnUIThreadAsync(async () =>
             {
                 var overlay = App.CurrentFrame?.FindName("VideoOverlay") as MediaElement;
 
                 switch (sender.PlaybackState)
                 {
                     case MediaPlaybackState.Playing:
-                        App.SetLoading(false);
+                        await App.SetLoadingAsync(false);
                         PlayButtonContent = "\uE769";
                         overlay?.Play();
                         break;
                     case MediaPlaybackState.Buffering:
-                    case MediaPlaybackState.Opening:
-                        App.SetLoading(true);
+                        await App.SetLoadingAsync(true);
                         break;
                     case MediaPlaybackState.None:
-                        App.SetLoading(false);
+                        await App.SetLoadingAsync(false);
                         PlayButtonContent = "\uE768";
                         break;
                     case MediaPlaybackState.Paused:
-                        App.SetLoading(false);
+                        await App.SetLoadingAsync(false);
                         PlayButtonContent = "\uE768";
                         overlay?.Pause();
                         break;
                     default:
-                        App.SetLoading(false);
+                        await App.SetLoadingAsync(false);
                         PlayButtonContent = "\uE768";
                         overlay?.Play();
                         break;

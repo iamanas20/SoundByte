@@ -406,7 +406,7 @@ namespace SoundByte.UWP
         [Obsolete("Use await SetLoading(value) instead.")]
         public static bool IsLoading
         {
-            set => SetLoading(value);
+            set => SetLoadingAsync(value);
         }
 
         /// <summary>
@@ -414,7 +414,7 @@ namespace SoundByte.UWP
         /// </summary>
         /// <param name="isLoading">Is the app loading</param>
         /// <returns>A async task</returns>
-        public static async void SetLoading(bool isLoading)
+        public static async Task SetLoadingAsync(bool isLoading)
         {
             // Don't run in background
             if (DeviceHelper.IsBackground)
