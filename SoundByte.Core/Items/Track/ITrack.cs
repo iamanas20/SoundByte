@@ -13,6 +13,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using SoundByte.Core.Items.Comment;
+using System.Threading;
 
 namespace SoundByte.Core.Items.Track
 {
@@ -37,6 +38,6 @@ namespace SoundByte.Core.Items.Track
         /// <param name="count">The amount of comments to get.</param>
         /// <param name="token">Position in the comments (depends on service)</param>
         /// <returns>A list of base comments and the next token</returns>
-        Task<(List<BaseComment> Comments, string Token)> GetCommentsAsync(uint count, string token);
+        Task<(IEnumerable<BaseComment> Comments, string Token)> GetCommentsAsync(uint count, string token, CancellationTokenSource cancellationTokenSource = null);
     }
 }

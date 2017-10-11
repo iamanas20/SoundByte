@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SoundByte.Core.Items.Comment;
 using SoundByte.Core.Items.User;
+using System.Threading;
 
 namespace SoundByte.Core.Items.Track
 {
@@ -107,7 +108,7 @@ namespace SoundByte.Core.Items.Track
             };
         }
 
-        public async Task<(List<BaseComment> Comments, string Token)> GetCommentsAsync(uint count, string token)
+        public async Task<(IEnumerable<BaseComment> Comments, string Token)> GetCommentsAsync(uint count, string token, CancellationTokenSource cancellationTokenSource = null)
         {
             // Fanburst does not support comments
             return await Task.Run(() => (new List<BaseComment>(), string.Empty));

@@ -14,6 +14,7 @@ namespace SoundByte.MacOS
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
+            
 
             // Do any additional setup after loading the view.
         }

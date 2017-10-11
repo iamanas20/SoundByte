@@ -16,6 +16,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using SoundByte.Core.Items.Comment;
 using SoundByte.Core.Items.User;
+using System.Threading;
 
 namespace SoundByte.Core.Items.Track
 {
@@ -87,7 +88,7 @@ namespace SoundByte.Core.Items.Track
         public BaseUser User { get; set; }
         private BaseUser _user;
 
-        public async Task<(List<BaseComment> Comments, string Token)> GetCommentsAsync(uint count, string token)
+        public async Task<(IEnumerable<BaseComment> Comments, string Token)> GetCommentsAsync(uint count, string token, CancellationTokenSource cancellationTokenSource = null)
         {
             // Always at least 10 comments.
             if (count <= 10)
@@ -97,11 +98,11 @@ namespace SoundByte.Core.Items.Track
             {
                 case ServiceType.SoundCloud:
                 case ServiceType.SoundCloudV2:
-                    return await new SoundCloudTrack(Id).GetCommentsAsync(count, token);
+                    return await new SoundCloudTrack(Id).GetCommentsAsync(count, token, cancellationTokenSource);
                 case ServiceType.Fanburst:
-                    return await new FanburstTrack(Id).GetCommentsAsync(count, token);
+                    return await new FanburstTrack(Id).GetCommentsAsync(count, token, cancellationTokenSource);
                 case ServiceType.YouTube:
-                    return await new YouTubeTrack(Id).GetCommentsAsync(count, token);
+                    return await new YouTubeTrack(Id).GetCommentsAsync(count, token, cancellationTokenSource);
                 default:
                     throw new ArgumentOutOfRangeException();
             }   

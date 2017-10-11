@@ -17,6 +17,7 @@ using Newtonsoft.Json;
 using SoundByte.Core.Items.Comment;
 using SoundByte.Core.Items.User;
 using SoundByte.Core.Services;
+using System.Threading;
 
 namespace SoundByte.Core.Items.Track
 {
@@ -148,7 +149,7 @@ namespace SoundByte.Core.Items.Track
             return track;
         }
 
-        public async Task<(List<BaseComment> Comments, string Token)> GetCommentsAsync(uint count, string token)
+        public async Task<(IEnumerable<BaseComment> Comments, string Token)> GetCommentsAsync(uint count, string token, CancellationTokenSource cancellationTokenSource = null)
         {
             // Grab a list of YouTube comments
             var youTubeComments = await SoundByteV3Service.Current.GetAsync<YouTubeCommentHolder>(ServiceType.YouTube,
@@ -158,7 +159,7 @@ namespace SoundByte.Core.Items.Track
                     { "part", "snippet"},
                     { "videoId", Id.VideoId},
                     { "pageToken", token }
-                });
+                }, cancellationTokenSource);
 
             // Convert our list of YouTube comments to base comments
             var baseCommentList = new List<BaseComment>();

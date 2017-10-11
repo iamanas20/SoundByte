@@ -84,7 +84,7 @@ namespace SoundByte.Core.Services
         /// Setup the service
         /// </summary>
         /// <param name="secrets">A list of services and their secrets that will be used in the app</param>
-        public void Init(List<ServiceSecret> secrets)
+        public void Init(IEnumerable<ServiceSecret> secrets)
         {
             // A list of secrets must be provided
             if (!secrets.Any())

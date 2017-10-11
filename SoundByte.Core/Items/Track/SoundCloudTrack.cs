@@ -19,6 +19,8 @@ using SoundByte.Core.Helpers;
 using SoundByte.Core.Items.Comment;
 using SoundByte.Core.Items.User;
 using SoundByte.Core.Services;
+using System.Threading;
+using System.Net;
 
 namespace SoundByte.Core.Items.Track
 {
@@ -143,12 +145,44 @@ namespace SoundByte.Core.Items.Track
         }
 
         /// <summary>
+        /// Search the SoundCloud API for tracks
+        /// </summary>
+        /// <param name="searchTerm"></param>
+        /// <param name="count">Amount of items to return</param>
+        /// <param name="token"></param>
+        /// <param name="cancellationTokenSource"></param>
+        /// <returns></returns>
+        public static async Task<(IEnumerable<BaseTrack> Tracks, string Token)> SearchAsync(string searchTerm, uint count, string token, CancellationTokenSource cancellationTokenSource = null)
+        {
+            // Search for matching tracks
+            var searchTracks = await SoundByteV3Service.Current.GetAsync<TrackListHolder>(ServiceType.SoundCloud, "/tracks",
+                new Dictionary<string, string>
+                {
+                    {"limit", count.ToString()},
+                    {"linked_partitioning", "1"},
+                    {"offset", token},
+                    {"q", WebUtility.UrlEncode(searchTerm)}
+                });
+
+            // Parse uri for offset
+            var param = new QueryParameterCollection(searchTracks.NextList);
+            var nextToken = param.FirstOrDefault(x => x.Key == "offset").Value;
+
+            // Convert our list of SoundCloud comments to base comments
+            var baseTrackList = new List<BaseTrack>();
+            searchTracks.Tracks.ForEach(x => baseTrackList.Add(x.ToBaseTrack()));
+
+            // Return the data
+            return (baseTrackList, nextToken);
+        }
+
+        /// <summary>
         /// Gets a list of base comments for this track.
         /// </summary>
         /// <param name="count">The amount of comments to get.</param>
         /// <param name="token">Position in the comments (depends on service)</param>
         /// <returns>A list of base comments and the next token</returns>
-        public async Task<(List<BaseComment> Comments, string Token)> GetCommentsAsync(uint count, string token)
+        public async Task<(IEnumerable<BaseComment> Comments, string Token)> GetCommentsAsync(uint count, string token, CancellationTokenSource cancellationTokenSource = null)
         {
             // Grab a list of SoundCloud comments
             var soundCloudComments = await SoundByteV3Service.Current.GetAsync<CommentListHolder>(ServiceType.SoundCloud,
@@ -157,7 +191,7 @@ namespace SoundByte.Core.Items.Track
                     {"limit", count.ToString()},
                     {"offset", token},
                     {"linked_partitioning", "1"}
-                });
+                }, cancellationTokenSource);
 
             // Parse the next URL and grab the token
             var nextUri = new QueryParameterCollection(soundCloudComments.NextList);
@@ -172,7 +206,7 @@ namespace SoundByte.Core.Items.Track
         }
 
         [JsonObject]
-        public class CommentListHolder
+        private class CommentListHolder
         {
             /// <summary>
             ///     List of comments
@@ -182,6 +216,21 @@ namespace SoundByte.Core.Items.Track
 
             /// <summary>
             ///     Next items in the list
+            /// </summary>
+            [JsonProperty("next_href")]
+            public string NextList { get; set; }
+        }
+
+        private class TrackListHolder
+        {
+            /// <summary>
+            ///     Collection of tracks
+            /// </summary>
+            [JsonProperty("collection")]
+            public List<SoundCloudTrack> Tracks { get; set; }
+
+            /// <summary>
+            ///     The next list of items
             /// </summary>
             [JsonProperty("next_href")]
             public string NextList { get; set; }

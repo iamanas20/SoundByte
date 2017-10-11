@@ -47,34 +47,23 @@ namespace SoundByte.UWP.Models.Search
             try
             {
                 // Search for matching tracks
-                var searchTracks = await SoundByteV3Service.Current.GetAsync<TrackListHolder>(ServiceType.SoundCloud, "/tracks",
-                    new Dictionary<string, string>
-                    {
-                            {"limit", SettingsService.TrackLimitor.ToString()},
-                            {"linked_partitioning", "1"},
-                            {"offset", Token},
-                            {"q", WebUtility.UrlEncode(Query)}
-                    });
-
-                // Parse uri for offset
-                var param = new QueryParameterCollection(searchTracks.NextList);
-                var offset = param.FirstOrDefault(x => x.Key == "offset").Value;
+                var searchTracks = await SoundCloudTrack.SearchAsync(Query, (uint)count, Token);
 
                 // Get the search offset
-                Token = string.IsNullOrEmpty(offset) ? "eol" : offset;
+                Token = string.IsNullOrEmpty(searchTracks.Token) ? "eol" : searchTracks.Token;
 
                 // Make sure that there are tracks in the list
-                if (searchTracks.Tracks.Count > 0)
+                if (searchTracks.Tracks.Count() > 0)
                 {
                     // Set the count variable
-                    count = searchTracks.Tracks.Count;
+                    count = searchTracks.Tracks.Count();
 
                     // Loop though all the tracks on the UI thread
                     await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                     {
                         foreach (var track in searchTracks.Tracks)
                         {
-                            Add(track.ToBaseTrack());
+                            Add(track);
                         }
                     });
                 }
