@@ -18,6 +18,13 @@ namespace SoundByte.MacOS
             // Do any additional setup after loading the view.
         }
 
+        partial void SearchBox(NSSearchField sender)
+        {
+
+            var text = sender.StringValue;
+        }
+
+
         public override NSObject RepresentedObject
         {
             get
