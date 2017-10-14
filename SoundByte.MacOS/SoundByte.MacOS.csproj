@@ -75,6 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
+    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -88,9 +89,19 @@
     <Compile Include="ViewController.designer.cs">
       <DependentUpon>ViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="TrackItemView.cs" />
+    <Compile Include="TrackItemViewController.cs" />
+    <Compile Include="TrackItemView.designer.cs">
+      <DependentUpon>TrackItemView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TrackItemViewController.designer.cs">
+      <DependentUpon>TrackItemViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TrackModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Main.storyboard" />
+    <InterfaceDefinition Include="TrackItemView.xib" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SoundByte.Core\SoundByte.Core.csproj">

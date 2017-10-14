@@ -24,9 +24,11 @@ namespace SoundByte.MacOS
 
         static void Main(string[] args)
         {
+            // Load the secret file and get the content
             var secretKeyFile = System.IO.File.ReadAllText("app_keys.json");
             var secretKeys = JsonConvert.DeserializeObject<KeyObject>(secretKeyFile);
 
+            // Setup the V3 SoundByte service for SoundCloud
             SoundByte.Core.Services.SoundByteV3Service.Current.Init(new List<ServiceSecret>{
                 new ServiceSecret
                 {
@@ -36,10 +38,9 @@ namespace SoundByte.MacOS
                 }
             });
 
+            // Normal Apple setup
             NSApplication.Init();
             NSApplication.Main(args);
-
-           
         }
     }
 }
