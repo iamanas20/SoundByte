@@ -287,3 +287,4 @@ __pycache__/
 *.odx.cs
 *.xsd.cs
 /SoundByte.UWP/Assets/app_keys.json
+SoundByte.MacOS/app_keys.json

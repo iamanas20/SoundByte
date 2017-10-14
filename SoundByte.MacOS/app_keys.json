@@ -1,0 +1,16 @@
+﻿{
+  "GoogleAnalytics": "UA-37972059-7",
+  "HockeyAppClientID": "a2086136dd244de98a2460215085c47b",
+  "AzureMobileCenterClientID": "792fe734-d9cc-4c13-8b00-6a8a180c598b",
+  "SoundCloudClientID": "gU5Rw9VDiPPA4OcDlC8VVcb19sHDZFTT",
+  "SoundCloudClientSecret": "ni9rTNXE3U7KS0joBFiVkmr7oCaw2juh",
+  "YouTubeClientID": "AIzaSyACcC1JE0krWn90rfk5kVpx-Y8qkoqta40",
+  "FanburstClientID": "2abda5f0-b2a3-4a60-9cca-18b72c228af9",
+  "FanbustClientSecret": "0d8412ff3f2d0274a47e2e2d0734f3e567bd9eb6e147da355a746f37f87220fd",
+  "BackupSoundCloudPlaybackIDs": [
+    "ytXCP8DpxZPd96FN12KsjT1P2mSHglXH",
+    "59f81c512bd8eda616a21851093b2f16",
+    "8547e755a4a625d4be8f243c1c7756a9",
+    "0452ba585c12c2a37a143aca3b426b19"
+  ]
+}

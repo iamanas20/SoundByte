@@ -111,7 +111,7 @@ namespace SoundByte.Core.Items.Track
         public async Task<(IEnumerable<BaseComment> Comments, string Token)> GetCommentsAsync(uint count, string token, CancellationTokenSource cancellationTokenSource = null)
         {
             // Fanburst does not support comments
-            return await Task.Run(() => (new List<BaseComment>(), string.Empty));
+            return await Task.Run(() => (new List<BaseComment>(), ""));
         }
     }
 }
