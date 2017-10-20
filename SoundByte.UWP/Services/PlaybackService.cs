@@ -49,6 +49,17 @@ namespace SoundByte.UWP.Services
     /// </summary>
     public class PlaybackService : INotifyPropertyChanged
     {
+        #region Delegates
+        public delegate void CurrentTrackChangedEventHandler(BaseTrack newTrack);
+        #endregion
+
+        #region Events
+        /// <summary>
+        /// This event is fired when the current track changes.
+        /// </summary>
+        public event CurrentTrackChangedEventHandler OnCurrentTrackChanged;
+        #endregion
+
         #region Class Variables / Getters and Setters
 
         // Playlist Object
@@ -864,6 +875,13 @@ namespace SoundByte.UWP.Services
             if (track == null)
                 return;
 
+            // Same track, no need to perform this logic
+            if (track == CurrentTrack)
+                return;
+
+            // Invoke the track changed method
+            OnCurrentTrackChanged?.Invoke(track);
+
             // Run all this on the UI thread
             await DispatcherHelper.ExecuteOnUIThreadAsync(async () =>
             {
@@ -955,7 +973,7 @@ namespace SoundByte.UWP.Services
                 // This code is not vital, so we will swallow all exceptions
             }
 
-            var currentUsageLimit = string.Empty;
+            string currentUsageLimit;
             var memoryUsage = MemoryManager.AppMemoryUsage / 1024 / 1024;
 
             if (memoryUsage > 512)
@@ -968,7 +986,7 @@ namespace SoundByte.UWP.Services
             }
             else if (memoryUsage > 128)
             {
-                currentUsageLimit = "KMore than 128MB";
+                currentUsageLimit = "More than 128MB";
             }
             else
             {

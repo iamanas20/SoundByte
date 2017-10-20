@@ -74,7 +74,7 @@ namespace SoundByte.UWP
             // bar when a track is played. This method
             // updates the required layout for the now
             // playing bar.
-            PlaybackService.Instance.PropertyChanged += ServiceOnPropertyChanged;
+            PlaybackService.Instance.OnCurrentTrackChanged += InstanceOnOnCurrentTrackChanged;
 
             // Create a shell frame shadow for mobile and desktop
             if (DeviceHelper.IsDesktop || DeviceHelper.IsMobile)
@@ -142,16 +142,16 @@ namespace SoundByte.UWP
             RootFrame.Focus(FocusState.Programmatic);
         }
 
-        private void ServiceOnPropertyChanged(object o, PropertyChangedEventArgs propertyChangedEventArgs)
+        private async void InstanceOnOnCurrentTrackChanged(BaseTrack newTrack)
         {
-            if (propertyChangedEventArgs.PropertyName != "CurrentTrack")
-                return;
-
-            if (PlaybackService.Instance.CurrentTrack == null || !DeviceHelper.IsDesktop ||
-                RootFrame.CurrentSourcePageType == typeof(NowPlayingView))
-                HideNowPlayingBar();
-            else
-                ShowNowPlayingBar();
+            await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
+            {
+                if (!DeviceHelper.IsDesktop ||
+                    RootFrame.CurrentSourcePageType == typeof(NowPlayingView))
+                    HideNowPlayingBar();
+                else
+                    ShowNowPlayingBar();
+            });
         }
 
         /// <summary>
@@ -162,7 +162,7 @@ namespace SoundByte.UWP
         public void Dispose()
         {
             SystemNavigationManager.GetForCurrentView().BackRequested -= OnBackRequested;
-            PlaybackService.Instance.PropertyChanged -= ServiceOnPropertyChanged;
+            PlaybackService.Instance.OnCurrentTrackChanged -= InstanceOnOnCurrentTrackChanged;
         }
 
         private void OnBackRequested(object sender, BackRequestedEventArgs e)

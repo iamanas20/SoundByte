@@ -10,6 +10,7 @@
  * |----------------------------------------------------------------|
  */
 
+using System;
 using SoundByte.Core;
 using SoundByte.Core.Items.Playlist;
 using SoundByte.Core.Items.Track;
@@ -18,6 +19,7 @@ using SoundByte.UWP.Dialogs;
 using SoundByte.UWP.Services;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Microsoft.Toolkit.Uwp.Helpers;
 
 namespace SoundByte.UWP.UserControls
 {
@@ -85,13 +87,21 @@ namespace SoundByte.UWP.UserControls
 
             DataContextChanged += SoundByteItem_DataContextChanged;
 
-            PlaybackService.Instance.PropertyChanged += (s, e) =>
+            PlaybackService.Instance.OnCurrentTrackChanged += CurrentTrackChanged;
+        }
+
+        ~SoundByteItem()
+        {
+            PlaybackService.Instance.OnCurrentTrackChanged -= CurrentTrackChanged;
+        }
+
+        private async void CurrentTrackChanged(BaseTrack newTrack)
+        {
+            await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
             {
-                if (e.PropertyName == "CurrentTrack" && ItemType == ItemType.Track && Track != null)
-                {
-                    TrackNowPlaying.Visibility = PlaybackService.Instance.CurrentTrack?.Id == Track.Id ? Visibility.Visible : Visibility.Collapsed;
-                }
-            };
+                if (ItemType == ItemType.Track && Track != null && TrackNowPlaying != null)
+                    TrackNowPlaying.Visibility = newTrack?.Id == Track?.Id ? Visibility.Visible : Visibility.Collapsed;
+            });
         }
 
         private void SoundByteItem_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
