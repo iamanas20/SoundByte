@@ -21,7 +21,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace SoundByte.UWP.UserControls
 {
-    public sealed partial class SoundByteItem : UserControl
+    public sealed partial class SoundByteItem
     {
         public static readonly DependencyProperty ItemTypeProperty =
            DependencyProperty.Register("ItemType", typeof(ItemType), typeof(SoundByteItem), null);
@@ -84,6 +84,14 @@ namespace SoundByte.UWP.UserControls
             InitializeComponent();
 
             DataContextChanged += SoundByteItem_DataContextChanged;
+
+            PlaybackService.Instance.PropertyChanged += (s, e) =>
+            {
+                if (e.PropertyName == "CurrentTrack" && ItemType == ItemType.Track && Track != null)
+                {
+                    TrackNowPlaying.Visibility = PlaybackService.Instance.CurrentTrack?.Id == Track.Id ? Visibility.Visible : Visibility.Collapsed;
+                }
+            };
         }
 
         private void SoundByteItem_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
@@ -99,8 +107,12 @@ namespace SoundByte.UWP.UserControls
                     ((Grid)FindName("DesktopPlaylistItem")).Visibility = Visibility.Visible;
                     break;
                 case ItemType.Track:
-                    // Generate and show the desktop track item
-                    ((Grid)FindName("DesktopTrackItem")).Visibility = Visibility.Visible;
+                        // Generate and show the desktop track item
+                        ((Grid)FindName("DesktopTrackItem")).Visibility = Visibility.Visible;
+
+                        // Update the visibilty
+                        TrackNowPlaying.Visibility = PlaybackService.Instance.CurrentTrack?.Id == Track?.Id ? Visibility.Visible : Visibility.Collapsed;
+                    
                     break;
                 case ItemType.User:
                     // Generate and show the desktop user item

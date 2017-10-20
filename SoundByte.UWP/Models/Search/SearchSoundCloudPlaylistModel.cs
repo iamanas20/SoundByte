@@ -38,6 +38,10 @@ namespace SoundByte.UWP.Models.Search
             if (string.IsNullOrEmpty(Query))
                 return 0;
 
+            // At least 10 tracks at once
+            if (count < 10)
+                count = 10;
+
             // Get the resource loader
             var resources = ResourceLoader.GetForViewIndependentUse();
 
@@ -47,7 +51,7 @@ namespace SoundByte.UWP.Models.Search
                 var searchPlaylists = await SoundByteV3Service.Current.GetAsync<SearchPlaylistHolder>(ServiceType.SoundCloud, "/playlists",
                     new Dictionary<string, string>
                     {
-                            {"limit", SettingsService.TrackLimitor.ToString()},
+                            {"limit", count.ToString()},
                             {"linked_partitioning", "1"},
                             {"offset", Token},
                             {"q", WebUtility.UrlEncode(Query)}

@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Core;
+using Windows.Devices.Input;
 using Windows.Foundation;
 using Windows.Security.Credentials;
 using Windows.System;
@@ -23,6 +24,7 @@ using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Toolkit.Uwp.Helpers;
@@ -299,10 +301,13 @@ namespace SoundByte.UWP
 
         #endregion
 
-        #region Key Events
+        private bool _isCtrlKeyPressed;
 
-        private void CoreWindowOnKeyUp(CoreWindow sender, KeyEventArgs args)
+        #region Key Events
+        private void CoreWindowOnKeyDown(CoreWindow sender, KeyEventArgs args)
         {
+            if (args.VirtualKey == VirtualKey.Control) _isCtrlKeyPressed = true;
+
             switch (args.VirtualKey)
             {
                 case VirtualKey.F11:
@@ -326,6 +331,12 @@ namespace SoundByte.UWP
                     // Navigate to the search page
                     NavigateTo(typeof(SearchView));
                     break;
+                case VirtualKey.Back:
+                    
+
+                    if (_isCtrlKeyPressed)
+                        CurrentFrame.Frame.GoBack();
+                    break;
             }
         }
 
@@ -347,7 +358,11 @@ namespace SoundByte.UWP
                 shell = new AppShell(parameters);
 
                 // Hook the key pressed event for the global app
-                Window.Current.CoreWindow.KeyUp += CoreWindowOnKeyUp;
+                Window.Current.CoreWindow.KeyDown += CoreWindowOnKeyDown;
+                Window.Current.CoreWindow.KeyUp += (s, e) =>
+                {
+                    if (e.VirtualKey == VirtualKey.Control) _isCtrlKeyPressed = false;
+                };
             }
             else
             {

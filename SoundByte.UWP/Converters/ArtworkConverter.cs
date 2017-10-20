@@ -11,13 +11,20 @@
  */
 
 using System;
+using System.IO;
+using Windows.Foundation;
+using Windows.Graphics.Imaging;
+using Windows.Storage.Streams;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media.Imaging;
 using SoundByte.Core;
+using SoundByte.Core.Helpers;
 using SoundByte.Core.Items.Playlist;
 using SoundByte.Core.Items.Track;
 using SoundByte.Core.Items.User;
 using SoundByte.UWP.Services;
+using System.Net;
+using System.Net.Http;
 
 namespace SoundByte.UWP.Converters
 {
@@ -43,9 +50,8 @@ namespace SoundByte.UWP.Converters
             var source = ConvertObjectToImage(value);
 
             if (string.IsNullOrEmpty(source)) return null;
-
-            var image = new BitmapImage {UriSource = new Uri(source)};
-            return image;
+      
+            return new BitmapImage { UriSource = new Uri(source) };
         }
 
         #endregion

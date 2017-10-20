@@ -135,6 +135,9 @@ namespace SoundByte.UWP
                 MainSplitView.IsPaneOpen = SettingsService.Instance.IsMenuOpen;
             }
 
+            if (string.IsNullOrEmpty(path))
+                RootFrame.Navigate(typeof(HomeView));
+
             // Focus on the root frame
             RootFrame.Focus(FocusState.Programmatic);
         }
@@ -206,54 +209,44 @@ namespace SoundByte.UWP
             // Navigate to the first page
             await HandleProtocolAsync(path);
 
-            // Handle donation logic
-            await MonitizeService.Instance.InitProductInfoAsync();
-
-            // Test Version and tell user app upgraded
-            HandleNewAppVersion();
-
-            // Clear the unread badge
-            BadgeUpdateManager.CreateBadgeUpdaterForApplication().Clear();
-
-            // The methods below are sorted into try catch groups. many of them can fail, but they are not important
-            try
+            // Run on the background thread
+            await Task.Run(async () =>
             {
-                // Get the store and check for app updates
-                var updates = await StoreContext.GetDefault().GetAppAndOptionalStorePackageUpdatesAsync();
-
-                // If we have updates navigate to the update page where we
-                // ask the user if they would like to update or not (depending
-                // if the update is mandatory or not).
-                if (updates.Count > 0)
+                try
                 {
-                    await NavigationService.Current.CallDialogAsync<PendingUpdateDialog>();
+                    // Get the store and check for app updates
+                    var updates = await StoreContext.GetDefault().GetAppAndOptionalStorePackageUpdatesAsync();
+
+                    // If we have updates navigate to the update page where we
+                    // ask the user if they would like to update or not (depending
+                    // if the update is mandatory or not).
+                    if (updates.Count > 0)
+                    {
+                        await NavigationService.Current.CallDialogAsync<PendingUpdateDialog>();
+                    }
+
+                    // Test Version and tell user app upgraded
+                    HandleNewAppVersion();
+
+                    // Clear the unread badge
+                    BadgeUpdateManager.CreateBadgeUpdaterForApplication().Clear();
+
+                    // Handle donation logic
+                    await MonitizeService.Instance.InitProductInfoAsync();
+
+                    // Register notifications
+                    var engagementManager = StoreServicesEngagementManager.GetDefault();
+                    await engagementManager.RegisterNotificationChannelAsync();
+
+                    // Install Cortana Voice Commands
+                    var vcdStorageFile = await Package.Current.InstalledLocation.GetFileAsync(@"SoundByteCommands.xml");
+                    await VoiceCommandDefinitionManager.InstallCommandDefinitionsFromStorageFileAsync(vcdStorageFile);
                 }
-            }
-            catch
-            {
-                // Ignore
-            }
-
-            try
-            {
-                var engagementManager = StoreServicesEngagementManager.GetDefault();
-                await engagementManager.RegisterNotificationChannelAsync();
-            }
-            catch
-            {
-                // Ignore
-            }
-
-            try
-            {
-                // Install Cortana Voice Commands
-                var vcdStorageFile = await Package.Current.InstalledLocation.GetFileAsync(@"SoundByteCommands.xml");
-                await VoiceCommandDefinitionManager.InstallCommandDefinitionsFromStorageFileAsync(vcdStorageFile);
-            }
-            catch
-            {
-                // Ignore
-            }
+                catch
+                {
+                    // Ignore
+                }
+            });
         }
 
         private void HandleNewAppVersion()

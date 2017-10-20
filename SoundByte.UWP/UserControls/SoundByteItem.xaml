@@ -142,8 +142,8 @@
         </Grid>
         
         <Grid x:Name="DesktopTrackItem" 
-              Visibility="Collapsed"
               Background="#00FFFFFF"
+              Visibility="Collapsed"
               IsHitTestVisible="True"
               Height="245"
               Width="170"
@@ -193,6 +193,20 @@
                                Height="160"
                                Stretch="UniformToFill" />
 
+                        <Grid Width="32"
+                              x:Name="TrackNowPlaying"
+                              Visibility="Collapsed"
+                              Height="32"
+                              VerticalAlignment="Top"
+                              HorizontalAlignment="Left"
+                              Margin="5">
+                            <Ellipse Fill="{StaticResource InAppBackgroundBrush}" />
+                            <FontIcon Glyph="&#xE767;" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center" />
+
+                        </Grid>
+                        
+                      
+                        
                         <Grid RequestedTheme="Dark" 
                               Background="{StaticResource InAppBackgroundBrush}" 
                               Padding="8"

@@ -11,11 +11,9 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Windows.UI.Popups;
 using Windows.UI.Xaml.Controls;
-using SoundByte.Core.Items.Track;
 using SoundByte.UWP.Helpers;
 using SoundByte.UWP.Models;
 using SoundByte.UWP.Services;
@@ -105,7 +103,13 @@ namespace SoundByte.UWP.ViewModels
                     break;
                 case ItemType.Playlist:
                     if (streamItem.Playlist != null)
+                    {
+                       // var gridView = App.CurrentFrame.FindName("StreamListView") as GridView;
+                       // gridView?.PrepareConnectedAnimation("PlaylistImage", streamItem.Playlist, "ImagePanel");
+
                         App.NavigateTo(typeof(PlaylistView), streamItem.Playlist);
+                    }
+
                     break;
             }
 

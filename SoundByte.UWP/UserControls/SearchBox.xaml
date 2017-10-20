@@ -289,7 +289,7 @@
         <Button Grid.Column="0"
                 Click="NavigateSearch"
                 Margin="0,0,0,0"
-                BorderThickness="1,1,1,1"
+                BorderThickness="1,1,0,1"
                 Padding="33,0,30,0"
                 VerticalAlignment="Stretch"
                 FontFamily="{ThemeResource SymbolThemeFontFamily}"
@@ -297,6 +297,7 @@
                 Content="&#xE71E;" Style="{StaticResource SearchButton}" />
 
         <AutoSuggestBox Grid.Column="1"
+                        Canvas.ZIndex="10"
                         PlaceholderText="Search"
                         VerticalAlignment="Stretch"
                         x:Uid="SearchBoxText"
