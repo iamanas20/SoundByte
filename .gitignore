@@ -288,3 +288,4 @@ __pycache__/
 *.xsd.cs
 /SoundByte.UWP/Assets/app_keys.json
 /SoundByte.MacOS/app_keys.json
+/SoundByte.UWP/Assets/AppKeys.cs

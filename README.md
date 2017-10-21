@@ -95,24 +95,34 @@ SoundByte.Core Gen3 is designed to be easily extendable. More Information is com
 
 ## Development
 
-Create a new file under SoundByte.UWP/Assets called app_keys.json. This file will contain all the keys needed to run the app.
-Insert the following JSON code into this file:
+Create a new file under SoundByte.UWP/Assets called AppKeys.cs. This file will contain all the keys needed to run the app.
+Insert the following c# code into this file and fill in the required keys:
 
 ``` 
-{ "GoogleAnalytics": "key-here",
-  "HockeyAppClientID": "key-here",
-  "AzureMobileCenterClientID": "key-here",
-  "SoundCloudClientID": "key-here",
-  "SoundCloudClientSecret": "key-here",
-  "FanburstClientID": "key-here",
-  "FanbustClientSecret": "key-here",
-  "YouTubeClientID": "key-here",
-  "BackupSoundCloudPlaybackIDs": [
-    "key-here",
-    "key-here",
-    "key-here",
-    "key-here"
-  ]
+using System.Collections.Generic;
+
+namespace SoundByte.UWP.Assets
+{
+    public static class AppKeys
+    {
+        public static string GoogleAnalytics = "";
+
+        public static string HockeyAppClientId = "";
+        public static string AzureMobileCenterClientId = "";
+
+        public static string SoundCloudClientId = "";
+        public static string SoundCloudClientSecret = "";
+
+        public static string FanburstClientId = "";
+        public static string FanbustClientSecret = "";
+
+        public static string YouTubeClientId = "";
+
+        public static List<string> BackupSoundCloudPlaybackIDs = new List<string>()
+        {
+
+        };
+    }
 }
 ```
 

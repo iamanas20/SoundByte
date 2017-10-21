@@ -158,6 +158,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Assets\AppKeys.cs" />
     <Compile Include="Converters\ArtworkConverter.cs" />
     <Compile Include="Converters\BoolToFontWeightConverter.cs" />
     <Compile Include="Converters\DateTimeConverter.cs" />
