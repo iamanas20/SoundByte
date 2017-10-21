@@ -10,105 +10,59 @@
  * |----------------------------------------------------------------|
  */
 
-using System.Collections.Generic;
-using System.Net;
 using Android.App;
-using Android.Content;
-using Android.Widget;
 using Android.OS;
-using Android.Support.V7.Widget;
-using SoundByte.Android.Adapters;
-using SoundByte.Android.Services;
-using SoundByte.Core;
-using SoundByte.Core.Items;
-using SoundByte.Core.Items.Track;
-using SoundByte.Core.Services;
-using Xamarin.Android.Net;
+using Android.Support.Design.Widget;
+using SoundByte.Android.Fragments;
 
 namespace SoundByte.Android
 {
     [Activity(Theme = "@style/AppTheme.Base", Label = "@string/app_name")]
     public class MainActivity : Activity
     {
-        RecyclerView mRecyclerView;
-        RecyclerView.LayoutManager mLayoutManager;
-        TrackAdapter mAdapter;
-
-        List<BaseTrack> SearchTracks = new List<BaseTrack>();
+        private BottomNavigationView _bottomNavigationView;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 
-            
-
-           
-
             // Set our view from the "main" layout resource
-            SetContentView(Resource.Layout.Main);
+            SetContentView(Resource.Layout.MainActivity);
 
-           
-
-            // Get our RecyclerView layout:
-            mRecyclerView = FindViewById<RecyclerView>(Resource.Id.recyclerView);
-
-            //............................................................
-            // Layout Manager Setup:
-
-            // Use the built-in linear layout manager:
-            mLayoutManager = new LinearLayoutManager(this);
-
-            // Or use the built-in grid layout manager (two horizontal rows):
-            // mLayoutManager = new GridLayoutManager
-            //        (this, 2, GridLayoutManager.Horizontal, false);
-
-            // Plug the layout manager into the RecyclerView:
-            mRecyclerView.SetLayoutManager(mLayoutManager);
-
-            mAdapter = new TrackAdapter(SearchTracks);
-            mAdapter.ItemClick += OnItemClick;
-
-            // Plug the adapter into the RecyclerView:
-            mRecyclerView.SetAdapter(mAdapter);
-
-            Button randomPickBtn = FindViewById<Button>(Resource.Id.randPickButton);
-            // Handler for the Random Pick Button:
-            randomPickBtn.Click += async delegate
-            {
-                SearchTracks.Clear();
-
-                var searchResults = await SoundCloudTrack.SearchAsync("Monstercat", 40, null);
-
-                foreach (var result in searchResults.Tracks)
-                {
-                    SearchTracks.Add(result);
-                }
-
-                // Update the RecyclerView by notifying the adapter:
-                // Notify that the top and a randomly-chosen photo has changed (swapped):
-                mAdapter.NotifyDataSetChanged();
-                mAdapter.NotifyItemChanged(0);
-            };
+            _bottomNavigationView = FindViewById<BottomNavigationView>(Resource.Id.bottom_navigation);
+            _bottomNavigationView.NavigationItemSelected += BottomNavigation_NavigationItemSelected;
 
         }
 
-        // Handler for the item click event:
-        void OnItemClick(object sender, int position)
+        private void BottomNavigation_NavigationItemSelected(object sender, BottomNavigationView.NavigationItemSelectedEventArgs e)
         {
-            var adapter = sender as TrackAdapter;
+            LoadFragment(e.Item.ItemId);
+        }
 
-            var intentA = new Intent(PlaybackService.ActionStop);
-            intentA.SetPackage("SoundByte.Android");
-            StartService(intentA);
+        private void LoadFragment(int id)
+        {
+            Fragment fragment = null;
 
-            var intent = new Intent(PlaybackService.ActionPlay);
-            intent.SetPackage("SoundByte.Android");
-            intent.PutExtra("URL", "https://api.soundcloud.com/tracks/" + adapter?.mBaseTrack[position].Id + "/stream?client_id=" + AppKeys.BackupSoundCloudPlaybackIDs[2]);
-            StartService(intent);
+            switch (id)
+            {
+                case Resource.Id.menu_home:
+                    // fragment = Fragment1.NewInstance();
+                    break;
+                case Resource.Id.menu_library:
+                    // fragment = Fragment2.NewInstance();
+                    break;
+                case Resource.Id.menu_search:
+                    fragment = SearchFragment.NewInstance();
+                    break;
+                case Resource.Id.menu_menu:
+                    // fragment = Fragment1.NewInstance();
+                    break;
+            }
 
-            // Display a toast that briefly shows the enumeration of the selected photo:
-            Toast.MakeText(this, "Starting Song: " + adapter.mBaseTrack[position].Title, ToastLength.Short).Show();
+            if (fragment == null)
+                return;
+
+            FragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, fragment).Commit();     
         }
     }
 }
-

@@ -15,6 +15,9 @@ using System.Net;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
+using Microsoft.Azure.Mobile;
+using Microsoft.Azure.Mobile.Analytics;
+using Microsoft.Azure.Mobile.Crashes;
 using SoundByte.Core;
 using SoundByte.Core.Items;
 using SoundByte.Core.Services;
@@ -76,8 +79,11 @@ namespace SoundByte.Android.Activities
                 AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip,
             };
 
+            MobileCenter.Start(AppKeys.AzureMobileCenterClientId,
+                typeof(Analytics), typeof(Crashes));
+
             // Start the main app activity
-            StartActivity(new Intent(Application.Context, typeof(TabbedActivity)));
+            StartActivity(new Intent(Application.Context, typeof(MainActivity)));
         }
     }
 }
