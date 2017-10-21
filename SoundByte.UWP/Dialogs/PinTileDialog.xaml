@@ -32,8 +32,7 @@
 
             <Grid Width="128"
                   Margin="0,15,0,25"
-                  BorderThickness="1"
-                  BorderBrush="{ThemeResource SystemControlHighlightAccentBrush}"
+                  CornerRadius="7"
                   Height="128">
                 <Image Source="{x:Bind ImageSource, Mode=OneWay}"
                        Width="128"

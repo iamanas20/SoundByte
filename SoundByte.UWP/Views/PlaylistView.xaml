@@ -104,32 +104,40 @@
                                                   OffsetX="0"
                                                   OffsetY="5"
                                                   Color="Black">
-                            <Grid Padding="0,7,0,0">
+                            <Grid Padding="0,7,0,0" CornerRadius="7">
                               
 
                                 <Grid Background="#FF444444"
+                                      CornerRadius="7"
                                       x:Name="PlaylistBg2"
                                       Width="120"
-                                      Margin="0,-30,0,0"
+                                      Margin="0,-34,0,0"
                                       Height="120"
                                       VerticalAlignment="Stretch"
                                       HorizontalAlignment="Stretch" />
 
                                 <Grid Background="#FF666666"
+                                      CornerRadius="7"
                                       x:Name="PlaylistBg1"
                                       Width="130"
-                                      Margin="0,-17,0,0"
+                                      Margin="0,-18,0,0"
                                       Height="130"
                                       VerticalAlignment="Stretch"
                                       HorizontalAlignment="Stretch" />
 
-                                <Image
-                                    x:Name="PlaylistImage"
-                                    Width="140"
-                                    Height="140"
-                                    Source="{x:Bind ViewModel.Playlist, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
-                                    VerticalAlignment="Stretch"
-                                    HorizontalAlignment="Stretch" />
+                                <Grid CornerRadius="7" 
+                                      x:Name="PlaylistImage"
+                                      VerticalAlignment="Stretch"
+                                      HorizontalAlignment="Stretch" 
+                                      Width="140"
+                                      Height="140">
+                                    <Image 
+                                           Margin="-10"
+                                           Source="{x:Bind ViewModel.Playlist, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
+                                           />
+                                </Grid>
+                                
+                               
 
                                 <Grid RequestedTheme="Dark" Background="{StaticResource InAppBackgroundBrush}" Padding="8" HorizontalAlignment="Stretch"
                                       VerticalAlignment="Bottom">

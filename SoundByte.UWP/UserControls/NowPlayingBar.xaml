@@ -121,13 +121,16 @@
                                           OffsetX="0"
                                           OffsetY="3"
                                           BlurRadius="15"
+                                          
                                           ShadowOpacity="0.8"
                                           Color="Black"
                                           Margin="20,10,10,10">
-                    <Image
-                        Height="44"
-                        Width="44"
-                        Source="{x:Bind Service.CurrentTrack, Converter={StaticResource ArtworkConverter}, Mode=OneWay}" />
+                    <Grid CornerRadius="7" 
+                          Height="44" 
+                          Width="44">
+                        <Image Margin="-3"
+                               Source="{x:Bind Service.CurrentTrack, Converter={StaticResource ArtworkConverter}, Mode=OneWay}" />
+                    </Grid>
                 </controls:DropShadowPanel>
 
                 <StackPanel Grid.Column="0" Margin="84,0,0,0" VerticalAlignment="Center">

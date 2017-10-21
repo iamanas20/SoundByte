@@ -137,13 +137,18 @@
                                       OffsetX="0"
                                       OffsetY="5"
                                       Color="Black">
-                <Image
-                    x:Name="ArtworkImage"
-                    Height="150"
-                    Width="150"
-                    IsHitTestVisible="False"
-                    Stretch="UniformToFill"
-                    Source="{x:Bind Path=ViewModel.Service.CurrentTrack, Mode=OneWay, Converter={StaticResource ArtworkConverter}}" />
+                <Grid CornerRadius="7" 
+                      Height="150"
+                      Width="150">
+                    <Image x:Name="ArtworkImage"
+                           Height="150"
+                           Width="150"
+                           IsHitTestVisible="False"
+                           Stretch="UniformToFill"
+                           Source="{x:Bind Path=ViewModel.Service.CurrentTrack, Mode=OneWay, Converter={StaticResource ArtworkConverter}}" />
+                </Grid>
+                
+                
             </controls:DropShadowPanel>
 
             <Grid Margin="220,0,0,120" Height="150">

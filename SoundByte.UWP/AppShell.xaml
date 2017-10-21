@@ -519,6 +519,7 @@
 
                 <!-- Main Page Content will be rendered here -->
                 <Frame x:Name="ShellFrame"
+                        
                        TabIndex="1"
                        Padding="10"
                        Background="{ThemeResource ShellBackground}"
