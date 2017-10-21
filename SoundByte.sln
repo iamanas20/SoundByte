@@ -1,17 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2002
+VisualStudioVersion = 15.0.27004.2005
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoundByte.UWP", "SoundByte.UWP\SoundByte.UWP.csproj", "{52B496EF-B47C-4A78-A1CF-AF86DFF078AE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoundByte.Service", "SoundByte.Service\SoundByte.Service.csproj", "{209FA716-A7AD-4095-BD70-C8710FC66FA7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoundByte.Core", "SoundByte.Core\SoundByte.Core.csproj", "{F01E8BB9-FE3E-480A-9702-29D54764D00F}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoundByte.Android", "SoundByte.Android\SoundByte.Android.csproj", "{697A6F5A-EA8E-4010-94E6-C028008A43CB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoundByte.Core", "SoundByte.Core\SoundByte.Core.csproj", "{F01E8BB9-FE3E-480A-9702-29D54764D00F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoundByte.MacOS", "SoundByte.MacOS\SoundByte.MacOS.csproj", "{B93EE082-85F1-4634-9025-DFD6B9F04EE5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoundByte.Android", "SoundByte.Android\SoundByte.Android.csproj", "{D4FFBB62-D8F7-4CB2-BBF3-597A0A6326E4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -77,30 +77,6 @@ Global
 		{F01E8BB9-FE3E-480A-9702-29D54764D00F}.Release|x64.Build.0 = Release|Any CPU
 		{F01E8BB9-FE3E-480A-9702-29D54764D00F}.Release|x86.ActiveCfg = Release|Any CPU
 		{F01E8BB9-FE3E-480A-9702-29D54764D00F}.Release|x86.Build.0 = Release|Any CPU
-		{697A6F5A-EA8E-4010-94E6-C028008A43CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{697A6F5A-EA8E-4010-94E6-C028008A43CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{697A6F5A-EA8E-4010-94E6-C028008A43CB}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{697A6F5A-EA8E-4010-94E6-C028008A43CB}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{697A6F5A-EA8E-4010-94E6-C028008A43CB}.Debug|ARM.Build.0 = Debug|Any CPU
-		{697A6F5A-EA8E-4010-94E6-C028008A43CB}.Debug|ARM.Deploy.0 = Debug|Any CPU
-		{697A6F5A-EA8E-4010-94E6-C028008A43CB}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{697A6F5A-EA8E-4010-94E6-C028008A43CB}.Debug|x64.Build.0 = Debug|Any CPU
-		{697A6F5A-EA8E-4010-94E6-C028008A43CB}.Debug|x64.Deploy.0 = Debug|Any CPU
-		{697A6F5A-EA8E-4010-94E6-C028008A43CB}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{697A6F5A-EA8E-4010-94E6-C028008A43CB}.Debug|x86.Build.0 = Debug|Any CPU
-		{697A6F5A-EA8E-4010-94E6-C028008A43CB}.Debug|x86.Deploy.0 = Debug|Any CPU
-		{697A6F5A-EA8E-4010-94E6-C028008A43CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{697A6F5A-EA8E-4010-94E6-C028008A43CB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{697A6F5A-EA8E-4010-94E6-C028008A43CB}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{697A6F5A-EA8E-4010-94E6-C028008A43CB}.Release|ARM.ActiveCfg = Release|Any CPU
-		{697A6F5A-EA8E-4010-94E6-C028008A43CB}.Release|ARM.Build.0 = Release|Any CPU
-		{697A6F5A-EA8E-4010-94E6-C028008A43CB}.Release|ARM.Deploy.0 = Release|Any CPU
-		{697A6F5A-EA8E-4010-94E6-C028008A43CB}.Release|x64.ActiveCfg = Release|Any CPU
-		{697A6F5A-EA8E-4010-94E6-C028008A43CB}.Release|x64.Build.0 = Release|Any CPU
-		{697A6F5A-EA8E-4010-94E6-C028008A43CB}.Release|x64.Deploy.0 = Release|Any CPU
-		{697A6F5A-EA8E-4010-94E6-C028008A43CB}.Release|x86.ActiveCfg = Release|Any CPU
-		{697A6F5A-EA8E-4010-94E6-C028008A43CB}.Release|x86.Build.0 = Release|Any CPU
-		{697A6F5A-EA8E-4010-94E6-C028008A43CB}.Release|x86.Deploy.0 = Release|Any CPU
 		{B93EE082-85F1-4634-9025-DFD6B9F04EE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B93EE082-85F1-4634-9025-DFD6B9F04EE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B93EE082-85F1-4634-9025-DFD6B9F04EE5}.Debug|ARM.ActiveCfg = Debug|Any CPU
@@ -117,6 +93,30 @@ Global
 		{B93EE082-85F1-4634-9025-DFD6B9F04EE5}.Release|x64.Build.0 = Release|Any CPU
 		{B93EE082-85F1-4634-9025-DFD6B9F04EE5}.Release|x86.ActiveCfg = Release|Any CPU
 		{B93EE082-85F1-4634-9025-DFD6B9F04EE5}.Release|x86.Build.0 = Release|Any CPU
+		{D4FFBB62-D8F7-4CB2-BBF3-597A0A6326E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4FFBB62-D8F7-4CB2-BBF3-597A0A6326E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4FFBB62-D8F7-4CB2-BBF3-597A0A6326E4}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{D4FFBB62-D8F7-4CB2-BBF3-597A0A6326E4}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{D4FFBB62-D8F7-4CB2-BBF3-597A0A6326E4}.Debug|ARM.Build.0 = Debug|Any CPU
+		{D4FFBB62-D8F7-4CB2-BBF3-597A0A6326E4}.Debug|ARM.Deploy.0 = Debug|Any CPU
+		{D4FFBB62-D8F7-4CB2-BBF3-597A0A6326E4}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D4FFBB62-D8F7-4CB2-BBF3-597A0A6326E4}.Debug|x64.Build.0 = Debug|Any CPU
+		{D4FFBB62-D8F7-4CB2-BBF3-597A0A6326E4}.Debug|x64.Deploy.0 = Debug|Any CPU
+		{D4FFBB62-D8F7-4CB2-BBF3-597A0A6326E4}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D4FFBB62-D8F7-4CB2-BBF3-597A0A6326E4}.Debug|x86.Build.0 = Debug|Any CPU
+		{D4FFBB62-D8F7-4CB2-BBF3-597A0A6326E4}.Debug|x86.Deploy.0 = Debug|Any CPU
+		{D4FFBB62-D8F7-4CB2-BBF3-597A0A6326E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4FFBB62-D8F7-4CB2-BBF3-597A0A6326E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4FFBB62-D8F7-4CB2-BBF3-597A0A6326E4}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{D4FFBB62-D8F7-4CB2-BBF3-597A0A6326E4}.Release|ARM.ActiveCfg = Release|Any CPU
+		{D4FFBB62-D8F7-4CB2-BBF3-597A0A6326E4}.Release|ARM.Build.0 = Release|Any CPU
+		{D4FFBB62-D8F7-4CB2-BBF3-597A0A6326E4}.Release|ARM.Deploy.0 = Release|Any CPU
+		{D4FFBB62-D8F7-4CB2-BBF3-597A0A6326E4}.Release|x64.ActiveCfg = Release|Any CPU
+		{D4FFBB62-D8F7-4CB2-BBF3-597A0A6326E4}.Release|x64.Build.0 = Release|Any CPU
+		{D4FFBB62-D8F7-4CB2-BBF3-597A0A6326E4}.Release|x64.Deploy.0 = Release|Any CPU
+		{D4FFBB62-D8F7-4CB2-BBF3-597A0A6326E4}.Release|x86.ActiveCfg = Release|Any CPU
+		{D4FFBB62-D8F7-4CB2-BBF3-597A0A6326E4}.Release|x86.Build.0 = Release|Any CPU
+		{D4FFBB62-D8F7-4CB2-BBF3-597A0A6326E4}.Release|x86.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
