@@ -1,4 +1,17 @@
-﻿using System.Collections.Generic;
+﻿/* |----------------------------------------------------------------|
+ * | Copyright (c) 2017, Grid Entertainment                         |
+ * | All Rights Reserved                                            |
+ * |                                                                |
+ * | This source code is to only be used for educational            |
+ * | purposes. Distribution of SoundByte source code in             |
+ * | any form outside this repository is forbidden. If you          |
+ * | would like to contribute to the SoundByte source code, you     |
+ * | are welcome.                                                   |
+ * |----------------------------------------------------------------|
+ */
+
+using System.Collections.Generic;
+using System.Net;
 using Android.App;
 using Android.Content;
 using Android.Widget;
@@ -10,10 +23,11 @@ using SoundByte.Core;
 using SoundByte.Core.Items;
 using SoundByte.Core.Items.Track;
 using SoundByte.Core.Services;
+using Xamarin.Android.Net;
 
 namespace SoundByte.Android
 {
-    [Activity(Label = "SoundByte.Android", MainLauncher = true)]
+    [Activity(Theme = "@style/AppTheme.Base", Label = "@string/app_name")]
     public class MainActivity : Activity
     {
         RecyclerView mRecyclerView;
@@ -26,44 +40,14 @@ namespace SoundByte.Android
         {
             base.OnCreate(savedInstanceState);
 
-            // Load the SoundByte V3 API
-            var secretList = new List<ServiceSecret>
-            {
-                new ServiceSecret
-                {
-                    Service = ServiceType.SoundCloud,
-                    ClientId = AppKeys.SoundCloudClientId,
-                    ClientSecret = AppKeys.SoundCloudClientSecret,
-                },
-                new ServiceSecret
-                {
-                    Service = ServiceType.SoundCloudV2,
-                    ClientId = AppKeys.SoundCloudClientId,
-                    ClientSecret = AppKeys.SoundCloudClientSecret,
-                },
-                new ServiceSecret
-                {
-                    Service = ServiceType.Fanburst,
-                    ClientId = AppKeys.FanburstClientId,
-                    ClientSecret = AppKeys.FanburstClientSecret,
-                },
-                new ServiceSecret
-                {
-                    Service = ServiceType.YouTube,
-                    ClientId = AppKeys.YouTubeClientId,
-                },
-                new ServiceSecret
-                {
-                    Service = ServiceType.ITunesPodcast
-                }
-            };
+            
 
            
 
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.Main);
 
-            SoundByteV3Service.Current.Init(secretList);
+           
 
             // Get our RecyclerView layout:
             mRecyclerView = FindViewById<RecyclerView>(Resource.Id.recyclerView);
@@ -114,11 +98,11 @@ namespace SoundByte.Android
             var adapter = sender as TrackAdapter;
 
             var intentA = new Intent(PlaybackService.ActionStop);
-            intentA.SetPackage("SoundByte.Android.SoundByte.Android");
+            intentA.SetPackage("SoundByte.Android");
             StartService(intentA);
 
             var intent = new Intent(PlaybackService.ActionPlay);
-            intent.SetPackage("SoundByte.Android.SoundByte.Android");
+            intent.SetPackage("SoundByte.Android");
             intent.PutExtra("URL", "https://api.soundcloud.com/tracks/" + adapter?.mBaseTrack[position].Id + "/stream?client_id=" + AppKeys.BackupSoundCloudPlaybackIDs[2]);
             StartService(intent);
 
