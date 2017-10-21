@@ -39,6 +39,7 @@ using SoundByte.Core.Services;
 using SoundByte.UWP.DatabaseContexts;
 using SoundByte.UWP.Models;
 using SoundByte.Core.Models.MediaStreams;
+using SoundByte.UWP.Assets;
 
 namespace SoundByte.UWP.Services
 {
@@ -628,7 +629,7 @@ namespace SoundByte.UWP.Services
                 switch (track.ServiceType)
                 {
                     case ServiceType.Fanburst:
-                        args.SetUri(new Uri("https://api.fanburst.com/tracks/" + track.Id + "/stream?client_id=" + ApiKeyService.FanburstClientId));
+                        args.SetUri(new Uri("https://api.fanburst.com/tracks/" + track.Id + "/stream?client_id=" + AppKeys.FanburstClientId));
                         break;
                     case ServiceType.SoundCloud:
                     case ServiceType.SoundCloudV2:
@@ -1059,16 +1060,16 @@ namespace SoundByte.UWP.Services
             {
                 // Check if we have hit the soundcloud api limit
                 if (await ApiCheck(
-                    $"https://api.soundcloud.com/tracks/320126814/stream?client_id={ApiKeyService.SoundCloudClientId}"))
-                    return ApiKeyService.SoundCloudClientId;
+                    $"https://api.soundcloud.com/tracks/320126814/stream?client_id={AppKeys.SoundCloudClientId}"))
+                    return AppKeys.SoundCloudClientId;
 
                 // Loop through all the backup keys
-                foreach (var key in ApiKeyService.SoundCloudPlaybackClientIds)
+                foreach (var key in AppKeys.BackupSoundCloudPlaybackIDs)
                     if (await ApiCheck(
                         $"https://api.soundcloud.com/tracks/320126814/stream?client_id={key}"))
                         return key;
 
-                return ApiKeyService.SoundCloudClientId;
+                return AppKeys.SoundCloudClientId;
             });
         }
         #endregion

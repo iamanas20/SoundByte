@@ -27,6 +27,7 @@ using Newtonsoft.Json;
 using SoundByte.Core;
 using SoundByte.Core.Items;
 using SoundByte.Core.Services;
+using SoundByte.UWP.Assets;
 using SoundByte.UWP.Helpers;
 using SoundByte.UWP.Services;
 
@@ -173,14 +174,14 @@ namespace SoundByte.UWP.Views.Me
                             {
                                 "client_id",
                                 _loginService == ServiceType.SoundCloud
-                                    ? ApiKeyService.SoundCloudClientId
-                                    : ApiKeyService.FanburstClientId
+                                    ? AppKeys.SoundCloudClientId
+                                    : AppKeys.FanburstClientId
                             },
                             {
                                 "client_secret",
                                 _loginService == ServiceType.SoundCloud
-                                    ? ApiKeyService.SoundCloudClientSecret
-                                    : ApiKeyService.FanburstClientSecret
+                                    ? AppKeys.SoundCloudClientSecret
+                                    : AppKeys.FanburstClientSecret
                             },
                             {"grant_type", "authorization_code"},
                             {"redirect_uri", _appCallback},
@@ -294,11 +295,11 @@ namespace SoundByte.UWP.Views.Me
             {
                 case ServiceType.SoundCloud:
                     connectUri =
-                        $"https://soundcloud.com/connect?scope=non-expiring&client_id={ApiKeyService.SoundCloudClientId}&response_type=code&display=popup&redirect_uri={_appCallback}&state={_stateVerification}";
+                        $"https://soundcloud.com/connect?scope=non-expiring&client_id={AppKeys.SoundCloudClientId}&response_type=code&display=popup&redirect_uri={_appCallback}&state={_stateVerification}";
                     break;
                 case ServiceType.Fanburst:
                     connectUri =
-                        $"https://fanburst.com/oauth/authorize?client_id={ApiKeyService.FanburstClientId}&response_type=code&redirect_uri={_appCallback}&state={_stateVerification}";
+                        $"https://fanburst.com/oauth/authorize?client_id={AppKeys.FanburstClientId}&response_type=code&redirect_uri={_appCallback}&state={_stateVerification}";
                     break;
             }
 

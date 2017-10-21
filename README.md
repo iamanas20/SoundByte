@@ -105,20 +105,20 @@ namespace SoundByte.UWP.Assets
 {
     public static class AppKeys
     {
-        public static string GoogleAnalytics = "";
+        public const string GoogleAnalyticsTrackerId = "";
 
-        public static string HockeyAppClientId = "";
-        public static string AzureMobileCenterClientId = "";
+        public const string HockeyAppClientId = "";
+        public const string AzureMobileCenterClientId = "";
 
-        public static string SoundCloudClientId = "";
-        public static string SoundCloudClientSecret = "";
+        public const string SoundCloudClientId = "";
+        public const string SoundCloudClientSecret = "";
 
-        public static string FanburstClientId = "";
-        public static string FanbustClientSecret = "";
+        public const string FanburstClientId = "";
+        public const string FanburstClientSecret = "";
 
-        public static string YouTubeClientId = "";
+        public const string YouTubeClientId = "";
 
-        public static List<string> BackupSoundCloudPlaybackIDs = new List<string>()
+        public static readonly List<string> BackupSoundCloudPlaybackIDs = new List<string>()
         {
 
         };

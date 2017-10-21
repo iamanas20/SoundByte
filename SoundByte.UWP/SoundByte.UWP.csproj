@@ -146,7 +146,6 @@
     <Content Include="Assets\Wide310x150Logo.scale-400.png" />
     <Content Include="Assets\build_info.json" />
     <Content Include="SoundByteCommands.xml" />
-    <Content Include="Assets\app_keys.json" />
     <None Include="SoundByte.UWP_TemporaryKey.pfx" />
     <PRIResource Include="Strings\nl\Resources.resw" />
     <PRIResource Include="Strings\fr\Resources.resw" />
@@ -223,7 +222,6 @@
     <Compile Include="Models\StreamModel.cs" />
     <Compile Include="Models\UserFollowersModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\ApiKeyService.cs" />
     <Compile Include="Services\BackendService.cs" />
     <Compile Include="Services\MonitizeService.cs" />
     <Compile Include="Services\NavigationService.cs" />

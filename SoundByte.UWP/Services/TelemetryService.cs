@@ -22,6 +22,7 @@ using Microsoft.HockeyApp;
 using NotificationsExtensions;
 using NotificationsExtensions.Toasts;
 using SoundByte.Core.Helpers;
+using SoundByte.UWP.Assets;
 using SoundByte.UWP.Helpers;
 
 namespace SoundByte.UWP.Services
@@ -46,13 +47,13 @@ namespace SoundByte.UWP.Services
                 AnalyticsManager.Current.AppOptOut = false;
                 AnalyticsManager.Current.IsEnabled = true;
                 AnalyticsManager.Current.IsDebug = false;
-                GoogleAnalyticsClient = AnalyticsManager.Current.CreateTracker(ApiKeyService.GoogleAnalyticsTrackerId);
+                GoogleAnalyticsClient = AnalyticsManager.Current.CreateTracker(AppKeys.GoogleAnalyticsTrackerId);
 
                 // Azure Mobile Aalytics and push support
-                MobileCenter.Start(ApiKeyService.AzureMobileCenterClientId, typeof(Analytics), typeof(Push));
+                MobileCenter.Start(AppKeys.AzureMobileCenterClientId, typeof(Analytics), typeof(Push));
 
                 // Used for crash reporting
-                HockeyClient.Current.Configure(ApiKeyService.HockeyAppClientId);
+                HockeyClient.Current.Configure(AppKeys.HockeyAppClientId);
 
 #if DEBUG
                 // Disable this on debug

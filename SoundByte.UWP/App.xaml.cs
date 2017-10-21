@@ -29,6 +29,7 @@ using Microsoft.Toolkit.Uwp.Helpers;
 using SoundByte.Core;
 using SoundByte.Core.Items;
 using SoundByte.Core.Services;
+using SoundByte.UWP.Assets;
 using SoundByte.UWP.DatabaseContexts;
 using SoundByte.UWP.Dialogs;
 using SoundByte.UWP.Helpers;
@@ -72,9 +73,6 @@ namespace SoundByte.UWP
             NavigationService.Current.RegisterTypeAsDialog<PinTileDialog>();
             NavigationService.Current.RegisterTypeAsDialog<PlaylistDialog>();
             NavigationService.Current.RegisterTypeAsDialog<ShareDialog>();
-
-            // Init Keys
-            ApiKeyService.Init();
 
             // Live tile helpers
             TileHelper.Init();
@@ -226,28 +224,28 @@ namespace SoundByte.UWP
                 new ServiceSecret
                 {
                     Service = ServiceType.SoundCloud,
-                    ClientId = ApiKeyService.SoundCloudClientId,
-                    ClientSecret = ApiKeyService.SoundCloudClientSecret,
+                    ClientId = AppKeys.SoundCloudClientId,
+                    ClientSecret = AppKeys.SoundCloudClientSecret,
                     UserToken = soundCloudToken
                 },
                 new ServiceSecret
                 {
                     Service = ServiceType.SoundCloudV2,
-                    ClientId = ApiKeyService.SoundCloudClientId,
-                    ClientSecret = ApiKeyService.SoundCloudClientSecret,
+                    ClientId = AppKeys.SoundCloudClientId,
+                    ClientSecret = AppKeys.SoundCloudClientSecret,
                     UserToken = soundCloudToken
                 },
                 new ServiceSecret
                 {
                     Service = ServiceType.Fanburst,
-                    ClientId = ApiKeyService.FanburstClientId,
-                    ClientSecret = ApiKeyService.FanburstClientSecret,
+                    ClientId = AppKeys.FanburstClientId,
+                    ClientSecret = AppKeys.FanburstClientSecret,
                     UserToken = fanburstToken
                 },
                 new ServiceSecret
                 {
                     Service = ServiceType.YouTube,
-                    ClientId = ApiKeyService.YouTubeClientId,
+                    ClientId = AppKeys.YouTubeClientId,
                     UserToken = youTubeToken
                 }, 
                 new ServiceSecret
