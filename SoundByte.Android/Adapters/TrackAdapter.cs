@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using Android.App;
 using Android.Support.V7.Widget;
 using Android.Views;
+using SoundByte.Android.Helpers;
 using SoundByte.Android.ViewHolders;
 using SoundByte.Core.Items.Track;
 using Uri = Android.Net.Uri;
@@ -36,7 +38,9 @@ namespace SoundByte.Android.Adapters
 
             // Set the ImageView and TextView in this ViewHolder's CardView 
             // from this position in the photo album:
-            vh.Image.SetImageURI(Uri.Parse(mBaseTrack[position].ArtworkUrl));
+
+            var imageBitmap = HttpHelpers.GetImageBitmapFromUrl(mBaseTrack[position].ArtworkUrl);
+            vh.Image.SetImageBitmap(imageBitmap);
             vh.Caption.Text = mBaseTrack[position].Title;
         }
 

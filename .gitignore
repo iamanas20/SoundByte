@@ -289,3 +289,4 @@ __pycache__/
 /SoundByte.UWP/Assets/app_keys.json
 /SoundByte.MacOS/app_keys.json
 /SoundByte.UWP/Assets/AppKeys.cs
+/SoundByte.Android/AppKeys.cs

@@ -635,10 +635,10 @@ namespace SoundByte.UWP.Services
                     case ServiceType.SoundCloudV2:
                         var key = await GetCorrectApiKey(track);
 
-                        var ass = await AdaptiveMediaSource.CreateFromUriAsync(new Uri("http://api.soundcloud.com/tracks/" + track.Id + "/stream?client_id=" + key));
+                        var ass = await AdaptiveMediaSource.CreateFromUriAsync(new Uri("https://api.soundcloud.com/tracks/" + track.Id + "/stream?client_id=" + key));
 
 
-                        args.SetUri(new Uri("http://api.soundcloud.com/tracks/" + track.Id + "/stream?client_id=" + key));
+                        args.SetUri(new Uri("https://api.soundcloud.com/tracks/" + track.Id + "/stream?client_id=" + key));
                         break;
                     case ServiceType.YouTube:
                         var video = await new YoutubeClient().GetVideoInfoAsync(track.Id);

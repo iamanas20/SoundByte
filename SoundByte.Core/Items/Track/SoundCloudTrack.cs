@@ -40,7 +40,23 @@ namespace SoundByte.Core.Items.Track
         }
 
         [JsonProperty("artwork_url")]
-        public string ArtworkUrl { get; set; }
+        private string _artworkUrl { get; set; }
+
+        public string ArtworkUrl
+        {
+            set => _artworkUrl = value;
+            get
+            {
+                if (string.IsNullOrEmpty(_artworkUrl))
+                {
+                    return User.AvatarUrl;
+                }
+                else
+                {
+                    return _artworkUrl;
+                }
+            }
+        }
 
         [JsonProperty("commentable")]
         public bool IsCommentable { get; set; }
