@@ -18,6 +18,7 @@ using Android.Content;
 using Microsoft.Azure.Mobile;
 using Microsoft.Azure.Mobile.Analytics;
 using Microsoft.Azure.Mobile.Crashes;
+using Microsoft.Azure.Mobile.Distribute;
 using SoundByte.Core;
 using SoundByte.Core.Items;
 using SoundByte.Core.Services;
@@ -80,7 +81,7 @@ namespace SoundByte.Android.Activities
             };
 
             MobileCenter.Start(AppKeys.AzureMobileCenterClientId,
-                typeof(Analytics), typeof(Crashes));
+                typeof(Analytics), typeof(Crashes), typeof(Distribute));
 
             // Start the main app activity
             StartActivity(new Intent(Application.Context, typeof(MainActivity)));

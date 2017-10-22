@@ -26,6 +26,21 @@ namespace SoundByte.Android
 		
 		public static void UpdateIdValues()
 		{
+			global::Microsoft.Azure.Mobile.Distribute.Resource.String.mobile_center_distribute_dialog_actioned_on_disabled_toast = global::SoundByte.Android.Resource.String.mobile_center_distribute_dialog_actioned_on_disabled_toast;
+			global::Microsoft.Azure.Mobile.Distribute.Resource.String.mobile_center_distribute_download_progress_number_format = global::SoundByte.Android.Resource.String.mobile_center_distribute_download_progress_number_format;
+			global::Microsoft.Azure.Mobile.Distribute.Resource.String.mobile_center_distribute_downloading_mandatory_update = global::SoundByte.Android.Resource.String.mobile_center_distribute_downloading_mandatory_update;
+			global::Microsoft.Azure.Mobile.Distribute.Resource.String.mobile_center_distribute_install = global::SoundByte.Android.Resource.String.mobile_center_distribute_install;
+			global::Microsoft.Azure.Mobile.Distribute.Resource.String.mobile_center_distribute_install_ready_message = global::SoundByte.Android.Resource.String.mobile_center_distribute_install_ready_message;
+			global::Microsoft.Azure.Mobile.Distribute.Resource.String.mobile_center_distribute_install_ready_title = global::SoundByte.Android.Resource.String.mobile_center_distribute_install_ready_title;
+			global::Microsoft.Azure.Mobile.Distribute.Resource.String.mobile_center_distribute_notification_category = global::SoundByte.Android.Resource.String.mobile_center_distribute_notification_category;
+			global::Microsoft.Azure.Mobile.Distribute.Resource.String.mobile_center_distribute_unknown_sources_dialog_message = global::SoundByte.Android.Resource.String.mobile_center_distribute_unknown_sources_dialog_message;
+			global::Microsoft.Azure.Mobile.Distribute.Resource.String.mobile_center_distribute_unknown_sources_dialog_settings = global::SoundByte.Android.Resource.String.mobile_center_distribute_unknown_sources_dialog_settings;
+			global::Microsoft.Azure.Mobile.Distribute.Resource.String.mobile_center_distribute_update_dialog_download = global::SoundByte.Android.Resource.String.mobile_center_distribute_update_dialog_download;
+			global::Microsoft.Azure.Mobile.Distribute.Resource.String.mobile_center_distribute_update_dialog_message_mandatory = global::SoundByte.Android.Resource.String.mobile_center_distribute_update_dialog_message_mandatory;
+			global::Microsoft.Azure.Mobile.Distribute.Resource.String.mobile_center_distribute_update_dialog_message_optional = global::SoundByte.Android.Resource.String.mobile_center_distribute_update_dialog_message_optional;
+			global::Microsoft.Azure.Mobile.Distribute.Resource.String.mobile_center_distribute_update_dialog_postpone = global::SoundByte.Android.Resource.String.mobile_center_distribute_update_dialog_postpone;
+			global::Microsoft.Azure.Mobile.Distribute.Resource.String.mobile_center_distribute_update_dialog_title = global::SoundByte.Android.Resource.String.mobile_center_distribute_update_dialog_title;
+			global::Microsoft.Azure.Mobile.Distribute.Resource.String.mobile_center_distribute_update_dialog_view_release_notes = global::SoundByte.Android.Resource.String.mobile_center_distribute_update_dialog_view_release_notes;
 		}
 		
 		public partial class Animation
@@ -2360,6 +2375,9 @@ namespace SoundByte.Android
 			// aapt resource value: 0x7f0a0023
 			public const int always = 2131361827;
 			
+			// aapt resource value: 0x7f0a009b
+			public const int appbar = 2131361947;
+			
 			// aapt resource value: 0x7f0a002f
 			public const int auto = 2131361839;
 			
@@ -2498,8 +2516,8 @@ namespace SoundByte.Android
 			// aapt resource value: 0x7f0a0046
 			public const int image = 2131361862;
 			
-			// aapt resource value: 0x7f0a009d
-			public const int imageView = 2131361949;
+			// aapt resource value: 0x7f0a009e
+			public const int imageView = 2131361950;
 			
 			// aapt resource value: 0x7f0a0091
 			public const int info = 2131361937;
@@ -2525,23 +2543,23 @@ namespace SoundByte.Android
 			// aapt resource value: 0x7f0a0048
 			public const int list_item = 2131361864;
 			
-			// aapt resource value: 0x7f0a00a0
-			public const int masked = 2131361952;
+			// aapt resource value: 0x7f0a00a1
+			public const int masked = 2131361953;
 			
 			// aapt resource value: 0x7f0a008a
 			public const int media_actions = 2131361930;
 			
-			// aapt resource value: 0x7f0a00a1
-			public const int menu_home = 2131361953;
-			
 			// aapt resource value: 0x7f0a00a2
-			public const int menu_library = 2131361954;
-			
-			// aapt resource value: 0x7f0a00a4
-			public const int menu_menu = 2131361956;
+			public const int menu_home = 2131361954;
 			
 			// aapt resource value: 0x7f0a00a3
-			public const int menu_search = 2131361955;
+			public const int menu_library = 2131361955;
+			
+			// aapt resource value: 0x7f0a00a5
+			public const int menu_menu = 2131361957;
+			
+			// aapt resource value: 0x7f0a00a4
+			public const int menu_search = 2131361956;
 			
 			// aapt resource value: 0x7f0a0022
 			public const int middle = 2131361826;
@@ -2591,11 +2609,11 @@ namespace SoundByte.Android
 			// aapt resource value: 0x7f0a005d
 			public const int radio = 2131361885;
 			
-			// aapt resource value: 0x7f0a009b
-			public const int randPickButton = 2131361947;
-			
 			// aapt resource value: 0x7f0a009c
-			public const int recyclerView = 2131361948;
+			public const int randPickButton = 2131361948;
+			
+			// aapt resource value: 0x7f0a009d
+			public const int recyclerView = 2131361949;
 			
 			// aapt resource value: 0x7f0a0035
 			public const int right = 2131361845;
@@ -2723,8 +2741,8 @@ namespace SoundByte.Android
 			// aapt resource value: 0x7f0a0051
 			public const int textSpacerNoTitle = 2131361873;
 			
-			// aapt resource value: 0x7f0a009e
-			public const int textView = 2131361950;
+			// aapt resource value: 0x7f0a009f
+			public const int textView = 2131361951;
 			
 			// aapt resource value: 0x7f0a0080
 			public const int text_input_password_toggle = 2131361920;
@@ -2771,8 +2789,8 @@ namespace SoundByte.Android
 			// aapt resource value: 0x7f0a000e
 			public const int view_offset_helper = 2131361806;
 			
-			// aapt resource value: 0x7f0a009f
-			public const int visible = 2131361951;
+			// aapt resource value: 0x7f0a00a0
+			public const int visible = 2131361952;
 			
 			// aapt resource value: 0x7f0a0027
 			public const int withText = 2131361831;
@@ -3163,8 +3181,8 @@ namespace SoundByte.Android
 			// aapt resource value: 0x7f080013
 			public const int abc_toolbar_collapse_description = 2131230739;
 			
-			// aapt resource value: 0x7f08002a
-			public const int app_name = 2131230762;
+			// aapt resource value: 0x7f080039
+			public const int app_name = 2131230777;
 			
 			// aapt resource value: 0x7f080022
 			public const int appbar_scrolling_view_behavior = 2131230754;
@@ -3177,6 +3195,51 @@ namespace SoundByte.Android
 			
 			// aapt resource value: 0x7f080000
 			public const int common_google_play_services_unknown_issue = 2131230720;
+			
+			// aapt resource value: 0x7f08002a
+			public const int mobile_center_distribute_dialog_actioned_on_disabled_toast = 2131230762;
+			
+			// aapt resource value: 0x7f08002b
+			public const int mobile_center_distribute_download_progress_number_format = 2131230763;
+			
+			// aapt resource value: 0x7f08002c
+			public const int mobile_center_distribute_downloading_mandatory_update = 2131230764;
+			
+			// aapt resource value: 0x7f08002d
+			public const int mobile_center_distribute_install = 2131230765;
+			
+			// aapt resource value: 0x7f08002e
+			public const int mobile_center_distribute_install_ready_message = 2131230766;
+			
+			// aapt resource value: 0x7f08002f
+			public const int mobile_center_distribute_install_ready_title = 2131230767;
+			
+			// aapt resource value: 0x7f080030
+			public const int mobile_center_distribute_notification_category = 2131230768;
+			
+			// aapt resource value: 0x7f080031
+			public const int mobile_center_distribute_unknown_sources_dialog_message = 2131230769;
+			
+			// aapt resource value: 0x7f080032
+			public const int mobile_center_distribute_unknown_sources_dialog_settings = 2131230770;
+			
+			// aapt resource value: 0x7f080033
+			public const int mobile_center_distribute_update_dialog_download = 2131230771;
+			
+			// aapt resource value: 0x7f080034
+			public const int mobile_center_distribute_update_dialog_message_mandatory = 2131230772;
+			
+			// aapt resource value: 0x7f080035
+			public const int mobile_center_distribute_update_dialog_message_optional = 2131230773;
+			
+			// aapt resource value: 0x7f080036
+			public const int mobile_center_distribute_update_dialog_postpone = 2131230774;
+			
+			// aapt resource value: 0x7f080037
+			public const int mobile_center_distribute_update_dialog_title = 2131230775;
+			
+			// aapt resource value: 0x7f080038
+			public const int mobile_center_distribute_update_dialog_view_release_notes = 2131230776;
 			
 			// aapt resource value: 0x7f080025
 			public const int password_toggle_content_description = 2131230757;

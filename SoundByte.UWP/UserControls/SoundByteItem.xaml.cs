@@ -11,6 +11,8 @@
  */
 
 using System;
+using System.Numerics;
+using Windows.UI.Composition;
 using SoundByte.Core;
 using SoundByte.Core.Items.Playlist;
 using SoundByte.Core.Items.Track;
@@ -19,7 +21,12 @@ using SoundByte.UWP.Dialogs;
 using SoundByte.UWP.Services;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media.Animation;
 using Microsoft.Toolkit.Uwp.Helpers;
+using Microsoft.Toolkit.Uwp.UI.Animations;
+using Microsoft.Toolkit.Uwp.UI.Controls;
+using UICompositionAnimations.Composition;
 
 namespace SoundByte.UWP.UserControls
 {
@@ -139,6 +146,58 @@ namespace SoundByte.UWP.UserControls
         private async void AddTrackToPlaylist(object sender, RoutedEventArgs e)
         {
             await NavigationService.Current.CallDialogAsync<PlaylistDialog>(Track);
+        }
+
+        private void StartAnimations(UIElement element)
+        {
+            var panel = (DropShadowPanel)element;
+
+            panel.Offset(0, -8, 250).Start();
+
+            panel.DropShadow.StartAnimation("Offset",
+                panel.DropShadow.Compositor.CreateVector3KeyFrameAnimation(new Vector3(0, 7, 0), new Vector3(0, 10, 0), TimeSpan.FromMilliseconds(250), null));
+
+            panel.DropShadow.StartAnimation("Opacity",
+                panel.DropShadow.Compositor.CreateScalarKeyFrameAnimation(0.6f, 0.8f, TimeSpan.FromMilliseconds(250), null));
+
+            panel.DropShadow.StartAnimation("BlurRadius",
+                panel.DropShadow.Compositor.CreateScalarKeyFrameAnimation(15.0f, 35.0f, TimeSpan.FromMilliseconds(250), null));
+        }
+
+        private void StopAnimation(UIElement element)
+        {
+            var panel = (DropShadowPanel)element;
+
+            panel.Offset(0, 0, 350).Start();
+
+            panel.DropShadow.StartAnimation("BlurRadius",
+                panel.DropShadow.Compositor.CreateScalarKeyFrameAnimation(35.0f, 15.0f, TimeSpan.FromMilliseconds(250), null));
+
+            panel.DropShadow.StartAnimation("Offset",
+                panel.DropShadow.Compositor.CreateVector3KeyFrameAnimation(new Vector3(0, 10, 0), new Vector3(0, 7, 0), TimeSpan.FromMilliseconds(250), null));
+
+            panel.DropShadow.StartAnimation("Opacity",
+                panel.DropShadow.Compositor.CreateScalarKeyFrameAnimation(0.8f, 0.6f, TimeSpan.FromMilliseconds(250), null));
+        }
+
+        private void DesktopTrackItem_OnPointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            StartAnimations(ShadowPanel);
+        }
+
+        private void DesktopTrackItem_OnPointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            StopAnimation(ShadowPanel);
+        }
+
+        private void DesktopPlaylistItem_OnPointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            StopAnimation(PlaylistDropShadow);
+        }
+
+        private void DesktopPlaylistItem_OnPointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            StartAnimations(PlaylistDropShadow);
         }
     }
 }

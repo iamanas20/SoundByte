@@ -67,11 +67,6 @@ namespace SoundByte.Core.Services
 
         #endregion
 
-        public HttpClientHandler ServiceClientHandler = new HttpClientHandler
-        {
-            AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip
-        };
-
         #region Getters and Setters
 
         #endregion
@@ -343,7 +338,10 @@ namespace SoundByte.Core.Services
                 return await Task.Run(async () =>
                 {
                     // Create the client
-                    using (var client = new HttpClient(ServiceClientHandler))
+                    using (var client = new HttpClient(new HttpClientHandler
+                    {
+                        AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip
+                    }))
                     {
                         // We want json
                         client.DefaultRequestHeaders.Accept.Add(
@@ -448,7 +446,10 @@ namespace SoundByte.Core.Services
                 return await Task.Run(async () =>
                 {
                     // Create the client
-                    using (var client = new HttpClient(ServiceClientHandler))
+                    using (var client = new HttpClient(new HttpClientHandler
+                    {
+                        AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip
+                    }))
                     {
                         // Add the user agent
                         client.DefaultRequestHeaders.UserAgent.Add(
@@ -535,7 +536,10 @@ namespace SoundByte.Core.Services
                 return await Task.Run(async () =>
                 {
                     // Create the client
-                    using (var client = new HttpClient(ServiceClientHandler))
+                    using (var client = new HttpClient(new HttpClientHandler
+                    {
+                        AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip
+                    }))
                     {
                         // We want json
                         client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
@@ -643,7 +647,10 @@ namespace SoundByte.Core.Services
                 return await Task.Run(async () =>
                 {
                     // Create the client
-                    using (var client = new HttpClient(ServiceClientHandler))
+                    using (var client = new HttpClient(new HttpClientHandler
+                    {
+                        AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip
+                    }))
                     {
                         // We want json
                         client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
@@ -714,7 +721,10 @@ namespace SoundByte.Core.Services
                 return await Task.Run(async () =>
                 {
                     // Create the client
-                    using (var client = new HttpClient(ServiceClientHandler))
+                    using (var client = new HttpClient(new HttpClientHandler
+                    {
+                        AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip
+                    }))
                     {
                         client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 

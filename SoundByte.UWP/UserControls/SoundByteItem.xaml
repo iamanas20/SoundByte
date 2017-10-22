@@ -1,6 +1,8 @@
 ﻿<UserControl
     x:Class="SoundByte.UWP.UserControls.SoundByteItem"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:uap5="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,5)"
+    xmlns:uap="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract,5)"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -61,6 +63,8 @@
         </Grid>
         
         <Grid x:Name="DesktopPlaylistItem"
+              PointerEntered="DesktopPlaylistItem_OnPointerEntered"
+              PointerExited="DesktopPlaylistItem_OnPointerExited"
               Visibility="Collapsed"
               Background="#00FFFFFF"
               IsHitTestVisible="true"
@@ -68,25 +72,22 @@
               Width="170"
               Margin="5"
               x:Load="False">
-
-            <!-- On Hover, show the full playlist title -->
-            <ToolTipService.ToolTip>
-                <TextBlock Text="{x:Bind Path=Playlist.Title, Mode=OneWay}" />
-            </ToolTipService.ToolTip>
-
+            
+            <!-- All Content -->
             <StackPanel Orientation="Vertical">
+
                 <!-- Drop Shadow for playlist image -->
-                <controls:DropShadowPanel VerticalAlignment="Top"
-                                          
-                                      x:Name="ImagePanel"
-                                      BlurRadius="25"
-                                      ShadowOpacity="0.6"
-                                      OffsetX="0"
-                                      OffsetY="5"                 
-                                      IsTabStop="False"
-                                      IsHitTestVisible="False"
-                                      Margin="5,5,5,8"
-                                      Color="Black">
+                <controls:DropShadowPanel x:Name="PlaylistDropShadow"
+                                          VerticalAlignment="Top"                       
+                                          BlurRadius="15"
+                                          ShadowOpacity="0.6"
+                                          OffsetX="0"
+                                          OffsetY="7"
+                                          Padding="0,8,0,0"
+                                          IsTabStop="False"
+                                          IsHitTestVisible="False"
+                                          Margin="5,0,5,8"
+                                          Color="Black">
                     <Grid Padding="0,7,0,0" CornerRadius="7">
                         <Grid Background="#FF444444"
                               CornerRadius="7"
@@ -104,6 +105,7 @@
                           VerticalAlignment="Stretch"
                           HorizontalAlignment="Stretch" />
 
+                        <!-- Displayed before the image is loaded -->
                         <Grid Width="160" Height="160" Background="DimGray" CornerRadius="7" />
 
                         <Grid CornerRadius="7" 
@@ -118,52 +120,67 @@
                                    Stretch="UniformToFill"
                                    IsHitTestVisible="False" />
                         </Grid>
-                        
+
                         <!-- Length of playlist, bottom-right -->
-                        <Grid RequestedTheme="Dark" Background="{StaticResource InAppBackgroundBrush}" Padding="8" HorizontalAlignment="Stretch"
-                          VerticalAlignment="Bottom">
+                        <Grid RequestedTheme="Dark" 
+                              uap:Background="{StaticResource InAppBackgroundBrush}"
+                              uap5:Background="{ThemeResource SystemControlAcrylicElementBrush}"
+                              Padding="8"
+                              Margin="-2"
+                              HorizontalAlignment="Stretch"
+                              VerticalAlignment="Bottom">
+
+                            <!-- Duration of Playlist -->
                             <TextBlock RequestedTheme="Dark"
-                                   Text="{x:Bind Path=Playlist.Duration, Mode=OneWay, Converter={StaticResource TimeStampConverter}}"
-                                   VerticalAlignment="Center"
-                                   HorizontalAlignment="Right"
-                                   FontSize="12"
-                                   FontWeight="SemiBold" />
+                                       Text="{x:Bind Path=Playlist.Duration, Mode=OneWay, Converter={StaticResource TimeStampConverter}}"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Right"
+                                       FontSize="12"
+                                       FontWeight="SemiBold" />
+
+                            <!-- Service Type -->
                             <Image Source="{x:Bind Path=Playlist.ServiceType, Converter={StaticResource ServiceToImageConverter}, Mode=OneWay}" 
-                               Stretch="Uniform" 
-                               HorizontalAlignment="Left" 
-                               Height="12" 
-                               VerticalAlignment="Center" />
+                                   Stretch="Uniform" 
+                                   HorizontalAlignment="Left" 
+                                   Height="12" 
+                                   VerticalAlignment="Center" />
                         </Grid>
                     </Grid>
                 </controls:DropShadowPanel>
-                <!-- Playlist info below image -->
-                <TextBlock Text="{x:Bind Path=Playlist.Title, Mode=OneWay}"
-                           Margin="6,2,6,2" 
-                           TextAlignment="Left"
-                           FontWeight="Bold"
-                           Opacity="0.9"
-                           FontSize="14"
-                           TextWrapping="Wrap"
-                           MaxHeight="50"
-                           TextTrimming="CharacterEllipsis" />
-                <TextBlock Text="{x:Bind Path=Playlist.User.Username, Mode=OneWay}"
-                       FontSize="13"
-                           Margin="6,0,6,0"
-                       Opacity="0.8"
-                       TextAlignment="Left"
-                       FontWeight="SemiLight" />
-            </StackPanel>
 
+                <!-- Playlist info below image -->
+                <StackPanel Orientation="Vertical" Margin="6,0,6,0" VerticalAlignment="Top">
+
+                    <TextBlock Text="{x:Bind Path=Playlist.Title, Mode=OneWay}"
+                               Margin="0,2,0,2"
+                               TextAlignment="Left"
+                               FontWeight="Bold"
+                               Opacity="0.9"
+                               FontSize="14"
+                               TextWrapping="Wrap"
+                               MaxHeight="50"
+                               TextTrimming="CharacterEllipsis" />
+                    <TextBlock Text="{x:Bind Path=Playlist.User.Username, Mode=OneWay}"
+                           FontSize="13"
+                           Opacity="0.8"
+                           TextAlignment="Left"
+                           FontWeight="SemiLight" />
+                </StackPanel>
+            </StackPanel>
         </Grid>
-        
+
         <Grid x:Name="DesktopTrackItem" 
+              PointerEntered="DesktopTrackItem_OnPointerEntered"
+              PointerExited="DesktopTrackItem_OnPointerExited"
               Background="#00FFFFFF"
+              IsHitTestVisible="true"
               Visibility="Collapsed"
-              IsHitTestVisible="True"
               Height="245"
               Width="170"
               Margin="5"
               x:Load="False">
+
+            <!-- Context menu for track -->
             <Grid.ContextFlyout>
                 <MenuFlyout>
                     <MenuFlyoutItem Text="Share" Click="ShareTrack">
@@ -179,27 +196,25 @@
                 </MenuFlyout>
             </Grid.ContextFlyout>
 
-            <!-- On Hover, show the full track title -->
-            <ToolTipService.ToolTip>
-                <TextBlock Text="{x:Bind Path=Track.Title, Mode=OneWay}" />
-            </ToolTipService.ToolTip>
-
+            <!-- All Content -->
             <StackPanel Orientation="Vertical">
                 <!-- Drop Shadow for track image -->
                 <controls:DropShadowPanel x:Name="ShadowPanel"
                                           VerticalAlignment="Top"
-                                          BlurRadius="25"
+                                          BlurRadius="15"
                                           ShadowOpacity="0.6"
                                           OffsetX="0"
                                           IsTabStop="False"
                                           Margin="5,5,5,8"
-                                          OffsetY="5"
+                                          OffsetY="7"
                                           Color="Black">
+                    <!-- Corner everything -->
                     <Grid CornerRadius="7">
 
-
+                        <!-- Displayed before the image is loaded -->
                         <Grid Width="160" Height="160" Background="DimGray" />
 
+                        <!-- Track Image -->
                         <Image Source="{x:Bind Path=Track, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
                                VerticalAlignment="Stretch"
                                HorizontalAlignment="Stretch"
@@ -207,6 +222,7 @@
                                Margin="-10"
                                Stretch="UniformToFill" />
 
+                        <!-- Now Playing Area -->
                         <Grid Width="32"
                               RequestedTheme="Dark"
                               x:Name="TrackNowPlaying"
@@ -215,26 +231,34 @@
                               VerticalAlignment="Top"
                               HorizontalAlignment="Left"
                               Margin="5">
-                            <Ellipse Fill="{StaticResource InAppBackgroundBrush}" />
+
+                            <!-- Fill in background -->
+                            <Ellipse uap:Fill="{StaticResource InAppBackgroundBrush}"
+                                     uap5:Fill="{ThemeResource SystemControlAcrylicElementBrush}"/>
                             <FontIcon Glyph="&#xE767;" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center" />
 
                         </Grid>
-                        
-                      
-                        
+
+
+                        <!-- Lower Info -->
                         <Grid RequestedTheme="Dark" 
-                              Background="{StaticResource InAppBackgroundBrush}" 
+                              uap:Background="{StaticResource InAppBackgroundBrush}"
+                              uap5:Background="{ThemeResource SystemControlAcrylicElementBrush}"
                               Padding="8"
+                              Margin="-2"
                               HorizontalAlignment="Stretch"
                               VerticalAlignment="Bottom">
+
+                            <!-- Duration of Track -->
                             <TextBlock RequestedTheme="Dark"
-                                   HorizontalAlignment="Right"
-                                   VerticalAlignment="Center"
-                                   Text="{x:Bind Path=Track.Duration, Mode=OneWay, Converter={StaticResource TimeStampConverter}}"
-                                   FontSize="12"
-                                   FontWeight="SemiBold" />
-                            <Image Source="{x:Bind Path=Track.ServiceType, Converter={StaticResource ServiceToImageConverter}, Mode=OneWay}" 
-                                   
+                                       HorizontalAlignment="Right"
+                                       VerticalAlignment="Center"
+                                       Text="{x:Bind Path=Track.Duration, Mode=OneWay, Converter={StaticResource TimeStampConverter}}"
+                                       FontSize="12"
+                                       FontWeight="SemiBold" />
+                           
+                            <!-- Service Type -->
+                            <Image Source="{x:Bind Path=Track.ServiceType, Converter={StaticResource ServiceToImageConverter}, Mode=OneWay}"  
                                    Stretch="Uniform" 
                                    HorizontalAlignment="Left" 
                                    Height="12" 
@@ -244,7 +268,7 @@
                 </controls:DropShadowPanel>
 
                 <!-- Track info below image -->
-                <StackPanel Orientation="Vertical" x:Name="TitlePanel" Margin="6,0,6,0" VerticalAlignment="Top">
+                <StackPanel Orientation="Vertical" Margin="6,0,6,0" VerticalAlignment="Top">
                     <TextBlock x:Name="TitleText"
                                Text="{x:Bind Track.Title, Mode=OneWay}"
                                Margin="0,2,0,2"
@@ -255,15 +279,15 @@
                                TextWrapping="Wrap"
                                MaxHeight="50"
                                TextTrimming="CharacterEllipsis" />
+
                     <TextBlock x:Name="TitleDescription"
-                           Text="{x:Bind Path=Track.User.Username, Mode=OneWay}"
-                           FontSize="13"
-                           Opacity="0.8"
-                           TextAlignment="Left"
-                           FontWeight="Normal" />
+                               Text="{x:Bind Path=Track.User.Username, Mode=OneWay}"
+                               FontSize="13"
+                               Opacity="0.8"
+                               TextAlignment="Left"
+                               FontWeight="Normal" />
                 </StackPanel>
             </StackPanel>
         </Grid>
-
     </Grid>
 </UserControl>
