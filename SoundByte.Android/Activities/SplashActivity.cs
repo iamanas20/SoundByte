@@ -74,12 +74,6 @@ namespace SoundByte.Android.Activities
             // Init the V3 service
             SoundByteV3Service.Current.Init(secretList);
 
-            // Better android HTTP support
-            SoundByteV3Service.Current.ServiceClientHandler = new AndroidClientHandler
-            {
-                AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip,
-            };
-
             MobileCenter.Start(AppKeys.AzureMobileCenterClientId,
                 typeof(Analytics), typeof(Crashes), typeof(Distribute));
 
