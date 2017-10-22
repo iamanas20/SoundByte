@@ -12,7 +12,6 @@
 
 using System;
 using System.Numerics;
-using Windows.UI.Composition;
 using SoundByte.Core;
 using SoundByte.Core.Items.Playlist;
 using SoundByte.Core.Items.Track;
@@ -22,7 +21,6 @@ using SoundByte.UWP.Services;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media.Animation;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.UI.Animations;
 using Microsoft.Toolkit.Uwp.UI.Controls;
@@ -94,12 +92,17 @@ namespace SoundByte.UWP.UserControls
 
             DataContextChanged += SoundByteItem_DataContextChanged;
 
-            PlaybackService.Instance.OnCurrentTrackChanged += CurrentTrackChanged;
-        }
+            Loaded += (s, e) =>
+            {
+                PlaybackService.Instance.OnCurrentTrackChanged += CurrentTrackChanged;
 
-        ~SoundByteItem()
-        {
-            PlaybackService.Instance.OnCurrentTrackChanged -= CurrentTrackChanged;
+            };
+
+            Unloaded += (s, e) =>
+            {
+                PlaybackService.Instance.OnCurrentTrackChanged -= CurrentTrackChanged;
+
+            };
         }
 
         private async void CurrentTrackChanged(BaseTrack newTrack)
@@ -198,6 +201,16 @@ namespace SoundByte.UWP.UserControls
         private void DesktopPlaylistItem_OnPointerEntered(object sender, PointerRoutedEventArgs e)
         {
             StartAnimations(PlaylistDropShadow);
+        }
+
+        private void DesktopUserItem_OnPointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            StartAnimations(UserDropShadow);
+        }
+
+        private void DesktopUserItem_OnPointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            StopAnimation(UserDropShadow);
         }
     }
 }

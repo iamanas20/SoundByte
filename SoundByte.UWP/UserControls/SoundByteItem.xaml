@@ -14,6 +14,8 @@
     <Grid>
 
         <Grid x:Name="DesktopUserItem"
+              PointerEntered="DesktopUserItem_OnPointerEntered"
+              PointerExited="DesktopUserItem_OnPointerExited"
               Visibility="Collapsed"
               Background="#00FFFFFF"
               IsHitTestVisible="True"
@@ -21,16 +23,17 @@
               Width="170"
               x:Load="False">
             <StackPanel Orientation="Vertical">
-                <controls:DropShadowPanel VerticalAlignment="Top"
-                                      HorizontalAlignment="Center"
-                                      BlurRadius="25"
-                                      ShadowOpacity="0.6"
-                                      OffsetX="0"
-                                      OffsetY="5"
-                                      IsTabStop="False"
-                                      IsHitTestVisible="False"
-                                      Margin="5,5,5,8"
-                                      Color="Black">
+                <controls:DropShadowPanel x:Name="UserDropShadow"
+                                          VerticalAlignment="Top"
+                                          HorizontalAlignment="Center"
+                                          BlurRadius="15"
+                                          ShadowOpacity="0.6"
+                                          OffsetX="0"
+                                          OffsetY="7"
+                                          IsTabStop="False"
+                                          IsHitTestVisible="False"
+                                          Margin="5,5,5,8"
+                                          Color="Black">
                     <Ellipse VerticalAlignment="Stretch"
                          HorizontalAlignment="Stretch"
                          IsHitTestVisible="False"
