@@ -43,9 +43,10 @@
             <Button HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Left"
                     Margin="0,5,0,5"
-                    Background="{ThemeResource SoundByteButtonBackground}"
+                    Style="{ThemeResource ButtonRevealStyle}"
+                    Background="{ThemeResource SystemControlBackgroundAccentBrush}"
                     Click="ShareWindows"
-                    BorderThickness="0">
+                    BorderThickness="1">
 
                 <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
@@ -66,8 +67,9 @@
                     HorizontalContentAlignment="Left"
                     Margin="0,5,0,5"
                     Click="ShareLink"
-                    Background="{ThemeResource SoundByteButtonBackground}"
-                    BorderThickness="0">
+                    Style="{ThemeResource ButtonRevealStyle}"
+                    Background="{ThemeResource SystemControlBackgroundAccentBrush}"
+                    BorderThickness="1">
                 <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
@@ -87,8 +89,9 @@
                     HorizontalContentAlignment="Left"
                     Margin="0,5,0,5"
                     Click="ShareSoundByte"
-                    Background="{ThemeResource SoundByteButtonBackground}"
-                    BorderThickness="0">
+                    Style="{ThemeResource ButtonRevealStyle}"
+                    Background="{ThemeResource SystemControlBackgroundAccentBrush}"
+                    BorderThickness="1">
                 <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />

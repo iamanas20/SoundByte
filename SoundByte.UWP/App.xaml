@@ -5,6 +5,7 @@
     xmlns:resources="using:SoundByte.UWP.Resources">
     <Application.Resources>
         <ResourceDictionary>
+          
             <ResourceDictionary.MergedDictionaries>
                 <!-- Used for Track, User and Playlist items -->
                 <resources:DataTemplates />

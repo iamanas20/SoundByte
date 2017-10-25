@@ -4,287 +4,10 @@
     xmlns:sui="using:SoundByte.UWP.UserControls"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:appmodel="using:Windows.ApplicationModel"
     xmlns:stateTriggers="using:SoundByte.UWP.StateTriggers">
 
-    <Page.Resources>
-        <Style TargetType="RadioButton" x:Key="NavigationButtonStyle">
-            <Setter Property="Background" Value="Transparent" />
-            <Setter Property="MinHeight" Value="{ThemeResource ListViewItemMinHeight}" />
-            <Setter Property="MinWidth" Value="{ThemeResource SplitViewCompactPaneThemeLength}" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="RadioButton">
-
-                        <Grid x:Name="RootGrid" Background="Transparent">
-
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup x:Name="Common">
-                                    <VisualState x:Name="Normal" />
-                                    <VisualState x:Name="PointerOver">
-                                        <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetName="ContentSolidBackground" Storyboard.TargetProperty="Opacity"  From="0" To="1" Duration="0:0:0.15" />
-                                            <DoubleAnimation Storyboard.TargetName="HighlightGrid" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.15" />
-
-                                           
-                                        </Storyboard>
-                                    </VisualState>
-                                    <VisualState x:Name="Pressed">
-                                        <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetName="ContentSolidBackground" Storyboard.TargetProperty="Opacity" From="1" To="1" Duration="0:0:0.15" AutoReverse="False"  />
-                                            <DoubleAnimation Storyboard.TargetName="HighlightGrid" Storyboard.TargetProperty="Opacity" From="1" To="1" Duration="0:0:0.15" />
-
-                                          
-
-                                            <PointerDownThemeAnimation TargetName="RootGrid" />
-                                        </Storyboard>
-                                    </VisualState>
-                                </VisualStateGroup>
-                                <VisualStateGroup x:Name="FocusStates">
-                                    <VisualState x:Name="Unfocused"/>
-                                    <VisualState x:Name="Focused">
-                                        <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetName="ContentSolidBackground" Storyboard.TargetProperty="Opacity"  From="0" To="1" Duration="0:0:0.15" />
-                                            <DoubleAnimation Storyboard.TargetName="HighlightGrid" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.15" />
-
-                                        
-                                            <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
-                                        </Storyboard>
-                                    </VisualState>
-                                </VisualStateGroup>
-                                <VisualStateGroup x:Name="CheckedStates">
-                                    <VisualState x:Name="Checked">
-                                        <Storyboard>
-                                            <ColorAnimation Storyboard.TargetName="Brush"
-                                                            Storyboard.TargetProperty="Color"
-                                                            From="{Binding Path=Background}"
-                                                            To="{StaticResource SystemBaseHighColor}" Duration="0:0:0"
-                                                            FillBehavior="HoldEnd" />
-                                        </Storyboard>
-                                    </VisualState>
-                                    <VisualState x:Name="Unchecked" />
-                                    <VisualState x:Name="Indeterminate" />
-                                </VisualStateGroup>
-                            </VisualStateManager.VisualStateGroups>
-
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="48" />
-                            </Grid.RowDefinitions>
-
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="4" />
-                                <ColumnDefinition Width="50" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-
-                            <!-- Highlight Background -->
-                            <Grid x:Name="ContentSolidBackground" 
-                                  Grid.Column="0" 
-                                  Opacity="0"
-                                  Grid.ColumnSpan="3"
-                                  IsHitTestVisible="False"
-                                  Background="{ThemeResource SystemControlHighlightListLowBrush}" />
-
-                            <!-- Highlight background effect -->
-                            <Grid x:Name="HighlightGrid" 
-                                  Grid.Column="0"
-                                  Opacity="0"
-                                  Grid.ColumnSpan="3"
-                                  IsHitTestVisible="False" />
-
-                            <Rectangle x:Name="SelectedIcon"
-                                       Grid.Column="0"
-                                       Margin="0,8,0,8"
-                                       Width="4">
-                                <Rectangle.Fill>
-                                    <SolidColorBrush x:Name="Brush" Color="{Binding Path=Background}" />
-                                </Rectangle.Fill>
-                            </Rectangle>
-                            
-                            <FontIcon x:Name="Icon" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center"
-                                      HorizontalAlignment="Right" FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                                      Glyph="{TemplateBinding Tag}" FontSize="21" />
-                            <TextBlock x:Name="Text" FontWeight="Normal" Grid.Column="2" VerticalAlignment="Center"
-                                       HorizontalAlignment="Stretch" Margin="35,8,8,8" Text="{TemplateBinding Content}" />
-
-                            <!-- Highlight border effects -->
-                            <Rectangle 
-                                       Grid.Column="0"
-                                       Grid.ColumnSpan="3"
-                                       IsHitTestVisible="False"
-                                       StrokeThickness="1" />
-                        </Grid>
-
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <Style TargetType="Button" x:Name="MobileMenuItemButtonStyle" x:Key="MobileMenuItemButtonStyle">
-            <Setter Property="Background" Value="Transparent" />
-            <Setter Property="MinHeight" Value="{ThemeResource ListViewItemMinHeight}" />
-            <Setter Property="MinWidth" Value="{ThemeResource SplitViewCompactPaneThemeLength}" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-
-                        <Grid x:Name="RootGrid" Background="Transparent">
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup x:Name="Common">
-                                    <VisualState x:Name="Normal" />
-                                    <VisualState x:Name="PointerOver">
-                                        <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetName="ContentSolidBackground" Storyboard.TargetProperty="Opacity"  From="0" To="1" Duration="0:0:0.15" />
-                                            <DoubleAnimation Storyboard.TargetName="HighlightGrid" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.15" />
-
-                                          
-                                        </Storyboard>
-                                    </VisualState>
-                                    <VisualState x:Name="Pressed">
-                                        <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetName="ContentSolidBackground" Storyboard.TargetProperty="Opacity" From="1" To="1" Duration="0:0:0.15" AutoReverse="False"  />
-                                            <DoubleAnimation Storyboard.TargetName="HighlightGrid" Storyboard.TargetProperty="Opacity" From="1" To="1" Duration="0:0:0.15" />
-
-                                           
-
-                                            <PointerDownThemeAnimation TargetName="RootGrid" />
-                                        </Storyboard>
-                                    </VisualState>
-                                </VisualStateGroup>
-                                <VisualStateGroup x:Name="FocusStates">
-                                    <VisualState x:Name="Unfocused"/>
-                                    <VisualState x:Name="Focused">
-                                        <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetName="ContentSolidBackground" Storyboard.TargetProperty="Opacity"  From="0" To="1" Duration="0:0:0.15" />
-                                            <DoubleAnimation Storyboard.TargetName="HighlightGrid" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.15" />
-
-                                          
-                                            <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
-                                        </Storyboard>
-                                    </VisualState>
-                                </VisualStateGroup>
-                            </VisualStateManager.VisualStateGroups>
-
-      
-                            <!-- Highlight Background -->
-                            <Grid x:Name="ContentSolidBackground" 
-                                  Opacity="0"
-                                  IsHitTestVisible="False"
-                                  Background="{ThemeResource SystemControlHighlightListLowBrush}" />
-
-                            <!-- Highlight background effect -->
-                            <Grid x:Name="HighlightGrid" 
-                                  Opacity="0"
-                                  IsHitTestVisible="False" />
-
-                            <!-- use extra left margin to align the icon with NavigationButtonStyle'd controls -->
-                            <FontIcon x:Name="Icon" VerticalAlignment="Center"
-                                      HorizontalAlignment="Center" FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                                      Glyph="{TemplateBinding Tag}" FontSize="21" />
-
-                            <!-- Highlight border effects -->
-                            <Rectangle 
-                                       IsHitTestVisible="False"
-                                       StrokeThickness="1" />
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-
-        </Style>
-
-        <Style TargetType="Button" x:Name="MenuItemButtonStyle" x:Key="MenuItemButtonStyle">
-            <Setter Property="Background" Value="Transparent" />
-            <Setter Property="MinHeight" Value="{ThemeResource ListViewItemMinHeight}" />
-            <Setter Property="MinWidth" Value="{ThemeResource SplitViewCompactPaneThemeLength}" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-
-                        <Grid x:Name="RootGrid" Background="Transparent">
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup x:Name="Common">
-                                    <VisualState x:Name="Normal" />
-                                    <VisualState x:Name="PointerOver">
-                                        <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetName="ContentSolidBackground" Storyboard.TargetProperty="Opacity"  From="0" To="1" Duration="0:0:0.15" />
-                                            <DoubleAnimation Storyboard.TargetName="HighlightGrid" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.15" />
-
-                                           
-                                        </Storyboard>
-                                    </VisualState>
-                                    <VisualState x:Name="Pressed">
-                                        <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetName="ContentSolidBackground" Storyboard.TargetProperty="Opacity" From="1" To="1" Duration="0:0:0.15" AutoReverse="False"  />
-                                            <DoubleAnimation Storyboard.TargetName="HighlightGrid" Storyboard.TargetProperty="Opacity" From="1" To="1" Duration="0:0:0.15" />
-
-                                          
-                                            <PointerDownThemeAnimation TargetName="RootGrid" />
-                                        </Storyboard>
-                                    </VisualState>
-                                </VisualStateGroup>
-                                <VisualStateGroup x:Name="FocusStates">
-                                    <VisualState x:Name="Unfocused"/>
-                                    <VisualState x:Name="Focused">
-                                        <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetName="ContentSolidBackground" Storyboard.TargetProperty="Opacity"  From="0" To="1" Duration="0:0:0.15" />
-                                            <DoubleAnimation Storyboard.TargetName="HighlightGrid" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.15" />
-
-                                           
-
-                                            <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
-                                        </Storyboard>
-                                    </VisualState>
-                                </VisualStateGroup>
-                            </VisualStateManager.VisualStateGroups>
-
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="48" />
-                            </Grid.RowDefinitions>
-
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="4" />
-                                <ColumnDefinition Width="50" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-
-                            <!-- Highlight Background -->
-                            <Grid x:Name="ContentSolidBackground" 
-                                  Grid.Column="0" 
-                                  Opacity="0"
-                                  Grid.ColumnSpan="3"
-                                  IsHitTestVisible="False"
-                                  Background="{ThemeResource SystemControlHighlightListLowBrush}" />
-
-                            <!-- Highlight background effect -->
-                            <Grid x:Name="HighlightGrid" 
-                                  Grid.Column="0"
-                                  Opacity="0"
-                                  Grid.ColumnSpan="3"
-                                  IsHitTestVisible="False" />
-
-                            <!-- use extra left margin to align the icon with NavigationButtonStyle'd controls -->
-                            <FontIcon x:Name="Icon" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center"
-                                      HorizontalAlignment="Right" FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                                      Glyph="{TemplateBinding Tag}" FontSize="21" />
-
-                            <TextBlock x:Name="Text" FontWeight="Normal" Grid.Column="2" VerticalAlignment="Center"
-                                       HorizontalAlignment="Stretch" Margin="35,8,8,8" Text="{TemplateBinding Content}" />
-
-                            <!-- Highlight border effects -->
-                            <Rectangle 
-                                       Grid.Column="0"
-                                       Grid.ColumnSpan="3"
-                                       IsHitTestVisible="False"
-                                       StrokeThickness="1" />
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-
-        </Style>
-    </Page.Resources>
-
-    <Grid Background="{ThemeResource SystemControlAcrylicWindowMediumHighBrush}"
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
           x:Name="RootGrid">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="DeviceStates">
@@ -303,7 +26,7 @@
                         <AdaptiveTrigger MinWindowWidth="768" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="ShellFrame.Padding" Value="30,0,0,0" />
+                        <Setter Target="ShellFrame.Padding" Value="24,0,0,0" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -339,153 +62,104 @@
                   IsHitTestVisible="False" />
         </Grid>
 
-        <!-- Main Splitview, holds left pane navigation and right content,
-             nowplaying bar is below the splitview -->
-        <SplitView x:Name="MainSplitView"
-                   IsPaneOpen="True"
-                   Background="Transparent"
-                   OpenPaneLength="350"
-                   LightDismissOverlayMode="Off"
-                   PaneBackground="Transparent"
-                   DisplayMode="CompactInline"
-                   Margin="0,32,0,0"
-                   CompactPaneLength="84">
-            <!-- Navigation Pane -->
-            <SplitView.Pane>
-                <Grid x:Name="SplitViewPaneGrid">
-                    <!-- Everything is max height -->
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
+        <TextBlock x:Name="AppTitle" 
+                   Canvas.ZIndex="100"
+                   Style="{StaticResource CaptionTextBlockStyle}" 
+                   Text="{x:Bind appmodel:Package.Current.DisplayName}" 
+                   IsHitTestVisible="False"/>
 
-                    <!-- The left hand side menu items -->
-                    <ScrollViewer VerticalScrollBarVisibility="Auto"
-                                  Grid.Row="0"
-                                  x:Name="NavbarScrollViewer"
-                                  Canvas.ZIndex="10">
-                        <!-- Stack all the objects on top of each other -->
-                        <StackPanel>
-                            <!-- Button that opens/closes the splitview pane -->
-                            <Button x:Name="HamburgerButton"
-                                    FocusVisualPrimaryThickness="0"
-                                    FocusVisualSecondaryThickness="0"
-                                    FocusVisualMargin="0"
-                                    Style="{StaticResource MenuItemButtonStyle}"
-                                    HorizontalAlignment="Stretch"
-                                    Tag="&#xE700;"
-                                    Click="HamburgerButton_Click" />
+        <NavigationView x:Name="NavView"
+                        AlwaysShowHeader="False"
+                        ItemInvoked="NavView_OnItemInvoked"
+                        SelectionChanged="NavView_OnSelectionChanged"
+                        OpenPaneLength="350" 
+                        CompactModeThresholdWidth="560" 
+                        IsSettingsVisible="False"
+                        ExpandedModeThresholdWidth="560">
 
-                            <!-- Stream Button -->
-                            <RadioButton x:Name="HomeTab"
-                                         FocusVisualPrimaryThickness="0"
-                                         FocusVisualSecondaryThickness="0"
-                                         FocusVisualMargin="0"
-                                         HorizontalAlignment="Stretch"
-                                         GroupName="NavPaneButtons"
-                                         Style="{StaticResource NavigationButtonStyle}"
-                                         Tag="&#xE80F;"
-                                         Content="Home"
-                                         Checked="NavigateHome" />
+            <NavigationView.AutoSuggestBox>
+                <AutoSuggestBox QueryIcon="Find" PlaceholderText="Search SoundByte..." QuerySubmitted="SearchForItem" />
+            </NavigationView.AutoSuggestBox>
 
-                            <RadioButton x:Name="ExploreTab"
-                                         FocusVisualPrimaryThickness="0"
-                                         FocusVisualSecondaryThickness="0"
-                                         FocusVisualMargin="0"
-                                         HorizontalAlignment="Stretch"
-                                         GroupName="NavPaneButtons"
-                                         Style="{StaticResource NavigationButtonStyle}"
-                                         Tag="&#xE909;"
-                                         Content="Explore"
-                                         Checked="NavigateExplore" />
+            <NavigationView.MenuItems>
+                <NavigationViewItem Content="Home" 
+                                    Style="{StaticResource NavStyle}" 
+                                    x:Name="NavigationItemHome"
+                                    Tag="home">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE80F;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
 
-                            <!-- The search box  -->
-                            <sui:SearchBox x:Name="SearchTab" SearchSubmitted="SearchBox_SearchSubmitted" />
+                <NavigationViewItem Content="Explore"         
+                                    Style="{StaticResource NavStyle}" 
+                                    x:Name="NavigationItemExplore"
+                                    Tag="explore">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE909;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
 
-                            <!-- User likes -->
-                            <RadioButton x:Name="LikesTab"
-                                         FocusVisualPrimaryThickness="0"
-                                         FocusVisualSecondaryThickness="0"
-                                         FocusVisualMargin="0"
-                                         HorizontalAlignment="Stretch"
-                                         GroupName="NavPaneButtons"
-                                         Style="{StaticResource NavigationButtonStyle}"
-                                         Tag="&#xE006;"
-                                         Content="Likes"
-                                         Checked="NavigateLikes" />
+                <NavigationViewItem Content="Likes" 
+                                    Style="{StaticResource NavStyle}" 
+                                    x:Name="NavigationItemLikes"
+                                    Tag="likes">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE006;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
 
-                            <!-- User sets -->
-                            <RadioButton x:Name="SetsTab"
-                                         FocusVisualPrimaryThickness="0"
-                                         FocusVisualSecondaryThickness="0"
-                                         FocusVisualMargin="0"
-                                         HorizontalAlignment="Stretch"
-                                         GroupName="NavPaneButtons"
-                                         Style="{StaticResource NavigationButtonStyle}"
-                                         Tag="&#xE142;"
-                                         Content="Playlists"
-                                         Checked="NavigateSets" />
+                <NavigationViewItem Content="Playlists" 
+                                    Style="{StaticResource NavStyle}" 
+                                    x:Name="NavigationItemPlaylists"
+                                    Tag="playlists">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE142;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
 
-                            <!-- User history -->
-                            <RadioButton x:Name="HistoryTab"
-                                         FocusVisualPrimaryThickness="0"
-                                         FocusVisualSecondaryThickness="0"
-                                         FocusVisualMargin="0"
-                                         HorizontalAlignment="Stretch"
-                                         GroupName="NavPaneButtons"
-                                         Style="{StaticResource NavigationButtonStyle}"
-                                         Tag="&#xE81C;"
-                                         Content="History"
-                                         Checked="NavigateHistory" />
+                <NavigationViewItem Content="History" 
+                                    Style="{StaticResource NavStyle}" 
+                                    x:Name="NavigationItemHistory"
+                                    Tag="history">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE81C;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                
+                <NavigationViewItem Content="Donations" 
+                                    Style="{StaticResource NavStyle}" 
+                                    x:Name="NavigationItemDonations"
+                                    Tag="donations">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE8EC;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
 
-                            <!-- Navigate to the donate page -->
-                            <RadioButton x:Name="DonateTab"
-                                         FocusVisualPrimaryThickness="0"
-                                         FocusVisualSecondaryThickness="0"
-                                         FocusVisualMargin="0"
-                                         HorizontalAlignment="Stretch"
-                                         GroupName="NavPaneButtons"
-                                         Style="{StaticResource NavigationButtonStyle}"
-                                         Tag="&#xE8EC;"
-                                         Content="Donate"
-                                         Checked="NavigateDonate" />
+                <NavigationViewItem Content="Settings" 
+                                    Style="{StaticResource NavStyle}" 
+                                    x:Name="NavigationItemSettings"
+                                    Tag="settings">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE713;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
 
+                <NavigationViewItem Content="Accounts" 
+                                    Style="{StaticResource NavStyle}" 
+                                    x:Name="NavigationItemAccounts"
+                                    Tag="accounts">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE77B;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+            </NavigationView.MenuItems>
 
-                            <!-- Navigate to the info page -->
-                            <RadioButton x:Name="SettingsTab"
-                                         FocusVisualPrimaryThickness="0"
-                                         FocusVisualSecondaryThickness="0"
-                                         FocusVisualMargin="0"
-                                         HorizontalAlignment="Stretch"
-                                         GroupName="NavPaneButtons"
-                                         Style="{StaticResource NavigationButtonStyle}"
-                                         Tag="&#xE713;"
-                                         Content="Settings"
-                                         Checked="NavigateSettings" />
-
-                            <!-- Let the user login to their account -->
-                            <RadioButton x:Name="AccountTab"
-                                         FocusVisualPrimaryThickness="0"
-                                         FocusVisualSecondaryThickness="0"
-                                         FocusVisualMargin="0"
-                                         HorizontalAlignment="Stretch"
-                                         GroupName="NavPaneButtons"
-                                         Style="{StaticResource NavigationButtonStyle}"
-                                         Tag="&#xE77B;"
-                                         Content="Accounts"
-                                         Checked="NavigateAccounts" />
-                        </StackPanel>
-                    </ScrollViewer>
-                    <!-- We select this in code when the tab is not known -->
-                    <RadioButton Grid.Row="0" x:Name="UnknownTab" Visibility="Collapsed" GroupName="NavPaneButtons" />
-                </Grid>
-            </SplitView.Pane>
+         
 
             <!-- Main Frame Content -->
-            <Grid>
-               
-
-                    <!-- Shadow for now playing bar -->
+            <Grid Canvas.ZIndex="20">
+                <!-- Shadow for now playing bar -->
                 <Canvas x:Name="ShellFrameShadow"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
@@ -495,27 +169,13 @@
                 <Frame x:Name="ShellFrame"
                         
                        TabIndex="1"
-                       Padding="10"
+                       Padding="12"
                        Background="{ThemeResource ShellBackground}"
                        Navigated="ShellFrame_Navigated"
                        HorizontalAlignment="Stretch"
                        Canvas.ZIndex="10" />
             </Grid>
-        </SplitView>
-
-        <!-- Mobile Hamburger button -->
-        <Button x:Name="MobileMenu"
-                Height="48"
-                Width="48"
-                Visibility="Collapsed"
-                FocusVisualPrimaryThickness="1"
-                FocusVisualSecondaryThickness="1"
-                FocusVisualMargin="1"
-                Style="{StaticResource MobileMenuItemButtonStyle}"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Top"
-                Tag="&#xE700;"
-                Click="HamburgerButton_Click" />
+        </NavigationView>
         
         <!-- Desktop Now Playing Bar -->
         <sui:NowPlayingBar x:Name="NowPlaying"

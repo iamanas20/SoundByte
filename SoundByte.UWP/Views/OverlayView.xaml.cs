@@ -49,7 +49,6 @@ namespace SoundByte.UWP.Views
                 new BitmapImage(new Uri(ArtworkConverter.ConvertObjectToImage(ViewModel.Service.CurrentTrack)));
             TrackTitle.Text = ViewModel.Service.CurrentTrack.Title;
             TrackUser.Text = ViewModel.Service.CurrentTrack.User.Username;
-            BackgroundImage.Blur(18).Start();
         }
 
         public BaseViewModel ViewModel { get; } = new BaseViewModel();

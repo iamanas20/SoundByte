@@ -22,9 +22,10 @@
               x:Load="False">
             <StackPanel Orientation="Vertical">
                 <controls:DropShadowPanel x:Name="UserDropShadow"
+                                          
                                           VerticalAlignment="Top"
                                           HorizontalAlignment="Center"
-                                          BlurRadius="15"
+                                          BlurRadius="25"
                                           ShadowOpacity="0.6"
                                           OffsetX="0"
                                           OffsetY="7"
@@ -89,9 +90,8 @@
                                           IsHitTestVisible="False"
                                           Margin="5,0,5,8"
                                           Color="Black">
-                    <Grid Padding="0,7,0,0" CornerRadius="7">
+                    <Grid Padding="0,7,0,0" CornerRadius="1">
                         <Grid Background="#FF444444"
-                              CornerRadius="7"
                           Width="140"
                           Margin="0,-32,0,0"
                           Height="140"
@@ -99,7 +99,6 @@
                           HorizontalAlignment="Stretch" />
 
                         <Grid Background="#FF666666"
-                              CornerRadius="7"
                           Width="150"
                           Margin="0,-17,0,0"
                           Height="150"
@@ -107,9 +106,9 @@
                           HorizontalAlignment="Stretch" />
 
                         <!-- Displayed before the image is loaded -->
-                        <Grid Width="160" Height="160" Background="DimGray" CornerRadius="7" />
+                        <Grid Width="160" Height="160" Background="DimGray"  />
 
-                        <Grid CornerRadius="7" 
+                        <Grid CornerRadius="1" 
                               Width="160"   
                               Height="160"
                               VerticalAlignment="Stretch"
@@ -209,7 +208,7 @@
                                           OffsetY="7"
                                           Color="Black">
                     <!-- Corner everything -->
-                    <Grid CornerRadius="7">
+                    <Grid CornerRadius="1">
 
                         <!-- Displayed before the image is loaded -->
                         <Grid Width="160" Height="160" Background="DimGray" />

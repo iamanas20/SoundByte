@@ -12,10 +12,10 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Numerics;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
+using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.VoiceCommands;
 using Windows.Globalization;
 using Windows.Services.Store;
@@ -45,7 +45,6 @@ using SoundByte.UWP.Views.Application;
 using SoundByte.UWP.Views.General;
 using SoundByte.UWP.Views.Me;
 using SoundByte.UWP.Views.Search;
-using SearchBox = SoundByte.UWP.UserControls.SearchBox;
 
 namespace SoundByte.UWP
 {
@@ -69,6 +68,12 @@ namespace SoundByte.UWP
             // Unload events
             Unloaded += (sender, args) => Dispose();
 
+            var titleBar = CoreApplication.GetCurrentView().TitleBar;
+            titleBar.LayoutMetricsChanged += (s, e) =>
+            {
+                AppTitle.Margin = new Thickness(CoreApplication.GetCurrentView().TitleBar.SystemOverlayLeftInset + 12, 8, 0, 0);
+            };
+
             // This is a dirty to show the now playing
             // bar when a track is played. This method
             // updates the required layout for the now
@@ -84,21 +89,17 @@ namespace SoundByte.UWP
             if (DeviceHelper.IsXbox)
             {
                 // Pane is hidden by default
-                MainSplitView.IsPaneOpen = false;
-                MainSplitView.DisplayMode = SplitViewDisplayMode.CompactOverlay;
-                MainSplitView.Margin = new Thickness();
-                MainSplitView.LightDismissOverlayMode = LightDismissOverlayMode.On;
+              //  MainSplitView.IsPaneOpen = false;
+             //   MainSplitView.DisplayMode = SplitViewDisplayMode.CompactOverlay;
+             //   MainSplitView.Margin = new Thickness();
+             //   MainSplitView.LightDismissOverlayMode = LightDismissOverlayMode.On;
 
                 // Center all navigation icons
-                NavbarScrollViewer.VerticalAlignment = VerticalAlignment.Center;
+             //   NavbarScrollViewer.VerticalAlignment = VerticalAlignment.Center;
 
                 // Show background blur image
                 XboxOnlyGrid.Visibility = Visibility.Visible;
                 ShellFrame.Background = new SolidColorBrush(Colors.Transparent);
-
-                // Splitview pane gets background
-          //      SplitViewPaneGrid.Background =
-          //          Application.Current.Resources["InAppBackgroundBrush"] as CustomAcrylicBrush;
 
                 // Make xbox selection easy to see
                 Application.Current.Resources["CircleButtonStyle"] =
@@ -108,36 +109,14 @@ namespace SoundByte.UWP
             // Events for Mobile
             if (DeviceHelper.IsMobile)
             {
-                // Splitview pane gets background
-                //           SplitViewPaneGrid.Background =
-                //           Application.Current.Resources["MobileBlurHeader"] as CustomAcrylicBrush;
-
                 // Amoled Magic
                 RootGrid.Background = new SolidColorBrush(Application.Current.RequestedTheme == ApplicationTheme.Dark
                     ? Colors.Black
-                    : Colors.White);                   
-
-                MainSplitView.IsPaneOpen = false;
-                MainSplitView.DisplayMode = SplitViewDisplayMode.Overlay;
-                MainSplitView.Margin = new Thickness(0);
-                MainSplitView.LightDismissOverlayMode = LightDismissOverlayMode.On;
-
-                SplitViewPaneGrid.Margin = new Thickness {Top = 48};
-
-                MobileMenu.Visibility = Visibility.Visible;
-                HamburgerButton.Visibility = Visibility.Collapsed;
-            }
-
-            if (DeviceHelper.IsDesktop)
-            {
-                MainSplitView.IsPaneOpen = SettingsService.Instance.IsMenuOpen;
+                    : Colors.White);
             }
 
             if (string.IsNullOrEmpty(path))
                 RootFrame.Navigate(typeof(HomeView));
-
-            // Focus on the root frame
-            RootFrame.Focus(FocusState.Programmatic);
         }
 
         private async void InstanceOnOnCurrentTrackChanged(BaseTrack newTrack)
@@ -427,95 +406,34 @@ namespace SoundByte.UWP
 
         #endregion
 
-        private void NavigateHome(object sender, RoutedEventArgs e)
-        {
-            if (BlockNavigation) return;
-
-            RootFrame.Navigate(typeof(HomeView));
-        }
-
-        private void NavigateExplore(object sender, RoutedEventArgs e)
-        {
-            if (BlockNavigation) return;
-
-            RootFrame.Navigate(typeof(ExploreView));
-        }
-
-        private void NavigateDonate(object sender, RoutedEventArgs e)
-        {
-            if (BlockNavigation) return;
-
-            RootFrame.Navigate(typeof(DonateView));
-        }
-
-        private void NavigateSettings(object sender, RoutedEventArgs e)
-        {
-            if (BlockNavigation) return;
-
-            RootFrame.Navigate(typeof(AppInfoView));
-        }
-
-        private void NavigateHistory(object sender, RoutedEventArgs e)
-        {
-            if (BlockNavigation) return;
-
-            RootFrame.Navigate(typeof(HistoryView));
-        }
-
-        private void NavigateLikes(object sender, RoutedEventArgs e)
-        {
-            if (BlockNavigation) return;
-
-            RootFrame.Navigate(typeof(LikesView));
-        }
-
-        private void NavigateAccounts(object sender, RoutedEventArgs e)
-        {
-            if (BlockNavigation) return;
-
-            RootFrame.Navigate(typeof(AccountView));
-        }
-
-        private void NavigateSets(object sender, RoutedEventArgs e)
-        {
-            if (BlockNavigation) return;
-
-            RootFrame.Navigate(typeof(PlaylistsView));
-        }
-
         private void ShellFrame_Navigated(object sender, NavigationEventArgs e)
         {
-            BlockNavigation = true;
-
             // Update the side bar
             switch (((Frame) sender).SourcePageType.Name)
             {
                 case "HomeView":
-                    HomeTab.IsChecked = true;
+                    NavView.SelectedItem = NavigationItemHome;
                     break;
                 case "ExploreView":
-                    ExploreTab.IsChecked = true;
+                    NavView.SelectedItem = NavigationItemExplore;
                     break;
                 case "DonateView":
-                    DonateTab.IsChecked = true;
+                    NavView.SelectedItem = NavigationItemDonations;
                     break;
                 case "LikesView":
-                    LikesTab.IsChecked = true;
+                    NavView.SelectedItem = NavigationItemLikes;
                     break;
                 case "PlaylistsView":
-                    SetsTab.IsChecked = true;
+                    NavView.SelectedItem = NavigationItemPlaylists;
                     break;
                 case "HistoryView":
-                    HistoryTab.IsChecked = true;
+                    NavView.SelectedItem = NavigationItemHistory;
                     break;
                 case "AccountView":
-                    AccountTab.IsChecked = true;
+                    NavView.SelectedItem = NavigationItemAccounts;
                     break;
                 case "AppInfoView":
-                    SettingsTab.IsChecked = true;
-                    break;
-                default:
-                    UnknownTab.IsChecked = true;
+                    NavView.SelectedItem = NavigationItemSettings;
                     break;
             }
 
@@ -537,18 +455,15 @@ namespace SoundByte.UWP
             if (DeviceHelper.IsDesktop)
                 if (((Frame) sender).SourcePageType == typeof(NowPlayingView))
                 {
-                    SettingsService.Instance.IsMenuOpen = MainSplitView.IsPaneOpen;
-                    MainSplitView.IsPaneOpen = false;
-                    MainSplitView.CompactPaneLength = 0;
+                    NavView.IsPaneOpen = false;
+                    NavView.IsPaneToggleButtonVisible = false;
 
                     HideNowPlayingBar();
-
-                    MainSplitView.Margin = new Thickness {Bottom = 0, Top = 0};
                 }
                 else
                 {
-                    MainSplitView.CompactPaneLength = 84;
-                    MainSplitView.IsPaneOpen = SettingsService.Instance.IsMenuOpen;
+                    NavView.IsPaneOpen = true;
+                    NavView.IsPaneToggleButtonVisible = true;
 
                     if (PlaybackService.Instance.CurrentTrack == null)
                         HideNowPlayingBar();
@@ -556,84 +471,41 @@ namespace SoundByte.UWP
                         ShowNowPlayingBar();
                 }
 
-            if (DeviceHelper.IsMobile)
-                MainSplitView.IsPaneOpen = false;
-
-            if (DeviceHelper.IsXbox)
-                if (((Frame) sender).SourcePageType == typeof(NowPlayingView))
-                {
-                    MainSplitView.IsPaneOpen = false;
-                    MainSplitView.CompactPaneLength = 0;
-                }
-                else
-                {
-                    MainSplitView.IsPaneOpen = false;
-                    MainSplitView.CompactPaneLength = 84;
-                }
-
             RootFrame.Focus(FocusState.Programmatic);
-
-            BlockNavigation = false;
         }
 
         private void HideNowPlayingBar()
         {
-            UnknownTab.IsChecked = true;
             NowPlaying.Visibility = Visibility.Collapsed;
-
-            if (DeviceHelper.IsMobile || DeviceHelper.IsXbox)
-            {
-                MainSplitView.Margin = new Thickness {Bottom = 0, Top = 0};
-            }
-            else
-            {
-                MainSplitView.Margin = new Thickness { Bottom = 0, Top = 32 };
-            } 
+            NavView.Margin = new Thickness { Bottom = 0 };
         }
 
         private void ShowNowPlayingBar()
         {
             NowPlaying.Visibility = Visibility.Visible;
-            MainSplitView.Margin = new Thickness {Bottom = 64, Top = 32};
-        }
-
-        private void SearchBox_SearchSubmitted(object sender, RoutedEventArgs e)
-        {
-            App.NavigateTo(typeof(SearchView), (e as SearchBox.SearchEventArgs)?.Keyword);
+            NavView.Margin = new Thickness { Bottom = 64 };
         }
 
         // Login and Logout events. This is used to display what pages
         // are visiable to the user.
         public void ShowLoginContent()
         {
-            LikesTab.Visibility = Visibility.Visible;
-            SetsTab.Visibility = Visibility.Visible;
+            NavigationItemLikes.Visibility = Visibility.Visible;
+            NavigationItemPlaylists.Visibility = Visibility.Visible;
 
             // Only show this tab if the users soundcloud account is connected
-            HomeTab.Visibility = SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud) ? Visibility.Visible : Visibility.Collapsed;
+            NavigationItemHome.Visibility = SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud) ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public void ShowLogoutContent()
         {
-            LikesTab.Visibility = Visibility.Collapsed;
-            SetsTab.Visibility = Visibility.Collapsed;
-            HomeTab.Visibility = Visibility.Collapsed;
+            NavigationItemLikes.Visibility = Visibility.Collapsed;
+            NavigationItemPlaylists.Visibility = Visibility.Collapsed;
+            NavigationItemHome.Visibility = Visibility.Collapsed;
         }
 
-        private void HamburgerButton_Click(object sender, RoutedEventArgs e)
-        {
-            MainSplitView.IsPaneOpen = !MainSplitView.IsPaneOpen;
-            SettingsService.Instance.IsMenuOpen = MainSplitView.IsPaneOpen;
-        }
 
         #region Getters and Setters
-
-        /// <summary>
-        ///     Used to block navigation from happening when
-        ///     updating the UI for sidebar
-        /// </summary>
-        private bool BlockNavigation { get; set; }
-
         /// <summary>
         ///     Get the root frame, if no root frame exists,
         ///     we wait 150ms and call the getter again.
@@ -652,5 +524,53 @@ namespace SoundByte.UWP
         }
 
         #endregion
+
+        private void NavView_OnItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
+        {
+            PerformNavigation(args.InvokedItem);
+        }
+
+        private void NavView_OnSelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
+        {
+            var item = args.SelectedItem as NavigationViewItem;
+            PerformNavigation(item?.Tag);
+        }
+
+        private void PerformNavigation(object item)
+        {
+            switch (item)
+            {
+                case "home":
+                    RootFrame.Navigate(typeof(HomeView));
+                    break;
+                case "explore":
+                    RootFrame.Navigate(typeof(ExploreView));
+                    break;
+                case "likes":
+                    RootFrame.Navigate(typeof(LikesView));
+                    break;
+                case "playlists":
+                    RootFrame.Navigate(typeof(PlaylistsView));
+                    break;
+                case "history":
+                    RootFrame.Navigate(typeof(HistoryView));
+                    break;
+                case "donations":
+                    RootFrame.Navigate(typeof(DonateView));
+                    break;
+                case "settings":
+                    RootFrame.Navigate(typeof(AppInfoView));
+                    break;
+                case "accounts":
+                    RootFrame.Navigate(typeof(AccountView));
+                    break;
+
+            }
+        }
+
+        private void SearchForItem(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+            App.NavigateTo(typeof(SearchView), args.QueryText);
+        }
     }
 }

@@ -69,8 +69,8 @@
         </StackPanel>
 
 
-        <Grid Background="#99000000" Canvas.ZIndex="50" Grid.Row="0" Grid.RowSpan="4" />
-
+        <Grid Background="{ThemeResource SystemControlChromeHighAcrylicElementMediumBrush }" Canvas.ZIndex="100"  Grid.Row="0" Grid.RowSpan="4" />
+        
         <!-- Background Image -->
         <controls:ImageEx
             Grid.Row="0"

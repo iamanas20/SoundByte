@@ -48,7 +48,6 @@
         </VisualStateManager.VisualStateGroups>
 
         <CommandBar x:Name="MobileCommandBar" VerticalAlignment="Bottom" HorizontalAlignment="Stretch"
-                    Background="{StaticResource MobileBlurHeader}"                    
                     Canvas.ZIndex="100">
             <CommandBar.PrimaryCommands>
                 <AppBarButton Label="Play All" Click="{x:Bind ViewModel.NavigatePlay}">

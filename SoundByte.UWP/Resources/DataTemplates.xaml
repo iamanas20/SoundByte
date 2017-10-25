@@ -65,7 +65,7 @@
                            Stretch="UniformToFill" />
 
                     <!-- Length of track, bottom-right -->
-                    <Grid RequestedTheme="Dark" Background="{StaticResource InAppBackgroundBrush}" Padding="6" HorizontalAlignment="Right"
+                    <Grid RequestedTheme="Dark"  Padding="6" HorizontalAlignment="Right"
                           VerticalAlignment="Bottom">
                         <TextBlock RequestedTheme="Dark"
                                    Text="{x:Bind Duration, Mode=OneWay, Converter={StaticResource TimeStampConverter}}"

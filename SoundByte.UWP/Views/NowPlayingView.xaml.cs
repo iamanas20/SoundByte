@@ -125,8 +125,6 @@ namespace SoundByte.UWP.Views
 
             }
 
-            
-
             HideOverlay();
         }
 
