@@ -73,6 +73,7 @@
                         ItemInvoked="NavView_OnItemInvoked"
                         SelectionChanged="NavView_OnSelectionChanged"
                         OpenPaneLength="350" 
+                        CompactPaneLength="84"
                         CompactModeThresholdWidth="560" 
                         IsSettingsVisible="False"
                         ExpandedModeThresholdWidth="560">
@@ -118,7 +119,7 @@
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
 
-                <NavigationViewItem Content="History" 
+                <NavigationViewItem Content="Recent Plays" 
                                     Style="{StaticResource NavStyle}" 
                                     x:Name="NavigationItemHistory"
                                     Tag="history">

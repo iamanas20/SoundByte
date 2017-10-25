@@ -84,15 +84,15 @@
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
                         <Grid HorizontalAlignment="Left" VerticalAlignment="Center">
-                            <Rectangle x:Name="SelectionIndicator" Fill="{ThemeResource NavigationViewSelectionIndicatorForeground}" Height="24" Opacity="0.0" Width="6"/>
+                            <Rectangle x:Name="SelectionIndicator" Fill="{ThemeResource SystemControlBackgroundAccentBrush}" Height="32" Opacity="0.0" Width="5"/>
                         </Grid>
                         <Border x:Name="RevealBorder" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}"/>
                         <Grid HorizontalAlignment="Left" Height="48">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition x:Name="IconColumn" Width="48"/>
+                                <ColumnDefinition x:Name="IconColumn" Width="84"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Viewbox x:Name="IconBox" Child="{TemplateBinding Icon}" Margin="16,12"/>
+                            <Viewbox x:Name="IconBox" Child="{TemplateBinding Icon}" Margin="20,14"/>
                             <ContentPresenter x:Name="ContentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentTransitions="{TemplateBinding ContentTransitions}" Grid.Column="1" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                         </Grid>
                     </Grid>

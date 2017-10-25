@@ -15,12 +15,12 @@ using System.IO;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.System;
-using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using Newtonsoft.Json;
 using SoundByte.Core.Items;
+using SoundByte.UWP.Helpers;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.ViewModels;
 using SoundByte.UWP.Views.General;
@@ -134,7 +134,7 @@ namespace SoundByte.UWP.Views.Application
             ViewModel.IsComboboxBlockingEnabled = false;
         }
 
-        private async void AppThemeComboBoxChanged(object sender, SelectionChangedEventArgs e)
+        private void AppThemeComboBoxChanged(object sender, SelectionChangedEventArgs e)
         {
             if (ViewModel.IsComboboxBlockingEnabled)
                 return;
@@ -159,8 +159,8 @@ namespace SoundByte.UWP.Views.Application
                     break;
             }
 
-
-            await new MessageDialog("The app needs to be restarted in order for the changes to correctly take effect.", "App Restart").ShowAsync();
+            // Reload the style
+            TitlebarHelper.UpdateTitlebarStyle();
         }
     }
 }
