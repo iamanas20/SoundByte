@@ -82,7 +82,7 @@ namespace SoundByte.UWP
 
             // Create a shell frame shadow for mobile and desktop
             if (DeviceHelper.IsDesktop || DeviceHelper.IsMobile)
-                ShellFrame.CreateElementShadow(new Vector3(0, 0, 0), 20, new Color {A = 52, R = 0, G = 0, B = 0},
+                ShellFrame.CreateElementShadow(new Vector3(0, 0, 0), 30, new Color {A = 62, R = 0, G = 0, B = 0},
                     ShellFrameShadow);
 
             // Events for Xbox

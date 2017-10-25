@@ -26,7 +26,7 @@
                         <AdaptiveTrigger MinWindowWidth="768" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="ShellFrame.Padding" Value="24,0,0,0" />
+                        <Setter Target="ShellFrame.Padding" Value="32,0,0,0" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -69,6 +69,8 @@
                    IsHitTestVisible="False"/>
 
         <NavigationView x:Name="NavView"
+                        Canvas.ZIndex="5"
+                        Background="Transparent"
                         AlwaysShowHeader="False"
                         ItemInvoked="NavView_OnItemInvoked"
                         SelectionChanged="NavView_OnSelectionChanged"
@@ -79,7 +81,7 @@
                         ExpandedModeThresholdWidth="560">
 
             <NavigationView.AutoSuggestBox>
-                <AutoSuggestBox QueryIcon="Find" PlaceholderText="Search SoundByte..." QuerySubmitted="SearchForItem" />
+                <AutoSuggestBox QueryIcon="Find" PlaceholderText="Search SoundByte..." QuerySubmitted="SearchForItem" Style="{StaticResource AppSearchBox}"  />
             </NavigationView.AutoSuggestBox>
 
             <NavigationView.MenuItems>
@@ -92,7 +94,7 @@
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
 
-                <NavigationViewItem Content="Explore"         
+                <NavigationViewItem Content="Explore"     
                                     Style="{StaticResource NavStyle}" 
                                     x:Name="NavigationItemExplore"
                                     Tag="explore">
@@ -156,26 +158,28 @@
                 </NavigationViewItem>
             </NavigationView.MenuItems>
 
-         
 
-            <!-- Main Frame Content -->
-            <Grid Canvas.ZIndex="20">
-                <!-- Shadow for now playing bar -->
-                <Canvas x:Name="ShellFrameShadow"
-                        HorizontalAlignment="Stretch"
-                        VerticalAlignment="Stretch"
-                        Canvas.ZIndex="5" />
+                <!-- Main Frame Content -->
+                <Grid Canvas.ZIndex="20" Padding="0,32,0,0" Margin="0,0,0,0" Background="{ThemeResource NavigationViewExpandedPaneBackground}">
+                    <!-- Shadow for now playing bar -->
+                    <Canvas x:Name="ShellFrameShadow"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            Canvas.ZIndex="5" />
 
-                <!-- Main Page Content will be rendered here -->
-                <Frame x:Name="ShellFrame"
+                    <!-- Main Page Content will be rendered here -->
+                    <Frame x:Name="ShellFrame"
                         
-                       TabIndex="1"
-                       Padding="12"
-                       Background="{ThemeResource ShellBackground}"
-                       Navigated="ShellFrame_Navigated"
-                       HorizontalAlignment="Stretch"
-                       Canvas.ZIndex="10" />
-            </Grid>
+                           TabIndex="1"
+                           Padding="12"
+                           Background="{ThemeResource ShellBackground}"
+                           Navigated="ShellFrame_Navigated"
+                           HorizontalAlignment="Stretch"
+                           Canvas.ZIndex="10" />
+                </Grid>
+            
+
+         
         </NavigationView>
         
         <!-- Desktop Now Playing Bar -->
