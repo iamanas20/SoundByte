@@ -23,7 +23,6 @@
                         <Setter Target="TextHeader.Margin" Value="10,30,0,0" />
                         <Setter Target="TextHeader.Opacity" Value="0.8" />
                         <Setter Target="DesktopCommandBar.Visibility" Value="Visible" />
-                        <Setter Target="MobileGrid.Visibility" Value="Collapsed" />
                         <Setter Target="MobileCommandBar.Visibility" Value="Collapsed" />
                         <Setter Target="StackPanel.ItemTemplate" Value="{StaticResource TrackItem}" />
                         <Setter Target="StackPanel.ItemsPanel" Value="{StaticResource DesktopGridPanel}" />
@@ -32,16 +31,9 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
 
-
-        <Grid x:Name="MobileGrid" Visibility="Visible" Background="{StaticResource MobileBlurHeader}"
-              VerticalAlignment="Top" HorizontalAlignment="Stretch" Height="48" Canvas.ZIndex="100">
-            <TextBlock x:Name="MobileTitle" Text="{x:Bind ViewModel.Title, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="SemiBold"
-                       FontSize="18" />
-        </Grid>
-
         <CommandBar x:Name="MobileCommandBar" VerticalAlignment="Bottom" HorizontalAlignment="Stretch"
                     Margin="-10"
-                    Background="{StaticResource MobileBlurHeader}"                    
+                    Background="{ThemeResource SystemControlAcrylicElementMediumHighBrush }"                    
                     Canvas.ZIndex="100">
             <CommandBar.PrimaryCommands>
                 <AppBarButton Label="Play All" Click="{x:Bind ViewModel.PlayAllItems, Mode=OneWay}">

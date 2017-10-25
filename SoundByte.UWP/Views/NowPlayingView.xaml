@@ -120,7 +120,8 @@
               Canvas.ZIndex="2"
               HorizontalAlignment="Stretch"
               VerticalAlignment="Stretch"
-              Background="{StaticResource BackgroundTrackBlurBrush}"
+              RequestedTheme="Dark"
+              Background="{ThemeResource SystemControlAcrylicElementMediumHighBrush}"
               IsHitTestVisible="False" />
 
         <Grid x:Name="TrackInfoHolder" VerticalAlignment="Bottom" Canvas.ZIndex="10" Margin="-40,0,0,0">
@@ -371,9 +372,13 @@
                               IsSwipeEnabled="False"
                               SelectedItem="{x:Bind ViewModel.Service.CurrentTrack, Mode=OneWay}"
                               IsItemClickEnabled="True"
-                              ItemContainerStyle="{StaticResource MainListViewItem}"
                               ItemClick="{x:Bind ViewModel.GotoRelatedTrack}">
-                       
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="HorizontalContentAlignment"  Value="Stretch" />
+                                <Setter Property="Background"  Value="Transparent" />
+                            </Style>
+                        </ListView.ItemContainerStyle>
                     </ListView>
                 </PivotItem>
 
@@ -517,7 +522,6 @@
                               SelectionMode="None"
                               IsItemClickEnabled="True"
                               HorizontalAlignment="Stretch"
-                              ItemContainerStyle="{StaticResource MainListViewItem}"
                               IsMultiSelectCheckBoxEnabled="False">
                        
                         <ListView.ItemTemplate>

@@ -94,8 +94,8 @@
             </interactivity:Interaction.Behaviors>
             <GridView.Header>
                 <StackPanel Orientation="Vertical">
-    
-                    <StackPanel x:Name="HeaderPanel" Orientation="Horizontal" HorizontalAlignment="Stretch" Background="{StaticResource MobileBlurHeader}">
+
+                    <StackPanel x:Name="HeaderPanel" Orientation="Horizontal" HorizontalAlignment="Stretch" Background="{ThemeResource SystemControlAcrylicElementMediumHighBrush }">
                         <!-- Track Image -->
                         <controls:DropShadowPanel BlurRadius="20"
                                                   x:Name="PlaylistImageHolder"
@@ -136,10 +136,10 @@
                                            Source="{x:Bind ViewModel.Playlist, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
                                            />
                                 </Grid>
-                                
-                               
 
-                                <Grid RequestedTheme="Dark" Background="{StaticResource InAppBackgroundBrush}" Padding="8" HorizontalAlignment="Stretch"
+
+
+                                <Grid RequestedTheme="Dark" Background="{ThemeResource SystemControlAcrylicElementMediumHighBrush }" Padding="8" HorizontalAlignment="Stretch"
                                       VerticalAlignment="Bottom">
                                     <TextBlock RequestedTheme="Dark"
                                                Text="{x:Bind ViewModel.Playlist.Duration, Mode=OneWay, Converter={StaticResource TimeStampConverter}}"

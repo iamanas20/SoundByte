@@ -14,7 +14,6 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="Header.Margin" Value="0,0,40,0" />
-                        <Setter Target="Header.Background" Value="Transparent" />
                         <Setter Target="TextHeader.FontSize" Value="55" />
                         <Setter Target="TextHeader.Margin" Value="10,30,0,0" />
                         <Setter Target="TextHeader.Opacity" Value="0.8" />
@@ -31,7 +30,7 @@
                     x:Name="Header" 
                     VerticalAlignment="Top" 
                     Canvas.ZIndex="10"
-                    Background="{StaticResource MobileBlurHeader}">
+                    Background="Transparent">
             <TextBlock Opacity="0" x:Name="TextHeader" Text="Search" FontWeight="Bold" FontSize="25" Margin="0,18,0,0" />
         </StackPanel>
 

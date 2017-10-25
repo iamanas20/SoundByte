@@ -9,7 +9,7 @@
 <ContentDialog x:Class="SoundByte.UWP.Dialogs.PendingUpdateDialog"
                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-               Background="{StaticResource ContentDialogBackgroundBrush}">
+               Background="{ThemeResource SystemControlAcrylicElementBrush }">
     <ScrollViewer HorizontalAlignment="Stretch"
                   x:Name="RootGrid"
                   VerticalScrollBarVisibility="Hidden">

@@ -20,7 +20,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="MenuFlyoutPresenter">
-                    <Grid Background="{StaticResource ComboBoxbackgroundBlur}">
+                    <Grid Background="{ThemeResource SystemControlAcrylicElementBrush }">
                         <ScrollViewer x:Name="MenuFlyoutPresenterScrollViewer"
                                       Padding="{TemplateBinding Padding}"
                                       Margin="{TemplateBinding BorderThickness}"
@@ -64,7 +64,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="FlyoutPresenter">
-                    <Border Background="{StaticResource ComboBoxbackgroundBlur}"
+                    <Border Background="{ThemeResource SystemControlAcrylicElementBrush }"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}">
                         <ScrollViewer x:Name="ScrollViewer"
@@ -323,7 +323,7 @@
                         <Popup x:Name="Popup" Grid.Row="0">
                             <Border x:Name="PopupBorder" BorderBrush="{ThemeResource ComboBoxDropDownBorderBrush}"
                                     BorderThickness="{ThemeResource ComboBoxDropdownBorderThickness}"
-                                    Background="{StaticResource ComboBoxbackgroundBlur}" HorizontalAlignment="Stretch"
+                                    Background="{ThemeResource SystemControlAcrylicElementBrush }" HorizontalAlignment="Stretch"
                                     Margin="0,-1,0,-1">
                                 <ScrollViewer x:Name="ScrollViewer" AutomationProperties.AccessibilityView="Raw"
 

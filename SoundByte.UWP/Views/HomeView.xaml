@@ -5,7 +5,6 @@
     xmlns:elements="using:SoundByte.UWP.UserControls"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
-    xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
     NavigationCacheMode="Enabled"
     Transitions="{StaticResource MainTransition}">
     <Page.Resources>
@@ -29,17 +28,11 @@
                         <Setter Target="TextHeader.Margin" Value="14,30,0,0" />
                         <Setter Target="TextHeader.Opacity" Value="0.8" />
                         <Setter Target="DesktopCommandBar.Visibility" Value="Visible" />
-                        <Setter Target="MobileGrid.Visibility" Value="Collapsed" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
 
-        <Grid x:Name="MobileGrid" Visibility="Visible" Background="{StaticResource MobileBlurHeader}"
-              VerticalAlignment="Top" HorizontalAlignment="Stretch" Height="48" Canvas.ZIndex="100">
-            <TextBlock Text="Stream" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="SemiBold"
-                       FontSize="18" />
-        </Grid>
 
         <!-- Info Pane for Model -->
         <elements:InfoPane x:Name="StreamModelInfoPane" Canvas.ZIndex="50" VerticalAlignment="Stretch"

@@ -95,9 +95,7 @@
                                             <DoubleAnimation Storyboard.TargetName="ContentSolidBackground" Storyboard.TargetProperty="Opacity"  From="0" To="1" Duration="0:0:0.15" />
                                             <DoubleAnimation Storyboard.TargetName="HighlightGrid" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.15" />
 
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HighlightGrid" Storyboard.TargetProperty="Background">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource ButtonLightingBrush}" />
-                                            </ObjectAnimationUsingKeyFrames>
+                                           
                                         </Storyboard>
                                     </VisualState>
                                 </VisualStateGroup>
@@ -113,7 +111,6 @@
                             <!-- Highlight background effect -->
                             <Grid x:Name="HighlightGrid" 
                                   Opacity="0"
-                                  Background="{StaticResource ButtonLightingBrush}"
                                   IsHitTestVisible="False" />
 
                             <TextBox x:Name="TextBox"
@@ -164,7 +161,7 @@
                             </Popup>
 
                             <!-- Highlight border effects -->
-                            <Rectangle Stroke="{StaticResource ButtonBorderLightingBrush}" 
+                            <Rectangle 
                                        IsHitTestVisible="False"
                                        StrokeThickness="1" />
 
@@ -205,9 +202,7 @@
                                             <DoubleAnimation Storyboard.TargetName="ContentSolidBackground" Storyboard.TargetProperty="Opacity"  From="0" To="1" Duration="0:0:0.15" />
                                             <DoubleAnimation Storyboard.TargetName="HighlightGrid" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.15" />
 
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HighlightGrid" Storyboard.TargetProperty="Background">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource ButtonLightingBrush}" />
-                                            </ObjectAnimationUsingKeyFrames>
+                                     
                                         </Storyboard>
                                     </VisualState>
                                     <VisualState x:Name="Pressed">
@@ -215,9 +210,7 @@
                                             <DoubleAnimation Storyboard.TargetName="ContentSolidBackground" Storyboard.TargetProperty="Opacity" From="1" To="1" Duration="0:0:0.15" AutoReverse="False"  />
                                             <DoubleAnimation Storyboard.TargetName="HighlightGrid" Storyboard.TargetProperty="Opacity" From="1" To="1" Duration="0:0:0.15" />
 
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HighlightGrid" Storyboard.TargetProperty="Background">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource ButtonPressedLightingBrush}" />
-                                            </ObjectAnimationUsingKeyFrames>
+                                          
 
                                             <PointerDownThemeAnimation TargetName="RootGrid" />
                                         </Storyboard>
@@ -230,9 +223,7 @@
                                             <DoubleAnimation Storyboard.TargetName="ContentSolidBackground" Storyboard.TargetProperty="Opacity"  From="0" To="1" Duration="0:0:0.15" />
                                             <DoubleAnimation Storyboard.TargetName="HighlightGrid" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.15" />
 
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HighlightGrid" Storyboard.TargetProperty="Background">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource ButtonLightingBrush}" />
-                                            </ObjectAnimationUsingKeyFrames>
+                                    
 
                                             <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
                                         </Storyboard>
@@ -250,7 +241,6 @@
                             <!-- Highlight background effect -->
                             <Grid x:Name="HighlightGrid" 
                                   Opacity="0"
-                                  Background="{StaticResource ButtonLightingBrush}"
                                   IsHitTestVisible="False" />
 
                             <ContentPresenter x:Name="ContentPresenter" AutomationProperties.AccessibilityView="Raw"
@@ -264,7 +254,7 @@
                                               VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
 
                             <!-- Highlight border effects -->
-                            <Rectangle Stroke="{StaticResource ButtonBorderLightingBrush}" 
+                            <Rectangle  
                                        IsHitTestVisible="False"
                                        StrokeThickness="1" />
 

@@ -45,7 +45,6 @@ using SoundByte.UWP.Views.Application;
 using SoundByte.UWP.Views.General;
 using SoundByte.UWP.Views.Me;
 using SoundByte.UWP.Views.Search;
-using UICompositionAnimations.Brushes;
 using SearchBox = SoundByte.UWP.UserControls.SearchBox;
 
 namespace SoundByte.UWP
@@ -98,8 +97,8 @@ namespace SoundByte.UWP
                 ShellFrame.Background = new SolidColorBrush(Colors.Transparent);
 
                 // Splitview pane gets background
-                SplitViewPaneGrid.Background =
-                    Application.Current.Resources["InAppBackgroundBrush"] as CustomAcrylicBrush;
+          //      SplitViewPaneGrid.Background =
+          //          Application.Current.Resources["InAppBackgroundBrush"] as CustomAcrylicBrush;
 
                 // Make xbox selection easy to see
                 Application.Current.Resources["CircleButtonStyle"] =
@@ -110,14 +109,13 @@ namespace SoundByte.UWP
             if (DeviceHelper.IsMobile)
             {
                 // Splitview pane gets background
-                SplitViewPaneGrid.Background =
-                    Application.Current.Resources["MobileBlurHeader"] as CustomAcrylicBrush;
+                //           SplitViewPaneGrid.Background =
+                //           Application.Current.Resources["MobileBlurHeader"] as CustomAcrylicBrush;
 
                 // Amoled Magic
-                Application.Current.Resources["ShellBackground"] =
-                   new SolidColorBrush(Application.Current.RequestedTheme == ApplicationTheme.Dark
-                       ? Colors.Black
-                        : Colors.White);
+                RootGrid.Background = new SolidColorBrush(Application.Current.RequestedTheme == ApplicationTheme.Dark
+                    ? Colors.Black
+                    : Colors.White);                   
 
                 MainSplitView.IsPaneOpen = false;
                 MainSplitView.DisplayMode = SplitViewDisplayMode.Overlay;

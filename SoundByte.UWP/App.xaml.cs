@@ -37,7 +37,6 @@ using SoundByte.UWP.Services;
 using SoundByte.UWP.Views;
 using SoundByte.UWP.Views.Application;
 using SoundByte.UWP.Views.Search;
-using UICompositionAnimations.Lights;
 using WinRTXamlToolkit.Tools;
 
 namespace SoundByte.UWP
@@ -367,18 +366,6 @@ namespace SoundByte.UWP
 
             // Set the root shell as the window content
             Window.Current.Content = shell;
-
-            try
-            {
-                // Setup the lights
-                LightsSourceHelper.Initialize(() => new PointerPositionSpotLight());
-            }
-            catch
-            {
-                // Temp fix around light helper already existing, proper fix later
-            }
-
-            LightsSourceHelper.SetIsLightsContainer(Window.Current.Content, true);
 
             // If on xbox display the screen to the full width and height
             if (DeviceHelper.IsXbox)

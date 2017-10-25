@@ -14,7 +14,6 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.UI.Xaml;
 using SoundByte.Core.Items.Track;
 using SoundByte.UWP.Services;
-using UICompositionAnimations.Lights;
 
 namespace SoundByte.UWP.Dialogs
 {
@@ -28,8 +27,6 @@ namespace SoundByte.UWP.Dialogs
 
             // Load the XAML page
             InitializeComponent();
-
-            LightsSourceHelper.SetIsLightsContainer(RootGrid, true);
         }
 
         public BaseTrack Track { get; }

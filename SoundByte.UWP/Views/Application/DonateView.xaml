@@ -17,17 +17,10 @@
                         <Setter Target="TextHeader.FontSize" Value="55" />
                         <Setter Target="TextHeader.Margin" Value="0,30,0,0" />
                         <Setter Target="TextHeader.Opacity" Value="0.8" />
-                        <Setter Target="MobileGrid.Visibility" Value="Collapsed" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-
-        <Grid x:Name="MobileGrid" Visibility="Visible" Background="{StaticResource MobileBlurHeader}"
-              VerticalAlignment="Top" HorizontalAlignment="Stretch" Height="48" Canvas.ZIndex="100">
-            <TextBlock Text="Donate" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="SemiBold"
-                       FontSize="18" />
-        </Grid>
 
         <ScrollViewer HorizontalAlignment="Stretch"
                       VerticalScrollBarVisibility="Hidden">
@@ -45,7 +38,7 @@
                                     Margin="0"
                                     Width="170"
                                     Padding="0,15,0,0"
-                                    Background="{StaticResource MobileBlurHeader}">
+                                    Background="{ThemeResource SystemControlAcrylicElementMediumHighBrush }">
                             <!-- Icon -->
                             <TextBlock Text="&#xE006;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center"
                                        Padding="5" TextAlignment="Center" FontSize="48" />
@@ -66,7 +59,7 @@
                                         Margin="0"
                                         Width="170"
                                         Padding="0,15,0,0"
-                                    Background="{StaticResource MobileBlurHeader}">
+                                    Background="{ThemeResource SystemControlAcrylicElementMediumHighBrush }">
                             <!-- Icon -->
                             <TextBlock Text="&#xE006;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center"
                                            Padding="5" TextAlignment="Center" FontSize="48" />
@@ -87,7 +80,7 @@
                                         Margin="0"
                                         Width="170"
                                         Padding="0,15,0,0"
-                                        Background="{StaticResource MobileBlurHeader}">
+                                        Background="{ThemeResource SystemControlAcrylicElementMediumHighBrush }">
                             <!-- Icon -->
                             <TextBlock Text="&#xE006;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center"
                                            Padding="5" TextAlignment="Center" FontSize="48" />
@@ -108,7 +101,7 @@
                                         Margin="0"
                                         Width="170"
                                         Padding="0,15,0,0"
-                                    Background="{StaticResource MobileBlurHeader}">
+                                    Background="{ThemeResource SystemControlAcrylicElementMediumHighBrush }">
                             <!-- Icon -->
                             <TextBlock Text="&#xE006;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center"
                                            Padding="5" TextAlignment="Center" FontSize="48" />

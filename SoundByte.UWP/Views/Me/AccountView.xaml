@@ -15,7 +15,6 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                        
-                        <Setter Target="MobileGrid.Visibility" Value="Collapsed" />
                         <Setter Target="TextHeader.Visibility" Value="Visible" />
                         <Setter Target="TextHeader.FontSize" Value="55" />
                         <Setter Target="TextHeader.Margin" Value="0,30,0,20" />
@@ -32,11 +31,6 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
 
-        <Grid x:Name="MobileGrid" Visibility="Visible" Background="{StaticResource MobileBlurHeader}"
-              VerticalAlignment="Top" HorizontalAlignment="Stretch" Height="48" Canvas.ZIndex="100">
-            <TextBlock Text="Manage Accounts" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="SemiBold" FontSize="18" />
-        </Grid>
-        
         <WebView x:Name="LoginWebView"
                  Canvas.ZIndex="5"
                  Margin="-40,0,0,0"
@@ -94,7 +88,7 @@
                 <StackPanel x:Name="AccountPanel" Margin="-5,5,-5,0" Orientation="Vertical" >
 
                     <StackPanel x:Name="SoundCloudPanel"
-                                Background="{StaticResource MobileBlurHeader}"
+                                Background="{ThemeResource SystemControlAcrylicElementMediumHighBrush }"
                                 HorizontalAlignment="Stretch"
                                 Margin="5"
                                 Padding="5"
@@ -111,13 +105,14 @@
 
                         <Button x:Name="ViewSoundCloudProfileButton" Margin="0,10,0,0"
                                 BorderThickness="0"
+                                Style="{ThemeResource ButtonRevealStyle}"
                                 Background="{ThemeResource SystemControlHighlightAccentBrush}" Padding="10"
                                 HorizontalAlignment="Stretch" Click="NavigateSoundCloudProfile">
                             <TextBlock Text="View Profile" TextAlignment="Center" FontSize="16" RequestedTheme="Dark" />
                         </Button>
                     </StackPanel>
 
-                    <StackPanel Background="{StaticResource MobileBlurHeader}"
+                    <StackPanel Background="{ThemeResource SystemControlAcrylicElementMediumHighBrush }"
                                 x:Name="FanburstPanel"
                                 HorizontalAlignment="Stretch"
                                 Margin="5"
@@ -155,7 +150,7 @@
                     </StackPanel>
 
                     <StackPanel x:Name="XboxConnectPanel"
-                                Background="{StaticResource MobileBlurHeader}"
+                                Background="{ThemeResource SystemControlAcrylicElementMediumHighBrush }"
                                 HorizontalAlignment="Stretch"
                                 Margin="5"
                                 Padding="5"
@@ -172,7 +167,7 @@
                     </StackPanel>
 
                     <StackPanel x:Name="XboxConnectPanelHost"
-                                Background="{StaticResource MobileBlurHeader}"
+                                Background="{ThemeResource SystemControlAcrylicElementMediumHighBrush }"
                                 HorizontalAlignment="Stretch"
                                 Margin="5"
                                 Visibility="Collapsed"

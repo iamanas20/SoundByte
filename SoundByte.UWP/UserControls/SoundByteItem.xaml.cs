@@ -185,32 +185,32 @@ namespace SoundByte.UWP.UserControls
 
         private void DesktopTrackItem_OnPointerEntered(object sender, PointerRoutedEventArgs e)
         {
-            StartAnimations(ShadowPanel);
+          //  StartAnimations(ShadowPanel);
         }
 
         private void DesktopTrackItem_OnPointerExited(object sender, PointerRoutedEventArgs e)
         {
-            StopAnimation(ShadowPanel);
+         //   StopAnimation(ShadowPanel);
         }
 
         private void DesktopPlaylistItem_OnPointerExited(object sender, PointerRoutedEventArgs e)
         {
-            StopAnimation(PlaylistDropShadow);
+          //  StopAnimation(PlaylistDropShadow);
         }
 
         private void DesktopPlaylistItem_OnPointerEntered(object sender, PointerRoutedEventArgs e)
         {
-            StartAnimations(PlaylistDropShadow);
+          //  StartAnimations(PlaylistDropShadow);
         }
 
         private void DesktopUserItem_OnPointerEntered(object sender, PointerRoutedEventArgs e)
         {
-            StartAnimations(UserDropShadow);
+          //  StartAnimations(UserDropShadow);
         }
 
         private void DesktopUserItem_OnPointerExited(object sender, PointerRoutedEventArgs e)
         {
-            StopAnimation(UserDropShadow);
+         //   StopAnimation(UserDropShadow);
         }
     }
 }
