@@ -3,7 +3,7 @@
 SoundByte
 </h1>
 
-<img src="SoundByte.UWP/Assets/Screenshots/mainpage.png" alt="SoundByte Screenshot">
+<img src="UWP_AppPreview.png" alt="SoundByte Screenshot">
 
 <h4 align="center">A <a href="https://soundcloud.com/" target="_blank">SoundCloud</a> &amp; <a href="https://fanburst.com/" target="_blank">Fanburst</a> Client for Windows 10 &amp; Xbox One.</h4>
 
@@ -17,12 +17,12 @@ SoundByte
 </p>
 
 ## Introduction
-SoundByte is a Universal Windows Platform (UWP) App that connects with the SoundCloud (and Fanburst) API allowing for a user to listen to music from SoundCloud natively. SoundByte is published through the Windows Store for free.
+SoundByte is a cross platform music client that intergrates with the SoundCloud, Fanburst and YouTube APIs allowing a user to listen to these platforms natively. Currently SoundByte supports UWP (Windows 10) and is published through the Windows Store for free.
 
 Please Note: SoundByte source code is to only be used for educational purposes. Distrubution of SoundByte source code in any form outside this repository is forbidden.
 
 ## SoundByte Structure
-SoundByte is split into four  projects. `SoundByte.Android`, `SoundByte.Core`, `SoundByte.Service` and `SoundByte.UWP`. Each of these projects and containing files are mentioned in more detail below.
+SoundByte is split into the following projects: `SoundByte.Android`, `SoundByte.MacOS`, `SoundByte.Core`, `SoundByte.Service` and `SoundByte.UWP`. Each of these projects and containing files are mentioned in more detail below.
 
 |Project Name|Platform|Description|
 |--|--|--|
@@ -30,9 +30,9 @@ SoundByte is split into four  projects. `SoundByte.Android`, `SoundByte.Core`, `
 |`SoundByte.MacOS`|Xamarin Native (macOS)|WIP Xamarin Native app for macOS|
 |`SoundByte.Core`|.NET Standard v1.4|Core logic used by all projects within SoundByte|
 |`SoundByte.Service`|ASP.NET Azure Mobile Service|Used for remote login. Will allow for user account creation in future|
-|`SoundByte.UWP`|UWP 10.0 - Creators Update|Windows 10 UWP App (Windows 10/Xbox One)|
+|`SoundByte.UWP`|UWP 10.0 - Fall Creators Update - see `cu_stable` for Creators Update support|Windows 10 UWP App (Windows 10/Xbox One)|
 
-**SoundByte.Android:** WIP, shell project. Nothing done.
+**SoundByte.Android:** Very basic UI, allows searching for "Monstercat" through the SoundCloud API. Supports single playback items.
 
 **SoundByte.Core:** SoundByte Core is a cross-platform library built using .NET standard. This library contains logic for interacting with muiltiple services such as Fanburst, SoundCloud and YouTube. The main entry point for accessing content in this library is the `SoundByteV3Service` class within the `SoundByte.Core.Services` namespace. Details on how to use this class are mentioned below:
 
