@@ -599,7 +599,7 @@
 
                         <SplitView
                             x:Name="RootSplitView"
-                            Background="{TemplateBinding Background}"
+                            Background="Transparent"
                             CompactPaneLength="{TemplateBinding CompactPaneLength}"
                             DisplayMode="Inline"
                             IsPaneOpen="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=IsPaneOpen, Mode=TwoWay}"
