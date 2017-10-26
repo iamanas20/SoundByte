@@ -7,26 +7,6 @@
 
     <!-- Main Page -->
     <Grid Background="Transparent" x:Name="RootGrid">
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup x:Name="WindowSize">
-                <VisualState>
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="768" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                       
-                      
-                        <Setter Target="AccountPanel.Orientation" Value="Horizontal" />
-                        <Setter Target="SoundCloudPanel.Width" Value="200" />
-                        <Setter Target="SoundCloudPanel.HorizontalAlignment" Value="Left" />
-                        <Setter Target="FanburstPanel.Width" Value="200" />
-                        <Setter Target="FanburstPanel.HorizontalAlignment" Value="Left" />
-                        <Setter Target="XboxConnectPanel.Width" Value="200" />
-                        <Setter Target="XboxConnectPanel.HorizontalAlignment" Value="Left" />
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
 
         <WebView x:Name="LoginWebView"
                  Canvas.ZIndex="5"
@@ -85,125 +65,73 @@
                            Style="{StaticResource TextStyle}" />
 
                 <TextBlock Text="SoundCloud Account" Style="{StaticResource SubTitleStyle}" />
-                <HyperlinkButton Content="Connect Account" Style="{StaticResource LinkStyle}" />
-                <HyperlinkButton Content="View Profile" Style="{StaticResource LinkStyle}" />
-                <HyperlinkButton Content="Disconnect Account" Style="{StaticResource LinkStyle}" />
+                
+                <HyperlinkButton x:Name="SoundCloudConnectAccount" 
+                                 Content="Connect Account" 
+                                 Style="{StaticResource LinkStyle}" 
+                                 Click="ConnectSoundCloudAccount" />
+                
+                <HyperlinkButton x:Name="SoundCloudViewProfile" 
+                                 Content="View Profile"
+                                 Style="{StaticResource LinkStyle}" 
+                                 Click="NavigateSoundCloudProfile" />
+              
+                <HyperlinkButton x:Name="SoundCloudDisconnectAccount"  
+                                 Content="Disconnect Account" 
+                                 Style="{StaticResource LinkStyle}"
+                                 Click="DisconnectSoundCloudAccount" />
 
-
-
-                <TextBlock Text="YouTube Account" Style="{StaticResource SubTitleStyle}" />
-                <HyperlinkButton Content="Connect Account" Style="{StaticResource LinkStyle}" />
-                <HyperlinkButton Content="View Profile" Style="{StaticResource LinkStyle}" />
-                <HyperlinkButton Content="Disconnect Account" Style="{StaticResource LinkStyle}" />
-
+                
+                
                 <TextBlock Text="Fanburst Account" Style="{StaticResource SubTitleStyle}" />
-                <HyperlinkButton Content="Connect Account" Style="{StaticResource LinkStyle}" />
-                <HyperlinkButton Content="View Profile" Style="{StaticResource LinkStyle}" />
-                <HyperlinkButton Content="Disconnect Account" Style="{StaticResource LinkStyle}" />
+                
+                <HyperlinkButton x:Name="FanburstConnectAccount"  
+                                 Content="Connect Account" 
+                                 Style="{StaticResource LinkStyle}" 
+                                 Click="ConnectFanburstAccount" />
+                
+                <HyperlinkButton x:Name="FanburstViewProfile"  
+                                 Content="View Profile" 
+                                 Style="{StaticResource LinkStyle}" 
+                                 Click="NavigateFanburstProfile" />
+               
+                <HyperlinkButton x:Name="FanburstDisconnectAccount"  
+                                 Content="Disconnect Account" 
+                                 Style="{StaticResource LinkStyle}" 
+                                 Click="DisconnectFanburstAccount" />
 
+                
+                
+                <TextBlock Text="Youtube Account" Style="{StaticResource SubTitleStyle}" />
+               
+                <HyperlinkButton x:Name="YouTubeConnectAccount"  
+                                 Content="Connect Account"
+                                 Style="{StaticResource LinkStyle}" 
+                                 IsEnabled="False"
+                                 Click="ConnectYouTubeAccount" />
+                
+                <HyperlinkButton x:Name="YouTubeViewProfile"  
+                                 Content="View Profile" 
+                                 Style="{StaticResource LinkStyle}" 
+                                 IsEnabled="False"
+                                 Click="NavigateYouTubeProfile" />
+              
+                <HyperlinkButton x:Name="YouTubeDisconnectAccount"  
+                                 Content="Disconnect Account" 
+                                 Style="{StaticResource LinkStyle}" 
+                                 IsEnabled="False"
+                                 Click="DisconnectYouTubeAccount" />
 
+                <TextBlock Text="Remote (SoundCloud Only)" Style="{StaticResource SubTitleStyle}" />
+                <HyperlinkButton x:Name="XboxConnectPanel"
+                                  Content="Remote Connect Xbox One" 
+                                 Style="{StaticResource LinkStyle}" 
+                                 Click="ConnectXboxOne" />
 
-                <StackPanel x:Name="AccountPanel" Margin="-5,5,-5,0" Orientation="Vertical" >
-
-                    <StackPanel x:Name="SoundCloudPanel"
-                                Background="{ThemeResource SystemControlAcrylicElementMediumHighBrush }"
-                                HorizontalAlignment="Stretch"
-                                Margin="5"
-                                Padding="5"
-                                Orientation="Vertical">
-                        <TextBlock Text="SoundCloud" Opacity="0.8" Padding="10,20" TextAlignment="Center" FontSize="18"
-                                   FontWeight="SemiBold" />
-
-                        <Button Margin="0,10,0,0" Background="{ThemeResource SystemControlHighlightAccentBrush}"
-                                BorderThickness="0"
-                                Padding="10" HorizontalAlignment="Stretch" Click="ToggleSoundCloud">
-                            <TextBlock x:Name="SoundCloudText" Text="Login" TextAlignment="Center" FontSize="16"
-                                       RequestedTheme="Dark" />
-                        </Button>
-
-                        <Button x:Name="ViewSoundCloudProfileButton" Margin="0,10,0,0"
-                                BorderThickness="0"
-                                Style="{ThemeResource ButtonRevealStyle}"
-                                Background="{ThemeResource SystemControlHighlightAccentBrush}" Padding="10"
-                                HorizontalAlignment="Stretch" Click="NavigateSoundCloudProfile">
-                            <TextBlock Text="View Profile" TextAlignment="Center" FontSize="16" RequestedTheme="Dark" />
-                        </Button>
-                    </StackPanel>
-
-                    <StackPanel Background="{ThemeResource SystemControlAcrylicElementMediumHighBrush }"
-                                x:Name="FanburstPanel"
-                                HorizontalAlignment="Stretch"
-                                Margin="5"
-                                Padding="5"
-                                Orientation="Vertical">
-                        <TextBlock Text="Fanburst (Alpha)" 
-                                   Opacity="0.8" 
-                                   Padding="10,20" 
-                                   TextAlignment="Center" 
-                                   FontSize="18"
-                                   FontWeight="SemiBold" />
-
-                        <Button Margin="0,10,0,0" 
-                                Background="{ThemeResource SystemControlHighlightAccentBrush}"
-                                BorderThickness="0"
-                                Padding="10" 
-                                HorizontalAlignment="Stretch" 
-                                Click="ToggleFanburst">
-                            <TextBlock x:Name="FanburstText" 
-                                       Text="Login" 
-                                       TextAlignment="Center" 
-                                       FontSize="16"
-                                       RequestedTheme="Dark" />
-                        </Button>
-
-                        <Button Margin="0,10,0,0"
-                                x:Name="ViewFanburstProfileButton"
-                                Click="ViewFanburstProfile"
-                                BorderThickness="0"
-                                Background="{ThemeResource SystemControlHighlightAccentBrush}" 
-                                Padding="10"
-                                HorizontalAlignment="Stretch">
-                            <TextBlock Text="View Profile" TextAlignment="Center" FontSize="16" RequestedTheme="Dark" />
-                        </Button>
-                    </StackPanel>
-
-                    <StackPanel x:Name="XboxConnectPanel"
-                                Background="{ThemeResource SystemControlAcrylicElementMediumHighBrush }"
-                                HorizontalAlignment="Stretch"
-                                Margin="5"
-                                Padding="5"
-                                Orientation="Vertical">
-                        <TextBlock Text="Connect Xbox One" Opacity="0.8" Padding="10,20" TextAlignment="Center" FontSize="18"
-                                   FontWeight="SemiBold" />
-
-                        <Button Margin="0,10,0,0" Background="{ThemeResource SystemControlHighlightAccentBrush}"
-                                BorderThickness="0"
-                                Padding="10" HorizontalAlignment="Stretch" Click="ConnectXboxOne">
-                            <TextBlock Text="Connect" TextAlignment="Center" FontSize="16"
-                                       RequestedTheme="Dark" />
-                        </Button>
-                    </StackPanel>
-
-                    <StackPanel x:Name="XboxConnectPanelHost"
-                                Background="{ThemeResource SystemControlAcrylicElementMediumHighBrush }"
-                                HorizontalAlignment="Stretch"
-                                Margin="5"
-                                Visibility="Collapsed"
-                                Padding="5"
-                                Orientation="Vertical">
-                        <TextBlock Text="Connect with PC" Opacity="0.8" Padding="10,20" TextAlignment="Center" FontSize="18"
-                                   FontWeight="SemiBold" />
-
-                        <Button Margin="0,10,0,0" Background="{ThemeResource SystemControlHighlightAccentBrush}"
-                                BorderThickness="0"
-                                Padding="10" HorizontalAlignment="Stretch" Click="NavigateToXboxConnect">
-                            <TextBlock Text="Login" TextAlignment="Center" FontSize="16"
-                                       RequestedTheme="Dark" />
-                        </Button>
-                    </StackPanel>
-
-
-                </StackPanel>
+                <HyperlinkButton x:Name="XboxConnectPanelHost"
+                                 Content="Connect with PC" 
+                                 Style="{StaticResource LinkStyle}" 
+                                 Click="NavigateToXboxConnect" />
             </StackPanel>
         </ScrollViewer>
 

@@ -88,11 +88,44 @@ namespace SoundByte.UWP.Views.Me
 
         private void RefreshUi()
         {
-            SoundCloudText.Text = SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud) ? "Logout" : "Login";
-            FanburstText.Text = SoundByteV3Service.Current.IsServiceConnected(ServiceType.Fanburst) ? "Logout" : "Login";
+            if (SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud))
+            {
+                SoundCloudDisconnectAccount.Visibility = Visibility.Visible;
+                SoundCloudViewProfile.Visibility = Visibility.Visible;
+                SoundCloudConnectAccount.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                SoundCloudDisconnectAccount.Visibility = Visibility.Collapsed;
+                SoundCloudViewProfile.Visibility = Visibility.Collapsed;
+                SoundCloudConnectAccount.Visibility = Visibility.Visible;
+            }
 
-            ViewSoundCloudProfileButton.IsEnabled = SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud);
-            ViewFanburstProfileButton.IsEnabled = SoundByteV3Service.Current.IsServiceConnected(ServiceType.Fanburst);
+            if (SoundByteV3Service.Current.IsServiceConnected(ServiceType.Fanburst))
+            {
+                FanburstDisconnectAccount.Visibility = Visibility.Visible;
+                FanburstViewProfile.Visibility = Visibility.Visible;
+                FanburstConnectAccount.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                FanburstDisconnectAccount.Visibility = Visibility.Collapsed;
+                FanburstViewProfile.Visibility = Visibility.Collapsed;
+                FanburstConnectAccount.Visibility = Visibility.Visible;
+            }
+
+            if (SoundByteV3Service.Current.IsServiceConnected(ServiceType.YouTube))
+            {
+                YouTubeDisconnectAccount.Visibility = Visibility.Visible;
+                YouTubeViewProfile.Visibility = Visibility.Visible;
+                YouTubeConnectAccount.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                YouTubeDisconnectAccount.Visibility = Visibility.Collapsed;
+                YouTubeViewProfile.Visibility = Visibility.Collapsed;
+                YouTubeConnectAccount.Visibility = Visibility.Visible;
+            }
 
             // Update the UI depending if we are logged in or not
             if (SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud) ||
@@ -311,40 +344,8 @@ namespace SoundByte.UWP.Views.Me
             LoginWebView.Navigate(new Uri(connectUri));
         }
 
-        private async void ToggleSoundCloud(object sender, RoutedEventArgs e)
-        {
-            _isXboxConnect = false;
 
-            if (SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud))
-            {
-                SoundByteV3Service.Current.DisconnectService(ServiceType.SoundCloud);
-                RefreshUi();
-            }
-            else
-            {
-                await ConnectAccountAsync(ServiceType.SoundCloud);
-            }
-        }
-
-        private async void ToggleFanburst(object sender, RoutedEventArgs e)
-        {
-            _isXboxConnect = false;
-
-            if (SoundByteV3Service.Current.IsServiceConnected(ServiceType.Fanburst))
-            {
-                SoundByteV3Service.Current.DisconnectService(ServiceType.Fanburst);
-                RefreshUi();
-            }
-            else
-            {
-                await ConnectAccountAsync(ServiceType.Fanburst);
-            }
-        }
-
-        private void NavigateSoundCloudProfile(object sender, RoutedEventArgs e)
-        {
-            App.NavigateTo(typeof(UserView), SoundByteV3Service.Current.GetConnectedUser(ServiceType.SoundCloud));
-        }
+       
 
         private void ConnectXboxOne(object sender, RoutedEventArgs e)
         {
@@ -370,9 +371,73 @@ namespace SoundByte.UWP.Views.Me
             ConnectAccountView.Visibility = Visibility.Collapsed;
         }
 
-        private void ViewFanburstProfile(object sender, RoutedEventArgs e)
+
+
+
+        #region Navigate Profile Methods
+        private void NavigateSoundCloudProfile(object sender, RoutedEventArgs e)
+        {
+            App.NavigateTo(typeof(UserView), SoundByteV3Service.Current.GetConnectedUser(ServiceType.SoundCloud));
+        }
+
+        private void NavigateFanburstProfile(object sender, RoutedEventArgs e)
         {
             App.NavigateTo(typeof(UserView), SoundByteV3Service.Current.GetConnectedUser(ServiceType.Fanburst));
         }
+
+        private void NavigateYouTubeProfile(object sender, RoutedEventArgs e)
+        {
+            App.NavigateTo(typeof(UserView), SoundByteV3Service.Current.GetConnectedUser(ServiceType.YouTube));
+        }
+        #endregion
+
+        #region Connect Account Methods
+        private async void ConnectSoundCloudAccount(object sender, RoutedEventArgs e)
+        {
+            // Disable Xbox Mode
+            _isXboxConnect = false;
+
+            // Connect Account
+            await ConnectAccountAsync(ServiceType.SoundCloud);      
+        }
+
+        private async void ConnectFanburstAccount(object sender, RoutedEventArgs e)
+        {
+            // Disable Xbox Mode
+            _isXboxConnect = false;
+
+            // Connect Account
+            await ConnectAccountAsync(ServiceType.Fanburst);
+        }
+
+        private async void ConnectYouTubeAccount(object sender, RoutedEventArgs e)
+        {
+            // Disable Xbox Mode
+            _isXboxConnect = false;
+            
+            // Connect Account
+            await ConnectAccountAsync(ServiceType.YouTube);
+        }
+        #endregion
+
+        #region Disconnect Account Methods
+        private void DisconnectSoundCloudAccount(object sender, RoutedEventArgs e)
+        {
+            SoundByteV3Service.Current.DisconnectService(ServiceType.SoundCloud);
+            RefreshUi();
+        }
+
+        private void DisconnectFanburstAccount(object sender, RoutedEventArgs e)
+        {
+            SoundByteV3Service.Current.DisconnectService(ServiceType.Fanburst);
+            RefreshUi();
+        }
+
+        private void DisconnectYouTubeAccount(object sender, RoutedEventArgs e)
+        {
+            SoundByteV3Service.Current.DisconnectService(ServiceType.YouTube);
+            RefreshUi();
+        }
+        #endregion
     }
 }

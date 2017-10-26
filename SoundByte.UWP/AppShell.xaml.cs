@@ -413,6 +413,9 @@ namespace SoundByte.UWP
                 case "AppInfoView":
                     NavView.SelectedItem = NavigationItemSettings;
                     break;
+                case "MyShowsView":
+                    NavView.SelectedItem = NavigationItemShows;
+                    break;
             }
 
             if (((Frame) sender).SourcePageType == typeof(HomeView) ||
@@ -541,6 +544,9 @@ namespace SoundByte.UWP
                     break;
                 case "accounts":
                     RootFrame.Navigate(typeof(AccountView));
+                    break;
+                case "shows":
+                    RootFrame.Navigate(typeof(MyShowsView));
                     break;
 
             }

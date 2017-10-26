@@ -273,6 +273,9 @@
     <Compile Include="Views\Me\AccountView.xaml.cs">
       <DependentUpon>AccountView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Me\MyShowsView.xaml.cs">
+      <DependentUpon>MyShowsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Me\XboxAccountView.xaml.cs">
       <DependentUpon>XboxAccountView.xaml</DependentUpon>
     </Compile>
@@ -430,6 +433,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Me\AccountView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Me\MyShowsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
