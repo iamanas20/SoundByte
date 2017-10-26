@@ -107,7 +107,7 @@
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
 
-                <NavigationViewItem Content="Likes" 
+                <NavigationViewItem Content="My Likes" 
                                     Style="{StaticResource NavStyle}" 
                                     x:Name="NavigationItemLikes"
                                     Tag="likes">
@@ -116,12 +116,30 @@
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
 
-                <NavigationViewItem Content="Playlists" 
+                <NavigationViewItem Content="My Playlists" 
                                     Style="{StaticResource NavStyle}" 
                                     x:Name="NavigationItemPlaylists"
                                     Tag="playlists">
                     <NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xE142;"/>
+                        <FontIcon Glyph="&#xE93C;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+
+                <NavigationViewItem Content="My Shows" 
+                                    Style="{StaticResource NavStyle}" 
+                                    x:Name="NavigationItemShows"
+                                    Tag="shows">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xEA69;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+
+                <NavigationViewItem Content="Downloads" 
+                                    Style="{StaticResource NavStyle}" 
+                                    x:Name="NavigationItemDownloads"
+                                    Tag="downloads">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE896;"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
 
@@ -133,7 +151,7 @@
                         <FontIcon Glyph="&#xE81C;"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                
+
                 <NavigationViewItem Content="Upgrade to Premuim" 
                                     Style="{StaticResource NavStyle}" 
                                     x:Name="NavigationItemDonations"
@@ -157,22 +175,22 @@
                                     x:Name="NavigationItemAccounts"
                                     Tag="accounts">
                     <NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xE77B;"/>
+                        <FontIcon Glyph="&#xE716;"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
             </NavigationView.MenuItems>
 
 
-                <!-- Main Frame Content -->
-                <Grid Canvas.ZIndex="20" Padding="0,32,0,0" Margin="0,0,0,0">
-                    <!-- Shadow for now playing bar -->
-                    <Canvas x:Name="ShellFrameShadow"
+            <!-- Main Frame Content -->
+            <Grid Canvas.ZIndex="20" Padding="0,32,0,0" Margin="0,0,0,0">
+                <!-- Shadow for now playing bar -->
+                <Canvas x:Name="ShellFrameShadow"
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Stretch"
                             Canvas.ZIndex="5" />
 
-                    <!-- Main Page Content will be rendered here -->
-                    <Frame x:Name="ShellFrame"
+                <!-- Main Page Content will be rendered here -->
+                <Frame x:Name="ShellFrame"
                            TabIndex="1"
                            Padding="12"
                            Background="{ThemeResource ShellBackground}"
@@ -185,12 +203,12 @@
                         </TransitionCollection>
                     </Frame.ContentTransitions>
                 </Frame>
-                </Grid>
-            
+            </Grid>
 
-         
+
+
         </NavigationView>
-        
+
         <!-- Desktop Now Playing Bar -->
         <sui:NowPlayingBar x:Name="NowPlaying"
                            VerticalAlignment="Bottom"

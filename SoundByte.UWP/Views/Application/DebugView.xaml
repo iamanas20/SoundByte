@@ -10,13 +10,16 @@
         <StackPanel>
             <TextBlock Style="{StaticResource TitleStyle}" 
                        Text="Debug Options" />
-            <TextBlock Text="NAVIGATION SERVICE (DIALOG)"     
+            <TextBlock Text="Navigation Service (Dialog)"     
                        Style="{StaticResource SubTitleStyle}" />
             <TextBlock Text="Debug registered soundbyte dialogs by typing in the name of the dialog below. For example `PendingUpdateDialog`. Invokes the navigation service." 
                        Style="{StaticResource TextStyle}" />
             <TextBox x:Name="Command" />
             <Button Content="Run Command" Click="ButtonBase_OnClick" />
             <Button Content="Get Dialog List" Click="GetDialogList" />
+
+            <TextBlock Text="Podcast Testing"     
+                       Style="{StaticResource SubTitleStyle}" />
             <Button Content="Search 'Space' podcasts via iTunes" Click="GetItunes" />
 
         </StackPanel>

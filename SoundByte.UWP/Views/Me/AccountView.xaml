@@ -15,10 +15,7 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                        
-                        <Setter Target="TextHeader.Visibility" Value="Visible" />
-                        <Setter Target="TextHeader.FontSize" Value="55" />
-                        <Setter Target="TextHeader.Margin" Value="0,30,0,20" />
-                        <Setter Target="TextHeader.Opacity" Value="0.8" />
+                      
                         <Setter Target="AccountPanel.Orientation" Value="Horizontal" />
                         <Setter Target="SoundCloudPanel.Width" Value="200" />
                         <Setter Target="SoundCloudPanel.HorizontalAlignment" Value="Left" />
@@ -79,10 +76,31 @@
                       Visibility="Visible"
                       x:Name="MainView">
             <StackPanel x:Name="StackPanel">
-                <TextBlock x:Name="TextHeader" Text="Connected Accounts" FontWeight="Bold" Opacity="0.8"
-                           Visibility="Collapsed"
-                           FontSize="55" Margin="0,30,0,0" />
-              
+                <TextBlock Text="Account Manager"
+                           Style="{StaticResource TitleStyle}"  />
+                <TextBlock Text="About" Style="{StaticResource SubTitleStyle}" />
+
+
+                <TextBlock Text="Manage all your connected services below. By connecting an account you enable features such as liking, following users and playlist support. You can also connect your Xbox One to a service remotely." 
+                           Style="{StaticResource TextStyle}" />
+
+                <TextBlock Text="SoundCloud Account" Style="{StaticResource SubTitleStyle}" />
+                <HyperlinkButton Content="Connect Account" Style="{StaticResource LinkStyle}" />
+                <HyperlinkButton Content="View Profile" Style="{StaticResource LinkStyle}" />
+                <HyperlinkButton Content="Disconnect Account" Style="{StaticResource LinkStyle}" />
+
+
+
+                <TextBlock Text="YouTube Account" Style="{StaticResource SubTitleStyle}" />
+                <HyperlinkButton Content="Connect Account" Style="{StaticResource LinkStyle}" />
+                <HyperlinkButton Content="View Profile" Style="{StaticResource LinkStyle}" />
+                <HyperlinkButton Content="Disconnect Account" Style="{StaticResource LinkStyle}" />
+
+                <TextBlock Text="Fanburst Account" Style="{StaticResource SubTitleStyle}" />
+                <HyperlinkButton Content="Connect Account" Style="{StaticResource LinkStyle}" />
+                <HyperlinkButton Content="View Profile" Style="{StaticResource LinkStyle}" />
+                <HyperlinkButton Content="Disconnect Account" Style="{StaticResource LinkStyle}" />
+
 
 
                 <StackPanel x:Name="AccountPanel" Margin="-5,5,-5,0" Orientation="Vertical" >

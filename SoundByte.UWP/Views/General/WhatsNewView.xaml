@@ -6,27 +6,11 @@
     NavigationCacheMode="Enabled"
     Transitions="{StaticResource MainTransition}">
 
-    <Grid Background="Transparent" x:Name="RootGrid">
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup x:Name="WindowSize">
-                <VisualState>
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="768" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="TextHeader.FontSize" Value="55" />
-                        <Setter Target="TextHeader.Opacity" Value="0.8" />
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
-
-
+    <Grid Background="Transparent">
         <ScrollViewer HorizontalAlignment="Stretch"
                       VerticalAlignment="Stretch">
-            <StackPanel x:Name="StackPanel" Padding="0,20,0,0">
-                <TextBlock x:Name="TextHeader" Opacity="0" Text="What's New" FontWeight="Bold" FontSize="25"
-                            />
+            <StackPanel>
+                <TextBlock Text="What's New" Style="{StaticResource TitleStyle}" />
                 <TextBlock Text="Current Version: "
                            x:Name="CurrentVersion"
                            Style="{StaticResource SubTitleStyle}" />

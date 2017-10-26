@@ -46,7 +46,7 @@ namespace SoundByte.UWP.Views.Me
 
         public void NavigatePlaylist(object sender, ItemClickEventArgs e)
         {
-            StackPanel.PrepareConnectedAnimation("PlaylistImage", e.ClickedItem as BasePlaylist, "ImagePanel");
+            StackPanel.PrepareConnectedAnimation("PlaylistImage", e.ClickedItem as BasePlaylist, "PlaylistImage");
 
             App.NavigateTo(typeof(PlaylistView), e.ClickedItem as BasePlaylist);
         }

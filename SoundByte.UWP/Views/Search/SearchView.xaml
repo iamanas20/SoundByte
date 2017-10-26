@@ -13,10 +13,6 @@
                         <AdaptiveTrigger MinWindowWidth="768" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="Header.Margin" Value="0,0,40,0" />
-                        <Setter Target="TextHeader.FontSize" Value="55" />
-                        <Setter Target="TextHeader.Margin" Value="10,30,0,0" />
-                        <Setter Target="TextHeader.Opacity" Value="0.8" />
                         <Setter Target="TracksView.ItemTemplate" Value="{StaticResource TrackItem}" />
                         <Setter Target="FanburstView.ItemTemplate" Value="{StaticResource TrackItem}" />
                         <Setter Target="YouTubeView.ItemTemplate" Value="{StaticResource TrackItem}" />
@@ -25,33 +21,28 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
 
-        <!-- Title -->
-        <StackPanel Margin="-10,0,10,-10" 
-                    x:Name="Header" 
-                    VerticalAlignment="Top" 
-                    Canvas.ZIndex="10"
-                    Background="Transparent">
-            <TextBlock Opacity="0" x:Name="TextHeader" Text="Search" FontWeight="Bold" FontSize="25" Margin="0,18,0,0" />
-        </StackPanel>
-
-        <ScrollViewer Margin="0,110,0,0">
+        <ScrollViewer>
             <StackPanel Orientation="Vertical">
-                <!-- SoundCloud Tracks Header -->
                 <Grid Margin="10,0,40,0">
-                    <TextBlock Text="SOUNDCLOUD TRACKS" 
-                               FontWeight="SemiBold" 
-                               FontSize="14" 
+                    <TextBlock Text="Search"
+                               Style="{StaticResource TitleStyle}" />
+                </Grid>
+                      
+                <!-- SoundCloud Tracks Header -->
+                <Grid Margin="10,0,30,10">
+                    <TextBlock Text="SoundCloud Tracks" 
+                               Style="{StaticResource SubTitleStyle}"
                                VerticalAlignment="Center"
-                               HorizontalAlignment="Left" 
-                               Opacity="0.8" />
+                               HorizontalAlignment="Left" />
                     <uiElements:SoundByteButton HorizontalAlignment="Right"
                                                 Label="View All" 
                                                 Click="{x:Bind ViewModel.NavigateSoundCloudTracks}"
                                                 Glyph="&#xE8A9;"/>
                 </Grid>
+                
                 <!-- SoundCloud Tracks Content -->
-                <Grid Height="280"
-                      Margin="0,0,40,0">
+                <Grid Height="260"
+                      Margin="0,0,30,0">
                     <uiElements:InfoPane VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
                                          Visibility="Collapsed" Canvas.ZIndex="50"
                                          Header="{x:Bind ViewModel.SearchTracks.ErrorHeader, Mode=OneWay}"
@@ -82,20 +73,18 @@
                 </Grid>
 
                 <!-- YouTube Header -->
-                <Grid Margin="10,0,30,0">
-                    <TextBlock Text="YOUTUBE VIDEOS" 
-                               FontWeight="SemiBold" 
+                <Grid Margin="10,0,30,10">
+                    <TextBlock Text="YouTube Videos" 
+                               Style="{StaticResource SubTitleStyle}"
                                VerticalAlignment="Center"
-                               FontSize="14" 
-                               HorizontalAlignment="Left" 
-                               Opacity="0.8" />
+                               HorizontalAlignment="Left" />
                     <uiElements:SoundByteButton HorizontalAlignment="Right"
                                                 Click="{x:Bind ViewModel.NavigateYouTubeTracks}"
                                                 Label="View All" 
                                                 Glyph="&#xE8A9;" />
                 </Grid>
                 <!-- YouTube Content -->
-                <Grid Height="280"
+                <Grid Height="260"
                       Margin="0,0,30,0">
                     <uiElements:InfoPane VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
                                          Visibility="Collapsed" Canvas.ZIndex="50"
@@ -127,13 +116,11 @@
                 </Grid>
 
                 <!-- Fanburst Header -->
-                <Grid Margin="10,0,30,0">
-                    <TextBlock Text="FANBURST TRACKS" 
-                               FontWeight="SemiBold" 
+                <Grid Margin="10,0,30,10">
+                    <TextBlock Text="Fanburst Tracks" 
+                               Style="{StaticResource SubTitleStyle}"
                                VerticalAlignment="Center"
-                               FontSize="14" 
-                               HorizontalAlignment="Left" 
-                               Opacity="0.8" />
+                               HorizontalAlignment="Left"/>
                     <uiElements:SoundByteButton HorizontalAlignment="Right"
                                                 Click="{x:Bind ViewModel.NavigateFanburstTracks}"
                                                 Label="View All" 
@@ -141,7 +128,7 @@
                     />
                 </Grid>
                 <!-- Fanburst Content -->
-                <Grid Height="280"
+                <Grid Height="260"
                       Margin="0,0,30,0">
                     <uiElements:InfoPane VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
                                          Visibility="Collapsed" Canvas.ZIndex="50"
@@ -173,19 +160,17 @@
                 </Grid>
 
                 <!-- Podcast Header -->
-                <Grid Margin="10,0,30,0">
-                    <TextBlock Text="PODCASTS" 
-                               FontWeight="SemiBold" 
+                <Grid Margin="10,0,30,10">
+                    <TextBlock Text="Podcasts" 
+                               Style="{StaticResource SubTitleStyle}"
                                VerticalAlignment="Center"
-                               FontSize="14" 
-                               HorizontalAlignment="Left" 
-                               Opacity="0.8" />
+                               HorizontalAlignment="Left" />
                     <uiElements:SoundByteButton HorizontalAlignment="Right"
                                                 Click="{x:Bind ViewModel.NavigatePodcasts}"
                                                 Label="View All" 
                                                 Glyph="&#xE8A9;"/>
                 </Grid>
-                <Grid Height="280"
+                <Grid Height="260"
                       Margin="0,0,30,0">
                     <StackPanel VerticalAlignment="Center"
                                 HorizontalAlignment="Center">
@@ -203,21 +188,19 @@
                 </Grid>
 
                 <!-- SoundCloud Playlists Header -->
-                <Grid Margin="10,0,40,0">
-                    <TextBlock Text="SOUNDCLOUD PLAYLISTS" 
-                               FontWeight="SemiBold" 
-                               FontSize="14" 
+                <Grid Margin="10,0,30,10">
+                    <TextBlock Text="SoundCloud Playlists" 
+                               Style="{StaticResource SubTitleStyle}"
                                VerticalAlignment="Center"
-                               HorizontalAlignment="Left" 
-                               Opacity="0.8" />
+                               HorizontalAlignment="Left"/>
                     <uiElements:SoundByteButton HorizontalAlignment="Right"
                                                 Label="View All" 
                                                 Click="{x:Bind ViewModel.NavigateSoundCloudPlaylists}"
                                                 Glyph="&#xE8A9;"/>
                 </Grid>
                 <!-- SoundCloud Playlists Content -->
-                <Grid Height="280"
-                      Margin="0,0,40,0">
+                <Grid Height="260"
+                      Margin="0,0,30,0">
                     <uiElements:InfoPane VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
                                          Visibility="Collapsed" Canvas.ZIndex="50"
                                          Header="{x:Bind ViewModel.SearchPlaylists.ErrorHeader, Mode=OneWay}"
@@ -248,20 +231,18 @@
                 </Grid>
                 
                 <!-- SoundCloud Users Header -->
-                <Grid Margin="10,0,30,0">
-                    <TextBlock Text="SOUNDCLOUD USERS" 
-                               FontWeight="SemiBold" 
-                               FontSize="14" 
+                <Grid Margin="10,0,30,10">
+                    <TextBlock Text="SoundCloud Users" 
+                               Style="{StaticResource SubTitleStyle}"
                                VerticalAlignment="Center"
-                               HorizontalAlignment="Left" 
-                               Opacity="0.8" />
+                               HorizontalAlignment="Left" />
                     <uiElements:SoundByteButton HorizontalAlignment="Right"
                                                 Click="{x:Bind ViewModel.NavigateSoundCloudUsers}"
                                                 Label="View All" 
                                                 Glyph="&#xE8A9;"/>
                 </Grid>
                 <!-- SoundCloud Users Content -->
-                <Grid Height="280"
+                <Grid Height="260"
                       Margin="0,0,30,0">
                     <uiElements:InfoPane x:Name="SearchUserModelInfoPane" VerticalAlignment="Stretch"
                                          HorizontalAlignment="Stretch" Visibility="Collapsed" Canvas.ZIndex="50" />
@@ -286,12 +267,6 @@
                         </GridView.ItemsPanel>
                     </GridView>
                 </Grid>
-
-
-    
-              
-
-              
             </StackPanel>
         </ScrollViewer>
     </Grid>

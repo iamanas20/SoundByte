@@ -782,12 +782,19 @@
         </Setter>
     </Style>
 
+    <Style x:Key="LinkStyle" TargetType="HyperlinkButton">
+        <Setter Property="Foreground" Value="{ThemeResource SystemControlBackgroundAccentBrush}" />
+        <Setter Property="ContentTemplate" Value="{StaticResource HyperlinkClean}" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+    </Style>
+    
     <!-- Subtitle Style -->
     <Style x:Key="SubTitleStyle" TargetType="TextBlock">
         <Setter Property="FontWeight" Value="SemiBold" />
-        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontSize" Value="16" />
         <Setter Property="Opacity" Value="0.8" />
-        <Setter Property="Margin" Value="0,0,0,5" />
+        <Setter Property="Margin" Value="0,15,0,0" />
     </Style>
     
     <!-- Normal Text Style -->
@@ -799,10 +806,10 @@
     
     <!-- Page title style -->
     <Style x:Key="TitleStyle" TargetType="TextBlock">
-        <Setter Property="Opacity" Value="0.8" />
-        <Setter Property="FontSize" Value="45" />
-        <Setter Property="FontWeight" Value="Bold" />
-        <Setter Property="Margin" Value="0,30,0,15" />
+        <Setter Property="Opacity" Value="0.9" />
+        <Setter Property="FontSize" Value="46" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Margin" Value="0,25,0,0" />
     </Style>
 
     <Style x:Key="MainSliderStyle" TargetType="Slider">

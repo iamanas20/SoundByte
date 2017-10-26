@@ -6,62 +6,30 @@
     Transitions="{StaticResource MainTransition}">
 
     <Grid Background="Transparent">
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup x:Name="WindowSize">
-                <VisualState>
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="768" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="TextHeader.Visibility" Value="Visible" />
-                        <Setter Target="TextHeader.FontSize" Value="55" />
-                        <Setter Target="TextHeader.Margin" Value="0,30,0,10" />
-                        <Setter Target="TextHeader.Opacity" Value="0.8" />
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
-
-
         <ScrollViewer>
             <StackPanel>
-                <TextBlock Opacity="0.8" x:Name="TextHeader" Text="SoundByte" FontWeight="Bold" FontSize="55" Visibility="Collapsed"
-                           Margin="0,8,0,0" />
+                <TextBlock Style="{StaticResource TitleStyle}" Text="Settings" />
 
                 <!-- About App -->
-                <TextBlock Text="ABOUT APP" 
-                           FontWeight="SemiBold" 
-                           FontSize="14" 
-                           
-                           Opacity="0.8" />
+                <TextBlock Text="About SoundByte" 
+                           Style="{StaticResource SubTitleStyle}" />
 
                 <TextBlock Text="SoundByte is a beautiful music client built for Windows 10 &amp; Xbox One. SoundByte supports muiltiple services such as SoundCloud, Fanburst and YouTube. Features include listening to music in the background (with gapless playback), watching YouTube music videos, easily searching accross muiltiple services, creating playlists and much more!" 
-                           Margin="0,0,0,4" 
-                           FontSize="16" 
-                           TextWrapping="WrapWholeWords" />
+                           Style="{StaticResource TextStyle}" />
 
                 <TextBlock Text="SoundByte is designed to be easily extendable. This allows easy additions of more services. Check out the SoundByte GitHub page (linked below) for more information."
-                           Margin="0,0,0,4" 
-                           FontSize="16" 
-                           TextWrapping="WrapWholeWords"  />
+                           Style="{StaticResource TextStyle}" />
 
                 <TextBlock Text="If you enjoy SoundByte, please consider donating, it will help a lot with development and hosting costs. If you would rather not donate, consider leaving a review. It really helps!" 
-                           FontSize="16" 
-                           TextWrapping="WrapWholeWords"  />
+                           Style="{StaticResource TextStyle}" />
 
                 <HyperlinkButton Content="Write a Review" Click="{x:Bind RateAndReview}" 
-                                 Margin="0,0,0,18"
-                                 Foreground="{ThemeResource DefaultTextForegroundThemeBrush}"
-                                 ContentTemplate="{StaticResource HyperlinkClean}" 
-                                 FontSize="16" 
-                                 FontWeight="SemiBold"  />
+                                 Style="{StaticResource LinkStyle}" />
 
 
                 <!-- App version -->
-                <TextBlock Text="VERSION" 
-                           FontWeight="SemiBold" 
-                           FontSize="14" 
-                           Opacity="0.8" />
+                <TextBlock Text="Version" 
+                           Style="{StaticResource SubTitleStyle}"/>
                 <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
                     <TextBlock Text="Version: "
                                Margin="0,0,5,0"
@@ -73,7 +41,7 @@
                                FontSize="16" />
                 </StackPanel>
 
-                <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
                     <TextBlock Text="Build Time: "
                                Margin="0,0,5,0"
                                FontSize="16" />
@@ -82,28 +50,31 @@
                                FontSize="16" />
                 </StackPanel>
 
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
+                    <TextBlock Text="Branch: "
+                               Margin="0,0,5,0"
+                               FontSize="16" />
+                    <TextBlock Text="master"
+                               Opacity="0.7"
+                               FontSize="16" />
+                </StackPanel>
+
                 <HyperlinkButton Content="What's New?" 
-                                 Click="{x:Bind NavigateNew}"
-                                 Margin="0,0,0,18" 
-                                 Foreground="{ThemeResource DefaultTextForegroundThemeBrush}"
-                                 ContentTemplate="{StaticResource HyperlinkClean}"
-                                 FontSize="16" 
-                                 FontWeight="SemiBold"  />
+                                 Style="{StaticResource LinkStyle}"
+                                 Click="{x:Bind NavigateNew}" />
 
                 <!-- More links -->
-                <TextBlock Text="MORE LINKS" FontWeight="SemiBold" FontSize="14" Opacity="0.8" />
-                <HyperlinkButton Foreground="{ThemeResource DefaultTextForegroundThemeBrush}" Content="Facebook" NavigateUri="https://gridentertainment.net/fwlink/rOye5hzCXt" Margin="0,-2.5,0,-2.5" ContentTemplate="{StaticResource HyperlinkClean}" FontSize="16" FontWeight="SemiBold"  />
-                <HyperlinkButton Foreground="{ThemeResource DefaultTextForegroundThemeBrush}" Content="Reddit" NavigateUri="https://gridentertainment.net/fwlink/68vfoKLYJS" Margin="0,-2.5,0,-2.5" ContentTemplate="{StaticResource HyperlinkClean}" FontSize="16" FontWeight="SemiBold"  />
-                <HyperlinkButton Foreground="{ThemeResource DefaultTextForegroundThemeBrush}" Content="Send Feedback / Report Bug" NavigateUri="https://gridentertainment.net/fwlink/GvC5iXmJSo" Margin="0,-2.5,0,-2.5" ContentTemplate="{StaticResource HyperlinkClean}" FontSize="16" FontWeight="SemiBold"  />
-                <HyperlinkButton Foreground="{ThemeResource DefaultTextForegroundThemeBrush}" Content="GitHub Repo" NavigateUri="https://gridentertainment.net/fwlink/O3i37tbVVO" Margin="0,0,0,18" ContentTemplate="{StaticResource HyperlinkClean}" FontSize="16" FontWeight="SemiBold"  />
+                <TextBlock Text="More Links" Style="{StaticResource SubTitleStyle}" />
+                <HyperlinkButton Content="Facebook" NavigateUri="https://gridentertainment.net/fwlink/rOye5hzCXt" Style="{StaticResource LinkStyle}"  />
+                <HyperlinkButton Content="Reddit" NavigateUri="https://gridentertainment.net/fwlink/68vfoKLYJS" Style="{StaticResource LinkStyle}"  />
+                <HyperlinkButton Content="Send Feedback / Report Bug" NavigateUri="https://gridentertainment.net/fwlink/GvC5iXmJSo" Style="{StaticResource LinkStyle}"  />
+                <HyperlinkButton Content="GitHub Repo" NavigateUri="https://gridentertainment.net/fwlink/O3i37tbVVO" Style="{StaticResource LinkStyle}"  />
 
-                <TextBlock Text="THEME" 
-                           FontWeight="SemiBold" 
-                           FontSize="14" 
-                           Opacity="0.8" />
+                <TextBlock Text="Theme" 
+                           Style="{StaticResource SubTitleStyle}" />
 
                 <ComboBox Padding="15,8" BorderThickness="1"
-                          Margin="0,8,0,18"
+                          Margin="0,4,0,4"
                           BorderBrush="{ThemeResource SystemControlDisabledListMediumBrush}"
                           x:Name="ThemeComboBox" SelectionChanged="AppThemeComboBoxChanged" Width="170">
                     <ComboBoxItem x:Uid="Settings_ThemeDefaultLabel" x:Name="DefaultTheme" />
@@ -111,14 +82,12 @@
                     <ComboBoxItem x:Uid="Settings_ThemeLightLabel" x:Name="LightTheme" />
                 </ComboBox>
 
-                <TextBlock Text="LANGUAGE" 
-                           FontWeight="SemiBold" 
-                           FontSize="14" 
-                           Opacity="0.8" />
+                <TextBlock Text="Language" 
+                           Style="{StaticResource SubTitleStyle}"/>
 
                 <ComboBox Padding="15,8" SelectionChanged="{x:Bind ViewModel.ChangeLangauge}"
                           BorderThickness="1"
-                          Margin="0,8,0,18"
+                          Margin="0,4,0,4"
                           BorderBrush="{ThemeResource SystemControlDisabledListMediumBrush}"
                           x:Name="LanguageComboBox" Width="170">
                     <ComboBoxItem x:Name="Language_English_US" Content="English" Tag="en-US" IsSelected="True" />
@@ -126,21 +95,17 @@
                     <ComboBoxItem x:Name="Language_Dutch_NL" Content="Dutch (Alpha)" Tag="nl" />
                 </ComboBox>
 
-                <TextBlock Text="SYNC SETTINGS" 
-                           FontWeight="SemiBold" 
-                           FontSize="14" 
-                           Opacity="0.8" />
+                <TextBlock Text="Sync Settings" 
+                           Style="{StaticResource SubTitleStyle}" />
 
-                <ToggleSwitch Margin="0,2,0,18" OffContent="No" OnContent="Yes"
+                <ToggleSwitch OffContent="No" OnContent="Yes"
                               FontSize="16" IsOn="{x:Bind SettingsService.IsSyncSettingsEnabled, Mode=TwoWay}" />
 
-                <TextBlock Text="USER INTERFACE LOOK AND FEEL" 
-                           FontWeight="SemiBold" 
-                           FontSize="14" 
-                           Opacity="0.8" />
+                <TextBlock Text="UI Look and Feel" 
+                           Style="{StaticResource SubTitleStyle}" />
 
                 <!-- Use high quality artwork -->
-                <ToggleSwitch Margin="0,2,0,18" FontSize="16"
+                <ToggleSwitch FontSize="16"
                               OnContent="Adjust for Appearance"
                               OffContent="Adjust for Performance"
                               IsOn="{x:Bind SettingsService.IsHighQualityArtwork, Mode=TwoWay}" />
@@ -148,58 +113,38 @@
 
 
                 <!-- Thanks To -->
-                <TextBlock Text="THANKS TO" FontWeight="SemiBold" FontSize="14" Opacity="0.8" />
+                <TextBlock Text="Thanks To" Style="{StaticResource SubTitleStyle}" />
                 <TextBlock Text="Dennis Bednarz for helping out with app design and creating the logo. (Really awesome guy, check him out on twitter (@DennisBednarz))." 
-                           Margin="0,0,0,4" 
-                           FontSize="16" 
-                           TextWrapping="WrapWholeWords" />
+                           Style="{StaticResource TextStyle}" />
                 <TextBlock Text="My friends for just being awesome!" 
-                           Margin="0,0,0,4" 
-                           FontSize="16" 
-                           TextWrapping="WrapWholeWords" />
+                           Style="{StaticResource TextStyle}" />
                 <TextBlock Text="Zac Bowden for getting me hooked into the Windows world! (WinBeta podcasts ~2015)." 
-                           Margin="0,0,0,4" 
-                           FontSize="16" 
-                           TextWrapping="WrapWholeWords" />
+                           Style="{StaticResource TextStyle}" />
                 <TextBlock Text="My family for always being there to help me when ever I may need help." 
-                           Margin="0,0,0,4" 
-                           FontSize="16" 
-                           TextWrapping="WrapWholeWords" />
+                           Style="{StaticResource TextStyle}" />
                 <TextBlock Text="Mr. C - The best teacher out there! Enjoy your retirement." 
-                           Margin="0,0,0,4" 
-                           FontSize="16" 
-                           TextWrapping="WrapWholeWords" />
+                           Style="{StaticResource TextStyle}" />
                 <TextBlock Text="Dennis Bednarz, Justin, Kesava, thmnmlist for all the help with beta testing. Thanks guys for always being there to help me out :)" 
-                           Margin="0,0,0,18" 
-                           FontSize="16" 
-                           TextWrapping="WrapWholeWords" />
+                           Style="{StaticResource TextStyle}" />
 
                 <!-- Legal -->
-                <TextBlock Text="AWESOME LEGAL STUFF" FontWeight="SemiBold" FontSize="14" Opacity="0.8" />
-                <TextBlock Text="Copyright © Grid Entertainment 2016 - 2017. All Rights Reserved" Margin="0,0,0,4" FontSize="16" TextWrapping="WrapWholeWords" />
-                <TextBlock Text="Source code is licensed under educational use." Margin="0,0,0,0" FontSize="16" TextWrapping="WrapWholeWords" />
-                <HyperlinkButton Content="Privacy Policy" Foreground="{ThemeResource DefaultTextForegroundThemeBrush}" NavigateUri="https://gridentertainment.net/fwlink/Y5jGLtoFXs" Margin="0,0,0,18" ContentTemplate="{StaticResource HyperlinkClean}" FontSize="16" FontWeight="SemiBold"  />
+                <TextBlock Text="Awesome Legal Stuff" Style="{StaticResource SubTitleStyle}" />
+                <TextBlock Text="Copyright © Grid Entertainment 2016 - 2017. All Rights Reserved" Style="{StaticResource TextStyle}" />
+                <TextBlock Text="Source code is licensed under educational use."  Style="{StaticResource TextStyle}" />
+                <HyperlinkButton Content="Privacy Policy" 
+                                 Style="{StaticResource LinkStyle}" 
+                                 NavigateUri="https://gridentertainment.net/fwlink/Y5jGLtoFXs" />
 
-                <TextBlock Text="ADVANCED" 
-                           FontWeight="SemiBold" 
-                           FontSize="14" 
-                           Opacity="0.8" />
+                <TextBlock Text="Advanced" 
+                           Style="{StaticResource SubTitleStyle}" />
 
                 <HyperlinkButton Click="{x:Bind ViewModel.NavigateDebugOptions}" 
-                                 Content="Debug Options" 
-                                 Foreground="{ThemeResource DefaultTextForegroundThemeBrush}"
-                                 ContentTemplate="{StaticResource HyperlinkClean}" 
-                                 FontSize="16"
-                                 Margin="0,0,0,-2.5"
-                                 FontWeight="SemiBold" />
+                                 Style="{StaticResource LinkStyle}"
+                                 Content="Debug Options" />
 
                 <HyperlinkButton Click="{x:Bind ViewModel.ClearAppCache}" 
-                                 Content="Clear Application Cache" 
-                                 Foreground="{ThemeResource DefaultTextForegroundThemeBrush}"
-                                 ContentTemplate="{StaticResource HyperlinkClean}" 
-                                 Margin="0,-2.5,0,18"
-                                 FontSize="16"
-                                 FontWeight="SemiBold" />
+                                 Style="{StaticResource LinkStyle}"
+                                 Content="Clear Application Cache" />
 
             </StackPanel>
         </ScrollViewer>

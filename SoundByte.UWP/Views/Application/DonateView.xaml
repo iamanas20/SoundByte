@@ -7,29 +7,17 @@
 
     <!-- Main Page -->
     <Grid Background="Transparent" x:Name="RootGrid">
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup x:Name="WindowSize">
-                <VisualState>
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="768" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="TextHeader.FontSize" Value="55" />
-                        <Setter Target="TextHeader.Margin" Value="0,30,0,0" />
-                        <Setter Target="TextHeader.Opacity" Value="0.8" />
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
-
         <ScrollViewer HorizontalAlignment="Stretch"
                       VerticalScrollBarVisibility="Hidden">
-            <StackPanel x:Name="StackPanel" Padding="10,10,10,0">
-                <TextBlock x:Name="TextHeader" Text="Donate" FontWeight="Bold" Opacity="0" FontSize="25"
-                           Margin="0,0,0,0" />
-                <TextBlock Opacity="0.9" FontSize="16" Margin="0,10,0,18" HorizontalAlignment="Left"
-                           TextWrapping="Wrap"
-                           Text="Are you enjoying using SoundByte as much as I enjoyed making it?&#x0a;Then consider donating below to help continue future development:" />
+            <StackPanel>
+                <TextBlock Style="{StaticResource TitleStyle}" 
+                           Text="SoundByte Premium" />
+
+                <TextBlock Text="What do I get?" 
+                           Style="{StaticResource SubTitleStyle}" />
+
+                <TextBlock Style="{StaticResource TextStyle}"
+                           Text="SoundByte premium is still under development, in the mean time, feel free to donate. People who have donated or bought the app in the past will automatically have SoundByte premium." />
 
                 <VariableSizedWrapGrid Orientation="Horizontal" Margin="-5,-5,-5,0">
                     <!-- Loose Change -->

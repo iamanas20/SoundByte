@@ -109,6 +109,7 @@
                         <Grid Width="160" Height="160" Background="DimGray"  />
 
                         <Grid CornerRadius="1" 
+                              x:Name="PlaylistImage"
                               Width="160"   
                               Height="160"
                               VerticalAlignment="Stretch"
