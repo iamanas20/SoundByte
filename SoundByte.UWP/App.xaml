@@ -23,7 +23,7 @@
             <!-- The main page transition -->
             <TransitionCollection x:Key="MainTransition">
                 <NavigationThemeTransition>
-                    <SlideNavigationTransitionInfo />
+                    <EntranceNavigationTransitionInfo />
                 </NavigationThemeTransition>
             </TransitionCollection>
         </ResourceDictionary>

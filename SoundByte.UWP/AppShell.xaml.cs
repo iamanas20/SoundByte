@@ -88,31 +88,9 @@ namespace SoundByte.UWP
             // Events for Xbox
             if (DeviceHelper.IsXbox)
             {
-                // Pane is hidden by default
-              //  MainSplitView.IsPaneOpen = false;
-             //   MainSplitView.DisplayMode = SplitViewDisplayMode.CompactOverlay;
-             //   MainSplitView.Margin = new Thickness();
-             //   MainSplitView.LightDismissOverlayMode = LightDismissOverlayMode.On;
-
-                // Center all navigation icons
-             //   NavbarScrollViewer.VerticalAlignment = VerticalAlignment.Center;
-
-                // Show background blur image
-                XboxOnlyGrid.Visibility = Visibility.Visible;
-                ShellFrame.Background = new SolidColorBrush(Colors.Transparent);
-
                 // Make xbox selection easy to see
                 Application.Current.Resources["CircleButtonStyle"] =
                     Application.Current.Resources["XboxCircleButtonStyle"];
-            }
-
-            // Events for Mobile
-            if (DeviceHelper.IsMobile)
-            {
-                // Amoled Magic
-                RootGrid.Background = new SolidColorBrush(Application.Current.RequestedTheme == ApplicationTheme.Dark
-                    ? Colors.Black
-                    : Colors.White);
             }
 
             if (string.IsNullOrEmpty(path))

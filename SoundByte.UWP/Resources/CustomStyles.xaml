@@ -506,13 +506,13 @@
 
                                 <VisualState x:Name="Expanded">
                                     <VisualState.Setters>
-                                        <Setter Target="RootSplitView.PaneBackground" Value="{ThemeResource NavigationViewExpandedPaneBackground}" />
                                     </VisualState.Setters>
                                 </VisualState>
 
                                 <VisualState x:Name="Minimal">
                                     <VisualState.Setters>
                                         <Setter Target="HeaderContent.Margin" Value="48,0,0,0" />
+                                        <Setter Target="RootSplitView.PaneBackground" Value="{ThemeResource NavigationViewDefaultPaneBackground}" />
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
@@ -607,6 +607,27 @@
                             OpenPaneLength="{TemplateBinding OpenPaneLength}"
                             PaneBackground="Transparent">
 
+                            <Grid x:Name="ContentGrid">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
+                                <ContentControl
+                                    x:Name="HeaderContent"
+                                    MinHeight="48"
+                                    IsTabStop="False"
+                                    Content="{TemplateBinding Header}"
+                                    ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                    VerticalContentAlignment="Stretch"
+                                    HorizontalContentAlignment="Stretch"/>
+
+                                <ContentPresenter
+                                    Grid.Row="1"
+                                    Canvas.ZIndex="20"
+                                    Content="{TemplateBinding Content}"/>
+                            </Grid>
+
                             <SplitView.Pane>
                                 <Grid x:Name="PaneContentGrid" Canvas.ZIndex="10">
                                     <Grid.RowDefinitions>
@@ -654,26 +675,7 @@
                                 </Grid>
                             </SplitView.Pane>
 
-                            <Grid x:Name="ContentGrid"> 
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="*" />
-                                    </Grid.RowDefinitions>
-
-                                    <ContentControl
-                                        x:Name="HeaderContent"
-                                        MinHeight="48"
-                                        IsTabStop="False"
-                                        Content="{TemplateBinding Header}"
-                                        ContentTemplate="{TemplateBinding HeaderTemplate}"
-                                        VerticalContentAlignment="Stretch"
-                                        HorizontalContentAlignment="Stretch"/>
-
-                                    <ContentPresenter
-                                        Grid.Row="1"
-                                        Canvas.ZIndex="20"
-                                        Content="{TemplateBinding Content}"/>
-                                </Grid>
+                           
                         </SplitView>
                     </Grid>
                 </ControlTemplate>

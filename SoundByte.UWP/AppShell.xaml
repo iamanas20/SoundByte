@@ -17,16 +17,20 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="ShellFrame.Background" Value="Transparent" />
+                        <Setter Target="XboxOnlyGrid.Visibility" Value="Visible" />
+                        <Setter Target="RootGrid.Background" Value="{ThemeResource ApplicationPageBackgroundThemeBrush}" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
             <VisualStateGroup x:Name="WindowSize">
                 <VisualState>
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="768" />
+                        <AdaptiveTrigger MinWindowWidth="560" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="ShellFrame.Padding" Value="32,0,0,0" />
+                        <Setter Target="RootGrid.Background" Value="{ThemeResource NavigationViewExpandedPaneBackground}" />
+
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -130,7 +134,7 @@
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 
-                <NavigationViewItem Content="Donations" 
+                <NavigationViewItem Content="Upgrade to Premuim" 
                                     Style="{StaticResource NavStyle}" 
                                     x:Name="NavigationItemDonations"
                                     Tag="donations">
@@ -160,7 +164,7 @@
 
 
                 <!-- Main Frame Content -->
-                <Grid Canvas.ZIndex="20" Padding="0,32,0,0" Margin="0,0,0,0" Background="{ThemeResource NavigationViewExpandedPaneBackground}">
+                <Grid Canvas.ZIndex="20" Padding="0,32,0,0" Margin="0,0,0,0">
                     <!-- Shadow for now playing bar -->
                     <Canvas x:Name="ShellFrameShadow"
                             HorizontalAlignment="Stretch"
@@ -169,13 +173,18 @@
 
                     <!-- Main Page Content will be rendered here -->
                     <Frame x:Name="ShellFrame"
-                        
                            TabIndex="1"
                            Padding="12"
                            Background="{ThemeResource ShellBackground}"
                            Navigated="ShellFrame_Navigated"
                            HorizontalAlignment="Stretch"
-                           Canvas.ZIndex="10" />
+                           Canvas.ZIndex="10">
+                    <Frame.ContentTransitions>
+                        <TransitionCollection>
+                            <NavigationThemeTransition/>
+                        </TransitionCollection>
+                    </Frame.ContentTransitions>
+                </Frame>
                 </Grid>
             
 

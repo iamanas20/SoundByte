@@ -6,7 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Transitions="{StaticResource MainTransition}"
     mc:Ignorable="d">
-    <Grid>
+    <Grid >
         <StackPanel>
             <TextBlock Style="{StaticResource TitleStyle}" 
                        Text="Debug Options" />
