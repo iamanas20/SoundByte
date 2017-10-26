@@ -238,9 +238,6 @@
     <Compile Include="UserControls\InfoPane.xaml.cs">
       <DependentUpon>InfoPane.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\SearchBox.xaml.cs">
-      <DependentUpon>SearchBox.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UserControls\SoundByteItem.xaml.cs">
       <DependentUpon>SoundByteItem.xaml</DependentUpon>
     </Compile>
@@ -255,8 +252,8 @@
     <Compile Include="Views\Application\DebugView.xaml.cs">
       <DependentUpon>DebugView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Application\DonateView.xaml.cs">
-      <DependentUpon>DonateView.xaml</DependentUpon>
+    <Compile Include="Views\Application\PremiumUpgradeView.xaml.cs">
+      <DependentUpon>PremiumUpgradeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Application\BlankView.xaml.cs">
       <DependentUpon>BlankView.xaml</DependentUpon>
@@ -264,14 +261,17 @@
     <Compile Include="Views\ExploreView.xaml.cs">
       <DependentUpon>ExploreView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\General\WhatsNewView.xaml.cs">
+    <Compile Include="Views\Application\WhatsNewView.xaml.cs">
       <DependentUpon>WhatsNewView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\HomeView.xaml.cs">
       <DependentUpon>HomeView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Me\AccountView.xaml.cs">
-      <DependentUpon>AccountView.xaml</DependentUpon>
+    <Compile Include="Views\Me\AccountManagerView.xaml.cs">
+      <DependentUpon>AccountManagerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Me\DownloadsView.xaml.cs">
+      <DependentUpon>DownloadsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Me\MyShowsView.xaml.cs">
       <DependentUpon>MyShowsView.xaml</DependentUpon>
@@ -297,8 +297,8 @@
     <Compile Include="Views\Search\SearchView.xaml.cs">
       <DependentUpon>SearchView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Application\AppInfoView.xaml.cs">
-      <DependentUpon>AppInfoView.xaml</DependentUpon>
+    <Compile Include="Views\Application\SettingsView.xaml.cs">
+      <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\NowPlayingView.xaml.cs">
       <DependentUpon>NowPlayingView.xaml</DependentUpon>
@@ -309,11 +309,11 @@
     <Compile Include="Views\UserView.xaml.cs">
       <DependentUpon>UserView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Me\LikesView.xaml.cs">
-      <DependentUpon>LikesView.xaml</DependentUpon>
+    <Compile Include="Views\Me\MyLikesView.xaml.cs">
+      <DependentUpon>MyLikesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Me\PlaylistsView.xaml.cs">
-      <DependentUpon>PlaylistsView.xaml</DependentUpon>
+    <Compile Include="Views\Me\MyPlaylistsView.xaml.cs">
+      <DependentUpon>MyPlaylistsView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -400,10 +400,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\SearchBox.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="UserControls\SoundByteItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -412,7 +408,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Application\DonateView.xaml">
+    <Page Include="Views\Application\PremiumUpgradeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -424,7 +420,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\General\WhatsNewView.xaml">
+    <Page Include="Views\Application\WhatsNewView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -432,7 +428,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Me\AccountView.xaml">
+    <Page Include="Views\Me\AccountManagerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Me\DownloadsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -468,7 +468,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Application\AppInfoView.xaml">
+    <Page Include="Views\Application\SettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -484,11 +484,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Me\LikesView.xaml">
+    <Page Include="Views\Me\MyLikesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Me\PlaylistsView.xaml">
+    <Page Include="Views\Me\MyPlaylistsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -27,9 +27,9 @@ namespace SoundByte.UWP.Views.Me
     /// <summary>
     ///     Lets the user view their likes
     /// </summary>
-    public sealed partial class LikesView
+    public sealed partial class MyLikesView
     {
-        public LikesView()
+        public MyLikesView()
         {
             InitializeComponent();
         }

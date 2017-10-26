@@ -22,9 +22,9 @@ namespace SoundByte.UWP.Views.Me
     /// <summary>
     ///     Let the user view their playlists
     /// </summary>
-    public sealed partial class PlaylistsView
+    public sealed partial class MyPlaylistsView
     {
-        public PlaylistsView()
+        public MyPlaylistsView()
         {
             InitializeComponent();
 

@@ -36,14 +36,14 @@ namespace SoundByte.UWP.Views.Me
     /// <summary>
     ///     This page is used to login the user to SoundCloud so we can access their stream etc.
     /// </summary>
-    public sealed partial class AccountView
+    public sealed partial class AccountManagerView
     {
         private readonly string _appCallback;
         private ServiceType _loginService;
         private string _stateVerification;
         private bool _isXboxConnect;
 
-        public AccountView()
+        public AccountManagerView()
         {
             // Load the XAML page
             InitializeComponent();

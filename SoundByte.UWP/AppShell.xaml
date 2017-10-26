@@ -170,7 +170,7 @@
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
 
-                <NavigationViewItem Content="Accounts" 
+                <NavigationViewItem Content="Account Manager" 
                                     Style="{StaticResource NavStyle}" 
                                     x:Name="NavigationItemAccounts"
                                     Tag="accounts">
@@ -204,9 +204,6 @@
                     </Frame.ContentTransitions>
                 </Frame>
             </Grid>
-
-
-
         </NavigationView>
 
         <!-- Desktop Now Playing Bar -->

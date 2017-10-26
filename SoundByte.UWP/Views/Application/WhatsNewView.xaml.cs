@@ -16,7 +16,7 @@ using Windows.UI.Xaml.Navigation;
 using Windows.Web.Http;
 using SoundByte.UWP.Services;
 
-namespace SoundByte.UWP.Views.General
+namespace SoundByte.UWP.Views.Application
 {
     /// <summary>
     ///     Open a webview with the current changelog

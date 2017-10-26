@@ -44,7 +44,6 @@
                   ItemClick="{x:Bind ViewModel.NavigateStream}"
                   ItemContainerStyle="{StaticResource MainGridViewItem}"
                   ItemsPanel="{StaticResource DesktopGridPanel}"
-
                   HorizontalAlignment="Stretch"
                   VerticalAlignment="Stretch">
             <GridView.Header>

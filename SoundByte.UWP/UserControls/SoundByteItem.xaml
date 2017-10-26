@@ -31,7 +31,7 @@
                                           OffsetY="7"
                                           IsTabStop="False"
                                           IsHitTestVisible="False"
-                                          Margin="5,5,5,8"
+                                          Margin="5,5,5,12"
                                           Color="Black">
                     <Ellipse VerticalAlignment="Stretch"
                          HorizontalAlignment="Stretch"
@@ -88,7 +88,7 @@
                                           Padding="0,8,0,0"
                                           IsTabStop="False"
                                           IsHitTestVisible="False"
-                                          Margin="5,0,5,8"
+                                          Margin="5,0,5,12"
                                           Color="Black">
                     <Grid Padding="0,7,0,0" CornerRadius="1">
                         <Grid Background="#FF444444"
@@ -205,7 +205,7 @@
                                           ShadowOpacity="0.6"
                                           OffsetX="0"
                                           IsTabStop="False"
-                                          Margin="5,5,5,8"
+                                          Margin="5,5,5,12"
                                           OffsetY="7"
                                           Color="Black">
                     <!-- Corner everything -->

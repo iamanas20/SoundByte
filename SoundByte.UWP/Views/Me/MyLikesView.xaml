@@ -1,5 +1,5 @@
 ﻿<Page
-    x:Class="SoundByte.UWP.Views.Me.LikesView"
+    x:Class="SoundByte.UWP.Views.Me.MyLikesView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:userControls="using:SoundByte.UWP.UserControls"

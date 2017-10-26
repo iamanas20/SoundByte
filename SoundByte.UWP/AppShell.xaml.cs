@@ -25,7 +25,6 @@ using Windows.UI.Notifications;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Microsoft.Services.Store.Engagement;
 using Microsoft.Toolkit.Uwp.Helpers;
@@ -42,7 +41,6 @@ using SoundByte.UWP.Services;
 using SoundByte.UWP.Models;
 using SoundByte.UWP.Views;
 using SoundByte.UWP.Views.Application;
-using SoundByte.UWP.Views.General;
 using SoundByte.UWP.Views.Me;
 using SoundByte.UWP.Views.Search;
 
@@ -395,26 +393,29 @@ namespace SoundByte.UWP
                 case "ExploreView":
                     NavView.SelectedItem = NavigationItemExplore;
                     break;
-                case "DonateView":
+                case "PremiumUpgradeView":
                     NavView.SelectedItem = NavigationItemDonations;
                     break;
-                case "LikesView":
+                case "MyLikesView":
                     NavView.SelectedItem = NavigationItemLikes;
                     break;
-                case "PlaylistsView":
+                case "MyPlaylistsView":
                     NavView.SelectedItem = NavigationItemPlaylists;
                     break;
                 case "HistoryView":
                     NavView.SelectedItem = NavigationItemHistory;
                     break;
-                case "AccountView":
+                case "AccountManagerView":
                     NavView.SelectedItem = NavigationItemAccounts;
                     break;
-                case "AppInfoView":
+                case "SettingsView":
                     NavView.SelectedItem = NavigationItemSettings;
                     break;
                 case "MyShowsView":
                     NavView.SelectedItem = NavigationItemShows;
+                    break;
+                case "DownloadsView":
+                    NavView.SelectedItem = NavigationItemDownloads;
                     break;
             }
 
@@ -528,25 +529,28 @@ namespace SoundByte.UWP
                     RootFrame.Navigate(typeof(ExploreView));
                     break;
                 case "likes":
-                    RootFrame.Navigate(typeof(LikesView));
+                    RootFrame.Navigate(typeof(MyLikesView));
                     break;
                 case "playlists":
-                    RootFrame.Navigate(typeof(PlaylistsView));
+                    RootFrame.Navigate(typeof(MyPlaylistsView));
                     break;
                 case "history":
                     RootFrame.Navigate(typeof(HistoryView));
                     break;
                 case "donations":
-                    RootFrame.Navigate(typeof(DonateView));
+                    RootFrame.Navigate(typeof(PremiumUpgradeView));
                     break;
                 case "settings":
-                    RootFrame.Navigate(typeof(AppInfoView));
+                    RootFrame.Navigate(typeof(SettingsView));
                     break;
                 case "accounts":
-                    RootFrame.Navigate(typeof(AccountView));
+                    RootFrame.Navigate(typeof(AccountManagerView));
                     break;
                 case "shows":
                     RootFrame.Navigate(typeof(MyShowsView));
+                    break;
+                case "downloads":
+                    RootFrame.Navigate(typeof(DownloadsView));
                     break;
 
             }

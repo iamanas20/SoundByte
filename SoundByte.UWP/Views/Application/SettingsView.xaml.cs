@@ -23,7 +23,6 @@ using SoundByte.Core.Items;
 using SoundByte.UWP.Helpers;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.ViewModels;
-using SoundByte.UWP.Views.General;
 
 namespace SoundByte.UWP.Views.Application
 {
@@ -31,7 +30,7 @@ namespace SoundByte.UWP.Views.Application
     ///     This is the main settings/about page for the app.
     ///     is handled here
     /// </summary>
-    public sealed partial class AppInfoView
+    public sealed partial class SettingsView
     {
         // View model for the settings page
         public SettingsViewModel ViewModel = new SettingsViewModel();
@@ -39,7 +38,7 @@ namespace SoundByte.UWP.Views.Application
         /// <summary>
         ///     Setup the page
         /// </summary>
-        public AppInfoView()
+        public SettingsView()
         {
             // Initialize XAML Components
             InitializeComponent();
