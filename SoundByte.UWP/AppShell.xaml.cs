@@ -437,15 +437,18 @@ namespace SoundByte.UWP
             if (DeviceHelper.IsDesktop)
                 if (((Frame) sender).SourcePageType == typeof(NowPlayingView))
                 {
-                    NavView.IsPaneOpen = false;
                     NavView.IsPaneToggleButtonVisible = false;
+                    NavView.CompactPaneLength = 0;
+                    NavView.OpenPaneLength = 0;
 
                     HideNowPlayingBar();
                 }
                 else
                 {
-                    NavView.IsPaneOpen = true;
                     NavView.IsPaneToggleButtonVisible = true;
+                    NavView.CompactPaneLength = 84;
+                    NavView.OpenPaneLength = 350;
+
 
                     if (PlaybackService.Instance.CurrentTrack == null)
                         HideNowPlayingBar();

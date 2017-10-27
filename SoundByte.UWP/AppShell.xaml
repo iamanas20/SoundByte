@@ -27,7 +27,7 @@
                         <AdaptiveTrigger MinWindowWidth="560" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="ShellFrame.Padding" Value="32,0,32,0" />
+                        <Setter Target="ShellFrame.Padding" Value="32,0,0,0" />
                         <Setter Target="RootGrid.Background" Value="{ThemeResource NavigationViewExpandedPaneBackground}" />
 
                     </VisualState.Setters>

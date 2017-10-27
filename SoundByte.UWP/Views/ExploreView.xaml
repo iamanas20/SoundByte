@@ -142,19 +142,6 @@
                         </GridView.ItemsPanel>
                     </GridView>
                 </Grid>
-
-
-                <Grid Margin="10,0,30,10">
-                    <TextBlock Text="Popular Podcasts" 
-                               Style="{StaticResource SubTitleStyle}"
-                               VerticalAlignment="Center"
-                               HorizontalAlignment="Left" />
-                    <uiElements:SoundByteButton HorizontalAlignment="Right"
-                                                Label="View All" 
-                                                Glyph="&#xE8A9;"/>
-                </Grid>
-
-
             </StackPanel>
         </ScrollViewer>
     </Grid>
