@@ -26,7 +26,6 @@ using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using Microsoft.Services.Store.Engagement;
 using Microsoft.Toolkit.Uwp.Helpers;
 using NotificationsExtensions;
 using NotificationsExtensions.Toasts;
@@ -188,8 +187,10 @@ namespace SoundByte.UWP
                     await MonitizeService.Instance.InitProductInfoAsync();
 
                     // Register notifications
-                    var engagementManager = StoreServicesEngagementManager.GetDefault();
-                    await engagementManager.RegisterNotificationChannelAsync();
+                    //   var engagementManager = StoreServicesEngagementManager.GetDefault();
+                    //   await engagementManager.RegisterNotificationChannelAsync();
+                    //Todo: Implement this when fix is ready (UWP .NET CORE)
+                    //https://developercommunity.visualstudio.com/content/problem/130643/cant-build-release-when-i-use-microsoftservicessto.html
 
                     // Install Cortana Voice Commands
                     var vcdStorageFile = await Package.Current.InstalledLocation.GetFileAsync(@"SoundByteCommands.xml");
