@@ -60,6 +60,12 @@ namespace SoundByte.UWP.Models
                     (App.CurrentFrame?.FindName("UserPlaylistModelInfoPane") as InfoPane)?.ShowLoading();
                 });
 
+                if (count <= 10)
+                    count = 10;
+
+                if (count >= 50)
+                    count = 50;
+
                 // Get the resource loader
                 var resources = ResourceLoader.GetForViewIndependentUse();
 

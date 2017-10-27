@@ -139,7 +139,7 @@ namespace SoundByte.Core.Items.Track
                 Title = Snippet.Title,
                 Description = Snippet.Description,
                 Created = DateTime.Parse(Snippet.PublishedAt),
-                Duration = XmlConvert.ToTimeSpan(ContentDetails.Duration),
+                Duration =  (ContentDetails != null) ? XmlConvert.ToTimeSpan(ContentDetails.Duration) : TimeSpan.FromMilliseconds(0),
                 Genre = "YouTube",
                 User = new BaseUser
                 {

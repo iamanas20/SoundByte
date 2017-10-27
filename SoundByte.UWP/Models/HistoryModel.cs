@@ -46,9 +46,11 @@ namespace SoundByte.UWP.Models
                 {
                     using (var db = new HistoryContext())
                     {
-                        // At least 10 items
                         if (count <= 10)
                             count = 10;
+
+                        if (count >= 50)
+                            count = 50;
 
                         // Set the default token to zero
                         if (string.IsNullOrEmpty(Token))

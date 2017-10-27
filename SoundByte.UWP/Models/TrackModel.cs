@@ -52,6 +52,12 @@ namespace SoundByte.UWP.Models
                 // We are loading
                 await DispatcherHelper.ExecuteOnUIThreadAsync(() => { App.IsLoading = true; });
 
+                if (count <= 10)
+                    count = 10;
+
+                if (count >= 50)
+                    count = 50;
+
                 try
                 {
                     // Get the users track

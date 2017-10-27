@@ -70,6 +70,12 @@ namespace SoundByte.UWP.Models
                 if (_track == null)
                     return new LoadMoreItemsResult {Count = 0};
 
+                if (count <= 10)
+                    count = 10;
+
+                if (count >= 50)
+                    count = 50;
+
                 // We are loading
                 await DispatcherHelper.ExecuteOnUIThreadAsync(() => { App.IsLoading = true; });
 

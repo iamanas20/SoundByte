@@ -66,9 +66,11 @@ namespace SoundByte.UWP.Models
                 {
                     try
                     {
-                        // At least 10 tracks at once
-                        if (count < 10)
+                        if (count <= 10)
                             count = 10;
+
+                        if (count >= 50)
+                            count = 50;
 
                         // Get the like tracks
                         var likeTracks = await SoundByteV3Service.Current.GetAsync<TrackListHolder>(

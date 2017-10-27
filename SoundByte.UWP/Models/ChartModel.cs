@@ -69,6 +69,12 @@ namespace SoundByte.UWP.Models
         {
             return await Task.Run(async () =>
             {
+                if (count <= 10)
+                    count = 10;
+
+                if (count >= 50)
+                    count = 50;
+
                 // We are loading
                 await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                 {

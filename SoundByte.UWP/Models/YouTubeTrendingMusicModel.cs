@@ -33,9 +33,11 @@ namespace SoundByte.UWP.Models
             // Get the resource loader
             var resources = ResourceLoader.GetForViewIndependentUse();
 
-            // At least 10 tracks at once
-            if (count < 10)
+            if (count <= 10)
                 count = 10;
+
+            if (count >= 50)
+                count = 50;
 
             try
             {
@@ -45,7 +47,6 @@ namespace SoundByte.UWP.Models
                     {
                             {"part", "snippet,contentDetails"},
                             {"chart", "mostPopular"},
-                            {"regionCode", "us"},
                             {"videoCategoryId", "10"},
                             {"maxResults", count.ToString()},
                             {"pageToken", Token}

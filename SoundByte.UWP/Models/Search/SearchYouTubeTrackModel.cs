@@ -42,9 +42,11 @@ namespace SoundByte.UWP.Models.Search
             // Get the resource loader
             var resources = ResourceLoader.GetForViewIndependentUse();
 
-            // At least 10 tracks at once
-            if (count < 10)
+            if (count <= 10)
                 count = 10;
+
+            if (count >= 50)
+                count = 50;
 
             try
             {
@@ -52,7 +54,7 @@ namespace SoundByte.UWP.Models.Search
                 var searchTracks = await SoundByteV3Service.Current.GetAsync<YouTubeSearchList>(
                     ServiceType.YouTube, "search", new Dictionary<string, string>
                     {
-                            {"part", "snippet,contentDetails"},
+                            {"part", "snippet"},
                             {"maxResults", count.ToString()},
                             {"q", Query},
                             {"pageToken", Token}

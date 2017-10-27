@@ -134,11 +134,11 @@ namespace SoundByte.Core.Services
                     switch (serviceSecret.Service)
                     {
                         case ServiceType.Fanburst:
-                            serviceSecret.CurrentUser = AsyncHelper.RunSync(async () => await GetAsync<FanburstUser>(ServiceType.Fanburst, "/me")).ToBaseUser();
+                            serviceSecret.CurrentUser = AsyncHelper.RunSync(async () => await GetAsync<FanburstUser>(ServiceType.Fanburst, "/me").ConfigureAwait(false)).ToBaseUser();
                             break;
                         case ServiceType.SoundCloud:
                         case ServiceType.SoundCloudV2:
-                            serviceSecret.CurrentUser = AsyncHelper.RunSync(async () => await GetAsync<SoundCloudUser>(ServiceType.SoundCloud, "/me")).ToBaseUser();
+                            serviceSecret.CurrentUser = AsyncHelper.RunSync(async () => await GetAsync<SoundCloudUser>(ServiceType.SoundCloud, "/me").ConfigureAwait(false)).ToBaseUser();
                             break;
                         case ServiceType.YouTube:
                             // Do this later
@@ -184,7 +184,7 @@ namespace SoundByte.Core.Services
                             break;
                         case ServiceType.SoundCloud:
                         case ServiceType.SoundCloudV2:
-                            serviceSecret.CurrentUser = AsyncHelper.RunSync(async () => await GetAsync<SoundCloudUser>(ServiceType.SoundCloud, "/me")).ToBaseUser();
+                            serviceSecret.CurrentUser = AsyncHelper.RunSync(async () => await GetAsync<SoundCloudUser>(ServiceType.SoundCloud, "/me").ConfigureAwait(false)).ToBaseUser();
                             break;
                         case ServiceType.YouTube:
                             // Do this later
@@ -372,13 +372,13 @@ namespace SoundByte.Core.Services
                         var escapedUri = new Uri(Uri.EscapeUriString(requestUri));
 
                         // Get the URL
-                        using (var webRequest = await client.GetAsync(escapedUri, HttpCompletionOption.ResponseContentRead, cancellationTokenSource.Token))
+                        using (var webRequest = await client.GetAsync(escapedUri, HttpCompletionOption.ResponseContentRead, cancellationTokenSource.Token).ConfigureAwait(false))
                         {
                             // This request has to be successful
                             webRequest.EnsureSuccessStatusCode();
 
                             // Get the body of the request as a stream
-                            using (var stream = await webRequest.Content.ReadAsStreamAsync())
+                            using (var stream = await webRequest.Content.ReadAsStreamAsync().ConfigureAwait(false))
                             {
                                 // Read the stream
                                 using (var streamReader = new StreamReader(stream))
@@ -388,7 +388,7 @@ namespace SoundByte.Core.Services
                                     {
                                         // Used to get the data from JSON
                                         var serializer =
-                                            new JsonSerializer {NullValueHandling = NullValueHandling.Ignore};
+                                            new JsonSerializer { NullValueHandling = NullValueHandling.Ignore };
                                         // Return the data
                                         return serializer.Deserialize<T>(textReader);
                                     }
@@ -396,7 +396,7 @@ namespace SoundByte.Core.Services
                             }
                         }
                     }
-                });
+                }).ConfigureAwait(false);
             }
             catch (OperationCanceledException)
             {
@@ -406,9 +406,9 @@ namespace SoundByte.Core.Services
             {
                 throw new SoundByteException("Parsing error", "An error occured when parsing the results. This could be caused by an API change. Report the following message to the app developer:\n" + jsex.Message);
             }
-            catch (HttpRequestException)
+            catch (HttpRequestException hex)
             {
-                throw new SoundByteException("No connection?", "Could not get any results, make sure you are connected to the internet.");
+                throw new SoundByteException("No connection?", hex.Message + "\n" + requestUri);
             }
             catch (Exception ex)
             {
@@ -472,13 +472,13 @@ namespace SoundByte.Core.Services
                         var httpContent = new StringContent(content, Encoding.UTF8, "application/json");
 
                         // Put the URL
-                        using (var webRequest = await client.PutAsync(escapedUri, httpContent, cancellationTokenSource.Token))
+                        using (var webRequest = await client.PutAsync(escapedUri, httpContent, cancellationTokenSource.Token).ConfigureAwait(false))
                         {
                             // Return if tsuccessful
                             return webRequest.IsSuccessStatusCode;
                         }
                     }
-                });
+                }).ConfigureAwait(false);
             }
             catch (OperationCanceledException)
             {
@@ -575,14 +575,14 @@ namespace SoundByte.Core.Services
                         var httpContent = new StringContent(content, Encoding.UTF8, "application/json");
 
                         // Post the URL
-                        using (var webRequest = await client.PostAsync(escapedUri, httpContent, cancellationTokenSource.Token))
+                        using (var webRequest = await client.PostAsync(escapedUri, httpContent, cancellationTokenSource.Token).ConfigureAwait(false))
                         {
                             // Throw exception if the request failed
                             if (webRequest.StatusCode != HttpStatusCode.OK)
                                 throw new SoundByteException("No Connection?", webRequest.ReasonPhrase);
 
                             // Get the body of the request as a stream
-                            using (var stream = await webRequest.Content.ReadAsStreamAsync())
+                            using (var stream = await webRequest.Content.ReadAsStreamAsync().ConfigureAwait(false))
                             {
                                 // Read the stream
                                 using (var streamReader = new StreamReader(stream))
@@ -600,7 +600,7 @@ namespace SoundByte.Core.Services
                             }
                         }
                     }
-                });
+                }).ConfigureAwait(false);
             }
             catch (OperationCanceledException)
             {
@@ -680,13 +680,13 @@ namespace SoundByte.Core.Services
                         var escapedUri = new Uri(Uri.EscapeUriString(requestUri));
 
                         // Get the URL
-                        using (var webRequest = await client.DeleteAsync(escapedUri, cancellationTokenSource.Token))
+                        using (var webRequest = await client.DeleteAsync(escapedUri, cancellationTokenSource.Token).ConfigureAwait(false))
                         {
                             // Return if successful
                             return webRequest.StatusCode == HttpStatusCode.OK;
                         }
                     }
-                });
+                }).ConfigureAwait(false);
             }
             catch (Exception)
             {
@@ -753,13 +753,13 @@ namespace SoundByte.Core.Services
                         var escapedUri = new Uri(Uri.EscapeUriString(requestUri));
 
                         // Get the URL
-                        using (var webRequest = await client.GetAsync(escapedUri, HttpCompletionOption.ResponseHeadersRead, cancellationTokenSource.Token))
+                        using (var webRequest = await client.GetAsync(escapedUri, HttpCompletionOption.ResponseHeadersRead, cancellationTokenSource.Token).ConfigureAwait(false))
                         {
                             // Return if the resource exists
                             return webRequest.IsSuccessStatusCode;
                         }
                     }
-                });
+                }).ConfigureAwait(false);
             }
             catch (Exception)
             {

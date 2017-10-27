@@ -10,18 +10,12 @@
  * |----------------------------------------------------------------|
  */
 
-using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
 using Microsoft.Toolkit.Uwp.Helpers;
-using SoundByte.Core;
 using SoundByte.Core.Exceptions;
-using SoundByte.Core.Holders;
 using SoundByte.Core.Items.Track;
-using SoundByte.Core.Services;
-using SoundByte.UWP.Services;
 
 namespace SoundByte.UWP.Models.Search
 {
@@ -44,9 +38,11 @@ namespace SoundByte.UWP.Models.Search
             // Get the resource loader
             var resources = ResourceLoader.GetForViewIndependentUse();
 
-            // At least 10 tracks at once
-            if (count < 10)
+            if (count <= 10)
                 count = 10;
+
+            if (count >= 50)
+                count = 50;
 
             try
             {

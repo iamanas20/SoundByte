@@ -38,9 +38,11 @@ namespace SoundByte.UWP.Models.Search
             if (string.IsNullOrEmpty(Query))
                 return 0;
 
-            // At least 10 tracks at once
-            if (count < 10)
+            if (count <= 10)
                 count = 10;
+
+            if (count >= 50)
+                count = 50;
 
             // Get the resource loader
             var resources = ResourceLoader.GetForViewIndependentUse();

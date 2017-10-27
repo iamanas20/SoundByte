@@ -71,8 +71,11 @@ namespace SoundByte.UWP.Models
                     try
                     {
                         // At least 20 tracks at once
-                        if (count < 20)
-                            count = 20;
+                        if (count <= 10)
+                            count = 10;
+
+                        if (count >= 50)
+                            count = 50;
 
                         // Get items from the users stream
                         var streamTracks = await SoundByteV3Service.Current.GetAsync<StreamTrackHolder>(ServiceType.SoundCloud, "/e1/me/stream",
