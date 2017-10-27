@@ -18,9 +18,10 @@ using SoundByte.Core;
 using SoundByte.Core.Exceptions;
 using SoundByte.Core.Items.Track;
 using SoundByte.Core.Services;
-namespace SoundByte.UWP.Models
+
+namespace SoundByte.UWP.Models.Fanburst
 {
-    public class FanburstTrendingModel : BaseModel<BaseTrack>
+    public class FanburstExploreModel : BaseModel<BaseTrack>
     {
         protected override async Task<int> LoadMoreItemsAsync(int count)
         {

@@ -20,16 +20,25 @@ using SoundByte.Core.Exceptions;
 using SoundByte.Core.Items.Track;
 using SoundByte.Core.Services;
 
-namespace SoundByte.UWP.Models
+namespace SoundByte.UWP.Models.YouTube
 {
-    public class YouTubeTrendingMusicModel : BaseModel<BaseTrack>
+    public class SearchYouTubeTrackModel : BaseModel<BaseTrack>
     {
+        /// <summary>
+        /// What we are searching the soundcloud API for
+        /// </summary>
+        public string Query { get; set; }
+
         /// <summary>
         /// Loads search track items from the souncloud api
         /// </summary>
         /// <param name="count">The amount of items to load</param>
         protected override async Task<int> LoadMoreItemsAsync(int count)
         {
+
+            if (string.IsNullOrEmpty(Query))
+                return 0;
+
             // Get the resource loader
             var resources = ResourceLoader.GetForViewIndependentUse();
 
@@ -43,12 +52,11 @@ namespace SoundByte.UWP.Models
             {
                 // Search for matching tracks
                 var searchTracks = await SoundByteV3Service.Current.GetAsync<YouTubeSearchList>(
-                    ServiceType.YouTube, "videos", new Dictionary<string, string>
+                    ServiceType.YouTube, "search", new Dictionary<string, string>
                     {
-                            {"part", "snippet,contentDetails"},
-                            {"chart", "mostPopular"},
-                            {"videoCategoryId", "10"},
+                            {"part", "snippet"},
                             {"maxResults", count.ToString()},
+                            {"q", Query},
                             {"pageToken", Token}
                     });
 
@@ -66,7 +74,7 @@ namespace SoundByte.UWP.Models
                     foreach (var item in searchTracks.Items)
                     {
                         if (item.Id.Kind == "youtube#video")
-                        {
+                        {                          
                             // Loop though all the tracks on the UI thread
                             await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                             {

@@ -17,6 +17,9 @@ using SoundByte.UWP.Services;
 using Windows.UI.Popups;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using SoundByte.UWP.Models.Fanburst;
+using SoundByte.UWP.Models.SoundCloud;
+using SoundByte.UWP.Models.YouTube;
 using SoundByte.UWP.Views.Search;
 
 namespace SoundByte.UWP.Views
@@ -26,11 +29,11 @@ namespace SoundByte.UWP.Views
     /// </summary>
     public sealed partial class ExploreView : Page
     {
-        public ChartModel ExploreTracks { get; } = new ChartModel();
+        public SoundCloudExploreModel ExploreTracks { get; } = new SoundCloudExploreModel();
 
-        public YouTubeTrendingMusicModel YouTubeTracks { get; } = new YouTubeTrendingMusicModel { ModelHeader = "Trending ", ModelType = "YouTube" };
+        public YouTubeExploreModel YouTubeTracks { get; } = new YouTubeExploreModel { ModelHeader = "Trending ", ModelType = "YouTube" };
 
-        public FanburstTrendingModel FanburstTracks { get; } = new FanburstTrendingModel { ModelHeader = "Trending ", ModelType = "Fanburst" };
+        public FanburstExploreModel FanburstTracks { get; } = new FanburstExploreModel { ModelHeader = "Trending ", ModelType = "Fanburst" };
 
         public ExploreView() 
         {

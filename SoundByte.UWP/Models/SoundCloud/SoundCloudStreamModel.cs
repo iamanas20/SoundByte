@@ -28,12 +28,12 @@ using SoundByte.Core.Items.User;
 using SoundByte.Core.Services;
 using SoundByte.UWP.UserControls;
 
-namespace SoundByte.UWP.Models
+namespace SoundByte.UWP.Models.SoundCloud
 {
     /// <summary>
     ///     Model for the users stream
     /// </summary>
-    public class StreamModel : ObservableCollection<GroupedItem>, ISupportIncrementalLoading
+    public class SoundCloudStreamModel : ObservableCollection<GroupedItem>, ISupportIncrementalLoading
     {
         /// <summary>
         ///     The position of the track, will be 'eol'

@@ -4,7 +4,6 @@
     xmlns:sui="using:SoundByte.UWP.UserControls"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:appmodel="using:Windows.ApplicationModel"
     xmlns:stateTriggers="using:SoundByte.UWP.StateTriggers">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
@@ -69,7 +68,7 @@
         <TextBlock x:Name="AppTitle" 
                    Canvas.ZIndex="100"
                    Style="{StaticResource CaptionTextBlockStyle}" 
-                   Text="{x:Bind appmodel:Package.Current.DisplayName}" 
+                   Text="SoundByte" 
                    IsHitTestVisible="False"/>
 
         <NavigationView x:Name="NavView"

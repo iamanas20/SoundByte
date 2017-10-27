@@ -16,6 +16,7 @@ using Windows.UI.Popups;
 using Windows.UI.Xaml.Controls;
 using SoundByte.Core.Items.Track;
 using SoundByte.UWP.Models;
+using SoundByte.UWP.Models.SoundCloud;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.ViewModels;
 
@@ -29,7 +30,7 @@ namespace SoundByte.UWP.Views
         /// <summary>
         ///     The likes model that contains or the users liked tracks
         /// </summary>
-        public ChartModel ChartsModel { get; } = new ChartModel();
+        public SoundCloudExploreModel ChartsModel { get; } = new SoundCloudExploreModel();
 
         public SoundCloudExploreView()
         {

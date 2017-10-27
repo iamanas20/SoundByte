@@ -19,6 +19,7 @@ using SoundByte.UWP.Models;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.Views;
 using SoundByte.Core;
+using SoundByte.UWP.Models.SoundCloud;
 
 namespace SoundByte.UWP.ViewModels
 {
@@ -28,7 +29,7 @@ namespace SoundByte.UWP.ViewModels
     public class HomeViewModel : BaseViewModel
     {
         // Model for stream items
-        public StreamModel StreamItems { get; } = new StreamModel();
+        public SoundCloudStreamModel StreamItems { get; } = new SoundCloudStreamModel();
 
         /// <summary>
         ///     Refreshes the models depending on what

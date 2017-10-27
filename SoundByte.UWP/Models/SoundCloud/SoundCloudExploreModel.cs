@@ -10,56 +10,65 @@
  * |----------------------------------------------------------------|
  */
 
-using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
-using Windows.Foundation;
-using Windows.UI.Xaml.Data;
 using Microsoft.Toolkit.Uwp.Helpers;
 using SoundByte.Core;
 using SoundByte.Core.Exceptions;
 using SoundByte.Core.Holders;
-using SoundByte.Core.Items.User;
+using SoundByte.Core.Items.Track;
 using SoundByte.Core.Services;
-using SoundByte.UWP.Services;
 using SoundByte.UWP.UserControls;
 
-namespace SoundByte.UWP.Models.Search
+namespace SoundByte.UWP.Models.SoundCloud
 {
-    public class SearchSoundCloudUserModel : ObservableCollection<BaseUser>, ISupportIncrementalLoading
+    /// <summary>
+    ///     Model for the soundcloud charts
+    /// </summary>
+    public class SoundCloudExploreModel : BaseModel<BaseTrack>
     {
-        /// <summary>
-        ///     The position of the track, will be 'eol'
-        ///     if there are no new trackss
-        /// </summary>
-        public string Token { get; private set; }
+        // The genre to search for
+        private string _genre = "all-music";
+
+        // The kind to search for
+        private string _kind = "top";
 
         /// <summary>
-        ///     What we are searching the soundcloud API for
+        ///     The genre to search for.
+        ///     Note: By changing this variable will update
+        ///     the model.
         /// </summary>
-        public string Query { get; set; }
-
-        /// <summary>
-        ///     Are there more items to load
-        /// </summary>
-        public bool HasMoreItems => Token != "eol";
-
-        /// <summary>
-        ///     Loads search user items from the souncloud api
-        /// </summary>
-        /// <param name="count">The amount of items to load</param>
-        public IAsyncOperation<LoadMoreItemsResult> LoadMoreItemsAsync(uint count)
+        public string Genre
         {
-            // Return a task that will get the items
-            return Task.Run(async () =>
+            get => _genre;
+            set
             {
-                if (string.IsNullOrEmpty(Query))
-                    return new LoadMoreItemsResult {Count = 0};
+                _genre = value;
+                RefreshItems();
+            }
+        }
 
+        /// <summary>
+        ///     The kind of item to search for
+        ///     Note: By changing this variable it will
+        ///     update the model.
+        /// </summary>
+        public string Kind
+        {
+            get => _kind;
+            set
+            {
+                _kind = value;
+                RefreshItems();
+            }
+        }
+
+        protected override async Task<int> LoadMoreItemsAsync(int count)
+        {
+            return await Task.Run(async () =>
+            {
                 if (count <= 10)
                     count = 10;
 
@@ -69,7 +78,7 @@ namespace SoundByte.UWP.Models.Search
                 // We are loading
                 await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                 {
-                    (App.CurrentFrame?.FindName("SearchUserModelInfoPane") as InfoPane)?.ShowLoading();
+                    (App.CurrentFrame?.FindName("ChartModelInfoPane") as InfoPane)?.ShowLoading();
                 });
 
                 // Get the resource loader
@@ -77,36 +86,34 @@ namespace SoundByte.UWP.Models.Search
 
                 try
                 {
-                    // Get the searched users
-                    var searchUsers = await SoundByteV3Service.Current.GetAsync<UserListHolder>(ServiceType.SoundCloud,"/users",
+                    // Get the trending tracks
+                    var exploreTracks = await SoundByteV3Service.Current.GetAsync<ExploreTrackHolder>(ServiceType.SoundCloudV2, "/charts",
                         new Dictionary<string, string>
                         {
-                            {"limit", SettingsService.TrackLimitor.ToString()},
-                            {"linked_partitioning", "1"},
+                            {"genre", "soundcloud%3Agenres%3A" + _genre},
+                            {"kind", _kind},
+                            {"limit", "50"},
                             {"offset", Token},
-                            {"q", WebUtility.UrlEncode(Query)}
+                            {"linked_partitioning", "1"}
                         });
 
                     // Parse uri for offset
-                    var param = new QueryParameterCollection(searchUsers.NextList);
+                    var param = new QueryParameterCollection(exploreTracks.NextList);
                     var offset = param.FirstOrDefault(x => x.Key == "offset").Value;
 
-                    // Get the stream cursor
+                    // Get the stream offset
                     Token = string.IsNullOrEmpty(offset) ? "eol" : offset;
 
-                    // Make sure that there are users in the list
-                    if (searchUsers.Users.Count > 0)
+                    // Make sure that there are tracks in the list
+                    if (exploreTracks.Items.Count > 0)
                     {
                         // Set the count variable
-                        count = (uint) searchUsers.Users.Count;
+                        count = exploreTracks.Items.Count;
 
                         // Loop though all the tracks on the UI thread
                         await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                         {
-                            foreach (var user in searchUsers.Users)
-                            {
-                                Add(user.ToBaseUser());
-                            }
+                            exploreTracks.Items.ForEach(t => Add(t.Track.ToBaseTrack()));
                         });
                     }
                     else
@@ -120,8 +127,9 @@ namespace SoundByte.UWP.Models.Search
                         // No items tell the user
                         await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                         {
-                            (App.CurrentFrame?.FindName("SearchUserModelInfoPane") as InfoPane)?.ShowMessage(
-                                resources.GetString("SearchUser_Header"), resources.GetString("SearchUser_Content"), false);
+                            (App.CurrentFrame?.FindName("ChartModelInfoPane") as InfoPane)?.ShowMessage(
+                                resources.GetString("ExploreTracks_Header"),
+                                resources.GetString("ExploreTracks_Content"), false);
                         });
                     }
                 }
@@ -136,31 +144,20 @@ namespace SoundByte.UWP.Models.Search
                     // Exception, display error to the user
                     await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                     {
-                        (App.CurrentFrame?.FindName("SearchUserModelInfoPane") as InfoPane)?.ShowMessage(
-                            ex.ErrorTitle, ex.ErrorDescription);
+                        (App.CurrentFrame?.FindName("ChartModelInfoPane") as InfoPane)?.ShowMessage(ex.ErrorTitle,
+                            ex.ErrorDescription);
                     });
                 }
-
 
                 // We are not loading
                 await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                 {
-                    (App.CurrentFrame?.FindName("SearchUserModelInfoPane") as InfoPane)?.ClosePane();
+                    (App.CurrentFrame?.FindName("ChartModelInfoPane") as InfoPane)?.ClosePane();
                 });
 
                 // Return the result
-                return new LoadMoreItemsResult {Count = count};
-            }).AsAsyncOperation();
-        }
-
-        /// <summary>
-        ///     Refresh the list by removing any
-        ///     existing items and reseting the token.
-        /// </summary>
-        public void RefreshItems()
-        {
-            Token = null;
-            Clear();
+                return count;
+            });
         }
     }
 }

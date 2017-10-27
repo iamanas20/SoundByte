@@ -39,6 +39,7 @@ using SoundByte.UWP.Dialogs;
 using SoundByte.UWP.Helpers;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.Models;
+using SoundByte.UWP.Models.SoundCloud;
 using SoundByte.UWP.Views;
 using SoundByte.UWP.Views.Application;
 using SoundByte.UWP.Views.Me;
@@ -279,7 +280,7 @@ namespace SoundByte.UWP
                             RootFrame.Navigate(typeof(NowPlayingView));
 
                             // Get and load the user liked items
-                            var userLikes = new LikeModel(SoundByteV3Service.Current.GetConnectedUser(ServiceType.SoundCloud));
+                            var userLikes = new SoundCloudLikesModel(SoundByteV3Service.Current.GetConnectedUser(ServiceType.SoundCloud));
 
                             while (userLikes.HasMoreItems)
                                 await userLikes.LoadMoreItemsAsync(500);
@@ -299,7 +300,7 @@ namespace SoundByte.UWP
                             RootFrame.Navigate(typeof(NowPlayingView));
 
                             // Get and load the user stream items
-                            var userStream = new StreamModel();
+                            var userStream = new SoundCloudStreamModel();
 
                             // Counter so we don't get an insane amount of items
                             var i = 0;

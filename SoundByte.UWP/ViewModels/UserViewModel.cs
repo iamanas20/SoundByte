@@ -25,6 +25,7 @@ using SoundByte.UWP.Converters;
 using SoundByte.UWP.Helpers;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.Models;
+using SoundByte.UWP.Models.SoundCloud;
 using SoundByte.UWP.Views;
 
 namespace SoundByte.UWP.ViewModels
@@ -348,7 +349,7 @@ namespace SoundByte.UWP.ViewModels
         #region Models
 
         // Items that the user has liked
-        public LikeModel LikeItems { get; } = new LikeModel(null);
+        public SoundCloudLikesModel LikeItems { get; } = new SoundCloudLikesModel(null);
 
         // Playlists that the user has liked / uploaded
         public PlaylistModel PlaylistItems { get; } = new PlaylistModel(null);

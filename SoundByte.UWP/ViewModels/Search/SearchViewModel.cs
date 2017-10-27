@@ -17,8 +17,10 @@ using SoundByte.Core;
 using SoundByte.Core.Items.Playlist;
 using SoundByte.Core.Items.Track;
 using SoundByte.Core.Items.User;
+using SoundByte.UWP.Models.Fanburst;
 using SoundByte.UWP.Services;
-using SoundByte.UWP.Models.Search;
+using SoundByte.UWP.Models.SoundCloud;
+using SoundByte.UWP.Models.YouTube;
 using SoundByte.UWP.Views;
 using SoundByte.UWP.Views.Search;
 

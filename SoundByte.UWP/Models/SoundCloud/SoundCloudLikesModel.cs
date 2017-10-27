@@ -23,18 +23,18 @@ using SoundByte.Core.Items.User;
 using SoundByte.Core.Services;
 using SoundByte.UWP.UserControls;
 
-namespace SoundByte.UWP.Models
+namespace SoundByte.UWP.Models.SoundCloud
 {
     /// <summary>
     ///     Model for user likes
     /// </summary>
-    public class LikeModel : BaseModel<BaseTrack>
+    public class SoundCloudLikesModel : BaseModel<BaseTrack>
     {
         /// <summary>
         ///     Setsup the like view model for a user
         /// </summary>
         /// <param name="user">The user to retrieve likes for</param>
-        public LikeModel(BaseUser user)
+        public SoundCloudLikesModel(BaseUser user)
         {
             User = user;
         }

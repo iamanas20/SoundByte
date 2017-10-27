@@ -10,33 +10,32 @@
  * |----------------------------------------------------------------|
  */
 
+using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
 using Microsoft.Toolkit.Uwp.Helpers;
+using SoundByte.Core;
 using SoundByte.Core.Exceptions;
-using SoundByte.Core.Items.Track;
+using SoundByte.Core.Holders;
+using SoundByte.Core.Items.Playlist;
+using SoundByte.Core.Services;
 
-namespace SoundByte.UWP.Models.Search
+namespace SoundByte.UWP.Models.SoundCloud
 {
-    public class SearchSoundCloudTrackModel : BaseModel<BaseTrack>
+    public class SearchSoundCloudPlaylistModel : BaseModel<BasePlaylist>
     {
         /// <summary>
         ///     What we are searching the soundcloud API for
         /// </summary>
         public string Query { get; set; }
 
-        /// <summary>
-        ///     Loads search track items from the souncloud api
-        /// </summary>
-        /// <param name="count">The amount of items to load</param>
         protected override async Task<int> LoadMoreItemsAsync(int count)
         {
+            // If the query is empty, tell the user that they can search something
             if (string.IsNullOrEmpty(Query))
                 return 0;
-
-            // Get the resource loader
-            var resources = ResourceLoader.GetForViewIndependentUse();
 
             if (count <= 10)
                 count = 10;
@@ -44,26 +43,40 @@ namespace SoundByte.UWP.Models.Search
             if (count >= 50)
                 count = 50;
 
+            // Get the resource loader
+            var resources = ResourceLoader.GetForViewIndependentUse();
+
             try
             {
-                // Search for matching tracks
-                var searchTracks = await SoundCloudTrack.SearchAsync(Query, (uint)count, Token);
+                // Get the searched playlists
+                var searchPlaylists = await SoundByteV3Service.Current.GetAsync<SearchPlaylistHolder>(ServiceType.SoundCloud, "/playlists",
+                    new Dictionary<string, string>
+                    {
+                            {"limit", count.ToString()},
+                            {"linked_partitioning", "1"},
+                            {"offset", Token},
+                            {"q", WebUtility.UrlEncode(Query)}
+                    });
 
-                // Get the search offset
-                Token = string.IsNullOrEmpty(searchTracks.Token) ? "eol" : searchTracks.Token;
+                // Parse uri for offset
+                var param = new QueryParameterCollection(searchPlaylists.NextList);
+                var offset = param.FirstOrDefault(x => x.Key == "offset").Value;
 
-                // Make sure that there are tracks in the list
-                if (searchTracks.Tracks.Count() > 0)
+                // Get the search playlists offset
+                Token = string.IsNullOrEmpty(offset) ? "eol" : offset;
+
+                // Make sure that there are playlists in the list
+                if (searchPlaylists.Playlists.Count > 0)
                 {
                     // Set the count variable
-                    count = searchTracks.Tracks.Count();
+                    count = searchPlaylists.Playlists.Count;
 
-                    // Loop though all the tracks on the UI thread
+                    // Loop though all the search playlists on the UI thread
                     await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                     {
-                        foreach (var track in searchTracks.Tracks)
+                        foreach (var playlist in searchPlaylists.Playlists)
                         {
-                            Add(track);
+                            Add(playlist.ToBasePlaylist());
                         }
                     });
                 }
@@ -76,7 +89,8 @@ namespace SoundByte.UWP.Models.Search
                     Token = "eol";
 
                     // No items tell the user
-                    await ShowErrorMessageAsync(resources.GetString("SearchTrack_Header"), resources.GetString("SearchTrack_Content"));
+                    await ShowErrorMessageAsync(resources.GetString("SearchPlaylist_Header"),
+                        resources.GetString("SearchPlaylist_Content"));
                 }
             }
             catch (SoundByteException ex)
@@ -87,7 +101,8 @@ namespace SoundByte.UWP.Models.Search
                 // Reset the token
                 Token = "eol";
 
-                await ShowErrorMessageAsync(ex.ErrorTitle, ex.ErrorDescription);        
+                // Exception, display error to the user
+                await ShowErrorMessageAsync(ex.ErrorTitle, ex.ErrorDescription);
             }
 
             // Return the result

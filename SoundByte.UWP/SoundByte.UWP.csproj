@@ -147,8 +147,6 @@
     <Content Include="Assets\build_info.json" />
     <Content Include="SoundByteCommands.xml" />
     <None Include="SoundByte.UWP_TemporaryKey.pfx" />
-    <PRIResource Include="Strings\nl\Resources.resw" />
-    <PRIResource Include="Strings\fr\Resources.resw" />
     <PRIResource Include="Strings\en-US\Resources.resw">
       <SubType>Designer</SubType>
     </PRIResource>
@@ -203,25 +201,25 @@
     </Compile>
     <Compile Include="Migrations\HistoryContextModelSnapshot.cs" />
     <Compile Include="Models\BaseModel.cs" />
-    <Compile Include="Models\FanburstTrendingModel.cs" />
-    <Compile Include="Models\Search\SearchYouTubeTrackModel.cs" />
-    <Compile Include="Models\YouTubeTrendingMusicModel.cs" />
+    <Compile Include="Models\Fanburst\FanburstExploreModel.cs" />
+    <Compile Include="Models\YouTube\SearchYouTubeTrackModel.cs" />
+    <Compile Include="Models\YouTube\YouTubeExploreModel.cs" />
     <Compile Include="Resources\DataTemplates.cs" />
     <Compile Include="AppShell.xaml.cs">
       <DependentUpon>AppShell.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Models\ChartModel.cs" />
+    <Compile Include="Models\SoundCloud\SoundCloudExploreModel.cs" />
     <Compile Include="Models\CommentModel.cs" />
-    <Compile Include="Models\Search\SearchFanburstTrackModel.cs" />
+    <Compile Include="Models\Fanburst\SearchFanburstTrackModel.cs" />
     <Compile Include="Models\HistoryModel.cs" />
-    <Compile Include="Models\LikeModel.cs" />
+    <Compile Include="Models\SoundCloud\SoundCloudLikesModel.cs" />
     <Compile Include="Models\PlaylistModel.cs" />
     <Compile Include="Models\TrackModel.cs" />
     <Compile Include="Models\UserPlaylistModel.cs" />
-    <Compile Include="Models\Search\SearchSoundCloudPlaylistModel.cs" />
-    <Compile Include="Models\Search\SearchSoundCloudTrackModel.cs" />
-    <Compile Include="Models\Search\SearchSoundCloudUserModel.cs" />
-    <Compile Include="Models\StreamModel.cs" />
+    <Compile Include="Models\SoundCloud\SearchSoundCloudPlaylistModel.cs" />
+    <Compile Include="Models\SoundCloud\SearchSoundCloudTrackModel.cs" />
+    <Compile Include="Models\SoundCloud\SearchSoundCloudUserModel.cs" />
+    <Compile Include="Models\SoundCloud\SoundCloudStreamModel.cs" />
     <Compile Include="Models\UserFollowersModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\BackendService.cs" />
