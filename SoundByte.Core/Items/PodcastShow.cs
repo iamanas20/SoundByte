@@ -18,7 +18,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using System.Xml;
 using System.Xml.Linq;
 
 namespace SoundByte.Core.Items
@@ -77,10 +76,10 @@ namespace SoundByte.Core.Items
                             {
                                 var xmlDocument = XDocument.Load(stream);
 
-                                return xmlDocument.Root.Element("channel").Elements("item")
+                                return xmlDocument.Root?.Element("channel")?.Elements("item")
                                     .Select(x => new PodcastEpisode
                                     {
-                                        Title = x.Element("title").Value
+                                        Title = x.Element("title")?.Value
                                     }).ToList();
                             }
                         }

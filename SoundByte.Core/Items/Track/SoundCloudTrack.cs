@@ -40,6 +40,7 @@ namespace SoundByte.Core.Items.Track
         }
 
         [JsonProperty("artwork_url")]
+        // ReSharper disable once InconsistentNaming
         private string _artworkUrl { get; set; }
 
         public string ArtworkUrl
@@ -200,6 +201,7 @@ namespace SoundByte.Core.Items.Track
         /// </summary>
         /// <param name="count">The amount of comments to get.</param>
         /// <param name="token">Position in the comments (depends on service)</param>
+        /// <param name="cancellationTokenSource"></param>
         /// <returns>A list of base comments and the next token</returns>
         public async Task<(IEnumerable<BaseComment> Comments, string Token)> GetCommentsAsync(uint count, string token, CancellationTokenSource cancellationTokenSource = null)
         {

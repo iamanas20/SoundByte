@@ -1,10 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using SoundByte.UWP.DatabaseContexts;
-using SoundByte.Core;
 
 namespace SoundByte.UWP.Migrations
 {

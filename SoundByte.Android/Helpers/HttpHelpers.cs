@@ -1,16 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
+﻿/* |----------------------------------------------------------------|
+ * | Copyright (c) 2017, Grid Entertainment                         |
+ * | All Rights Reserved                                            |
+ * |                                                                |
+ * | This source code is to only be used for educational            |
+ * | purposes. Distribution of SoundByte source code in             |
+ * | any form outside this repository is forbidden. If you          |
+ * | would like to contribute to the SoundByte source code, you     |
+ * | are welcome.                                                   |
+ * |----------------------------------------------------------------|
+ */
 
-using Android.App;
-using Android.Content;
+using System.Net;
 using Android.Graphics;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
 
 namespace SoundByte.Android.Helpers
 {

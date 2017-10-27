@@ -38,7 +38,6 @@ using SoundByte.Core.Services;
 using SoundByte.UWP.Dialogs;
 using SoundByte.UWP.Helpers;
 using SoundByte.UWP.Services;
-using SoundByte.UWP.Models;
 using SoundByte.UWP.Models.SoundCloud;
 using SoundByte.UWP.Views;
 using SoundByte.UWP.Views.Application;
@@ -325,7 +324,7 @@ namespace SoundByte.UWP
                     var section = parser.Root.Split('/')[0].ToLower();
                     var page = parser.Root.Split('/')[1].ToLower();
 
-                    App.IsLoading = true;
+                    await App.SetLoadingAsync(true);
                     if (section == "core")
                     {
                         switch (page)
@@ -375,7 +374,7 @@ namespace SoundByte.UWP
                     await new MessageDialog("The specified protocol is not correct. App will now launch as normal.")
                         .ShowAsync();
                 }
-                App.IsLoading = false;
+                await App.SetLoadingAsync(false);
             }
 
             RootFrame.Navigate(typeof(HomeView));

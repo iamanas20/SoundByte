@@ -167,9 +167,6 @@
     <Compile Include="Dialogs\CrashDialog.xaml.cs">
       <DependentUpon>CrashDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Dialogs\SearchDialog.xaml.cs">
-      <DependentUpon>SearchDialog.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Dialogs\PendingUpdateDialog.xaml.cs">
       <DependentUpon>PendingUpdateDialog.xaml</DependentUpon>
     </Compile>
@@ -339,10 +336,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="Dialogs\CrashDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Dialogs\SearchDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

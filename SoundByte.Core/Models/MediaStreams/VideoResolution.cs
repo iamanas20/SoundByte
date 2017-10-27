@@ -17,7 +17,6 @@ namespace SoundByte.Core.Models.MediaStreams
         /// </summary>
         public int Height { get; }
 
-        /// <inheritdoc />
         public VideoResolution(int width, int height)
         {
             Width = width >= 0 ? width : throw new ArgumentOutOfRangeException(nameof(width));
@@ -57,10 +56,8 @@ namespace SoundByte.Core.Models.MediaStreams
 
     public partial struct VideoResolution
     {
-        /// <inheritdoc />
         public static bool operator ==(VideoResolution r1, VideoResolution r2) => r1.Equals(r2);
 
-        /// <inheritdoc />
         public static bool operator !=(VideoResolution r1, VideoResolution r2) => !(r1 == r2);
     }
 }

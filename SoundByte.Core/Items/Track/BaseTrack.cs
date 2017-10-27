@@ -35,59 +35,40 @@ namespace SoundByte.Core.Items.Track
         public ServiceType ServiceType { get; set; }
 
         public string Id { get; set; }
-        private string _id;
 
         public string Kind { get; set; }
-        private string _kind;
 
         public string Link { get; set; }
-        private string _link;
 
         public bool IsLive { get; set; }
-        private bool _isLive;
 
         public string AudioStreamUrl { get; set; }
-        private string _audioStreamurl;
 
         public string VideoStreamUrl { get; set; }
-        private string _videoStreamUrl;
 
         public string ArtworkUrl { get; set; }
-        private string _artworkUrl;
 
         public string Title { get; set; }
-        private string _title;
 
         public string Description { get; set; }
-        private string _description;
 
         public TimeSpan Duration { get; set; }
-        private TimeSpan _duration;
 
         public DateTime Created { get; set; }
-        private DateTime _created;
 
         public DateTime LastPlaybackDate { get; set; }
-        private DateTime _lastPlaybackDate;
 
         public double LikeCount { get; set; }
-        private double _likeCount;
 
         public double DislikeCount { get; set; }
-        private double _dislikeCount;
 
         public double ViewCount { get; set; }
-        private double _viewCount;
 
         public double CommentCount { get; set; }
-        private double _commentCount;
 
         public string Genre { get; set; }
-        private string _genre;
 
         public BaseUser User { get; set; }
-        private BaseUser _user;
-
         public async Task<(IEnumerable<BaseComment> Comments, string Token)> GetCommentsAsync(uint count, string token, CancellationTokenSource cancellationTokenSource = null)
         {
             // Always at least 10 comments.

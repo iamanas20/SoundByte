@@ -98,7 +98,7 @@ namespace SoundByte.UWP.Dialogs
                 {
                     // Create the json string needed to create the playlist
                     var json = "{\"playlist\":{\"title\":\"" + playlistTitle.Text.Trim() + "\",\"tracks\":[{\"id\":\"" +
-                               Track.Id + "\"}]}}";
+                               Track?.Id + "\"}]}}";
 
                     try
                     {
@@ -225,7 +225,7 @@ namespace SoundByte.UWP.Dialogs
                 // Get the playlist object from the internet
                 var playlistObject = await SoundByteV3Service.Current.GetAsync<SoundCloudPlaylist>(ServiceType.SoundCloud, "/playlists/" + playlistId);
                 // Get the track within the object
-                var trackObject = playlistObject.Tracks.FirstOrDefault(x => x.Id == int.Parse(Track.Id));
+                var trackObject = playlistObject.Tracks.FirstOrDefault(x => x.Id == int.Parse(Track?.Id));
 
                 // Check that the track exits
                 if (trackObject != null)
@@ -296,7 +296,7 @@ namespace SoundByte.UWP.Dialogs
                     (current, track) => current + "{\"id\":\"" + track.Id + "\"},");
 
                 // Complete the json string by adding the current track
-                json += "{\"id\":\"" + Track.Id + "\"}]}}";
+                json += "{\"id\":\"" + Track?.Id + "\"}]}}";
                 // Create the http request
                 var response = await SoundByteV3Service.Current.PutAsync(ServiceType.SoundCloud, $"/playlists/{playlistObject.Id}/?secret-token={playlistObject.SecretToken}", json);
 

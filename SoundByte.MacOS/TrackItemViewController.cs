@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using Foundation;
-using AppKit;
 using SoundByte.Core.Items.Track;
 
 namespace SoundByte.MacOS

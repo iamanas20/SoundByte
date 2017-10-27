@@ -23,7 +23,7 @@ namespace SoundByte.Android.ViewHolders
 
             // Detect user clicks on the item view and report which item
             // was clicked (by layout position) to the listener:
-            itemView.Click += (sender, e) => listener(base.LayoutPosition);
+            itemView.Click += (sender, e) => listener(LayoutPosition);
         }
     }
 }

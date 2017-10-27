@@ -87,14 +87,16 @@ namespace SoundByte.Core.Services
         public void Init(IEnumerable<ServiceSecret> secrets)
         {
             // A list of secrets must be provided
-            if (!secrets.Any())
+            var serviceSecrets = secrets as ServiceSecret[] ?? secrets.ToArray();
+
+            if (!serviceSecrets.Any())
                 throw new Exception("No Keys Provided");
 
             // Empty any other secrets
             ServiceSecrets.Clear();
 
             // Loop through all the keys and add them
-            foreach (var secret in secrets)
+            foreach (var secret in serviceSecrets)
             {
                 // If there is already a service in the list, thow an exception, there
                 // should only be one key for each service.

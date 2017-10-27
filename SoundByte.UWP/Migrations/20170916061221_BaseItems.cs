@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SoundByte.UWP.Migrations
@@ -12,16 +11,16 @@ namespace SoundByte.UWP.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
+                    Id = table.Column<string>(),
                     ArtworkLink = table.Column<string>(nullable: true),
                     Country = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
-                    FollowersCount = table.Column<double>(nullable: false),
-                    FollowingsCount = table.Column<double>(nullable: false),
+                    FollowersCount = table.Column<double>(),
+                    FollowingsCount = table.Column<double>(),
                     PermalinkUri = table.Column<string>(nullable: true),
-                    PlaylistCount = table.Column<double>(nullable: false),
-                    ServiceType = table.Column<int>(nullable: false),
-                    TrackCount = table.Column<double>(nullable: false),
+                    PlaylistCount = table.Column<double>(),
+                    ServiceType = table.Column<int>(),
+                    TrackCount = table.Column<double>(),
                     Username = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -33,24 +32,24 @@ namespace SoundByte.UWP.Migrations
                 name: "Tracks",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
+                    Id = table.Column<string>(),
                     ArtworkUrl = table.Column<string>(nullable: true),
                     AudioStreamUrl = table.Column<string>(nullable: true),
-                    CommentCount = table.Column<double>(nullable: false),
-                    Created = table.Column<DateTime>(nullable: false),
+                    CommentCount = table.Column<double>(),
+                    Created = table.Column<DateTime>(),
                     Description = table.Column<string>(nullable: true),
-                    DislikeCount = table.Column<double>(nullable: false),
-                    Duration = table.Column<TimeSpan>(nullable: false),
+                    DislikeCount = table.Column<double>(),
+                    Duration = table.Column<TimeSpan>(),
                     Genre = table.Column<string>(nullable: true),
                     Kind = table.Column<string>(nullable: true),
-                    LastPlaybackDate = table.Column<DateTime>(nullable: false),
-                    LikeCount = table.Column<double>(nullable: false),
+                    LastPlaybackDate = table.Column<DateTime>(),
+                    LikeCount = table.Column<double>(),
                     Link = table.Column<string>(nullable: true),
-                    ServiceType = table.Column<int>(nullable: false),
+                    ServiceType = table.Column<int>(),
                     Title = table.Column<string>(nullable: true),
                     UserId = table.Column<string>(nullable: true),
                     VideoStreamUrl = table.Column<string>(nullable: true),
-                    ViewCount = table.Column<double>(nullable: false)
+                    ViewCount = table.Column<double>()
                 },
                 constraints: table =>
                 {

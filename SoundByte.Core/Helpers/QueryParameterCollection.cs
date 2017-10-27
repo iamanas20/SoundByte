@@ -30,6 +30,7 @@ namespace SoundByte.Core.Helpers
     {
         private static IList<KeyValuePair<string, string>> CreatePairsFromUri([NotNull]string uri)
         {
+            // ReSharper disable once ConstantConditionalAccessQualifier
             var queryStartPosition = uri?.IndexOf('?');
             if (queryStartPosition.GetValueOrDefault(-1) != -1)
             { // Uri has a query string

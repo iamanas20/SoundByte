@@ -113,7 +113,7 @@ namespace SoundByte.Core.Items.Track
         public string Kind { get; set; }
 
         [JsonProperty("id")]
-        [JsonConverter(typeof(YouTubeIDConverter))]
+        [JsonConverter(typeof(YouTubeIdConverter))]
         public YouTubeId Id { get; set; }
 
         [JsonProperty("snippet")]

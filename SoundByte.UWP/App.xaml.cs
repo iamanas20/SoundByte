@@ -67,7 +67,6 @@ namespace SoundByte.UWP
 
             // Register the dialogs
             NavigationService.Current.RegisterTypeAsDialog<CrashDialog>();
-            NavigationService.Current.RegisterTypeAsDialog<SearchDialog>();
             NavigationService.Current.RegisterTypeAsDialog<PendingUpdateDialog>();
             NavigationService.Current.RegisterTypeAsDialog<PinTileDialog>();
             NavigationService.Current.RegisterTypeAsDialog<PlaylistDialog>();
@@ -404,7 +403,9 @@ namespace SoundByte.UWP
         [Obsolete("Use await SetLoading(value) instead.")]
         public static bool IsLoading
         {
+#pragma warning disable 4014
             set => SetLoadingAsync(value);
+#pragma warning restore 4014
         }
 
         /// <summary>

@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using Android.App;
 using Android.Support.V7.Widget;
 using Android.Views;
 using SoundByte.Android.Helpers;
 using SoundByte.Android.ViewHolders;
 using SoundByte.Core.Items.Track;
-using Uri = Android.Net.Uri;
 
 namespace SoundByte.Android.Adapters
 {
@@ -15,11 +13,11 @@ namespace SoundByte.Android.Adapters
         // Event handler for item clicks:
         public event EventHandler<int> ItemClick;
 
-        public List<BaseTrack> mBaseTrack;
+        public List<BaseTrack> BaseTrack;
 
         public TrackAdapter(List<BaseTrack> baseTrack)
         {
-            mBaseTrack = baseTrack;
+            BaseTrack = baseTrack;
         }
 
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
@@ -39,12 +37,12 @@ namespace SoundByte.Android.Adapters
             // Set the ImageView and TextView in this ViewHolder's CardView 
             // from this position in the photo album:
 
-            var imageBitmap = HttpHelpers.GetImageBitmapFromUrl(mBaseTrack[position].ArtworkUrl);
+            var imageBitmap = HttpHelpers.GetImageBitmapFromUrl(BaseTrack[position].ArtworkUrl);
             vh.Image.SetImageBitmap(imageBitmap);
-            vh.Caption.Text = mBaseTrack[position].Title;
+            vh.Caption.Text = BaseTrack[position].Title;
         }
 
-        public override int ItemCount => mBaseTrack.Count;
+        public override int ItemCount => BaseTrack.Count;
 
         void OnClick(int position)
         {

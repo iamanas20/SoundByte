@@ -1,10 +1,7 @@
 ﻿using System;
-
 using AppKit;
 using Foundation;
 using SoundByte.Core.Items.Track;
-using System.Threading.Tasks;
-using SoundByte.Core.Services;
 using System.Linq;
 
 namespace SoundByte.MacOS

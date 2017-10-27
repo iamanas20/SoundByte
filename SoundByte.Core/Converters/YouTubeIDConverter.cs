@@ -3,7 +3,7 @@ using System;
 
 namespace SoundByte.Core.Converters
 {
-    public class YouTubeIDConverter : JsonConverter
+    public class YouTubeIdConverter : JsonConverter
     {
         public override bool CanConvert(Type objectType)
         {

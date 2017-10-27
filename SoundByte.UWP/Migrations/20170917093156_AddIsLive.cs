@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SoundByte.UWP.Migrations
 {
@@ -9,8 +7,8 @@ namespace SoundByte.UWP.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<bool>(
-                name: "IsLive",
-                table: "Tracks",
+                "IsLive",
+                "Tracks",
                 nullable: false,
                 defaultValue: false);
         }
@@ -18,8 +16,8 @@ namespace SoundByte.UWP.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "IsLive",
-                table: "Tracks");
+                "IsLive",
+                "Tracks");
         }
     }
 }

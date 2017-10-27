@@ -5,7 +5,6 @@ using Android.Media;
 using Android.Net;
 using Android.Net.Wifi;
 using Android.OS;
-using SoundByte.Core.Items.Track;
 using Uri = Android.Net.Uri;
 
 namespace SoundByte.Android.Services
@@ -131,9 +130,12 @@ namespace SoundByte.Android.Services
                 Icon = Resource.Drawable.abc_spinner_mtrl_am_alpha
             };
             notification.Flags |= NotificationFlags.OngoingEvent;
+
+#pragma warning disable 618
             notification.SetLatestEventInfo(ApplicationContext, "SoundByte",
                             "Now Playing!", pendingIntent);
             StartForeground(NotificationId, notification);
+#pragma warning restore 618
         }
 
         private void Pause()

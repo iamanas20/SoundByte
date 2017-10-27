@@ -87,11 +87,11 @@ namespace SoundByte.Android.Fragments
 
             var intent = new Intent(PlaybackService.ActionPlay);
             intent.SetPackage("SoundByte.Android");
-            intent.PutExtra("URL", "https://api.soundcloud.com/tracks/" + adapter.mBaseTrack[position].Id + "/stream?client_id=" + AppKeys.BackupSoundCloudPlaybackIDs[2]);
+            intent.PutExtra("URL", "https://api.soundcloud.com/tracks/" + adapter.BaseTrack[position].Id + "/stream?client_id=" + AppKeys.BackupSoundCloudPlaybackIDs[2]);
             Activity.StartService(intent);
 
             // Display a toast that briefly shows the enumeration of the selected photo:
-            Toast.MakeText(Activity, "Starting Song: " + adapter.mBaseTrack[position].Title, ToastLength.Short).Show();
+            Toast.MakeText(Activity, "Starting Song: " + adapter.BaseTrack[position].Title, ToastLength.Short).Show();
         }
 
         public static SearchFragment NewInstance()

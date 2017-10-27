@@ -9,17 +9,10 @@ namespace SoundByte.MacOS
     {
         private class KeyObject
         {
-            public string GoogleAnalytics { get; set; }
-            public string HockeyAppClientID { get; set; }
-            public string AzureMobileCenterClientID { get; set; }
+            // ReSharper disable once InconsistentNaming
             public string SoundCloudClientID { get; set; }
-            public string SoundCloudClientSecret { get; set; }
-            public string FanburstClientID { get; set; }
-            public string FanbustClientSecret { get; set; }
-
-            public string YouTubeClientID { get; set; }
-
-            public List<string> BackupSoundCloudPlaybackIDs { get; set; }
+            // ReSharper disable once InconsistentNaming
+            public string SoundCloudClientSecret { get; set; }          
         }
 
         static void Main(string[] args)

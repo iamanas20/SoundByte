@@ -11,7 +11,6 @@
  */
 
 using System.Collections.Generic;
-using System.Net;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
@@ -22,7 +21,6 @@ using Microsoft.Azure.Mobile.Distribute;
 using SoundByte.Core;
 using SoundByte.Core.Items;
 using SoundByte.Core.Services;
-using Xamarin.Android.Net;
 
 namespace SoundByte.Android.Activities
 {
