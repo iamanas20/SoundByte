@@ -203,7 +203,9 @@
     </Compile>
     <Compile Include="Migrations\HistoryContextModelSnapshot.cs" />
     <Compile Include="Models\BaseModel.cs" />
+    <Compile Include="Models\FanburstTrendingModel.cs" />
     <Compile Include="Models\Search\SearchYouTubeTrackModel.cs" />
+    <Compile Include="Models\YouTubeTrendingMusicModel.cs" />
     <Compile Include="Resources\DataTemplates.cs" />
     <Compile Include="AppShell.xaml.cs">
       <DependentUpon>AppShell.xaml</DependentUpon>
@@ -260,6 +262,9 @@
     </Compile>
     <Compile Include="Views\ExploreView.xaml.cs">
       <DependentUpon>ExploreView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SoundCloudExploreView.xaml.cs">
+      <DependentUpon>SoundCloudExploreView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Application\WhatsNewView.xaml.cs">
       <DependentUpon>WhatsNewView.xaml</DependentUpon>
@@ -417,6 +422,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ExploreView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SoundCloudExploreView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

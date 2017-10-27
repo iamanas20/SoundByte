@@ -40,11 +40,11 @@ namespace SoundByte.UWP.ViewModels.Search
 
         public SearchViewModel()
         {
-            SearchTracks = new SearchSoundCloudTrackModel { ModelHeader = "Search", ModelType = "SOUNDCLOUD TRACKS"};
-            FanburstTracks = new SearchFanburstTrackModel { ModelHeader = "Search", ModelType = "FANBURST TRACKS" };
+            SearchTracks = new SearchSoundCloudTrackModel { ModelHeader = "Search", ModelType = "SoundCloud Tracks"};
+            FanburstTracks = new SearchFanburstTrackModel { ModelHeader = "Search", ModelType = "Fanburst Tracks" };
             SearchPlaylists = new SearchSoundCloudPlaylistModel();
             SearchUsers = new SearchSoundCloudUserModel();
-            YouTubeTracks = new SearchYouTubeTrackModel { ModelHeader = "Search", ModelType = "YOUTUBE VIDEOS" };
+            YouTubeTracks = new SearchYouTubeTrackModel { ModelHeader = "Search", ModelType = "Youtube Videos" };
         }
         #endregion
 

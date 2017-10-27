@@ -11,81 +11,71 @@
  */
 
 using System;
-using System.Linq;
-using Windows.UI.Popups;
-using Windows.UI.Xaml.Controls;
 using SoundByte.Core.Items.Track;
 using SoundByte.UWP.Models;
 using SoundByte.UWP.Services;
-using SoundByte.UWP.ViewModels;
+using Windows.UI.Popups;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
+using SoundByte.UWP.Views.Search;
 
 namespace SoundByte.UWP.Views
 {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class ExploreView 
+    public sealed partial class ExploreView : Page
     {
-        /// <summary>
-        ///     The likes model that contains or the users liked tracks
-        /// </summary>
-        public ChartModel ChartsModel { get; } = new ChartModel();
+        public ChartModel ExploreTracks { get; } = new ChartModel();
 
-        public ExploreView()
+        public YouTubeTrendingMusicModel YouTubeTracks { get; } = new YouTubeTrendingMusicModel { ModelHeader = "Trending ", ModelType = "YouTube" };
+
+        public FanburstTrendingModel FanburstTracks { get; } = new FanburstTrendingModel { ModelHeader = "Trending ", ModelType = "Fanburst" };
+
+        public ExploreView() 
         {
             InitializeComponent();
-        }
 
-        public async void PlayAllChartItems()
-        {
-            if (ChartsModel.FirstOrDefault() == null)
-                return;
-
-            var startPlayback =
-                await PlaybackService.Instance.StartModelMediaPlaybackAsync(ChartsModel);
-            if (!startPlayback.success)
-                await new MessageDialog(startPlayback.message, "Error playing track.").ShowAsync();
-        }
-
-        public async void PlayShuffleChartItems()
-        {
-            await BaseViewModel.ShuffleTracksAsync(ChartsModel);
+            NavigationCacheMode = NavigationCacheMode.Enabled;
+            ExploreTracks.Kind = "top";
+            ExploreTracks.Genre = "all-music";
         }
 
         public async void PlayChartItem(object sender, ItemClickEventArgs e)
         {
-            var startPlayback = await PlaybackService.Instance.StartModelMediaPlaybackAsync(ChartsModel, false, (BaseTrack)e.ClickedItem);
+            var startPlayback = await PlaybackService.Instance.StartModelMediaPlaybackAsync(ExploreTracks, false, (BaseTrack)e.ClickedItem);
             if (!startPlayback.success)
                 await new MessageDialog(startPlayback.message, "Error playing track.").ShowAsync();
         }
 
-        /// <summary>
-        ///     Combobox for trending selection and
-        ///     type of song.
-        /// </summary>
-        public void OnComboBoxChanged(object sender, SelectionChangedEventArgs e)
+        public async void PlayYouTubeItem(object sender, ItemClickEventArgs e)
         {
-            // Dislay the loading ring
-            App.IsLoading = true;
-
-            // Get the combo box
-            var comboBox = sender as ComboBox;
-
-            // See which combo box we got
-            switch (comboBox?.Name)
-            {
-                case "ExploreTypeCombo":
-                    ChartsModel.Kind = (comboBox.SelectedItem as ComboBoxItem)?.Tag.ToString();
-                    break;
-                case "ExploreGenreCombo":
-                    ChartsModel.Genre = (comboBox.SelectedItem as ComboBoxItem)?.Tag.ToString();
-                    break;
-            }
-
-            ChartsModel.RefreshItems();
-
-            // Hide loading ring
-            App.IsLoading = false;
+            var startPlayback = await PlaybackService.Instance.StartModelMediaPlaybackAsync(YouTubeTracks, false, (BaseTrack)e.ClickedItem);
+            if (!startPlayback.success)
+                await new MessageDialog(startPlayback.message, "Error playing track.").ShowAsync();
         }
+
+        public async void PlayFanburstItem(object sender, ItemClickEventArgs e)
+        {
+            var startPlayback = await PlaybackService.Instance.StartModelMediaPlaybackAsync(FanburstTracks, false, (BaseTrack)e.ClickedItem);
+            if (!startPlayback.success)
+                await new MessageDialog(startPlayback.message, "Error playing track.").ShowAsync();
+        }
+
+        public void NavigateMoreCharts()
+        {
+            App.NavigateTo(typeof(SoundCloudExploreView));
+        }
+
+        public void NavigateMoreYouTube()
+        {
+            App.NavigateTo(typeof(SearchTrackView), YouTubeTracks);
+        }
+
+        public void NavigateMoreFanburst()
+        {
+            App.NavigateTo(typeof(SearchTrackView), FanburstTracks);
+        }
+
     }
 }

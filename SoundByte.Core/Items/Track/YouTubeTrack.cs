@@ -18,6 +18,8 @@ using SoundByte.Core.Items.Comment;
 using SoundByte.Core.Items.User;
 using SoundByte.Core.Services;
 using System.Threading;
+using SoundByte.Core.Converters;
+using System.Xml;
 
 namespace SoundByte.Core.Items.Track
 {
@@ -100,14 +102,25 @@ namespace SoundByte.Core.Items.Track
             public string LiveBroadcastContent { get; set; }
         }
 
+        [JsonObject]
+        public class YouTubeContentDetails
+        {
+            [JsonProperty("duration")]
+            public string Duration { get; set; }
+        }
+
         [JsonProperty("kind")]
         public string Kind { get; set; }
 
         [JsonProperty("id")]
+        [JsonConverter(typeof(YouTubeIDConverter))]
         public YouTubeId Id { get; set; }
 
         [JsonProperty("snippet")]
         public YouTubeSnippet Snippet { get; set; }
+
+        [JsonProperty("contentDetails")]
+        public YouTubeContentDetails ContentDetails { get; set; }
 
         public BaseTrack AsBaseTrack => ToBaseTrack();
 
@@ -126,6 +139,7 @@ namespace SoundByte.Core.Items.Track
                 Title = Snippet.Title,
                 Description = Snippet.Description,
                 Created = DateTime.Parse(Snippet.PublishedAt),
+                Duration = XmlConvert.ToTimeSpan(ContentDetails.Duration),
                 Genre = "YouTube",
                 User = new BaseUser
                 {

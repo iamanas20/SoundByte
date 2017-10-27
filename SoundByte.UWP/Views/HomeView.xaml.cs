@@ -49,7 +49,7 @@ namespace SoundByte.UWP.Views
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             if (!SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud))
-                App.NavigateTo(typeof(ExploreView));
+                App.NavigateTo(typeof(SoundCloudExploreView));
 
             // Track Event
             TelemetryService.Instance.TrackPage("Home View");

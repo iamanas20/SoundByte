@@ -140,7 +140,7 @@ namespace SoundByte.UWP
                     });
 
                 // Navigate home if we connected SoundCloud, else navigate to explore
-                NavigateTo(type == ServiceType.SoundCloud ? typeof(HomeView) : typeof(ExploreView));
+                NavigateTo(type == ServiceType.SoundCloud ? typeof(HomeView) : typeof(SoundCloudExploreView));
             };
 
             // Run this code when a service is disconencted from SoundByte
@@ -172,7 +172,7 @@ namespace SoundByte.UWP
                     });
 
                 // Navigate to the explore view
-                NavigateTo(typeof(ExploreView));
+                NavigateTo(typeof(SoundCloudExploreView));
             };
         }
 
