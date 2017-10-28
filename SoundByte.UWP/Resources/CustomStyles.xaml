@@ -806,9 +806,9 @@
     
     <!-- Page title style -->
     <Style x:Key="TitleStyle" TargetType="TextBlock">
-        <Setter Property="Opacity" Value="0.9" />
+        <Setter Property="Opacity" Value="1" />
         <Setter Property="FontSize" Value="46" />
-        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="FontWeight" Value="Bold" />
         <Setter Property="Margin" Value="0,25,0,0" />
     </Style>
 

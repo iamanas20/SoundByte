@@ -150,8 +150,6 @@ namespace SoundByte.UWP.Views
             moreInfoAnimation.Start();
 
             TrackInfoHolder.Offset(0, 0, 450).Scale(1, 1, 0, 0, 450).Start();
-
-            BlurOverlay.Fade(0, 450).Start();
         }
 
         private void ShowOverlay()
@@ -179,8 +177,6 @@ namespace SoundByte.UWP.Views
             TrackInfoHolder
                 .Offset(0, -1.0f * ((float) RootGrid.ActualHeight - (float) TrackInfoHolder.ActualHeight - 40), 450)
                 .Scale(0.8f, 0.8f, 0, 0, 450).Start();
-
-            BlurOverlay.Fade(1, 450).Start();
         }
 
         /// <summary>

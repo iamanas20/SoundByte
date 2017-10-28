@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:uiElements="using:SoundByte.UWP.UserControls"
+    xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
 
@@ -49,7 +50,8 @@
                               IsSwipeEnabled="False"
                               IsItemClickEnabled="True"
                               ItemClick="{x:Bind PlayChartItem}"
-                              IsMultiSelectCheckBoxEnabled="False"                        
+                              IsMultiSelectCheckBoxEnabled="False"       
+                              animations:ReorderGridAnimation.Duration="150"
                               HorizontalAlignment="Stretch">
                         <GridView.ItemsPanel>
                             <ItemsPanelTemplate>
@@ -91,6 +93,7 @@
                               IsSwipeEnabled="False"
                               IsItemClickEnabled="True"
                               ItemClick="{x:Bind PlayYouTubeItem}"
+                              animations:ReorderGridAnimation.Duration="150"
                               IsMultiSelectCheckBoxEnabled="False"                        
                               HorizontalAlignment="Stretch">
                         <GridView.ItemsPanel>
@@ -133,6 +136,7 @@
                               IsSwipeEnabled="False"
                               IsItemClickEnabled="True"
                               ItemClick="{x:Bind PlayFanburstItem}"
+                              animations:ReorderGridAnimation.Duration="150"
                               IsMultiSelectCheckBoxEnabled="False"                        
                               HorizontalAlignment="Stretch">
                         <GridView.ItemsPanel>

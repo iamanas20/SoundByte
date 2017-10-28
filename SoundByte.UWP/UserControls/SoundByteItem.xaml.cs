@@ -116,27 +116,25 @@ namespace SoundByte.UWP.UserControls
 
         private void SoundByteItem_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
         {
-            UnloadObject((Grid)FindName("DesktopPlaylistItem"));
-            UnloadObject((Grid)FindName("DesktopTrackItem"));
-            UnloadObject((Grid)FindName("DesktopUserItem"));
+            DesktopUserItem.Visibility = Visibility.Collapsed;
+            DesktopTrackItem.Visibility = Visibility.Collapsed;
+            DesktopUserItem.Visibility = Visibility.Collapsed;
 
             switch (ItemType)
             {
                 case ItemType.Playlist:
                     // Generate and show the desktop playlist item
-                    ((Grid)FindName("DesktopPlaylistItem")).Visibility = Visibility.Visible;
+                    DesktopPlaylistItem.Visibility = Visibility.Visible;
                     break;
                 case ItemType.Track:
-                        // Generate and show the desktop track item
-                        ((Grid)FindName("DesktopTrackItem")).Visibility = Visibility.Visible;
-
-                        // Update the visibilty
-                        TrackNowPlaying.Visibility = PlaybackService.Instance.CurrentTrack?.Id == Track?.Id ? Visibility.Visible : Visibility.Collapsed;
-                    
+                    // Generate and show the desktop track item
+                    DesktopTrackItem.Visibility = Visibility.Visible;
+                    // Update the visibilty
+                    TrackNowPlaying.Visibility = PlaybackService.Instance.CurrentTrack?.Id == Track?.Id ? Visibility.Visible : Visibility.Collapsed;                   
                     break;
                 case ItemType.User:
                     // Generate and show the desktop user item
-                    ((Grid)FindName("DesktopUserItem")).Visibility = Visibility.Visible;
+                    DesktopUserItem.Visibility = Visibility.Visible;
                     break;
             }
         }

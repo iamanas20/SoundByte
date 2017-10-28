@@ -5,7 +5,7 @@
     Height="38">
 
     <HyperlinkButton x:Name="MainButton"
-                     Opacity="0.8"
+                     Opacity="1"
                      Foreground="{ThemeResource AppBarButtonForeground}">
         <HyperlinkButton.Content>
             <StackPanel Orientation="Horizontal">

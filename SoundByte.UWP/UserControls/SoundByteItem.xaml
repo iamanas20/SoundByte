@@ -18,8 +18,7 @@
               Background="#00FFFFFF"
               IsHitTestVisible="True"
               Height="245"
-              Width="170"
-              x:Load="False">
+              Width="170">
             <StackPanel Orientation="Vertical">
                 <controls:DropShadowPanel x:Name="UserDropShadow"
                                           
@@ -72,8 +71,7 @@
               IsHitTestVisible="true"
               Height="245"
               Width="170"
-              Margin="5"
-              x:Load="False">
+              Margin="5">
             
             <!-- All Content -->
             <StackPanel Orientation="Vertical">
@@ -177,8 +175,7 @@
               Visibility="Collapsed"
               Height="245"
               Width="170"
-              Margin="5"
-              x:Load="False">
+              Margin="5">
 
             <!-- Context menu for track -->
             <Grid.ContextFlyout>

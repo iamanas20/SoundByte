@@ -58,16 +58,29 @@
         <!-- Page Styles -->
         <MenuFlyout x:Key="MenuFlyout">
             <MenuFlyoutItem Click="{x:Bind ViewModel.ShareTrack}" Text="Share" />
+            
             <MenuFlyoutItem Click="{x:Bind ViewModel.DisplayPlaylist}" Text="Playlists" />
+            
+            <MenuFlyoutSeparator Opacity="0.4" />
+            
+            <MenuFlyoutItem Click="{x:Bind ViewModel.PinTile}" Text="{x:Bind ViewModel.PinButtonText, Mode=TwoWay}" />
+
             <MenuFlyoutItem Click="{x:Bind ViewModel.Service.ToggleShuffle}" Text="Shuffle"
                             FontWeight="{x:Bind ViewModel.Service.IsShuffleEnabled, Mode=OneWay, Converter={StaticResource BoolToFontWeightConverter}}" />
+            
             <MenuFlyoutItem Click="{x:Bind ViewModel.Service.ToggleRepeat}" Text="Repeat"
                             FontWeight="{x:Bind ViewModel.Service.IsRepeatEnabled, Mode=OneWay, Converter={StaticResource BoolToFontWeightConverter}}" />
-            <MenuFlyoutSeparator Opacity="0.4" />
-            <MenuFlyoutItem Click="{x:Bind ViewModel.PinTile}" Text="{x:Bind ViewModel.PinButtonText, Mode=TwoWay}" />
-            <MenuFlyoutItem Click="{x:Bind ViewModel.RepostTrack}"
-                            Text="{x:Bind ViewModel.RepostButtonText, Mode=TwoWay}" />
+           
+           
         </MenuFlyout>
+
+        <AcrylicBrush x:Key="TrackBackgroundAcrylicBrush"
+                      BackgroundSource="Backdrop"
+                       TintTransitionDuration="0"
+                      TintColor="#FF000000"
+                      TintOpacity="0.6"
+                      FallbackColor="#FF000000"/>
+
     </Page.Resources>
     <Grid Background="{ThemeResource ShellBackground}" 
           
@@ -98,52 +111,31 @@
                       Opacity="0"
                       IsLooping="False" />
         
-        <!-- Transparent element that covers background canvas, makes image darker so white text and icons are easy to see -->
-        <Grid x:Name="Overlay"
-              Canvas.ZIndex="3"
+        <!-- blur for overlay -->
+        <Grid Canvas.ZIndex="2"
               Margin="-40"
               HorizontalAlignment="Stretch"
               VerticalAlignment="Stretch"
-              IsHitTestVisible="False">
-            <Grid.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#EE000000" Offset="1" />
-                    <GradientStop />
-                </LinearGradientBrush>
-            </Grid.Background>
-        </Grid>
-
-        <!-- blur for overlay -->
-        <Grid Margin="-40"
-              x:Name="BlurOverlay"
-              Opacity="0"
-              Canvas.ZIndex="2"
-              HorizontalAlignment="Stretch"
-              VerticalAlignment="Stretch"
               RequestedTheme="Dark"
-              Background="{ThemeResource SystemControlAcrylicElementMediumHighBrush}"
+              Background="{ThemeResource TrackBackgroundAcrylicBrush     }"
               IsHitTestVisible="False" />
 
         <Grid x:Name="TrackInfoHolder" VerticalAlignment="Bottom" Canvas.ZIndex="10" Margin="-40,0,0,0">
             <!-- track artwork -->
             <controls:DropShadowPanel Canvas.ZIndex="30"
-                                      Width="150"
-                                      Height="150"
-                                      Margin="40,0,0,130"
+                                      Width="180"
+                                      Height="180"
+                                      Margin="40,0,0,150"
                                       HorizontalAlignment="Left"
                                       IsTabStop="False"
                                       IsHitTestVisible="False"
-                                      BlurRadius="80"
-                                      ShadowOpacity="0.7"
+                                      BlurRadius="50"
+                                      ShadowOpacity="0.8"
                                       OffsetX="0"
-                                      OffsetY="5"
+                                      OffsetY="15"
                                       Color="Black">
-                <Grid CornerRadius="1" 
-                      Height="150"
-                      Width="150">
+                <Grid CornerRadius="1">
                     <Image x:Name="ArtworkImage"
-                           Height="150"
-                           Width="150"
                            IsHitTestVisible="False"
                            Stretch="UniformToFill"
                            Source="{x:Bind Path=ViewModel.Service.CurrentTrack, Mode=OneWay, Converter={StaticResource ArtworkConverter}}" />
@@ -152,19 +144,21 @@
                 
             </controls:DropShadowPanel>
 
-            <Grid Margin="220,0,0,120" Height="150">
+            <Grid Margin="260,0,0,150" Height="180">
                 <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center">
+                    
                     <TextBlock Text="{x:Bind Path=ViewModel.Service.CurrentTrack.Title, Mode=OneWay}"
-                               TextTrimming="CharacterEllipsis" MaxHeight="42" Margin="0,0,0,2" TextWrapping="Wrap"
-                               VerticalAlignment="Top" FontSize="29" FontWeight="SemiLight" Foreground="White" />
+                               TextTrimming="CharacterEllipsis" MaxHeight="82" Margin="0,0,0,2" TextWrapping="WrapWholeWords"
+                               VerticalAlignment="Top" FontSize="30" FontWeight="SemiBold" Foreground="White" />
+                    
                     <HyperlinkButton VerticalAlignment="Top" Click="{x:Bind ViewModel.GoToUserProfile}" >
                         <HyperlinkButton.Content>
                             <TextBlock Text="{x:Bind Path=ViewModel.Service.CurrentTrack.User.Username, Mode=OneWay}" 
                                        TextWrapping="Wrap" 
                                        Foreground="#FFFFFF" 
                                        FontSize="18" 
-                                       Opacity="0.9" 
-                                       FontWeight="SemiLight" />
+                                       Opacity="0.6" 
+                                       FontWeight="Normal" />
                         </HyperlinkButton.Content>
                     </HyperlinkButton>
                 </StackPanel>
@@ -173,7 +167,7 @@
 
         <!-- Holds the lower navigation buttons -->
         <Grid Canvas.ZIndex="40" x:Name="ButtonHolder" VerticalAlignment="Bottom" Margin="-40,0,0,0">
-            <Grid Margin="40,0,40,65">
+            <Grid Margin="40,0,40,75">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />

@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:uiElements="using:SoundByte.UWP.UserControls"
+    xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
     Transitions="{StaticResource MainTransition}">
 
     <Grid Background="Transparent" x:Name="RootGrid">
@@ -62,6 +63,7 @@
                               IsSwipeEnabled="False"
                               IsItemClickEnabled="True"
                               ItemClick="{x:Bind ViewModel.NavigateTrack}"
+                              animations:ReorderGridAnimation.Duration="150"
                               IsMultiSelectCheckBoxEnabled="False"                        
                               HorizontalAlignment="Stretch">
                         <GridView.ItemsPanel>
@@ -104,6 +106,7 @@
                               IsSwipeEnabled="False"
                               IsItemClickEnabled="True"
                               ItemContainerStyle="{StaticResource MainGridViewItem}"
+                              animations:ReorderGridAnimation.Duration="150"
                               ItemClick="{x:Bind ViewModel.NavigateTrack}"
                               IsMultiSelectCheckBoxEnabled="False"
                               HorizontalAlignment="Stretch">
@@ -148,6 +151,7 @@
                               IsSwipeEnabled="False"
                               IsItemClickEnabled="True"
                               ItemContainerStyle="{StaticResource MainGridViewItem}"
+                              animations:ReorderGridAnimation.Duration="150"
                               ItemClick="{x:Bind ViewModel.NavigateTrack}"
                               IsMultiSelectCheckBoxEnabled="False"
                               HorizontalAlignment="Stretch">
@@ -214,6 +218,7 @@
                               ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                               ScrollViewer.VerticalScrollBarVisibility="Hidden"
                               ItemsSource="{x:Bind Path=ViewModel.SearchPlaylists, Mode=OneWay}"
+                              animations:ReorderGridAnimation.Duration="150"
                               ItemTemplate="{StaticResource PlaylistItem}"
                               SelectionMode="None"
                               ItemContainerStyle="{StaticResource MainGridViewItem}"
@@ -259,6 +264,7 @@
                               ItemContainerStyle="{StaticResource MainGridViewItem}"
                               ItemClick="{x:Bind ViewModel.NavigateSoundCloudUser}"
                               IsMultiSelectCheckBoxEnabled="False"
+                              animations:ReorderGridAnimation.Duration="150"
                               HorizontalAlignment="Stretch" >
                         <GridView.ItemsPanel>
                             <ItemsPanelTemplate>

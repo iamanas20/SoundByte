@@ -5,6 +5,7 @@
     xmlns:elements="using:SoundByte.UWP.UserControls"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
+    xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
     NavigationCacheMode="Enabled"
     Transitions="{StaticResource MainTransition}">
     <Page.Resources>
@@ -44,6 +45,7 @@
                   ItemClick="{x:Bind ViewModel.NavigateStream}"
                   ItemContainerStyle="{StaticResource MainGridViewItem}"
                   ItemsPanel="{StaticResource DesktopGridPanel}"
+                  animations:ReorderGridAnimation.Duration="150"
                   HorizontalAlignment="Stretch"
                   VerticalAlignment="Stretch">
             <GridView.Header>

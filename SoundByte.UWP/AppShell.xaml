@@ -27,9 +27,7 @@
                         <AdaptiveTrigger MinWindowWidth="560" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="ShellFrame.Padding" Value="32,0,0,0" />
                         <Setter Target="RootGrid.Background" Value="{ThemeResource NavigationViewExpandedPaneBackground}" />
-
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -46,7 +44,7 @@
                      Visibility="Collapsed" />
 
         <!-- Xbox Specific Items -->
-        <Grid x:Name="XboxOnlyGrid" Visibility="Collapsed">
+        <Grid x:Name="XboxOnlyGrid" Visibility="Collapsed" x:Load="False">
             <!-- Background current track image -->
             <controls:ImageEx Source="{x:Bind Service.CurrentTrack, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
                               PlaceholderSource="Assets/Misc/XboxBG.png"
@@ -181,7 +179,7 @@
 
 
             <!-- Main Frame Content -->
-            <Grid Canvas.ZIndex="20" Padding="0,32,0,0" Margin="0,0,0,0">
+            <Grid Canvas.ZIndex="20">
                 <!-- Shadow for now playing bar -->
                 <Canvas x:Name="ShellFrameShadow"
                             HorizontalAlignment="Stretch"
@@ -191,7 +189,6 @@
                 <!-- Main Page Content will be rendered here -->
                 <Frame x:Name="ShellFrame"
                            TabIndex="1"
-                           Padding="12"
                            Background="{ThemeResource ShellBackground}"
                            Navigated="ShellFrame_Navigated"
                            HorizontalAlignment="Stretch"
