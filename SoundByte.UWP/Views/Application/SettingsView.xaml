@@ -7,14 +7,14 @@
 
     <Grid Background="Transparent">
         <ScrollViewer>
-            <StackPanel>
+            <StackPanel Padding="{ThemeResource PagePadding}">
                 <TextBlock Style="{StaticResource TitleStyle}" Text="Settings" />
 
                 <!-- About App -->
                 <TextBlock Text="About SoundByte" 
                            Style="{StaticResource SubTitleStyle}" />
 
-                <TextBlock Text="SoundByte is a beautiful music client built for Windows 10 &amp; Xbox One. SoundByte supports muiltiple services such as SoundCloud, Fanburst and YouTube. Features include listening to music in the background (with gapless playback), watching YouTube music videos, easily searching accross muiltiple services, creating playlists and much more!" 
+                <TextBlock Text="SoundByte is your go to beautiful music client built for Windows 10 &amp; Xbox One. SoundByte lets you listen to indie artists via SoundCloud and Fanburst, popular artists via YouTube and your favourite podcasts via iTunes and custom providers." 
                            Style="{StaticResource TextStyle}" />
 
                 <TextBlock Text="SoundByte is designed to be easily extendable. This allows easy additions of more services. Check out the SoundByte GitHub page (linked below) for more information."

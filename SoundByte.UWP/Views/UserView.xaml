@@ -96,7 +96,7 @@
         <ScrollViewer x:Name="MainScrollViewer"
                       ViewChanged="MainScrollViewerViewChanged"
                       HorizontalAlignment="Stretch">
-            <Grid>
+            <Grid Padding="{ThemeResource PagePadding}">
                 <Grid x:Name="HeaderPanel" VerticalAlignment="Top">
                     <!-- User Image -->
                     <controls:DropShadowPanel HorizontalAlignment="Left" Margin="20,50,0,0"

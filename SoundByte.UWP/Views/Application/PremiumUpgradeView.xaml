@@ -9,113 +9,57 @@
     <Grid Background="Transparent" x:Name="RootGrid">
         <ScrollViewer HorizontalAlignment="Stretch"
                       VerticalScrollBarVisibility="Hidden">
-            <StackPanel>
+            <StackPanel Padding="{ThemeResource PagePadding}">
                 <TextBlock Style="{StaticResource TitleStyle}" 
                            Text="SoundByte Premium" />
+
+                <TextBlock Text="Introduction (Under development)" 
+                           Style="{StaticResource SubTitleStyle}" />
+
+                <TextBlock Style="{StaticResource TextStyle}"
+                           Text="SoundByte premium is still under development, so it is not recommended to buy this product untill it is ready (unless you want to help out with development costs). " />
 
                 <TextBlock Text="What do I get?" 
                            Style="{StaticResource SubTitleStyle}" />
 
                 <TextBlock Style="{StaticResource TextStyle}"
-                           Text="SoundByte premium is still under development, in the mean time, feel free to donate. People who have donated or bought the app in the past will automatically have SoundByte premium." />
+                           Text="- The ability to download supported Fanburst, SoundCloud and YouTube songs." />
 
-                <VariableSizedWrapGrid Orientation="Horizontal" Margin="-5,-5,-5,0">
-                    <!-- Loose Change -->
-                    <Grid Padding="0" Margin="5">
-                        <StackPanel Orientation="Vertical"
-                                    Margin="0"
-                                    Width="170"
-                                    Padding="0,15,0,0"
-                                    Background="{ThemeResource SystemControlAcrylicElementMediumHighBrush }">
-                            <!-- Icon -->
-                            <TextBlock Text="&#xE006;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center"
-                                       Padding="5" TextAlignment="Center" FontSize="48" />
-                            <!-- Description and button-->
-                            <TextBlock Text="Loose Change" Opacity="0.8" Padding="40,10" TextAlignment="Center" />
-                            <TextBlock x:Name="LooseChangePrice" Text="Unknown" TextAlignment="Center"
-                                       Opacity="0.6" Padding="10,0,10,10" />
+                <TextBlock Style="{StaticResource TextStyle}"
+                           Text="- The ability to download podcasts and sync them accross devices using OneDrive." />
 
-                            <Button  Click="DonateLooseChange" Background="{ThemeResource SystemControlHighlightAccentBrush}" HorizontalAlignment="Stretch" BorderThickness="0" Padding="10,15">
-                                <TextBlock Text="Donate" TextAlignment="Center" FontSize="16" RequestedTheme="Dark" />
-                            </Button>
-                        </StackPanel>
-                    </Grid>
+                <TextBlock Style="{StaticResource TextStyle}"
+                           Text="- The warm fuzzy feeling when you help out a young developer who hates ads :)" />
 
-                    <!-- Small Coffee -->
-                    <Grid Padding="0" Margin="5">
-                        <StackPanel Orientation="Vertical"
-                                        Margin="0"
-                                        Width="170"
-                                        Padding="0,15,0,0"
-                                    Background="{ThemeResource SystemControlAcrylicElementMediumHighBrush }">
-                            <!-- Icon -->
-                            <TextBlock Text="&#xE006;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center"
-                                           Padding="5" TextAlignment="Center" FontSize="48" />
-                            <!-- Description and button-->
-                            <TextBlock Text="Small Coffee" Opacity="0.8" Padding="40,10" TextAlignment="Center" />
-                            <TextBlock x:Name="SmallCoffeePrice" Text="Unknown" TextAlignment="Center"
-                                           Opacity="0.6" Padding="10,0,10,10" />
+                <TextBlock Style="{StaticResource TextStyle}"
+                           Text="- Cross device features, play songs on one device, continue playing on another device." />
 
-                            <Button Click="DonateSmall" Background="{ThemeResource SystemControlHighlightAccentBrush}" BorderThickness="0" HorizontalAlignment="Stretch" Padding="10,15">
-                                <TextBlock Text="Donate" TextAlignment="Center" FontSize="16" RequestedTheme="Dark" />
-                            </Button>
-                        </StackPanel>
-                    </Grid>
+                <TextBlock Style="{StaticResource TextStyle}"
+                           Text="- Cross platform features (when ready), play songs on your PC, continue playing on your phone." />
 
-                    <!-- Regular Coffee -->
-                    <Grid Padding="0" Margin="5">
-                        <StackPanel Orientation="Vertical"
-                                        Margin="0"
-                                        Width="170"
-                                        Padding="0,15,0,0"
-                                        Background="{ThemeResource SystemControlAcrylicElementMediumHighBrush }">
-                            <!-- Icon -->
-                            <TextBlock Text="&#xE006;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center"
-                                           Padding="5" TextAlignment="Center" FontSize="48" />
-                            <!-- Description and button-->
-                            <TextBlock Text="Regular Coffee" Opacity="0.8" Padding="40,10" TextAlignment="Center" />
-                            <TextBlock x:Name="RegularCoffeePrice" Text="Unknown" TextAlignment="Center"
-                                           Opacity="0.6" Padding="10,0,10,10" />
+                <TextBlock Text="How do I get it?" 
+                           Style="{StaticResource SubTitleStyle}" />
 
-                            <Button Click="DonateRegular" Background="{ThemeResource SystemControlHighlightAccentBrush}" BorderThickness="0" HorizontalAlignment="Stretch" Padding="10,15">
-                                <TextBlock Text="Donate" TextAlignment="Center" FontSize="16" RequestedTheme="Dark" />
-                            </Button>
-                        </StackPanel>
-                    </Grid>
+                <TextBlock Style="{StaticResource TextStyle}"
+                           Text="Have you previously donated or bought SoundByte (before it went free)? Due to limitations I cannot detect if your have donated or bought the app in the past. If you click the link below and send proof of purchase, I will send you a code to get premium for free! If you are new, purchasing SoundByte Premium is easy. You have two options, buy the one-time addon, or buy the subscription (first month free). " />
 
-                    <!-- Large Coffee -->
-                    <Grid Padding="0" Margin="5">
-                        <StackPanel Orientation="Vertical"
-                                        Margin="0"
-                                        Width="170"
-                                        Padding="0,15,0,0"
-                                    Background="{ThemeResource SystemControlAcrylicElementMediumHighBrush }">
-                            <!-- Icon -->
-                            <TextBlock Text="&#xE006;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center"
-                                           Padding="5" TextAlignment="Center" FontSize="48" />
-                            <!-- Description and button-->
-                            <TextBlock Text="Large Coffee" Opacity="0.8" Padding="40,10" TextAlignment="Center" />
-                            <TextBlock x:Name="LargeCoffeePrice" Text="Unknown" TextAlignment="Center"
-                                           Opacity="0.6" Padding="10,0,10,10" />
+                <HyperlinkButton Content="Previously bought or donated?"  NavigateUri="mailto:soundbyteuwp@gmail.com" Style="{StaticResource LinkStyle}"  />
 
-                            <Button Click="DonateLarge" Background="{ThemeResource SystemControlHighlightAccentBrush}" HorizontalAlignment="Stretch" BorderThickness="0" Padding="10,15">
-                                <TextBlock Text="Donate" TextAlignment="Center" FontSize="16" RequestedTheme="Dark" />
-                            </Button>
-                        </StackPanel>
-                    </Grid>
-                </VariableSizedWrapGrid>
 
-                <TextBlock Opacity="0.9" FontSize="16" Margin="0,8,0,18" HorizontalAlignment="Left" TextWrapping="Wrap"
-                           Text="Thank you! If you have any questions, feel free to contact me below.&#x0a;- Dominic Maas" />
+                <HyperlinkButton Content="Buy SoundByte Premium ($--.--)" Style="{StaticResource LinkStyle}"  />
+                <HyperlinkButton Content="Subscribe to SoundByte Premium ($--.-- / month)" Style="{StaticResource LinkStyle}"  />
 
-                <HyperlinkButton Margin="0,5,0,-5" ContentTemplate="{StaticResource HyperlinkClean}"
-                                 Foreground="{ThemeResource DefaultTextForegroundThemeBrush}"
-                                 FontWeight="SemiBold"
-                                 Content="Email: (dominic.maas@live.com)" NavigateUri="mailto:dominic.maas@live.com" />
-                <HyperlinkButton ContentTemplate="{StaticResource HyperlinkClean}" Content="Twitter: (@dominicjmaas)"
-                                 Foreground="{ThemeResource DefaultTextForegroundThemeBrush}"
-                                 FontWeight="SemiBold"
-                                 NavigateUri="https://gridentertainment.net/fwlink/2GOYlyY4zK" />
+
+                <TextBlock Text="Donate" 
+                           Style="{StaticResource SubTitleStyle}" />
+
+                <TextBlock Style="{StaticResource TextStyle}"
+                           Text="- SoundByte premium is not ready yet, but feel free to donate!" />
+
+                <TextBlock Text="Status: Please Wait..." 
+                           x:Name="PremuimStatus"
+                           Style="{StaticResource SubTitleStyle}" Foreground="Orange" />
+
             </StackPanel>
         </ScrollViewer>
     </Grid>

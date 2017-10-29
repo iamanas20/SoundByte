@@ -12,14 +12,14 @@
 
     <Grid Background="Transparent">
         <ScrollViewer>
-            <StackPanel Orientation="Vertical">
+            <StackPanel Orientation="Vertical" Padding="{ThemeResource PagePadding}">
                 <Grid Margin="10,0,40,0">
                     <TextBlock Text="Explore"
                                Style="{StaticResource TitleStyle}" />
                 </Grid>
 
                 <!-- SoundCloud Header -->
-                <Grid Margin="10,0,30,10">
+                <Grid Margin="10,0,0,10">
                     <TextBlock Text="Popular SoundCloud Tracks" 
                                Style="{StaticResource SubTitleStyle}"
                                VerticalAlignment="Center"
@@ -30,8 +30,7 @@
                                                 Glyph="&#xE8A9;"/>
                 </Grid>
 
-                <Grid Height="260"
-                      Margin="0,0,30,0">
+                <Grid Height="260">
                     <uiElements:InfoPane VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
                                          Visibility="Collapsed" Canvas.ZIndex="50"
                                          Header="{x:Bind ExploreTracks.ErrorHeader, Mode=OneWay}"
@@ -62,7 +61,7 @@
                 </Grid>
 
 
-                <Grid Margin="10,0,30,10">
+                <Grid Margin="10,0,0,10">
                     <TextBlock Text="Trending YouTube Music Videos" 
                                Style="{StaticResource SubTitleStyle}"
                                VerticalAlignment="Center"
@@ -73,8 +72,7 @@
                                                 Glyph="&#xE8A9;"/>
                 </Grid>
 
-                <Grid Height="260"
-                      Margin="0,0,30,0">
+                <Grid Height="260">
                     <uiElements:InfoPane VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
                                          Visibility="Collapsed" Canvas.ZIndex="50"
                                          Header="{x:Bind YouTubeTracks.ErrorHeader, Mode=OneWay}"
@@ -104,7 +102,7 @@
                     </GridView>
                 </Grid>
 
-                <Grid Margin="10,0,30,10">
+                <Grid Margin="10,0,0,10">
                     <TextBlock Text="Popular Fanburst Tracks" 
                                Style="{StaticResource SubTitleStyle}"
                                VerticalAlignment="Center"
@@ -115,8 +113,7 @@
                                                 Glyph="&#xE8A9;"/>
                 </Grid>
 
-                <Grid Height="260"
-                      Margin="0,0,30,0">
+                <Grid Height="260">
                     <uiElements:InfoPane VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
                                          Visibility="Collapsed" Canvas.ZIndex="50"
                                          Header="{x:Bind FanburstTracks.ErrorHeader, Mode=OneWay}"

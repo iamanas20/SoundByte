@@ -54,6 +54,7 @@
 
 
         <GridView ItemClick="{x:Bind PlayItem}"
+                  Padding="{ThemeResource PagePadding}"
                   ItemsSource="{x:Bind HistoryModel}"
                   ItemContainerStyle="{StaticResource MainGridViewItem}"
                   x:Name="StackPanel"

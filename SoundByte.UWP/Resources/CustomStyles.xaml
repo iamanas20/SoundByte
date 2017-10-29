@@ -782,6 +782,8 @@
         </Setter>
     </Style>
 
+    <Thickness x:Key="PagePadding">30,0,30,0</Thickness>
+    
     <Style x:Key="LinkStyle" TargetType="HyperlinkButton">
         <Setter Property="Foreground" Value="{ThemeResource SystemControlBackgroundAccentBrush}" />
         <Setter Property="ContentTemplate" Value="{StaticResource HyperlinkClean}" />

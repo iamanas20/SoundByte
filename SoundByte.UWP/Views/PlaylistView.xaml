@@ -79,6 +79,7 @@
                   ItemTemplate="{StaticResource MobileTrackItem}"
                   ItemsPanel="{StaticResource MobileGridPanel}"
                   VerticalAlignment="Stretch"
+                  Padding="{ThemeResource PagePadding}"
                   SelectionMode="None"
                   IsSwipeEnabled="False"
                   IsItemClickEnabled="True"

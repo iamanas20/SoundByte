@@ -7,7 +7,7 @@
     Transitions="{StaticResource MainTransition}"
     mc:Ignorable="d">
     <Grid >
-        <StackPanel>
+        <StackPanel Padding="{ThemeResource PagePadding}">
             <TextBlock Style="{StaticResource TitleStyle}" 
                        Text="Debug Options" />
             <TextBlock Text="Navigation Service (Dialog)"     

@@ -11,8 +11,10 @@
  */
 
 using System;
+using Windows.UI;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using SoundByte.UWP.Services;
 
@@ -30,28 +32,53 @@ namespace SoundByte.UWP.Views.Application
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            TelemetryService.Instance.TrackPage("Donate View");
+            TelemetryService.Instance.TrackPage("Premium View");
+
+            PremuimStatus.Text = "Status: Loading...";
+            PremuimStatus.Foreground = new SolidColorBrush(Colors.Orange);
 
             // We are loading
-            App.IsLoading = true;
+            await App.SetLoadingAsync(true);
 
             // Get all the products
             await MonitizeService.Instance.InitProductInfoAsync();
 
+            try
+            {
+                if (await MonitizeService.Instance.IsPremium())
+                {
+                    PremuimStatus.Text = "Status: Premium Enabled";
+                    PremuimStatus.Foreground = new SolidColorBrush(Colors.Green);
+                }
+                else
+                {
+                    PremuimStatus.Text = "Status: Premium Disabled";
+                    PremuimStatus.Foreground = new SolidColorBrush(Colors.Red);
+                }
+            }
+            catch
+            {
+                PremuimStatus.Text = "Status: Premium Unknown";
+                PremuimStatus.Foreground = new SolidColorBrush(Colors.OrangeRed);
+            }
+
+
+
+
             if (MonitizeService.Instance.Products.Count > 0)
             {
-                LooseChangePrice.Text = MonitizeService.Instance.Products.Exists(t => t.Key.ToLower() == "9p3vls5wtft6")
-                    ? MonitizeService.Instance.Products.Find(t => t.Key.ToLower() == "9p3vls5wtft6").Value.Price.FormattedBasePrice
-                    : "Unknown";
-                SmallCoffeePrice.Text = MonitizeService.Instance.Products.Exists(t => t.Key.ToLower() == "9msxrvnlnlj7")
-                    ? MonitizeService.Instance.Products.Find(t => t.Key.ToLower() == "9msxrvnlnlj7").Value.Price.FormattedBasePrice
-                    : "Unknown";
-                RegularCoffeePrice.Text = MonitizeService.Instance.Products.Exists(t => t.Key.ToLower() == "9nrgs6r2grsz")
-                    ? MonitizeService.Instance.Products.Find(t => t.Key.ToLower() == "9nrgs6r2grsz").Value.Price.FormattedBasePrice
-                    : "Unknown";
-                LargeCoffeePrice.Text = MonitizeService.Instance.Products.Exists(t => t.Key.ToLower() == "9pnsd6hskwpk")
-                    ? MonitizeService.Instance.Products.Find(t => t.Key.ToLower() == "9pnsd6hskwpk").Value.Price.FormattedBasePrice
-                    : "Unknown";
+               // LooseChangePrice.Text = MonitizeService.Instance.Products.Exists(t => t.Key.ToLower() == "9p3vls5wtft6")
+             //       ? MonitizeService.Instance.Products.Find(t => t.Key.ToLower() == "9p3vls5wtft6").Value.Price.FormattedBasePrice
+              //      : "Unknown";
+             //   SmallCoffeePrice.Text = MonitizeService.Instance.Products.Exists(t => t.Key.ToLower() == "9msxrvnlnlj7")
+              //      ? MonitizeService.Instance.Products.Find(t => t.Key.ToLower() == "9msxrvnlnlj7").Value.Price.FormattedBasePrice
+              //      : "Unknown";
+              //  RegularCoffeePrice.Text = MonitizeService.Instance.Products.Exists(t => t.Key.ToLower() == "9nrgs6r2grsz")
+              //      ? MonitizeService.Instance.Products.Find(t => t.Key.ToLower() == "9nrgs6r2grsz").Value.Price.FormattedBasePrice
+              //      : "Unknown";
+              //  LargeCoffeePrice.Text = MonitizeService.Instance.Products.Exists(t => t.Key.ToLower() == "9pnsd6hskwpk")
+             //       ? MonitizeService.Instance.Products.Find(t => t.Key.ToLower() == "9pnsd6hskwpk").Value.Price.FormattedBasePrice
+               //     : "Unknown";
             }
             else
             {
@@ -59,51 +86,7 @@ namespace SoundByte.UWP.Views.Application
             }
           
             // We are not loading now
-            App.IsLoading = false;
-        }
-
-        private async void DonateLooseChange(object sender, RoutedEventArgs e)
-        {
-            // We are loading
-            App.IsLoading = true;
-
-            await MonitizeService.Instance.PurchaseDonation("9p3vls5wtft6");
-
-            // We are not loading
-            App.IsLoading = false;
-        }
-
-        private async void DonateSmall(object sender, RoutedEventArgs e)
-        {
-            // We are loading
-            App.IsLoading = true;
-
-            await MonitizeService.Instance.PurchaseDonation("9msxrvnlnlj7");
-
-            // We are not loading
-            App.IsLoading = false;
-        }
-
-        private async void DonateRegular(object sender, RoutedEventArgs e)
-        {
-            // We are loading
-            App.IsLoading = true;
-
-            await MonitizeService.Instance.PurchaseDonation("9nrgs6r2grsz");
-
-            // We are not loading
-            App.IsLoading = false;
-        }
-
-        private async void DonateLarge(object sender, RoutedEventArgs e)
-        {
-            // We are loading
-            App.IsLoading = true;
-
-            await MonitizeService.Instance.PurchaseDonation("9pnsd6hskwpk");
-
-            // We are not loading
-            App.IsLoading = false;
+            await App.SetLoadingAsync(false);
         }
     }
 }

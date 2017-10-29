@@ -19,6 +19,9 @@
                 <ResourceDictionary Source="Resources/DefaultStyles.xaml" />
                 <!-- Contains custom styles for the app -->
                 <ResourceDictionary Source="Resources/CustomStyles.xaml" />
+                
+                
+
             </ResourceDictionary.MergedDictionaries>
             <!-- The main page transition -->
             <TransitionCollection x:Key="MainTransition">

@@ -40,6 +40,7 @@
                   ItemsSource="{x:Bind Path=ViewModel.StreamItems}"
                   ItemTemplate="{StaticResource StreamItem}"
                   SelectionMode="None"
+                  Padding="{ThemeResource PagePadding}"
                   IsSwipeEnabled="False"
                   IsItemClickEnabled="True"
                   ItemClick="{x:Bind ViewModel.NavigateStream}"

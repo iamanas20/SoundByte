@@ -36,7 +36,7 @@
                   VerticalAlignment="Stretch"
                   SelectionMode="None"
                   ItemContainerStyle="{StaticResource MainGridViewItem}"
-
+                  Padding="{ThemeResource PagePadding}"
                   IsSwipeEnabled="False"
                   x:Name="StackPanel"
                   IsItemClickEnabled="True"
@@ -52,7 +52,7 @@
                                Style="{StaticResource TitleStyle}" />
 
                     <!-- Holds the two drop down boxes for selecting data -->
-                    <Grid x:Name="ComboHolder" HorizontalAlignment="Stretch" Margin="0,10,30,10" Height="45">
+                    <Grid x:Name="ComboHolder" HorizontalAlignment="Stretch" Margin="0,10,0,10" Height="45">
                         <!-- Set the sizes -->
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />

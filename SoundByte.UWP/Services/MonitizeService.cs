@@ -42,6 +42,25 @@ namespace SoundByte.UWP.Services
             _storeContext = StoreContext.GetDefault();
         }
 
+
+        public async Task<bool> IsPremium()
+        {
+            // See if user has donated or purchased premium
+            var result = await _storeContext.GetUserCollectionAsync(new[] { "Durable", "Consumable", "UnmanagedConsumable" });
+
+            foreach (var item in result.Products)
+            {
+                var product = item.Value;
+
+                if (string.Compare(product.StoreId, "", StringComparison.OrdinalIgnoreCase) == 0 && product.IsInUserCollection)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         public async Task PurchaseDonation(string storeId)
         {
             TelemetryService.Instance.TrackEvent("Donation Attempt",

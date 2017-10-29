@@ -9,7 +9,7 @@
     <Grid Background="Transparent">
         <ScrollViewer HorizontalAlignment="Stretch"
                       VerticalAlignment="Stretch">
-            <StackPanel>
+            <StackPanel Padding="{ThemeResource PagePadding}">
                 <TextBlock Text="What's New" Style="{StaticResource TitleStyle}" />
                 <TextBlock Text="Current Version: "
                            x:Name="CurrentVersion"

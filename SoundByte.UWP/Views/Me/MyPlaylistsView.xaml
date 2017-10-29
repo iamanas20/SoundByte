@@ -47,6 +47,7 @@
                   VerticalAlignment="Stretch"
                   SelectionMode="None"
                   x:Name="StackPanel"
+                  Padding="{ThemeResource PagePadding}"
                   ItemContainerStyle="{StaticResource MainGridViewItem}"
                   IsSwipeEnabled="False"
                   IsItemClickEnabled="True"

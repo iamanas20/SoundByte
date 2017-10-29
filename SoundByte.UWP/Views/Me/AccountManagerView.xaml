@@ -10,7 +10,6 @@
 
         <WebView x:Name="LoginWebView"
                  Canvas.ZIndex="5"
-                 Margin="-40,0,0,0"
                  Visibility="Collapsed"
                  HorizontalAlignment="Stretch"
                  NavigationStarting="LoginWebView_OnNavigationStarting"
@@ -55,7 +54,7 @@
         <ScrollViewer HorizontalAlignment="Stretch"
                       Visibility="Visible"
                       x:Name="MainView">
-            <StackPanel x:Name="StackPanel">
+            <StackPanel x:Name="StackPanel" Padding="{ThemeResource PagePadding}">
                 <TextBlock Text="Account Manager"
                            Style="{StaticResource TitleStyle}"  />
                 <TextBlock Text="About" Style="{StaticResource SubTitleStyle}" />
