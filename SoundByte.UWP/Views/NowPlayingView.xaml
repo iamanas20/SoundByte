@@ -83,7 +83,7 @@
 
     </Page.Resources>
     <Grid Background="{ThemeResource ShellBackground}" 
-          
+          Padding="{ThemeResource PagePadding}"
           x:Name="RootGrid">
 
         <!-- Background Image -->

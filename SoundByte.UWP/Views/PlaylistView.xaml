@@ -104,11 +104,11 @@
                                                   OffsetX="0"
                                                   OffsetY="5"
                                                   Color="Black">
-                            <Grid Padding="0,7,0,0" CornerRadius="7">
+                            <Grid Padding="0,7,0,0" CornerRadius="1">
                               
 
                                 <Grid Background="#FF444444"
-                                      CornerRadius="7"
+                                      CornerRadius="1"
                                       x:Name="PlaylistBg2"
                                       Width="120"
                                       Margin="0,-34,0,0"
@@ -117,7 +117,7 @@
                                       HorizontalAlignment="Stretch" />
 
                                 <Grid Background="#FF666666"
-                                      CornerRadius="7"
+                                      CornerRadius="1"
                                       x:Name="PlaylistBg1"
                                       Width="130"
                                       Margin="0,-18,0,0"
@@ -125,7 +125,7 @@
                                       VerticalAlignment="Stretch"
                                       HorizontalAlignment="Stretch" />
 
-                                <Grid CornerRadius="7" 
+                                <Grid CornerRadius="1" 
                                       x:Name="PlaylistImage"
                                       VerticalAlignment="Stretch"
                                       HorizontalAlignment="Stretch" 
