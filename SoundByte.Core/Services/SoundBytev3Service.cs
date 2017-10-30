@@ -374,13 +374,13 @@ namespace SoundByte.Core.Services
                         var escapedUri = new Uri(Uri.EscapeUriString(requestUri));
 
                         // Get the URL
-                        using (var webRequest = await client.GetAsync(escapedUri, HttpCompletionOption.ResponseContentRead, cancellationTokenSource.Token).ConfigureAwait(false))
+                        using (var webRequest = await client.GetAsync(escapedUri, HttpCompletionOption.ResponseContentRead, cancellationTokenSource.Token))
                         {
                             // This request has to be successful
                             webRequest.EnsureSuccessStatusCode();
 
                             // Get the body of the request as a stream
-                            using (var stream = await webRequest.Content.ReadAsStreamAsync().ConfigureAwait(false))
+                            using (var stream = await webRequest.Content.ReadAsStreamAsync())
                             {
                                 // Read the stream
                                 using (var streamReader = new StreamReader(stream))
@@ -398,7 +398,7 @@ namespace SoundByte.Core.Services
                             }
                         }
                     }
-                }).ConfigureAwait(false);
+                });
             }
             catch (OperationCanceledException)
             {
