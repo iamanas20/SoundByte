@@ -69,7 +69,7 @@ namespace SoundByte.Core.Items.Track
         public string Genre { get; set; }
 
         public BaseUser User { get; set; }
-        public async Task<(IEnumerable<BaseComment> Comments, string Token)> GetCommentsAsync(uint count, string token, CancellationTokenSource cancellationTokenSource = null)
+        public async Task<CommentResponse> GetCommentsAsync(uint count, string token, CancellationTokenSource cancellationTokenSource = null)
         {
             // Always at least 10 comments.
             if (count <= 10)
@@ -87,6 +87,12 @@ namespace SoundByte.Core.Items.Track
                 default:
                     throw new ArgumentOutOfRangeException();
             }   
+        }
+
+        public class CommentResponse
+        {
+            public List<BaseComment> Comments { get; set; }
+            public string Token { get; set; }
         }
     }
 }

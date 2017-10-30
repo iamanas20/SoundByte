@@ -163,7 +163,7 @@ namespace SoundByte.Core.Items.Track
             return track;
         }
 
-        public async Task<(IEnumerable<BaseComment> Comments, string Token)> GetCommentsAsync(uint count, string token, CancellationTokenSource cancellationTokenSource = null)
+        public async Task<BaseTrack.CommentResponse> GetCommentsAsync(uint count, string token, CancellationTokenSource cancellationTokenSource = null)
         {
             // Grab a list of YouTube comments
             var youTubeComments = await SoundByteV3Service.Current.GetAsync<YouTubeCommentHolder>(ServiceType.YouTube,
@@ -180,7 +180,7 @@ namespace SoundByte.Core.Items.Track
             youTubeComments.Items.ForEach(x => baseCommentList.Add(x.ToBaseComment()));
 
             // Return the data
-            return (baseCommentList, youTubeComments.NextPageToken);
+            return new BaseTrack.CommentResponse { Comments = baseCommentList, Token = youTubeComments.NextPageToken };
         }
 
         [JsonObject]

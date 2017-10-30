@@ -26,6 +26,7 @@ using SoundByte.Core.Items.Playlist;
 using SoundByte.Core.Items.Track;
 using SoundByte.Core.Items.User;
 using SoundByte.Core.Services;
+using SoundByte.UWP.Services;
 using SoundByte.UWP.UserControls;
 
 namespace SoundByte.UWP.Models.SoundCloud
@@ -151,6 +152,8 @@ namespace SoundByte.UWP.Models.SoundCloud
 
                         // Reset the token
                         Token = "eol";
+
+                        TelemetryService.Instance.TrackException(ex, false);
 
                         // Exception, display error to the user
                         await DispatcherHelper.ExecuteOnUIThreadAsync(() =>

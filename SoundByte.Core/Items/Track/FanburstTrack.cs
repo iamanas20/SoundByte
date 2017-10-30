@@ -108,10 +108,10 @@ namespace SoundByte.Core.Items.Track
             };
         }
 
-        public async Task<(IEnumerable<BaseComment> Comments, string Token)> GetCommentsAsync(uint count, string token, CancellationTokenSource cancellationTokenSource = null)
+        public async Task<BaseTrack.CommentResponse> GetCommentsAsync(uint count, string token, CancellationTokenSource cancellationTokenSource = null)
         {
             // Fanburst does not support comments
-            return await Task.Run(() => (new List<BaseComment>(), ""));
+            return await Task.Run(() => new BaseTrack.CommentResponse { Comments = null, Token = "" });
         }
     }
 }

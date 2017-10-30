@@ -21,6 +21,7 @@ using SoundByte.Core.Holders;
 using SoundByte.Core.Items.Track;
 using SoundByte.Core.Items.User;
 using SoundByte.Core.Services;
+using SoundByte.UWP.Services;
 using SoundByte.UWP.UserControls;
 
 namespace SoundByte.UWP.Models.SoundCloud
@@ -125,6 +126,8 @@ namespace SoundByte.UWP.Models.SoundCloud
                     {
                         // Exception, most likely did not add any new items
                         count = 0;
+
+                        TelemetryService.Instance.TrackException(ex, false);
 
                         // Exception, display error to the user
                         await DispatcherHelper.ExecuteOnUIThreadAsync(() =>

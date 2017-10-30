@@ -203,7 +203,7 @@ namespace SoundByte.Core.Items.Track
         /// <param name="token">Position in the comments (depends on service)</param>
         /// <param name="cancellationTokenSource"></param>
         /// <returns>A list of base comments and the next token</returns>
-        public async Task<(IEnumerable<BaseComment> Comments, string Token)> GetCommentsAsync(uint count, string token, CancellationTokenSource cancellationTokenSource = null)
+        public async Task<BaseTrack.CommentResponse> GetCommentsAsync(uint count, string token, CancellationTokenSource cancellationTokenSource = null)
         {
             // Grab a list of SoundCloud comments
             var soundCloudComments = await SoundByteV3Service.Current.GetAsync<CommentListHolder>(ServiceType.SoundCloud,
@@ -223,7 +223,7 @@ namespace SoundByte.Core.Items.Track
             soundCloudComments.Items.ForEach(x => baseCommentList.Add(x.ToBaseComment()));
 
             // Return the data
-            return (baseCommentList, nextToken);
+            return new BaseTrack.CommentResponse {Comments = baseCommentList, Token = nextToken};
         }
 
         [JsonObject]

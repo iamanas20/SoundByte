@@ -39,6 +39,6 @@ namespace SoundByte.Core.Items.Track
         /// <param name="token">Position in the comments (depends on service)</param>
         /// <param name="cancellationTokenSource"></param>
         /// <returns>A list of base comments and the next token</returns>
-        Task<(IEnumerable<BaseComment> Comments, string Token)> GetCommentsAsync(uint count, string token, CancellationTokenSource cancellationTokenSource = null);
+        Task<BaseTrack.CommentResponse> GetCommentsAsync(uint count, string token, CancellationTokenSource cancellationTokenSource = null);
     }
 }
