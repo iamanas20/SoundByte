@@ -13,15 +13,15 @@
 using Windows.UI.Xaml.Navigation;
 using SoundByte.Core.Items.Track;
 using SoundByte.UWP.Models;
-using SoundByte.UWP.ViewModels.Search;
+using SoundByte.UWP.ViewModels.Generic;
 
-namespace SoundByte.UWP.Views.Search
+namespace SoundByte.UWP.Views.Generic
 {
-    public sealed partial class SearchTrackView 
+    public sealed partial class TrackListView 
     {
-        public SearchTrackViewModel ViewModel { get; } = new SearchTrackViewModel();
+        public TrackListViewModel ViewModel { get; } = new TrackListViewModel();
 
-        public SearchTrackView()
+        public TrackListView()
         {
             InitializeComponent();
         }

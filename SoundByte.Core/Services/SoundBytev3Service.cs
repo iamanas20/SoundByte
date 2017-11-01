@@ -363,7 +363,7 @@ namespace SoundByte.Core.Services
                             switch (type)
                             {
                                 case ServiceType.YouTube:
-                                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                             //       requestUri += $"&access_token={token}";
                                     break;
                                 case ServiceType.Fanburst:
                                     requestUri += $"&access_token={token}";
@@ -471,7 +471,7 @@ namespace SoundByte.Core.Services
                             switch (type)
                             {
                                 case ServiceType.YouTube:
-                                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                                 //   client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
                                     break;
                                 case ServiceType.Fanburst:
                                     requestUri += $"&access_token={token}";
@@ -578,7 +578,7 @@ namespace SoundByte.Core.Services
                             switch (type)
                             {
                                 case ServiceType.YouTube:
-                                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                              //      client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
                                     break;
                                 case ServiceType.Fanburst:
                                     requestUri += $"&access_token={token}";
@@ -693,7 +693,7 @@ namespace SoundByte.Core.Services
                             switch (type)
                             {
                                 case ServiceType.YouTube:
-                                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                             //       client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
                                     break;
                                 case ServiceType.Fanburst:
                                     requestUri += $"&access_token={token}";
@@ -770,7 +770,7 @@ namespace SoundByte.Core.Services
                             switch (type)
                             {
                                 case ServiceType.YouTube:
-                                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                                //    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
                                     break;
                                 case ServiceType.Fanburst:
                                     requestUri += $"&access_token={token}";

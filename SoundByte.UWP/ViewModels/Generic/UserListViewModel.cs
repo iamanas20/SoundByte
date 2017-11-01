@@ -10,16 +10,14 @@
  * |----------------------------------------------------------------|
  */
 
-using System;
-using Windows.UI.Popups;
 using Windows.UI.Xaml.Controls;
-using SoundByte.Core.Items.Track;
+using SoundByte.Core.Items.User;
 using SoundByte.UWP.Models;
-using SoundByte.UWP.Services;
+using SoundByte.UWP.Views;
 
-namespace SoundByte.UWP.ViewModels.Search
+namespace SoundByte.UWP.ViewModels.Generic
 {
-    public class SearchTrackViewModel : BaseViewModel
+    public class UserListViewModel : BaseViewModel
     {
         #region Bindings
         /// <summary>
@@ -60,7 +58,7 @@ namespace SoundByte.UWP.ViewModels.Search
         /// <summary>
         /// The track model to show on this page
         /// </summary>
-        public BaseModel<BaseTrack> Model
+        public BaseModel<BaseUser> Model
         {
             get => _model;
             set
@@ -72,15 +70,15 @@ namespace SoundByte.UWP.ViewModels.Search
                 UpdateProperty();
             }
         }
-        private BaseModel<BaseTrack> _model;
+        private BaseModel<BaseUser> _model;
         #endregion
 
         #region Methods
         /// <summary>
         /// Setup the view model for use
         /// </summary>
-        /// <param name="model">The track modek to use in this view</param>
-        public void Init(BaseModel<BaseTrack> model)
+        /// <param name="model">The user model to use in this view</param>
+        public void Init(BaseModel<BaseUser> model)
         {
             Model = model;
             Title = model.ModelHeader;
@@ -88,40 +86,9 @@ namespace SoundByte.UWP.ViewModels.Search
         }
         #endregion
 
-        #region Method Bindings
-        public async void PlayShuffleItems()
+        public void NavigateUserProfile(object sender, ItemClickEventArgs e)
         {
-            await ShuffleTracksAsync(Model);
+            App.NavigateTo(typeof(UserView), (BaseUser)e.ClickedItem);
         }
-
-        public async void PlayAllItems()
-        {
-            // We are loading
-            App.IsLoading = true;
-
-            var startPlayback = await PlaybackService.Instance.StartModelMediaPlaybackAsync(Model);
-
-            if (!startPlayback.success)
-                await new MessageDialog(startPlayback.message, "Playback Error").ShowAsync();
-
-            // We are not loading
-            App.IsLoading = false;
-        }
-
-        public async void PlayItem(object sender, ItemClickEventArgs e)
-        {
-            // We are loading
-            App.IsLoading = true;
-
-            var startPlayback =
-                await PlaybackService.Instance.StartModelMediaPlaybackAsync(Model, false, (BaseTrack)e.ClickedItem);
-
-            if (!startPlayback.success)
-                await new MessageDialog(startPlayback.message, "Playback Error").ShowAsync();
-
-            // We are not loading
-            App.IsLoading = false;
-        }
-        #endregion
     }
 }

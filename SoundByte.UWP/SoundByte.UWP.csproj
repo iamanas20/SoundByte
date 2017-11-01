@@ -242,10 +242,11 @@
       <DependentUpon>SoundByteItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\BaseViewModel.cs" />
+    <Compile Include="ViewModels\Generic\UserListViewModel.cs" />
     <Compile Include="ViewModels\SoundCloudStreamViewModel.cs" />
     <Compile Include="ViewModels\PlaylistViewModel.cs" />
     <Compile Include="ViewModels\Search\SearchViewModel.cs" />
-    <Compile Include="ViewModels\Search\SearchTrackViewModel.cs" />
+    <Compile Include="ViewModels\Generic\TrackListViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\NowPlayingViewModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
@@ -288,14 +289,14 @@
     <Compile Include="Views\PlaylistView.xaml.cs">
       <DependentUpon>PlaylistView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Search\SearchPlaylistView.xaml.cs">
-      <DependentUpon>SearchPlaylistView.xaml</DependentUpon>
+    <Compile Include="Views\Generic\PlaylistListView.xaml.cs">
+      <DependentUpon>PlaylistListView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Search\SearchTrackView.xaml.cs">
-      <DependentUpon>SearchTrackView.xaml</DependentUpon>
+    <Compile Include="Views\Generic\TrackListView.xaml.cs">
+      <DependentUpon>TrackListView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Search\SearchUserView.xaml.cs">
-      <DependentUpon>SearchUserView.xaml</DependentUpon>
+    <Compile Include="Views\Generic\UserListView.xaml.cs">
+      <DependentUpon>UserListView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Search\SearchView.xaml.cs">
       <DependentUpon>SearchView.xaml</DependentUpon>
@@ -459,15 +460,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Search\SearchPlaylistView.xaml">
+    <Page Include="Views\Generic\PlaylistListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Search\SearchTrackView.xaml">
+    <Page Include="Views\Generic\TrackListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Search\SearchUserView.xaml">
+    <Page Include="Views\Generic\UserListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -576,9 +577,7 @@
       <Version>2.3.0</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\Generic\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>

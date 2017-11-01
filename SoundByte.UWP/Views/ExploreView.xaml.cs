@@ -20,6 +20,7 @@ using Windows.UI.Xaml.Navigation;
 using SoundByte.UWP.Models.Fanburst;
 using SoundByte.UWP.Models.SoundCloud;
 using SoundByte.UWP.Models.YouTube;
+using SoundByte.UWP.Views.Generic;
 using SoundByte.UWP.Views.Search;
 
 namespace SoundByte.UWP.Views
@@ -72,12 +73,12 @@ namespace SoundByte.UWP.Views
 
         public void NavigateMoreYouTube()
         {
-            App.NavigateTo(typeof(SearchTrackView), YouTubeTracks);
+            App.NavigateTo(typeof(TrackListView), YouTubeTracks);
         }
 
         public void NavigateMoreFanburst()
         {
-            App.NavigateTo(typeof(SearchTrackView), FanburstTracks);
+            App.NavigateTo(typeof(TrackListView), FanburstTracks);
         }
 
     }

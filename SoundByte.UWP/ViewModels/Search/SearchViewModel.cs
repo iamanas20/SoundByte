@@ -22,6 +22,7 @@ using SoundByte.UWP.Services;
 using SoundByte.UWP.Models.SoundCloud;
 using SoundByte.UWP.Models.YouTube;
 using SoundByte.UWP.Views;
+using SoundByte.UWP.Views.Generic;
 using SoundByte.UWP.Views.Search;
 
 namespace SoundByte.UWP.ViewModels.Search
@@ -159,27 +160,27 @@ namespace SoundByte.UWP.ViewModels.Search
 
         public void NavigateSoundCloudTracks()
         {
-            App.NavigateTo(typeof(SearchTrackView), SearchTracks);
+            App.NavigateTo(typeof(TrackListView), SearchTracks);
         }
 
-        public async void NavigateSoundCloudPlaylists()
+        public void NavigateSoundCloudPlaylists()
         {
-            await new MessageDialog("This feature is coming soon. Please wait.", "Coming Soon...").ShowAsync();
+            App.NavigateTo(typeof(UserListView), SearchPlaylists);
         }
 
-        public async void NavigateSoundCloudUsers()
+        public void NavigateSoundCloudUsers()
         {
-            await new MessageDialog("This feature is coming soon. Please wait.", "Coming Soon...").ShowAsync();
+            App.NavigateTo(typeof(UserListView), SearchUsers);
         }
 
         public void NavigateYouTubeTracks()
         {
-            App.NavigateTo(typeof(SearchTrackView), YouTubeTracks);
+            App.NavigateTo(typeof(TrackListView), YouTubeTracks);
         }
 
         public void NavigateFanburstTracks()
         {
-            App.NavigateTo(typeof(SearchTrackView), FanburstTracks);
+            App.NavigateTo(typeof(TrackListView), FanburstTracks);
         }
 
         public async void NavigatePodcasts()
