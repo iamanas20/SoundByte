@@ -53,7 +53,7 @@ namespace SoundByte.UWP.Models.SoundCloud
                 Token = string.IsNullOrEmpty(searchTracks.Token) ? "eol" : searchTracks.Token;
 
                 // Make sure that there are tracks in the list
-                if (searchTracks.Tracks.Count() > 0)
+                if (searchTracks.Tracks.Any())
                 {
                     // Set the count variable
                     count = searchTracks.Tracks.Count();

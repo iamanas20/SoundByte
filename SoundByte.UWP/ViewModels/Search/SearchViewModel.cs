@@ -45,8 +45,8 @@ namespace SoundByte.UWP.ViewModels.Search
         {
             SearchTracks = new SearchSoundCloudTrackModel { ModelHeader = "Search", ModelType = "SoundCloud Tracks"};
             FanburstTracks = new SearchFanburstTrackModel { ModelHeader = "Search", ModelType = "Fanburst Tracks" };
-            SearchPlaylists = new SearchSoundCloudPlaylistModel();
-            SearchUsers = new SearchSoundCloudUserModel();
+            SearchPlaylists = new SearchSoundCloudPlaylistModel { ModelHeader = "Search", ModelType = "SoundCloud Playlists" };
+            SearchUsers = new SearchSoundCloudUserModel { ModelHeader = "Search", ModelType = "SoundCloud Users" };
             YouTubeTracks = new SearchYouTubeTrackModel { ModelHeader = "Search", ModelType = "Youtube Videos" };
         }
         #endregion
@@ -165,7 +165,7 @@ namespace SoundByte.UWP.ViewModels.Search
 
         public void NavigateSoundCloudPlaylists()
         {
-            App.NavigateTo(typeof(UserListView), SearchPlaylists);
+            App.NavigateTo(typeof(PlaylistListView), SearchPlaylists);
         }
 
         public void NavigateSoundCloudUsers()

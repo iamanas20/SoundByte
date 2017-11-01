@@ -242,6 +242,7 @@
       <DependentUpon>SoundByteItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\BaseViewModel.cs" />
+    <Compile Include="ViewModels\Generic\PlaylistListViewModel.cs" />
     <Compile Include="ViewModels\Generic\UserListViewModel.cs" />
     <Compile Include="ViewModels\SoundCloudStreamViewModel.cs" />
     <Compile Include="ViewModels\PlaylistViewModel.cs" />

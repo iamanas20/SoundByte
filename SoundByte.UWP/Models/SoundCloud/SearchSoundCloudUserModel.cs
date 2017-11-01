@@ -10,157 +10,102 @@
  * |----------------------------------------------------------------|
  */
 
-using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
-using Windows.Foundation;
-using Windows.UI.Xaml.Data;
 using Microsoft.Toolkit.Uwp.Helpers;
 using SoundByte.Core;
 using SoundByte.Core.Exceptions;
 using SoundByte.Core.Holders;
 using SoundByte.Core.Items.User;
 using SoundByte.Core.Services;
-using SoundByte.UWP.Services;
-using SoundByte.UWP.UserControls;
 
 namespace SoundByte.UWP.Models.SoundCloud
 {
-    public class SearchSoundCloudUserModel : ObservableCollection<BaseUser>, ISupportIncrementalLoading
+    public class SearchSoundCloudUserModel : BaseModel<BaseUser>
     {
-        /// <summary>
-        ///     The position of the track, will be 'eol'
-        ///     if there are no new trackss
-        /// </summary>
-        public string Token { get; private set; }
-
         /// <summary>
         ///     What we are searching the soundcloud API for
         /// </summary>
         public string Query { get; set; }
 
-        /// <summary>
-        ///     Are there more items to load
-        /// </summary>
-        public bool HasMoreItems => Token != "eol";
-
-        /// <summary>
-        ///     Loads search user items from the souncloud api
-        /// </summary>
-        /// <param name="count">The amount of items to load</param>
-        public IAsyncOperation<LoadMoreItemsResult> LoadMoreItemsAsync(uint count)
+    
+        protected override async Task<int> LoadMoreItemsAsync(int count)
         {
-            // Return a task that will get the items
-            return Task.Run(async () =>
+            if (string.IsNullOrEmpty(Query))
+                return 0;
+
+            if (count <= 10)
+                count = 10;
+
+            if (count >= 50)
+                count = 50;
+
+            // Get the resource loader
+            var resources = ResourceLoader.GetForViewIndependentUse();
+
+            try
             {
-                if (string.IsNullOrEmpty(Query))
-                    return new LoadMoreItemsResult {Count = 0};
-
-                if (count <= 10)
-                    count = 10;
-
-                if (count >= 50)
-                    count = 50;
-
-                // We are loading
-                await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
-                {
-                    (App.CurrentFrame?.FindName("SearchUserModelInfoPane") as InfoPane)?.ShowLoading();
-                });
-
-                // Get the resource loader
-                var resources = ResourceLoader.GetForViewIndependentUse();
-
-                try
-                {
-                    // Get the searched users
-                    var searchUsers = await SoundByteV3Service.Current.GetAsync<UserListHolder>(ServiceType.SoundCloud,"/users",
-                        new Dictionary<string, string>
-                        {
-                            {"limit", SettingsService.TrackLimitor.ToString()},
-                            {"linked_partitioning", "1"},
-                            {"offset", Token},
-                            {"q", WebUtility.UrlEncode(Query)}
-                        });
-
-                    // Parse uri for offset
-                    var param = new QueryParameterCollection(searchUsers.NextList);
-                    var offset = param.FirstOrDefault(x => x.Key == "offset").Value;
-
-                    // Get the stream cursor
-                    Token = string.IsNullOrEmpty(offset) ? "eol" : offset;
-
-                    // Make sure that there are users in the list
-                    if (searchUsers.Users.Count > 0)
+                // Get the searched users
+                var searchUsers = await SoundByteV3Service.Current.GetAsync<UserListHolder>(ServiceType.SoundCloud, "/users",
+                    new Dictionary<string, string>
                     {
-                        // Set the count variable
-                        count = (uint) searchUsers.Users.Count;
+                        {"limit", count.ToString() },
+                        {"linked_partitioning", "1"},
+                        {"offset", Token},
+                        {"q", WebUtility.UrlEncode(Query)}
+                    });
 
-                        // Loop though all the tracks on the UI thread
-                        await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
-                        {
-                            foreach (var user in searchUsers.Users)
-                            {
-                                Add(user.ToBaseUser());
-                            }
-                        });
-                    }
-                    else
+                // Parse uri for offset
+                var param = new QueryParameterCollection(searchUsers.NextList);
+                var offset = param.FirstOrDefault(x => x.Key == "offset").Value;
+
+                // Get the stream cursor
+                Token = string.IsNullOrEmpty(offset) ? "eol" : offset;
+
+                // Make sure that there are users in the list
+                if (searchUsers.Users.Count > 0)
+                {
+                    // Set the count variable
+                    count = searchUsers.Users.Count;
+
+                    // Loop though all the tracks on the UI thread
+                    await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                     {
-                        // There are no items, so we added no items
-                        count = 0;
-
-                        // Reset the token
-                        Token = "eol";
-
-                        // No items tell the user
-                        await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
+                        foreach (var user in searchUsers.Users)
                         {
-                            (App.CurrentFrame?.FindName("SearchUserModelInfoPane") as InfoPane)?.ShowMessage(
-                                resources.GetString("SearchUser_Header"), resources.GetString("SearchUser_Content"), false);
-                        });
-                    }
+                            Add(user.ToBaseUser());
+                        }
+                    });
                 }
-                catch (SoundByteException ex)
+                else
                 {
-                    // Exception, most likely did not add any new items
+                    // There are no items, so we added no items
                     count = 0;
 
                     // Reset the token
                     Token = "eol";
 
-                    // Exception, display error to the user
-                    await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
-                    {
-                        (App.CurrentFrame?.FindName("SearchUserModelInfoPane") as InfoPane)?.ShowMessage(
-                            ex.ErrorTitle, ex.ErrorDescription);
-                    });
+                    // No items tell the user
+                    await ShowErrorMessageAsync(resources.GetString("SearchUser_Header"), resources.GetString("SearchUser_Content"));
                 }
 
 
-                // We are not loading
-                await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
-                {
-                    (App.CurrentFrame?.FindName("SearchUserModelInfoPane") as InfoPane)?.ClosePane();
-                });
+            }
+            catch (SoundByteException ex)
+            {
+                // Exception, most likely did not add any new items
+                count = 0;
 
-                // Return the result
-                return new LoadMoreItemsResult {Count = count};
-            }).AsAsyncOperation();
-        }
+                // Reset the token
+                Token = "eol";
 
-        /// <summary>
-        ///     Refresh the list by removing any
-        ///     existing items and reseting the token.
-        /// </summary>
-        public void RefreshItems()
-        {
-            Token = null;
-            Clear();
+                await ShowErrorMessageAsync(ex.ErrorTitle, ex.ErrorDescription);
+            }
+
+            return count;
         }
     }
 }
