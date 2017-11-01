@@ -182,7 +182,7 @@ namespace SoundByte.Core.Services
                     switch (serviceSecret.Service)
                     {
                         case ServiceType.Fanburst:
-                            // Do this later
+                            serviceSecret.CurrentUser = AsyncHelper.RunSync(async () => await GetAsync<FanburstUser>(ServiceType.Fanburst, "/me").ConfigureAwait(false)).ToBaseUser();
                             break;
                         case ServiceType.SoundCloud:
                         case ServiceType.SoundCloudV2:
@@ -360,13 +360,17 @@ namespace SoundByte.Core.Services
                             var token = ServiceSecrets.FirstOrDefault(x => x.Service == type)?.UserToken?.AccessToken;
 
                             // Add the auth request
-                            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("OAuth", token);
-
-                            // Fanburst requires the access_token
-                            // param to be added to the request.
-                            if (type == ServiceType.Fanburst)
+                            switch (type)
                             {
-                                requestUri += $"&access_token={token}";
+                                case ServiceType.YouTube:
+                                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                                    break;
+                                case ServiceType.Fanburst:
+                                    requestUri += $"&access_token={token}";
+                                    break;
+                                default:
+                                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("OAuth", token);
+                                    break;
                             }
                         }
 
@@ -460,8 +464,22 @@ namespace SoundByte.Core.Services
                         // Add the service only if it's connected
                         if (IsServiceConnected(type))
                         {
-                            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("OAuth",
-                                ServiceSecrets.FirstOrDefault(x => x.Service == type)?.UserToken?.AccessToken);
+                            // Get the token
+                            var token = ServiceSecrets.FirstOrDefault(x => x.Service == type)?.UserToken?.AccessToken;
+
+                            // Add the auth request
+                            switch (type)
+                            {
+                                case ServiceType.YouTube:
+                                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                                    break;
+                                case ServiceType.Fanburst:
+                                    requestUri += $"&access_token={token}";
+                                    break;
+                                default:
+                                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("OAuth", token);
+                                    break;
+                            }
                         }
 
                         // escape the url
@@ -557,13 +575,17 @@ namespace SoundByte.Core.Services
                             var token = ServiceSecrets.FirstOrDefault(x => x.Service == type)?.UserToken?.AccessToken;
 
                             // Add the auth request
-                            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("OAuth", token);
-
-                            // Fanburst requires the access_token
-                            // param to be added to the request.
-                            if (type == ServiceType.Fanburst)
+                            switch (type)
                             {
-                                requestUri += $"&access_token={token}";
+                                case ServiceType.YouTube:
+                                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                                    break;
+                                case ServiceType.Fanburst:
+                                    requestUri += $"&access_token={token}";
+                                    break;
+                                default:
+                                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("OAuth", token);
+                                    break;
                             }
                         }
 
@@ -668,13 +690,17 @@ namespace SoundByte.Core.Services
                             var token = ServiceSecrets.FirstOrDefault(x => x.Service == type)?.UserToken?.AccessToken;
 
                             // Add the auth request
-                            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("OAuth", token);
-
-                            // Fanburst requires the access_token
-                            // param to be added to the request.
-                            if (type == ServiceType.Fanburst)
+                            switch (type)
                             {
-                                requestUri += $"&access_token={token}";
+                                case ServiceType.YouTube:
+                                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                                    break;
+                                case ServiceType.Fanburst:
+                                    requestUri += $"&access_token={token}";
+                                    break;
+                                default:
+                                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("OAuth", token);
+                                    break;
                             }
                         }
 
@@ -741,13 +767,17 @@ namespace SoundByte.Core.Services
                             var token = ServiceSecrets.FirstOrDefault(x => x.Service == type)?.UserToken?.AccessToken;
 
                             // Add the auth request
-                            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("OAuth", token);
-
-                            // Fanburst requires the access_token
-                            // param to be added to the request.
-                            if (type == ServiceType.Fanburst)
+                            switch (type)
                             {
-                                requestUri += $"&access_token={token}";
+                                case ServiceType.YouTube:
+                                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                                    break;
+                                case ServiceType.Fanburst:
+                                    requestUri += $"&access_token={token}";
+                                    break;
+                                default:
+                                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("OAuth", token);
+                                    break;
                             }
                         }
 

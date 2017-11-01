@@ -8,14 +8,6 @@
     <!-- Main Page -->
     <Grid Background="Transparent" x:Name="RootGrid">
 
-        <WebView x:Name="LoginWebView"
-                 Canvas.ZIndex="5"
-                 Visibility="Collapsed"
-                 HorizontalAlignment="Stretch"
-                 NavigationStarting="LoginWebView_OnNavigationStarting"
-                 DefaultBackgroundColor="Transparent"
-                 VerticalAlignment="Stretch" />
-
         <StackPanel x:Name="ConnectAccountView" Orientation="Vertical" VerticalAlignment="Center" Visibility="Collapsed">
             <TextBlock Text="&#xE990;" 
                        TextAlignment="Center"
@@ -106,19 +98,16 @@
                 <HyperlinkButton x:Name="YouTubeConnectAccount"  
                                  Content="Connect Account"
                                  Style="{StaticResource LinkStyle}" 
-                                 IsEnabled="False"
                                  Click="ConnectYouTubeAccount" />
                 
                 <HyperlinkButton x:Name="YouTubeViewProfile"  
                                  Content="View Profile" 
                                  Style="{StaticResource LinkStyle}" 
-                                 IsEnabled="False"
                                  Click="NavigateYouTubeProfile" />
               
                 <HyperlinkButton x:Name="YouTubeDisconnectAccount"  
                                  Content="Disconnect Account" 
                                  Style="{StaticResource LinkStyle}" 
-                                 IsEnabled="False"
                                  Click="DisconnectYouTubeAccount" />
 
                 <TextBlock Text="Remote (SoundCloud Only)" Style="{StaticResource SubTitleStyle}" />

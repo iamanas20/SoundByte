@@ -26,6 +26,8 @@ namespace SoundByte.UWP.Models
     /// </summary>
     public class HistoryModel : BaseModel<BaseTrack>
     {
+        private bool _firstTime = true;
+
         /// <summary>
         ///     Loads stream items from the souncloud api
         /// </summary>
@@ -46,6 +48,11 @@ namespace SoundByte.UWP.Models
                 {
                     using (var db = new HistoryContext())
                     {
+                        if (_firstTime)
+                            db.Database.Migrate();
+
+                        _firstTime = false;
+
                         if (count <= 10)
                             count = 10;
 

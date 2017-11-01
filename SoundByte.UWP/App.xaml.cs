@@ -71,6 +71,7 @@ namespace SoundByte.UWP
             NavigationService.Current.RegisterTypeAsDialog<PinTileDialog>();
             NavigationService.Current.RegisterTypeAsDialog<PlaylistDialog>();
             NavigationService.Current.RegisterTypeAsDialog<ShareDialog>();
+            NavigationService.Current.RegisterTypeAsDialog<LoginDialog>();
 
             // Live tile helpers
             TileHelper.Init();
@@ -80,20 +81,6 @@ namespace SoundByte.UWP
 
             // Handle App Crashes
             CrashHelper.HandleAppCrashes(Current);
-
-            try
-            {
-                // Migrate and database changes
-                using (var db = new HistoryContext())
-                {
-                    db.Database.Migrate();
-                }
-                System.Diagnostics.Debug.WriteLine("Database Migrated");
-            }
-            catch
-            {
-               // Don't worry about it
-            }
 
             // Enter and Leaving background handlers
             EnteredBackground += AppEnteredBackground;
@@ -139,7 +126,15 @@ namespace SoundByte.UWP
                     });
 
                 // Navigate home if we connected SoundCloud, else navigate to explore
-                NavigateTo(type == ServiceType.SoundCloud ? typeof(HomeView) : typeof(SoundCloudExploreView));
+                NavigateTo(type == ServiceType.SoundCloud ? typeof(HomeView) : typeof(ExploreView));
+
+                // Update the UI depending if we are logged in or not
+                if (SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud) ||
+                    SoundByteV3Service.Current.IsServiceConnected(ServiceType.YouTube) ||
+                    SoundByteV3Service.Current.IsServiceConnected(ServiceType.Fanburst))
+                    App.Shell.ShowLoginContent();
+                else
+                    App.Shell.ShowLogoutContent();
             };
 
             // Run this code when a service is disconencted from SoundByte
@@ -171,7 +166,15 @@ namespace SoundByte.UWP
                     });
 
                 // Navigate to the explore view
-                NavigateTo(typeof(SoundCloudExploreView));
+                NavigateTo(typeof(ExploreView));
+
+                // Update the UI depending if we are logged in or not
+                if (SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud) ||
+                    SoundByteV3Service.Current.IsServiceConnected(ServiceType.YouTube) ||
+                    SoundByteV3Service.Current.IsServiceConnected(ServiceType.Fanburst))
+                    App.Shell.ShowLoginContent();
+                else
+                    App.Shell.ShowLogoutContent();
             };
         }
 

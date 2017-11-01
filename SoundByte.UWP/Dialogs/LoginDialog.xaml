@@ -1,0 +1,27 @@
+﻿<ContentDialog
+    x:Class="SoundByte.UWP.Dialogs.LoginDialog"
+    FullSizeDesired="True"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    Margin="0"
+    Padding="0"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="492">
+        <WebView x:Name="LoginWebView"
+                 Canvas.ZIndex="5"
+                 HorizontalAlignment="Stretch"
+                 NavigationStarting="LoginWebView_OnNavigationStarting"
+                 DefaultBackgroundColor="Transparent"
+                 VerticalAlignment="Stretch" />
+
+
+        <Grid x:Name="LoadingSection" Canvas.ZIndex="10" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+              Visibility="Collapsed" Background="Transparent">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <ProgressRing IsActive="True" Width="80" Height="80" />
+                <TextBlock TextAlignment="Center" Text="Loading..." FontSize="28" FontWeight="SemiBold"
+                           Margin="0,10,0,0" />
+            </StackPanel>
+        </Grid>
+    </Grid>
+</ContentDialog>
