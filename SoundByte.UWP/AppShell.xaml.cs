@@ -91,7 +91,11 @@ namespace SoundByte.UWP
             }
 
             if (string.IsNullOrEmpty(path))
-                RootFrame.Navigate(typeof(HomeView));
+            {
+                RootFrame.Navigate(SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud)
+                    ? typeof(SoundCloudStreamView)
+                    : typeof(ExploreView));
+            }
         }
 
         private async void InstanceOnOnCurrentTrackChanged(BaseTrack newTrack)
@@ -128,7 +132,9 @@ namespace SoundByte.UWP
                 if (RootFrame.SourcePageType == typeof(BlankView))
                 {
                     RootFrame.BackStack.Clear();
-                    RootFrame.Navigate(typeof(HomeView));
+                    RootFrame.Navigate(SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud)
+                        ? typeof(SoundCloudStreamView)
+                        : typeof(ExploreView));
                     e.Handled = true;
                 }
                 else
@@ -140,7 +146,9 @@ namespace SoundByte.UWP
                     }
                     else
                     {
-                        RootFrame.Navigate(typeof(HomeView));
+                        RootFrame.Navigate(SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud)
+                            ? typeof(SoundCloudStreamView)
+                            : typeof(ExploreView));
                         e.Handled = true;
                     }
                 }
@@ -378,7 +386,9 @@ namespace SoundByte.UWP
                 await App.SetLoadingAsync(false);
             }
 
-            RootFrame.Navigate(typeof(HomeView));
+            RootFrame.Navigate(SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud)
+                ? typeof(SoundCloudStreamView)
+                : typeof(ExploreView));
         }
 
         #endregion
@@ -388,8 +398,8 @@ namespace SoundByte.UWP
             // Update the side bar
             switch (((Frame) sender).SourcePageType.Name)
             {
-                case "HomeView":
-                    NavView.SelectedItem = NavigationItemHome;
+                case "SoundCloudStreamView":
+                    NavView.SelectedItem = NavigationItemSoundCloudStream;
                     break;
                 case "ExploreView":
                     NavView.SelectedItem = NavigationItemExplore;
@@ -420,13 +430,16 @@ namespace SoundByte.UWP
                     break;
             }
 
-            if (((Frame) sender).SourcePageType == typeof(HomeView) ||
-                ((Frame) sender).SourcePageType == typeof(AppShell))
-                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
-                    AppViewBackButtonVisibility.Collapsed;
-            else
+            if (((Frame) sender).CanGoBack)
+            {
                 SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
                     AppViewBackButtonVisibility.Visible;
+            }
+            else
+            {
+                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
+                    AppViewBackButtonVisibility.Collapsed;
+            }
 
             // Update the UI depending if we are logged in or not
             if (SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud) ||
@@ -480,14 +493,14 @@ namespace SoundByte.UWP
             NavigationItemPlaylists.Visibility = Visibility.Visible;
 
             // Only show this tab if the users soundcloud account is connected
-            NavigationItemHome.Visibility = SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud) ? Visibility.Visible : Visibility.Collapsed;
+            NavigationItemSoundCloudStream.Visibility = SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud) ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public void ShowLogoutContent()
         {
             NavigationItemLikes.Visibility = Visibility.Collapsed;
             NavigationItemPlaylists.Visibility = Visibility.Collapsed;
-            NavigationItemHome.Visibility = Visibility.Collapsed;
+            NavigationItemSoundCloudStream.Visibility = Visibility.Collapsed;
         }
 
 
@@ -526,8 +539,8 @@ namespace SoundByte.UWP
         {
             switch (item)
             {
-                case "home":
-                    RootFrame.Navigate(typeof(HomeView));
+                case "scstream":
+                    RootFrame.Navigate(typeof(SoundCloudStreamView));
                     break;
                 case "explore":
                     RootFrame.Navigate(typeof(ExploreView));

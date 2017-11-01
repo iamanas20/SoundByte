@@ -19,7 +19,7 @@
                        FontSize="16"
                        Margin="0,25,0,0"
                        TextAlignment="Center"               
-                       Text="First, download SoundByte onto your Windows 10 PC (via the Windows Store). Click 'Login'/'Connected Accounts' and then click 'Connect' under Connect Xbox One" MaxWidth="600" TextWrapping="Wrap"/>
+                       Text="First, download SoundByte onto your Windows 10 PC (via the Windows Store). Click 'Account Manager' and then under 'Remote' click 'Connect Remote Device'" MaxWidth="600" TextWrapping="Wrap"/>
             <TextBlock Opacity="0.8"
                        FontWeight="Normal"
                        FontSize="16"
@@ -30,10 +30,10 @@
 
             <TextBlock Opacity="0.6"
                        FontWeight="Normal"
-                       FontSize="10"
+                       FontSize="12"
                        Margin="0,15,0,0"
                        TextAlignment="Center"               
-                       Text="SoundByte v2.1.91 or higher is required. Only Supported on Windows 10 Creators Update. Can take up to 30 seconds to process."/>
+                       Text="SoundByte v17.11 or higher is required. Only Supported on Windows 10 Fall Creators Update. Can take up to 30 seconds to process."/>
         </StackPanel>
         
     </Grid>

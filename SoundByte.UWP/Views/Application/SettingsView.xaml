@@ -36,7 +36,18 @@
                                FontSize="16" />
 
                     <TextBlock x:Name="AppVersion"
-                               Text="2.1.x"
+                               Text="--.--"
+                               Opacity="0.7"
+                               FontSize="16" />
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                    <TextBlock Text="Build: "
+                               Margin="0,0,5,0"
+                               FontSize="16" />
+
+                    <TextBlock x:Name="AppBuild"
+                               Text="---"
                                Opacity="0.7"
                                FontSize="16" />
                 </StackPanel>
@@ -47,6 +58,7 @@
                                FontSize="16" />
                     <TextBlock x:Name="AppBuildTime"
                                Opacity="0.7"
+                               Text="..."
                                FontSize="16" />
                 </StackPanel>
 

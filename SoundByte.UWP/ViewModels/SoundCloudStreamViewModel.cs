@@ -15,7 +15,6 @@ using System.Linq;
 using Windows.UI.Popups;
 using Windows.UI.Xaml.Controls;
 using SoundByte.UWP.Helpers;
-using SoundByte.UWP.Models;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.Views;
 using SoundByte.Core;
@@ -26,7 +25,7 @@ namespace SoundByte.UWP.ViewModels
     /// <summary>
     ///     The view model for the HomeView page
     /// </summary>
-    public class HomeViewModel : BaseViewModel
+    public class SoundCloudStreamViewModel : BaseViewModel
     {
         // Model for stream items
         public SoundCloudStreamModel StreamItems { get; } = new SoundCloudStreamModel();

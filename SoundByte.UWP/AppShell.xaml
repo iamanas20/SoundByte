@@ -86,12 +86,12 @@
             </NavigationView.AutoSuggestBox>
 
             <NavigationView.MenuItems>
-                <NavigationViewItem Content="Home" 
+                <NavigationViewItem Content="SoundCloud Stream" 
                                     Style="{StaticResource NavStyle}" 
-                                    x:Name="NavigationItemHome"
-                                    Tag="home">
+                                    x:Name="NavigationItemSoundCloudStream"
+                                    Tag="scstream">
                     <NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xE80F;"/>
+                        <FontIcon Glyph="&#xEA37;"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
 

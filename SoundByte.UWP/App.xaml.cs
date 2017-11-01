@@ -24,13 +24,11 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Toolkit.Uwp.Helpers;
 using SoundByte.Core;
 using SoundByte.Core.Items;
 using SoundByte.Core.Services;
 using SoundByte.UWP.Assets;
-using SoundByte.UWP.DatabaseContexts;
 using SoundByte.UWP.Dialogs;
 using SoundByte.UWP.Helpers;
 using SoundByte.UWP.Services;
@@ -126,15 +124,15 @@ namespace SoundByte.UWP
                     });
 
                 // Navigate home if we connected SoundCloud, else navigate to explore
-                NavigateTo(type == ServiceType.SoundCloud ? typeof(HomeView) : typeof(ExploreView));
+                NavigateTo(type == ServiceType.SoundCloud ? typeof(SoundCloudStreamView) : typeof(ExploreView));
 
                 // Update the UI depending if we are logged in or not
                 if (SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud) ||
                     SoundByteV3Service.Current.IsServiceConnected(ServiceType.YouTube) ||
                     SoundByteV3Service.Current.IsServiceConnected(ServiceType.Fanburst))
-                    App.Shell.ShowLoginContent();
+                    Shell.ShowLoginContent();
                 else
-                    App.Shell.ShowLogoutContent();
+                    Shell.ShowLogoutContent();
             };
 
             // Run this code when a service is disconencted from SoundByte
@@ -172,9 +170,9 @@ namespace SoundByte.UWP
                 if (SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud) ||
                     SoundByteV3Service.Current.IsServiceConnected(ServiceType.YouTube) ||
                     SoundByteV3Service.Current.IsServiceConnected(ServiceType.Fanburst))
-                    App.Shell.ShowLoginContent();
+                    Shell.ShowLoginContent();
                 else
-                    App.Shell.ShowLogoutContent();
+                    Shell.ShowLogoutContent();
             };
         }
 

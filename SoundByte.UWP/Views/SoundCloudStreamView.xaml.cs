@@ -23,15 +23,15 @@ namespace SoundByte.UWP.Views
     ///     This page displays the users stream, the latest/trending tracks,
     ///     and the users playlists/likes.
     /// </summary>
-    public sealed partial class HomeView
+    public sealed partial class SoundCloudStreamView
     {
         // The view model
-        public HomeViewModel ViewModel = new HomeViewModel();
+        public SoundCloudStreamViewModel ViewModel = new SoundCloudStreamViewModel();
 
         /// <summary>
         ///     Setup page and init the xaml
         /// </summary>
-        public HomeView()
+        public SoundCloudStreamView()
         {
             InitializeComponent();
             // Set the data context
@@ -49,10 +49,10 @@ namespace SoundByte.UWP.Views
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             if (!SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud))
-                App.NavigateTo(typeof(SoundCloudExploreView));
+                App.NavigateTo(typeof(ExploreView));
 
             // Track Event
-            TelemetryService.Instance.TrackPage("Home View");
+            TelemetryService.Instance.TrackPage("SoundCloud Stream View");
         }
     }
 }

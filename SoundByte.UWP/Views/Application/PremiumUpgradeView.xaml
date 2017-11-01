@@ -17,7 +17,7 @@
                            Style="{StaticResource SubTitleStyle}" />
 
                 <TextBlock Style="{StaticResource TextStyle}"
-                           Text="SoundByte premium is still under development, so it is not recommended to buy this product untill it is ready (unless you want to help out with development costs). " />
+                           Text="SoundByte premium is still under development, so all premium features are avaliable for everyone. " />
 
                 <TextBlock Text="What do I get?" 
                            Style="{StaticResource SubTitleStyle}" />
@@ -43,11 +43,11 @@
                 <TextBlock Style="{StaticResource TextStyle}"
                            Text="Have you previously donated or bought SoundByte (before it went free)? Due to limitations I cannot detect if your have donated or bought the app in the past. If you click the link below and send proof of purchase, I will send you a code to get premium for free! If you are new, purchasing SoundByte Premium is easy. You have two options, buy the one-time addon, or buy the subscription (first month free). " />
 
-                <HyperlinkButton Content="Previously bought or donated?"  NavigateUri="mailto:soundbyteuwp@gmail.com" Style="{StaticResource LinkStyle}"  />
+                <HyperlinkButton Content="Previously bought or donated?"  NavigateUri="mailto:soundbyteuwp@gmail.com" Style="{StaticResource LinkStyle}" IsEnabled="False"   />
 
 
-                <HyperlinkButton Content="Buy SoundByte Premium ($--.--)" Style="{StaticResource LinkStyle}"  />
-                <HyperlinkButton Content="Subscribe to SoundByte Premium ($--.-- / month)" Style="{StaticResource LinkStyle}"  />
+                <HyperlinkButton Content="Buy SoundByte Premium ($--.--)" Style="{StaticResource LinkStyle}" IsEnabled="False"  />
+                <HyperlinkButton Content="Subscribe to SoundByte Premium ($--.-- / month)" Style="{StaticResource LinkStyle}" IsEnabled="False"  />
 
 
                 <TextBlock Text="Donate" 

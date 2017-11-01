@@ -14,7 +14,7 @@
                        FontFamily="Segoe MDL2 Assets"
                        FontSize="157" 
                        AutomationProperties.Name="XboxOneConsole" />
-            <TextBlock Text="Connect your Xbox One"
+            <TextBlock Text="Connect Your Remote Device"
                        FontWeight="SemiLight"
                        TextAlignment="Center"
                        Margin="0,20,0,40"
@@ -23,7 +23,7 @@
                        FontSize="18"
                        FontWeight="Normal"
                        TextAlignment="Center"               
-                       Text="Open SoundByte on your Xbox One, click the 'Person' icon and click on 'Connect with PC'"/>
+                       Text="Open SoundByte on your Xbox One, click the 'People' icon and click on 'Connect with PC'"/>
             <TextBlock Opacity="0.8"
                        FontWeight="Normal"
                        FontSize="18"
@@ -36,10 +36,10 @@
                        FontSize="12"
                        Margin="0,5,0,0"
                        TextAlignment="Center"               
-                       Text="SoundByte v2.1.91 or higher is required. Can take up to 30 seconds to process."/>
+                       Text="SoundByte v17.11 or higher is required. Can take up to 30 seconds to process."/>
 
             <TextBox x:Name="LoginCodeTextBox" TextAlignment="Center" PlaceholderText="00000" BorderThickness="0" Background="Transparent" FontWeight="SemiLight" Padding="15" FontSize="30" HorizontalAlignment="Center" Margin="0,20,0,40" />
-            <Button Click="XboxOneConnectRequest" HorizontalAlignment="Center" Content="Connect" FontSize="18" Padding="35,15" Foreground="{ThemeResource AppBarItemForegroundThemeBrush}" Background="{ThemeResource SystemControlBackgroundAccentBrush}" BorderThickness="0" FontWeight="SemiBold"  />
+            <Button Click="XboxOneConnectRequest" HorizontalAlignment="Center" Content="Connect (SoundCloud)" FontSize="18" Padding="35,15" Foreground="White" Background="{ThemeResource SystemControlBackgroundAccentBrush}" BorderThickness="0" FontWeight="SemiBold"  />
             <HyperlinkButton Content="Go Back"  HorizontalAlignment="Center" ContentTemplate="{StaticResource HyperlinkClean}" Foreground="{ThemeResource AppBarItemForegroundThemeBrush}" Margin="0,15,0,0" Click="XboxConnectGoBack"/>
         </StackPanel>
         
@@ -110,9 +110,9 @@
                                  Style="{StaticResource LinkStyle}" 
                                  Click="DisconnectYouTubeAccount" />
 
-                <TextBlock Text="Remote (SoundCloud Only)" Style="{StaticResource SubTitleStyle}" />
+                <TextBlock Text="Remote" Style="{StaticResource SubTitleStyle}" />
                 <HyperlinkButton x:Name="XboxConnectPanel"
-                                  Content="Remote Connect Xbox One" 
+                                  Content="Connect Remote Device" 
                                  Style="{StaticResource LinkStyle}" 
                                  Click="ConnectXboxOne" />
 
