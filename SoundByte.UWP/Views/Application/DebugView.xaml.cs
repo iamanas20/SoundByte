@@ -58,5 +58,29 @@ namespace SoundByte.UWP.Views.Application
 
             await new MessageDialog(itemsList, "WAN Show Episodes").ShowAsync();
         }
+
+        private async void GetWebClient(object sender, RoutedEventArgs e)
+        {
+            using (var client = new Windows.Web.Http.HttpClient())
+            {
+                var content = await client.GetAsync(new Uri("https://raw.githubusercontent.com/DominicMaas/SoundByte/master/README.md"));
+                content.EnsureSuccessStatusCode();
+
+                var result = await content.Content.ReadAsStringAsync();
+                await new MessageDialog(result).ShowAsync();
+            }
+        }
+
+        private async void GetNetClient(object sender, RoutedEventArgs e)
+        {
+            using (var client = new System.Net.Http.HttpClient())
+            {
+                var content = await client.GetAsync(new Uri("https://raw.githubusercontent.com/DominicMaas/SoundByte/master/README.md"));
+                content.EnsureSuccessStatusCode();
+
+                var result = await content.Content.ReadAsStringAsync();
+                await new MessageDialog(result).ShowAsync();
+            }
+        }
     }
 }

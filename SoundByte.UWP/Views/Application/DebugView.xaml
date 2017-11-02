@@ -20,7 +20,14 @@
 
             <TextBlock Text="Podcast Testing"     
                        Style="{StaticResource SubTitleStyle}" />
-            <Button Content="Search 'Space' podcasts via iTunes" Click="GetItunes" />
+            <Button Content="Search for 'WAN SHOW' and get all episodes." Click="GetItunes" />
+
+            <TextBlock Text="HTTP Testing"     
+                       Style="{StaticResource SubTitleStyle}" />
+            <Button Content="Get with System.Web.HTTPClient" Click="GetWebClient" />
+
+            <Button Content="Get with System.Net.HTTPClient" Click="GetNetClient" />
+
 
         </StackPanel>
     </Grid>

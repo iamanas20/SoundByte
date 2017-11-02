@@ -89,13 +89,6 @@ namespace SoundByte.UWP
                 Application.Current.Resources["CircleButtonStyle"] =
                     Application.Current.Resources["XboxCircleButtonStyle"];
             }
-
-            if (string.IsNullOrEmpty(path))
-            {
-                RootFrame.Navigate(SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud)
-                    ? typeof(SoundCloudStreamView)
-                    : typeof(ExploreView));
-            }
         }
 
         private async void InstanceOnOnCurrentTrackChanged(BaseTrack newTrack)
@@ -442,7 +435,8 @@ namespace SoundByte.UWP
             }
 
             // Update the UI depending if we are logged in or not
-            if (SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud) ||
+            if (SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud) || 
+                SoundByteV3Service.Current.IsServiceConnected(ServiceType.YouTube) ||
                 SoundByteV3Service.Current.IsServiceConnected(ServiceType.Fanburst))
                 ShowLoginContent();
             else
