@@ -11,11 +11,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:user="using:SoundByte.Core.Items.User"
-    xmlns:track="using:SoundByte.Core.Items.Track"
-    xmlns:playlist="using:SoundByte.Core.Items.Playlist"
-    xmlns:usercontrols="using:SoundByte.UWP.UserControls"
-    x:Class="SoundByte.UWP.Resources.DataTemplates">
+    xmlns:usercontrols="using:SoundByte.UWP.UserControls">
 
     <ItemsPanelTemplate x:Key="DesktopGridPanel">
         <ItemsWrapGrid Orientation="Horizontal" />
@@ -27,19 +23,19 @@
 
 
     <!-- Template for the playlist item -->
-    <DataTemplate x:Key="PlaylistItem" x:DataType="playlist:BasePlaylist">
+    <DataTemplate x:Key="PlaylistItem">
         <usercontrols:SoundByteItem ItemType="Playlist" 
-                                    Playlist="{x:Bind}"/>
+                                    Playlist="{Binding}"/>
     </DataTemplate>
     
    
     <!-- Mobile template for the track item -->
-    <DataTemplate x:Key="MobileTrackItem" x:DataType="track:BaseTrack">
+    <DataTemplate x:Key="MobileTrackItem">
         <Grid HorizontalAlignment="Stretch" 
               Margin="5">
             <!-- On Hover, show the full track title -->
             <ToolTipService.ToolTip>
-                <TextBlock Text="{x:Bind Title, Mode=OneWay}" />
+                <TextBlock Text="{Binding Title, Mode=OneWay}" />
             </ToolTipService.ToolTip>
 
             <!-- Drop Shadow for track image -->
@@ -54,12 +50,11 @@
                                       OffsetY="5"
                                       Color="Black">
                 <Grid>
-                    <Image Source="{x:Bind Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
+                    <Image Source="{Binding Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
                            VerticalAlignment="Stretch"
                            HorizontalAlignment="Stretch"
                            IsHitTestVisible="False"
                            x:Name="TrackImage"
-                           x:Phase="5"
                            Width="90"
                            Height="90"
                            Stretch="UniformToFill" />
@@ -68,8 +63,7 @@
                     <Grid RequestedTheme="Dark"  Padding="6" HorizontalAlignment="Right"
                           VerticalAlignment="Bottom">
                         <TextBlock RequestedTheme="Dark"
-                                   Text="{x:Bind Duration, Mode=OneWay, Converter={StaticResource TimeStampConverter}}"
-                                   x:Phase="3"
+                                   Text="{Binding Duration, Mode=OneWay, Converter={StaticResource TimeStampConverter}}"
                                    FontSize="12"
                                    FontWeight="Normal" />
                     </Grid>
@@ -78,8 +72,7 @@
             <!-- Playlist info below image -->
             <StackPanel Orientation="Vertical" x:Name="TitlePanel" Margin="110,5,5,5" VerticalAlignment="Center" >
                 <TextBlock x:Name="TitleText"
-                           Text="{x:Bind Title, Mode=OneWay}"
-                           x:Phase="3"
+                           Text="{Binding Title, Mode=OneWay}"
                            FontWeight="SemiLight"
                            Margin="0,0,0,4"
                            TextAlignment="Left"
@@ -90,8 +83,7 @@
                            TextTrimming="CharacterEllipsis" />
 
                 <TextBlock x:Name="TitleDescription"
-                           Text="{x:Bind User.Username, Mode=OneWay}"
-                           x:Phase="3"
+                           Text="{Binding User.Username, Mode=OneWay}"
                            FontSize="14"
                            Opacity="0.7"
                            TextAlignment="Left"
@@ -101,15 +93,15 @@
     </DataTemplate>
 
      <!-- Template for the track item -->
-    <DataTemplate x:Key="TrackItem" x:DataType="track:BaseTrack">
+    <DataTemplate x:Key="TrackItem">
         <usercontrols:SoundByteItem ItemType="Track" 
-                                    Track="{x:Bind}"/>
+                                    Track="{Binding}"/>
     </DataTemplate>
 
     <!-- User Item -->
-    <DataTemplate x:Key="UserItem" x:DataType="user:BaseUser">
+    <DataTemplate x:Key="UserItem">
         <usercontrols:SoundByteItem ItemType="User" 
-                                    User="{x:Bind}"/>
+                                    User="{Binding}"/>
     </DataTemplate>
 
     <!-- Clean hyperlinks without underline -->

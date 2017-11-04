@@ -42,7 +42,7 @@ namespace SoundByte.UWP.ViewModels
             if (newPlaylist != null && (Playlist == null || Playlist.Id != newPlaylist.Id))
             {
                 // Show the loading ring
-                (App.CurrentFrame?.FindName("PlaylistInfoPane") as InfoPane)?.ShowLoading();
+                await App.SetLoadingAsync(true);
 
                 // Set the playlist
                 Playlist = newPlaylist;
@@ -71,23 +71,18 @@ namespace SoundByte.UWP.ViewModels
 
                 try
                 {
-                    // Show the loading ring
-                    (App.CurrentFrame?.FindName("PlaylistInfoPane") as InfoPane)?.ShowLoading();
                     // Get the playlist tracks
                     var playlistTracks =
                         (await SoundByteV3Service.Current.GetAsync<SoundCloudPlaylist>(ServiceType.SoundCloud, "/playlists/" + Playlist.Id)).Tracks;
                     playlistTracks.ForEach(x => Tracks.Add(x.ToBaseTrack()));
-                    // Hide the loading ring
-                    (App.CurrentFrame?.FindName("PlaylistInfoPane") as InfoPane)?.ClosePane();
                 }
                 catch (Exception)
                 {
-                    (App.CurrentFrame?.FindName("PlaylistInfoPane") as InfoPane)?.ShowMessage("Could not load tracks",
-                        "Something went wrong when trying to load the tracks for this playlist, please make sure you are connected to the internet and then go back, and click on this playlist again.", false);
+                    await new MessageDialog("Could not load tracks", "Something went wrong when trying to load the tracks for this playlist, please make sure you are connected to the internet and then go back, and click on this playlist again.").ShowAsync();
                 }
 
                 // Hide the loading ring
-                (App.CurrentFrame?.FindName("PlaylistInfoPane") as InfoPane)?.ClosePane();
+                await App.SetLoadingAsync(false);
             }
         }
 
@@ -262,8 +257,8 @@ namespace SoundByte.UWP.ViewModels
             var startPlayback =
                 await PlaybackService.Instance.StartPlaylistMediaPlaybackAsync(Tracks.ToList(), false, item);
 
-            if (!startPlayback.success)
-                await new MessageDialog(startPlayback.message, "Error playing playlist.").ShowAsync();
+            if (!startPlayback.Success)
+                await new MessageDialog(startPlayback.Message, "Error playing playlist.").ShowAsync();
         }
 
         /// <summary>
@@ -274,8 +269,8 @@ namespace SoundByte.UWP.ViewModels
             var startPlayback =
                 await PlaybackService.Instance.StartPlaylistMediaPlaybackAsync(Tracks.ToList());
 
-            if (!startPlayback.success)
-                await new MessageDialog(startPlayback.message, "Error playing playlist.").ShowAsync();
+            if (!startPlayback.Success)
+                await new MessageDialog(startPlayback.Message, "Error playing playlist.").ShowAsync();
         }
 
         #endregion

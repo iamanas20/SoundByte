@@ -57,8 +57,8 @@ namespace SoundByte.UWP.Views.Me
 
             var startPlayback = await PlaybackService.Instance.StartModelMediaPlaybackAsync(LikesModel);
 
-            if (!startPlayback.success)
-                await new MessageDialog(startPlayback.message, "Error playing likes.").ShowAsync();
+            if (!startPlayback.Success)
+                await new MessageDialog(startPlayback.Message, "Error playing likes.").ShowAsync();
 
             // We are not loading
             App.IsLoading = false;
@@ -72,8 +72,8 @@ namespace SoundByte.UWP.Views.Me
             var startPlayback =
                 await PlaybackService.Instance.StartModelMediaPlaybackAsync(LikesModel, false, (BaseTrack) e.ClickedItem);
 
-            if (!startPlayback.success)
-                await new MessageDialog(startPlayback.message, "Error playing likes.").ShowAsync();
+            if (!startPlayback.Success)
+                await new MessageDialog(startPlayback.Message, "Error playing likes.").ShowAsync();
 
             // We are not loading
             App.IsLoading = false;

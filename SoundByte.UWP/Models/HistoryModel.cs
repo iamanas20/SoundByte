@@ -17,7 +17,6 @@ using Microsoft.Toolkit.Uwp.Helpers;
 using SoundByte.Core.Exceptions;
 using SoundByte.Core.Items.Track;
 using SoundByte.UWP.DatabaseContexts;
-using SoundByte.UWP.UserControls;
 
 namespace SoundByte.UWP.Models
 {
@@ -35,104 +34,80 @@ namespace SoundByte.UWP.Models
         // ReSharper disable once RedundantAssignment
         protected override async Task<int> LoadMoreItemsAsync(int count)
         {
-            // Return a task that will get the items
-            return await Task.Run(async () =>
+            try
             {
-                // We are loading
-                await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
+                using (var db = new HistoryContext())
                 {
-                    (App.CurrentFrame?.FindName("HistoryModelInfoPane") as InfoPane)?.ShowLoading();
-                });
+                    if (_firstTime)
+                        db.Database.Migrate();
 
-                try
-                {
-                    using (var db = new HistoryContext())
+                    _firstTime = false;
+
+                    if (count <= 10)
+                        count = 10;
+
+                    if (count >= 50)
+                        count = 50;
+
+                    // Set the default token to zero
+                    if (string.IsNullOrEmpty(Token))
+                        Token = "0";
+
+                    if (Token == "eol")
+                        Token = "0";
+
+                    // Get items in date descending order, skip the token and take the count
+                    var items = db.Tracks.Include(x => x.User).OrderByDescending(x => x.LastPlaybackDate).Skip(int.Parse(Token)).Take(count);
+
+                    if (items.Any())
                     {
-                        if (_firstTime)
-                            db.Database.Migrate();
+                        // Set the count variable
+                        count = items.Count();
 
-                        _firstTime = false;
-
-                        if (count <= 10)
-                            count = 10;
-
-                        if (count >= 50)
-                            count = 50;
-
-                        // Set the default token to zero
-                        if (string.IsNullOrEmpty(Token))
-                            Token = "0";
-
-                        if (Token == "eol")
-                            Token = "0";
-
-                        // Get items in date descending order, skip the token and take the count
-                        var items = db.Tracks.Include(x => x.User).OrderByDescending(x => x.LastPlaybackDate).Skip(int.Parse(Token)).Take(count);
-
-                        if (items.Any())
+                        // Loop though all the tracks on the UI thread
+                        await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                         {
-                            // Set the count variable
-                            count = items.Count();
-
-                            // Loop though all the tracks on the UI thread
-                            await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
+                            foreach (var track in items)
                             {
-                                foreach (var track in items)
-                                {
-                                    Add(track);
-                                }
-                            });
-                        }
-                        else
-                        {
-                            // There are no items, so we added no items
-                            count = 0;
-
-                            // Reset the token
-                            Token = "eol";
-
-                            if (Count == 0)
-                            {
-                                // No items tell the user
-                                await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
-                                {
-                                    (App.CurrentFrame?.FindName("HistoryModelInfoPane") as InfoPane)?.ShowMessage(
-                                        "No History", "Listen to some music to get started.", false);
-                                });
+                                Add(track);
                             }
-                         
+                        });
+                    }
+                    else
+                    {
+                        // There are no items, so we added no items
+                        count = 0;
+
+                        // Reset the token
+                        Token = "eol";
+
+                        if (Count == 0)
+                        {
+                            // No items tell the user
+                            await ShowErrorMessageAsync("No History", "Listen to some music to get started.");
                         }
 
-                        // Set the new token;
-                        if (Token != "eol")
-                            Token = (int.Parse(Token) + count).ToString();
-                    }   
+                    }
+
+                    // Set the new token;
+                    if (Token != "eol")
+                        Token = (int.Parse(Token) + count).ToString();
                 }
-                catch (SoundByteException ex)
-                {
-                    // Exception, most likely did not add any new items
-                    count = 0;
+            }
+            catch (SoundByteException ex)
+            {
+                // Exception, most likely did not add any new items
+                count = 0;
 
-                    // Reset the token
-                    Token = "eol";
+                // Reset the token
+                Token = "eol";
 
-                    // Exception, display error to the user
-                    await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
-                    {
-                        (App.CurrentFrame?.FindName("HistoryModelInfoPane") as InfoPane)?.ShowMessage(
-                            ex.ErrorTitle, ex.ErrorDescription);
-                    });
-                }
+                // Exception, display error to the user
+                await ShowErrorMessageAsync(ex.ErrorTitle, ex.ErrorDescription);
+            }
 
-                // We are not loading
-                await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
-                {
-                    (App.CurrentFrame?.FindName("HistoryModelInfoPane") as InfoPane)?.ClosePane();
-                });
-
-                // Return the result
-                return count;
-            });
+            // Return the result
+            return count;
         }
     }
 }

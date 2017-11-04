@@ -48,8 +48,8 @@ namespace SoundByte.UWP.ViewModels
         {
             var startPlayback = await PlaybackService.Instance.StartPlaylistMediaPlaybackAsync(tracks, true);
 
-            if (!startPlayback.success)
-                await new MessageDialog(startPlayback.message, "Error playing shuffled tracks.").ShowAsync();
+            if (!startPlayback.Success)
+                await new MessageDialog(startPlayback.Message, "Error playing shuffled tracks.").ShowAsync();
 
             App.IsLoading = false;
         }
@@ -64,8 +64,8 @@ namespace SoundByte.UWP.ViewModels
 
             var startPlayback = await PlaybackService.Instance.StartModelMediaPlaybackAsync(model, true);
 
-            if (!startPlayback.success)
-                await new MessageDialog(startPlayback.message, "Error playing shuffled tracks.").ShowAsync();
+            if (!startPlayback.Success)
+                await new MessageDialog(startPlayback.Message, "Error playing shuffled tracks.").ShowAsync();
 
             App.IsLoading = false;
         }

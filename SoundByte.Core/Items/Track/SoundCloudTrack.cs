@@ -161,6 +161,12 @@ namespace SoundByte.Core.Items.Track
             };
         }
 
+        public class SearchResponse
+        {
+            public IEnumerable<BaseTrack> Tracks { get; set; }
+            public string Token { get; set; }
+        }
+
         /// <summary>
         /// Search the SoundCloud API for tracks
         /// </summary>
@@ -169,7 +175,7 @@ namespace SoundByte.Core.Items.Track
         /// <param name="token"></param>
         /// <param name="cancellationTokenSource"></param>
         /// <returns></returns>
-        public static async Task<(IEnumerable<BaseTrack> Tracks, string Token)> SearchAsync(string searchTerm, uint count, string token, CancellationTokenSource cancellationTokenSource = null)
+        public static async Task<SearchResponse> SearchAsync(string searchTerm, uint count, string token, CancellationTokenSource cancellationTokenSource = null)
         {
             if (count <= 10)
                 count = 10;
@@ -193,7 +199,7 @@ namespace SoundByte.Core.Items.Track
             searchTracks.Tracks.ForEach(x => baseTrackList.Add(x.ToBaseTrack()));
 
             // Return the data
-            return (baseTrackList, nextToken);
+            return new SearchResponse {Token = nextToken, Tracks = baseTrackList };
         }
 
         /// <summary>
@@ -203,7 +209,7 @@ namespace SoundByte.Core.Items.Track
         /// <param name="token">Position in the comments (depends on service)</param>
         /// <param name="cancellationTokenSource"></param>
         /// <returns>A list of base comments and the next token</returns>
-        public async Task<BaseTrack.CommentResponse> GetCommentsAsync(uint count, string token, CancellationTokenSource cancellationTokenSource = null)
+        public async Task<BaseTrack.CommentResponse> GetCommentsAsync(int count, string token, CancellationTokenSource cancellationTokenSource = null)
         {
             // Grab a list of SoundCloud comments
             var soundCloudComments = await SoundByteV3Service.Current.GetAsync<CommentListHolder>(ServiceType.SoundCloud,

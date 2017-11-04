@@ -48,22 +48,22 @@ namespace SoundByte.UWP.Views
         public async void PlayChartItem(object sender, ItemClickEventArgs e)
         {
             var startPlayback = await PlaybackService.Instance.StartModelMediaPlaybackAsync(ExploreTracks, false, (BaseTrack)e.ClickedItem);
-            if (!startPlayback.success)
-                await new MessageDialog(startPlayback.message, "Error playing track.").ShowAsync();
+            if (!startPlayback.Success)
+                await new MessageDialog(startPlayback.Message, "Error playing track.").ShowAsync();
         }
 
         public async void PlayYouTubeItem(object sender, ItemClickEventArgs e)
         {
             var startPlayback = await PlaybackService.Instance.StartModelMediaPlaybackAsync(YouTubeTracks, false, (BaseTrack)e.ClickedItem);
-            if (!startPlayback.success)
-                await new MessageDialog(startPlayback.message, "Error playing track.").ShowAsync();
+            if (!startPlayback.Success)
+                await new MessageDialog(startPlayback.Message, "Error playing track.").ShowAsync();
         }
 
         public async void PlayFanburstItem(object sender, ItemClickEventArgs e)
         {
             var startPlayback = await PlaybackService.Instance.StartModelMediaPlaybackAsync(FanburstTracks, false, (BaseTrack)e.ClickedItem);
-            if (!startPlayback.success)
-                await new MessageDialog(startPlayback.message, "Error playing track.").ShowAsync();
+            if (!startPlayback.Success)
+                await new MessageDialog(startPlayback.Message, "Error playing track.").ShowAsync();
         }
 
         public void NavigateMoreCharts()

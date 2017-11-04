@@ -10,7 +10,6 @@
  * |----------------------------------------------------------------|
  */
 
-using System;
 using Windows.UI.Xaml;
 
 namespace SoundByte.UWP.UserControls
@@ -123,45 +122,10 @@ namespace SoundByte.UWP.UserControls
         #endregion
 
         #region Methods
-
-        [Obsolete]
-        public void ShowLoading()
-        {
-            IsLoading = true;
-        }
-
-
-        [Obsolete]
-        public void ShowMessage(string header, string text, bool showButton = true)
-        {
-            IsError = true;
-            // Update the needed variables
-            Header = header;
-            Text = text;
-
-            // Logic to show or hide the buton
-          //  CloseButton.Visibility = showButton ? Visibility.Visible : Visibility.Collapsed;
-        }
-
         public void ClosePaneButtonClick()
         {
             IsError = false;
         }
-
-        /// <summary>
-        ///     Closes the pane
-        /// </summary>
-        [Obsolete]
-        public void ClosePane()
-        {
-            if (LoadingRing.Visibility == Visibility.Visible)
-            {
-                // Hide the pane
-                Visibility = Visibility.Collapsed;
-                Opacity = 0;
-            }
-        }
-
         #endregion
     }
 }

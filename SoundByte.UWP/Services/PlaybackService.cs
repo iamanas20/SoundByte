@@ -635,9 +635,6 @@ namespace SoundByte.UWP.Services
                     case ServiceType.SoundCloudV2:
                         var key = await GetCorrectApiKey(track);
 
-                        var ass = await AdaptiveMediaSource.CreateFromUriAsync(new Uri("https://api.soundcloud.com/tracks/" + track.Id + "/stream?client_id=" + key));
-
-
                         args.SetUri(new Uri("https://api.soundcloud.com/tracks/" + track.Id + "/stream?client_id=" + key));
                         break;
                     case ServiceType.YouTube:
@@ -679,8 +676,6 @@ namespace SoundByte.UWP.Services
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
-
-
             }
             catch
             {
@@ -690,6 +685,18 @@ namespace SoundByte.UWP.Services
             await App.SetLoadingAsync(false);
 
             defferal.Complete();
+        }
+
+        public class PlaybackResponse
+        {
+            public PlaybackResponse(bool _success, string _messsage)
+            {
+                Success = _success;
+                Message = _messsage;
+            }
+
+            public string Message { get; set; }
+            public bool Success { get; set; }
         }
 
         #region Setup/Start Media Playback Methods
@@ -702,7 +709,7 @@ namespace SoundByte.UWP.Services
         /// <param name="isShuffled">Should we shuffle the items?</param>
         /// <param name="startingItem">The track to start playing from.</param>
         /// <returns>A Tuple, if sucessful and if not, the error message.</returns>
-        public async Task<(bool success, string message)> StartPlaylistMediaPlaybackAsync(IEnumerable<BaseTrack> playlist,
+        public async Task<PlaybackResponse> StartPlaylistMediaPlaybackAsync(IEnumerable<BaseTrack> playlist,
             bool isShuffled = false, BaseTrack startingItem = null)
         {
             // Create a dummy base track items
@@ -723,12 +730,12 @@ namespace SoundByte.UWP.Services
         /// <param name="isShuffled">Should the tracks be played shuffled.</param>
         /// <param name="startingItem">What track to start with.</param>
         /// <returns></returns>
-        public async Task<(bool success, string message)> StartModelMediaPlaybackAsync(BaseModel<BaseTrack> model,
+        public async Task<PlaybackResponse> StartModelMediaPlaybackAsync(BaseModel<BaseTrack> model,
             bool isShuffled = false, BaseTrack startingItem = null)
         {
             // If no playlist was specified, skip
             if (model == null || model.Count == 0)
-                return (false,
+                return new PlaybackResponse(false,
                     "The playback list was missing or empty. This can be caused if there are not tracks avaliable (for example, you are trying to play your likes, but have not liked anything yet).\n\nAnother reason for this message is that if your playing a track from SoundCloud, SoundCloud has blocked these tracks from being played on 3rd party apps (such as SoundByte).");
 
             await App.SetLoadingAsync(true);
@@ -763,7 +770,7 @@ namespace SoundByte.UWP.Services
             if (isShuffled || startingItem == null)
             {
                 Player.Play();
-                return (true, string.Empty);
+                return new PlaybackResponse(true, string.Empty);
             }
 
             var keepTrying = 0;
@@ -788,7 +795,7 @@ namespace SoundByte.UWP.Services
                     // Begin playing
                     Player.Play();
 
-                    return (true, string.Empty);
+                    return new PlaybackResponse(true, string.Empty);
                 }
                 catch (Exception)
                 {
@@ -796,14 +803,14 @@ namespace SoundByte.UWP.Services
                     await Task.Delay(200);
                 }
 
-            if (keepTrying < 50) return (true, string.Empty);
+            if (keepTrying < 50) return new PlaybackResponse(true, string.Empty);
 
             TelemetryService.Instance.TrackEvent("Playback Could not Start", new Dictionary<string, string>
             {
                 {"track_id", startingItem.Id}
             });
 
-            return (false, "SoundByte could not play this track or list of tracks. Try again later.");
+            return new PlaybackResponse(false, "SoundByte could not play this track or list of tracks. Try again later.");
         }
 
         private void PlaylistOnOnMoreItemsLoaded(IEnumerable<BaseTrack> newItems)

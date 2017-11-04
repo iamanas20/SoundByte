@@ -12,7 +12,6 @@
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Resources;
 using Microsoft.Toolkit.Uwp.Helpers;
 using SoundByte.Core;
 using SoundByte.Core.Exceptions;
@@ -23,17 +22,9 @@ namespace SoundByte.UWP.Models.Fanburst
 {
     public class FanburstExploreModel : BaseModel<BaseTrack>
     {
+        // ReSharper disable once RedundantAssignment
         protected override async Task<int> LoadMoreItemsAsync(int count)
         {
-            // Get the resource loader
-            var resources = ResourceLoader.GetForViewIndependentUse();
-
-            if (count <= 10)
-                count = 10;
-
-            if (count >= 50)
-                count = 50;
-
             try
             {
                 // Search for matching tracks

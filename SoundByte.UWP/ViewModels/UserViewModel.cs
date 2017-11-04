@@ -318,8 +318,8 @@ namespace SoundByte.UWP.ViewModels
 
             var startPlayback =
                 await PlaybackService.Instance.StartModelMediaPlaybackAsync(TracksList, false, (BaseTrack) e.ClickedItem);
-            if (!startPlayback.success)
-                await new MessageDialog(startPlayback.message, "Error playing user track.").ShowAsync();
+            if (!startPlayback.Success)
+                await new MessageDialog(startPlayback.Message, "Error playing user track.").ShowAsync();
 
             App.IsLoading = false;
         }
@@ -330,8 +330,8 @@ namespace SoundByte.UWP.ViewModels
 
             var startPlayback =
                 await PlaybackService.Instance.StartModelMediaPlaybackAsync(LikeItems, false, (BaseTrack) e.ClickedItem);
-            if (!startPlayback.success)
-                await new MessageDialog(startPlayback.message, "Error playing liked user track.").ShowAsync();
+            if (!startPlayback.Success)
+                await new MessageDialog(startPlayback.Message, "Error playing liked user track.").ShowAsync();
 
             App.IsLoading = false;
         }

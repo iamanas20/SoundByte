@@ -44,8 +44,8 @@ namespace SoundByte.UWP.Views
 
             var startPlayback =
                 await PlaybackService.Instance.StartModelMediaPlaybackAsync(ChartsModel);
-            if (!startPlayback.success)
-                await new MessageDialog(startPlayback.message, "Error playing track.").ShowAsync();
+            if (!startPlayback.Success)
+                await new MessageDialog(startPlayback.Message, "Error playing track.").ShowAsync();
         }
 
         public async void PlayShuffleChartItems()
@@ -56,8 +56,8 @@ namespace SoundByte.UWP.Views
         public async void PlayChartItem(object sender, ItemClickEventArgs e)
         {
             var startPlayback = await PlaybackService.Instance.StartModelMediaPlaybackAsync(ChartsModel, false, (BaseTrack)e.ClickedItem);
-            if (!startPlayback.success)
-                await new MessageDialog(startPlayback.message, "Error playing track.").ShowAsync();
+            if (!startPlayback.Success)
+                await new MessageDialog(startPlayback.Message, "Error playing track.").ShowAsync();
         }
 
         /// <summary>

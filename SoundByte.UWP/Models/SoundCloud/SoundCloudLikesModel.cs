@@ -22,7 +22,6 @@ using SoundByte.Core.Items.Track;
 using SoundByte.Core.Items.User;
 using SoundByte.Core.Services;
 using SoundByte.UWP.Services;
-using SoundByte.UWP.UserControls;
 
 namespace SoundByte.UWP.Models.SoundCloud
 {
@@ -50,119 +49,89 @@ namespace SoundByte.UWP.Models.SoundCloud
         // ReSharper disable once RedundantAssignment
         protected override async Task<int> LoadMoreItemsAsync(int count)
         {
-            // Return a task that will get the items
-            return await Task.Run(async () =>
+            // Get the resource loader
+            var resources = ResourceLoader.GetForViewIndependentUse();
+
+            // Check if the user is not logged in
+            if (User != null)
             {
-                // We are loading
-                await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
+                try
                 {
-                    (App.CurrentFrame?.FindName("LikeModelInfoPane") as InfoPane)?.ShowLoading();
-                });
+                    if (count <= 10)
+                        count = 10;
 
-                // Get the resource loader
-                var resources = ResourceLoader.GetForViewIndependentUse();
+                    if (count >= 50)
+                        count = 50;
 
-                // Check if the user is not logged in
-                if (User != null)
-                {
-                    try
-                    {
-                        if (count <= 10)
-                            count = 10;
-
-                        if (count >= 50)
-                            count = 50;
-
-                        // Get the like tracks
-                        var likeTracks = await SoundByteV3Service.Current.GetAsync<TrackListHolder>(
-                            ServiceType.SoundCloud,
-                            $"/users/{User.Id}/favorites", new Dictionary<string, string>
-                            {
+                    // Get the like tracks
+                    var likeTracks = await SoundByteV3Service.Current.GetAsync<TrackListHolder>(
+                        ServiceType.SoundCloud,
+                        $"/users/{User.Id}/favorites", new Dictionary<string, string>
+                        {
                                 {"limit", count.ToString()},
                                 {"cursor", Token},
                                 {"linked_partitioning", "1"}
-                            });
+                        });
 
-                        // Parse uri for offset
-                        var param = new QueryParameterCollection(likeTracks.NextList);
-                        var cursor = param.FirstOrDefault(x => x.Key == "cursor").Value;
+                    // Parse uri for offset
+                    var param = new QueryParameterCollection(likeTracks.NextList);
+                    var cursor = param.FirstOrDefault(x => x.Key == "cursor").Value;
 
-                        // Get the likes cursor
-                        Token = string.IsNullOrEmpty(cursor) ? "eol" : cursor;
+                    // Get the likes cursor
+                    Token = string.IsNullOrEmpty(cursor) ? "eol" : cursor;
 
-                        // Make sure that there are tracks in the list
-                        if (likeTracks.Tracks.Count > 0)
-                        {
-                            // Set the count variable
-                            count = likeTracks.Tracks.Count;
-
-                            // Loop though all the tracks on the UI thread
-                            await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
-                            {
-                                foreach (var track in likeTracks.Tracks)
-                                {
-                                    Add(track.ToBaseTrack());
-                                }
-                            });
-                        }
-                        else
-                        {
-                            // There are no items, so we added no items
-                            count = 0;
-
-                            // Reset the token
-                            Token = "eol";
-
-                            // No items tell the user
-                            await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
-                            {
-                                (App.CurrentFrame?.FindName("LikeModelInfoPane") as InfoPane)?.ShowMessage(
-                                    resources.GetString("LikeTracks_Header"),
-                                    resources.GetString("LikeTracks_Content"), false);
-                            });
-                        }
-                    }
-                    catch (SoundByteException ex)
+                    // Make sure that there are tracks in the list
+                    if (likeTracks.Tracks.Count > 0)
                     {
-                        // Exception, most likely did not add any new items
-                        count = 0;
+                        // Set the count variable
+                        count = likeTracks.Tracks.Count;
 
-                        TelemetryService.Instance.TrackException(ex, false);
-
-                        // Exception, display error to the user
+                        // Loop though all the tracks on the UI thread
                         await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                         {
-                            (App.CurrentFrame?.FindName("LikeModelInfoPane") as InfoPane)?.ShowMessage(
-                                ex.ErrorTitle, ex.ErrorDescription);
+                            foreach (var track in likeTracks.Tracks)
+                            {
+                                Add(track.ToBaseTrack());
+                            }
                         });
                     }
+                    else
+                    {
+                        // There are no items, so we added no items
+                        count = 0;
+
+                        // Reset the token
+                        Token = "eol";
+
+                        // No items tell the user
+                        await ShowErrorMessageAsync(resources.GetString("LikeTracks_Header"), resources.GetString("LikeTracks_Content"));
+                    }
                 }
-                else
+                catch (SoundByteException ex)
                 {
-                    // Not logged in, so no new items
+                    // Exception, most likely did not add any new items
                     count = 0;
 
-                    // Reset the token
-                    Token = "eol";
+                    TelemetryService.Instance.TrackException(ex, false);
 
-                    // No items tell the user
-                    await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
-                    {
-                        (App.CurrentFrame?.FindName("LikeModelInfoPane") as InfoPane)?.ShowMessage(
-                            resources.GetString("ErrorControl_LoginFalse_Header"),
-                            resources.GetString("ErrorControl_LoginFalse_Content"), false);
-                    });
+                    // Exception, display error to the user
+                    await ShowErrorMessageAsync(ex.ErrorTitle, ex.ErrorDescription);
                 }
+            }
+            else
+            {
+                // Not logged in, so no new items
+                count = 0;
 
-                // We are not loading
-                await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
-                {
-                    (App.CurrentFrame?.FindName("LikeModelInfoPane") as InfoPane)?.ClosePane();
-                });
+                // Reset the token
+                Token = "eol";
 
-                // Return the result
-                return count;
-            });
+                // No items tell the user
+                await ShowErrorMessageAsync(resources.GetString("ErrorControl_LoginFalse_Header"), resources.GetString("ErrorControl_LoginFalse_Content"));
+            }
+
+            // Return the result
+            return count;
         }
     }
 }

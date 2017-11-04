@@ -10,26 +10,19 @@
  * |----------------------------------------------------------------|
  */
 
-using System;
-using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using Windows.Foundation;
-using Windows.UI.Popups;
-using Windows.UI.Xaml.Data;
 using Microsoft.Toolkit.Uwp.Helpers;
 using SoundByte.Core.Exceptions;
 using SoundByte.Core.Items.Comment;
 using SoundByte.Core.Items.Track;
 using SoundByte.UWP.Services;
-using WinRTXamlToolkit.Tools;
-using System.Linq;
 
 namespace SoundByte.UWP.Models
 {
     /// <summary>
     ///     Gets comments for a supplied track
     /// </summary>
-    public class CommentModel : ObservableCollection<BaseComment>, ISupportIncrementalLoading
+    public class CommentModel : BaseModel<BaseComment>
     {
         // The track we want to get comments for
         private BaseTrack _track;
@@ -44,89 +37,50 @@ namespace SoundByte.UWP.Models
         }
 
         /// <summary>
-        ///     The position of the comments, will be 'eol'
-        ///     if there are no new tracks
-        /// </summary>
-        public string Token { get; private set; }
-
-        /// <summary>
-        ///     Are there more items to load
-        /// </summary>
-        public bool HasMoreItems => Token != "eol";
-
-        /// <summary>
         ///     Loads stream items from the souncloud api
         /// </summary>
         /// <param name="count">The amount of items to load</param>
         // ReSharper disable once RedundantAssignment
-        public IAsyncOperation<LoadMoreItemsResult> LoadMoreItemsAsync(uint count)
+        protected override async Task<int> LoadMoreItemsAsync(int count)
         {
-            // Return a task that will get the items
-            return Task.Run(async () =>
+            _track = PlaybackService.Instance.CurrentTrack;
+
+            if (_track == null)
+                return 0;
+
+            if (count <= 10)
+                count = 10;
+
+            if (count >= 50)
+                count = 50;
+
+            try
             {
-                _track = PlaybackService.Instance.CurrentTrack;
+                var trackComments = await _track.GetCommentsAsync(count, Token);
 
+                // Get the comment offset
+                Token = string.IsNullOrEmpty(trackComments.Token) ? "eol" : trackComments.Token;
 
-                if (_track == null)
-                    return new LoadMoreItemsResult {Count = 0};
+                // Loop though all the comments on the UI thread
+                await DispatcherHelper.ExecuteOnUIThreadAsync(() => { trackComments.Comments.ForEach(Add); });
 
-                if (count <= 10)
-                    count = 10;
+                // Set the count variable
+                count = trackComments.Comments.Count;
+            }
+            catch (SoundByteException ex)
+            {
+                // Exception, most likely did not add any new items
+                count = 0;
 
-                if (count >= 50)
-                    count = 50;
+                // Reset the token
+                Token = "eol";
 
-                // We are loading
-                await DispatcherHelper.ExecuteOnUIThreadAsync(() => { App.IsLoading = true; });
+                // Exception, display error to the user
+                await ShowErrorMessageAsync(ex.ErrorTitle, ex.ErrorDescription);
+            }
 
-                try
-                {
-                    var trackComments = await _track.GetCommentsAsync(count, Token);
-
-                    // Get the comment offset
-                    Token = string.IsNullOrEmpty(trackComments.Token) ? "eol" : trackComments.Token;
-
-                    // Loop though all the comments on the UI thread
-                    await DispatcherHelper.ExecuteOnUIThreadAsync(() => { trackComments.Comments.ForEach(Add); });
-
-                    // Set the count variable
-                    count = (uint)trackComments.Comments.Count();   
-                }
-                catch (SoundByteException ex)
-                {
-                    // Exception, most likely did not add any new items
-                    count = 0;
-
-                    // Reset the token
-                    Token = "eol";
-
-                    // Exception, display error to the user
-                    await DispatcherHelper.ExecuteOnUIThreadAsync(async () =>
-                    {
-                        await new MessageDialog(ex.ErrorDescription, ex.ErrorTitle).ShowAsync();
-                    });
-                }
-
-                // We are not loading
-                await DispatcherHelper.ExecuteOnUIThreadAsync(() => { App.IsLoading = false; });
-
-                // Return the result
-                return new LoadMoreItemsResult {Count = count};
-            }).AsAsyncOperation();
+            // Return the result
+            return count;
         }
-
-        /// <summary>
-        ///     Refresh the list by removing any
-        ///     existing items and reseting the token.
-        /// </summary>
-        public void RefreshItems()
-        {
-            Token = null;
-            Clear();
-        }
-
-      
-
-       
     }
 }

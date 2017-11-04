@@ -101,8 +101,8 @@ namespace SoundByte.UWP.ViewModels.Generic
 
             var startPlayback = await PlaybackService.Instance.StartModelMediaPlaybackAsync(Model);
 
-            if (!startPlayback.success)
-                await new MessageDialog(startPlayback.message, "Playback Error").ShowAsync();
+            if (!startPlayback.Success)
+                await new MessageDialog(startPlayback.Message, "Playback Error").ShowAsync();
 
             // We are not loading
             Model.IsLoading = false;
@@ -116,8 +116,8 @@ namespace SoundByte.UWP.ViewModels.Generic
             var startPlayback =
                 await PlaybackService.Instance.StartModelMediaPlaybackAsync(Model, false, (BaseTrack)e.ClickedItem);
 
-            if (!startPlayback.success)
-                await new MessageDialog(startPlayback.message, "Playback Error").ShowAsync();
+            if (!startPlayback.Success)
+                await new MessageDialog(startPlayback.Message, "Playback Error").ShowAsync();
 
             // We are not loading
             Model.IsLoading = false;

@@ -10,14 +10,10 @@
  * |----------------------------------------------------------------|
  */
 
-using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
-using Windows.Foundation;
-using Windows.UI.Xaml.Data;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Newtonsoft.Json;
 using SoundByte.Core;
@@ -27,177 +23,119 @@ using SoundByte.Core.Items.Track;
 using SoundByte.Core.Items.User;
 using SoundByte.Core.Services;
 using SoundByte.UWP.Services;
-using SoundByte.UWP.UserControls;
 
 namespace SoundByte.UWP.Models.SoundCloud
 {
     /// <summary>
     ///     Model for the users stream
     /// </summary>
-    public class SoundCloudStreamModel : ObservableCollection<GroupedItem>, ISupportIncrementalLoading
+    public class SoundCloudStreamModel : BaseModel<GroupedItem>
     {
-        /// <summary>
-        ///     The position of the track, will be 'eol'
-        ///     if there are no new tracks
-        /// </summary>
-        public string Token { get; private set; }
-
-        /// <summary>
-        ///     Are there more items to load
-        /// </summary>
-        public bool HasMoreItems => Token != "eol";
-
-        /// <summary>
-        ///     Loads stream items from the souncloud api
-        /// </summary>
-        /// <param name="count">The amount of items to load</param>
-        // ReSharper disable once RedundantAssignment
-        public IAsyncOperation<LoadMoreItemsResult> LoadMoreItemsAsync(uint count)
+        protected override async Task<int> LoadMoreItemsAsync(int count)
         {
-            // Return a task that will get the items
-            return Task.Run(async () =>
+            // Get the resource loader
+            var resources = ResourceLoader.GetForViewIndependentUse();
+
+            // Check if the user is not logged in
+            if (SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud))
             {
-                // We are loading
-                await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
+                try
                 {
-                    (App.CurrentFrame?.FindName("StreamModelInfoPane") as InfoPane)?.ShowLoading();
-                });
+                    // At least 20 tracks at once
+                    if (count <= 10)
+                        count = 10;
 
-                // Get the resource loader
-                var resources = ResourceLoader.GetForViewIndependentUse();
+                    if (count >= 50)
+                        count = 50;
 
-                // Check if the user is not logged in
-                if (SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud))
-                {
-                    try
+                    // Get items from the users stream
+                    var streamTracks = await SoundByteV3Service.Current.GetAsync<StreamTrackHolder>(ServiceType.SoundCloud, "/e1/me/stream", new Dictionary<string, string>
                     {
-                        // At least 20 tracks at once
-                        if (count <= 10)
-                            count = 10;
+                           {"limit", count.ToString()},
+                           {"cursor", Token}
+                    });
 
-                        if (count >= 50)
-                            count = 50;
+                    // Parse uri for offset
+                    var param = new QueryParameterCollection(streamTracks.NextList);
+                    var cursor = param.FirstOrDefault(x => x.Key == "cursor").Value;
 
-                        // Get items from the users stream
-                        var streamTracks = await SoundByteV3Service.Current.GetAsync<StreamTrackHolder>(ServiceType.SoundCloud, "/e1/me/stream",
-                            new Dictionary<string, string>
-                            {
-                                {"limit", count.ToString()},
-                                {"cursor", Token}
-                            });
+                    // Get the stream cursor
+                    Token = string.IsNullOrEmpty(cursor) ? "eol" : cursor;
 
-                        // Parse uri for offset
-                        var param = new QueryParameterCollection(streamTracks.NextList);
-                        var cursor = param.FirstOrDefault(x => x.Key == "cursor").Value;
+                    // Make sure that there are tracks in the list
+                    if (streamTracks.Items.Count > 0)
+                    {
+                        // Set the count variable
+                        count = streamTracks.Items.Count;
 
-                        // Get the stream cursor
-                        Token = string.IsNullOrEmpty(cursor) ? "eol" : cursor;
-
-                        // Make sure that there are tracks in the list
-                        if (streamTracks.Items.Count > 0)
+                        // Loop though all the tracks on the UI thread
+                        await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                         {
-                            // Set the count variable
-                            count = (uint) streamTracks.Items.Count;
-
-                            // Loop though all the tracks on the UI thread
-                            await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
+                            foreach (var item in streamTracks.Items)
                             {
-                                foreach (var item in streamTracks.Items)
+                                var type = ItemType.Unknown;
+
+                                switch (item.Type)
                                 {
-                                    var type = ItemType.Track;
-
-                                    switch(item.Type)
-                                    {
-                                        case "track-repost":
-                                        case "track":
-                                            type = ItemType.Track;
-                                            break;
-                                        case "playlist-repost":
-                                        case "playlist":
-                                            type = ItemType.Playlist;
-                                            break;
-                                    }                          
-
-                                    Add(new GroupedItem
-                                    {
-                                        Type = type,
-                                        Track = item.Track?.ToBaseTrack(),
-                                        Playlist = item.Playlist?.ToBasePlaylist(),
-                                        User = item.User?.ToBaseUser()
-                                    });
+                                    case "track-repost":
+                                    case "track":
+                                        type = ItemType.Track;
+                                        break;
+                                    case "playlist-repost":
+                                    case "playlist":
+                                        type = ItemType.Playlist;
+                                        break;
                                 }
-                            });
-                        }
-                        else
-                        {
-                            // There are no items, so we added no items
-                            count = 0;
 
-                            // Reset the token
-                            Token = "eol";
-
-                            // No items tell the user
-                            await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
-                            {
-                                (App.CurrentFrame?.FindName("StreamModelInfoPane") as InfoPane)?.ShowMessage(
-                                    resources.GetString("StreamTracks_Header"),
-                                    resources.GetString("StreamTracks_Content"), false);
-                            });
-                        }
+                                Add(new GroupedItem
+                                {
+                                    Type = type,
+                                    Track = item.Track?.ToBaseTrack(),
+                                    Playlist = item.Playlist?.ToBasePlaylist(),
+                                    User = item.User?.ToBaseUser()
+                                });
+                            }
+                        });
                     }
-                    catch (SoundByteException ex)
+                    else
                     {
-                        // Exception, most likely did not add any new items
+                        // There are no items, so we added no items
                         count = 0;
 
                         // Reset the token
                         Token = "eol";
 
-                        TelemetryService.Instance.TrackException(ex, false);
-
-                        // Exception, display error to the user
-                        await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
-                        {
-                            (App.CurrentFrame?.FindName("StreamModelInfoPane") as InfoPane)?.ShowMessage(
-                                ex.ErrorTitle, ex.ErrorDescription);
-                        });
+                        // No items tell the user
+                        await ShowErrorMessageAsync(resources.GetString("StreamTracks_Header"), resources.GetString("StreamTracks_Content"));
                     }
                 }
-                else
+                catch (SoundByteException ex)
                 {
-                    // Not logged in, so no new items
+                    // Exception, most likely did not add any new items
                     count = 0;
 
                     // Reset the token
                     Token = "eol";
 
-                    await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
-                    {
-                        (App.CurrentFrame?.FindName("StreamModelInfoPane") as InfoPane)?.ShowMessage(
-                            resources.GetString("ErrorControl_LoginFalse_Header"),
-                            resources.GetString("ErrorControl_LoginFalse_Content"), false);
-                    });
+                    TelemetryService.Instance.TrackException(ex, false);
+
+                    // Exception, display error to the user
+                    await ShowErrorMessageAsync(ex.ErrorTitle, ex.ErrorDescription);
                 }
+            }
+            else
+            {
+                // Not logged in, so no new items
+                count = 0;
 
-                // We are not loading
-                await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
-                {
-                    (App.CurrentFrame?.FindName("StreamModelInfoPane") as InfoPane)?.ClosePane();
-                });
+                // Reset the token
+                Token = "eol";
 
-                // Return the result
-                return new LoadMoreItemsResult {Count = count};
-            }).AsAsyncOperation();
-        }
+                await ShowErrorMessageAsync(resources.GetString("ErrorControl_LoginFalse_Header"), resources.GetString("ErrorControl_LoginFalse_Content"));
 
-        /// <summary>
-        ///     Refresh the list by removing any
-        ///     existing items and reseting the token.
-        /// </summary>
-        public void RefreshItems()
-        {
-            Token = null;
-            Clear();
+            }
+
+            return count;
         }
 
         private class StreamTrackHolder

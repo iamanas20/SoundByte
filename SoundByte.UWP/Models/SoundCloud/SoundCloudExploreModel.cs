@@ -20,7 +20,6 @@ using SoundByte.Core.Exceptions;
 using SoundByte.Core.Holders;
 using SoundByte.Core.Items.Track;
 using SoundByte.Core.Services;
-using SoundByte.UWP.UserControls;
 
 namespace SoundByte.UWP.Models.SoundCloud
 {
@@ -67,97 +66,74 @@ namespace SoundByte.UWP.Models.SoundCloud
 
         protected override async Task<int> LoadMoreItemsAsync(int count)
         {
-            return await Task.Run(async () =>
+
+            if (count <= 10)
+                count = 10;
+
+            if (count >= 50)
+                count = 50;
+
+            // Get the resource loader
+            var resources = ResourceLoader.GetForViewIndependentUse();
+
+            try
             {
-                if (count <= 10)
-                    count = 10;
-
-                if (count >= 50)
-                    count = 50;
-
-                // We are loading
-                await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
-                {
-                    (App.CurrentFrame?.FindName("ChartModelInfoPane") as InfoPane)?.ShowLoading();
-                });
-
-                // Get the resource loader
-                var resources = ResourceLoader.GetForViewIndependentUse();
-
-                try
-                {
-                    // Get the trending tracks
-                    var exploreTracks = await SoundByteV3Service.Current.GetAsync<ExploreTrackHolder>(ServiceType.SoundCloudV2, "/charts",
-                        new Dictionary<string, string>
-                        {
+                // Get the trending tracks
+                var exploreTracks = await SoundByteV3Service.Current.GetAsync<ExploreTrackHolder>(ServiceType.SoundCloudV2, "/charts",
+                    new Dictionary<string, string>
+                    {
                             {"genre", "soundcloud%3Agenres%3A" + _genre},
                             {"kind", _kind},
                             {"limit", "50"},
                             {"offset", Token},
                             {"linked_partitioning", "1"}
-                        });
+                    });
 
-                    // Parse uri for offset
-                    var param = new QueryParameterCollection(exploreTracks.NextList);
-                    var offset = param.FirstOrDefault(x => x.Key == "offset").Value;
+                // Parse uri for offset
+                var param = new QueryParameterCollection(exploreTracks.NextList);
+                var offset = param.FirstOrDefault(x => x.Key == "offset").Value;
 
-                    // Get the stream offset
-                    Token = string.IsNullOrEmpty(offset) ? "eol" : offset;
+                // Get the stream offset
+                Token = string.IsNullOrEmpty(offset) ? "eol" : offset;
 
-                    // Make sure that there are tracks in the list
-                    if (exploreTracks.Items.Count > 0)
-                    {
-                        // Set the count variable
-                        count = exploreTracks.Items.Count;
-
-                        // Loop though all the tracks on the UI thread
-                        await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
-                        {
-                            exploreTracks.Items.ForEach(t => Add(t.Track.ToBaseTrack()));
-                        });
-                    }
-                    else
-                    {
-                        // There are no items, so we added no items
-                        count = 0;
-
-                        // Reset the token
-                        Token = "eol";
-
-                        // No items tell the user
-                        await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
-                        {
-                            (App.CurrentFrame?.FindName("ChartModelInfoPane") as InfoPane)?.ShowMessage(
-                                resources.GetString("ExploreTracks_Header"),
-                                resources.GetString("ExploreTracks_Content"), false);
-                        });
-                    }
-                }
-                catch (SoundByteException ex)
+                // Make sure that there are tracks in the list
+                if (exploreTracks.Items.Count > 0)
                 {
-                    // Exception, most likely did not add any new items
+                    // Set the count variable
+                    count = exploreTracks.Items.Count;
+
+                    // Loop though all the tracks on the UI thread
+                    await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
+                    {
+                        exploreTracks.Items.ForEach(t => Add(t.Track.ToBaseTrack()));
+                    });
+                }
+                else
+                {
+                    // There are no items, so we added no items
                     count = 0;
 
                     // Reset the token
                     Token = "eol";
 
-                    // Exception, display error to the user
-                    await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
-                    {
-                        (App.CurrentFrame?.FindName("ChartModelInfoPane") as InfoPane)?.ShowMessage(ex.ErrorTitle,
-                            ex.ErrorDescription);
-                    });
+                    // No items tell the user
+                    await ShowErrorMessageAsync(resources.GetString("ExploreTracks_Header"), resources.GetString("ExploreTracks_Content"));
                 }
+            }
+            catch (SoundByteException ex)
+            {
+                // Exception, most likely did not add any new items
+                count = 0;
 
-                // We are not loading
-                await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
-                {
-                    (App.CurrentFrame?.FindName("ChartModelInfoPane") as InfoPane)?.ClosePane();
-                });
+                // Reset the token
+                Token = "eol";
 
-                // Return the result
-                return count;
-            });
+                // Exception, display error to the user
+                await ShowErrorMessageAsync(ex.ErrorTitle, ex.ErrorDescription);
+            }
+
+            // Return the result
+            return count;
         }
     }
 }

@@ -58,8 +58,8 @@ namespace SoundByte.UWP.ViewModels
 
             var startPlayback = await PlaybackService.Instance.StartPlaylistMediaPlaybackAsync(trackList);
 
-            if (!startPlayback.success)
-                await new MessageDialog(startPlayback.message, "Error playing stream.").ShowAsync();
+            if (!startPlayback.Success)
+                await new MessageDialog(startPlayback.Message, "Error playing stream.").ShowAsync();
             
             // We are not loading
             App.IsLoading = false;
@@ -97,8 +97,8 @@ namespace SoundByte.UWP.ViewModels
                     {
                         var startPlayback = await PlaybackService.Instance.StartPlaylistMediaPlaybackAsync(trackList, false, streamItem.Track);
 
-                        if (!startPlayback.success)
-                            await new MessageDialog(startPlayback.message, "Error playing stream.").ShowAsync();
+                        if (!startPlayback.Success)
+                            await new MessageDialog(startPlayback.Message, "Error playing stream.").ShowAsync();
                     }
                     break;
                 case ItemType.Playlist:

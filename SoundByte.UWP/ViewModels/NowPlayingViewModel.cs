@@ -276,8 +276,8 @@ namespace SoundByte.UWP.ViewModels
         {
             var startPlayback =
                 await PlaybackService.Instance.StartPlaylistMediaPlaybackAsync(PlaybackService.Instance.Playlist.ToList(), false, (BaseTrack)e.ClickedItem);
-            if (!startPlayback.success)
-                await new MessageDialog(startPlayback.message, "Error playing related track.").ShowAsync();
+            if (!startPlayback.Success)
+                await new MessageDialog(startPlayback.Message, "Error playing related track.").ShowAsync();
         }
 
         /// <summary>

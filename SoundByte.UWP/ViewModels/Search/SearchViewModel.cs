@@ -121,8 +121,8 @@ namespace SoundByte.UWP.ViewModels.Search
 
                         var startPlayback =
                             await PlaybackService.Instance.StartModelMediaPlaybackAsync(FanburstTracks, false, searchItem);
-                        if (!startPlayback.success)
-                            await new MessageDialog(startPlayback.message, "Error playing searched track.")
+                        if (!startPlayback.Success)
+                            await new MessageDialog(startPlayback.Message, "Error playing searched track.")
                                 .ShowAsync();
                     }
                     break;
@@ -133,8 +133,8 @@ namespace SoundByte.UWP.ViewModels.Search
 
                         var startPlayback =
                             await PlaybackService.Instance.StartModelMediaPlaybackAsync(YouTubeTracks, false, searchItem);
-                        if (!startPlayback.success)
-                            await new MessageDialog(startPlayback.message, "Error playing searched track.")
+                        if (!startPlayback.Success)
+                            await new MessageDialog(startPlayback.Message, "Error playing searched track.")
                                 .ShowAsync();
                     }
                     break;
@@ -146,8 +146,8 @@ namespace SoundByte.UWP.ViewModels.Search
 
                         // Start media playback
                         var startPlayback = await PlaybackService.Instance.StartModelMediaPlaybackAsync(SearchTracks, false, searchItem);
-                        if (!startPlayback.success)
-                            await new MessageDialog(startPlayback.message, "Error playing searched track.")
+                        if (!startPlayback.Success)
+                            await new MessageDialog(startPlayback.Message, "Error playing searched track.")
                                 .ShowAsync();
                     }
                     break;
