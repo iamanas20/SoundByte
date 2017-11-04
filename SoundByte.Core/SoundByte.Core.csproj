@@ -22,4 +22,9 @@
     <PackageReference Include="System.ValueTuple" Version="4.4.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Sources\Fanburst\" />
+    <Folder Include="Sources\YouTube\" />
+  </ItemGroup>
+
 </Project>

@@ -188,6 +188,7 @@
     <Compile Include="Helpers\ImageHelper.cs" />
     <Compile Include="Helpers\NetworkHelper.cs" />
     <Compile Include="Helpers\NumberFormatHelper.cs" />
+    <Compile Include="Helpers\SoundByteCollection.cs" />
     <Compile Include="Helpers\TextHelper.cs" />
     <Compile Include="Helpers\TileHelper.cs" />
     <Compile Include="Helpers\TitlebarHelper.cs" />
@@ -216,7 +217,6 @@
     <Compile Include="Models\TrackModel.cs" />
     <Compile Include="Models\UserPlaylistModel.cs" />
     <Compile Include="Models\SoundCloud\SearchSoundCloudPlaylistModel.cs" />
-    <Compile Include="Models\SoundCloud\SearchSoundCloudTrackModel.cs" />
     <Compile Include="Models\SoundCloud\SearchSoundCloudUserModel.cs" />
     <Compile Include="Models\SoundCloud\SoundCloudStreamModel.cs" />
     <Compile Include="Models\UserFollowersModel.cs" />

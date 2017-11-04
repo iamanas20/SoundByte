@@ -161,47 +161,6 @@ namespace SoundByte.Core.Items.Track
             };
         }
 
-        public class SearchResponse
-        {
-            public IEnumerable<BaseTrack> Tracks { get; set; }
-            public string Token { get; set; }
-        }
-
-        /// <summary>
-        /// Search the SoundCloud API for tracks
-        /// </summary>
-        /// <param name="searchTerm"></param>
-        /// <param name="count">Amount of items to return</param>
-        /// <param name="token"></param>
-        /// <param name="cancellationTokenSource"></param>
-        /// <returns></returns>
-        public static async Task<SearchResponse> SearchAsync(string searchTerm, uint count, string token, CancellationTokenSource cancellationTokenSource = null)
-        {
-            if (count <= 10)
-                count = 10;
-
-            // Search for matching tracks
-            var searchTracks = await SoundByteV3Service.Current.GetAsync<TrackListHolder>(ServiceType.SoundCloud, "/tracks",
-                new Dictionary<string, string>
-                {
-                    {"limit", count.ToString()},
-                    {"linked_partitioning", "1"},
-                    {"offset", token},
-                    {"q", WebUtility.UrlEncode(searchTerm)}
-                });
-
-            // Parse uri for offset
-            var param = new QueryParameterCollection(searchTracks.NextList);
-            var nextToken = param.FirstOrDefault(x => x.Key == "offset").Value;
-
-            // Convert our list of SoundCloud comments to base comments
-            var baseTrackList = new List<BaseTrack>();
-            searchTracks.Tracks.ForEach(x => baseTrackList.Add(x.ToBaseTrack()));
-
-            // Return the data
-            return new SearchResponse {Token = nextToken, Tracks = baseTrackList };
-        }
-
         /// <summary>
         /// Gets a list of base comments for this track.
         /// </summary>
@@ -248,19 +207,6 @@ namespace SoundByte.Core.Items.Track
             public string NextList { get; set; }
         }
 
-        private class TrackListHolder
-        {
-            /// <summary>
-            ///     Collection of tracks
-            /// </summary>
-            [JsonProperty("collection")]
-            public List<SoundCloudTrack> Tracks { get; set; }
-
-            /// <summary>
-            ///     The next list of items
-            /// </summary>
-            [JsonProperty("next_href")]
-            public string NextList { get; set; }
-        }
+       
     }
 }
