@@ -38,8 +38,12 @@
             </CommandBar.PrimaryCommands>
         </CommandBar>
 
-        <userControls:InfoPane x:Name="UserPlaylistModelInfoPane" VerticalAlignment="Stretch"
-                               HorizontalAlignment="Stretch" Visibility="Collapsed" Canvas.ZIndex="250" />
+        <userControls:InfoPane VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+                               Visibility="Collapsed" Canvas.ZIndex="50"
+                               Header="{x:Bind PlaylistModel.ErrorHeader, Mode=OneWay}"
+                               Text="{x:Bind PlaylistModel.ErrorDescription, Mode=OneWay}"
+                               IsLoading="{x:Bind PlaylistModel.IsLoading, Mode=OneWay}"
+                               IsError="{x:Bind PlaylistModel.IsError, Mode=OneWay}" />
 
 
         <GridView ItemClick="{x:Bind NavigatePlaylist}"

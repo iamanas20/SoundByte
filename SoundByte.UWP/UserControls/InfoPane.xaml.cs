@@ -84,12 +84,12 @@ namespace SoundByte.UWP.UserControls
 
                 if (value)
                 {
-                    LoadingRing.Visibility = Visibility.Visible;
+                    Loading.IsActive = true;
                     Visibility = Visibility.Visible;
                 }
                 else
                 {
-                    LoadingRing.Visibility = Visibility.Collapsed;
+                    Loading.IsActive = false;
 
                     if (!IsError)
                         Visibility = Visibility.Collapsed;
@@ -107,7 +107,7 @@ namespace SoundByte.UWP.UserControls
                 if (value)
                 {
                     Visibility = Visibility.Visible;
-                    LoadingRing.Visibility = Visibility.Collapsed;
+                    Loading.IsActive = false;
                 }
                 else
                 {

@@ -159,10 +159,10 @@ namespace SoundByte.UWP.UserControls
                 panel.DropShadow.Compositor.CreateVector3KeyFrameAnimation(new Vector3(0, 7, 0), new Vector3(0, 10, 0), TimeSpan.FromMilliseconds(250), null));
 
             panel.DropShadow.StartAnimation("Opacity",
-                panel.DropShadow.Compositor.CreateScalarKeyFrameAnimation(0.6f, 0.8f, TimeSpan.FromMilliseconds(250), null));
+                panel.DropShadow.Compositor.CreateScalarKeyFrameAnimation(0.5f, 0.8f, TimeSpan.FromMilliseconds(250), null));
 
             panel.DropShadow.StartAnimation("BlurRadius",
-                panel.DropShadow.Compositor.CreateScalarKeyFrameAnimation(15.0f, 35.0f, TimeSpan.FromMilliseconds(250), null));
+                panel.DropShadow.Compositor.CreateScalarKeyFrameAnimation(15.0f, 25.0f, TimeSpan.FromMilliseconds(250), null));
         }
 
         private void StopAnimation(UIElement element)
@@ -172,13 +172,13 @@ namespace SoundByte.UWP.UserControls
             panel.Offset(0, 0, 350).Start();
 
             panel.DropShadow.StartAnimation("BlurRadius",
-                panel.DropShadow.Compositor.CreateScalarKeyFrameAnimation(35.0f, 15.0f, TimeSpan.FromMilliseconds(250), null));
+                panel.DropShadow.Compositor.CreateScalarKeyFrameAnimation(25.0f, 15.0f, TimeSpan.FromMilliseconds(250), null));
 
             panel.DropShadow.StartAnimation("Offset",
                 panel.DropShadow.Compositor.CreateVector3KeyFrameAnimation(new Vector3(0, 10, 0), new Vector3(0, 7, 0), TimeSpan.FromMilliseconds(250), null));
 
             panel.DropShadow.StartAnimation("Opacity",
-                panel.DropShadow.Compositor.CreateScalarKeyFrameAnimation(0.8f, 0.6f, TimeSpan.FromMilliseconds(250), null));
+                panel.DropShadow.Compositor.CreateScalarKeyFrameAnimation(0.8f, 0.5f, TimeSpan.FromMilliseconds(250), null));
         }
 
         private void DesktopTrackItem_OnPointerEntered(object sender, PointerRoutedEventArgs e)

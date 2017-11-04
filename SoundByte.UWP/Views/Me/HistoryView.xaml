@@ -49,8 +49,12 @@
             </CommandBar.PrimaryCommands>
         </CommandBar>
 
-        <uiElements:InfoPane x:Name="HistoryModelInfoPane" Canvas.ZIndex="50" VerticalAlignment="Stretch"
-                             HorizontalAlignment="Stretch" Visibility="Collapsed" />
+        <uiElements:InfoPane VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+                               Visibility="Collapsed" Canvas.ZIndex="50"
+                               Header="{x:Bind HistoryModel.ErrorHeader, Mode=OneWay}"
+                               Text="{x:Bind HistoryModel.ErrorDescription, Mode=OneWay}"
+                               IsLoading="{x:Bind HistoryModel.IsLoading, Mode=OneWay}"
+                               IsError="{x:Bind HistoryModel.IsError, Mode=OneWay}" />
 
 
         <GridView ItemClick="{x:Bind PlayItem}"

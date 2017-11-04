@@ -198,8 +198,8 @@
                 <!-- Drop Shadow for track image -->
                 <controls:DropShadowPanel x:Name="ShadowPanel"
                                           VerticalAlignment="Top"
-                                          BlurRadius="25"
-                                          ShadowOpacity="0.6"
+                                          BlurRadius="15"
+                                          ShadowOpacity="0.5"
                                           OffsetX="0"
                                           IsTabStop="False"
                                           Margin="5,5,5,12"

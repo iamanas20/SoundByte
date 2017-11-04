@@ -5,19 +5,16 @@
     <!-- Center and stack the content vertically -->
     <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
         <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center">
-            <ProgressBar x:Name="LoadingRing"
-                         HorizontalAlignment="Stretch"
-                         Margin="20,20,20,10"
-                         Padding="5"
-                         IsIndeterminate="True"
-                         Visibility="Collapsed" />
-
+            <ProgressRing Width="48" 
+                          x:Name="Loading"
+                          Height="48" />
+            
             <TextBlock Text="{x:Bind Path=Header, Mode=OneWay}"
                        x:Name="HeaderTextBlock"
                        TextAlignment="Center"
                        FontWeight="SemiBold"
                        HorizontalAlignment="Center"
-                       FontSize="24"
+                       FontSize="26"
                        Margin="0,0,0,10"
                        VerticalAlignment="Center" />
 
