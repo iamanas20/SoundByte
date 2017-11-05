@@ -50,24 +50,4 @@ namespace SoundByte.Core.Holders
         [JsonProperty("next_href")]
         public string NextList { get; set; }
     }
-
-    /// <summary>
-    ///     Holder for searched playlist items
-    /// </summary>
-    [JsonObject]
-    [Obsolete]
-    public class SearchPlaylistHolder
-    {
-        /// <summary>
-        ///     List of playlists
-        /// </summary>
-        [JsonProperty("collection")]
-        public List<SoundCloudPlaylist> Playlists { get; set; }
-
-        /// <summary>
-        ///     The next list of items
-        /// </summary>
-        [JsonProperty("next_href")]
-        public string NextList { get; set; }
-    }
 }

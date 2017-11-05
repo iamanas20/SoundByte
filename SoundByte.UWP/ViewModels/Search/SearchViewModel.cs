@@ -17,14 +17,12 @@ using SoundByte.Core;
 using SoundByte.Core.Items.Playlist;
 using SoundByte.Core.Items.Track;
 using SoundByte.Core.Items.User;
+using SoundByte.Core.Sources.Fanburst;
 using SoundByte.Core.Sources.SoundCloud;
-using SoundByte.UWP.Models.Fanburst;
+using SoundByte.Core.Sources.YouTube;
 using SoundByte.UWP.Services;
-using SoundByte.UWP.Models.SoundCloud;
-using SoundByte.UWP.Models.YouTube;
 using SoundByte.UWP.Views;
 using SoundByte.UWP.Views.Generic;
-using SoundByte.UWP.Views.Search;
 using SoundByte.UWP.Helpers;
 
 namespace SoundByte.UWP.ViewModels.Search
@@ -36,28 +34,41 @@ namespace SoundByte.UWP.ViewModels.Search
         private string _searchQuery;
         #endregion
 
-        #region Models
-
+        #region Sources
         public SoundByteCollection<SearchSoundCloudTrackSource, BaseTrack> SearchTracks { get; } = 
             new SoundByteCollection<SearchSoundCloudTrackSource, BaseTrack>
-        {
-            ModelHeader = "Search",
-            ModelType = "SoundCloud Tracks"
-        };
+            {
+                ModelHeader = "Search",
+                ModelType = "SoundCloud Tracks"
+            };
 
+        public SoundByteCollection<SearchFanburstTrackSource, BaseTrack> FanburstTracks { get; } =
+            new SoundByteCollection<SearchFanburstTrackSource, BaseTrack>
+            {
+                ModelHeader = "Search",
+                ModelType = "Fanburst Tracks"
+            };
 
-        public SearchFanburstTrackModel FanburstTracks { get; }
-        public SearchSoundCloudPlaylistModel SearchPlaylists { get; }
-        public SearchSoundCloudUserModel SearchUsers { get; }
-        public SearchYouTubeTrackModel YouTubeTracks { get; }
+        public SoundByteCollection<SearchSoundCloudPlaylistSource, BasePlaylist> SearchPlaylists { get; } =
+            new SoundByteCollection<SearchSoundCloudPlaylistSource, BasePlaylist>
+            {
+                ModelHeader = "Search",
+                ModelType = "SoundCloud Playlists"
+            };
 
-        public SearchViewModel()
-        {
-            FanburstTracks = new SearchFanburstTrackModel { ModelHeader = "Search", ModelType = "Fanburst Tracks" };
-            SearchPlaylists = new SearchSoundCloudPlaylistModel { ModelHeader = "Search", ModelType = "SoundCloud Playlists" };
-            SearchUsers = new SearchSoundCloudUserModel { ModelHeader = "Search", ModelType = "SoundCloud Users" };
-            YouTubeTracks = new SearchYouTubeTrackModel { ModelHeader = "Search", ModelType = "Youtube Videos" };
-        }
+        public SoundByteCollection<SearchSoundCloudUserSource, BaseUser> SearchUsers { get; } =
+            new SoundByteCollection<SearchSoundCloudUserSource, BaseUser>
+            {
+                ModelHeader = "Search",
+                ModelType = "SoundCloud Users"
+            };
+
+        public SoundByteCollection<SearchYouTubeTrackSource, BaseTrack> YouTubeTracks { get; } =
+            new SoundByteCollection<SearchYouTubeTrackSource, BaseTrack>
+            {
+                ModelHeader = "Search",
+                ModelType = "Youtube Videos"
+            };
         #endregion
 
         #region Getters and Setters
@@ -78,16 +89,16 @@ namespace SoundByte.UWP.ViewModels.Search
                     SearchTracks.Source.SearchQuery = value;
                     SearchTracks.RefreshItems();
 
-                    SearchPlaylists.Query = value;
+                    SearchPlaylists.Source.SearchQuery = value;
                     SearchPlaylists.RefreshItems();
 
-                    SearchUsers.Query = value;
+                    SearchUsers.Source.SearchQuery = value;
                     SearchUsers.RefreshItems();
 
-                    FanburstTracks.Query = value;
+                    FanburstTracks.Source.SearchQuery = value;
                     FanburstTracks.RefreshItems();
 
-                    YouTubeTracks.Query = value;
+                    YouTubeTracks.Source.SearchQuery = value;
                     YouTubeTracks.RefreshItems();
                 }
             }
@@ -154,7 +165,7 @@ namespace SoundByte.UWP.ViewModels.Search
                         await SearchTracks.LoadMoreItemsAsync(50);
 
                         // Start media playback
-                        var startPlayback = await PlaybackService.Instance.StartModelMediaPlaybackAsync(null, false, searchItem);
+                        var startPlayback = await PlaybackService.Instance.StartModelMediaPlaybackAsync(SearchTracks, false, searchItem);
                         if (!startPlayback.Success)
                             await new MessageDialog(startPlayback.Message, "Error playing searched track.")
                                 .ShowAsync();

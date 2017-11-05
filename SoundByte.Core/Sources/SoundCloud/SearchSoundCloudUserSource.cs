@@ -18,27 +18,23 @@ using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
 using SoundByte.Core.Helpers;
-using SoundByte.Core.Items.Track;
+using SoundByte.Core.Items.User;
 using SoundByte.Core.Services;
 
 namespace SoundByte.Core.Sources.SoundCloud
 {
-    /// <summary>
-    /// Searches the SoundCloud API for tracks
-    /// </summary>
     [UsedImplicitly]
-    public class SearchSoundCloudTrackSource : ISource<BaseTrack>
+    public class SearchSoundCloudUserSource : ISource<BaseUser>
     {
         /// <summary>
         /// What we should search for
         /// </summary>
         public string SearchQuery { get; set; }
 
-        public async Task<SourceResponse<BaseTrack>> GetItemsAsync(int count, string token, 
-            CancellationTokenSource cancellationToken = default(CancellationTokenSource))
+        public async Task<SourceResponse<BaseUser>> GetItemsAsync(int count, string token, CancellationTokenSource cancellationToken = null)
         {
             // Call the SoundCloud API and get the items
-            var tracks = await SoundByteV3Service.Current.GetAsync<TrackListHolder>(ServiceType.SoundCloud, "/tracks",
+            var users = await SoundByteV3Service.Current.GetAsync<SearchUserHolder>(ServiceType.SoundCloud, "/users",
                 new Dictionary<string, string>
                 {
                     {"limit", count.ToString()},
@@ -47,35 +43,32 @@ namespace SoundByte.Core.Sources.SoundCloud
                     {"q", WebUtility.UrlEncode(SearchQuery)}
                 }, cancellationToken).ConfigureAwait(false);
 
-            // If there are no tracks
-            if (!tracks.Tracks.Any())
+            // If there are no users
+            if (!users.Users.Any())
             {
-                return new SourceResponse<BaseTrack>(null, null, false, "No results found", "Could not find any results for '" + SearchQuery + "'");
+                return new SourceResponse<BaseUser>(null, null, false, "No results found", "Could not find any results for '" + SearchQuery + "'");
             }
 
             // Parse uri for offset
-            var param = new QueryParameterCollection(tracks.NextList);
+            var param = new QueryParameterCollection(users.NextList);
             var nextToken = param.FirstOrDefault(x => x.Key == "offset").Value;
 
-            // Convert SoundCloud specific tracks to base tracks
-            var baseTracks = new List<BaseTrack>();
-            tracks.Tracks.ForEach(x => baseTracks.Add(x.ToBaseTrack()));
+            // Convert SoundCloud specific users to base users
+            var baseUsers = new List<BaseUser>();
+            users.Users.ForEach(x => baseUsers.Add(x.ToBaseUser()));
 
             // Return the items
-            return new SourceResponse<BaseTrack>(baseTracks, nextToken);
+            return new SourceResponse<BaseUser>(baseUsers, nextToken);
         }
 
-        /// <summary>
-        /// Private class used to decode SoundCloud tracks
-        /// </summary>
         [JsonObject]
-        private class TrackListHolder
+        private class SearchUserHolder
         {
             /// <summary>
-            ///     Collection of tracks
+            ///     List of users
             /// </summary>
             [JsonProperty("collection")]
-            public List<SoundCloudTrack> Tracks { get; set; }
+            public List<SoundCloudUser> Users { get; set; }
 
             /// <summary>
             ///     The next list of items

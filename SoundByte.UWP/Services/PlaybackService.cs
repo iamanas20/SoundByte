@@ -12,6 +12,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -39,6 +40,7 @@ using SoundByte.Core.Services;
 using SoundByte.UWP.DatabaseContexts;
 using SoundByte.UWP.Models;
 using SoundByte.Core.Models.MediaStreams;
+using SoundByte.Core.Sources;
 using SoundByte.UWP.Assets;
 
 namespace SoundByte.UWP.Services
@@ -200,7 +202,7 @@ namespace SoundByte.UWP.Services
         /// <summary>
         ///     The data model of the active playlist.
         /// </summary>
-        public BaseModel<BaseTrack> Playlist
+        public ObservableCollection<BaseTrack> Playlist
         {
             get => _playlist;
             private set
@@ -209,7 +211,7 @@ namespace SoundByte.UWP.Services
                 UpdateProperty();
             }
         }
-        private BaseModel<BaseTrack> _playlist = new BaseModel<BaseTrack>();
+        private ObservableCollection<BaseTrack> _playlist = new ObservableCollection<BaseTrack>();
 
         /// <summary>
         ///     The current value of the volume slider
@@ -713,7 +715,7 @@ namespace SoundByte.UWP.Services
             bool isShuffled = false, BaseTrack startingItem = null)
         {
             // Create a dummy base track items
-            var dummyBaseTrackModel = new BaseModel<BaseTrack> { Token = "eol" };
+            var dummyBaseTrackModel = new SoundByteCollection<ISource<BaseTrack>, BaseTrack> { Token = "eol" };
 
             // Add all the playlist items to this dummy
             foreach (var track in playlist)
@@ -726,15 +728,15 @@ namespace SoundByte.UWP.Services
         /// <summary>
         ///     Playlist a list of tracks with optional values.
         /// </summary>
-        /// <param name="model">The model for the tracks we want to play</param>
+        /// <param name="trackSource">A source of tracks</param>
         /// <param name="isShuffled">Should the tracks be played shuffled.</param>
         /// <param name="startingItem">What track to start with.</param>
         /// <returns></returns>
-        public async Task<PlaybackResponse> StartModelMediaPlaybackAsync(BaseModel<BaseTrack> model,
-            bool isShuffled = false, BaseTrack startingItem = null)
+        public async Task<PlaybackResponse> StartModelMediaPlaybackAsync<TSource>(SoundByteCollection<TSource, BaseTrack> trackSource,
+            bool isShuffled = false, BaseTrack startingItem = null) where TSource : ISource<BaseTrack>
         {
             // If no playlist was specified, skip
-            if (model == null || model.Count == 0)
+            if (trackSource == null || trackSource.Count == 0)
                 return new PlaybackResponse(false,
                     "The playback list was missing or empty. This can be caused if there are not tracks avaliable (for example, you are trying to play your likes, but have not liked anything yet).\n\nAnother reason for this message is that if your playing a track from SoundCloud, SoundCloud has blocked these tracks from being played on 3rd party apps (such as SoundByte).");
 
@@ -748,14 +750,13 @@ namespace SoundByte.UWP.Services
 
             // Set the model
             Playlist = null;
-            Playlist = model;
-            Playlist.OnMoreItemsLoaded += PlaylistOnOnMoreItemsLoaded;
+            Playlist = trackSource;
 
             // Set the shuffle
             _playbackList.ShuffleEnabled = isShuffled;
 
             // Loop through all the tracks
-            foreach (var track in model)
+            foreach (var track in trackSource)
             {
                 var mediaPlaybackItem = CreateMediaPlaybackItem(track);
 
@@ -812,19 +813,6 @@ namespace SoundByte.UWP.Services
 
             return new PlaybackResponse(false, "SoundByte could not play this track or list of tracks. Try again later.");
         }
-
-        private void PlaylistOnOnMoreItemsLoaded(IEnumerable<BaseTrack> newItems)
-        {
-            // Loop through all the tracks
-            foreach (var track in newItems)
-            {
-                var mediaPlaybackItem = CreateMediaPlaybackItem(track);
-
-                if (mediaPlaybackItem != null)
-                    _playbackList.Items.Add(mediaPlaybackItem);
-            }
-        }
-
         #endregion
 
         #region General Event Handlers

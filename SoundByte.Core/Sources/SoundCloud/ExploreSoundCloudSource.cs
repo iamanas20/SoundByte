@@ -12,7 +12,6 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
@@ -23,34 +22,37 @@ using SoundByte.Core.Services;
 
 namespace SoundByte.Core.Sources.SoundCloud
 {
-    /// <summary>
-    /// Searches the SoundCloud API for tracks
-    /// </summary>
     [UsedImplicitly]
-    public class SearchSoundCloudTrackSource : ISource<BaseTrack>
+    public class ExploreSoundCloudSource : ISource<BaseTrack>
     {
         /// <summary>
-        /// What we should search for
+        ///     The genre to search for.
         /// </summary>
-        public string SearchQuery { get; set; }
+        public string Genre { get; set; } = "all-music";
 
-        public async Task<SourceResponse<BaseTrack>> GetItemsAsync(int count, string token, 
+        /// <summary>
+        ///     The kind of item to search for
+        /// </summary>
+        public string Kind { get; set; } = "top";
+
+        public async Task<SourceResponse<BaseTrack>> GetItemsAsync(int count, string token,
             CancellationTokenSource cancellationToken = default(CancellationTokenSource))
         {
             // Call the SoundCloud API and get the items
-            var tracks = await SoundByteV3Service.Current.GetAsync<TrackListHolder>(ServiceType.SoundCloud, "/tracks",
+            var tracks = await SoundByteV3Service.Current.GetAsync<ExploreTrackHolder>(ServiceType.SoundCloudV2, "/charts",
                 new Dictionary<string, string>
                 {
+                    {"genre", "soundcloud%3Agenres%3A" + Genre},
+                    {"kind", Kind},
                     {"limit", count.ToString()},
-                    {"linked_partitioning", "1"},
                     {"offset", token},
-                    {"q", WebUtility.UrlEncode(SearchQuery)}
+                    {"linked_partitioning", "1"}
                 }, cancellationToken).ConfigureAwait(false);
 
             // If there are no tracks
             if (!tracks.Tracks.Any())
             {
-                return new SourceResponse<BaseTrack>(null, null, false, "No results found", "Could not find any results for '" + SearchQuery + "'");
+                return new SourceResponse<BaseTrack>(null, null, false, "No results found", "No items matching");
             }
 
             // Parse uri for offset
@@ -59,29 +61,36 @@ namespace SoundByte.Core.Sources.SoundCloud
 
             // Convert SoundCloud specific tracks to base tracks
             var baseTracks = new List<BaseTrack>();
-            tracks.Tracks.ForEach(x => baseTracks.Add(x.ToBaseTrack()));
+            tracks.Tracks.ForEach(x => baseTracks.Add(x.Track.ToBaseTrack()));
 
             // Return the items
             return new SourceResponse<BaseTrack>(baseTracks, nextToken);
         }
 
-        /// <summary>
-        /// Private class used to decode SoundCloud tracks
-        /// </summary>
         [JsonObject]
-        private class TrackListHolder
+        private class ExploreTrackHolder
         {
             /// <summary>
             ///     Collection of tracks
             /// </summary>
             [JsonProperty("collection")]
-            public List<SoundCloudTrack> Tracks { get; set; }
+            public List<ExploreTrackCollection> Tracks { get; set; }
 
             /// <summary>
             ///     The next list of items
             /// </summary>
             [JsonProperty("next_href")]
             public string NextList { get; set; }
+        }
+
+        [JsonObject]
+        private class ExploreTrackCollection
+        {
+            /// <summary>
+            ///     The track object
+            /// </summary>
+            [JsonProperty("track")]
+            public SoundCloudTrack Track { get; set; }
         }
     }
 }

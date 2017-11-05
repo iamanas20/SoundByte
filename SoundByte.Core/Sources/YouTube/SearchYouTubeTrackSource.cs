@@ -17,33 +17,29 @@ using System.Threading;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
-using SoundByte.Core.Helpers;
 using SoundByte.Core.Items.Track;
 using SoundByte.Core.Services;
 
-namespace SoundByte.Core.Sources.SoundCloud
+namespace SoundByte.Core.Sources.YouTube
 {
-    /// <summary>
-    /// Searches the SoundCloud API for tracks
-    /// </summary>
     [UsedImplicitly]
-    public class SearchSoundCloudTrackSource : ISource<BaseTrack>
+    public class SearchYouTubeTrackSource : ISource<BaseTrack>
     {
         /// <summary>
         /// What we should search for
         /// </summary>
         public string SearchQuery { get; set; }
 
-        public async Task<SourceResponse<BaseTrack>> GetItemsAsync(int count, string token, 
+        public async Task<SourceResponse<BaseTrack>> GetItemsAsync(int count, string token,
             CancellationTokenSource cancellationToken = default(CancellationTokenSource))
         {
-            // Call the SoundCloud API and get the items
-            var tracks = await SoundByteV3Service.Current.GetAsync<TrackListHolder>(ServiceType.SoundCloud, "/tracks",
+            // Call the YouTube API and get the items
+            var tracks = await SoundByteV3Service.Current.GetAsync<YouTubeSearchHolder>(ServiceType.YouTube, "search",
                 new Dictionary<string, string>
                 {
-                    {"limit", count.ToString()},
-                    {"linked_partitioning", "1"},
-                    {"offset", token},
+                    {"part", "snippet"},
+                    {"maxResults", count.ToString()},
+                    {"pageToken", token},
                     {"q", WebUtility.UrlEncode(SearchQuery)}
                 }, cancellationToken).ConfigureAwait(false);
 
@@ -53,34 +49,33 @@ namespace SoundByte.Core.Sources.SoundCloud
                 return new SourceResponse<BaseTrack>(null, null, false, "No results found", "Could not find any results for '" + SearchQuery + "'");
             }
 
-            // Parse uri for offset
-            var param = new QueryParameterCollection(tracks.NextList);
-            var nextToken = param.FirstOrDefault(x => x.Key == "offset").Value;
-
-            // Convert SoundCloud specific tracks to base tracks
+            // Convert YouTube specific tracks to base tracks
             var baseTracks = new List<BaseTrack>();
-            tracks.Tracks.ForEach(x => baseTracks.Add(x.ToBaseTrack()));
+            foreach (var track in tracks.Tracks)
+            {
+                if (track.Id.Kind == "youtube#video")
+                {
+                    baseTracks.Add(track.ToBaseTrack());
+                }
+            }
 
             // Return the items
-            return new SourceResponse<BaseTrack>(baseTracks, nextToken);
+            return new SourceResponse<BaseTrack>(baseTracks, tracks.NextList);
         }
 
-        /// <summary>
-        /// Private class used to decode SoundCloud tracks
-        /// </summary>
         [JsonObject]
-        private class TrackListHolder
+        private class YouTubeSearchHolder
         {
             /// <summary>
             ///     Collection of tracks
             /// </summary>
-            [JsonProperty("collection")]
-            public List<SoundCloudTrack> Tracks { get; set; }
+            [JsonProperty("items")]
+            public List<YouTubeTrack> Tracks { get; set; }
 
             /// <summary>
             ///     The next list of items
             /// </summary>
-            [JsonProperty("next_href")]
+            [JsonProperty("nextPageToken")]
             public string NextList { get; set; }
         }
     }

@@ -141,6 +141,7 @@ namespace SoundByte.Core.Items.Track
                 Created = DateTime.Parse(Snippet.PublishedAt),
                 Duration =  (ContentDetails != null) ? XmlConvert.ToTimeSpan(ContentDetails.Duration) : TimeSpan.FromMilliseconds(0),
                 Genre = "YouTube",
+                IsLive = Snippet.LiveBroadcastContent != "none",
                 User = new BaseUser
                 {
                     Id = Snippet.ChannelId,

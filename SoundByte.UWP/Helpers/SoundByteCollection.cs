@@ -21,13 +21,12 @@ using Microsoft.Toolkit.Uwp.Helpers;
 using SoundByte.Core.Sources;
 using System.ComponentModel;
 using SoundByte.Core.Exceptions;
+using SoundByte.Core.Items.Track;
 
 namespace SoundByte.UWP.Helpers
 {
     public class SoundByteCollection<TSource, TType> : ObservableCollection<TType>, ISupportIncrementalLoading where TSource : ISource<TType>
     {
-       
-
         public TSource Source { get; }
 
         public SoundByteCollection() : this(Activator.CreateInstance<TSource>())
@@ -205,6 +204,16 @@ namespace SoundByte.UWP.Helpers
         private void UpdateProperty([CallerMemberName] string propertyName = "")
         {
             OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
+        }
+
+        public static implicit operator SoundByteCollection<TSource, TType>(SoundByteCollection<TSource, BaseTrack> v)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static implicit operator SoundByteCollection<TSource, TType>(SoundByteCollection<TSource, BaseTrack> v)
+        {
+            throw new NotImplementedException();
         }
     }
 }

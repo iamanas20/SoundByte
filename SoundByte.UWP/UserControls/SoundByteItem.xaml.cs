@@ -253,5 +253,10 @@ namespace SoundByte.UWP.UserControls
         {
             StopAnimation(UserDropShadow);
         }
+
+        private async void TrackImage_OnImageOpened(object sender, RoutedEventArgs e)
+        {
+            //await ColorShadow(ShadowPanel, new Uri(Track.ArtworkUrl));
+        }
     }
 }

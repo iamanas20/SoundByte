@@ -12,37 +12,52 @@
 
 using System;
 using SoundByte.Core.Items.Track;
-using SoundByte.UWP.Models;
 using SoundByte.UWP.Services;
 using Windows.UI.Popups;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using SoundByte.UWP.Models.Fanburst;
-using SoundByte.UWP.Models.SoundCloud;
-using SoundByte.UWP.Models.YouTube;
+using SoundByte.Core.Sources.Fanburst;
+using SoundByte.Core.Sources.SoundCloud;
+using SoundByte.Core.Sources.YouTube;
+using SoundByte.UWP.Helpers;
 using SoundByte.UWP.Views.Generic;
-using SoundByte.UWP.Views.Search;
 
 namespace SoundByte.UWP.Views
 {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class ExploreView : Page
+    public sealed partial class ExploreView
     {
-        public SoundCloudExploreModel ExploreTracks { get; } = new SoundCloudExploreModel();
+        #region Sources
+        public SoundByteCollection<ExploreYouTubeTrendingSource, BaseTrack> YouTubeTracks { get; } =
+            new SoundByteCollection<ExploreYouTubeTrendingSource, BaseTrack>
+            {
+                ModelHeader = "Trending",
+                ModelType = "YouTube"
+            };
 
-        public YouTubeExploreModel YouTubeTracks { get; } = new YouTubeExploreModel { ModelHeader = "Trending ", ModelType = "YouTube" };
+        public SoundByteCollection<ExploreFanburstPopularSource, BaseTrack> FanburstTracks { get; } =
+            new SoundByteCollection<ExploreFanburstPopularSource, BaseTrack>
+            {
+                ModelHeader = "Trending",
+                ModelType = "Fanburst"
+            };
 
-        public FanburstExploreModel FanburstTracks { get; } = new FanburstExploreModel { ModelHeader = "Trending ", ModelType = "Fanburst" };
+        public SoundByteCollection<ExploreSoundCloudSource, BaseTrack> ExploreTracks { get; } =
+            new SoundByteCollection<ExploreSoundCloudSource, BaseTrack>
+            {
+                ModelHeader = "Popular",
+                ModelType = "SoundCloud"
+            };
+
+        #endregion
 
         public ExploreView() 
         {
             InitializeComponent();
 
             NavigationCacheMode = NavigationCacheMode.Enabled;
-            ExploreTracks.Kind = "top";
-            ExploreTracks.Genre = "all-music";
         }
 
         public async void PlayChartItem(object sender, ItemClickEventArgs e)
@@ -80,6 +95,5 @@ namespace SoundByte.UWP.Views
         {
             App.NavigateTo(typeof(TrackListView), FanburstTracks);
         }
-
     }
 }
