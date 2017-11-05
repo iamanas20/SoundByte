@@ -714,7 +714,7 @@ namespace SoundByte.UWP.Services
             bool isShuffled = false, BaseTrack startingItem = null)
         {
             // Create a dummy base track items
-            var dummyBaseTrackModel = new SoundByteCollection<ISource<BaseTrack>, BaseTrack> { Token = "eol" };
+            var dummyBaseTrackModel = new SoundByteCollection<DummyTrackSource, BaseTrack> { Token = "eol" };
 
             // Add all the playlist items to this dummy
             foreach (var track in playlist)
