@@ -19,6 +19,7 @@ namespace SoundByte.Core
         SoundCloudV2,
         YouTube,
         // ReSharper disable once InconsistentNaming
-        ITunesPodcast
+        ITunesPodcast,
+        Unknown
     }
 }

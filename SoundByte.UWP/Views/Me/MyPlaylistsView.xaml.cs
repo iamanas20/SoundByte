@@ -13,9 +13,12 @@
 using System;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using SoundByte.Core;
 using SoundByte.Core.Items.Playlist;
+using SoundByte.Core.Services;
+using SoundByte.Core.Sources.SoundCloud;
+using SoundByte.UWP.Helpers;
 using SoundByte.UWP.Services;
-using SoundByte.UWP.Models;
 
 namespace SoundByte.UWP.Views.Me
 {
@@ -37,10 +40,12 @@ namespace SoundByte.UWP.Views.Me
         /// <summary>
         ///     The playlist model that contains the users playlists / liked playlists
         /// </summary>
-        private UserPlaylistModel PlaylistModel { get; } = new UserPlaylistModel();
+        public SoundByteCollection<UserSoundCloudPlaylistSource, BasePlaylist> PlaylistModel { get; } =
+            new SoundByteCollection<UserSoundCloudPlaylistSource, BasePlaylist>();
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            PlaylistModel.Source.User = SoundByteV3Service.Current.GetConnectedUser(ServiceType.SoundCloud);
             TelemetryService.Instance.TrackPage("User Playlists View");
         }
 

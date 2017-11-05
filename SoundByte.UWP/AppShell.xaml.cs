@@ -12,6 +12,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
@@ -34,10 +35,10 @@ using SoundByte.Core.Items.Playlist;
 using SoundByte.Core.Items.Track;
 using SoundByte.Core.Items.User;
 using SoundByte.Core.Services;
+using SoundByte.Core.Sources.SoundCloud;
 using SoundByte.UWP.Dialogs;
 using SoundByte.UWP.Helpers;
 using SoundByte.UWP.Services;
-using SoundByte.UWP.Models.SoundCloud;
 using SoundByte.UWP.Views;
 using SoundByte.UWP.Views.Application;
 using SoundByte.UWP.Views.Me;
@@ -290,10 +291,12 @@ namespace SoundByte.UWP
                             RootFrame.Navigate(typeof(NowPlayingView));
 
                             // Get and load the user liked items
-                            var userLikes = new SoundCloudLikesModel(SoundByteV3Service.Current.GetConnectedUser(ServiceType.SoundCloud));
+                            var userLikes = new SoundByteCollection<LikeSoundCloudSource, BaseTrack>();
+                            userLikes.Source.User = SoundByteV3Service.Current.GetConnectedUser(ServiceType.SoundCloud);
 
+                            // Loop through loading all the likes
                             while (userLikes.HasMoreItems)
-                                await userLikes.LoadMoreItemsAsync(500);
+                                await userLikes.LoadMoreItemsAsync(50);
 
                             // Play the list of items
                             await PlaybackService.Instance.StartModelMediaPlaybackAsync(userLikes, path == "shufflePlayUserLikes");
@@ -309,8 +312,8 @@ namespace SoundByte.UWP
                             // Navigate to the now playing screen
                             RootFrame.Navigate(typeof(NowPlayingView));
 
-                            // Get and load the user stream items
-                            var userStream = new SoundCloudStreamModel();
+                            // Get and load the user liked items
+                            var userStream = new SoundByteCollection<StreamSoundCloudSource, GroupedItem>();
 
                             // Counter so we don't get an insane amount of items
                             var i = 0;
@@ -319,12 +322,12 @@ namespace SoundByte.UWP
                             while (userStream.HasMoreItems && i <= 5)
                             {
                                 i++;
-                                await userStream.LoadMoreItemsAsync(500);
+                                await userStream.LoadMoreItemsAsync(50);
                             }
 
                             // Play the list of items
-                         //   await PlaybackService.Instance.StartPlaylistMediaPlaybackAsync(
-                          //      userStream.Where(x => x.Track != null).Select(x => x.Track).ToList(), path);
+                            await PlaybackService.Instance.StartPlaylistMediaPlaybackAsync(
+                                userStream.Where(x => x.Track != null).Select(x => x.Track).ToList());
 
                             return;
                         }

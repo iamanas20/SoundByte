@@ -204,10 +204,6 @@
     <Compile Include="AppShell.xaml.cs">
       <DependentUpon>AppShell.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Models\CommentModel.cs" />
-    <Compile Include="Models\PlaylistModel.cs" />
-    <Compile Include="Models\UserPlaylistModel.cs" />
-    <Compile Include="Models\UserFollowersModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\BackendService.cs" />
     <Compile Include="Services\LoggingService.cs" />

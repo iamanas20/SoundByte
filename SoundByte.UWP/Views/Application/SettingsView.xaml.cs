@@ -33,7 +33,7 @@ namespace SoundByte.UWP.Views.Application
     public sealed partial class SettingsView
     {
         // View model for the settings page
-        public SettingsViewModel ViewModel = new SettingsViewModel();
+        public SettingsViewModel ViewModel { get; } = new SettingsViewModel();
 
         /// <summary>
         ///     Setup the page

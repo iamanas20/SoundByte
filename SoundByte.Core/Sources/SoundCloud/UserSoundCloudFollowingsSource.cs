@@ -17,26 +17,31 @@ using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
 using SoundByte.Core.Helpers;
-using SoundByte.Core.Items.Track;
 using SoundByte.Core.Items.User;
 using SoundByte.Core.Services;
 
 namespace SoundByte.Core.Sources.SoundCloud
 {
     [UsedImplicitly]
-    public class LikeSoundCloudSource : ISource<BaseTrack>
+    public class UserSoundCloudFollowingsSource : ISource<BaseUser>
     {
         /// <summary>
-        /// User to get soundcloud likes for
+        ///     User object that we will used to get the follower / followings for
         /// </summary>
         [CanBeNull]
         public BaseUser User { get; set; }
 
-        public async Task<SourceResponse<BaseTrack>> GetItemsAsync(int count, string token,
+        /// <summary>
+        ///     What type of object is this (followers, followings)
+        /// </summary>
+        [CanBeNull]
+        public string Type { get; set; }
+
+        public async Task<SourceResponse<BaseUser>> GetItemsAsync(int count, string token,
             CancellationTokenSource cancellationToken = default(CancellationTokenSource))
         {
             // Call the SoundCloud API and get the items
-            var tracks = await SoundByteV3Service.Current.GetAsync<LikeTrackHolder>(ServiceType.SoundCloud, $"/users/{User.Id}/favorites",
+            var followings = await SoundByteV3Service.Current.GetAsync<UserListHolder>(ServiceType.SoundCloud, $"/users/{User.Id}/{Type}",
                 new Dictionary<string, string>
                 {
                     {"limit", count.ToString()},
@@ -44,32 +49,32 @@ namespace SoundByte.Core.Sources.SoundCloud
                     {"cursor", token}
                 }, cancellationToken).ConfigureAwait(false);
 
-            // If there are no tracks
-            if (!tracks.Tracks.Any())
+            // If there are no users
+            if (!followings.Users.Any())
             {
-                return new SourceResponse<BaseTrack>(null, null, false, "No likes", "This user has not liked any tracks");
+                return new SourceResponse<BaseUser>(null, null, false, "No users", "This user does not follow anything  have anyone following them");
             }
 
             // Parse uri for cursor
-            var param = new QueryParameterCollection(tracks.NextList);
+            var param = new QueryParameterCollection(followings.NextList);
             var nextToken = param.FirstOrDefault(x => x.Key == "cursor").Value;
 
             // Convert SoundCloud specific tracks to base tracks
-            var baseTracks = new List<BaseTrack>();
-            tracks.Tracks.ForEach(x => baseTracks.Add(x.ToBaseTrack()));
+            var baseUsers = new List<BaseUser>();
+            followings.Users.ForEach(x => baseUsers.Add(x.ToBaseUser()));
 
             // Return the items
-            return new SourceResponse<BaseTrack>(baseTracks, nextToken);
+            return new SourceResponse<BaseUser>(baseUsers, nextToken);
         }
 
         [JsonObject]
-        private class LikeTrackHolder
+        private class UserListHolder
         {
             /// <summary>
-            ///     Collection of tracks
+            ///     List of users
             /// </summary>
             [JsonProperty("collection")]
-            public List<SoundCloudTrack> Tracks { get; set; }
+            public List<SoundCloudUser> Users { get; set; }
 
             /// <summary>
             ///     The next list of items
