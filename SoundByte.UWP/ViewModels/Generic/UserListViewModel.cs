@@ -12,7 +12,8 @@
 
 using Windows.UI.Xaml.Controls;
 using SoundByte.Core.Items.User;
-using SoundByte.UWP.Models;
+using SoundByte.Core.Sources;
+using SoundByte.UWP.Helpers;
 using SoundByte.UWP.Views;
 
 namespace SoundByte.UWP.ViewModels.Generic
@@ -58,7 +59,7 @@ namespace SoundByte.UWP.ViewModels.Generic
         /// <summary>
         /// The track model to show on this page
         /// </summary>
-        public BaseModel<BaseUser> Model
+        public SoundByteCollection<ISource<BaseUser>, BaseUser> Model
         {
             get => _model;
             set
@@ -70,7 +71,7 @@ namespace SoundByte.UWP.ViewModels.Generic
                 UpdateProperty();
             }
         }
-        private BaseModel<BaseUser> _model;
+        private SoundByteCollection<ISource<BaseUser>, BaseUser> _model;
         #endregion
 
         #region Methods
@@ -78,7 +79,7 @@ namespace SoundByte.UWP.ViewModels.Generic
         /// Setup the view model for use
         /// </summary>
         /// <param name="model">The user model to use in this view</param>
-        public void Init(BaseModel<BaseUser> model)
+        public void Init(SoundByteCollection<ISource<BaseUser>, BaseUser> model) 
         {
             Model = model;
             Title = model.ModelHeader;

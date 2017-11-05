@@ -12,7 +12,8 @@
 
 using Windows.UI.Xaml.Controls;
 using SoundByte.Core.Items.Playlist;
-using SoundByte.UWP.Models;
+using SoundByte.Core.Sources;
+using SoundByte.UWP.Helpers;
 using SoundByte.UWP.Views;
 
 namespace SoundByte.UWP.ViewModels.Generic
@@ -58,7 +59,7 @@ namespace SoundByte.UWP.ViewModels.Generic
         /// <summary>
         /// The track model to show on this page
         /// </summary>
-        public BaseModel<BasePlaylist> Model
+        public SoundByteCollection<ISource<BasePlaylist>, BasePlaylist> Model
         {
             get => _model;
             set
@@ -70,7 +71,7 @@ namespace SoundByte.UWP.ViewModels.Generic
                 UpdateProperty();
             }
         }
-        private BaseModel<BasePlaylist> _model;
+        private SoundByteCollection<ISource<BasePlaylist>, BasePlaylist> _model;
         #endregion
 
         #region Methods
@@ -78,7 +79,7 @@ namespace SoundByte.UWP.ViewModels.Generic
         /// Setup the view model for use
         /// </summary>
         /// <param name="model">The user model to use in this view</param>
-        public void Init(BaseModel<BasePlaylist> model)
+        public void Init(SoundByteCollection<ISource<BasePlaylist>, BasePlaylist> model)
         {
             Model = model;
             Title = model.ModelHeader;

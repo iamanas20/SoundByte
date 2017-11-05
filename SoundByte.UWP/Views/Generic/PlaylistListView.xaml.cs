@@ -12,7 +12,8 @@
 
 using Windows.UI.Xaml.Navigation;
 using SoundByte.Core.Items.Playlist;
-using SoundByte.UWP.Models;
+using SoundByte.Core.Sources;
+using SoundByte.UWP.Helpers;
 using SoundByte.UWP.ViewModels.Generic;
 
 namespace SoundByte.UWP.Views.Generic
@@ -28,7 +29,7 @@ namespace SoundByte.UWP.Views.Generic
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            ViewModel.Init((BaseModel<BasePlaylist>)e.Parameter);
+            ViewModel.Init((SoundByteCollection<ISource<BasePlaylist>, BasePlaylist>)e.Parameter);
         }
     }
 }

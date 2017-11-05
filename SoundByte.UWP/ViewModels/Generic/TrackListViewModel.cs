@@ -14,7 +14,8 @@ using System;
 using Windows.UI.Popups;
 using Windows.UI.Xaml.Controls;
 using SoundByte.Core.Items.Track;
-using SoundByte.UWP.Models;
+using SoundByte.Core.Sources;
+using SoundByte.UWP.Helpers;
 using SoundByte.UWP.Services;
 
 namespace SoundByte.UWP.ViewModels.Generic
@@ -60,7 +61,7 @@ namespace SoundByte.UWP.ViewModels.Generic
         /// <summary>
         /// The track model to show on this page
         /// </summary>
-        public BaseModel<BaseTrack> Model
+        public SoundByteCollection<ISource<BaseTrack>, BaseTrack> Model
         {
             get => _model;
             set
@@ -72,7 +73,7 @@ namespace SoundByte.UWP.ViewModels.Generic
                 UpdateProperty();
             }
         }
-        private BaseModel<BaseTrack> _model;
+        private SoundByteCollection<ISource<BaseTrack>, BaseTrack> _model;
         #endregion
 
         #region Methods
@@ -80,7 +81,7 @@ namespace SoundByte.UWP.ViewModels.Generic
         /// Setup the view model for use
         /// </summary>
         /// <param name="model">The track modek to use in this view</param>
-        public void Init(BaseModel<BaseTrack> model)
+        public void Init(SoundByteCollection<ISource<BaseTrack>, BaseTrack> model)
         {
             Model = model;
             Title = model.ModelHeader;

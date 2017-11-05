@@ -38,7 +38,7 @@ namespace SoundByte.Core.Sources
             }
 
             // Return the items
-            return new SourceResponse<BaseComment>(comments.Comments, comments.Token;
+            return new SourceResponse<BaseComment>(comments.Comments, comments.Token);
         }
     }
 }

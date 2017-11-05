@@ -23,11 +23,11 @@ using SoundByte.Core.Items.Comment;
 using SoundByte.Core.Items.Track;
 using SoundByte.Core.Items.User;
 using SoundByte.Core.Services;
+using SoundByte.Core.Sources;
 using SoundByte.UWP.Converters;
 using SoundByte.UWP.Dialogs;
 using SoundByte.UWP.Helpers;
 using SoundByte.UWP.Services;
-using SoundByte.UWP.Models;
 using SoundByte.UWP.Views;
 
 namespace SoundByte.UWP.ViewModels
@@ -36,8 +36,8 @@ namespace SoundByte.UWP.ViewModels
     {
         #region Models
 
-        // Model for the comments
-        public CommentModel CommentItems { get; } = new CommentModel(PlaybackService.Instance.CurrentTrack);
+        public SoundByteCollection<CommentSource, BaseComment> CommentItems { get; } =
+            new SoundByteCollection<CommentSource, BaseComment>();
 
         #endregion
 
@@ -94,6 +94,7 @@ namespace SoundByte.UWP.ViewModels
                         : "Repost";
 
                 // Reload all the comments
+                CommentItems.Source.Track = Service.CurrentTrack;
                 CommentItems.RefreshItems();
             });
         }

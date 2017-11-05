@@ -21,11 +21,10 @@ using SoundByte.Core.Items.Playlist;
 using SoundByte.Core.Items.Track;
 using SoundByte.Core.Items.User;
 using SoundByte.Core.Services;
+using SoundByte.Core.Sources.SoundCloud;
 using SoundByte.UWP.Converters;
 using SoundByte.UWP.Helpers;
 using SoundByte.UWP.Services;
-using SoundByte.UWP.Models;
-using SoundByte.UWP.Models.SoundCloud;
 using SoundByte.UWP.Views;
 
 namespace SoundByte.UWP.ViewModels
@@ -150,19 +149,21 @@ namespace SoundByte.UWP.ViewModels
             User = user;
 
             // Set the models
-            TracksList.User = user;
+            TracksList.Source.User = user;
             TracksList.RefreshItems();
 
-            LikeItems.User = user;
+            LikeItems.Source.User = user;
             LikeItems.RefreshItems();
 
-            PlaylistItems.User = user;
+            PlaylistItems.Source.User = user;
             PlaylistItems.RefreshItems();
 
-            FollowersList.User = user;
+            FollowersList.Source.User = user;
+            FollowersList.Source.Type = "followers";
             FollowersList.RefreshItems();
 
-            FollowingsList.User = user;
+            FollowingsList.Source.User = user;
+            FollowingsList.Source.Type = "followings";
             FollowingsList.RefreshItems();
 
             // Get the resource loader
@@ -349,20 +350,24 @@ namespace SoundByte.UWP.ViewModels
         #region Models
 
         // Items that the user has liked
-        public SoundCloudLikesModel LikeItems { get; } = new SoundCloudLikesModel(null);
+        public SoundByteCollection<LikeSoundCloudSource, BaseTrack> LikeItems { get; } =
+            new SoundByteCollection<LikeSoundCloudSource, BaseTrack>();
 
         // Playlists that the user has liked / uploaded
-        public PlaylistModel PlaylistItems { get; } = new PlaylistModel(null);
+        public SoundByteCollection<UserSoundCloudPlaylistSource, BasePlaylist> PlaylistItems { get; } =
+            new SoundByteCollection<UserSoundCloudPlaylistSource, BasePlaylist>();
 
         // List of user followers
-        public UserFollowersModel FollowersList { get; } = new UserFollowersModel(null, "followers");
+        public SoundByteCollection<UserSoundCloudFollowingsSource, BaseUser> FollowersList { get; } =
+            new SoundByteCollection<UserSoundCloudFollowingsSource, BaseUser>();
 
         // List of user followings
-        public UserFollowersModel FollowingsList { get; } = new UserFollowersModel(null, "followings");
+        public SoundByteCollection<UserSoundCloudFollowingsSource, BaseUser> FollowingsList { get; } =
+            new SoundByteCollection<UserSoundCloudFollowingsSource, BaseUser>();
 
         // List of users tracks
-        public TrackModel TracksList { get; } = new TrackModel(null);
-
+        public SoundByteCollection<TrackSoundCloudSource, BaseTrack> TracksList { get; } =
+            new SoundByteCollection<TrackSoundCloudSource, BaseTrack>();
         #endregion
     }
 }
