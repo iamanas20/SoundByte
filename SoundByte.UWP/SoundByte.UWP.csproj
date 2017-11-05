@@ -205,12 +205,8 @@
       <DependentUpon>AppShell.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\CommentModel.cs" />
-    <Compile Include="Models\HistoryModel.cs" />
-    <Compile Include="Models\SoundCloud\SoundCloudLikesModel.cs" />
     <Compile Include="Models\PlaylistModel.cs" />
-    <Compile Include="Models\TrackModel.cs" />
     <Compile Include="Models\UserPlaylistModel.cs" />
-    <Compile Include="Models\SoundCloud\SoundCloudStreamModel.cs" />
     <Compile Include="Models\UserFollowersModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\BackendService.cs" />
@@ -220,6 +216,7 @@
     <Compile Include="Services\PlaybackService.cs" />
     <Compile Include="Services\SettingsService.cs" />
     <Compile Include="Services\TelemetryService.cs" />
+    <Compile Include="Sources\HistorySource.cs" />
     <Compile Include="StateTriggers\DeviceStateTrigger.cs" />
     <Compile Include="UserControls\NowPlayingBar.xaml.cs">
       <DependentUpon>NowPlayingBar.xaml</DependentUpon>

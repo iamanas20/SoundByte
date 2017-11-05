@@ -26,7 +26,7 @@ namespace SoundByte.UWP.Views
     public sealed partial class SoundCloudStreamView
     {
         // The view model
-        public SoundCloudStreamViewModel ViewModel = new SoundCloudStreamViewModel();
+        public SoundCloudStreamViewModel ViewModel { get; } = new SoundCloudStreamViewModel();
 
         /// <summary>
         ///     Setup page and init the xaml

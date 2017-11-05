@@ -18,7 +18,7 @@ using SoundByte.UWP.Helpers;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.Views;
 using SoundByte.Core;
-using SoundByte.UWP.Models.SoundCloud;
+using SoundByte.Core.Sources.SoundCloud;
 
 namespace SoundByte.UWP.ViewModels
 {
@@ -27,48 +27,32 @@ namespace SoundByte.UWP.ViewModels
     /// </summary>
     public class SoundCloudStreamViewModel : BaseViewModel
     {
-        // Model for stream items
-        public SoundCloudStreamModel StreamItems { get; } = new SoundCloudStreamModel();
+        public SoundByteCollection<StreamSoundCloudSource, GroupedItem> StreamItems { get; } =
+            new SoundByteCollection<StreamSoundCloudSource, GroupedItem>();
 
-        /// <summary>
-        ///     Refreshes the models depending on what
-        ///     page is being viewed
-        /// </summary>
-        public void RefreshStreamItems()
-        {
-            // As this process can take a while
-            // we need to enable the loading ring
-            App.IsLoading = true;
-
-            StreamItems.RefreshItems();
-
-            // Now that we are complete, we need to hide
-            // the loading ring.
-            App.IsLoading = false;
-        }
 
         public async void PlayAllStreamTracks()
         {
             // We are loading
-            App.IsLoading = true;
+            StreamItems.IsLoading = true;
 
             // Get a list of items
-            var trackList = StreamItems.Where(t => t.Type == Core.ItemType.Track && t.Track != null)
+            var trackList = StreamItems.Where(t => t.Type == ItemType.Track && t.Track != null)
                 .Select(t => t.Track);
 
             var startPlayback = await PlaybackService.Instance.StartPlaylistMediaPlaybackAsync(trackList);
 
             if (!startPlayback.Success)
                 await new MessageDialog(startPlayback.Message, "Error playing stream.").ShowAsync();
-            
+
             // We are not loading
-            App.IsLoading = false;
+            StreamItems.IsLoading = false;
         }
 
         public async void PlayShuffleStreamTracks()
         {
             // Get a list of items
-            var trackList = StreamItems.Where(t => t.Type == Core.ItemType.Track && t.Track != null)
+            var trackList = StreamItems.Where(t => t.Type == ItemType.Track && t.Track != null)
                 .Select(t => t.Track);
 
             // Shuffle and play the items
@@ -78,7 +62,7 @@ namespace SoundByte.UWP.ViewModels
         public async void NavigateStream(object sender, ItemClickEventArgs e)
         {
             // Get a list of items
-            var trackList = StreamItems.Where(t => t.Type == Core.ItemType.Track && t.Track != null)
+            var trackList = StreamItems.Where(t => t.Type == ItemType.Track && t.Track != null)
                 .Select(t => t.Track);
 
             // Get the clicked item
@@ -88,7 +72,7 @@ namespace SoundByte.UWP.ViewModels
                 return;
 
             // We are loading
-            App.IsLoading = true;
+            StreamItems.IsLoading = true;
 
             switch (streamItem.Type)
             {
@@ -114,7 +98,7 @@ namespace SoundByte.UWP.ViewModels
             }
 
             // We are not loading
-            App.IsLoading = false;
+            StreamItems.IsLoading = false;
         }
 
         public override void Dispose()

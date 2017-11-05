@@ -68,7 +68,7 @@
                                                   Click="{x:Bind ViewModel.PlayShuffleStreamTracks}"
                                                   Margin="0,0,25,0" />
                         <elements:SoundByteButton Glyph="&#xE72C;" Label="Refresh"
-                                                  Click="{x:Bind ViewModel.RefreshStreamItems}"
+                                                  Click="{x:Bind ViewModel.StreamItems.RefreshItems}"
                                                   Margin="0,0,25,0" />
                     </StackPanel>
                 </StackPanel>

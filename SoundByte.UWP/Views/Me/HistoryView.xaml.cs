@@ -11,7 +11,6 @@
  */
 
 using System;
-using System.Linq;
 using Windows.UI.Popups;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -19,7 +18,6 @@ using SoundByte.Core.Items.Track;
 using SoundByte.Core.Sources;
 using SoundByte.UWP.Helpers;
 using SoundByte.UWP.Services;
-using SoundByte.UWP.Models;
 using SoundByte.UWP.ViewModels;
 
 namespace SoundByte.UWP.Views.Me
@@ -44,17 +42,17 @@ namespace SoundByte.UWP.Views.Me
 
         public async void PlayShuffleItems()
         {
-           // await BaseViewModel.ShuffleTracksAsync(HistoryModel.Source);
+            await BaseViewModel.ShuffleTracksAsync(HistoryModel);
         }
 
         public async void PlayAllItems()
         {
             HistoryModel.IsLoading = true;
 
-          //  var startPlayback =
-          //      await PlaybackService.Instance.StartModelMediaPlaybackAsync(HistoryModel);
-           // if (!startPlayback.Success)
-            //    await new MessageDialog(startPlayback.Message, "Error playing track.").ShowAsync();
+            var startPlayback =
+                await PlaybackService.Instance.StartModelMediaPlaybackAsync(HistoryModel);
+           if (!startPlayback.Success)
+                await new MessageDialog(startPlayback.Message, "Error playing track.").ShowAsync();
 
             HistoryModel.IsLoading = false;
         }
@@ -63,9 +61,9 @@ namespace SoundByte.UWP.Views.Me
         {
             HistoryModel.IsLoading = true;
 
-          //  var startPlayback = await PlaybackService.Instance.StartModelMediaPlaybackAsync(HistoryModel, false, (BaseTrack) e.ClickedItem);
-          //  if (!startPlayback.Success)
-            //    await new MessageDialog(startPlayback.Message, "Error playing track.").ShowAsync();
+            var startPlayback = await PlaybackService.Instance.StartModelMediaPlaybackAsync(HistoryModel, false, (BaseTrack) e.ClickedItem);
+            if (!startPlayback.Success)
+                await new MessageDialog(startPlayback.Message, "Error playing track.").ShowAsync();
 
             HistoryModel.IsLoading = false;
         }

@@ -11,16 +11,15 @@
  */
 
 using System;
-using System.Linq;
 using Windows.UI.Popups;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using SoundByte.Core;
 using SoundByte.Core.Items.Track;
 using SoundByte.Core.Services;
+using SoundByte.Core.Sources.SoundCloud;
+using SoundByte.UWP.Helpers;
 using SoundByte.UWP.Services;
-using SoundByte.UWP.Models;
-using SoundByte.UWP.Models.SoundCloud;
 using SoundByte.UWP.ViewModels;
 
 namespace SoundByte.UWP.Views.Me
@@ -36,13 +35,17 @@ namespace SoundByte.UWP.Views.Me
         }
 
         /// <summary>
-        ///     The likes model that contains or the users liked tracks
+        ///     The likes model that contains the users liked tracks
         /// </summary>
-        private SoundCloudLikesModel LikesModel { get; } = new SoundCloudLikesModel(SoundByteV3Service.Current.GetConnectedUser(ServiceType.SoundCloud));
+        public SoundByteCollection<LikeSoundCloudSource, BaseTrack> LikesModel { get; } =
+            new SoundByteCollection<LikeSoundCloudSource, BaseTrack>();
+
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             TelemetryService.Instance.TrackPage("User Likes View");
+
+            LikesModel.Source.User = SoundByteV3Service.Current.GetConnectedUser(ServiceType.SoundCloud);
         }
 
         public async void PlayShuffleItems()
@@ -53,7 +56,7 @@ namespace SoundByte.UWP.Views.Me
         public async void PlayAllItems()
         {
             // We are loading
-            App.IsLoading = true;
+            LikesModel.IsLoading = true;
 
             var startPlayback = await PlaybackService.Instance.StartModelMediaPlaybackAsync(LikesModel);
 
@@ -61,13 +64,13 @@ namespace SoundByte.UWP.Views.Me
                 await new MessageDialog(startPlayback.Message, "Error playing likes.").ShowAsync();
 
             // We are not loading
-            App.IsLoading = false;
+            LikesModel.IsLoading = false;
         }
 
         public async void PlayItem(object sender, ItemClickEventArgs e)
         {
             // We are loading
-            App.IsLoading = true;
+            LikesModel.IsLoading = true;
 
             var startPlayback =
                 await PlaybackService.Instance.StartModelMediaPlaybackAsync(LikesModel, false, (BaseTrack) e.ClickedItem);
@@ -76,7 +79,7 @@ namespace SoundByte.UWP.Views.Me
                 await new MessageDialog(startPlayback.Message, "Error playing likes.").ShowAsync();
 
             // We are not loading
-            App.IsLoading = false;
+            LikesModel.IsLoading = false;
         }
     }
 }
