@@ -38,7 +38,6 @@ using SoundByte.UWP.Converters;
 using SoundByte.UWP.Helpers;
 using SoundByte.Core.Services;
 using SoundByte.UWP.DatabaseContexts;
-using SoundByte.UWP.Models;
 using SoundByte.Core.Models.MediaStreams;
 using SoundByte.Core.Sources;
 using SoundByte.UWP.Assets;

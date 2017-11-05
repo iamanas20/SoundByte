@@ -15,8 +15,8 @@ using System.Linq;
 using Windows.UI.Popups;
 using Windows.UI.Xaml.Controls;
 using SoundByte.Core.Items.Track;
-using SoundByte.UWP.Models;
-using SoundByte.UWP.Models.SoundCloud;
+using SoundByte.Core.Sources.SoundCloud;
+using SoundByte.UWP.Helpers;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.ViewModels;
 
@@ -27,10 +27,12 @@ namespace SoundByte.UWP.Views
     /// </summary>
     public sealed partial class SoundCloudExploreView 
     {
-        /// <summary>
-        ///     The likes model that contains or the users liked tracks
-        /// </summary>
-        public SoundCloudExploreModel ChartsModel { get; } = new SoundCloudExploreModel();
+        public SoundByteCollection<ExploreSoundCloudSource, BaseTrack> ChartsModel { get; } =
+            new SoundByteCollection<ExploreSoundCloudSource, BaseTrack>
+            {
+                ModelHeader = "Popular",
+                ModelType = "SoundCloud"
+            };
 
         public SoundCloudExploreView()
         {
@@ -67,7 +69,7 @@ namespace SoundByte.UWP.Views
         public void OnComboBoxChanged(object sender, SelectionChangedEventArgs e)
         {
             // Dislay the loading ring
-            App.IsLoading = true;
+            ChartsModel.IsLoading = true;
 
             // Get the combo box
             var comboBox = sender as ComboBox;
@@ -76,17 +78,17 @@ namespace SoundByte.UWP.Views
             switch (comboBox?.Name)
             {
                 case "ExploreTypeCombo":
-                    ChartsModel.Kind = (comboBox.SelectedItem as ComboBoxItem)?.Tag.ToString();
+                    ChartsModel.Source.Kind = (comboBox.SelectedItem as ComboBoxItem)?.Tag.ToString();
                     break;
                 case "ExploreGenreCombo":
-                    ChartsModel.Genre = (comboBox.SelectedItem as ComboBoxItem)?.Tag.ToString();
+                    ChartsModel.Source.Genre = (comboBox.SelectedItem as ComboBoxItem)?.Tag.ToString();
                     break;
             }
 
             ChartsModel.RefreshItems();
 
             // Hide loading ring
-            App.IsLoading = false;
+            ChartsModel.IsLoading = false;
         }
     }
 }

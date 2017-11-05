@@ -17,8 +17,9 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
 using SoundByte.Core.Items.Track;
-using SoundByte.UWP.Models;
+using SoundByte.Core.Sources;
 using SoundByte.UWP.Services;
+using SoundByte.UWP.Helpers;
 
 namespace SoundByte.UWP.ViewModels
 {
@@ -54,20 +55,17 @@ namespace SoundByte.UWP.ViewModels
             App.IsLoading = false;
         }
 
-        /// <summary>
-        ///     Performs a shuffle of the tracks
-        /// </summary>
-        /// <param name="model"></param>
-        public static async Task ShuffleTracksAsync(BaseModel<BaseTrack> model)
+        public static async Task ShuffleTracksAsync<TSource>(SoundByteCollection<TSource, BaseTrack> model) where TSource : ISource<BaseTrack>
         {
-            App.IsLoading = true;
+            model.IsLoading = true;
 
             var startPlayback = await PlaybackService.Instance.StartModelMediaPlaybackAsync(model, true);
 
             if (!startPlayback.Success)
                 await new MessageDialog(startPlayback.Message, "Error playing shuffled tracks.").ShowAsync();
 
-            App.IsLoading = false;
+            model.IsLoading = false;
+
         }
 
         #region Property Changed Event Handlers

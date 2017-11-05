@@ -20,6 +20,7 @@ using Android.Widget;
 using SoundByte.Android.Adapters;
 using SoundByte.Core.Items.Track;
 using SoundByte.Android.Services;
+using SoundByte.Core.Sources.SoundCloud;
 
 namespace SoundByte.Android.Fragments
 {
@@ -58,9 +59,12 @@ namespace SoundByte.Android.Fragments
             {
                 _searchTracks.Clear();
 
-                var searchResults = await SoundCloudTrack.SearchAsync("Monstercat", 40, null);
+                var searchResults = await new SearchSoundCloudTrackSource
+                {
+                    SearchQuery = "monstercat"
+                }.GetItemsAsync(40, null); 
 
-                foreach (var result in searchResults.Tracks)
+                foreach (var result in searchResults.Items)
                 {
                     _searchTracks.Add(result);
                 }

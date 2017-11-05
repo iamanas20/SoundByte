@@ -3,6 +3,7 @@ using AppKit;
 using Foundation;
 using SoundByte.Core.Items.Track;
 using System.Linq;
+using SoundByte.Core.Sources.SoundCloud;
 
 namespace SoundByte.MacOS
 {
@@ -28,10 +29,12 @@ namespace SoundByte.MacOS
             searchToken.Cancel();
 
             // Get search results
-            var results = await SoundCloudTrack.SearchAsync(sender.StringValue, 10, null, searchToken);
+            var searchResults = await new SearchSoundCloudTrackSource
+            {
+                SearchQuery = sender.StringValue
+            }.GetItemsAsync(10, null, searchToken);
 
-            System.Diagnostics.Debug.WriteLine(results.Tracks.FirstOrDefault()?.Title);
-
+            System.Diagnostics.Debug.WriteLine(searchResults.Items.FirstOrDefault()?.Title);
         }
 
 
