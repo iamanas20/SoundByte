@@ -25,7 +25,7 @@ namespace SoundByte.Core.Sources.SoundCloud
     /// <summary>
     /// Searches the SoundCloud API for tracks
     /// </summary>
-    public class SearchTrackSource : ISource<BaseTrack>
+    public class SearchSoundCloudTrackSource : ISource<BaseTrack>
     {
         /// <summary>
         /// What we should search for

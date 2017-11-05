@@ -12,6 +12,10 @@
 
 using System;
 using System.Numerics;
+using System.Threading.Tasks;
+using Windows.Graphics.Imaging;
+using Windows.Storage.Streams;
+using Windows.UI;
 using SoundByte.Core;
 using SoundByte.Core.Items.Playlist;
 using SoundByte.Core.Items.Track;
@@ -21,6 +25,7 @@ using SoundByte.UWP.Services;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using ColorThiefDotNet;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.UI.Animations;
 using Microsoft.Toolkit.Uwp.UI.Controls;
@@ -153,32 +158,70 @@ namespace SoundByte.UWP.UserControls
         {
             var panel = (DropShadowPanel)element;
 
-            panel.Offset(0, -8, 250).Start();
+            panel.Offset(0, -3, 250).Start();
 
-            panel.DropShadow.StartAnimation("Offset",
-                panel.DropShadow.Compositor.CreateVector3KeyFrameAnimation(new Vector3(0, 7, 0), new Vector3(0, 10, 0), TimeSpan.FromMilliseconds(250), null));
+            panel.DropShadow.StartAnimation("Offset.Y",
+                      panel.DropShadow.Compositor.CreateScalarKeyFrameAnimation(null, 10.0f, TimeSpan.FromMilliseconds(150), null));
 
             panel.DropShadow.StartAnimation("Opacity",
-                panel.DropShadow.Compositor.CreateScalarKeyFrameAnimation(0.5f, 0.8f, TimeSpan.FromMilliseconds(250), null));
+                panel.DropShadow.Compositor.CreateScalarKeyFrameAnimation(null, 0.6f, TimeSpan.FromMilliseconds(150), null));
 
             panel.DropShadow.StartAnimation("BlurRadius",
-                panel.DropShadow.Compositor.CreateScalarKeyFrameAnimation(15.0f, 25.0f, TimeSpan.FromMilliseconds(250), null));
+                panel.DropShadow.Compositor.CreateScalarKeyFrameAnimation(null, 45.0f, TimeSpan.FromMilliseconds(150), null));
         }
 
         private void StopAnimation(UIElement element)
         {
             var panel = (DropShadowPanel)element;
 
-            panel.Offset(0, 0, 350).Start();
+            panel.Offset(0, 0, 250).Start();
 
-            panel.DropShadow.StartAnimation("BlurRadius",
-                panel.DropShadow.Compositor.CreateScalarKeyFrameAnimation(25.0f, 15.0f, TimeSpan.FromMilliseconds(250), null));
-
-            panel.DropShadow.StartAnimation("Offset",
-                panel.DropShadow.Compositor.CreateVector3KeyFrameAnimation(new Vector3(0, 10, 0), new Vector3(0, 7, 0), TimeSpan.FromMilliseconds(250), null));
+               panel.DropShadow.StartAnimation("Offset.Y",
+                   panel.DropShadow.Compositor.CreateScalarKeyFrameAnimation(null, 6.0f, TimeSpan.FromMilliseconds(150), null));
 
             panel.DropShadow.StartAnimation("Opacity",
-                panel.DropShadow.Compositor.CreateScalarKeyFrameAnimation(0.8f, 0.5f, TimeSpan.FromMilliseconds(250), null));
+                panel.DropShadow.Compositor.CreateScalarKeyFrameAnimation(null, 0.4f, TimeSpan.FromMilliseconds(150), null));
+
+            panel.DropShadow.StartAnimation("BlurRadius",
+                panel.DropShadow.Compositor.CreateScalarKeyFrameAnimation(null, 25.0f, TimeSpan.FromMilliseconds(150), null));
+        }
+
+        private async Task ColorShadow(UIElement shadowElement, Uri imageUri)
+        {
+            try
+            {
+                var panel = (DropShadowPanel)shadowElement;
+
+                // Download and convert to stream in background
+                var random = await Task.Run(() => RandomAccessStreamReference.CreateFromUri(imageUri));
+
+                using (var stream = await random.OpenReadAsync())
+                {
+                    //Create a decoder for the image
+                    var decoder = await BitmapDecoder.CreateAsync(stream);
+                    var colorThief = new ColorThief();
+                    var color = await colorThief.GetColor(decoder);
+
+                    var colorAnimation = panel.DropShadow.Compositor.CreateColorKeyFrameAnimation();
+                    colorAnimation.Duration = TimeSpan.FromMilliseconds(400);
+
+                    colorAnimation.InsertKeyFrame(0.0f, Colors.Black);
+                    colorAnimation.InsertKeyFrame(1.0f, new Windows.UI.Color
+                    {
+                        R = color.Color.R,
+                        G = color.Color.G,
+                        B = color.Color.B,
+                        A = color.Color.A
+                    });
+
+                    // Start the animation
+                    panel.DropShadow.StartAnimation("Color", colorAnimation);
+                }
+            }
+            catch
+            {
+                // Not citical, fail in background
+            }
         }
 
         private void DesktopTrackItem_OnPointerEntered(object sender, PointerRoutedEventArgs e)

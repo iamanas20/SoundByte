@@ -62,7 +62,7 @@
             </StackPanel>
 
         </Grid>
-        
+
         <Grid x:Name="DesktopPlaylistItem"
               PointerEntered="DesktopPlaylistItem_OnPointerEntered"
               PointerExited="DesktopPlaylistItem_OnPointerExited"
@@ -72,22 +72,18 @@
               Height="245"
               Width="170"
               Margin="5">
-            
-            <!-- All Content -->
-            <StackPanel Orientation="Vertical">
-
-                <!-- Drop Shadow for playlist image -->
-                <controls:DropShadowPanel x:Name="PlaylistDropShadow"
-                                          VerticalAlignment="Top"                       
-                                          BlurRadius="25"
-                                          ShadowOpacity="0.6"
-                                          OffsetX="0"
-                                          OffsetY="7"
-                                          Padding="0,8,0,0"
-                                          IsTabStop="False"
-                                          IsHitTestVisible="False"
-                                          Margin="5,0,5,12"
-                                          Color="Black">
+            <!-- Drop Shadow for playlist image -->
+            <controls:DropShadowPanel x:Name="PlaylistDropShadow"
+                                      VerticalAlignment="Top"                       
+                                      BlurRadius="25"
+                                      ShadowOpacity="0.4"
+                                      OffsetX="0"
+                                      OffsetY="6"
+                                      Padding="0,8,0,0"
+                                      IsTabStop="False"
+                                      IsHitTestVisible="False"
+                                      Margin="5,-2,5,12"
+                                      Color="Black">
                     <Grid Padding="0,7,0,0" CornerRadius="1">
                         <Grid Background="#FF444444"
                           Width="140"
@@ -103,10 +99,8 @@
                           VerticalAlignment="Stretch"
                           HorizontalAlignment="Stretch" />
 
-                        <!-- Displayed before the image is loaded -->
-                        <Grid Width="160" Height="160" Background="DimGray"  />
-
                         <Grid CornerRadius="1" 
+                              Background="DimGray"
                               x:Name="PlaylistImage"
                               Width="160"   
                               Height="160"
@@ -123,7 +117,7 @@
                         <!-- Length of playlist, bottom-right -->
                         <Grid RequestedTheme="Dark" 
                               Background="{ThemeResource SystemControlAcrylicElementMediumHighBrush }"
-                              Padding="8"
+                              Padding="10"
                               Margin="-2"
                               HorizontalAlignment="Stretch"
                               VerticalAlignment="Bottom">
@@ -146,25 +140,22 @@
                     </Grid>
                 </controls:DropShadowPanel>
 
-                <!-- Playlist info below image -->
-                <StackPanel Orientation="Vertical" Margin="6,0,6,0" VerticalAlignment="Top">
-
-                    <TextBlock Text="{x:Bind Path=Playlist.Title, Mode=OneWay}"
-                               Margin="0,2,0,2"
-                               TextAlignment="Left"
-                               FontWeight="Bold"
-                               Opacity="0.9"
-                               FontSize="14"
-                               TextWrapping="Wrap"
-                               MaxHeight="50"
-                               TextTrimming="CharacterEllipsis" />
-                    <TextBlock Text="{x:Bind Path=Playlist.User.Username, Mode=OneWay}"
+            <!-- Playlist info below image -->
+            <StackPanel Margin="5,180,5,0">
+                <TextBlock Text="{x:Bind Path=Playlist.Title, Mode=OneWay}"
+                           TextAlignment="Left"
+                           FontWeight="Bold"
+                           FontSize="14"
+                           TextWrapping="Wrap"
+                           MaxHeight="50"
+                           TextTrimming="CharacterEllipsis" />
+                
+                <TextBlock Text="{x:Bind Path=Playlist.User.Username, Mode=OneWay}"
                            FontSize="13"
                            Opacity="0.8"
                            TextAlignment="Left"
-                           FontWeight="SemiLight" />
+                           FontWeight="SemiBold" />
                 </StackPanel>
-            </StackPanel>
         </Grid>
 
         <Grid x:Name="DesktopTrackItem" 
@@ -193,56 +184,53 @@
                 </MenuFlyout>
             </Grid.ContextFlyout>
 
-            <!-- All Content -->
-            <StackPanel Orientation="Vertical">
-                <!-- Drop Shadow for track image -->
-                <controls:DropShadowPanel x:Name="ShadowPanel"
-                                          VerticalAlignment="Top"
-                                          BlurRadius="15"
-                                          ShadowOpacity="0.5"
-                                          OffsetX="0"
-                                          IsTabStop="False"
-                                          Margin="5,5,5,12"
-                                          OffsetY="7"
-                                          Color="Black">
-                    <!-- Corner everything -->
-                    <Grid CornerRadius="1">
+            <!-- Drop Shadow for track image -->
+            <controls:DropShadowPanel x:Name="ShadowPanel"
+                                      VerticalAlignment="Top"
+                                      BlurRadius="25"
+                                      ShadowOpacity="0.4"
+                                      OffsetX="0"
+                                      IsTabStop="False"
+                                      Margin="5,5,5,12"
+                                      OffsetY="6"
+                                      Color="Black">
+                
+                <!-- Corner radius allows us to hide extra track padding
+                     (to remove glitches and track edges. Not the best idea
+                     and should probably be improved in the future -->
+                <Grid CornerRadius="1" 
+                      Background="DimGray" 
+                      Width="160" 
+                      Height="160" >
+                    
+                    <!-- Track Image -->
+                    <Image Source="{x:Bind Path=Track, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
+                           VerticalAlignment="Stretch"
+                           HorizontalAlignment="Stretch"
+                           x:Name="TrackImage"
+                           Margin="-5"
+                           Stretch="UniformToFill" />
 
-                        <!-- Displayed before the image is loaded -->
-                        <Grid Width="160" Height="160" Background="DimGray" />
-
-                        <!-- Track Image -->
-                        <Image Source="{x:Bind Path=Track, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
-                               VerticalAlignment="Stretch"
-                               HorizontalAlignment="Stretch"
-                               x:Name="TrackImage"
-                               Margin="-10"
-                               Stretch="UniformToFill" />
-
-                        <!-- Now Playing Area -->
-                        <Grid Width="32"
-                              RequestedTheme="Dark"
-                              x:Name="TrackNowPlaying"
-                              Visibility="Collapsed"
-                              Height="32"
-                              VerticalAlignment="Top"
-                              HorizontalAlignment="Left"
-                              Margin="5">
-
+                    <!-- Now Playing Area -->
+                    <Grid Width="32"  
+                         x:Name="TrackNowPlaying"
+                         Visibility="Collapsed"
+                         Height="32"
+                         VerticalAlignment="Top"
+                         HorizontalAlignment="Left"
+                         Margin="5">
                             <!-- Fill in background -->
-                            <Ellipse Fill="{ThemeResource SystemControlAcrylicElementMediumHighBrush }"/>
+                            <Ellipse Fill="{ThemeResource SystemControlAcrylicElementMediumHighBrush }" RequestedTheme="Dark"/>
                             <FontIcon Glyph="&#xE767;" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    </Grid>
 
-                        </Grid>
-
-
-                        <!-- Lower Info -->
-                        <Grid RequestedTheme="Dark" 
-                              Background="{ThemeResource SystemControlAcrylicElementMediumHighBrush }"
-                              Padding="8"
-                              Margin="-2"
-                              HorizontalAlignment="Stretch"
-                              VerticalAlignment="Bottom">
+                    <!-- Lower Info -->
+                   <Grid RequestedTheme="Dark" 
+                         Background="{ThemeResource SystemControlAcrylicElementMediumHighBrush }"
+                         Padding="10"
+                         Margin="-2"
+                         HorizontalAlignment="Stretch"
+                         VerticalAlignment="Bottom">
 
                             <!-- Duration of Track -->
                             <TextBlock RequestedTheme="Dark"
@@ -262,26 +250,20 @@
                     </Grid>
                 </controls:DropShadowPanel>
 
-                <!-- Track info below image -->
-                <StackPanel Orientation="Vertical" Margin="6,0,6,0" VerticalAlignment="Top">
-                    <TextBlock x:Name="TitleText"
-                               Text="{x:Bind Track.Title, Mode=OneWay}"
-                               Margin="0,2,0,2"
-                               Opacity="0.9"
-                               FontWeight="Bold"
-                               TextAlignment="Left"                    
-                               FontSize="14"
-                               TextWrapping="Wrap"
-                               MaxHeight="50"
-                               TextTrimming="CharacterEllipsis" />
+            <StackPanel Margin="5,180,5,0">
+                <TextBlock Text="{x:Bind Track.Title, Mode=OneWay}"  
+                           FontWeight="Bold"
+                           TextAlignment="Left"                    
+                           FontSize="14"
+                           TextWrapping="Wrap"
+                           MaxHeight="50"
+                           TextTrimming="CharacterEllipsis" />
 
-                    <TextBlock x:Name="TitleDescription"
-                               Text="{x:Bind Path=Track.User.Username, Mode=OneWay}"
-                               FontSize="13"
-                               Opacity="0.8"
-                               TextAlignment="Left"
-                               FontWeight="Normal" />
-                </StackPanel>
+                <TextBlock Text="{x:Bind Path=Track.User.Username, Mode=OneWay}"
+                           FontSize="13"
+                           FontWeight="SemiBold"
+                           Opacity="0.8"
+                           TextAlignment="Left" />
             </StackPanel>
         </Grid>
     </Grid>

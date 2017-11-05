@@ -15,15 +15,10 @@ using System.Collections.Generic;
 using System.Linq;
 using Windows.UI.Notifications;
 using GoogleAnalytics;
-using Microsoft.Azure.Mobile;
-using Microsoft.Azure.Mobile.Analytics;
-using Microsoft.Azure.Mobile.Push;
 using Microsoft.HockeyApp;
 using NotificationsExtensions;
 using NotificationsExtensions.Toasts;
-using SoundByte.Core.Helpers;
 using SoundByte.UWP.Assets;
-using SoundByte.UWP.Helpers;
 
 namespace SoundByte.UWP.Services
 {
@@ -40,6 +35,8 @@ namespace SoundByte.UWP.Services
         {
             try
             {
+
+                LoggingService.Log(LoggingService.LogType.Debug, "Telemetry Service Init");
                 // Setup Google Analytics
                 AnalyticsManager.Current.DispatchPeriod = TimeSpan.Zero; // Immediate mode, sends hits immediately
                 AnalyticsManager.Current.AutoAppLifetimeMonitoring =
@@ -49,9 +46,6 @@ namespace SoundByte.UWP.Services
                 AnalyticsManager.Current.IsDebug = false;
                 GoogleAnalyticsClient = AnalyticsManager.Current.CreateTracker(AppKeys.GoogleAnalyticsTrackerId);
 
-                // Azure Mobile Aalytics and push support
-                MobileCenter.Start(AppKeys.AzureMobileCenterClientId, typeof(Analytics), typeof(Push));
-
                 // Used for crash reporting
                 HockeyClient.Current.Configure(AppKeys.HockeyAppClientId);
 
@@ -59,8 +53,8 @@ namespace SoundByte.UWP.Services
                 // Disable this on debug
                 AnalyticsManager.Current.AppOptOut = true;
                 AnalyticsManager.Current.IsDebug = true;
-                AsyncHelper.RunSync(async () => { await MobileCenter.SetEnabledAsync(false); });
 #endif
+                LoggingService.Log(LoggingService.LogType.Debug, "Telemetry Service Finished Init");
             }
             catch
             {
@@ -93,9 +87,6 @@ namespace SoundByte.UWP.Services
             {
                 // Send a hit to Google Analytics
                 GoogleAnalyticsClient.Send(HitBuilder.CreateCustomEvent("App", "Action", eventName).Build());
-
-                // Send a hit to azure
-                Analytics.TrackEvent(eventName, properties);
             }
             catch
             {
@@ -119,6 +110,7 @@ namespace SoundByte.UWP.Services
                     { "IsFatal", isFatal.ToString() }
                 });
                 GoogleAnalyticsClient.Send(HitBuilder.CreateException(exception.Message, isFatal).Build());
+                
             }
             catch
             {

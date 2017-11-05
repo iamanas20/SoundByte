@@ -26,6 +26,8 @@ namespace SoundByte.UWP.Helpers
 {
     public class SoundByteCollection<TSource, TType> : ObservableCollection<TType>, ISupportIncrementalLoading where TSource : ISource<TType>
     {
+       
+
         public TSource Source { get; }
 
         public SoundByteCollection() : this(Activator.CreateInstance<TSource>())

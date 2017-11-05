@@ -53,10 +53,13 @@ namespace SoundByte.UWP
         public AppShell(string path)
         {
             // Init the XAML
+            LoggingService.Log(LoggingService.LogType.Debug, "Loading Shell XAML");
             InitializeComponent();
 
             // Set the accent color
             TitlebarHelper.UpdateTitlebarStyle();
+
+            LoggingService.Log(LoggingService.LogType.Debug, "Attaching Event Handlers");
 
             // When the page is loaded (after the following and xaml init)
             // we can perform the async work
@@ -150,6 +153,9 @@ namespace SoundByte.UWP
 
         private async Task PerformAsyncWork(string path)
         {
+            LoggingService.Log(LoggingService.LogType.Debug, "Page loaded, performing async work");
+
+
             // Set the app language
             ApplicationLanguages.PrimaryLanguageOverride =
                 string.IsNullOrEmpty(SettingsService.Instance.CurrentAppLanguage)
@@ -269,6 +275,9 @@ namespace SoundByte.UWP
 
         public async Task HandleProtocolAsync(string path)
         {
+            LoggingService.Log(LoggingService.LogType.Debug, "Performing protocol work using path of " + path);
+
+
             if (!string.IsNullOrEmpty(path))
             {
                 try

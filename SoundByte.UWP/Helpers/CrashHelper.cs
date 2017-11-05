@@ -33,7 +33,6 @@ namespace SoundByte.UWP.Helpers
                 }
                 catch (Exception e)
                 {
-                    // Show the exception UI
                     await HandleAppCrashAsync(e);
                 }
             };
@@ -42,7 +41,7 @@ namespace SoundByte.UWP.Helpers
             currentApplication.UnhandledException += async (sender, args) =>
             {
                 // We have handled this exception
-                args.Handled = true;
+                args.Handled = true;                
                 // Show the exception UI
                 await HandleAppCrashAsync(args.Exception);
             };

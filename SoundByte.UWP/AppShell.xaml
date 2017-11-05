@@ -44,7 +44,7 @@
                      Visibility="Collapsed" />
 
         <!-- Xbox Specific Items -->
-        <Grid x:Name="XboxOnlyGrid" Visibility="Collapsed" x:Load="False">
+        <Grid x:Name="XboxOnlyGrid" Visibility="Collapsed">
             <!-- Background current track image -->
             <controls:ImageEx Source="{x:Bind Service.CurrentTrack, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
                               PlaceholderSource="Assets/Misc/XboxBG.png"

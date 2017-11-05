@@ -16,6 +16,8 @@ using Windows.UI.Popups;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using SoundByte.Core.Items.Track;
+using SoundByte.Core.Sources;
+using SoundByte.UWP.Helpers;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.Models;
 using SoundByte.UWP.ViewModels;
@@ -32,7 +34,8 @@ namespace SoundByte.UWP.Views.Me
             InitializeComponent();
         }
 
-        public HistoryModel HistoryModel { get; } = new HistoryModel();
+        public SoundByteCollection<HistorySource, BaseTrack> HistoryModel { get; } =
+            new SoundByteCollection<HistorySource, BaseTrack>();
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -41,30 +44,30 @@ namespace SoundByte.UWP.Views.Me
 
         public async void PlayShuffleItems()
         {
-            await BaseViewModel.ShuffleTracksAsync(HistoryModel);
+           // await BaseViewModel.ShuffleTracksAsync(HistoryModel.Source);
         }
 
         public async void PlayAllItems()
         {
-            App.IsLoading = true;
+            HistoryModel.IsLoading = true;
 
-            var startPlayback =
-                await PlaybackService.Instance.StartModelMediaPlaybackAsync(HistoryModel);
-            if (!startPlayback.Success)
-                await new MessageDialog(startPlayback.Message, "Error playing track.").ShowAsync();
+          //  var startPlayback =
+          //      await PlaybackService.Instance.StartModelMediaPlaybackAsync(HistoryModel);
+           // if (!startPlayback.Success)
+            //    await new MessageDialog(startPlayback.Message, "Error playing track.").ShowAsync();
 
-            App.IsLoading = false;
+            HistoryModel.IsLoading = false;
         }
 
         public async void PlayItem(object sender, ItemClickEventArgs e)
         {
-            App.IsLoading = true;
+            HistoryModel.IsLoading = true;
 
-            var startPlayback = await PlaybackService.Instance.StartModelMediaPlaybackAsync(HistoryModel, false, (BaseTrack) e.ClickedItem);
-            if (!startPlayback.Success)
-                await new MessageDialog(startPlayback.Message, "Error playing track.").ShowAsync();
+          //  var startPlayback = await PlaybackService.Instance.StartModelMediaPlaybackAsync(HistoryModel, false, (BaseTrack) e.ClickedItem);
+          //  if (!startPlayback.Success)
+            //    await new MessageDialog(startPlayback.Message, "Error playing track.").ShowAsync();
 
-            App.IsLoading = false;
+            HistoryModel.IsLoading = false;
         }
     }
 }

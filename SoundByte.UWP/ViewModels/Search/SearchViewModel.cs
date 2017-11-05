@@ -38,7 +38,8 @@ namespace SoundByte.UWP.ViewModels.Search
 
         #region Models
 
-        public SoundByteCollection<SearchTrackSource, BaseTrack> SearchTracks = new SoundByteCollection<SearchTrackSource, BaseTrack>
+        public SoundByteCollection<SearchSoundCloudTrackSource, BaseTrack> SearchTracks { get; } = 
+            new SoundByteCollection<SearchSoundCloudTrackSource, BaseTrack>
         {
             ModelHeader = "Search",
             ModelType = "SoundCloud Tracks"
