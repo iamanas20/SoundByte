@@ -46,7 +46,14 @@ namespace SoundByte.UWP.Helpers
                 await HandleAppCrashAsync(args.Exception);
             };
 
-            System.Diagnostics.Debug.WriteLine("Now Handling App Crashes");
+            TaskScheduler.UnobservedTaskException += async (sender, args) =>
+            {
+                args.SetObserved();
+
+                await HandleAppCrashAsync(args.Exception);
+            };
+
+            LoggingService.Log(LoggingService.LogType.Debug, "Now Handling App Crashes");
         }
 
 

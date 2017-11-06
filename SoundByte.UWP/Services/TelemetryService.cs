@@ -35,8 +35,6 @@ namespace SoundByte.UWP.Services
         {
             try
             {
-
-                LoggingService.Log(LoggingService.LogType.Debug, "Telemetry Service Init");
                 // Setup Google Analytics
                 AnalyticsManager.Current.DispatchPeriod = TimeSpan.Zero; // Immediate mode, sends hits immediately
                 AnalyticsManager.Current.AutoAppLifetimeMonitoring =
@@ -54,7 +52,7 @@ namespace SoundByte.UWP.Services
                 AnalyticsManager.Current.AppOptOut = true;
                 AnalyticsManager.Current.IsDebug = true;
 #endif
-                LoggingService.Log(LoggingService.LogType.Debug, "Telemetry Service Finished Init");
+                LoggingService.Log(LoggingService.LogType.Debug, "Now Processing Telemetry");
             }
             catch
             {
@@ -93,12 +91,9 @@ namespace SoundByte.UWP.Services
                 // ignored
             }
 
-            if (SettingsService.Instance.IsDebugModeEnabled)
-            {
-                PopDebugToast(properties != null
-                    ? $"[{eventName}]: {string.Join(Environment.NewLine, properties.Select(kvp => kvp.Key + ": " + kvp.Value.ToString()))}, "
-                    : $"[{eventName}]");
-            }
+            LoggingService.Log(LoggingService.LogType.Debug, properties != null
+                ? $"{eventName}\n{string.Join(Environment.NewLine, properties.Select(kvp => kvp.Key + ": " + kvp.Value.ToString()))}, "
+                : $"{eventName}");
         }
 
         public void TrackException(Exception exception, bool isFatal)

@@ -43,6 +43,7 @@ namespace SoundByte.UWP.Dialogs
         /// </summary>
         /// <param name="service"></param>
         /// <param name="isRemoteConnect"></param>
+        /// <param name="loginCode"></param>
         public LoginDialog(ServiceType service, bool isRemoteConnect = false, string loginCode = "")
         {
             // Set the login service type

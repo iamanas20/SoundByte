@@ -51,8 +51,6 @@ namespace SoundByte.UWP.ViewModels
 
             if (!startPlayback.Success)
                 await new MessageDialog(startPlayback.Message, "Error playing shuffled tracks.").ShowAsync();
-
-            App.IsLoading = false;
         }
 
         public static async Task ShuffleTracksAsync<TSource>(SoundByteCollection<TSource, BaseTrack> model) where TSource : ISource<BaseTrack>

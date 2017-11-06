@@ -10,7 +10,6 @@
  * |----------------------------------------------------------------|
  */
 
-
 using System;
 
 namespace SoundByte.UWP.Services
@@ -19,7 +18,7 @@ namespace SoundByte.UWP.Services
     {
         public static void Log(LogType type, string message)
         {
-            System.Diagnostics.Debug.WriteLine($"[{type}] - {DateTime.Now:T} : {message}");
+            System.Diagnostics.Debug.WriteLine($"[{type}] - {DateTime.Now:hh:mm:ss:fff} : {message}");
         }
 
         public enum LogType

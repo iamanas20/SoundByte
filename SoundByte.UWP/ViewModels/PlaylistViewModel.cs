@@ -199,7 +199,7 @@ namespace SoundByte.UWP.ViewModels
         public async void PinPlaylist()
         {
             // Show the loading ring
-            App.IsLoading = true;
+            await App.SetLoadingAsync(true);
             // Get the resource loader
             var resources = ResourceLoader.GetForCurrentView();
             // Check if the tile exists
@@ -234,7 +234,7 @@ namespace SoundByte.UWP.ViewModels
                 }
             }
             // Hide the loading ring
-            App.IsLoading = false;
+            await App.SetLoadingAsync(false);
         }
 
         /// <summary>

@@ -83,6 +83,7 @@
                 
                 <HyperlinkButton x:Name="FanburstViewProfile"  
                                  Content="View Profile" 
+                                 IsEnabled="False"
                                  Style="{StaticResource LinkStyle}" 
                                  Click="NavigateFanburstProfile" />
                
@@ -101,6 +102,7 @@
                                  Click="ConnectYouTubeAccount" />
                 
                 <HyperlinkButton x:Name="YouTubeViewProfile"  
+                                 IsEnabled="False"
                                  Content="View Profile" 
                                  Style="{StaticResource LinkStyle}" 
                                  Click="NavigateYouTubeProfile" />

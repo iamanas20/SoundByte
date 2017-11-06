@@ -34,7 +34,7 @@ namespace SoundByte.UWP.Views.Application
 
             CurrentVersion.Text = $"Current Version: {Package.Current.Id.Version.Major}.{Package.Current.Id.Version.Minor}.{Package.Current.Id.Version.Build}.{Package.Current.Id.Version.Revision}";
 
-            App.IsLoading = true;
+            await App.SetLoadingAsync(true);
 
             try
             {
@@ -53,7 +53,7 @@ namespace SoundByte.UWP.Views.Application
                 ChangelogView.Text = "*Error:* An error occured while getting the changelog.";
             }
 
-            App.IsLoading = false;
+            await App.SetLoadingAsync(false);
         }
     }
 }

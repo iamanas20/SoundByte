@@ -32,8 +32,7 @@ namespace SoundByte.Core.Sources.SoundCloud
         public  async Task<SourceResponse<BasePlaylist>> GetItemsAsync(int count, string token,
             CancellationTokenSource cancellationToken = default(CancellationTokenSource))
         {
-            string endpoint;
-            ServiceType serviceType;
+           
 
             // If the user is null, and we are NOT connected, then we must be logged out and trying
             // to access our resources,
@@ -45,6 +44,12 @@ namespace SoundByte.Core.Sources.SoundCloud
                 return new SourceResponse<BasePlaylist>(null, null, false, "Not logged in", "A connected SoundCloud account is required to view this content.");
             }
 
+            // Convert SoundCloud specific playlists to base playlists
+            var basePlaylists = new List<BasePlaylist>();
+            string nextToken;
+            string endpoint;
+            ServiceType serviceType;
+
             // If we are connected and the connect user is the current user we get the logged
             // in users playlists URL.
             if (SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud) &&
@@ -52,38 +57,59 @@ namespace SoundByte.Core.Sources.SoundCloud
             {
                 endpoint = $"/users/{SoundByteV3Service.Current.GetConnectedUser(ServiceType.SoundCloud)?.Id}/playlists/liked_and_owned";
                 serviceType = ServiceType.SoundCloudV2;
+
+                // Call the SoundCloud api and get the items
+                var playlists = await SoundByteV3Service.Current.GetAsync<UserLikePlaylistHolder>(serviceType, endpoint,
+                    new Dictionary<string, string>
+                    {
+                        {"limit", count.ToString()},
+                        {"offset", token},
+                        {"linked_partitioning", "1"}
+                    }, cancellationToken).ConfigureAwait(false);
+
+                // If there are no tracks
+                if (!playlists.Playlists.Any())
+                {
+                    return new SourceResponse<BasePlaylist>(null, null, false, "Nothing to hear here", "This user has uploaded no playlists");
+                }
+
+                // Parse uri for cursor
+                var param = new QueryParameterCollection(playlists.NextList);
+                nextToken = param.FirstOrDefault(x => x.Key == "offset").Value;
+
+                playlists.Playlists.ForEach(x => basePlaylists.Add(x.Playlist.ToBasePlaylist()));             
             }
             else
             {
                 endpoint = $"/users/{User.Id}/playlists";
                 serviceType = ServiceType.SoundCloud;
-            }
 
-            // Call the SoundCloud api and get the items
-            var playlists = await SoundByteV3Service.Current.GetAsync<UserPlaylistHolder>(serviceType, endpoint,
-                new Dictionary<string, string>
+                // Call the SoundCloud api and get the items
+                var playlists = await SoundByteV3Service.Current.GetAsync<UserPlaylistHolder>(serviceType, endpoint,
+                    new Dictionary<string, string>
+                    {
+                        {"limit", count.ToString()},
+                        {"offset", token},
+                        {"linked_partitioning", "1"}
+                    }, cancellationToken).ConfigureAwait(false);
+
+                // If there are no tracks
+                if (!playlists.Playlists.Any())
                 {
-                    {"limit", count.ToString()},
-                    {"offset", token},
-                    {"linked_partitioning", "1"}
-                }, cancellationToken).ConfigureAwait(false);
+                    return new SourceResponse<BasePlaylist>(null, null, false, "Nothing to hear here", "This user has uploaded no playlists");
+                }
 
-            // If there are no tracks
-            if (!playlists.Playlists.Any())
-            {
-                return new SourceResponse<BasePlaylist>(null, null, false, "Nothing to hear here", "This user has uploaded no playlists");
+                // Parse uri for cursor
+                var param = new QueryParameterCollection(playlists.NextList);
+                nextToken = param.FirstOrDefault(x => x.Key == "offset").Value;
+
+              
+                playlists.Playlists.ForEach(x => basePlaylists.Add(x.ToBasePlaylist()));  
             }
-
-            // Parse uri for cursor
-            var param = new QueryParameterCollection(playlists.NextList);
-            var nextToken = param.FirstOrDefault(x => x.Key == "offset").Value;
-
-            // Convert SoundCloud specific playlists to base playlists
-            var basePlaylists = new List<BasePlaylist>();
-            playlists.Playlists.ForEach(x => basePlaylists.Add(x.ToBasePlaylist()));
 
             // Return the items
             return new SourceResponse<BasePlaylist>(basePlaylists, nextToken);
+
         }
 
         [JsonObject]
@@ -100,6 +126,31 @@ namespace SoundByte.Core.Sources.SoundCloud
             /// </summary>
             [JsonProperty("next_href")]
             public string NextList { get; set; }
+        }
+
+        private class UserLikePlaylistHolder
+        {
+            /// <summary>
+            ///     List of playlists
+            /// </summary>
+            [JsonProperty("collection")]
+            public List<LikePlaylistBootstrap> Playlists { get; set; }
+
+            /// <summary>
+            ///     The next list of items
+            /// </summary>
+            [JsonProperty("next_href")]
+            public string NextList { get; set; }
+        }
+
+        [JsonObject]
+        private class LikePlaylistBootstrap
+        {
+            /// <summary>
+            ///     A playlist
+            /// </summary>
+            [JsonProperty("playlist")]
+            public SoundCloudPlaylist Playlist { get; set; }
         }
     }
 }

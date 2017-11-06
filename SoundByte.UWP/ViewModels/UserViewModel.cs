@@ -232,7 +232,7 @@ namespace SoundByte.UWP.ViewModels
         public async void FollowUser()
         {
             // Show the loading ring
-            App.IsLoading = true;
+            await App.SetLoadingAsync(true);
 
             // Check if we are following the user
             if (await SoundByteV3Service.Current.ExistsAsync(ServiceType.SoundCloud, "/me/followings/" + User.Id))
@@ -266,13 +266,13 @@ namespace SoundByte.UWP.ViewModels
                 }
             }
             // Hide the loading ring
-            App.IsLoading = false;
+            await App.SetLoadingAsync(false);
         }
 
         public async void PinUser()
         {
             // Show the loading ring
-            App.IsLoading = true;
+            await App.SetLoadingAsync(true);
             // Get the resource loader
             var resources = ResourceLoader.GetForCurrentView();
 
@@ -310,31 +310,31 @@ namespace SoundByte.UWP.ViewModels
                 }
             }
             // Hide the loading ring
-            App.IsLoading = false;
+            await App.SetLoadingAsync(false);
         }
 
         public async void NavigateToUserTrack(object sender, ItemClickEventArgs e)
         {
-            App.IsLoading = true;
+            await App.SetLoadingAsync(true);
 
             var startPlayback =
                 await PlaybackService.Instance.StartModelMediaPlaybackAsync(TracksList, false, (BaseTrack) e.ClickedItem);
             if (!startPlayback.Success)
                 await new MessageDialog(startPlayback.Message, "Error playing user track.").ShowAsync();
 
-            App.IsLoading = false;
+            await App.SetLoadingAsync(false);
         }
 
         public async void NavigateToLikedTrack(object sender, ItemClickEventArgs e)
         {
-            App.IsLoading = true;
+            await App.SetLoadingAsync(true);
 
             var startPlayback =
                 await PlaybackService.Instance.StartModelMediaPlaybackAsync(LikeItems, false, (BaseTrack) e.ClickedItem);
             if (!startPlayback.Success)
                 await new MessageDialog(startPlayback.Message, "Error playing liked user track.").ShowAsync();
 
-            App.IsLoading = false;
+            await App.SetLoadingAsync(false);
         }
 
         public void NavigateToPlaylist(object sender, ItemClickEventArgs e)

@@ -48,27 +48,21 @@ namespace SoundByte.UWP.ViewModels
             await App.SwitchToCompactView();
         }
 
+
         /// <summary>
         ///     Called when the current playing item changes
         /// </summary>
-        private async void CurrentItemChanged(MediaPlaybackList sender, CurrentMediaPlaybackItemChangedEventArgs args)
+        private async void Instance_OnCurrentTrackChanged(BaseTrack newTrack)
         {
             await DispatcherHelper.ExecuteOnUIThreadAsync(async () =>
             {
-                // Only perform the following actions if there is a new track
-                if (args.NewItem == null)
-                    return;
-
-                if (Service.CurrentTrack == null)
-                    return;
-
                 var overlay = App.CurrentFrame.FindName("VideoOverlay") as MediaElement;
 
                 if (overlay != null)
                 {
-                    if (Service.CurrentTrack.ServiceType == ServiceType.YouTube)
+                    if (newTrack.ServiceType == ServiceType.YouTube)
                     {
-                        overlay.Source = new Uri(Service.CurrentTrack.VideoStreamUrl);
+                        overlay.Source = new Uri(newTrack.VideoStreamUrl);
                         overlay.Play();
                     }
                     else
@@ -80,21 +74,15 @@ namespace SoundByte.UWP.ViewModels
                 }
              
                 // Set the pin button text
-                PinButtonText = TileHelper.IsTilePinned("Track_" + Service.CurrentTrack.Id) ? "Unpin" : "Pin";
+                PinButtonText = TileHelper.IsTilePinned("Track_" + newTrack.Id) ? "Unpin" : "Pin";
 
                 // Set the like button text
-                LikeButtonText = await SoundByteV3Service.Current.ExistsAsync(ServiceType.SoundCloud, "/me/favorites/" + Service.CurrentTrack.Id)
+                LikeButtonText = await SoundByteV3Service.Current.ExistsAsync(ServiceType.SoundCloud, "/me/favorites/" + newTrack.Id)
                     ? "Unlike"
                     : "Like";
 
-                // Set the repost button text
-                RepostButtonText =
-                    await SoundByteV3Service.Current.ExistsAsync(ServiceType.SoundCloud, "/e1/me/track_reposts/" + Service.CurrentTrack.Id)
-                        ? "Unpost"
-                        : "Repost";
-
                 // Reload all the comments
-                CommentItems.Source.Track = Service.CurrentTrack;
+                CommentItems.Source.Track = newTrack;
                 CommentItems.RefreshItems();
             });
         }
@@ -207,8 +195,9 @@ namespace SoundByte.UWP.ViewModels
         public void SetupModel()
         {
             // Bind the method once we know a playback list exists
-            if (PlaybackService.Instance.PlaybackList != null)
-                PlaybackService.Instance.PlaybackList.CurrentItemChanged += CurrentItemChanged;
+            PlaybackService.Instance.OnCurrentTrackChanged += Instance_OnCurrentTrackChanged;
+
+            CommentItems.Source.Track = Service.CurrentTrack;
 
             var overlay = App.CurrentFrame.FindName("VideoOverlay") as MediaElement;
 
@@ -245,8 +234,7 @@ namespace SoundByte.UWP.ViewModels
         public void CleanModel()
         {
             // Unbind the events
-            if (PlaybackService.Instance.PlaybackList != null)
-                PlaybackService.Instance.PlaybackList.CurrentItemChanged -= CurrentItemChanged;
+            PlaybackService.Instance.OnCurrentTrackChanged -= Instance_OnCurrentTrackChanged;
 
             var overlay = App.CurrentFrame?.FindName("VideoOverlay") as MediaElement;
 
@@ -428,7 +416,7 @@ namespace SoundByte.UWP.ViewModels
         {
             // Show the loading ring as loading the user can take
             // some time.
-            App.IsLoading = true;
+            await App.SetLoadingAsync(true);
 
             // We only support viewing soundcloud profiles at this time
             if (Service.CurrentTrack?.ServiceType != ServiceType.SoundCloud)
@@ -443,7 +431,7 @@ namespace SoundByte.UWP.ViewModels
             var currentUser = await SoundByteV3Service.Current.GetAsync<SoundCloudUser>(ServiceType.SoundCloud, "/users/" + Service.CurrentTrack.User.Id);
 
             // Hide the loading ring
-            App.IsLoading = false;
+            await App.SetLoadingAsync(false);
 
             // Navigate to the user page
             App.NavigateTo(typeof(UserView), currentUser.ToBaseUser());

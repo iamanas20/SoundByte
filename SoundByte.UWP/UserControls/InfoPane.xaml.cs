@@ -85,8 +85,8 @@ namespace SoundByte.UWP.UserControls
                 if (value)
                 {
                     Loading.IsActive = true;
-                    Header = "Loading...";
-                    Text = "Please wait...";
+                    Header = "";
+                    Text = "Loading...";
                     Visibility = Visibility.Visible;
                 }
                 else

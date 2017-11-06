@@ -50,8 +50,12 @@ namespace SoundByte.UWP
         /// </summary>
         public App()
         {
+            LoggingService.Log(LoggingService.LogType.Debug, "----- App Started -----");
+
             // Init XAML Resources
             InitializeComponent();
+
+            LoggingService.Log(LoggingService.LogType.Debug, "Loaded XAML");
 
             // We want to use the controler if on xbox
             if (DeviceHelper.IsXbox)
@@ -254,7 +258,7 @@ namespace SoundByte.UWP
             };
 
             SoundByteV3Service.Current.Init(secretList);
-            System.Diagnostics.Debug.WriteLine("V3 Service Setup");
+            LoggingService.Log(LoggingService.LogType.Debug, "SoundByte V3 Service Started");
         }
 
         #endregion
@@ -344,12 +348,14 @@ namespace SoundByte.UWP
         /// <returns></returns>
         private async Task InitializeShellAsync(string parameters = null)
         {
+            LoggingService.Log(LoggingService.LogType.Debug, "Initialize Main App Shell...");
             // Get the main shell
             var shell = Window.Current.Content as AppShell;
 
             // If the shell is null, we need to set it up.
             if (shell == null)
             {
+                LoggingService.Log(LoggingService.LogType.Debug, "Shell does not exist, creating new shell");
                 shell = new AppShell(parameters);
 
                 // Hook the key pressed event for the global app
@@ -361,6 +367,7 @@ namespace SoundByte.UWP
             }
             else
             {
+                LoggingService.Log(LoggingService.LogType.Debug, "Shell exists, running protocol logic");
                 await shell.HandleProtocolAsync(parameters);
             }
 
@@ -372,6 +379,7 @@ namespace SoundByte.UWP
                 ApplicationView.GetForCurrentView().SetDesiredBoundsMode(ApplicationViewBoundsMode.UseCoreWindow);
 
             // Activate the window
+            LoggingService.Log(LoggingService.LogType.Debug, "Activiating Window");
             Window.Current.Activate();
         }
 
@@ -383,6 +391,8 @@ namespace SoundByte.UWP
         /// </summary>
         public static async void NavigateTo(Type page, object param = null)
         {
+            LoggingService.Log(LoggingService.LogType.Debug, "Navigating Page: " + page.Name);
+
             await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
             {
                 (Window.Current.Content as AppShell)?.RootFrame.Navigate(page, param);
@@ -397,17 +407,6 @@ namespace SoundByte.UWP
         public static Page CurrentFrame => (Window.Current?.Content as AppShell)?.RootFrame.Content as Page;
 
         public static AppShell Shell => Window.Current?.Content as AppShell;
-
-        /// <summary>
-        ///     Is anything currently loading
-        /// </summary>
-        [Obsolete("Use await SetLoading(value) instead.")]
-        public static bool IsLoading
-        {
-#pragma warning disable 4014
-            set => SetLoadingAsync(value);
-#pragma warning restore 4014
-        }
 
         /// <summary>
         /// Updates the UI to either show a loading ring or not
@@ -428,11 +427,12 @@ namespace SoundByte.UWP
                         loadingRing.Visibility = isLoading ? Visibility.Visible : Visibility.Collapsed;
                 });
             }
-            catch
+            catch (Exception ex)
             { 
                 // This can crash if the UI thread does not exist.
                 // 99.9% of the time, the background switch will prevent
                 // this from happening though.
+                LoggingService.Log(LoggingService.LogType.Warning, "Exception when setting loading status: " + ex.Message);
             }          
         }
 

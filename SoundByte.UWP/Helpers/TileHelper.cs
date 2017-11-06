@@ -33,11 +33,11 @@ namespace SoundByte.UWP.Helpers
             if (DeviceHelper.IsXbox)
                 return;
 
-            System.Diagnostics.Debug.WriteLine("Init Tile Helper");
-
             // Setup the tile updaters
             TileUpdater = TileUpdateManager.CreateTileUpdaterForApplication("App");
             TileUpdater.EnableNotificationQueue(true);
+
+            LoggingService.Log(LoggingService.LogType.Debug, "Tile Helper Setup");
         }
 
         public static TileUpdater TileUpdater { get; set; }
