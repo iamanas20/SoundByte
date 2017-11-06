@@ -545,9 +545,13 @@
                                             Text="{x:Bind CreatedAt, Converter={StaticResource ModernDateTimeConverter}}"
                                             FontWeight="SemiBold" Margin="70,0,10,0" VerticalAlignment="Top" FontSize="12"
                                             Opacity="0.7" />
-                                        <TextBlock Text="{x:Bind Body}" FontSize="14" TextWrapping="Wrap"
-                                                   Margin="70,5,10,5" HorizontalAlignment="Left" FontWeight="Normal"
-                                                   FontFamily="Segoe UI" Height="Auto" Opacity="0.8" />
+
+                                        <controls:MarkdownTextBlock Text="{x:Bind Body}" 
+                                                                    FontSize="14" 
+                                                                    TextWrapping="Wrap" 
+                                                                    Height="Auto" 
+                                                                    Opacity="0.8"
+                                                                    Margin="70,5,10,5" />
                                     </StackPanel>
                                 </Grid>
                             </DataTemplate>
