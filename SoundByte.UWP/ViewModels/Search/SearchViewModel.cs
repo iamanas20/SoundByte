@@ -24,6 +24,7 @@ using SoundByte.UWP.Services;
 using SoundByte.UWP.Views;
 using SoundByte.UWP.Views.Generic;
 using SoundByte.UWP.Helpers;
+using SoundByte.UWP.ViewModels.Generic;
 
 namespace SoundByte.UWP.ViewModels.Search
 {
@@ -35,40 +36,21 @@ namespace SoundByte.UWP.ViewModels.Search
         #endregion
 
         #region Sources
-        public SoundByteCollection<SearchSoundCloudTrackSource, BaseTrack> SearchTracks { get; } = 
-            new SoundByteCollection<SearchSoundCloudTrackSource, BaseTrack>
-            {
-                ModelHeader = "Search",
-                ModelType = "SoundCloud Tracks"
-            };
+
+        public SoundByteCollection<SearchSoundCloudTrackSource, BaseTrack> SearchTracks { get; } =
+            new SoundByteCollection<SearchSoundCloudTrackSource, BaseTrack>();
 
         public SoundByteCollection<SearchFanburstTrackSource, BaseTrack> FanburstTracks { get; } =
-            new SoundByteCollection<SearchFanburstTrackSource, BaseTrack>
-            {
-                ModelHeader = "Search",
-                ModelType = "Fanburst Tracks"
-            };
+            new SoundByteCollection<SearchFanburstTrackSource, BaseTrack>();
 
         public SoundByteCollection<SearchSoundCloudPlaylistSource, BasePlaylist> SearchPlaylists { get; } =
-            new SoundByteCollection<SearchSoundCloudPlaylistSource, BasePlaylist>
-            {
-                ModelHeader = "Search",
-                ModelType = "SoundCloud Playlists"
-            };
+            new SoundByteCollection<SearchSoundCloudPlaylistSource, BasePlaylist>();
 
         public SoundByteCollection<SearchSoundCloudUserSource, BaseUser> SearchUsers { get; } =
-            new SoundByteCollection<SearchSoundCloudUserSource, BaseUser>
-            {
-                ModelHeader = "Search",
-                ModelType = "SoundCloud Users"
-            };
+            new SoundByteCollection<SearchSoundCloudUserSource, BaseUser>();
 
         public SoundByteCollection<SearchYouTubeTrackSource, BaseTrack> YouTubeTracks { get; } =
-            new SoundByteCollection<SearchYouTubeTrackSource, BaseTrack>
-            {
-                ModelHeader = "Search",
-                ModelType = "Youtube Videos"
-            };
+            new SoundByteCollection<SearchYouTubeTrackSource, BaseTrack>();
         #endregion
 
         #region Getters and Setters
@@ -180,27 +162,53 @@ namespace SoundByte.UWP.ViewModels.Search
 
         public void NavigateSoundCloudTracks()
         {
-            App.NavigateTo(typeof(TrackListView), SearchTracks);
+            App.NavigateTo(typeof(TrackListView), new TrackListViewModel.TrackViewModelHolder
+            {
+                Track = SearchTracks.Source,
+                Title = "Search",
+                Subtitle = "SoundCloud Tracks"
+            });
         }
 
         public void NavigateSoundCloudPlaylists()
         {
-            App.NavigateTo(typeof(PlaylistListView), SearchPlaylists);
+            App.NavigateTo(typeof(PlaylistListView), new PlaylistListViewModel.PlaylistViewModelHolder
+            {
+                Playlist = SearchPlaylists.Source,
+                Title = "Search",
+                Subtitle = "SoundCloud Playlists"
+
+            });
         }
 
         public void NavigateSoundCloudUsers()
         {
-            App.NavigateTo(typeof(UserListView), SearchUsers);
+            App.NavigateTo(typeof(UserListView), new UserListViewModel.UserViewModelHolder
+            {
+                User = SearchUsers.Source,
+                Title = "Search",
+                Subtitle = "SoundCloud Users"
+            });
         }
 
         public void NavigateYouTubeTracks()
         {
-            App.NavigateTo(typeof(TrackListView), YouTubeTracks);
+            App.NavigateTo(typeof(TrackListView), new TrackListViewModel.TrackViewModelHolder
+            {
+                Track = YouTubeTracks.Source,
+                Title = "Search",
+                Subtitle = "Youtube Videos"
+            });
         }
 
         public void NavigateFanburstTracks()
         {
-            App.NavigateTo(typeof(TrackListView), FanburstTracks);
+            App.NavigateTo(typeof(TrackListView), new TrackListViewModel.TrackViewModelHolder
+            {
+                Track = FanburstTracks.Source,
+                Title = "Search",
+                Subtitle = "Fanburst Tracks"
+            });
         }
 
         public async void NavigatePodcasts()

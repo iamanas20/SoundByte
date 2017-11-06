@@ -11,9 +11,6 @@
  */
 
 using Windows.UI.Xaml.Navigation;
-using SoundByte.Core.Items.Track;
-using SoundByte.Core.Sources;
-using SoundByte.UWP.Helpers;
 using SoundByte.UWP.ViewModels.Generic;
 
 namespace SoundByte.UWP.Views.Generic
@@ -29,7 +26,7 @@ namespace SoundByte.UWP.Views.Generic
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            ViewModel.Init((SoundByteCollection<ISource<BaseTrack>, BaseTrack>)e.Parameter);
+            ViewModel.Init((TrackListViewModel.TrackViewModelHolder)e.Parameter);
         }      
     }
 }

@@ -56,25 +56,33 @@ namespace SoundByte.Core.Sources.SoundCloud
                 {
                     var type = ItemType.Unknown;
 
+                    // Set the type depending on the SoundCloud String
+                    // and if the object exists.
                     switch (item.Type)
                     {
                         case "track-repost":
                         case "track":
-                            type = ItemType.Track;
+                            if (item.Track != null)
+                                type = ItemType.Track;
                             break;
                         case "playlist-repost":
                         case "playlist":
-                            type = ItemType.Playlist;
+                            if (item.Playlist != null)
+                                type = ItemType.Playlist;
                             break;
                     }
 
-                    baseItems.Add(new GroupedItem
+                    // Only add the item if it's a known type
+                    if (type != ItemType.Unknown)
                     {
-                        Type = type,
-                        Track = item.Track?.ToBaseTrack(),
-                        Playlist = item.Playlist?.ToBasePlaylist(),
-                        User = item.User?.ToBaseUser()
-                    });
+                        baseItems.Add(new GroupedItem
+                        {
+                            Type = type,
+                            Track = item.Track?.ToBaseTrack(),
+                            Playlist = item.Playlist?.ToBasePlaylist(),
+                            User = item.User?.ToBaseUser()
+                        });
+                    }
                 }
 
                 // Return the items

@@ -78,18 +78,25 @@ namespace SoundByte.UWP.ViewModels.Generic
         /// <summary>
         /// Setup the view model for use
         /// </summary>
-        /// <param name="model">The user model to use in this view</param>
-        public void Init(SoundByteCollection<ISource<BasePlaylist>, BasePlaylist> model)
+        /// <param name="data">The user model to use in this view</param>
+        public void Init(PlaylistViewModelHolder data)
         {
-            Model = model;
-            Title = model.ModelHeader;
-            SubTitle = model.ModelType;
+            Model = new SoundByteCollection<ISource<BasePlaylist>, BasePlaylist>(data.Playlist);
+            Title = data.Title;
+            SubTitle = data.Subtitle;
         }
         #endregion
 
         public void NavigatePlaylist(object sender, ItemClickEventArgs e)
         {
             App.NavigateTo(typeof(PlaylistView), (BasePlaylist)e.ClickedItem);
+        }
+
+        public class PlaylistViewModelHolder
+        {
+            public ISource<BasePlaylist> Playlist { get; set; }
+            public string Title { get; set; }
+            public string Subtitle { get; set; }
         }
     }
 }

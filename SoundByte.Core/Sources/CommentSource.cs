@@ -28,6 +28,11 @@ namespace SoundByte.Core.Sources
         public async Task<SourceResponse<BaseComment>> GetItemsAsync(int count, string token,
             CancellationTokenSource cancellationToken = default(CancellationTokenSource))
         {
+            if (Track == null)
+            {
+                return new SourceResponse<BaseComment>(null, null, false, "No comments", "This track has no comments");
+            }
+
             // Call the SoundCloud API and get the items
             var comments = await Track.GetCommentsAsync(count, token).ConfigureAwait(false);
 

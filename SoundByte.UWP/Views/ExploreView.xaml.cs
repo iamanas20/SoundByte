@@ -20,6 +20,7 @@ using SoundByte.Core.Sources.Fanburst;
 using SoundByte.Core.Sources.SoundCloud;
 using SoundByte.Core.Sources.YouTube;
 using SoundByte.UWP.Helpers;
+using SoundByte.UWP.ViewModels.Generic;
 using SoundByte.UWP.Views.Generic;
 
 namespace SoundByte.UWP.Views
@@ -30,26 +31,15 @@ namespace SoundByte.UWP.Views
     public sealed partial class ExploreView
     {
         #region Sources
+
         public SoundByteCollection<ExploreYouTubeTrendingSource, BaseTrack> YouTubeTracks { get; } =
-            new SoundByteCollection<ExploreYouTubeTrendingSource, BaseTrack>
-            {
-                ModelHeader = "Trending",
-                ModelType = "YouTube"
-            };
+            new SoundByteCollection<ExploreYouTubeTrendingSource, BaseTrack>();
 
         public SoundByteCollection<ExploreFanburstPopularSource, BaseTrack> FanburstTracks { get; } =
-            new SoundByteCollection<ExploreFanburstPopularSource, BaseTrack>
-            {
-                ModelHeader = "Trending",
-                ModelType = "Fanburst"
-            };
+            new SoundByteCollection<ExploreFanburstPopularSource, BaseTrack>();
 
         public SoundByteCollection<ExploreSoundCloudSource, BaseTrack> ExploreTracks { get; } =
-            new SoundByteCollection<ExploreSoundCloudSource, BaseTrack>
-            {
-                ModelHeader = "Popular",
-                ModelType = "SoundCloud"
-            };
+            new SoundByteCollection<ExploreSoundCloudSource, BaseTrack>();
 
         #endregion
 
@@ -88,12 +78,22 @@ namespace SoundByte.UWP.Views
 
         public void NavigateMoreYouTube()
         {
-            App.NavigateTo(typeof(TrackListView), YouTubeTracks);
+            App.NavigateTo(typeof(TrackListView), new TrackListViewModel.TrackViewModelHolder
+            {
+                Track = YouTubeTracks.Source,
+                Title = "Trending",
+                Subtitle = "YouTube"
+            });
         }
 
         public void NavigateMoreFanburst()
         {
-            App.NavigateTo(typeof(TrackListView), FanburstTracks);
+            App.NavigateTo(typeof(TrackListView), new TrackListViewModel.TrackViewModelHolder
+            {
+                Track = FanburstTracks.Source,
+                Title = "Trending",
+                Subtitle = "Fanburst"
+            });
         }
     }
 }

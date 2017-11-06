@@ -80,14 +80,21 @@ namespace SoundByte.UWP.ViewModels.Generic
         /// <summary>
         /// Setup the view model for use
         /// </summary>
-        /// <param name="model">The track modek to use in this view</param>
-        public void Init(SoundByteCollection<ISource<BaseTrack>, BaseTrack> model)
+        /// <param name="data">The track modek to use in this view</param>
+        public void Init(TrackViewModelHolder data)
         {
-            Model = model;
-            Title = model.ModelHeader;
-            SubTitle = model.ModelType;
+            Model = new SoundByteCollection<ISource<BaseTrack>, BaseTrack>(data.Track);
+            Title = data.Title;
+            SubTitle = data.Subtitle;
         }
         #endregion
+
+        public class TrackViewModelHolder
+        {
+            public ISource<BaseTrack> Track { get; set; }
+            public string Title { get; set; }
+            public string Subtitle { get; set; }
+        }
 
         #region Method Bindings
         public async void PlayShuffleItems()

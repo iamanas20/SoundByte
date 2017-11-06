@@ -110,12 +110,7 @@ namespace SoundByte.UWP.Helpers
         private string _errorDescription;
         #endregion
 
-        public string ModelHeader { get; set; }
-
-        public string ModelType { get; set; }
-
         public string Token { get; set; }
-
 
 
         public IAsyncOperation<LoadMoreItemsResult> LoadMoreItemsAsync(uint count)

@@ -78,18 +78,25 @@ namespace SoundByte.UWP.ViewModels.Generic
         /// <summary>
         /// Setup the view model for use
         /// </summary>
-        /// <param name="model">The user model to use in this view</param>
-        public void Init(SoundByteCollection<ISource<BaseUser>, BaseUser> model) 
+        /// <param name="data">The user model to use in this view</param>
+        public void Init(UserViewModelHolder data) 
         {
-            Model = model;
-            Title = model.ModelHeader;
-            SubTitle = model.ModelType;
+            Model = new SoundByteCollection<ISource<BaseUser>, BaseUser>(data.User);
+            Title = data.Title;
+            SubTitle = data.Subtitle;
         }
         #endregion
 
         public void NavigateUserProfile(object sender, ItemClickEventArgs e)
         {
             App.NavigateTo(typeof(UserView), (BaseUser)e.ClickedItem);
+        }
+
+        public class UserViewModelHolder
+        {
+            public ISource<BaseUser> User { get; set; }
+            public string Title { get; set; }
+            public string Subtitle { get; set; }
         }
     }
 }

@@ -20,7 +20,6 @@ using SoundByte.Core.Items.Comment;
 using SoundByte.Core.Items.User;
 using SoundByte.Core.Services;
 using System.Threading;
-using System.Net;
 
 namespace SoundByte.Core.Items.Track
 {

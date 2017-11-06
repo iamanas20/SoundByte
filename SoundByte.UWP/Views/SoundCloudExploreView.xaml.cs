@@ -25,14 +25,10 @@ namespace SoundByte.UWP.Views
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class SoundCloudExploreView 
+    public sealed partial class SoundCloudExploreView
     {
         public SoundByteCollection<ExploreSoundCloudSource, BaseTrack> ChartsModel { get; } =
-            new SoundByteCollection<ExploreSoundCloudSource, BaseTrack>
-            {
-                ModelHeader = "Popular",
-                ModelType = "SoundCloud"
-            };
+            new SoundByteCollection<ExploreSoundCloudSource, BaseTrack>();
 
         public SoundCloudExploreView()
         {

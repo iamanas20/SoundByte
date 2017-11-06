@@ -27,7 +27,7 @@ namespace SoundByte.Core.Sources
         public async Task<SourceResponse<BaseTrack>> GetItemsAsync(int count, string token,
             CancellationTokenSource cancellationToken = default(CancellationTokenSource))
         {
-           return new SourceResponse<BaseTrack>(null, null, false);
+            return await Task.Run(() => new SourceResponse<BaseTrack>(null, null, false));
         }
     }
 }

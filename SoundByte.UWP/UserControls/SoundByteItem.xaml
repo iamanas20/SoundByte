@@ -222,7 +222,7 @@
                          Margin="5">
                             <!-- Fill in background -->
                             <Ellipse Fill="{ThemeResource SystemControlAcrylicElementMediumHighBrush }" RequestedTheme="Dark"/>
-                            <FontIcon Glyph="&#xE767;" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            <FontIcon Glyph="&#xE767;" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center" RequestedTheme="Dark" />
                     </Grid>
 
                     <!-- Lower Info -->
