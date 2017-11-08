@@ -116,6 +116,8 @@
     <Content Include="Assets\BadgeLogo.scale-400.png" />
     <Content Include="Assets\Misc\lightnoise.png" />
     <Content Include="Assets\Misc\noise.png" />
+    <Content Include="Assets\Misc\SoundByte1712.jpg" />
+    <Content Include="Assets\Misc\soundbyteaccount.jpg" />
     <Content Include="Assets\Misc\XboxBG.png" />
     <Content Include="Assets\PlaceholderBackground.png" />
     <Content Include="Assets\Services\fanburst.png" />

@@ -57,8 +57,7 @@
                            FontSize="13" 
                            Margin="6,0,6,0"
                            Opacity="0.8" 
-                           TextAlignment="Center"
-                           FontWeight="SemiBold" />
+                           TextAlignment="Center"/>
             </StackPanel>
 
         </Grid>
@@ -153,8 +152,7 @@
                 <TextBlock Text="{x:Bind Path=Playlist.User.Username, Mode=OneWay}"
                            FontSize="13"
                            Opacity="0.8"
-                           TextAlignment="Left"
-                           FontWeight="SemiBold" />
+                           TextAlignment="Left" />
                 </StackPanel>
         </Grid>
 
@@ -262,7 +260,6 @@
 
                 <TextBlock Text="{x:Bind Path=Track.User.Username, Mode=OneWay}"
                            FontSize="13"
-                           FontWeight="SemiBold"
                            Opacity="0.8"
                            TextAlignment="Left" />
             </StackPanel>

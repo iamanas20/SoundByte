@@ -391,9 +391,7 @@ namespace SoundByte.UWP
                 await App.SetLoadingAsync(false);
             }
 
-            RootFrame.Navigate(SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud)
-                ? typeof(SoundCloudStreamView)
-                : typeof(ExploreView));
+            RootFrame.Navigate(typeof(ExploreView));
         }
 
         #endregion

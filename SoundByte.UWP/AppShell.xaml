@@ -18,6 +18,7 @@
                         <Setter Target="ShellFrame.Background" Value="Transparent" />
                         <Setter Target="XboxOnlyGrid.Visibility" Value="Visible" />
                         <Setter Target="RootGrid.Background" Value="{ThemeResource ApplicationPageBackgroundThemeBrush}" />
+                        <Setter Target="AppTitle.Visibility" Value="Collapsed" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -86,21 +87,21 @@
             </NavigationView.AutoSuggestBox>
 
             <NavigationView.MenuItems>
-                <NavigationViewItem Content="SoundCloud Stream" 
-                                    Style="{StaticResource NavStyle}" 
-                                    x:Name="NavigationItemSoundCloudStream"
-                                    Tag="scstream">
-                    <NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xEA37;"/>
-                    </NavigationViewItem.Icon>
-                </NavigationViewItem>
-
                 <NavigationViewItem Content="Explore"     
                                     Style="{StaticResource NavStyle}" 
                                     x:Name="NavigationItemExplore"
                                     Tag="explore">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE909;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+
+                <NavigationViewItem Content="SoundCloud" 
+                                    Style="{StaticResource NavStyle}" 
+                                    x:Name="NavigationItemSoundCloudStream"
+                                    Tag="scstream">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xEA37;"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
 

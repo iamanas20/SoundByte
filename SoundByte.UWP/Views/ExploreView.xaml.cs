@@ -21,6 +21,7 @@ using SoundByte.Core.Sources.SoundCloud;
 using SoundByte.Core.Sources.YouTube;
 using SoundByte.UWP.Helpers;
 using SoundByte.UWP.ViewModels.Generic;
+using SoundByte.UWP.Views.Application;
 using SoundByte.UWP.Views.Generic;
 
 namespace SoundByte.UWP.Views
@@ -81,8 +82,8 @@ namespace SoundByte.UWP.Views
             App.NavigateTo(typeof(TrackListView), new TrackListViewModel.TrackViewModelHolder
             {
                 Track = YouTubeTracks.Source,
-                Title = "Trending",
-                Subtitle = "YouTube"
+                Title = "YouTube",
+                Subtitle = "Trending"
             });
         }
 
@@ -91,9 +92,14 @@ namespace SoundByte.UWP.Views
             App.NavigateTo(typeof(TrackListView), new TrackListViewModel.TrackViewModelHolder
             {
                 Track = FanburstTracks.Source,
-                Title = "Trending",
-                Subtitle = "Fanburst"
+                Title = "Fanburst",
+                Subtitle = "Trending"
             });
+        }
+
+        private void WhatsNewButtonClick(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            App.NavigateTo(typeof(WhatsNewView));
         }
     }
 }

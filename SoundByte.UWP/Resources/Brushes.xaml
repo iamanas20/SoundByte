@@ -24,6 +24,12 @@
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 
+    <AcrylicBrush x:Key="ButtonAccentBrush"
+                  BackgroundSource="Backdrop"
+                  TintColor="{ThemeResource SystemAccentColor}"
+                  TintOpacity="0.8"
+                  FallbackColor="{ThemeResource SystemAccentColor}"/>
+    
     <!-- Shell Brushes -->
     <SolidColorBrush x:Key="ShellNavigationBackground" Color="{ThemeResource ShellNavigationBackgroundColor}" />
     <SolidColorBrush x:Key="ShellBackground" Color="{ThemeResource ShellBackgroundColor}" />
