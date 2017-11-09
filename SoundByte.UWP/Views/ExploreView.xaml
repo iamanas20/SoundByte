@@ -27,8 +27,8 @@
                                 <Rectangle>
                                     <Rectangle.Fill>
                                         <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                                            <GradientStop Color="#22000000" Offset="0.0" />
-                                            <GradientStop Color="#99000000" Offset="1.0" />
+                                            <GradientStop Color="#55000000" Offset="0.0" />
+                                            <GradientStop Color="#AA000000" Offset="1.0" />
                                         </LinearGradientBrush>
                                     </Rectangle.Fill>
                                 </Rectangle>
@@ -52,6 +52,49 @@
                                             Background="{ThemeResource ButtonAccentBrush}"
                                             Opacity="0.8"
                                             Content="What's New?"
+                                            RequestedTheme="Dark"
+                                            BorderThickness="1"
+                                            Margin="0,18,0,0"
+                                            Padding="18,8" />
+                                </StackPanel>
+
+                            </Grid>
+                        </FlipViewItem>
+                        
+                        <FlipViewItem>
+                            <Grid>
+                                <Image Source="../Assets/Misc/mobilebeta.jpg" 
+                                       HorizontalAlignment="Stretch"
+                                       Stretch="UniformToFill" 
+                                       VerticalAlignment="Center" />
+
+                                <Rectangle>
+                                    <Rectangle.Fill>
+                                        <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                            <GradientStop Color="#55000000" Offset="0.0" />
+                                            <GradientStop Color="#AA000000" Offset="1.0" />
+                                        </LinearGradientBrush>
+                                    </Rectangle.Fill>
+                                </Rectangle>
+
+                                <StackPanel VerticalAlignment="Bottom" Margin="0,0,0,26" HorizontalAlignment="Center">
+                                    <TextBlock Text="Have an Android phone?"
+                                               FontWeight="Bold"
+                                               Foreground="White"
+                                               Opacity="1"
+                                               FontSize="38"
+                                               HorizontalAlignment="Center"
+                                               TextAlignment="Center"/>
+                                    <TextBlock Text="Beta test the new Android app today!" 
+                                               HorizontalAlignment="Center"
+                                               Foreground="White"
+                                               Opacity="0.8"
+                                               FontSize="20"
+                                               TextAlignment="Center"/>
+                                    <Button HorizontalAlignment="Center" 
+                                            Background="{ThemeResource ButtonAccentBrush}"
+                                            Opacity="0.8"
+                                            Content="Click Here"
                                             RequestedTheme="Dark"
                                             BorderThickness="1"
                                             Margin="0,18,0,0"
@@ -104,6 +147,7 @@
                         </StackPanel>
 
                         <Button HorizontalAlignment="Right" 
+                                Click="SoundByteAccountLearnMoreClick"
                                 Background="{ThemeResource ButtonAccentBrush}"
                                 Opacity="0.8"
                                 Content="Learn More"
@@ -127,7 +171,7 @@
                                                 Glyph="&#xE8A9;"/>
                 </Grid>
 
-                <Grid Height="260" Padding="{ThemeResource PagePadding}" Margin="-10,0">
+                <Grid Height="260" Padding="{ThemeResource PagePadding}" Margin="-10,0,0,0">
                     <uiElements:InfoPane VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
                                          Visibility="Collapsed" Canvas.ZIndex="50"
                                          Header="{x:Bind ExploreTracks.ErrorHeader, Mode=OneWay}"
@@ -169,7 +213,7 @@
                                                 Glyph="&#xE8A9;"/>
                 </Grid>
 
-                <Grid Height="260" Padding="{ThemeResource PagePadding}" Margin="-10,0">
+                <Grid Height="260" Padding="{ThemeResource PagePadding}" Margin="-10,0,0,0">
                     <uiElements:InfoPane VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
                                          Visibility="Collapsed" Canvas.ZIndex="50"
                                          Header="{x:Bind YouTubeTracks.ErrorHeader, Mode=OneWay}"
@@ -210,7 +254,7 @@
                                                 Glyph="&#xE8A9;"/>
                 </Grid>
 
-                <Grid Height="260" Padding="{ThemeResource PagePadding}" Margin="-10,0">
+                <Grid Height="260" Padding="{ThemeResource PagePadding}" Margin="-10,0,0,0">
                     <uiElements:InfoPane VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
                                          Visibility="Collapsed" Canvas.ZIndex="50"
                                          Header="{x:Bind FanburstTracks.ErrorHeader, Mode=OneWay}"

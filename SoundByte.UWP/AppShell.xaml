@@ -19,6 +19,8 @@
                         <Setter Target="XboxOnlyGrid.Visibility" Value="Visible" />
                         <Setter Target="RootGrid.Background" Value="{ThemeResource ApplicationPageBackgroundThemeBrush}" />
                         <Setter Target="AppTitle.Visibility" Value="Collapsed" />
+                        <Setter Target="NavView.ExpandedModeThresholdWidth" Value="10000" />
+
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>

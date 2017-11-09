@@ -114,8 +114,7 @@
     <Content Include="Assets\BadgeLogo.scale-150.png" />
     <Content Include="Assets\BadgeLogo.scale-200.png" />
     <Content Include="Assets\BadgeLogo.scale-400.png" />
-    <Content Include="Assets\Misc\lightnoise.png" />
-    <Content Include="Assets\Misc\noise.png" />
+    <Content Include="Assets\Misc\mobilebeta.jpg" />
     <Content Include="Assets\Misc\SoundByte1712.jpg" />
     <Content Include="Assets\Misc\soundbyteaccount.jpg" />
     <Content Include="Assets\Misc\XboxBG.png" />
@@ -238,6 +237,9 @@
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\NowPlayingViewModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
+    <Compile Include="Views\Account\SoundByteAccountView.xaml.cs">
+      <DependentUpon>SoundByteAccountView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Application\DebugView.xaml.cs">
       <DependentUpon>DebugView.xaml</DependentUpon>
     </Compile>
@@ -393,6 +395,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\SoundByteItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Account\SoundByteAccountView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

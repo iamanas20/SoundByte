@@ -21,6 +21,7 @@ using SoundByte.Core.Sources.SoundCloud;
 using SoundByte.Core.Sources.YouTube;
 using SoundByte.UWP.Helpers;
 using SoundByte.UWP.ViewModels.Generic;
+using SoundByte.UWP.Views.Account;
 using SoundByte.UWP.Views.Application;
 using SoundByte.UWP.Views.Generic;
 
@@ -100,6 +101,12 @@ namespace SoundByte.UWP.Views
         private void WhatsNewButtonClick(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             App.NavigateTo(typeof(WhatsNewView));
+        }
+
+        private void SoundByteAccountLearnMoreClick(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            App.NavigateTo(typeof(SoundByteAccountView));
+
         }
     }
 }
