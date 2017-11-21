@@ -510,6 +510,9 @@
     <PackageReference Include="HockeySDK.UWP">
       <Version>4.1.6</Version>
     </PackageReference>
+    <PackageReference Include="KochavaUWP">
+      <Version>3.0.1</Version>
+    </PackageReference>
     <PackageReference Include="ksemenenko.ColorThief">
       <Version>1.1.0.3</Version>
     </PackageReference>
@@ -560,9 +563,6 @@
     </PackageReference>
     <PackageReference Include="UICompositionAnimations">
       <Version>2.12.2</Version>
-    </PackageReference>
-    <PackageReference Include="UWP.SDKforGoogleAnalytics.Managed">
-      <Version>1.5.2</Version>
     </PackageReference>
     <PackageReference Include="Win2D.uwp">
       <Version>1.21.0</Version>

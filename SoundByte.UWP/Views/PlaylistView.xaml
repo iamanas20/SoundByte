@@ -117,31 +117,16 @@
             <ListView.Header>
                 <Grid Height="300" 
                       Margin="0,0,0,30"
-                      Padding="{ThemeResource PagePaddingInvert}" 
-                      RequestedTheme="Dark">
+                      Padding="{ThemeResource PagePaddingInvert}">
 
-                    <!-- Playlist Image -->
-                    <controls:ImageEx Source="{x:Bind ViewModel.Playlist, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
-                                      Canvas.ZIndex="5"
-                                      VerticalAlignment="Center"
-                                      Margin="0,0,0,2"
-                                      HorizontalAlignment="Stretch" 
-                                      Stretch="UniformToFill" />
-
-                    <!-- Playlist Image Blur Overlay -->
-                    <Grid Background="{ThemeResource SystemControlAltMediumLowAcrylicElementMediumBrush}"
-                          Canvas.ZIndex="10"
-                          VerticalAlignment="Stretch"
-                          HorizontalAlignment="Stretch"/>
-                    
                     <!-- Hold playlist and details -->
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Canvas.ZIndex="15">
                         <!-- Track Image -->
-                        <controls:DropShadowPanel BlurRadius="30"
+                        <controls:DropShadowPanel BlurRadius="25"
                                                   VerticalAlignment="Center"
                                                   x:Name="PlaylistImageHolder"
                                                   Margin="30,0,0,0"
-                                                  ShadowOpacity="0.6"
+                                                  ShadowOpacity="0.7"
                                                   OffsetX="0"
                                                   OffsetY="5"
                                                   Color="Black">
@@ -176,8 +161,8 @@
                         <StackPanel  Margin="40,40,0,0" x:Name="TitlePanel">
                             <TextBlock Text="{x:Bind ViewModel.Playlist.Title, Mode=OneWay}" 
                                        x:Name="PlaylistTitle"
-                                       FontWeight="SemiBold"
-                                       FontSize="34" TextTrimming="CharacterEllipsis" Opacity="1" />
+                                       FontWeight="Bold"
+                                       FontSize="46" TextTrimming="CharacterEllipsis" Opacity="1" />
                             <TextBlock Text="{x:Bind ViewModel.Playlist.User.Username, Mode=OneWay}" 
                                        x:Name="PlaylistUser"
                                        Opacity="0.8"

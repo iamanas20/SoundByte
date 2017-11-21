@@ -20,9 +20,11 @@ namespace SoundByte.Core.Services
     /// <summary>
     /// Simple HTTP service that uses <see cref="HttpClient"/> for handling requests
     /// </summary>
-    public partial class HttpService : IHttpService, IDisposable
+    public class HttpService : IHttpService, IDisposable
     {
         private readonly HttpClient _httpClient;
+
+        private static HttpService _instance;
 
         /// <summary>
         /// Creates an instance of <see cref="HttpService"/> with a custom <see cref="HttpClient"/>
@@ -75,11 +77,6 @@ namespace SoundByte.Core.Services
             Dispose(true);
             GC.SuppressFinalize(this);
         }
-    }
-
-    public partial class HttpService
-    {
-        private static HttpService _instance;
 
         /// <summary>
         /// Returns a reusable instance of HttpService

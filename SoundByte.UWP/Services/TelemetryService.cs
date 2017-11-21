@@ -14,7 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Windows.UI.Notifications;
-using GoogleAnalytics;
+using Kochava;
 using Microsoft.HockeyApp;
 using NotificationsExtensions;
 using NotificationsExtensions.Toasts;
@@ -35,23 +35,11 @@ namespace SoundByte.UWP.Services
         {
             try
             {
-                // Setup Google Analytics
-                AnalyticsManager.Current.DispatchPeriod = TimeSpan.Zero; // Immediate mode, sends hits immediately
-                AnalyticsManager.Current.AutoAppLifetimeMonitoring =
-                    true; // Handle suspend/resume and empty hit batched hits on suspend
-                AnalyticsManager.Current.AppOptOut = false;
-                AnalyticsManager.Current.IsEnabled = true;
-                AnalyticsManager.Current.IsDebug = false;
-                GoogleAnalyticsClient = AnalyticsManager.Current.CreateTracker(AppKeys.GoogleAnalyticsTrackerId);
+                _kochavaTracker = new Tracker("kosoundbyte-uwp-13z8hg");
 
                 // Used for crash reporting
                 HockeyClient.Current.Configure(AppKeys.HockeyAppClientId);
 
-#if DEBUG
-                // Disable this on debug
-                AnalyticsManager.Current.AppOptOut = true;
-                AnalyticsManager.Current.IsDebug = true;
-#endif
                 LoggingService.Log(LoggingService.LogType.Debug, "Now Processing Telemetry");
             }
             catch
@@ -60,14 +48,20 @@ namespace SoundByte.UWP.Services
             }
         }
 
-        private Tracker GoogleAnalyticsClient { get; }
+        private Tracker _kochavaTracker;
 
         public void TrackPage(string pageName)
         {
             try
             {
-                GoogleAnalyticsClient.ScreenName = pageName;
-                GoogleAnalyticsClient.Send(HitBuilder.CreateScreenView().Build());
+                var pageNavigationEvent = new EventParameters(EventType.View);
+                pageNavigationEvent.SetName(pageName);
+
+                _kochavaTracker.SendEvent(pageNavigationEvent);
+
+
+
+                _kochavaTracker.SendEvent("PageNavigation", pageName);
             }
             catch
             {
@@ -83,8 +77,10 @@ namespace SoundByte.UWP.Services
         {
             try
             {
+                _kochavaTracker.SendEvent("Test", eventName);
+
                 // Send a hit to Google Analytics
-                GoogleAnalyticsClient.Send(HitBuilder.CreateCustomEvent("App", "Action", eventName).Build());
+        //        GoogleAnalyticsClient.Send(HitBuilder.CreateCustomEvent("App", "Action", eventName).Build());
             }
             catch
             {
@@ -103,9 +99,7 @@ namespace SoundByte.UWP.Services
                 HockeyClient.Current.TrackException(exception, new Dictionary<string, string>
                 {
                     { "IsFatal", isFatal.ToString() }
-                });
-                GoogleAnalyticsClient.Send(HitBuilder.CreateException(exception.Message, isFatal).Build());
-                
+                });                
             }
             catch
             {

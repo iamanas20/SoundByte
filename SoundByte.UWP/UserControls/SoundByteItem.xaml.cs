@@ -11,7 +11,6 @@
  */
 
 using System;
-using System.Numerics;
 using System.Threading.Tasks;
 using Windows.Graphics.Imaging;
 using Windows.Storage.Streams;
@@ -23,7 +22,6 @@ using SoundByte.Core.Items.User;
 using SoundByte.UWP.Dialogs;
 using SoundByte.UWP.Services;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using ColorThiefDotNet;
 using Microsoft.Toolkit.Uwp.Helpers;

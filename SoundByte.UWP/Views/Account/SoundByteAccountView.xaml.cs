@@ -32,7 +32,16 @@ namespace SoundByte.UWP.Views.Account
 
         private async void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
-            await BackendService.Instance.AuthenticateAsync();
+            var startURL = "https://soundbyte.gridentertainment.net/connect/authorize?client_id=client&scope=api1&response_type=code&redirect_uri=http://localhost/soundbyte";
+
+            var webAuthenticationResult =
+                await Windows.Security.Authentication.Web.WebAuthenticationBroker.AuthenticateAsync(
+                    Windows.Security.Authentication.Web.WebAuthenticationOptions.None,
+                    new Uri(startURL));
+
+
+            var i = 0;
+
         }
     }
 }
