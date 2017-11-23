@@ -15,7 +15,6 @@ using System.Threading.Tasks;
 using Windows.UI.Popups;
 using Microsoft.AspNet.SignalR.Client;
 using Microsoft.Toolkit.Uwp.Helpers;
-using Microsoft.WindowsAzure.MobileServices;
 using SoundByte.Core.Items;
 
 namespace SoundByte.UWP.Services
@@ -27,48 +26,17 @@ namespace SoundByte.UWP.Services
 
         public static BackendService Instance => InstanceHolder.Value;
 
-        private string _backendAzureServiceUrl = "https://soundbytebackend.azurewebsites.net";
+        private string _backendServiceUrl = "https://soundbyte.gridentertainment.net";
 
-        private readonly MobileServiceClient _mobileService;
         private readonly HubConnection _mobileHub;
-
-        private MobileServiceUser _loggedInUser;
-
         public IHubProxy LoginHub { get; }
 
         private BackendService()
         {
-            _mobileService = new MobileServiceClient(_backendAzureServiceUrl);
-            _mobileHub = new HubConnection(_backendAzureServiceUrl);
-
+            _mobileHub = new HubConnection(_backendServiceUrl);
             LoginHub = _mobileHub.CreateHubProxy("LoginHub");
         }
 
-        // Define a method that performs the authentication process
-        // using a Facebook sign-in. 
-        public async Task<bool> AuthenticateAsync()
-        {
-            string message;
-            var success = false;
-            try
-            {
-                // Broken for UWP :(
-                _loggedInUser = await _mobileService.LoginAsync(MobileServiceAuthenticationProvider.Google, "soundbyte://easyauth.callback");
-                message =
-                    string.Format("You are now signed in - {0}", _loggedInUser.UserId);
-
-                success = true;
-            }
-            catch (InvalidOperationException)
-            {
-                message = "You must log in. Login Required";
-            }
-
-            var dialog = new MessageDialog(message);
-            dialog.Commands.Add(new UICommand("OK"));
-            await dialog.ShowAsync();
-            return success;
-        }
 
         public async Task LoginXboxConnect(string code)
         {
