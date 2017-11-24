@@ -28,6 +28,10 @@
 
             <Button Content="Get with System.Net.HTTPClient" Click="GetNetClient" />
 
+            <TextBlock Text="Other"     
+                       Style="{StaticResource SubTitleStyle}" />
+            <Button Content="Navigate Setup Logic" Click="NavigateSetupLogic" />
+            <Button Content="Navigate Xbox View" Click="NavigateXboxView" />
 
         </StackPanel>
     </Grid>

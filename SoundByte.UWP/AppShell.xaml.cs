@@ -46,9 +46,6 @@ using SoundByte.UWP.Views.Search;
 
 namespace SoundByte.UWP
 {
-    /// <summary>
-    ///     An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class AppShell
     {
         public AppShell(string path)
@@ -93,6 +90,8 @@ namespace SoundByte.UWP
                 Application.Current.Resources["CircleButtonStyle"] =
                     Application.Current.Resources["XboxCircleButtonStyle"];
             }
+
+            RootFrame.Focus(FocusState.Keyboard);
         }
 
         private async void InstanceOnOnCurrentTrackChanged(BaseTrack newTrack)
@@ -129,8 +128,8 @@ namespace SoundByte.UWP
                 if (RootFrame.SourcePageType == typeof(BlankView))
                 {
                     RootFrame.BackStack.Clear();
-                    RootFrame.Navigate(SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud)
-                        ? typeof(SoundCloudStreamView)
+                    RootFrame.Navigate(DeviceHelper.IsXbox
+                        ? typeof(XboxMenuView)
                         : typeof(ExploreView));
                     e.Handled = true;
                 }
@@ -143,7 +142,7 @@ namespace SoundByte.UWP
                     }
                     else
                     {
-                        RootFrame.Navigate(SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud)
+                        RootFrame.Navigate(DeviceHelper.IsXbox
                             ? typeof(SoundCloudStreamView)
                             : typeof(ExploreView));
                         e.Handled = true;
@@ -155,7 +154,6 @@ namespace SoundByte.UWP
         private async Task PerformAsyncWork(string path)
         {
             LoggingService.Log(LoggingService.LogType.Debug, "Page loaded, performing async work");
-
 
             // Set the app language
             ApplicationLanguages.PrimaryLanguageOverride =
@@ -278,7 +276,6 @@ namespace SoundByte.UWP
         {
             LoggingService.Log(LoggingService.LogType.Debug, "Performing protocol work using path of " + path);
 
-
             if (!string.IsNullOrEmpty(path))
             {
                 try
@@ -391,7 +388,7 @@ namespace SoundByte.UWP
                 await App.SetLoadingAsync(false);
             }
 
-            RootFrame.Navigate(typeof(ExploreView));
+            RootFrame.Navigate(DeviceHelper.IsXbox ? typeof(XboxMenuView) : typeof(ExploreView));
         }
 
         #endregion
@@ -475,6 +472,8 @@ namespace SoundByte.UWP
                 }
 
             RootFrame.Focus(FocusState.Programmatic);
+            RootFrame.Focus(FocusState.Keyboard);
+
         }
 
         private void HideNowPlayingBar()

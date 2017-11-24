@@ -16,6 +16,7 @@ using Windows.UI.Xaml;
 using SoundByte.UWP.Services;
 using WinRTXamlToolkit.Tools;
 using System.Linq;
+using SoundByte.UWP.Views.Setup;
 
 namespace SoundByte.UWP.Views.Application
 {
@@ -81,6 +82,17 @@ namespace SoundByte.UWP.Views.Application
                 var result = await content.Content.ReadAsStringAsync();
                 await new MessageDialog(result).ShowAsync();
             }
+        }
+
+        private void NavigateSetupLogic(object sender, RoutedEventArgs e)
+        {
+            App.NavigateTo(typeof(WelcomeView));
+        }
+
+        private void NavigateXboxView(object sender, RoutedEventArgs e)
+        {
+            App.NavigateTo(typeof(XboxMenuView));
+
         }
     }
 }

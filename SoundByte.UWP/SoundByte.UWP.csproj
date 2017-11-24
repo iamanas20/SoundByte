@@ -122,6 +122,7 @@
     <Content Include="Assets\Services\fanburst.png" />
     <Content Include="Assets\Services\soundcloud.png" />
     <Content Include="Assets\Services\youtube.png" />
+    <Content Include="Assets\SocialLogo.png" />
     <Content Include="Assets\SplashScreen.scale-400.png" />
     <Content Include="Assets\Square150x150Logo.scale-100.png" />
     <Content Include="Assets\Square150x150Logo.scale-400.png" />
@@ -252,6 +253,12 @@
     <Compile Include="Views\ExploreView.xaml.cs">
       <DependentUpon>ExploreView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Setup\AppModeView.xaml.cs">
+      <DependentUpon>AppModeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Setup\WelcomeView.xaml.cs">
+      <DependentUpon>WelcomeView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SoundCloudExploreView.xaml.cs">
       <DependentUpon>SoundCloudExploreView.xaml</DependentUpon>
     </Compile>
@@ -308,6 +315,9 @@
     </Compile>
     <Compile Include="Views\Me\MyPlaylistsView.xaml.cs">
       <DependentUpon>MyPlaylistsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\XboxMenuView.xaml.cs">
+      <DependentUpon>XboxMenuView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -418,6 +428,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Setup\AppModeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Setup\WelcomeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\SoundCloudExploreView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -491,6 +509,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Me\MyPlaylistsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\XboxMenuView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
