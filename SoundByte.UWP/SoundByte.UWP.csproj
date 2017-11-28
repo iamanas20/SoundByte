@@ -158,6 +158,21 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Assets\AppKeys.cs" />
+    <Compile Include="Controls\PlaylistItem.xaml.cs">
+      <DependentUpon>PlaylistItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\PodcastItem.xaml.cs">
+      <DependentUpon>PodcastItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\PodcastSeriesItem.xaml.cs">
+      <DependentUpon>PodcastSeriesItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TrackItem.xaml.cs">
+      <DependentUpon>TrackItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\UserItem.xaml.cs">
+      <DependentUpon>UserItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Converters\ArtworkConverter.cs" />
     <Compile Include="Converters\BoolToFontWeightConverter.cs" />
     <Compile Include="Converters\DateTimeConverter.cs" />
@@ -339,6 +354,26 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Controls\PlaylistItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\PodcastItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\PodcastSeriesItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\TrackItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\UserItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Dialogs\CrashDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
