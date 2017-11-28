@@ -13,11 +13,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Windows.UI.Notifications;
-using Kochava;
+using GoogleAnalytics;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
 using Microsoft.HockeyApp;
-using NotificationsExtensions;
-using NotificationsExtensions.Toasts;
+using SoundByte.Core.Helpers;
 using SoundByte.UWP.Assets;
 
 namespace SoundByte.UWP.Services
@@ -35,12 +35,22 @@ namespace SoundByte.UWP.Services
         {
             try
             {
-                _kochavaTracker = new Tracker("kosoundbyte-uwp-13z8hg");
 
                 // Used for crash reporting
                 HockeyClient.Current.Configure(AppKeys.HockeyAppClientId);
 
+                // Used for general analytics
+          //      AppCenter.Start(AppKeys.AzureMobileCenterClientId, typeof(Analytics)); // Takes too long to start? Bug in app center.
+                _googleAnalyticsClient = AnalyticsManager.Current.CreateTracker(AppKeys.GoogleAnalyticsTrackerId);
+
+                // Log that we have started processing telemetry
                 LoggingService.Log(LoggingService.LogType.Debug, "Now Processing Telemetry");
+
+#if DEBUG
+                // Disable this on debug
+                AnalyticsManager.Current.IsDebug = true;
+           //     AsyncHelper.RunSync(async () => { await AppCenter.SetEnabledAsync(false); });
+#endif
             }
             catch
             {
@@ -48,20 +58,17 @@ namespace SoundByte.UWP.Services
             }
         }
 
-        private Tracker _kochavaTracker;
+        private readonly Tracker _googleAnalyticsClient;
+
 
         public void TrackPage(string pageName)
         {
             try
             {
-                var pageNavigationEvent = new EventParameters(EventType.View);
-                pageNavigationEvent.SetName(pageName);
+                TrackEvent("Page Navigation", new Dictionary<string, string> { {"PageName", pageName} });
 
-                _kochavaTracker.SendEvent(pageNavigationEvent);
-
-
-
-                _kochavaTracker.SendEvent("PageNavigation", pageName);
+                _googleAnalyticsClient.ScreenName = pageName;
+                _googleAnalyticsClient.Send(HitBuilder.CreateScreenView().Build());
             }
             catch
             {
@@ -77,10 +84,8 @@ namespace SoundByte.UWP.Services
         {
             try
             {
-                _kochavaTracker.SendEvent("Test", eventName);
-
-                // Send a hit to Google Analytics
-        //        GoogleAnalyticsClient.Send(HitBuilder.CreateCustomEvent("App", "Action", eventName).Build());
+       //         Analytics.TrackEvent(eventName, properties);
+                _googleAnalyticsClient.Send(HitBuilder.CreateCustomEvent("App", "Action", eventName).Build());
             }
             catch
             {
@@ -105,46 +110,6 @@ namespace SoundByte.UWP.Services
             {
                 // ignored
             }
-        }
-
-        private void PopDebugToast(string message)
-        {
-            if (!SettingsService.Instance.IsDebugModeEnabled)
-                return;
-
-            try
-            {
-                // Generate a notification
-                var toastContent = new ToastContent
-                {
-                    Visual = new ToastVisual
-                    {
-                        BindingGeneric = new ToastBindingGeneric
-                        {
-                            Children =
-                            {
-                                new AdaptiveText
-                                {
-                                    Text = "SoundByte Debugging"
-                                },
-
-                                new AdaptiveText
-                                {
-                                    Text = message
-                                }
-                            }
-                        }
-                    }
-                };
-
-                // Show the notification
-                var toast = new ToastNotification(toastContent.GetXml()) {ExpirationTime = DateTime.Now.AddMinutes(30)};
-                ToastNotificationManager.CreateToastNotifier().Show(toast);
-            }
-            catch
-            {
-                // Notification platform may not exist, it does not really matter if this is not called
-            }  
         }
 
         #region Service Setup
