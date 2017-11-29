@@ -62,7 +62,7 @@ namespace SoundByte.Android.Fragments
                 var searchResults = await new SearchSoundCloudTrackSource
                 {
                     SearchQuery = "monstercat"
-                }.GetItemsAsync(40, null); 
+                }.GetItemsAsync(50, null); 
 
                 foreach (var result in searchResults.Items)
                 {
@@ -86,11 +86,11 @@ namespace SoundByte.Android.Fragments
                 return;
 
             var intentA = new Intent(PlaybackService.ActionStop);
-            intentA.SetPackage("SoundByte.Android");
+            intentA.SetPackage("net.gridentertainment.soundbyte.android");
             Activity.StartService(intentA);
 
             var intent = new Intent(PlaybackService.ActionPlay);
-            intent.SetPackage("SoundByte.Android");
+            intent.SetPackage("net.gridentertainment.soundbyte.android");
             intent.PutExtra("URL", "https://api.soundcloud.com/tracks/" + adapter.BaseTrack[position].Id + "/stream?client_id=" + AppKeys.BackupSoundCloudPlaybackIDs[2]);
             Activity.StartService(intent);
 

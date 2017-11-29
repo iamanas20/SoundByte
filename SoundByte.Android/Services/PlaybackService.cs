@@ -20,9 +20,9 @@ namespace SoundByte.Android.Services
         private bool _isPaused;
 
         //Actions
-        public const string ActionPlay = "net.gridentertainment.soundbyte.action.PLAY";
-        public const string ActionPause = "net.gridentertainment.soundbyte.action.PAUSE";
-        public const string ActionStop = "net.gridentertainment.soundbyte.action.STOP";
+        public const string ActionPlay = "net.gridentertainment.soundbyte.android.action.PLAY";
+        public const string ActionPause = "net.gridentertainment.soundbyte.android.action.PAUSE";
+        public const string ActionStop = "net.gridentertainment.soundbyte.android.action.STOP";
 
         private const int NotificationId = 1;
 
