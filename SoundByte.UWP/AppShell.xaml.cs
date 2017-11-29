@@ -388,7 +388,18 @@ namespace SoundByte.UWP
                 await App.SetLoadingAsync(false);
             }
 
-            RootFrame.Navigate(DeviceHelper.IsXbox ? typeof(XboxMenuView) : typeof(ExploreView));
+            if (DeviceHelper.IsXbox)
+            {
+                RootFrame.Navigate(typeof(XboxMenuView));
+            }
+            else if (DeviceHelper.IsMobile)
+            {
+                RootFrame.Navigate(typeof(MobileView));
+            }
+            else
+            {
+                RootFrame.Navigate(typeof(ExploreView));
+            }
         }
 
         #endregion
