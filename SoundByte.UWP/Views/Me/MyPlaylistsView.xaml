@@ -66,9 +66,9 @@
                                Style="{StaticResource TitleStyle}" />
 
                     <StackPanel x:Name="DesktopCommandBar" Visibility="Collapsed" Orientation="Horizontal"
-                                Margin="00,10,0,20">
+                                Margin="00,15,0,20">
                         <userControls:SoundByteButton Glyph="&#xE72C;" Label="Refresh"
-                                                      Click="{x:Bind PlaylistModel.RefreshItems}" Margin="0,0,25,0" />
+                                                      Click="{x:Bind PlaylistModel.RefreshItems}" Margin="0,0,15,0" />
                     </StackPanel>
                 </StackPanel>
             </GridView.Header>

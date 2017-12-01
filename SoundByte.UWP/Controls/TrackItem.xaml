@@ -4,75 +4,152 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"   
     mc:Ignorable="d"
-    d:DesignHeight="270"
-    d:DesignWidth="190">
+    d:DesignHeight="260"
+    d:DesignWidth="200">
 
-    <Grid Height="260" 
+    <Grid Height="250" 
+          PointerEntered="OnPointerEntered"
+          PointerExited="OnPointerExited"
+          Background="#00FFFFFF"
           Margin="5"
-          Width="180">
-        <!-- Rightclick menu context support -->
-        <Grid.ContextFlyout>
-            <MenuFlyout>
-                <MenuFlyoutItem Text="Share" Click="Share">
-                    <MenuFlyoutItem.Icon>
-                        <FontIcon Glyph="&#xE72D;" />
-                    </MenuFlyoutItem.Icon>
-                </MenuFlyoutItem>
-                <MenuFlyoutItem Text="Add to Playlist" Click="AddToPlaylist">
-                    <MenuFlyoutItem.Icon>
-                        <FontIcon Glyph="&#xE142;" />
-                    </MenuFlyoutItem.Icon>
-                </MenuFlyoutItem>
-            </MenuFlyout>
-        </Grid.ContextFlyout>
+          Width="190">
+       
 
         <!-- Shadow Panel -->
-        <Grid VerticalAlignment="Top"
-              Width="170"
-              Margin="5,5,5,12">
-            <!-- Track Image -->
-            <Image Source="{x:Bind Path=Track, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
-                   VerticalAlignment="Top"
-                   Width="170" 
-                   Height="170"
-                   Stretch="UniformToFill" />
+        <controls:DropShadowPanel x:Name="ShadowPanel"
+                                  VerticalAlignment="Top"
+                                  BlurRadius="25"
+                                  ShadowOpacity="0.4"
+                                  OffsetX="0"
+                                  IsTabStop="False"
+                                  Margin="5,5,5,12"
+                                  OffsetY="6"
+                                  Color="Black">
+            <Grid>
+                <!-- Track Image -->
+                <controls:ImageEx x:Name="TrackImage"
+                                  Source="{x:Bind Path=Track, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
+                                  IsCacheEnabled="True"
+                                  ImageExOpened="ImageExBase_OnImageExOpened"                  
+                                  VerticalAlignment="Top"
+                                  Width="170" 
+                                  Height="170"
+                                  Stretch="UniformToFill" />
 
-            <!-- Now Playing Area -->
-            <Grid Width="32"  
-                  x:Name="TrackNowPlaying"
-                  Visibility="Collapsed"
-                  Height="32"
-                  VerticalAlignment="Top"
-                  HorizontalAlignment="Left"
-                  Margin="5">
-                <!-- Fill in background -->
-                <Ellipse Fill="{ThemeResource SystemControlAcrylicElementMediumHighBrush }" />
-                <FontIcon Glyph="&#xE767;" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                <!-- Now Playing Area -->
+                <Grid x:Name="TrackNowPlaying"
+                      Canvas.ZIndex="10"
+                      Visibility="Collapsed"
+                      VerticalAlignment="Bottom"
+                      HorizontalAlignment="Left"
+                      Padding="10,8">
+                    <!-- Fill in background -->
+                    <FontIcon Glyph="&#xED33;" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                </Grid>
+
+                
+                <Grid x:Name="HoverArea"
+                      Opacity="0"
+                      
+                      RequestedTheme="Dark"
+                      Canvas.ZIndex="10"
+                      VerticalAlignment="Stretch" 
+                      HorizontalAlignment="Stretch">
+
+                    <Button Foreground="White" 
+                            Margin="0,0,108,0"
+                            HorizontalAlignment="Center"
+                            Style="{StaticResource CircleItemButtonStyle}" 
+                            Background="#33000000"
+                            Width="42" Height="42">
+                        <Button.Content>
+                            <TextBlock OpticalMarginAlignment="TrimSideBearings" 
+                                       Text="&#xEB51;" 
+                                       FontSize="16" 
+                                       FontFamily="Segoe MDL2 Assets" 
+                                       TextAlignment="Center" />
+                        </Button.Content>
+                       
+                    </Button>
+                    
+                    <Button Foreground="White" 
+                            HorizontalAlignment="Center"
+                            Style="{StaticResource CircleItemButtonStyle}" 
+                            Background="#33000000"
+                       Width="52" Height="52">
+                        <Button.Content>
+                            <TextBlock OpticalMarginAlignment="TrimSideBearings" 
+                                       Text="&#xE768;" 
+                                       Margin="3,0,0,0"
+                                       FontSize="22" 
+                                       FontFamily="Segoe MDL2 Assets" 
+                                       TextAlignment="Center" />
+                        </Button.Content>
+                    </Button>
+
+                    <Button Foreground="White" 
+                            Margin="108,0,0,0"
+                            HorizontalAlignment="Center"
+                            Style="{StaticResource CircleItemButtonStyle}" 
+                            Background="#33000000"
+                            Width="42" Height="42">
+                        <Button.Content>
+                            <TextBlock OpticalMarginAlignment="TrimSideBearings" 
+                                       Text="&#xE712;" 
+                                       FontSize="16" 
+                                       FontFamily="Segoe MDL2 Assets" 
+                                       TextAlignment="Center" />
+                        </Button.Content>
+                        <Button.Flyout>
+                            <MenuFlyout>
+                                <MenuFlyoutItem Text="Share" Click="Share">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE72D;" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem Text="Add to Playlist" Click="AddToPlaylist">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE142;" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                            </MenuFlyout>
+                        </Button.Flyout>
+                    </Button>
+
+                    
+                </Grid>
+                
+                
+                <!-- Lower Info -->
+                <Grid RequestedTheme="Dark" 
+                      Padding="10,8"
+                      HorizontalAlignment="Stretch"
+                      VerticalAlignment="Stretch">
+                    <Grid.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                            <GradientStop Offset="0.4" Color="#00000000"/>
+                            <GradientStop Offset="1" Color="#99000000"/>
+                        </LinearGradientBrush>
+                    </Grid.Background>
+                    
+                    
+                    <!-- Duration of Track -->
+                    <TextBlock RequestedTheme="Dark"
+                               HorizontalAlignment="Right"
+                               VerticalAlignment="Bottom"
+                               Text="{x:Bind Path=Track.Duration, Mode=OneWay, Converter={StaticResource TimeStampConverter}}"
+                               FontSize="13"
+                               FontWeight="SemiBold" />
+                </Grid>
             </Grid>
+        </controls:DropShadowPanel>
 
-            <!-- Lower Info -->
-            <Grid RequestedTheme="Dark" 
-                  Background="{ThemeResource SystemControlAcrylicElementMediumHighBrush}"
-                  Padding="8"
-                  HorizontalAlignment="Right"
-                  VerticalAlignment="Bottom">
 
-                <!-- Duration of Track -->
-                <TextBlock RequestedTheme="Dark"
-                           HorizontalAlignment="Right"
-                           VerticalAlignment="Center"
-                           Text="{x:Bind Path=Track.Duration, Mode=OneWay, Converter={StaticResource TimeStampConverter}}"
-                           FontSize="12"
-                           FontWeight="SemiBold" />
-            </Grid>
-
-            
-        </Grid>
-
-        <StackPanel Margin="5,190,5,0">
+        <StackPanel Margin="10,190,10,0">
             <TextBlock Text="{x:Bind Track.Title, Mode=OneWay}"  
-                       FontWeight="Bold"
+                       FontWeight="SemiBold"
                        TextAlignment="Center"                    
                        FontSize="14"
                        TextWrapping="Wrap"
@@ -80,16 +157,11 @@
                        TextTrimming="CharacterEllipsis" />
 
             <TextBlock Text="{x:Bind Path=Track.User.Username, Mode=OneWay}"
-                       Margin="0,5,0,0"
-                       FontSize="14"
-                       Opacity="0.8"
+                       Margin="0,1,0,0"
+                       FontSize="13"
+                       Opacity="0.6"
+                       TextTrimming="CharacterEllipsis"
                        TextAlignment="Center" />
         </StackPanel>
-
-
-
-
-
-
     </Grid>
 </UserControl>

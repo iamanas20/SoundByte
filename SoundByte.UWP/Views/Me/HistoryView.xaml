@@ -78,13 +78,13 @@
                                Style="{StaticResource TitleStyle}" />
 
                     <StackPanel x:Name="DesktopCommandBar" Visibility="Collapsed" Orientation="Horizontal"
-                                Margin="0,10,0,20">
+                                Margin="0,15,0,20">
                         <uiElements:SoundByteButton Glyph="&#xE768;" Label="Play All" Click="{x:Bind PlayAllItems}"
-                                                    Margin="0,0,25,0" />
+                                                    Margin="0,0,15,0" />
                         <uiElements:SoundByteButton Glyph="&#xE8B1;" Label="Shuffle Play"
-                                                    Click="{x:Bind PlayShuffleItems}" Margin="0,0,25,0" />
+                                                    Click="{x:Bind PlayShuffleItems}" Margin="0,0,15,0" />
                         <uiElements:SoundByteButton Glyph="&#xE72C;" Label="Refresh"
-                                                    Click="{x:Bind HistoryModel.RefreshItems}" Margin="0,0,25,0" />
+                                                    Click="{x:Bind HistoryModel.RefreshItems}" Margin="0,0,15,0" />
                     </StackPanel>
                 </StackPanel>
             </GridView.Header>

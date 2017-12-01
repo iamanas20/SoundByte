@@ -7,18 +7,22 @@
         <!-- Dark -->
         <ResourceDictionary x:Key="Dark">
             <!-- Shell Colors -->
-            <Color x:Key="ShellNavigationBackgroundColor">#FF2B2B2B</Color>
-            <Color x:Key="ShellBackgroundColor">#FF1F1F1F</Color>
+            <Color x:Key="ShellNavigationBackgroundColor">#FF363636</Color>
+            <Color x:Key="ShellBackgroundColor">#FF1D1D1D</Color>
             <Color x:Key="SoundByteButtonBackgroundColor">#AA2B2B2B</Color>
             <!-- Grey Background Color -->
             <SolidColorBrush x:Key="SecondaryBackgroundColor" Color="#0DFFFFFF" />
+            
+            
+            
+            
         </ResourceDictionary>
         <!-- Light -->
         <ResourceDictionary x:Key="Light">
             <!-- Shell Colors -->
-            <Color x:Key="ShellNavigationBackgroundColor">#FFE8E8E8</Color>
-            <Color x:Key="ShellBackgroundColor">#FFF8F8F8</Color>
-            <Color x:Key="SoundByteButtonBackgroundColor">#AAE8E8E8</Color>
+            <Color x:Key="ShellNavigationBackgroundColor">#FFF8F8F8</Color>
+            <Color x:Key="ShellBackgroundColor">#FFF2F2F2</Color>
+            <Color x:Key="SoundByteButtonBackgroundColor">#FFFFFFFF</Color>
             <!-- Grey Background Color -->
             <SolidColorBrush x:Key="SecondaryBackgroundColor" Color="#15000000" />
         </ResourceDictionary>

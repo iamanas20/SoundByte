@@ -79,9 +79,12 @@ namespace SoundByte.UWP
             PlaybackService.Instance.OnCurrentTrackChanged += InstanceOnOnCurrentTrackChanged;
 
             // Create a shell frame shadow for mobile and desktop
-            if (DeviceHelper.IsDesktop || DeviceHelper.IsMobile)
-                ShellFrame.CreateElementShadow(new Vector3(0, 0, 0), 30, new Color {A = 62, R = 0, G = 0, B = 0},
+            if (DeviceHelper.IsDesktop)
+                ShellFrame.CreateElementShadow(new Vector3(2, 0, 0), 30, new Color {A = 82, R = 0, G = 0, B = 0},
                     ShellFrameShadow);
+
+            NowPlaying.CreateElementShadow(new Vector3(0, -4, 0), 40, new Color { A = 92, R = 0, G = 0, B = 0 },
+                NowPlayingShadow);
 
             // Events for Xbox
             if (DeviceHelper.IsXbox)
@@ -472,8 +475,8 @@ namespace SoundByte.UWP
                 else
                 {
                     NavView.IsPaneToggleButtonVisible = true;
-                    NavView.CompactPaneLength = 84;
-                    NavView.OpenPaneLength = 350;
+                    NavView.CompactPaneLength = 64;
+                    NavView.OpenPaneLength = 320;
 
 
                     if (PlaybackService.Instance.CurrentTrack == null)
@@ -490,13 +493,17 @@ namespace SoundByte.UWP
         private void HideNowPlayingBar()
         {
             NowPlaying.Visibility = Visibility.Collapsed;
-            NavView.Margin = new Thickness { Bottom = 0 };
+            NowPlayingShadow.Visibility = Visibility.Collapsed;
+
+            ShellFrame.Margin = new Thickness { Bottom = 0 };
         }
 
         private void ShowNowPlayingBar()
         {
             NowPlaying.Visibility = Visibility.Visible;
-            NavView.Margin = new Thickness { Bottom = 64 };
+            NowPlayingShadow.Visibility = Visibility.Visible;
+
+            ShellFrame.Margin = new Thickness { Bottom = 64 };
         }
 
         // Login and Logout events. This is used to display what pages

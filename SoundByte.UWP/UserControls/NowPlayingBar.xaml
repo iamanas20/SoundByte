@@ -88,19 +88,36 @@
         </Style>
     </UserControl.Resources>
 
+    
     <!-- Content -->
     <Grid x:Name="RootGrid"
           Background="Transparent"
           VerticalAlignment="Stretch"
           Height="64"
           HorizontalAlignment="Stretch">
+
         <!-- Split the content into two main sections -->
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="350" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <Button Grid.Column="0"          
+        <!-- Background -->
+        <controls:ImageEx
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Opacity="1"
+            Stretch="UniformToFill"
+            Source="{x:Bind Service.CurrentTrack, Converter={StaticResource ArtworkConverter}, Mode=OneWay}" />
+
+        <Grid Grid.Column="0" Grid.ColumnSpan="2" Canvas.ZIndex="2" Background="{ThemeResource SystemControlChromeHighAcrylicElementMediumBrush }">
+        </Grid>
+
+
+     
+
+        <Button Grid.Column="0"      
+                Canvas.ZIndex="10"
                 Click="{x:Bind NavigateTrack}"
                 Padding="0"
                 Margin="0"
@@ -146,7 +163,7 @@
             </Grid>
         </Button>
 
-        <Grid Grid.Column="1">
+        <Grid Grid.Column="1" Canvas.ZIndex="10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
@@ -267,7 +284,5 @@
                 </Button>
             </StackPanel>
         </Grid>
-
-
     </Grid>
 </UserControl>

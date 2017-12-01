@@ -10,7 +10,7 @@
     NavigationCacheMode="Enabled"
     Transitions="{StaticResource MainTransition}">
 
-    <Grid Background="Transparent" x:Name="RootGrid">
+    <Grid Background="{ThemeResource ShellBackground}">
         <VisualStateManager.VisualStateGroups>
            
             <VisualStateGroup x:Name="WindowSize">
@@ -22,7 +22,6 @@
                         <Setter Target="DesktopCommandBar.Visibility" Value="Visible" />
                         <Setter Target="MobileCommandBar.Visibility" Value="Collapsed" />
                         <Setter Target="StackPanel.ItemTemplate" Value="{StaticResource TrackItem}" />
-                        <Setter Target="StackPanel.ItemsPanel" Value="{StaticResource DesktopGridPanel}" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -61,36 +60,42 @@
                                IsLoading="{x:Bind LikesModel.IsLoading, Mode=OneWay}"
                                IsError="{x:Bind LikesModel.IsError, Mode=OneWay}" />
 
+
+
         <GridView ItemClick="{x:Bind PlayItem}"
                   ItemsSource="{x:Bind LikesModel}"
-                  ItemContainerStyle="{StaticResource MainGridViewItem}"
                   x:Name="StackPanel"
-                  VerticalAlignment="Stretch"
+                  ItemContainerStyle="{StaticResource MainGridViewItem}"
                   Padding="{ThemeResource PagePadding}"
                   SelectionMode="None"
                   IsSwipeEnabled="False"
                   IsItemClickEnabled="True"
-                  HorizontalAlignment="Stretch"
                   IsMultiSelectCheckBoxEnabled="False"
                   animations:ReorderGridAnimation.Duration="150"
-                  ItemsPanel="{StaticResource MobileGridPanel}"
                   ItemTemplate="{StaticResource MobileTrackItem}">
             <GridView.Header>
-                <controls:ScrollHeader TargetListViewBase="{Binding ElementName=StackPanel}" Mode="Fade" >
-                    <StackPanel Margin="10,0,0,0">
+                <controls:ScrollHeader TargetListViewBase="{Binding ElementName=StackPanel}" Mode="QuickReturn">
+                    <Grid Padding="10,0,10,15" Margin="0,0,0,10" Background="{ThemeResource ShellBackground}">
                         <TextBlock Text="My Likes"
                                    Style="{StaticResource TitleStyle}" />
 
-                        <StackPanel x:Name="DesktopCommandBar" Visibility="Collapsed" Orientation="Horizontal"
-                                    Margin="0,10,0,20">
+                        <StackPanel x:Name="DesktopCommandBar" 
+                                    Visibility="Collapsed" 
+                                    Orientation="Horizontal"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Bottom">
                             <userControls:SoundByteButton Glyph="&#xE768;" Label="Play All" Click="{x:Bind PlayAllItems}"
-                                                          Margin="0,0,25,0" />
+                                                          Margin="0,0,15,0" />
                             <userControls:SoundByteButton Glyph="&#xE8B1;" Label="Shuffle Play"
-                                                          Click="{x:Bind PlayShuffleItems}" Margin="0,0,25,0" />
+                                                          Click="{x:Bind PlayShuffleItems}" Margin="0,0,15,0" />
                             <userControls:SoundByteButton Glyph="&#xE72C;" Label="Refresh"
-                                                          Click="{x:Bind LikesModel.RefreshItems}" Margin="0,0,25,0" />
+                                                          Click="{x:Bind LikesModel.RefreshItems}" Margin="0,0,15,0" />
+
+                            <userControls:SoundByteButton Margin="0,0,15,0" Glyph="&#xE712;"  />
                         </StackPanel>
-                    </StackPanel>
+
+                    </Grid>
+                    
                 </controls:ScrollHeader>
             </GridView.Header>
             <interactivity:Interaction.Behaviors>
