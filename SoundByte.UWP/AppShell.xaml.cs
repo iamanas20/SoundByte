@@ -495,7 +495,7 @@ namespace SoundByte.UWP
             NowPlaying.Visibility = Visibility.Collapsed;
             NowPlayingShadow.Visibility = Visibility.Collapsed;
 
-            ShellFrame.Margin = new Thickness { Bottom = 0 };
+            NavView.Margin = new Thickness { Bottom = 0 };
         }
 
         private void ShowNowPlayingBar()
@@ -503,7 +503,7 @@ namespace SoundByte.UWP
             NowPlaying.Visibility = Visibility.Visible;
             NowPlayingShadow.Visibility = Visibility.Visible;
 
-            ShellFrame.Margin = new Thickness { Bottom = 64 };
+            NavView.Margin = new Thickness { Bottom = 64 };
         }
 
         // Login and Logout events. This is used to display what pages

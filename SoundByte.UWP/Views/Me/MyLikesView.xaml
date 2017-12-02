@@ -90,8 +90,6 @@
                                                           Click="{x:Bind PlayShuffleItems}" Margin="0,0,15,0" />
                             <userControls:SoundByteButton Glyph="&#xE72C;" Label="Refresh"
                                                           Click="{x:Bind LikesModel.RefreshItems}" Margin="0,0,15,0" />
-
-                            <userControls:SoundByteButton Margin="0,0,15,0" Glyph="&#xE712;"  />
                         </StackPanel>
 
                     </Grid>

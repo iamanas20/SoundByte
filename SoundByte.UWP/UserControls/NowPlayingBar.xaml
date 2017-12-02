@@ -5,6 +5,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:audioVisualizer="using:AudioVisualizer"
+    Loaded="NowPlayingBar_OnLoaded"
     mc:Ignorable="d"
     d:DesignHeight="64">
 
@@ -113,6 +115,9 @@
         <Grid Grid.Column="0" Grid.ColumnSpan="2" Canvas.ZIndex="2" Background="{ThemeResource SystemControlChromeHighAcrylicElementMediumBrush }">
         </Grid>
 
+
+        <audioVisualizer:CustomVisualizer  Grid.Column="0" Grid.ColumnSpan="2" Canvas.ZIndex="5" x:Name="Visualizer"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="64"  />
+        
 
      
 

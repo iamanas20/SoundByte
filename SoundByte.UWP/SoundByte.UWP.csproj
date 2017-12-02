@@ -115,6 +115,7 @@
     <Content Include="Assets\BadgeLogo.scale-200.png" />
     <Content Include="Assets\BadgeLogo.scale-400.png" />
     <Content Include="Assets\Misc\mobilebeta.jpg" />
+    <Content Include="Assets\Misc\playing-icon.gif" />
     <Content Include="Assets\Misc\SoundByte1712.jpg" />
     <Content Include="Assets\Misc\soundbyteaccount.jpg" />
     <Content Include="Assets\Misc\XboxBG.png" />
@@ -637,6 +638,9 @@
     </PackageReference>
     <PackageReference Include="UWP.SDKforGoogleAnalytics.Managed">
       <Version>1.5.2</Version>
+    </PackageReference>
+    <PackageReference Include="UWPAudioVisualizer">
+      <Version>0.1.84</Version>
     </PackageReference>
     <PackageReference Include="Win2D.uwp">
       <Version>1.21.0</Version>

@@ -29,6 +29,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.Web.Http;
 using Windows.Web.Http.Filters;
+using AudioVisualizer;
 using JetBrains.Annotations;
 using Microsoft.Toolkit.Uwp.Helpers;
 using SoundByte.Core;
@@ -41,6 +42,7 @@ using SoundByte.UWP.DatabaseContexts;
 using SoundByte.Core.Models.MediaStreams;
 using SoundByte.Core.Sources;
 using SoundByte.UWP.Assets;
+using Windows.Foundation.Collections;
 
 namespace SoundByte.UWP.Services
 {
@@ -60,12 +62,17 @@ namespace SoundByte.UWP.Services
         /// This event is fired when the current track changes.
         /// </summary>
         public event CurrentTrackChangedEventHandler OnCurrentTrackChanged;
+
+        public event EventHandler<IVisualizationSource> VisualizationSourceChanged;
         #endregion
 
         #region Class Variables / Getters and Setters
 
         // Playlist Object
         private MediaPlaybackList _playbackList;
+
+        public PlaybackSource VisualizationSource { get; set; }
+
 
         /// <summary>
         /// The current playing track
@@ -220,8 +227,6 @@ namespace SoundByte.UWP.Services
             get => Player.Volume * 100;
             set
             {
-                UpdateProperty();
-
                 // Set the volume
                 Player.Volume = value / 100;
 
@@ -251,6 +256,8 @@ namespace SoundByte.UWP.Services
                     Player.IsMuted = false;
                     VolumeIcon = "\uE767";
                 }
+
+                UpdateProperty();
             }
         }
 

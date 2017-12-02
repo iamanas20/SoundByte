@@ -33,26 +33,28 @@
                                   Source="{x:Bind Path=Track, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
                                   IsCacheEnabled="True"
                                   ImageExOpened="ImageExBase_OnImageExOpened"                  
-                                  VerticalAlignment="Top"
+                                  VerticalAlignment="Center"
                                   Width="170" 
                                   Height="170"
                                   Stretch="UniformToFill" />
 
                 <!-- Now Playing Area -->
                 <Grid x:Name="TrackNowPlaying"
+                      x:Load="False"
+                      RequestedTheme="Dark"
                       Canvas.ZIndex="10"
-                      Visibility="Collapsed"
                       VerticalAlignment="Bottom"
                       HorizontalAlignment="Left"
                       Padding="10,8">
                     <!-- Fill in background -->
-                    <FontIcon Glyph="&#xED33;" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    <Image Source="../Assets/Misc/playing-icon.gif" Width="20" Margin="5" />
                 </Grid>
 
                 
                 <Grid x:Name="HoverArea"
+                      x:Load="False"
                       Opacity="0"
-                      
+                      Background="{ThemeResource SystemControlChromeHighAcrylicElementMediumBrush}"
                       RequestedTheme="Dark"
                       Canvas.ZIndex="10"
                       VerticalAlignment="Stretch" 
@@ -62,7 +64,7 @@
                             Margin="0,0,108,0"
                             HorizontalAlignment="Center"
                             Style="{StaticResource CircleItemButtonStyle}" 
-                            Background="#33000000"
+                            Background="#88000000"
                             Width="42" Height="42">
                         <Button.Content>
                             <TextBlock OpticalMarginAlignment="TrimSideBearings" 
@@ -77,7 +79,7 @@
                     <Button Foreground="White" 
                             HorizontalAlignment="Center"
                             Style="{StaticResource CircleItemButtonStyle}" 
-                            Background="#33000000"
+                            Background="#88000000"
                        Width="52" Height="52">
                         <Button.Content>
                             <TextBlock OpticalMarginAlignment="TrimSideBearings" 
@@ -93,7 +95,7 @@
                             Margin="108,0,0,0"
                             HorizontalAlignment="Center"
                             Style="{StaticResource CircleItemButtonStyle}" 
-                            Background="#33000000"
+                            Background="#88000000"
                             Width="42" Height="42">
                         <Button.Content>
                             <TextBlock OpticalMarginAlignment="TrimSideBearings" 
@@ -120,8 +122,7 @@
 
                     
                 </Grid>
-                
-                
+                            
                 <!-- Lower Info -->
                 <Grid RequestedTheme="Dark" 
                       Padding="10,8"

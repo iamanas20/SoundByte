@@ -736,7 +736,7 @@
                                             Height="120"
                                             Content="&#xE11A;"/>
                                     </Grid>
-                                    <NavigationViewList x:Name="MenuItemsHost" Grid.Row="3" Margin="0,0,0,0" SelectionMode="Single" IsItemClickEnabled="True" ItemsSource="{TemplateBinding MenuItemsSource}" SelectedItem="{TemplateBinding SelectedItem}" ItemTemplate="{TemplateBinding MenuItemTemplate}" ItemTemplateSelector="{TemplateBinding MenuItemTemplateSelector}" ItemContainerStyle="{TemplateBinding MenuItemContainerStyle}" ItemContainerStyleSelector="{TemplateBinding MenuItemContainerStyleSelector}" />
+                                    <NavigationViewList x:Name="MenuItemsHost" Grid.Row="3" Grid.RowSpan="3" Margin="0,0,0,0" SelectionMode="Single" IsItemClickEnabled="True" ItemsSource="{TemplateBinding MenuItemsSource}" SelectedItem="{TemplateBinding SelectedItem}" ItemTemplate="{TemplateBinding MenuItemTemplate}" ItemTemplateSelector="{TemplateBinding MenuItemTemplateSelector}" ItemContainerStyle="{TemplateBinding MenuItemContainerStyle}" ItemContainerStyleSelector="{TemplateBinding MenuItemContainerStyleSelector}" />
 
                                     <Border
                                         x:Name="FooterContentBorder"
@@ -1697,7 +1697,7 @@
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
                         <Ellipse x:Name="BorderCircle" Stroke="{TemplateBinding BorderBrush}" StrokeThickness="2"
-                                 Fill="#88000000" Opacity="0.3" />
+                                 Fill="{TemplateBinding Background}" Opacity="0.3" />
                         <ContentPresenter x:Name="ContentPresenter" VerticalAlignment="Center"
                                           AutomationProperties.AccessibilityView="Raw"
                                           ContentTemplate="{TemplateBinding ContentTemplate}"

@@ -55,8 +55,8 @@
         
         <NavigationView x:Name="NavView"
                         Canvas.ZIndex="5"
+                       
                         Background="Transparent"
-                        
                         AlwaysShowHeader="False"
                         ItemInvoked="NavView_OnItemInvoked"
                         SelectionChanged="NavView_OnSelectionChanged"
@@ -70,6 +70,16 @@
                 <AutoSuggestBox QueryIcon="Find" PlaceholderText="Search" QuerySubmitted="SearchForItem" Style="{StaticResource AppSearchBox}"  />
             </NavigationView.AutoSuggestBox>
 
+            <NavigationView.PaneFooter>
+                <NavigationViewList SelectedItem="{Binding Path=SelectedItem, ElementName=NavView, Mode=TwoWay}"
+                                    SelectionMode="Single" 
+                                    IsItemClickEnabled="True">
+                   
+                </NavigationViewList>
+                
+             
+            </NavigationView.PaneFooter>
+            
             <NavigationView.MenuItems>
                 <NavigationViewItem Content="Explore"     
                                     Style="{StaticResource NavStyle}" 
@@ -130,16 +140,18 @@
                                     x:Name="NavigationItemHistory"
                                     Tag="history">
                     <NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xE81C;"/>
+                        <FontIcon Glyph="&#xEF3B;"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
+                
+                <NavigationViewItemSeparator />
 
-                <NavigationViewItem Content="Upgrade to Premuim" 
+                <NavigationViewItem Content="Account" 
                                     Style="{StaticResource NavStyle}" 
-                                    x:Name="NavigationItemDonations"
-                                    Tag="donations">
+                                    x:Name="NavigationItemAccounts"
+                                    Tag="accounts">
                     <NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xE8EC;"/>
+                        <FontIcon Glyph="&#xE77B;"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
 
@@ -152,12 +164,13 @@
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
 
-                <NavigationViewItem Content="Account Manager" 
+                <NavigationViewItem Content="Donate" 
+                                    VerticalAlignment="Bottom"
                                     Style="{StaticResource NavStyle}" 
-                                    x:Name="NavigationItemAccounts"
-                                    Tag="accounts">
+                                    x:Name="NavigationItemDonations"
+                                    Tag="donations">
                     <NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xE716;"/>
+                        <FontIcon Glyph="&#xE8EC;"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
             </NavigationView.MenuItems>

@@ -1,34 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Threading.Tasks;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+﻿/* |----------------------------------------------------------------|
+ * | Copyright (c) 2017, Grid Entertainment                         |
+ * | All Rights Reserved                                            |
+ * |                                                                |
+ * | This source code is to only be used for educational            |
+ * | purposes. Distribution of SoundByte source code in             |
+ * | any form outside this repository is forbidden. If you          |
+ * | would like to contribute to the SoundByte source code, you     |
+ * | are welcome.                                                   |
+ * |----------------------------------------------------------------|
+ */
+
+using System;
 using Windows.UI;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.UI.Animations;
 using Microsoft.Toolkit.Uwp.UI.Controls;
-using SoundByte.Core;
 using SoundByte.Core.Items.Track;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.UserControls;
 using UICompositionAnimations.Composition;
-using WinRTXamlToolkit.Controls.Extensions;
-
-// The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
 namespace SoundByte.UWP.Controls
 {
-    public sealed partial class TrackItem : UserControl
+    public sealed partial class TrackItem
     {
         /// <summary>
         /// Identifies the Track dependency property.
@@ -69,7 +65,14 @@ namespace SoundByte.UWP.Controls
         {
             await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
             {
-                TrackNowPlaying.Visibility = newTrack?.Id == Track?.Id ? Visibility.Visible : Visibility.Collapsed;
+                if (newTrack?.Id == Track?.Id)
+                {
+                    FindName("TrackNowPlaying");
+                }
+                else
+                {
+                    UnloadObject(TrackNowPlaying);
+                }
             });
         }
 
@@ -83,44 +86,47 @@ namespace SoundByte.UWP.Controls
 
         }
 
-        private void OnPointerEntered(object sender, PointerRoutedEventArgs e)
+        private async void OnPointerEntered(object sender, PointerRoutedEventArgs e)
         {
+            FindName("HoverArea");
+
             ShadowPanel.DropShadow.StartAnimation("Opacity",
-                ShadowPanel.DropShadow.Compositor.CreateScalarKeyFrameAnimation(null, 0.9f, TimeSpan.FromMilliseconds(150), null));
+                ShadowPanel.DropShadow.Compositor.CreateScalarKeyFrameAnimation(null, 0.9f, TimeSpan.FromMilliseconds(200), null));
 
             ShadowPanel.DropShadow.StartAnimation("BlurRadius",
-                ShadowPanel.DropShadow.Compositor.CreateScalarKeyFrameAnimation(null, 45.0f, TimeSpan.FromMilliseconds(150), null));
+                ShadowPanel.DropShadow.Compositor.CreateScalarKeyFrameAnimation(null, 45.0f, TimeSpan.FromMilliseconds(200), null));
 
             var colorAnimation = ShadowPanel.DropShadow.Compositor.CreateColorKeyFrameAnimation();
-            colorAnimation.Duration = TimeSpan.FromMilliseconds(150);
+            colorAnimation.Duration = TimeSpan.FromMilliseconds(200);
 
             colorAnimation.InsertKeyFrame(0.0f, Colors.Black);
             colorAnimation.InsertKeyFrame(1.0f, _hoverColor);
 
             ShadowPanel.DropShadow.StartAnimation("Color", colorAnimation);
 
-            HoverArea.Fade(1, 150).Start();
-            TrackImage.Blur(15, 150).Start();
+            await HoverArea.Fade(1, 200).StartAsync();
         }
 
-        private void OnPointerExited(object sender, PointerRoutedEventArgs e)
+        private async void OnPointerExited(object sender, PointerRoutedEventArgs e)
         {
             ShadowPanel.DropShadow.StartAnimation("Opacity",
-                ShadowPanel.DropShadow.Compositor.CreateScalarKeyFrameAnimation(null, 0.4f, TimeSpan.FromMilliseconds(150), null));
+                ShadowPanel.DropShadow.Compositor.CreateScalarKeyFrameAnimation(null, 0.4f, TimeSpan.FromMilliseconds(200), null));
 
             ShadowPanel.DropShadow.StartAnimation("BlurRadius",
-                ShadowPanel.DropShadow.Compositor.CreateScalarKeyFrameAnimation(null, 25.0f, TimeSpan.FromMilliseconds(150), null));
+                ShadowPanel.DropShadow.Compositor.CreateScalarKeyFrameAnimation(null, 25.0f, TimeSpan.FromMilliseconds(200), null));
 
             var colorAnimation = ShadowPanel.DropShadow.Compositor.CreateColorKeyFrameAnimation();
-            colorAnimation.Duration = TimeSpan.FromMilliseconds(150);
+            colorAnimation.Duration = TimeSpan.FromMilliseconds(200);
 
             colorAnimation.InsertKeyFrame(0.0f, _hoverColor);
             colorAnimation.InsertKeyFrame(1.0f, Colors.Black);
 
             ShadowPanel.DropShadow.StartAnimation("Color", colorAnimation);
 
-            HoverArea.Fade(0, 150).Start();
-            TrackImage.Blur(0, 150).Start();
+            if (HoverArea != null)
+                await HoverArea.Fade(0, 200).StartAsync();
+
+            UnloadObject(HoverArea);
         }
 
         private async void ImageExBase_OnImageExOpened(object sender, ImageExOpenedEventArgs e)
