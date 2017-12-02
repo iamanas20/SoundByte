@@ -19,7 +19,6 @@ using Microsoft.Toolkit.Uwp.UI.Animations;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using SoundByte.Core.Items.Track;
 using SoundByte.UWP.Services;
-using SoundByte.UWP.UserControls;
 using UICompositionAnimations.Composition;
 
 namespace SoundByte.UWP.Controls
@@ -134,7 +133,7 @@ namespace SoundByte.UWP.Controls
             if (_hoverColor != Colors.Black)
                 return;
 
-            _hoverColor = await SoundByteItem.GetDominantHue(new Uri(Track.ArtworkUrl));
+            _hoverColor = await Helpers.ColorHelper.GetDominantHue(new Uri(Track.ArtworkUrl));
         }
     }
 }
