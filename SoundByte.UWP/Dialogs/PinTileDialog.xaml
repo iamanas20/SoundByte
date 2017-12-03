@@ -1,15 +1,14 @@
-﻿<controls:Dialog x:Class="SoundByte.UWP.Dialogs.PinTileDialog"
-                 Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}"
-                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                 xmlns:controls="using:SoundByte.UWP.Controls">
+﻿<ContentDialog x:Class="SoundByte.UWP.Dialogs.PinTileDialog"
+               Style="{StaticResource AppContentDialog}"
+               Background="{ThemeResource SystemControlBackgroundChromeMediumBrush }"
+               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <controls:Dialog.DialogContent>
-        <ScrollViewer HorizontalAlignment="Stretch"
+    <ScrollViewer HorizontalAlignment="Stretch"
                       VerticalScrollBarVisibility="Hidden">
-            <!-- Stack the content -->
-            <StackPanel>
-                <TextBlock Text="&#xE718;"
+        <!-- Stack the content -->
+        <StackPanel>
+            <TextBlock Text="&#xE718;"
                        FontFamily="Segoe MDL2 Assets"
                        TextAlignment="Center"
                        VerticalAlignment="Center"
@@ -18,33 +17,33 @@
                        Foreground="{ThemeResource SystemControlBackgroundAccentBrush}"
                        Margin="20,20,20,10" />
 
-                <TextBlock Text="Pin Tile"
+            <TextBlock Text="Pin Tile"
                        TextAlignment="Center"
                        FontWeight="SemiBold"
                        FontSize="22"
                        Margin="5"
                        VerticalAlignment="Center" />
 
-                <Grid Width="128"
-                          Margin="0,15,0,25"
-                          CornerRadius="1"
-                          Height="128">
+            <Grid Width="128"
+                  Margin="0,15,0,25"
+                  CornerRadius="1"
+                  Height="128">
 
-                    <Image Source="{x:Bind ImageSource, Mode=OneWay}"
-                               Width="128"
-                               Height="128"
-                               Stretch="UniformToFill" />
+                <Image Source="{x:Bind ImageSource, Mode=OneWay}"
+                       Width="128"
+                       Height="128"
+                       Stretch="UniformToFill" />
 
-                    <TextBlock x:Name="PreviewText"
-                                   Text="{Binding ElementName=TileTextBox, Path=Text, Mode=OneWay}"
-                                   FontSize="12"
-                                   TextTrimming="CharacterEllipsis"
-                                   Foreground="White"
-                                   VerticalAlignment="Bottom"
-                                   Padding="10,0,10,7" />
-                </Grid>
+                <TextBlock x:Name="PreviewText"
+                           Text="{Binding ElementName=TileTextBox, Path=Text, Mode=OneWay}"
+                           FontSize="12"
+                           TextTrimming="CharacterEllipsis"
+                           Foreground="White"
+                           VerticalAlignment="Bottom"
+                           Padding="10,0,10,7" />
+            </Grid>
 
-                <TextBox x:Name="TileTextBox"
+            <TextBox x:Name="TileTextBox"
                      HorizontalAlignment="Stretch"
                      BorderThickness="1"
                      MaxWidth="360"
@@ -52,7 +51,7 @@
                      Text="{x:Bind TileTitle, Mode=TwoWay}"
                      Header="Tile Text" />
 
-                <ToggleSwitch x:Name="ColorToggleSwitch"
+            <ToggleSwitch x:Name="ColorToggleSwitch"
                           Header="Tile Text Color"
                           OffContent="Light"
                           Margin="0,5,0,10"
@@ -61,13 +60,12 @@
                           IsOn="False"
                           OnContent="Dark" />
 
-                <HyperlinkButton Content="Pin"
+            <HyperlinkButton Content="Pin"
                              Margin="0,15,0,0"
                              Foreground="{ThemeResource SystemControlPageTextBaseHighBrush}"
                              ContentTemplate="{StaticResource HyperlinkClean}"
                              Click="{x:Bind PinTile}"
                              HorizontalAlignment="Center" />
-            </StackPanel>
-        </ScrollViewer>
-    </controls:Dialog.DialogContent>
-</controls:Dialog>
+        </StackPanel>
+    </ScrollViewer>
+</ContentDialog>

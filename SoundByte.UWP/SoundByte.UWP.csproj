@@ -159,9 +159,6 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Assets\AppKeys.cs" />
-    <Compile Include="Controls\Dialog.xaml.cs">
-      <DependentUpon>Dialog.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Controls\PlaylistItem.xaml.cs">
       <DependentUpon>PlaylistItem.xaml</DependentUpon>
     </Compile>
@@ -362,10 +359,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="Controls\Dialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Controls\PlaylistItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

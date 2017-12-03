@@ -14,9 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using SoundByte.UWP.Controls;
 
 namespace SoundByte.UWP.Services
 {
@@ -53,28 +51,10 @@ namespace SoundByte.UWP.Services
             if (dialogType != null)
             {
                 var instance = Activator.CreateInstance(dialogType, param);
+
                 try
                 {
-                    var dialog = (Dialog)instance;
-
-                    var shellContent = App.Shell.Content as Grid;
-                    if (shellContent != null)
-                    {
-                        dialog.Visibility = Visibility.Collapsed;
-                        dialog.Opacity = 0;
-                        dialog.VerticalAlignment = VerticalAlignment.Center;
-                        dialog.HorizontalAlignment = HorizontalAlignment.Center;
-                        dialog.Margin = new Thickness(10);
-                        dialog.Name = "DynamicElement_" + nameof(dialogType);
-
-                        // Set the correct z index
-                        Canvas.SetZIndex(dialog, 1000);
-                        // Add the element to the page
-                        shellContent.Children.Add(dialog);
-
-
-                        dialog.Show();
-                    }
+                    await ((ContentDialog)instance).ShowAsync();
                 }
                 catch (Exception)
                 {

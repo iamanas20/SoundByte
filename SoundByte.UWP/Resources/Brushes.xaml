@@ -33,7 +33,14 @@
                   TintColor="{ThemeResource SystemAccentColor}"
                   TintOpacity="0.8"
                   FallbackColor="{ThemeResource SystemAccentColor}"/>
-    
+
+    <AcrylicBrush x:Key="ContentDialogBackgroundAcrylicBrush"
+                  BackgroundSource="Backdrop"
+                  TintColor="#22000000"
+                  
+                  TintOpacity="0.5"
+                  FallbackColor="#88000000"/>
+
     <!-- Shell Brushes -->
     <SolidColorBrush x:Key="ShellNavigationBackground" Color="{ThemeResource ShellNavigationBackgroundColor}" />
     <SolidColorBrush x:Key="ShellBackground" Color="{ThemeResource ShellBackgroundColor}" />

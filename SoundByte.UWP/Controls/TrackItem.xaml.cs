@@ -18,6 +18,7 @@ using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.UI.Animations;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using SoundByte.Core.Items.Track;
+using SoundByte.UWP.Dialogs;
 using SoundByte.UWP.Services;
 using UICompositionAnimations.Composition;
 
@@ -75,14 +76,15 @@ namespace SoundByte.UWP.Controls
             });
         }
 
-        private void Share(object sender, RoutedEventArgs e)
+        private async void Share(object sender, RoutedEventArgs e)
         {
+            await NavigationService.Current.CallDialogAsync<ShareDialog>(Track);
 
         }
 
-        private void AddToPlaylist(object sender, RoutedEventArgs e)
+        private async void AddToPlaylist(object sender, RoutedEventArgs e)
         {
-
+            await NavigationService.Current.CallDialogAsync<PlaylistDialog>(Track);
         }
 
         private async void OnPointerEntered(object sender, PointerRoutedEventArgs e)
