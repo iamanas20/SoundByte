@@ -2,11 +2,13 @@
     x:Class="SoundByte.UWP.Dialogs.LoginDialog"
     FullSizeDesired="True"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    Style="{StaticResource AppContentDialog}"
+    Background="White"
     Margin="0"
     Padding="0"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="492">
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="492" Height="800">
         <WebView x:Name="LoginWebView"
                  Canvas.ZIndex="5"
                  HorizontalAlignment="Stretch"

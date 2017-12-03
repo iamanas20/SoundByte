@@ -12,6 +12,7 @@
                Style="{StaticResource AppContentDialog}"
                Background="{ThemeResource SystemControlBackgroundChromeMediumBrush }">
     <ScrollViewer HorizontalAlignment="Stretch"
+                  Padding="25"
                   VerticalScrollBarVisibility="Hidden">
         <!-- Stack the content -->
         <StackPanel>

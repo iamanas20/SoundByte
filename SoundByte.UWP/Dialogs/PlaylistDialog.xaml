@@ -309,7 +309,7 @@
 
     </ContentDialog.Resources>
 
-    <Grid>
+    <Grid Padding="25">
         <!-- Used to let the user know we are loading stuff -->
         <ProgressBar x:Name="LoadingRing" VerticalAlignment="Center" IsIndeterminate="True"
                      Visibility="Collapsed"

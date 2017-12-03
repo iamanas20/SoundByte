@@ -5,7 +5,9 @@
                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <ScrollViewer HorizontalAlignment="Stretch"
-                      VerticalScrollBarVisibility="Hidden">
+                  Padding="25"
+                  Width="340"
+                  VerticalScrollBarVisibility="Hidden">
         <!-- Stack the content -->
         <StackPanel>
             <TextBlock Text="&#xE718;"
