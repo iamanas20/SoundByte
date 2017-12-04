@@ -11,10 +11,6 @@
  */
 
 using System;
-using System.IO;
-using System.Threading.Tasks;
-using Windows.Graphics.Imaging;
-using Windows.Storage.Streams;
 using Windows.UI;
 using SoundByte.Core;
 using SoundByte.Core.Items.Playlist;
@@ -24,9 +20,6 @@ using SoundByte.UWP.Dialogs;
 using SoundByte.UWP.Services;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Input;
-using ColorThiefDotNet;
-using Microsoft.Toolkit.Uwp.Helpers;
-using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Animations;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using UICompositionAnimations.Composition;
@@ -96,28 +89,8 @@ namespace SoundByte.UWP.UserControls
             InitializeComponent();
 
             DataContextChanged += SoundByteItem_DataContextChanged;
-
-            Loaded += (s, e) =>
-            {
-                PlaybackService.Instance.OnCurrentTrackChanged += CurrentTrackChanged;
-
-            };
-
-            Unloaded += (s, e) =>
-            {
-                PlaybackService.Instance.OnCurrentTrackChanged -= CurrentTrackChanged;
-
-            };
         }
 
-        private async void CurrentTrackChanged(BaseTrack newTrack)
-        {
-            await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
-            {
-                if (ItemType == ItemType.Track && Track != null && TrackNowPlaying != null)
-                    TrackNowPlaying.Visibility = newTrack?.Id == Track?.Id ? Visibility.Visible : Visibility.Collapsed;
-            });
-        }
 
         private void SoundByteItem_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
         {
@@ -134,8 +107,6 @@ namespace SoundByte.UWP.UserControls
                 case ItemType.Track:
                     // Generate and show the desktop track item
                     DesktopTrackItem.Visibility = Visibility.Visible;
-                    // Update the visibilty
-                    TrackNowPlaying.Visibility = PlaybackService.Instance.CurrentTrack?.Id == Track?.Id ? Visibility.Visible : Visibility.Collapsed;                   
                     break;
                 case ItemType.User:
                     // Generate and show the desktop user item
@@ -199,18 +170,7 @@ namespace SoundByte.UWP.UserControls
             colorAnimation.InsertKeyFrame(1.0f, Colors.Black);
 
             panel.DropShadow.StartAnimation("Color", colorAnimation);
-        }
-     
-
-        private void DesktopTrackItem_OnPointerEntered(object sender, PointerRoutedEventArgs e)
-        {
-            StartAnimations(ShadowPanel, Colors.Black);
-        }
-
-        private void DesktopTrackItem_OnPointerExited(object sender, PointerRoutedEventArgs e)
-        {
-            StopAnimation(ShadowPanel);
-        }
+        }    
 
         private void DesktopPlaylistItem_OnPointerExited(object sender, PointerRoutedEventArgs e)
         {
@@ -230,11 +190,6 @@ namespace SoundByte.UWP.UserControls
         private void DesktopUserItem_OnPointerExited(object sender, PointerRoutedEventArgs e)
         {
             StopAnimation(UserDropShadow);
-        }
-
-        private void TrackImage_OnImageOpened(object sender, RoutedEventArgs e)
-        {
-            //await ColorShadow(ShadowPanel, new Uri(Track.ArtworkUrl));
         }
     }
 }

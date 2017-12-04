@@ -5,9 +5,10 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:controls1="using:SoundByte.UWP.Controls"
     mc:Ignorable="d"
-    d:DesignHeight="255"
-    d:DesignWidth="180">
+    d:DesignHeight="260"
+    d:DesignWidth="200">
 
     <Grid>
 
@@ -156,113 +157,7 @@
                 </StackPanel>
         </Grid>
 
-        <Grid x:Name="DesktopTrackItem" 
-              PointerEntered="DesktopTrackItem_OnPointerEntered"
-              PointerExited="DesktopTrackItem_OnPointerExited"
-              Background="#00FFFFFF"
-              IsHitTestVisible="true"
-              Visibility="Collapsed"
-              Height="245"
-              Width="170"
-              Margin="5">
-
-            <!-- Context menu for track -->
-            <Grid.ContextFlyout>
-                <MenuFlyout>
-                    <MenuFlyoutItem Text="Share" Click="ShareTrack">
-                        <MenuFlyoutItem.Icon>
-                            <FontIcon Glyph="&#xE72D;" />
-                        </MenuFlyoutItem.Icon>
-                    </MenuFlyoutItem>
-                    <MenuFlyoutItem Text="Add to Playlist" Click="AddTrackToPlaylist">
-                        <MenuFlyoutItem.Icon>
-                            <FontIcon Glyph="&#xE142;" />
-                        </MenuFlyoutItem.Icon>
-                    </MenuFlyoutItem>
-                </MenuFlyout>
-            </Grid.ContextFlyout>
-
-            <!-- Drop Shadow for track image -->
-            <controls:DropShadowPanel x:Name="ShadowPanel"
-                                      VerticalAlignment="Top"
-                                      BlurRadius="25"
-                                      ShadowOpacity="0.4"
-                                      OffsetX="0"
-                                      IsTabStop="False"
-                                      Margin="5,5,5,12"
-                                      OffsetY="6"
-                                      Color="Black">
-                
-                <!-- Corner radius allows us to hide extra track padding
-                     (to remove glitches and track edges. Not the best idea
-                     and should probably be improved in the future -->
-                <Grid CornerRadius="1" 
-                      Background="DimGray" 
-                      Width="160" 
-                      Height="160" >
-                    
-                    <!-- Track Image -->
-                    <Image Source="{x:Bind Path=Track, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
-                           VerticalAlignment="Stretch"
-                           ImageOpened="TrackImage_OnImageOpened"
-                           HorizontalAlignment="Stretch"
-                           x:Name="TrackImage"
-                           Margin="-5"
-                           Stretch="UniformToFill" />
-
-                    <!-- Now Playing Area -->
-                    <Grid Width="32"  
-                         x:Name="TrackNowPlaying"
-                         Visibility="Collapsed"
-                         Height="32"
-                         VerticalAlignment="Top"
-                         HorizontalAlignment="Left"
-                         Margin="5">
-                            <!-- Fill in background -->
-                            <Ellipse Fill="{ThemeResource SystemControlAcrylicElementMediumHighBrush }" RequestedTheme="Dark"/>
-                            <FontIcon Glyph="&#xE767;" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center" RequestedTheme="Dark" />
-                    </Grid>
-
-                    <!-- Lower Info -->
-                   <Grid RequestedTheme="Dark" 
-                         Background="{ThemeResource SystemControlAcrylicElementMediumHighBrush}"
-                         Padding="10"
-                         Margin="-2"
-                         HorizontalAlignment="Stretch"
-                         VerticalAlignment="Bottom">
-
-                            <!-- Duration of Track -->
-                            <TextBlock RequestedTheme="Dark"
-                                       HorizontalAlignment="Right"
-                                       VerticalAlignment="Center"
-                                       Text="{x:Bind Path=Track.Duration, Mode=OneWay, Converter={StaticResource TimeStampConverter}}"
-                                       FontSize="12"
-                                       FontWeight="SemiBold" />
-                           
-                            <!-- Service Type -->
-                            <Image Source="{x:Bind Path=Track.ServiceType, Converter={StaticResource ServiceToImageConverter}, Mode=OneWay}"  
-                                   Stretch="Uniform" 
-                                   HorizontalAlignment="Left" 
-                                   Height="12" 
-                                   VerticalAlignment="Center" />
-                        </Grid>
-                    </Grid>
-                </controls:DropShadowPanel>
-
-            <StackPanel Margin="5,180,5,0">
-                <TextBlock Text="{x:Bind Track.Title, Mode=OneWay}"  
-                           FontWeight="Bold"
-                           TextAlignment="Left"                    
-                           FontSize="14"
-                           TextWrapping="Wrap"
-                           MaxHeight="50"
-                           TextTrimming="CharacterEllipsis" />
-
-                <TextBlock Text="{x:Bind Path=Track.User.Username, Mode=OneWay}"
-                           FontSize="13"
-                           Opacity="0.8"
-                           TextAlignment="Left" />
-            </StackPanel>
-        </Grid>
+        <!-- Track Item -->
+        <controls1:TrackItem x:Name="DesktopTrackItem" Track="{x:Bind Track, Mode=TwoWay}" Visibility="Collapsed" />
     </Grid>
 </UserControl>
