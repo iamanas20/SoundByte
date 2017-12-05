@@ -48,16 +48,27 @@ namespace SoundByte.UWP.Controls
         {
             InitializeComponent();
 
-            Loaded += (s, e) =>
+            Loaded += async (s, e) =>
             {
                 PlaybackService.Instance.OnCurrentTrackChanged += CurrentTrackChanged;
 
+
+                await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
+                {
+                    if (PlaybackService.Instance.CurrentTrack?.Id == Track?.Id)
+                    {
+                        FindName("TrackNowPlaying");
+                    }
+                    else
+                    {
+                        UnloadObject(TrackNowPlaying);
+                    }
+                });
             };
 
             Unloaded += (s, e) =>
             {
                 PlaybackService.Instance.OnCurrentTrackChanged -= CurrentTrackChanged;
-
             };
         }
 
@@ -91,6 +102,11 @@ namespace SoundByte.UWP.Controls
         {
             FindName("HoverArea");
 
+            ShadowPanel.Offset(0, -3, 250).Start();
+
+            ShadowPanel.DropShadow.StartAnimation("Offset.Y",
+                ShadowPanel.DropShadow.Compositor.CreateScalarKeyFrameAnimation(null, 10.0f, TimeSpan.FromMilliseconds(250), null));
+
             ShadowPanel.DropShadow.StartAnimation("Opacity",
                 ShadowPanel.DropShadow.Compositor.CreateScalarKeyFrameAnimation(null, 0.9f, TimeSpan.FromMilliseconds(200), null));
 
@@ -105,11 +121,18 @@ namespace SoundByte.UWP.Controls
 
             ShadowPanel.DropShadow.StartAnimation("Color", colorAnimation);
 
+            TrackImage.Blur(5, 200).Start();
             await HoverArea.Fade(1, 200).StartAsync();
         }
 
         private async void OnPointerExited(object sender, PointerRoutedEventArgs e)
         {
+            ShadowPanel.Offset(0, 0, 250).Start();
+
+            ShadowPanel.DropShadow.StartAnimation("Offset.Y",
+                ShadowPanel.DropShadow.Compositor.CreateScalarKeyFrameAnimation(null, 6.0f, TimeSpan.FromMilliseconds(250), null));
+
+
             ShadowPanel.DropShadow.StartAnimation("Opacity",
                 ShadowPanel.DropShadow.Compositor.CreateScalarKeyFrameAnimation(null, 0.4f, TimeSpan.FromMilliseconds(200), null));
 
@@ -123,6 +146,8 @@ namespace SoundByte.UWP.Controls
             colorAnimation.InsertKeyFrame(1.0f, Colors.Black);
 
             ShadowPanel.DropShadow.StartAnimation("Color", colorAnimation);
+
+            TrackImage.Blur(0, 200).Start();
 
             if (HoverArea != null)
                 await HoverArea.Fade(0, 200).StartAsync();

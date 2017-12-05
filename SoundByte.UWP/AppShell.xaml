@@ -13,8 +13,6 @@
                         <stateTriggers:DeviceStateTrigger DeviceFamily="Windows.Xbox" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="ShellFrame.Background" Value="Transparent" />
-                        <Setter Target="AppTitle.Visibility" Value="Collapsed" />
                         <Setter Target="NavView.ExpandedModeThresholdWidth" Value="10000" />
                     </VisualState.Setters>
                 </VisualState>
@@ -41,12 +39,34 @@
                      Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}"
                      Visibility="Collapsed" />
 
-        <TextBlock x:Name="AppTitle" 
-                   Canvas.ZIndex="100"
-                   Style="{StaticResource CaptionTextBlockStyle}" 
-                   Text="SoundByte" 
-                   IsHitTestVisible="False"/>
+        <Grid x:Name="Titlebar" 
+              Background="Transparent"
+              HorizontalAlignment="Stretch" 
+              VerticalAlignment="Top"
+              Canvas.ZIndex="1000"
+              Height="32" />
+        
 
+        <Button x:Name="BackButton"
+                Padding="0"
+                Width="64"
+                Height="32"
+                Background="Transparent"
+                BorderThickness="0"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Left"
+                Visibility="Collapsed"
+                Click="GoBack"
+                Canvas.ZIndex="1020">
+            <Button.Content>
+                 <TextBlock Text="&#xE830;" 
+                            FontSize="14"
+                            FontFamily="Segoe MDL2 Assets" 
+                            VerticalAlignment="Center" 
+                            HorizontalAlignment="Center" />
+            </Button.Content>
+        </Button>
+        
         <Grid x:Name="DesktopBlurGrid" 
               Width="320"
               HorizontalAlignment="Left"
@@ -54,8 +74,7 @@
               Background="{ThemeResource ShellBackground}" />
         
         <NavigationView x:Name="NavView"
-                        Canvas.ZIndex="5"
-                       
+                        Canvas.ZIndex="5"                    
                         Background="Transparent"
                         AlwaysShowHeader="False"
                         ItemInvoked="NavView_OnItemInvoked"
@@ -63,6 +82,7 @@
                         OpenPaneLength="320" 
                         CompactPaneLength="64"
                         CompactModeThresholdWidth="560" 
+                        
                         IsSettingsVisible="False"
                         ExpandedModeThresholdWidth="760">
 

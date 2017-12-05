@@ -15,6 +15,7 @@ using Windows.ApplicationModel.Core;
 using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
 namespace SoundByte.UWP.Helpers
 {
