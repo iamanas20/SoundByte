@@ -60,7 +60,7 @@
                 Canvas.ZIndex="1020">
             <Button.Content>
                  <TextBlock Text="&#xE830;" 
-                            FontSize="14"
+                            FontSize="12"
                             FontFamily="Segoe MDL2 Assets" 
                             VerticalAlignment="Center" 
                             HorizontalAlignment="Center" />
