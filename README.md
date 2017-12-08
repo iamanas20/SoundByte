@@ -22,14 +22,14 @@ SoundByte is a cross platform music client that intergrates with the SoundCloud,
 Please Note: SoundByte source code is to only be used for educational purposes. Distrubution of SoundByte source code in any form outside this repository is forbidden.
 
 ## SoundByte Structure
-SoundByte is split into the following projects: `SoundByte.Android`, `SoundByte.MacOS`, `SoundByte.Core`, `SoundByte.Service` and `SoundByte.UWP`. Each of these projects and containing files are mentioned in more detail below.
+SoundByte is split into the following projects: `SoundByte.Android`, `SoundByte.MacOS`, `SoundByte.Core`, `SoundByte.iOS` and `SoundByte.UWP`. Each of these projects and containing files are mentioned in more detail below.
 
 |Project Name|Platform|Description|
 |--|--|--|
 |`SoundByte.Android`|Xamarin Native (Android)|WIP Xamarin Native app for Android phones|
 |`SoundByte.MacOS`|Xamarin Native (macOS)|WIP Xamarin Native app for macOS|
 |`SoundByte.Core`|.NET Standard v1.4|Core logic used by all projects within SoundByte|
-|`SoundByte.Service`|ASP.NET Azure Mobile Service|Used for remote login. Will allow for user account creation in future|
+|`SoundByte.iOS`|Xamarin Native (iOS)|WIP Xamarin Native app for iOS|
 |`SoundByte.UWP`|UWP 10.0 - Fall Creators Update - see `cu_stable` for Creators Update support|Windows 10 UWP App (Windows 10/Xbox One)|
 
 **SoundByte.Android:** Very basic UI, allows searching for "Monstercat" through the SoundCloud API. Supports single playback items.
