@@ -25,8 +25,7 @@
 
     <!-- Template for the playlist item -->
     <DataTemplate x:Key="PlaylistItem">
-        <usercontrols:SoundByteItem ItemType="Playlist" 
-                                    Playlist="{Binding}"/>
+        <controls1:PlaylistItem Playlist="{Binding}" />
     </DataTemplate>
     
    

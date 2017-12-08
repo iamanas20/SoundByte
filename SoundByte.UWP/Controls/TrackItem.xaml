@@ -32,7 +32,6 @@
                 <controls:ImageEx x:Name="TrackImage"
                                   Source="{x:Bind Path=Track, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
                                   IsCacheEnabled="True"
-                                  ImageExOpened="ImageExBase_OnImageExOpened"                  
                                   VerticalAlignment="Center"
                                   Width="170" 
                                   Height="170"
@@ -64,8 +63,8 @@
                            Stretch="Uniform" 
                            HorizontalAlignment="Center" 
                            Height="14"
-                           Margin="0,0,0,30"
-                           VerticalAlignment="Bottom" />
+                           Margin="0,25,0,0"
+                           VerticalAlignment="Top" />
                     
                     <Button Foreground="White" 
                             Margin="0,0,108,0"

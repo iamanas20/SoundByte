@@ -572,11 +572,11 @@ namespace SoundByte.UWP
                 case "accounts":
                     RootFrame.Navigate(typeof(AccountManagerView));
                     break;
-                case "shows":
-                    RootFrame.Navigate(typeof(MyShowsView));
+                case "mycollection":
+                    RootFrame.Navigate(typeof(MyCollectionView));
                     break;
-                case "downloads":
-                    RootFrame.Navigate(typeof(DownloadsView));
+                case "mydevice":
+                    RootFrame.Navigate(typeof(MyDeviceView));
                     break;
 
             }

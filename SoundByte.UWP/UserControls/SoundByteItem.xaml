@@ -63,101 +63,16 @@
 
         </Grid>
 
-        <Grid x:Name="DesktopPlaylistItem"
-              PointerEntered="DesktopPlaylistItem_OnPointerEntered"
-              PointerExited="DesktopPlaylistItem_OnPointerExited"
-              Visibility="Collapsed"
-              Background="#00FFFFFF"
-              IsHitTestVisible="true"
-              Height="245"
-              Width="170"
-              Margin="5">
-            <!-- Drop Shadow for playlist image -->
-            <controls:DropShadowPanel x:Name="PlaylistDropShadow"
-                                      VerticalAlignment="Top"                       
-                                      BlurRadius="25"
-                                      ShadowOpacity="0.4"
-                                      OffsetX="0"
-                                      OffsetY="6"
-                                      Padding="0,8,0,0"
-                                      IsTabStop="False"
-                                      IsHitTestVisible="False"
-                                      Margin="5,-2,5,12"
-                                      Color="Black">
-                    <Grid Padding="0,7,0,0" CornerRadius="1">
-                        <Grid Background="#FF444444"
-                          Width="140"
-                          Margin="0,-32,0,0"
-                          Height="140"
-                          VerticalAlignment="Stretch"
-                          HorizontalAlignment="Stretch" />
-
-                        <Grid Background="#FF666666"
-                          Width="150"
-                          Margin="0,-17,0,0"
-                          Height="150"
-                          VerticalAlignment="Stretch"
-                          HorizontalAlignment="Stretch" />
-
-                        <Grid CornerRadius="1" 
-                              Background="DimGray"
-                              x:Name="PlaylistImage"
-                              Width="160"   
-                              Height="160"
-                              VerticalAlignment="Stretch"
-                              HorizontalAlignment="Stretch">
-                            <Image Source="{x:Bind Path=Playlist, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
-                                   Margin="-10"
-                                   VerticalAlignment="Stretch"
-                                   HorizontalAlignment="Stretch"
-                                   Stretch="UniformToFill"
-                                   IsHitTestVisible="False" />
-                        </Grid>
-
-                        <!-- Length of playlist, bottom-right -->
-                        <Grid RequestedTheme="Dark" 
-                              Background="{ThemeResource SystemControlAcrylicElementMediumHighBrush }"
-                              Padding="10"
-                              Margin="-2"
-                              HorizontalAlignment="Stretch"
-                              VerticalAlignment="Bottom">
-
-                            <!-- Duration of Playlist -->
-                            <TextBlock RequestedTheme="Dark"
-                                       Text="{x:Bind Path=Playlist.Duration, Mode=OneWay, Converter={StaticResource TimeStampConverter}}"
-                                       VerticalAlignment="Center"
-                                       HorizontalAlignment="Right"
-                                       FontSize="12"
-                                       FontWeight="SemiBold" />
-
-                            <!-- Service Type -->
-                            <Image Source="{x:Bind Path=Playlist.ServiceType, Converter={StaticResource ServiceToImageConverter}, Mode=OneWay}" 
-                                   Stretch="Uniform" 
-                                   HorizontalAlignment="Left" 
-                                   Height="12" 
-                                   VerticalAlignment="Center" />
-                        </Grid>
-                    </Grid>
-                </controls:DropShadowPanel>
-
-            <!-- Playlist info below image -->
-            <StackPanel Margin="5,180,5,0">
-                <TextBlock Text="{x:Bind Path=Playlist.Title, Mode=OneWay}"
-                           TextAlignment="Left"
-                           FontWeight="Bold"
-                           FontSize="14"
-                           TextWrapping="Wrap"
-                           MaxHeight="50"
-                           TextTrimming="CharacterEllipsis" />
-                
-                <TextBlock Text="{x:Bind Path=Playlist.User.Username, Mode=OneWay}"
-                           FontSize="13"
-                           Opacity="0.8"
-                           TextAlignment="Left" />
-                </StackPanel>
-        </Grid>
-
+        <!-- Playlist Item -->
+        <controls1:PlaylistItem x:Name="DesktopPlaylistItem" 
+                             Playlist="{x:Bind Playlist, Mode=TwoWay}" 
+                             x:Load="False"
+                             Visibility="Collapsed" />
+        
         <!-- Track Item -->
-        <controls1:TrackItem x:Name="DesktopTrackItem" Track="{x:Bind Track, Mode=TwoWay}" Visibility="Collapsed" />
+        <controls1:TrackItem x:Name="DesktopTrackItem" 
+                             Track="{x:Bind Track, Mode=TwoWay}" 
+                             x:Load="False"
+                             Visibility="Collapsed" />
     </Grid>
 </UserControl>

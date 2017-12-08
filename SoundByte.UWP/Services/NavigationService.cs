@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
+using Microsoft.Toolkit.Uwp.Helpers;
 
 namespace SoundByte.UWP.Services
 {
@@ -50,11 +51,15 @@ namespace SoundByte.UWP.Services
 
             if (dialogType != null)
             {
-                var instance = Activator.CreateInstance(dialogType, param);
+
 
                 try
                 {
-                    await ((ContentDialog)instance).ShowAsync();
+                    await DispatcherHelper.ExecuteOnUIThreadAsync(async () =>
+                    {
+                        var instance = Activator.CreateInstance(dialogType, param);
+                        await ((ContentDialog)instance).ShowAsync();
+                    });
                 }
                 catch (Exception)
                 {
@@ -72,7 +77,10 @@ namespace SoundByte.UWP.Services
                 var instance = Activator.CreateInstance(dialogType, param);
                 try
                 {
-                    await ((ContentDialog) instance).ShowAsync();
+                    await DispatcherHelper.ExecuteOnUIThreadAsync(async () =>
+                    {
+                        await ((ContentDialog)instance).ShowAsync();
+                    });
                 }
                 catch (Exception)
                 {

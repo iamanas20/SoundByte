@@ -60,6 +60,7 @@
                 Canvas.ZIndex="1020">
             <Button.Content>
                  <TextBlock Text="&#xE830;" 
+                            Opacity="0.8"
                             FontSize="12"
                             FontFamily="Segoe MDL2 Assets" 
                             VerticalAlignment="Center" 
@@ -137,19 +138,19 @@
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
 
-                <NavigationViewItem Content="My Shows" 
+                <NavigationViewItem Content="My Collection" 
                                     Style="{StaticResource NavStyle}" 
                                     x:Name="NavigationItemShows"
-                                    Tag="shows">
+                                    Tag="mycollection">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xEA69;"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
 
-                <NavigationViewItem Content="Downloads" 
+                <NavigationViewItem Content="My Device" 
                                     Style="{StaticResource NavStyle}" 
                                     x:Name="NavigationItemDownloads"
-                                    Tag="downloads">
+                                    Tag="mydevice">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE896;"/>
                     </NavigationViewItem.Icon>

@@ -291,11 +291,11 @@
     <Compile Include="Views\Me\AccountManagerView.xaml.cs">
       <DependentUpon>AccountManagerView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Me\DownloadsView.xaml.cs">
-      <DependentUpon>DownloadsView.xaml</DependentUpon>
+    <Compile Include="Views\Me\MyDeviceView.xaml.cs">
+      <DependentUpon>MyDeviceView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Me\MyShowsView.xaml.cs">
-      <DependentUpon>MyShowsView.xaml</DependentUpon>
+    <Compile Include="Views\Me\MyCollectionView.xaml.cs">
+      <DependentUpon>MyCollectionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Me\XboxAccountView.xaml.cs">
       <DependentUpon>XboxAccountView.xaml</DependentUpon>
@@ -496,11 +496,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Me\DownloadsView.xaml">
+    <Page Include="Views\Me\MyDeviceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Me\MyShowsView.xaml">
+    <Page Include="Views\Me\MyCollectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

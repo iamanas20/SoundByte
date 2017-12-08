@@ -16,8 +16,6 @@ using SoundByte.Core;
 using SoundByte.Core.Items.Playlist;
 using SoundByte.Core.Items.Track;
 using SoundByte.Core.Items.User;
-using SoundByte.UWP.Dialogs;
-using SoundByte.UWP.Services;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Input;
 using Microsoft.Toolkit.Uwp.UI.Animations;
@@ -94,18 +92,16 @@ namespace SoundByte.UWP.UserControls
 
         private void SoundByteItem_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
         {
-            DesktopUserItem.Visibility = Visibility.Collapsed;
-            DesktopTrackItem.Visibility = Visibility.Collapsed;
-            DesktopUserItem.Visibility = Visibility.Collapsed;
-
             switch (ItemType)
             {
                 case ItemType.Playlist:
                     // Generate and show the desktop playlist item
+                    FindName("DesktopPlaylistItem");
                     DesktopPlaylistItem.Visibility = Visibility.Visible;
                     break;
                 case ItemType.Track:
                     // Generate and show the desktop track item
+                    FindName("DesktopTrackItem");
                     DesktopTrackItem.Visibility = Visibility.Visible;
                     break;
                 case ItemType.User:
@@ -113,16 +109,6 @@ namespace SoundByte.UWP.UserControls
                     DesktopUserItem.Visibility = Visibility.Visible;
                     break;
             }
-        }
-
-        private async void ShareTrack(object sender, RoutedEventArgs e)
-        {
-            await NavigationService.Current.CallDialogAsync<ShareDialog>(Track);
-        }
-
-        private async void AddTrackToPlaylist(object sender, RoutedEventArgs e)
-        {
-            await NavigationService.Current.CallDialogAsync<PlaylistDialog>(Track);
         }
 
         public static void StartAnimations(UIElement element, Windows.UI.Color hoverColor)
@@ -171,16 +157,6 @@ namespace SoundByte.UWP.UserControls
 
             panel.DropShadow.StartAnimation("Color", colorAnimation);
         }    
-
-        private void DesktopPlaylistItem_OnPointerExited(object sender, PointerRoutedEventArgs e)
-        {
-            StopAnimation(PlaylistDropShadow);
-        }
-
-        private void DesktopPlaylistItem_OnPointerEntered(object sender, PointerRoutedEventArgs e)
-        {
-            StartAnimations(PlaylistDropShadow, Colors.Black);
-        }
 
         private void DesktopUserItem_OnPointerEntered(object sender, PointerRoutedEventArgs e)
         {

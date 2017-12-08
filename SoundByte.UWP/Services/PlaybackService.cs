@@ -43,6 +43,7 @@ using SoundByte.Core.Models.MediaStreams;
 using SoundByte.Core.Sources;
 using SoundByte.UWP.Assets;
 using Windows.Foundation.Collections;
+using Microsoft.EntityFrameworkCore;
 
 namespace SoundByte.UWP.Services
 {
@@ -73,6 +74,13 @@ namespace SoundByte.UWP.Services
 
         public PlaybackSource VisualizationSource { get; set; }
 
+        /// The audio-video sync timer is used to sync YouTube videos
+        /// to the background audio. This has to run a little faster for
+        /// a smoother expirence.
+        private readonly DispatcherTimer _audioVideoSyncTimer = new DispatcherTimer
+        {
+            Interval = TimeSpan.FromMilliseconds(75)
+        };
 
         /// <summary>
         /// The current playing track
@@ -310,6 +318,8 @@ namespace SoundByte.UWP.Services
 
         #endregion
 
+      
+
         #region Service Setup
         private static readonly Lazy<PlaybackService> InstanceHolder =
             new Lazy<PlaybackService>(() => new PlaybackService());
@@ -346,24 +356,13 @@ namespace SoundByte.UWP.Services
                 Interval = TimeSpan.FromMilliseconds(500)
             };
 
-            // The audio-video sync timer is used to sync YouTube videos
-            // to the background audio. This has to run a little faster for
-            // a smoother expirence.
-            var audioVideoSyncTimer = new DispatcherTimer
-            {
-                Interval = TimeSpan.FromMilliseconds(75)
-            };
-
             // Setup the tick event
             pageTimer.Tick += PlayingSliderUpdate;
-            audioVideoSyncTimer.Tick += SyncAudioVideo;
+            _audioVideoSyncTimer.Tick += SyncAudioVideo;
 
             // If the timer is ready, start it
             if (!pageTimer.IsEnabled)
                 pageTimer.Start();
-
-            if (!audioVideoSyncTimer.IsEnabled)
-                audioVideoSyncTimer.Start();
         }
         #endregion
 
@@ -893,6 +892,18 @@ namespace SoundByte.UWP.Services
                 // Set the new current track, updating the UI
                 CurrentTrack = track;
 
+                // Only run the sync timer when listening to a youtube music video
+                if (track.ServiceType == ServiceType.YouTube)
+                {
+                    if (!_audioVideoSyncTimer.IsEnabled)
+                        _audioVideoSyncTimer.Start();
+                }
+                else
+                {
+                    if (_audioVideoSyncTimer.IsEnabled)
+                        _audioVideoSyncTimer.Stop();
+                }
+
                 if (!CurrentTrack.IsLive)
                 {
                     TimeRemaining = "-" + NumberFormatHelper.FormatTimeString(CurrentTrack.Duration.TotalMilliseconds);
@@ -942,6 +953,8 @@ namespace SoundByte.UWP.Services
             {
                 using (var db = new HistoryContext())
                 {
+                    await db.Database.MigrateAsync();
+
                     var existingUser = db.Users.FirstOrDefault(x => x.Id == track.User.Id);
 
                     if (existingUser == null)
@@ -970,9 +983,9 @@ namespace SoundByte.UWP.Services
                     await db.SaveChangesAsync();
                 }
             }
-            catch
+            catch 
             {
-                // This code is not vital, so we will swallow all exceptions
+               // Ignore
             }
 
             string currentUsageLimit;

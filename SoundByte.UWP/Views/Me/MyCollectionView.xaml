@@ -1,5 +1,5 @@
 ﻿<Page
-    x:Class="SoundByte.UWP.Views.Me.MyShowsView"
+    x:Class="SoundByte.UWP.Views.Me.MyCollectionView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -8,7 +8,7 @@
 
     <Grid Background="Transparent">
         <StackPanel Padding="{ThemeResource PagePadding}"> 
-            <TextBlock Text="My Shows"
+            <TextBlock Text="My Collection"
                        Style="{StaticResource TitleStyle}"  />
             <TextBlock Text="Coming Soon" Style="{StaticResource SubTitleStyle}" />
             <TextBlock Text="This feature is coming soon in a future update." 
