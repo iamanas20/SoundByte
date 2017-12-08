@@ -181,6 +181,7 @@
     <Compile Include="Converters\ServiceToImageConverter.cs" />
     <Compile Include="Converters\SliderValueConverter.cs" />
     <Compile Include="Converters\TimeStampConverter.cs" />
+    <Compile Include="Converters\TrackLikeToIconConverter.cs" />
     <Compile Include="DatabaseContexts\HistoryContext.cs" />
     <Compile Include="Dialogs\CrashDialog.xaml.cs">
       <DependentUpon>CrashDialog.xaml</DependentUpon>

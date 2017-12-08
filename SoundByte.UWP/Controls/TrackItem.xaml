@@ -15,8 +15,6 @@
           Background="#00FFFFFF"
           Margin="5"
           Width="190">
-       
-
         <!-- Shadow Panel -->
         <controls:DropShadowPanel x:Name="ShadowPanel"
                                   VerticalAlignment="Top"
@@ -66,26 +64,26 @@
                            Margin="0,25,0,0"
                            VerticalAlignment="Top" />
                     
+                    <!-- Toggle Like Button -->
                     <Button Foreground="White" 
                             Margin="0,0,108,0"
                             HorizontalAlignment="Center"
                             Style="{StaticResource CircleItemButtonStyle}" 
                             Background="#CC000000"
+                            Click="{x:Bind Track.ToggleLike}"
                             Width="42" Height="42">
                         <Button.Content>
                             <TextBlock OpticalMarginAlignment="TrimSideBearings" 
-                                       Text="&#xEB51;" 
+                                       Text="{x:Bind Track.IsLiked, Mode=OneWay, Converter={StaticResource TrackLikeToIconConverter}}" 
                                        FontSize="16" 
                                        FontFamily="Segoe MDL2 Assets" 
                                        TextAlignment="Center" />
                         </Button.Content>
-                       
                     </Button>
                     
                     <Button Foreground="White" 
                             HorizontalAlignment="Center"
-                            IsHitTestVisible="False"
-                            
+                            IsHitTestVisible="False"       
                             Style="{StaticResource CircleItemButtonStyle}" 
                             Background="#88000000"
                        Width="52" Height="52">

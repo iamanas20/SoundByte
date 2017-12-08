@@ -25,7 +25,6 @@ using SoundByte.Core.Services;
 using SoundByte.UWP.Converters;
 using SoundByte.UWP.Helpers;
 using SoundByte.UWP.Services;
-using SoundByte.UWP.UserControls;
 
 namespace SoundByte.UWP.ViewModels
 {

@@ -2,7 +2,6 @@
     x:Class="SoundByte.UWP.Views.UserView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:elements="using:SoundByte.UWP.UserControls"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
     xmlns:controls1="using:SoundByte.UWP.Controls"

@@ -2,7 +2,6 @@
     x:Class="SoundByte.UWP.Views.SoundCloudStreamView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:elements="using:SoundByte.UWP.UserControls"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"

@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using SoundByte.Core.Items.Comment;
 using SoundByte.Core.Items.User;
 using System.Threading;
+// ReSharper disable CompareOfFloatsByEqualityOperator
 
 namespace SoundByte.Core.Items.Track
 {
@@ -34,44 +35,330 @@ namespace SoundByte.Core.Items.Track
         /// </summary>
         public ServiceType ServiceType { get; set; }
 
-        public string Id { get; set; }
+        /// <summary>
+        /// Id of track
+        /// </summary>
+        public string Id
+        {
+            get => _id;
+            set
+            {
+                if (value == _id)
+                    return;
 
-        public string Kind { get; set; }
+                _id = value;
+                UpdateProperty();
+            }
+        }
+        private string _id;
 
-        public string Link { get; set; }
+        /// <summary>
+        /// Kind of track
+        /// </summary>
+        public string Kind
+        {
+            get => _kind;
+            set
+            {
+                if (value == _kind)
+                    return;
 
-        public bool IsLive { get; set; }
+                _kind = value;
+                UpdateProperty();
+            }
+        }
+        private string _kind;
 
-        public string AudioStreamUrl { get; set; }
+        /// <summary>
+        /// Link to the track
+        /// </summary>
+        public string Link
+        {
+            get => _link;
+            set
+            {
+                if (value == _link)
+                    return;
 
-        public string VideoStreamUrl { get; set; }
+                _link = value;
+                UpdateProperty();
+            }
+        }
+        private string _link;
 
-        public string ArtworkUrl { get; set; }
+        /// <summary>
+        /// Is the track currently live (used for YouTube videos)
+        /// </summary>
+        public bool IsLive
+        {
+            get => _isLive;
+            set
+            {
+                if (value == _isLive)
+                    return;
 
-        public string Title { get; set; }
+                _isLive = value;
+                UpdateProperty();
+            }
+        }
+        private bool _isLive;
 
-        public string Description { get; set; }
+        /// <summary>
+        /// Url to the audio stream
+        /// </summary>
+        public string AudioStreamUrl
+        {
+            get => _audioStreamUrl;
+            set
+            {
+                if (value == _audioStreamUrl)
+                    return;
 
-        public TimeSpan Duration { get; set; }
+                _audioStreamUrl = value;
+                UpdateProperty();
+            }
+        }
+        private string _audioStreamUrl;
 
-        public DateTime Created { get; set; }
+        /// <summary>
+        /// Url to the video stream
+        /// </summary>
+        public string VideoStreamUrl
+        {
+            get => _videoStreamUrl;
+            set
+            {
+                if (value == _videoStreamUrl)
+                    return;
 
-        public DateTime LastPlaybackDate { get; set; }
+                _videoStreamUrl = value;
+                UpdateProperty();
+            }
+        }
+        private string _videoStreamUrl;
 
-        public double LikeCount { get; set; }
+        /// <summary>
+        /// Artwork link
+        /// </summary>
+        public string ArtworkUrl
+        {
+            get => _artworkUrl;
+            set
+            {
+                if (value == _artworkUrl)
+                    return;
 
-        public double DislikeCount { get; set; }
+                _artworkUrl = value;
+                UpdateProperty();
+            }
+        }
+        private string _artworkUrl;
 
-        public double ViewCount { get; set; }
+        /// <summary>
+        /// Title of the track
+        /// </summary>
+        public string Title
+        {
+            get => _title;
+            set
+            {
+                if (value == _title)
+                    return;
 
-        public double CommentCount { get; set; }
+                _title = value;
+                UpdateProperty();
+            }
+        }
+        private string _title;
 
-        public string Genre { get; set; }
+        /// <summary>
+        /// Description of the track
+        /// </summary>
+        public string Description
+        {
+            get => _description;
+            set
+            {
+                if (value == _description)
+                    return;
 
-        public bool IsLiked { get; set; }
+                _description = value;
+                UpdateProperty();
+            }
+        }
+        private string _description;
 
-        public BaseUser User { get; set; }
+        /// <summary>
+        /// How long is the track
+        /// </summary>
+        public TimeSpan Duration
+        {
+            get => _duation;
+            set
+            {
+                if (value == _duation)
+                    return;
 
+                _duation = value;
+                UpdateProperty();
+            }
+        }
+        private TimeSpan _duation;
+
+        /// <summary>
+        /// Date and time the track was created/uploaded
+        /// </summary>
+        public DateTime Created
+        {
+            get => _created;
+            set
+            {
+                if (value == _created)
+                    return;
+
+                _created = value;
+                UpdateProperty();
+            }
+        }
+        private DateTime _created;
+
+        /// <summary>
+        /// Last time the user played back this track
+        /// </summary>
+        public DateTime LastPlaybackDate
+        {
+            get => _lastPlaybackDate;
+            set
+            {
+                if (value == _lastPlaybackDate)
+                    return;
+
+                _lastPlaybackDate = value;
+                UpdateProperty();
+            }
+        }
+        private DateTime _lastPlaybackDate;
+
+        /// <summary>
+        /// Amount of likes
+        /// </summary>
+        public double LikeCount
+        {
+            get => _likeCount;
+            set
+            {
+                if (value == _likeCount)
+                    return;
+
+                _likeCount = value;
+                UpdateProperty();
+            }
+        }
+        private double _likeCount;
+
+        /// <summary>
+        /// Amount of dislikes (if supported - YouTube)
+        /// </summary>
+        public double DislikeCount
+        {
+            get => _dislikeCount;
+            set
+            {
+                if (value == _dislikeCount)
+                    return;
+
+                _dislikeCount = value;
+                UpdateProperty();
+            }
+        }
+        private double _dislikeCount;
+
+        /// <summary>
+        /// Amount of views
+        /// </summary>
+        public double ViewCount
+        {
+            get => _viewCount;
+            set
+            {
+                if (value == _viewCount)
+                    return;
+
+                _viewCount = value;
+                UpdateProperty();
+            }
+        }
+        private double _viewCount;
+
+        /// <summary>
+        /// Amount of comments
+        /// </summary>
+        public double CommentCount
+        {
+            get => _commentCount;
+            set
+            {
+                if (value == _commentCount)
+                    return;
+
+                _commentCount = value;
+                UpdateProperty();
+            }
+        }
+        private double _commentCount;
+
+        /// <summary>
+        ///     Track Genre
+        /// </summary>
+        public string Genre
+        {
+            get => _genre;
+            set
+            {
+                if (value == _genre)
+                    return;
+
+                _genre = value;
+                UpdateProperty();
+            }
+        }
+        private string _genre;
+
+        /// <summary>
+        ///     Has this track been liked
+        /// </summary>
+        public bool IsLiked
+        {
+            get => _isLiked;
+            set
+            {
+                if (value == _isLiked)
+                    return;
+
+                _isLiked = value;
+                UpdateProperty();
+            }
+        }
+        private bool _isLiked;
+
+        /// <summary>
+        ///     The Track User
+        /// </summary>
+        public BaseUser User
+        {
+            get => _user;
+            set
+            {
+                if (value == _user)
+                    return;
+
+                _user = value;
+                UpdateProperty();
+            }
+        }
+        private BaseUser _user;
+
+        #region Methods
         public async Task<CommentResponse> GetCommentsAsync(int count, string token, CancellationTokenSource cancellationTokenSource = null)
         {
             // Always at least 10 comments.
@@ -90,6 +377,18 @@ namespace SoundByte.Core.Items.Track
                 default:
                     throw new ArgumentOutOfRangeException();
             }   
+        }
+
+        public  void ToggleLike()
+        {
+            if (IsLiked)
+            {
+                Unlike();
+            }
+            else
+            {
+                Like();
+            }
         }
 
         public async void Like()
@@ -145,6 +444,7 @@ namespace SoundByte.Core.Items.Track
 
             IsLiked = !hasUnliked;
         }
+        #endregion
 
         public class CommentResponse
         {

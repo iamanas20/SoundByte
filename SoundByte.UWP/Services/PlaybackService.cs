@@ -180,23 +180,6 @@ namespace SoundByte.UWP.Services
         private string _volumeIcon = "\uE767";
 
         /// <summary>
-        /// 
-        /// </summary>
-        public string LikeIcon
-        {
-            get => _likeIcon;
-            set
-            {
-                if (_likeIcon == value)
-                    return;
-
-                _likeIcon = value;
-                UpdateProperty();
-            }
-        }
-        private string _likeIcon = "\uEB51";
-
-        /// <summary>
         ///     The content on the play_pause button
         /// </summary>
         public string PlayButtonContent
@@ -929,13 +912,12 @@ namespace SoundByte.UWP.Services
                 {
                     try
                     {
-                        LikeIcon = await SoundByteV3Service.Current.ExistsAsync(ServiceType.SoundCloud, "/me/favorites/" + CurrentTrack.Id)
-                            ? "\uEB52"
-                            : "\uEB51";
+                        CurrentTrack.IsLiked = await SoundByteV3Service.Current.ExistsAsync(ServiceType.SoundCloud,
+                            "/me/favorites/" + CurrentTrack.Id);
                     }
                     catch
                     {
-                        LikeIcon = "\uEB51";
+                        CurrentTrack.IsLiked = false;
                     }
 
                     try
@@ -1161,40 +1143,5 @@ namespace SoundByte.UWP.Services
 
         #endregion    
 
-        public async void LikeTrack()
-        {
-            if (CurrentTrack == null)
-                return;
-
-            // Check to see what the existing string is
-            if (LikeIcon == "\uEB52")
-            {
-                // Delete the like from the users likes and see if successful
-                if (await SoundByteV3Service.Current.DeleteAsync(ServiceType.SoundCloud, "/e1/me/track_likes/" + CurrentTrack.Id))
-                {
-                    LikeIcon = "\uEB51";
-                    // Track Event
-                    TelemetryService.Instance.TrackEvent("Unlike Track");
-                }
-                else
-                {
-                    LikeIcon = "\uEB52";
-                }
-            }
-            else
-            {
-                // Add a like to the users likes and see if successful
-                if (await SoundByteV3Service.Current.PutAsync(ServiceType.SoundCloud, $"/e1/me/track_likes/{CurrentTrack.Id}"))
-                {
-                    LikeIcon = "\uEB52";
-                    // Track Event
-                    TelemetryService.Instance.TrackEvent("Like Track");
-                }
-                else
-                {
-                    LikeIcon = "\uEB51";
-                }
-            }
-        }       
     }
 }

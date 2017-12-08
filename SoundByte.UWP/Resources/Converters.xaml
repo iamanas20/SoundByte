@@ -12,5 +12,6 @@
     <converters:SliderValueConverter x:Key="SliderValueConverter" />
     <converters:BoolToFontWeightConverter x:Key="BoolToFontWeightConverter" />
     <converters:ServiceToImageConverter x:Key="ServiceToImageConverter" />
+    <converters:TrackLikeToIconConverter x:Key="TrackLikeToIconConverter" />
     
 </ResourceDictionary>

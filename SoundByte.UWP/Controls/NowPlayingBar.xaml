@@ -270,10 +270,10 @@
                 </Button>
 
                 <Button Margin="5,0" Style="{StaticResource CircleButtonStyle}" Background="{x:Null}"
-                        Click="{x:Bind Service.LikeTrack}" Width="42" Height="42">
+                        Click="{x:Bind Service.CurrentTrack.ToggleLike}" Width="42" Height="42">
                     <Button.Content>
                         <TextBlock OpticalMarginAlignment="TrimSideBearings"
-                                   Text="{x:Bind Service.LikeIcon, Mode=OneWay}" FontWeight="Light" FontSize="20"
+                                   Text="{x:Bind Service.CurrentTrack.IsLiked, Mode=OneWay, Converter={StaticResource TrackLikeToIconConverter}}" FontWeight="Light" FontSize="20"
                                    FontFamily="Segoe MDL2 Assets" AutomationProperties.Name="Next"
                                    TextAlignment="Center" />
                     </Button.Content>

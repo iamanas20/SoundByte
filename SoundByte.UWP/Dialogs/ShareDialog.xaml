@@ -49,7 +49,7 @@
                     Click="ShareWindows"
                     BorderThickness="1">
 
-                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" RequestedTheme="Dark">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
@@ -71,7 +71,7 @@
                     Style="{ThemeResource ButtonRevealStyle}"
                     Background="{ThemeResource SystemControlBackgroundAccentBrush}"
                     BorderThickness="1">
-                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" RequestedTheme="Dark">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
@@ -93,7 +93,7 @@
                     Style="{ThemeResource ButtonRevealStyle}"
                     Background="{ThemeResource SystemControlBackgroundAccentBrush}"
                     BorderThickness="1">
-                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" RequestedTheme="Dark">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />

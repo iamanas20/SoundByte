@@ -290,10 +290,10 @@
                         FocusVisualPrimaryThickness="0"
                         FocusVisualSecondaryThickness="0"
                         FocusVisualMargin="0"
-                        Click="{x:Bind ViewModel.Service.LikeTrack}" Width="42" Height="42">
+                        Click="{x:Bind ViewModel.Service.CurrentTrack.ToggleLike}" Width="42" Height="42">
                     <Button.Content>
                         <TextBlock OpticalMarginAlignment="TrimSideBearings"
-                                   Text="{x:Bind ViewModel.Service.LikeIcon, Mode=OneWay}" FontWeight="Light" FontSize="20"
+                                   Text="{x:Bind ViewModel.Service.CurrentTrack.IsLiked, Mode=OneWay, Converter={StaticResource TrackLikeToIconConverter}}" FontWeight="Light" FontSize="20"
                                    FontFamily="Segoe MDL2 Assets" AutomationProperties.Name="Next"
                                    TextAlignment="Center" />
                     </Button.Content>

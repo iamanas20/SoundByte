@@ -190,14 +190,22 @@ namespace SoundByte.Core.Items.Track
             return new BaseTrack.CommentResponse {Comments = baseCommentList, Token = nextToken};
         }
 
-        public Task<bool> LikeAsync()
+        public async Task<bool> LikeAsync()
         {
-            throw new NotImplementedException();
+            if (!SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud))
+                return false;
+
+            return await SoundByteV3Service.Current.PutAsync(ServiceType.SoundCloud,
+                $"/e1/me/track_likes/{Id}");
         }
 
-        public Task<bool> UnlikeAsync()
+        public async Task<bool> UnlikeAsync()
         {
-            throw new NotImplementedException();
+            if (!SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud))
+                return false;
+
+            return await SoundByteV3Service.Current.DeleteAsync(ServiceType.SoundCloud,
+                $"/e1/me/track_likes/{Id}");
         }
 
         [JsonObject]
