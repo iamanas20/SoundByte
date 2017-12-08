@@ -7,6 +7,7 @@
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
+    xmlns:controls1="using:SoundByte.UWP.Controls"
     NavigationCacheMode="Enabled"
     Transitions="{StaticResource MainTransition}">
 
@@ -69,7 +70,7 @@
                                     Orientation="Horizontal"
                                     HorizontalAlignment="Right"
                                     VerticalAlignment="Bottom">
-                            <userControls:SoundByteButton Glyph="&#xE72C;" Label="Refresh"
+                            <controls1:AppButton Glyph="&#xE72C;" Label="Refresh"
                                                           Click="{x:Bind ViewModel.Model.RefreshItems, Mode=OneWay}" Margin="0,0,15,0" />
                         </StackPanel>
                     </Grid>

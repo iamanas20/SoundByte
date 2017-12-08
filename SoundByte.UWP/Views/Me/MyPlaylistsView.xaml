@@ -7,6 +7,7 @@
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
     xmlns:stateTriggers="using:SoundByte.UWP.StateTriggers"
+    xmlns:controls="using:SoundByte.UWP.Controls"
     NavigationCacheMode="Enabled"
     Transitions="{StaticResource MainTransition}">
 
@@ -67,7 +68,7 @@
 
                     <StackPanel x:Name="DesktopCommandBar" Visibility="Collapsed" Orientation="Horizontal"
                                 Margin="00,15,0,20">
-                        <userControls:SoundByteButton Glyph="&#xE72C;" Label="Refresh"
+                        <controls:AppButton Glyph="&#xE72C;" Label="Refresh"
                                                       Click="{x:Bind PlaylistModel.RefreshItems}" Margin="0,0,15,0" />
                     </StackPanel>
                 </StackPanel>

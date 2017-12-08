@@ -7,6 +7,7 @@
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:controls1="using:SoundByte.UWP.Controls"
     NavigationCacheMode="Enabled"
     Transitions="{StaticResource MainTransition}">
     <Page.Resources>
@@ -62,13 +63,13 @@
                                     Orientation="Horizontal"
                                     HorizontalAlignment="Right"
                                     VerticalAlignment="Bottom">
-                            <elements:SoundByteButton Glyph="&#xE768;" Label="Play All Tracks"
+                            <controls1:AppButton Glyph="&#xE768;" Label="Play All Tracks"
                                                       Click="{x:Bind ViewModel.PlayAllStreamTracks}"
                                                       Margin="0,0,15,0" />
-                            <elements:SoundByteButton Glyph="&#xE8B1;" Label="Shuffle Play Tracks"
+                            <controls1:AppButton Glyph="&#xE8B1;" Label="Shuffle Play Tracks"
                                                       Click="{x:Bind ViewModel.PlayShuffleStreamTracks}"
                                                       Margin="0,0,15,0" />
-                            <elements:SoundByteButton Glyph="&#xE72C;" Label="Refresh"
+                            <controls1:AppButton Glyph="&#xE72C;" Label="Refresh"
                                                       Click="{x:Bind ViewModel.StreamItems.RefreshItems}"
                                                       Margin="0,0,15,0" />
                         </StackPanel>

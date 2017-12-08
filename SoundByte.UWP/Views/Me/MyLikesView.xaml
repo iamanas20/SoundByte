@@ -7,6 +7,7 @@
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:controls1="using:SoundByte.UWP.Controls"
     NavigationCacheMode="Enabled"
     Transitions="{StaticResource MainTransition}">
 
@@ -82,11 +83,11 @@
                                     Orientation="Horizontal"
                                     HorizontalAlignment="Right"
                                     VerticalAlignment="Bottom">
-                            <userControls:SoundByteButton Glyph="&#xE768;" Label="Play All" Click="{x:Bind PlayAllItems}"
+                            <controls1:AppButton Glyph="&#xE768;" Label="Play All" Click="{x:Bind PlayAllItems}"
                                                           Margin="0,0,15,0" />
-                            <userControls:SoundByteButton Glyph="&#xE8B1;" Label="Shuffle Play"
+                            <controls1:AppButton Glyph="&#xE8B1;" Label="Shuffle Play"
                                                           Click="{x:Bind PlayShuffleItems}" Margin="0,0,15,0" />
-                            <userControls:SoundByteButton Glyph="&#xE72C;" Label="Refresh"
+                            <controls1:AppButton Glyph="&#xE72C;" Label="Refresh"
                                                           Click="{x:Bind LikesModel.RefreshItems}" Margin="0,0,15,0" />
                         </StackPanel>
 

@@ -12,24 +12,24 @@
 
 using Windows.UI.Xaml;
 
-namespace SoundByte.UWP.UserControls
+namespace SoundByte.UWP.Controls
 {
-    public sealed partial class SoundByteButton
+    public sealed partial class AppButton
     {
         public delegate void ClickEventHandler(object sender, RoutedEventArgs e);
 
         public static readonly DependencyProperty LabelProperty =
-            DependencyProperty.Register("Label", typeof(string), typeof(SoundByteButton), null);
+            DependencyProperty.Register("Label", typeof(string), typeof(AppButton), null);
 
         public static readonly DependencyProperty GlyphProperty =
-            DependencyProperty.Register("Glyph", typeof(string), typeof(SoundByteButton), null);
+            DependencyProperty.Register("Glyph", typeof(string), typeof(AppButton), null);
 
         public static readonly DependencyProperty IsExtendedProperty =
-            DependencyProperty.Register("IsExtended", typeof(bool), typeof(SoundByteButton), null);
+            DependencyProperty.Register("IsExtended", typeof(bool), typeof(AppButton), null);
 
         //ButtonText
 
-        public SoundByteButton()
+        public AppButton()
         {
             InitializeComponent();
 

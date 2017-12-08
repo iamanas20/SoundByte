@@ -6,6 +6,7 @@
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
+    xmlns:controls="using:SoundByte.UWP.Controls"
     NavigationCacheMode="Enabled"
     Transitions="{StaticResource MainTransition}">
 
@@ -136,13 +137,13 @@
 
                     <StackPanel x:Name="DesktopCommandBar" Visibility="Collapsed"
                                 Orientation="Horizontal" Margin="0,0,0,10">
-                        <userControls:SoundByteButton Glyph="&#xE768;" Label="Play All"
+                        <controls:AppButton Glyph="&#xE768;" Label="Play All"
                                                   Click="{x:Bind PlayAllChartItems}"
                                                   Margin="0,0,25,0" />
-                        <userControls:SoundByteButton Glyph="&#xE8B1;" Label="Shuffle Play"
+                        <controls:AppButton Glyph="&#xE8B1;" Label="Shuffle Play"
                                                   Click="{x:Bind PlayShuffleChartItems}"
                                                   Margin="0,0,25,0" />
-                        <userControls:SoundByteButton Glyph="&#xE72C;" Label="Refresh"
+                        <controls:AppButton Glyph="&#xE72C;" Label="Refresh"
                                                   Click="{x:Bind ChartsModel.RefreshItems}"
                                                   Margin="0,0,25,0" />
                     </StackPanel>

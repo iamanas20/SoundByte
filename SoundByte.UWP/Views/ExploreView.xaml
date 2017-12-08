@@ -6,6 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:uiElements="using:SoundByte.UWP.UserControls"
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
+    xmlns:controls="using:SoundByte.UWP.Controls"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
 
@@ -163,7 +164,7 @@
                                Style="{StaticResource SubTitleStyle}"
                                VerticalAlignment="Center"
                                HorizontalAlignment="Left" />
-                    <uiElements:SoundByteButton HorizontalAlignment="Right"
+                    <controls:AppButton HorizontalAlignment="Right"
                                                 Label="View All" 
                                                 IsExtended="True"
                                                 Click="{x:Bind NavigateMoreCharts}"
@@ -206,7 +207,7 @@
                                Style="{StaticResource SubTitleStyle}"
                                VerticalAlignment="Center"
                                HorizontalAlignment="Left" />
-                    <uiElements:SoundByteButton HorizontalAlignment="Right"
+                    <controls:AppButton HorizontalAlignment="Right"
                                                 Click="{x:Bind NavigateMoreYouTube}"
                                                 Label="View All" 
                                                 IsExtended="True"
@@ -248,7 +249,7 @@
                                Style="{StaticResource SubTitleStyle}"
                                VerticalAlignment="Center"
                                HorizontalAlignment="Left" />
-                    <uiElements:SoundByteButton HorizontalAlignment="Right"
+                    <controls:AppButton HorizontalAlignment="Right"
                                                 IsExtended="True"
                                                 Click="{x:Bind NavigateMoreFanburst}"
                                                 Label="View All" 
