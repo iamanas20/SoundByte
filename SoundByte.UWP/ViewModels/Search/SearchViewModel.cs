@@ -165,8 +165,7 @@ namespace SoundByte.UWP.ViewModels.Search
             App.NavigateTo(typeof(TrackListView), new TrackListViewModel.TrackViewModelHolder
             {
                 Track = SearchTracks.Source,
-                Title = "Search",
-                Subtitle = "SoundCloud Tracks"
+                Title = $"Results for \"{SearchQuery}\""
             });
         }
 
@@ -175,9 +174,7 @@ namespace SoundByte.UWP.ViewModels.Search
             App.NavigateTo(typeof(PlaylistListView), new PlaylistListViewModel.PlaylistViewModelHolder
             {
                 Playlist = SearchPlaylists.Source,
-                Title = "Search",
-                Subtitle = "SoundCloud Playlists"
-
+                Title = $"Results for \"{SearchQuery}\""
             });
         }
 
@@ -186,8 +183,7 @@ namespace SoundByte.UWP.ViewModels.Search
             App.NavigateTo(typeof(UserListView), new UserListViewModel.UserViewModelHolder
             {
                 User = SearchUsers.Source,
-                Title = "Search",
-                Subtitle = "SoundCloud Users"
+                Title = $"Results for \"{SearchQuery}\""
             });
         }
 
@@ -196,8 +192,7 @@ namespace SoundByte.UWP.ViewModels.Search
             App.NavigateTo(typeof(TrackListView), new TrackListViewModel.TrackViewModelHolder
             {
                 Track = YouTubeTracks.Source,
-                Title = "Search",
-                Subtitle = "Youtube Videos"
+                Title = $"Results for \"{SearchQuery}\""
             });
         }
 
@@ -206,8 +201,7 @@ namespace SoundByte.UWP.ViewModels.Search
             App.NavigateTo(typeof(TrackListView), new TrackListViewModel.TrackViewModelHolder
             {
                 Track = FanburstTracks.Source,
-                Title = "Search",
-                Subtitle = "Fanburst Tracks"
+                Title = $"Results for \"{SearchQuery}\""
             });
         }
 

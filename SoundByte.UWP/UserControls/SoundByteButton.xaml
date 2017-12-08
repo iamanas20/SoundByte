@@ -4,18 +4,18 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <Button x:Name="MainButton"
-            Width="44"
+            Padding="11,0,11,0"
             Height="44"
             BorderThickness="1"
             FocusVisualMargin="1"      
             BorderBrush="#22000000"
             Background="{ThemeResource SoundByteButtonBackground}">
-       <ToolTipService.ToolTip>
-           <ToolTip>
+        <ToolTipService.ToolTip>
+            <ToolTip>
                 <TextBlock Text="{x:Bind Label, Mode=OneWay}" />
-           </ToolTip>
-       </ToolTipService.ToolTip>
-        
+            </ToolTip>
+        </ToolTipService.ToolTip>
+
         <Button.Content>
             <StackPanel Orientation="Horizontal">
                 <TextBlock OpticalMarginAlignment="TrimSideBearings"
@@ -27,22 +27,12 @@
                            VerticalAlignment="Center"
                            TextAlignment="Center" />
 
-               
+                <TextBlock Text="{x:Bind Label, Mode=OneWay}" 
+                           Visibility="Collapsed"
+                           x:Name="ButtonText"
+                           Margin="8,0,0,0" 
+                           VerticalAlignment="Center" />
             </StackPanel>
         </Button.Content>
     </Button>
 </UserControl>
-    
-    
-    <!--
-    
-     <TextBlock OpticalMarginAlignment="TrimSideBearings"
-                           Text="{x:Bind Label, Mode=OneWay}"
-                           Opacity="1"
-                           Margin="10,-3,0,0"
-                           FontSize="16"
-                           VerticalAlignment="Center"
-                           TextAlignment="Center" />
-    
-    
-    -->

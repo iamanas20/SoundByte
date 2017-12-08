@@ -185,7 +185,7 @@
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
 
-                <NavigationViewItem Content="Donate" 
+                <NavigationViewItem Content="Premium" 
                                     VerticalAlignment="Bottom"
                                     Style="{StaticResource NavStyle}" 
                                     x:Name="NavigationItemDonations"

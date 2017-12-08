@@ -25,17 +25,19 @@
         <ScrollViewer>
             <StackPanel Orientation="Vertical" Padding="{ThemeResource PagePadding}">
                 <Grid Margin="10,0,40,0">
-                    <TextBlock Text="Search"
+                    <TextBlock Text="Results for..."
+                               x:Name="PageTitle"
                                Style="{StaticResource TitleStyle}" />
                 </Grid>
                       
                 <!-- SoundCloud Tracks Header -->
-                <Grid Margin="10,0,0,10">
+                <Grid Margin="10,20,0,10">
                     <TextBlock Text="SoundCloud Tracks" 
                                Style="{StaticResource SubTitleStyle}"
                                VerticalAlignment="Center"
                                HorizontalAlignment="Left" />
                     <uiElements:SoundByteButton HorizontalAlignment="Right"
+                                                IsExtended="True"
                                                 Label="View All" 
                                                 Click="{x:Bind ViewModel.NavigateSoundCloudTracks}"
                                                 Glyph="&#xE8A9;"/>
@@ -74,12 +76,13 @@
                 </Grid>
 
                 <!-- YouTube Header -->
-                <Grid Margin="10,0,0,10">
+                <Grid Margin="10,20,0,10">
                     <TextBlock Text="YouTube Videos" 
                                Style="{StaticResource SubTitleStyle}"
                                VerticalAlignment="Center"
                                HorizontalAlignment="Left" />
                     <uiElements:SoundByteButton HorizontalAlignment="Right"
+                                                IsExtended="True"
                                                 Click="{x:Bind ViewModel.NavigateYouTubeTracks}"
                                                 Label="View All" 
                                                 Glyph="&#xE8A9;" />
@@ -117,12 +120,13 @@
                 </Grid>
 
                 <!-- Fanburst Header -->
-                <Grid Margin="10,0,0,10">
+                <Grid Margin="10,20,0,10">
                     <TextBlock Text="Fanburst Tracks" 
                                Style="{StaticResource SubTitleStyle}"
                                VerticalAlignment="Center"
                                HorizontalAlignment="Left"/>
                     <uiElements:SoundByteButton HorizontalAlignment="Right"
+                                                IsExtended="True"
                                                 Click="{x:Bind ViewModel.NavigateFanburstTracks}"
                                                 Label="View All" 
                                                 Glyph="&#xE8A9;"
@@ -161,12 +165,13 @@
                 </Grid>
 
                 <!-- Podcast Header -->
-                <Grid Margin="10,0,0,10">
+                <Grid Margin="10,20,0,10">
                     <TextBlock Text="Podcasts" 
                                Style="{StaticResource SubTitleStyle}"
                                VerticalAlignment="Center"
                                HorizontalAlignment="Left" />
                     <uiElements:SoundByteButton HorizontalAlignment="Right"
+                                                IsExtended="True"
                                                 Click="{x:Bind ViewModel.NavigatePodcasts}"
                                                 Label="View All" 
                                                 Glyph="&#xE8A9;"/>
@@ -189,12 +194,13 @@
                 </Grid>
 
                 <!-- SoundCloud Playlists Header -->
-                <Grid Margin="10,0,0,10">
+                <Grid Margin="10,20,0,10">
                     <TextBlock Text="SoundCloud Playlists" 
                                Style="{StaticResource SubTitleStyle}"
                                VerticalAlignment="Center"
                                HorizontalAlignment="Left"/>
                     <uiElements:SoundByteButton HorizontalAlignment="Right"
+                                                IsExtended="True"
                                                 Label="View All" 
                                                 Click="{x:Bind ViewModel.NavigateSoundCloudPlaylists}"
                                                 Glyph="&#xE8A9;"/>
@@ -232,12 +238,13 @@
                 </Grid>
                 
                 <!-- SoundCloud Users Header -->
-                <Grid Margin="10,0,0,10">
+                <Grid Margin="10,20,0,10">
                     <TextBlock Text="SoundCloud Users" 
                                Style="{StaticResource SubTitleStyle}"
                                VerticalAlignment="Center"
                                HorizontalAlignment="Left" />
                     <uiElements:SoundByteButton HorizontalAlignment="Right"
+                                                IsExtended="True"
                                                 Click="{x:Bind ViewModel.NavigateSoundCloudUsers}"
                                                 Label="View All" 
                                                 Glyph="&#xE8A9;"/>

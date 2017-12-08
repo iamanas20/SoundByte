@@ -24,11 +24,30 @@ namespace SoundByte.UWP.UserControls
         public static readonly DependencyProperty GlyphProperty =
             DependencyProperty.Register("Glyph", typeof(string), typeof(SoundByteButton), null);
 
+        public static readonly DependencyProperty IsExtendedProperty =
+            DependencyProperty.Register("IsExtended", typeof(bool), typeof(SoundByteButton), null);
+
+        //ButtonText
+
         public SoundByteButton()
         {
             InitializeComponent();
 
             MainButton.Click += (sender, args) => { Click?.Invoke(sender, args); };
+        }
+
+        /// <summary>
+        /// Should more text be shown
+        /// </summary>
+        public bool IsExtended
+        {
+            get => (bool) GetValue(IsExtendedProperty);
+            set
+            {
+                SetValue(IsExtendedProperty, value);
+
+                ButtonText.Visibility = value ? Visibility.Visible : Visibility.Collapsed;
+            }
         }
 
         /// <summary>

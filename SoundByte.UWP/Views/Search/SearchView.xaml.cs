@@ -47,6 +47,7 @@ namespace SoundByte.UWP.Views.Search
         {
             ViewModel.SearchQuery = e.Parameter != null ? e.Parameter as string : string.Empty;
             DataContext = ViewModel;
+            PageTitle.Text = $"Results for \"{ViewModel.SearchQuery}\"";
 
             // Track Event
             TelemetryService.Instance.TrackPage("Search View");
