@@ -9,8 +9,8 @@
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
     NavigationCacheMode="Enabled"
     Transitions="{StaticResource MainTransition}">
-  
-    <Grid Background="Transparent">
+
+    <Grid Background="{ThemeResource ShellBackground}">
         <VisualStateManager.VisualStateGroups>
 
             <VisualStateGroup x:Name="WindowSize">
@@ -22,7 +22,6 @@
                         <Setter Target="DesktopCommandBar.Visibility" Value="Visible" />
                         <Setter Target="MobileCommandBar.Visibility" Value="Collapsed" />
                         <Setter Target="StackPanel.ItemTemplate" Value="{StaticResource TrackItem}" />
-                        <Setter Target="StackPanel.ItemsPanel" Value="{StaticResource DesktopGridPanel}" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -59,43 +58,38 @@
                              Text="{x:Bind ViewModel.Model.ErrorDescription, Mode=OneWay}"
                              IsLoading="{x:Bind ViewModel.Model.IsLoading, Mode=OneWay}"
                              IsError="{x:Bind ViewModel.Model.IsError, Mode=OneWay}" />
-        
-        <GridView ItemClick="{x:Bind ViewModel.PlayItem, Mode=OneWay}"
+
+        <GridView x:Name="StackPanel"
+                  ItemClick="{x:Bind ViewModel.PlayItem, Mode=OneWay}"
                   ItemsSource="{x:Bind ViewModel.Model, Mode=OneWay}"
+                  ItemTemplate="{StaticResource MobileTrackItem}"
                   ItemContainerStyle="{StaticResource MainGridViewItem}"
-                  x:Name="StackPanel"
-                  VerticalAlignment="Stretch"
+                  Padding="{ThemeResource PagePadding}"
                   SelectionMode="None"
                   IsSwipeEnabled="False"
                   IsItemClickEnabled="True"
-                  Padding="{ThemeResource PagePadding}"
-                  HorizontalAlignment="Stretch"
                   IsMultiSelectCheckBoxEnabled="False"
-                  animations:ReorderGridAnimation.Duration="150"
-                  ItemsPanel="{StaticResource MobileGridPanel}"
-                  ItemTemplate="{StaticResource MobileTrackItem}">
+                  animations:ReorderGridAnimation.Duration="150">
             <GridView.Header>
-                <controls:ScrollHeader TargetListViewBase="{Binding ElementName=StackPanel}" Mode="Fade" >
-                    <StackPanel Canvas.ZIndex="20" Margin="10,0,0,0">
-                        
+                <controls:ScrollHeader TargetListViewBase="{Binding ElementName=StackPanel}" Mode="Fade">
+                    <Grid Padding="10,0,10,15" Margin="0,0,0,10" >
+
                         <TextBlock Text="{x:Bind ViewModel.Title, Mode=OneWay}"
                                    Style="{StaticResource TitleStyle}" />
 
-                        <TextBlock Text="{x:Bind ViewModel.SubTitle, Mode=OneWay}"
-                                   Style="{StaticResource SubTitleStyle}"
-                                   VerticalAlignment="Center"
-                                   HorizontalAlignment="Left" />
-
-                        <StackPanel x:Name="DesktopCommandBar" Visibility="Collapsed" Orientation="Horizontal"
-                                    Margin="0,10,0,20">
+                        <StackPanel x:Name="DesktopCommandBar" 
+                                    Visibility="Collapsed" 
+                                    Orientation="Horizontal"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Bottom">
                             <userControls:SoundByteButton Glyph="&#xE768;" Label="Play All" Click="{x:Bind ViewModel.PlayAllItems, Mode=OneWay}"
-                                                          Margin="0,0,25,0" />
+                                                          Margin="0,0,15,0" />
                             <userControls:SoundByteButton Glyph="&#xE8B1;" Label="Shuffle Play"
-                                                          Click="{x:Bind ViewModel.PlayShuffleItems, Mode=OneWay}" Margin="0,0,25,0" />
+                                                          Click="{x:Bind ViewModel.PlayShuffleItems, Mode=OneWay}" Margin="0,0,15,0" />
                             <userControls:SoundByteButton Glyph="&#xE72C;" Label="Refresh"
-                                                          Click="{x:Bind ViewModel.Model.RefreshItems, Mode=OneWay}" Margin="0,0,25,0" />
+                                                          Click="{x:Bind ViewModel.Model.RefreshItems, Mode=OneWay}" Margin="0,0,15,0" />
                         </StackPanel>
-                    </StackPanel>
+                    </Grid>
                 </controls:ScrollHeader>
             </GridView.Header>
             <interactivity:Interaction.Behaviors>

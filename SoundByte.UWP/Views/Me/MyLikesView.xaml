@@ -60,22 +60,20 @@
                                IsLoading="{x:Bind LikesModel.IsLoading, Mode=OneWay}"
                                IsError="{x:Bind LikesModel.IsError, Mode=OneWay}" />
 
-
-
-        <GridView ItemClick="{x:Bind PlayItem}"
+        <GridView x:Name="StackPanel"
+                  ItemClick="{x:Bind PlayItem}"
                   ItemsSource="{x:Bind LikesModel}"
-                  x:Name="StackPanel"
-                  ItemContainerStyle="{StaticResource MainGridViewItem}"
+                  ItemTemplate="{StaticResource MobileTrackItem}"
+                  ItemContainerStyle="{StaticResource MainGridViewItem}"              
                   Padding="{ThemeResource PagePadding}"
                   SelectionMode="None"
                   IsSwipeEnabled="False"
                   IsItemClickEnabled="True"
                   IsMultiSelectCheckBoxEnabled="False"
-                  animations:ReorderGridAnimation.Duration="150"
-                  ItemTemplate="{StaticResource MobileTrackItem}">
+                  animations:ReorderGridAnimation.Duration="150">
             <GridView.Header>
-                <controls:ScrollHeader TargetListViewBase="{Binding ElementName=StackPanel}" Mode="QuickReturn">
-                    <Grid Padding="10,0,10,15" Margin="0,0,0,10" Background="{ThemeResource ShellBackground}">
+                <controls:ScrollHeader TargetListViewBase="{Binding ElementName=StackPanel}" Mode="Fade">
+                    <Grid Padding="10,0,10,15" Margin="0,0,0,10" >
                         <TextBlock Text="My Likes"
                                    Style="{StaticResource TitleStyle}" />
 

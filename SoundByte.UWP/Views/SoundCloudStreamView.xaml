@@ -6,6 +6,7 @@
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     NavigationCacheMode="Enabled"
     Transitions="{StaticResource MainTransition}">
     <Page.Resources>
@@ -16,9 +17,8 @@
                                     Playlist="{Binding Playlist}" />
         </DataTemplate>
     </Page.Resources>
-    <Grid Background="Transparent" x:Name="RootGrid">
+    <Grid Background="{ThemeResource ShellBackground}" x:Name="RootGrid">
         <VisualStateManager.VisualStateGroups>
-
             <VisualStateGroup x:Name="WindowSize">
                 <VisualState>
                     <VisualState.StateTriggers>
@@ -31,7 +31,6 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
 
-
         <!-- Info Pane for Model -->
         <elements:InfoPane VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
                                Visibility="Collapsed" Canvas.ZIndex="50"
@@ -42,45 +41,44 @@
         
         <!-- Displays the users stream -->
         <GridView x:Name="StreamListView"
+                  ItemClick="{x:Bind ViewModel.NavigateStream}"
                   ItemsSource="{x:Bind Path=ViewModel.StreamItems}"
                   ItemTemplate="{StaticResource StreamItem}"
-                  SelectionMode="None"
+                  ItemContainerStyle="{StaticResource MainGridViewItem}"
                   Padding="{ThemeResource PagePadding}"
+                  SelectionMode="None"
                   IsSwipeEnabled="False"
                   IsItemClickEnabled="True"
-                  ItemClick="{x:Bind ViewModel.NavigateStream}"
-                  ItemContainerStyle="{StaticResource MainGridViewItem}"
-                  ItemsPanel="{StaticResource DesktopGridPanel}"
-                  animations:ReorderGridAnimation.Duration="150"
-                  HorizontalAlignment="Stretch"
-                  VerticalAlignment="Stretch">
+                  IsMultiSelectCheckBoxEnabled="False"                 
+                  animations:ReorderGridAnimation.Duration="150">
             <GridView.Header>
-                <StackPanel Margin="10,0,0,0">
-                    <TextBlock Text="SoundCloud Stream"
-                               Style="{StaticResource TitleStyle}" />
+                <controls:ScrollHeader TargetListViewBase="{Binding ElementName=StreamListView}" Mode="Fade">
+                    <Grid Padding="10,0,10,15" Margin="0,0,0,10" >
+                        <TextBlock Text="SoundCloud"
+                                   Style="{StaticResource TitleStyle}" />
 
-                    <StackPanel x:Name="DesktopCommandBar" Visibility="Collapsed"
-                                Orientation="Horizontal" Margin="0,10,20,10">
-                        <elements:SoundByteButton Glyph="&#xE768;" Label="Play All Tracks"
-                                                  Click="{x:Bind ViewModel.PlayAllStreamTracks}"
-                                                  Margin="0,0,25,0" />
-                        <elements:SoundByteButton Glyph="&#xE8B1;" Label="Shuffle Play Tracks"
-                                                  Click="{x:Bind ViewModel.PlayShuffleStreamTracks}"
-                                                  Margin="0,0,25,0" />
-                        <elements:SoundByteButton Glyph="&#xE72C;" Label="Refresh"
-                                                  Click="{x:Bind ViewModel.StreamItems.RefreshItems}"
-                                                  Margin="0,0,25,0" />
-                    </StackPanel>
-                </StackPanel>
-                
-                
-             
+                        <StackPanel x:Name="DesktopCommandBar" 
+                                    Visibility="Collapsed" 
+                                    Orientation="Horizontal"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Bottom">
+                            <elements:SoundByteButton Glyph="&#xE768;" Label="Play All Tracks"
+                                                      Click="{x:Bind ViewModel.PlayAllStreamTracks}"
+                                                      Margin="0,0,15,0" />
+                            <elements:SoundByteButton Glyph="&#xE8B1;" Label="Shuffle Play Tracks"
+                                                      Click="{x:Bind ViewModel.PlayShuffleStreamTracks}"
+                                                      Margin="0,0,15,0" />
+                            <elements:SoundByteButton Glyph="&#xE72C;" Label="Refresh"
+                                                      Click="{x:Bind ViewModel.StreamItems.RefreshItems}"
+                                                      Margin="0,0,15,0" />
+                        </StackPanel>
+                    </Grid>
+                </controls:ScrollHeader>
             </GridView.Header>
 
             <interactivity:Interaction.Behaviors>
                 <behaviors:FadeHeaderBehavior />
             </interactivity:Interaction.Behaviors>
         </GridView>
-
     </Grid>
 </Page>
