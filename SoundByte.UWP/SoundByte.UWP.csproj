@@ -162,11 +162,11 @@
     <Compile Include="Controls\PlaylistItem.xaml.cs">
       <DependentUpon>PlaylistItem.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\PodcastItem.xaml.cs">
-      <DependentUpon>PodcastItem.xaml</DependentUpon>
+    <Compile Include="Controls\PodcastEpisodeItem.xaml.cs">
+      <DependentUpon>PodcastEpisodeItem.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\PodcastSeriesItem.xaml.cs">
-      <DependentUpon>PodcastSeriesItem.xaml</DependentUpon>
+    <Compile Include="Controls\PodcastShowItem.xaml.cs">
+      <DependentUpon>PodcastShowItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\TrackItem.xaml.cs">
       <DependentUpon>TrackItem.xaml</DependentUpon>
@@ -247,6 +247,7 @@
     </Compile>
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\Generic\PlaylistListViewModel.cs" />
+    <Compile Include="ViewModels\Generic\PodcastShowListViewModel.cs" />
     <Compile Include="ViewModels\Generic\UserListViewModel.cs" />
     <Compile Include="ViewModels\SoundCloudStreamViewModel.cs" />
     <Compile Include="ViewModels\PlaylistViewModel.cs" />
@@ -272,6 +273,9 @@
     </Compile>
     <Compile Include="Views\ExploreView.xaml.cs">
       <DependentUpon>ExploreView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Generic\PodcastShowListView.xaml.cs">
+      <DependentUpon>PodcastShowListView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Setup\AppModeView.xaml.cs">
       <DependentUpon>AppModeView.xaml</DependentUpon>
@@ -363,11 +367,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\PodcastItem.xaml">
+    <Page Include="Controls\PodcastEpisodeItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\PodcastSeriesItem.xaml">
+    <Page Include="Controls\PodcastShowItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -469,6 +473,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ExploreView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Generic\PodcastShowListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

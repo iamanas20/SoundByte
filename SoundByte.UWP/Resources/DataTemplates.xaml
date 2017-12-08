@@ -27,7 +27,11 @@
     <DataTemplate x:Key="PlaylistItem">
         <controls1:PlaylistItem Playlist="{Binding}" />
     </DataTemplate>
-    
+
+    <!-- Template for the podcast show item -->
+    <DataTemplate x:Key="PodcastShowItem">
+        <controls1:PodcastShowItem Podcast="{Binding}" />
+    </DataTemplate>
    
     <!-- Mobile template for the track item -->
     <DataTemplate x:Key="MobileTrackItem">

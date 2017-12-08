@@ -14,9 +14,11 @@ using System;
 using Windows.UI.Popups;
 using Windows.UI.Xaml.Controls;
 using SoundByte.Core;
+using SoundByte.Core.Items;
 using SoundByte.Core.Items.Playlist;
 using SoundByte.Core.Items.Track;
 using SoundByte.Core.Items.User;
+using SoundByte.Core.Sources;
 using SoundByte.Core.Sources.Fanburst;
 using SoundByte.Core.Sources.SoundCloud;
 using SoundByte.Core.Sources.YouTube;
@@ -45,6 +47,9 @@ namespace SoundByte.UWP.ViewModels.Search
 
         public SoundByteCollection<SearchSoundCloudPlaylistSource, BasePlaylist> SearchPlaylists { get; } =
             new SoundByteCollection<SearchSoundCloudPlaylistSource, BasePlaylist>();
+
+        public SoundByteCollection<SearchPodcastSource, PodcastShow> SearchPodcasts { get; } = 
+            new SoundByteCollection<SearchPodcastSource, PodcastShow>();
 
         public SoundByteCollection<SearchSoundCloudUserSource, BaseUser> SearchUsers { get; } =
             new SoundByteCollection<SearchSoundCloudUserSource, BaseUser>();
@@ -82,6 +87,9 @@ namespace SoundByte.UWP.ViewModels.Search
 
                     YouTubeTracks.Source.SearchQuery = value;
                     YouTubeTracks.RefreshItems();
+
+                    SearchPodcasts.Source.SearchQuery = value;
+                    SearchPodcasts.RefreshItems();
                 }
             }
         }
@@ -205,9 +213,13 @@ namespace SoundByte.UWP.ViewModels.Search
             });
         }
 
-        public async void NavigatePodcasts()
+        public void NavigatePodcasts()
         {
-            await new MessageDialog("This feature will come in a future update.", "Coming Soon..").ShowAsync();
+            App.NavigateTo(typeof(PodcastShowListView), new PodcastShowListViewModel.PodcastShowViewModelHolder
+            {
+                PodcastSource = SearchPodcasts.Source,
+                Title = $"Results for \"{SearchQuery}\""
+            });
         }
         #endregion
     }

@@ -177,21 +177,34 @@
                                                 Label="View All" 
                                                 Glyph="&#xE8A9;"/>
                 </Grid>
-                <Grid Height="260"
-                      Margin="0,0,0,0">
-                    <StackPanel VerticalAlignment="Center"
-                                HorizontalAlignment="Center">
-                        <TextBlock Text="What's This?" 
-                                   TextAlignment="Center"
-                                   FontSize="24" 
-                                   Margin="0,0,0,10"
-                                   FontWeight="SemiBold" />
-                        <TextBlock Text="Podcast support is coming soon to SoundByte."
-                                   TextAlignment="Center"
-                        />
-                    </StackPanel>
-
-
+                <Grid Height="260">
+                    <uiElements:InfoPane VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+                                         Visibility="Collapsed" Canvas.ZIndex="50"
+                                         Header="{x:Bind ViewModel.SearchPodcasts.ErrorHeader, Mode=OneWay}"
+                                         Text="{x:Bind ViewModel.SearchPodcasts.ErrorDescription, Mode=OneWay}"
+                                         IsLoading="{x:Bind ViewModel.SearchPodcasts.IsLoading, Mode=OneWay}"
+                                         IsError="{x:Bind ViewModel.SearchPodcasts.IsError, Mode=OneWay}" />
+                    <GridView x:Name="PodcastsView"
+                              Height="280"
+                              ScrollViewer.HorizontalScrollMode="Disabled"
+                              ScrollViewer.VerticalScrollMode="Disabled"
+                              ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                              ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                              ItemsSource="{x:Bind Path=ViewModel.SearchPodcasts, Mode=OneWay}"
+                              animations:ReorderGridAnimation.Duration="150"
+                              ItemTemplate="{StaticResource PodcastShowItem}"
+                              SelectionMode="None"
+                              ItemContainerStyle="{StaticResource MainGridViewItem}"
+                              IsSwipeEnabled="False"
+                              IsItemClickEnabled="True"
+                              IsMultiSelectCheckBoxEnabled="False"
+                              HorizontalAlignment="Stretch" >
+                        <GridView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <ItemsWrapGrid Orientation="Vertical" />
+                            </ItemsPanelTemplate>
+                        </GridView.ItemsPanel>
+                    </GridView>
                 </Grid>
 
                 <!-- SoundCloud Playlists Header -->

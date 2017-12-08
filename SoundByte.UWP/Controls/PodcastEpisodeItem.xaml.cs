@@ -17,9 +17,9 @@ using Windows.UI.Xaml.Navigation;
 
 namespace SoundByte.UWP.Controls
 {
-    public sealed partial class PodcastSeriesItem : UserControl
+    public sealed partial class PodcastEpisodeItem : UserControl
     {
-        public PodcastSeriesItem()
+        public PodcastEpisodeItem()
         {
             this.InitializeComponent();
         }
