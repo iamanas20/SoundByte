@@ -40,7 +40,6 @@ namespace SoundByte.UWP.Controls
             set => SetValue(TrackProperty, value);
         }
 
-
         public TrackItem()
         {
             InitializeComponent();
@@ -106,7 +105,6 @@ namespace SoundByte.UWP.Controls
         private async void Share(object sender, RoutedEventArgs e)
         {
             await NavigationService.Current.CallDialogAsync<ShareDialog>(Track);
-
         }
 
         private async void AddToPlaylist(object sender, RoutedEventArgs e)
@@ -116,8 +114,6 @@ namespace SoundByte.UWP.Controls
 
         private async void OnPointerEntered(object sender, PointerRoutedEventArgs e)
         {
-            FindName("HoverArea");
-
             ShadowPanel.DropShadow.StartAnimation("Offset.Y",
                 ShadowPanel.DropShadow.Compositor.CreateScalarKeyFrameAnimation(null, 10.0f, TimeSpan.FromMilliseconds(250), null));
 
@@ -147,10 +143,7 @@ namespace SoundByte.UWP.Controls
 
             TrackImage.Blur(0, 200).Start();
 
-            if (HoverArea != null)
-                await HoverArea.Fade(0, 200).StartAsync();
-
-            UnloadObject(HoverArea);
+            await HoverArea.Fade(0, 200).StartAsync();
         }
     }
 }

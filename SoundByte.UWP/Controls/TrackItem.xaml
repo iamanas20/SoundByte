@@ -49,7 +49,6 @@
 
                 
                 <Grid x:Name="HoverArea"
-                      x:Load="False"
                       Opacity="0"
                       Background="#66000000"
                       RequestedTheme="Dark"

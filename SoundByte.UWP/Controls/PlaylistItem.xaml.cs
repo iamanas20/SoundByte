@@ -43,8 +43,6 @@ namespace SoundByte.UWP.Controls
 
         private async void OnPointerEntered(object sender, PointerRoutedEventArgs e)
         {
-            FindName("HoverArea");
-
             ShadowPanel.DropShadow.StartAnimation("Offset.Y",
                 ShadowPanel.DropShadow.Compositor.CreateScalarKeyFrameAnimation(null, 10.0f, TimeSpan.FromMilliseconds(250), null));
 
@@ -74,10 +72,7 @@ namespace SoundByte.UWP.Controls
 
             PlaylistImage.Blur(0, 200).Start();
 
-            if (HoverArea != null)
-                await HoverArea.Fade(0, 200).StartAsync();
-
-            UnloadObject(HoverArea);
+            await HoverArea.Fade(0, 200).StartAsync();
         }
     }
 }

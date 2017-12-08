@@ -12,6 +12,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SoundByte.Core.Items.Comment;
@@ -20,6 +21,7 @@ using SoundByte.Core.Services;
 using System.Threading;
 using SoundByte.Core.Converters;
 using System.Xml;
+using SoundByte.Core.Items.Playlist;
 
 namespace SoundByte.Core.Items.Track
 {
@@ -184,13 +186,52 @@ namespace SoundByte.Core.Items.Track
             return new BaseTrack.CommentResponse { Comments = baseCommentList, Token = youTubeComments.NextPageToken };
         }
 
-        public Task<bool> LikeAsync()
+        public async Task<bool> LikeAsync()
         {
-            throw new NotImplementedException();
+            if (!SoundByteV3Service.Current.IsServiceConnected(ServiceType.YouTube))
+                return false;
+
+            // SoundByte YouTube likes are stored in a playlist called "SoundByte Likes". We
+            // must first check to see if this playlist exists, if it does not, we must create it.
+            var userYouTubePlaylists = await SoundByteV3Service.Current.GetAsync<YouTubePlaylist.YouTubePlaylistHolder>(ServiceType.YouTube,
+                "playlists", new Dictionary<string, string>
+                {
+                    { "maxResults", "50"},
+                    { "part", "snippet"},
+                    { "mine", "true"}
+                });
+
+            // See if the SoundByte Playlist exists
+            var hasSoundByteLikesPlaylist =
+                userYouTubePlaylists.Items.FirstOrDefault(x => x.Snippet.Title == "SoundByte Likes") != null;
+
+            if (!hasSoundByteLikesPlaylist)
+            {
+                // Create the json string needed to create the playlist
+                var json = "{'snippet.title':'SoundByte Likes', 'snippet.description':'Used to save your SoundBye likes. Do not delete', 'status.privacyStatus':'private'}";
+
+                try
+                {
+                    var createdPlaylist = SoundByteV3Service.Current.PostAsync<YouTubePlaylist>(ServiceType.YouTube, "playlists", json, new Dictionary<string, string>
+                    {
+                        { "part", "snippet,status"},
+                    });
+                }
+                catch (Exception e)
+                {
+                    return false;
+                }
+            }
+
+            return false;
+
         }
 
-        public Task<bool> UnlikeAsync()
+        public async Task<bool> UnlikeAsync()
         {
+            if (!SoundByteV3Service.Current.IsServiceConnected(ServiceType.YouTube))
+                return false;
+
             throw new NotImplementedException();
         }
 

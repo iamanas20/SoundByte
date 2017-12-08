@@ -130,6 +130,9 @@ namespace SoundByte.Core.Items.Track
         [JsonProperty("user")]
         public SoundCloudUser User { get; set; }
 
+        [JsonProperty("user_favorite")]
+        public bool? IsUserLiked { get; set; }
+
         public BaseTrack AsBaseTrack => ToBaseTrack();
 
         /// <summary>
@@ -156,6 +159,7 @@ namespace SoundByte.Core.Items.Track
                 ViewCount = PlaybackCount, 
                 CommentCount = CommentCount,
                 Genre = Genre,
+                IsLiked = IsUserLiked.HasValue && IsUserLiked.Value,
                 User = User.ToBaseUser()
             };
         }
@@ -222,8 +226,6 @@ namespace SoundByte.Core.Items.Track
             /// </summary>
             [JsonProperty("next_href")]
             public string NextList { get; set; }
-        }
-
-       
+        }      
     }
 }
