@@ -3,7 +3,7 @@
 SoundByte
 </h1>
 
-<img src="UWP_AppPreview.png" alt="SoundByte Screenshot">
+<img src="UWP_AppPreview_v17_12b6.png" alt="SoundByte Screenshot (v17.12 Build 6)">
 
 <h4 align="center">A <a href="https://soundcloud.com/" target="_blank">SoundCloud</a> &amp; <a href="https://fanburst.com/" target="_blank">Fanburst</a> Client for Windows 10 &amp; Xbox One.</h4>
 
