@@ -1,5 +1,5 @@
 ﻿<UserControl
-    x:Class="SoundByte.UWP.UserControls.InfoPane"
+    x:Class="SoundByte.UWP.Controls.InfoPane"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <!-- Center and stack the content vertically -->

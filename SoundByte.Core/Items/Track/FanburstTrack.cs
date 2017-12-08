@@ -111,5 +111,15 @@ namespace SoundByte.Core.Items.Track
             // Fanburst does not support comments
             return await Task.Run(() => new BaseTrack.CommentResponse { Comments = null, Token = "" });
         }
+
+        public Task<bool> LikeAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> UnlikeAsync()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

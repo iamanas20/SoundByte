@@ -190,6 +190,16 @@ namespace SoundByte.Core.Items.Track
             return new BaseTrack.CommentResponse {Comments = baseCommentList, Token = nextToken};
         }
 
+        public Task<bool> LikeAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> UnlikeAsync()
+        {
+            throw new NotImplementedException();
+        }
+
         [JsonObject]
         private class CommentListHolder
         {

@@ -3,7 +3,8 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:sui="using:SoundByte.UWP.UserControls"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:stateTriggers="using:SoundByte.UWP.StateTriggers">
+    xmlns:stateTriggers="using:SoundByte.UWP.StateTriggers"
+    xmlns:controls="using:SoundByte.UWP.Controls">
 
     <Grid Background="{ThemeResource ShellBackground}">
         <VisualStateManager.VisualStateGroups>
@@ -232,7 +233,7 @@
                 Canvas.ZIndex="39" />
         
         <!-- Desktop Now Playing Bar -->
-        <sui:NowPlayingBar x:Name="NowPlaying"
+        <controls:NowPlayingBar x:Name="NowPlaying"
                            VerticalAlignment="Bottom"
                            Canvas.ZIndex="40"
                            Visibility="Collapsed"

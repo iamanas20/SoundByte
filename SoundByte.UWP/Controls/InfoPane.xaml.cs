@@ -12,7 +12,7 @@
 
 using Windows.UI.Xaml;
 
-namespace SoundByte.UWP.UserControls
+namespace SoundByte.UWP.Controls
 {
     /// <summary>
     ///     This control is used to show friendly messages

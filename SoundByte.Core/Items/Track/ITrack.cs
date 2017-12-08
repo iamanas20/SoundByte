@@ -38,5 +38,17 @@ namespace SoundByte.Core.Items.Track
         /// <param name="cancellationTokenSource"></param>
         /// <returns>A list of base comments and the next token</returns>
         Task<BaseTrack.CommentResponse> GetCommentsAsync(int count, string token, CancellationTokenSource cancellationTokenSource = null);
+
+        /// <summary>
+        /// Likes a track.
+        /// </summary>
+        /// <returns>True is the track is liked, false if not.</returns>
+        Task<bool> LikeAsync();
+
+        /// <summary>
+        /// Unlikes a track.
+        /// </summary>
+        /// <returns>True if the track is not liked, false if it is.</returns>
+        Task<bool> UnlikeAsync();
     }
 }

@@ -233,17 +233,17 @@
     <Compile Include="Services\TelemetryService.cs" />
     <Compile Include="Sources\HistorySource.cs" />
     <Compile Include="StateTriggers\DeviceStateTrigger.cs" />
-    <Compile Include="UserControls\NowPlayingBar.xaml.cs">
+    <Compile Include="Controls\NowPlayingBar.xaml.cs">
       <DependentUpon>NowPlayingBar.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\AppButton.xaml.cs">
       <DependentUpon>AppButton.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\InfoPane.xaml.cs">
+    <Compile Include="Controls\InfoPane.xaml.cs">
       <DependentUpon>InfoPane.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\SoundByteItem.xaml.cs">
-      <DependentUpon>SoundByteItem.xaml</DependentUpon>
+    <Compile Include="Controls\GroupedItem.xaml.cs">
+      <DependentUpon>GroupedItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\Generic\PlaylistListViewModel.cs" />
@@ -436,7 +436,7 @@
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
-    <Page Include="UserControls\NowPlayingBar.xaml">
+    <Page Include="Controls\NowPlayingBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -444,11 +444,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\InfoPane.xaml">
+    <Page Include="Controls\InfoPane.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\SoundByteItem.xaml">
+    <Page Include="Controls\GroupedItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

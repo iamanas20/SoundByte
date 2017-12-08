@@ -103,7 +103,7 @@
 
     <!-- User Item -->
     <DataTemplate x:Key="UserItem">
-        <usercontrols:SoundByteItem ItemType="User" 
+        <controls1:GroupedItem ItemType="User" 
                                     User="{Binding}"/>
     </DataTemplate>
 

@@ -184,6 +184,16 @@ namespace SoundByte.Core.Items.Track
             return new BaseTrack.CommentResponse { Comments = baseCommentList, Token = youTubeComments.NextPageToken };
         }
 
+        public Task<bool> LikeAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> UnlikeAsync()
+        {
+            throw new NotImplementedException();
+        }
+
         [JsonObject]
         public class YouTubeCommentHolder
         {

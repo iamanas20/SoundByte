@@ -18,11 +18,10 @@ using Windows.UI.Xaml;
 using AudioVisualizer;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Geometry;
-using SoundByte.Core.Items.Track;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.Views;
 
-namespace SoundByte.UWP.UserControls
+namespace SoundByte.UWP.Controls
 {
     public sealed partial class NowPlayingBar
     {

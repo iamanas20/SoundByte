@@ -172,7 +172,7 @@
                 </Grid>
 
                 <Grid Height="260" Padding="{ThemeResource PagePadding}" Margin="-10,0,0,0">
-                    <uiElements:InfoPane VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+                    <controls:InfoPane VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
                                          Visibility="Collapsed" Canvas.ZIndex="50"
                                          Header="{x:Bind ExploreTracks.ErrorHeader, Mode=OneWay}"
                                          Text="{x:Bind ExploreTracks.ErrorDescription, Mode=OneWay}"
@@ -215,7 +215,7 @@
                 </Grid>
 
                 <Grid Height="260" Padding="{ThemeResource PagePadding}" Margin="-10,0,0,0">
-                    <uiElements:InfoPane VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+                    <controls:InfoPane VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
                                          Visibility="Collapsed" Canvas.ZIndex="50"
                                          Header="{x:Bind YouTubeTracks.ErrorHeader, Mode=OneWay}"
                                          Text="{x:Bind YouTubeTracks.ErrorDescription, Mode=OneWay}"
@@ -257,7 +257,7 @@
                 </Grid>
 
                 <Grid Height="260" Padding="{ThemeResource PagePadding}" Margin="-10,0,0,0">
-                    <uiElements:InfoPane VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+                    <controls:InfoPane VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
                                          Visibility="Collapsed" Canvas.ZIndex="50"
                                          Header="{x:Bind FanburstTracks.ErrorHeader, Mode=OneWay}"
                                          Text="{x:Bind FanburstTracks.ErrorDescription, Mode=OneWay}"

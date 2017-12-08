@@ -12,22 +12,22 @@
 
 using System;
 using Windows.UI;
-using SoundByte.Core;
-using SoundByte.Core.Items.Playlist;
-using SoundByte.Core.Items.Track;
-using SoundByte.Core.Items.User;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Input;
 using Microsoft.Toolkit.Uwp.UI.Animations;
 using Microsoft.Toolkit.Uwp.UI.Controls;
+using SoundByte.Core;
+using SoundByte.Core.Items.Playlist;
+using SoundByte.Core.Items.Track;
+using SoundByte.Core.Items.User;
 using UICompositionAnimations.Composition;
 
-namespace SoundByte.UWP.UserControls
+namespace SoundByte.UWP.Controls
 {
-    public sealed partial class SoundByteItem
+    public sealed partial class GroupedItem
     {
         public static readonly DependencyProperty ItemTypeProperty =
-           DependencyProperty.Register("ItemType", typeof(ItemType), typeof(SoundByteItem), null);
+           DependencyProperty.Register("ItemType", typeof(ItemType), typeof(GroupedItem), null);
 
         /// <summary>
         /// The type of item this control should display
@@ -47,7 +47,7 @@ namespace SoundByte.UWP.UserControls
         }
 
         public static readonly DependencyProperty UserProperty =
-           DependencyProperty.Register("User", typeof(BaseUser), typeof(SoundByteItem), null);
+           DependencyProperty.Register("User", typeof(BaseUser), typeof(GroupedItem), null);
 
         /// <summary>
         /// User Item
@@ -59,7 +59,7 @@ namespace SoundByte.UWP.UserControls
         }
 
         public static readonly DependencyProperty TrackProperty =
-           DependencyProperty.Register("Track", typeof(BaseTrack), typeof(SoundByteItem), null);
+           DependencyProperty.Register("Track", typeof(BaseTrack), typeof(GroupedItem), null);
 
         /// <summary>
         /// Track item
@@ -71,7 +71,7 @@ namespace SoundByte.UWP.UserControls
         }
 
         public static readonly DependencyProperty PlaylistProperty =
-           DependencyProperty.Register("Playlist", typeof(BasePlaylist), typeof(SoundByteItem), null);
+           DependencyProperty.Register("Playlist", typeof(BasePlaylist), typeof(GroupedItem), null);
 
         /// <summary>
         /// Playlist item
@@ -82,7 +82,7 @@ namespace SoundByte.UWP.UserControls
             set => SetValue(PlaylistProperty, value);
         }
 
-        public SoundByteItem()
+        public GroupedItem()
         {
             InitializeComponent();
 

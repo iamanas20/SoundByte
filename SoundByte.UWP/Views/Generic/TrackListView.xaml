@@ -53,7 +53,7 @@
             </CommandBar.PrimaryCommands>
         </CommandBar>
 
-        <userControls:InfoPane VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+        <controls1:InfoPane VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
                              Visibility="Collapsed" Canvas.ZIndex="50"
                              Header="{x:Bind ViewModel.Model.ErrorHeader, Mode=OneWay}"
                              Text="{x:Bind ViewModel.Model.ErrorDescription, Mode=OneWay}"

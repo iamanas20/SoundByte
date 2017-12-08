@@ -68,7 +68,10 @@ namespace SoundByte.Core.Items.Track
 
         public string Genre { get; set; }
 
+        public bool IsLiked { get; set; }
+
         public BaseUser User { get; set; }
+
         public async Task<CommentResponse> GetCommentsAsync(int count, string token, CancellationTokenSource cancellationTokenSource = null)
         {
             // Always at least 10 comments.
@@ -87,6 +90,60 @@ namespace SoundByte.Core.Items.Track
                 default:
                     throw new ArgumentOutOfRangeException();
             }   
+        }
+
+        public async void Like()
+        {
+            // We have already liked the track
+            if (IsLiked)
+                return;
+
+            bool hasLiked;
+
+            switch (ServiceType)
+            {
+                case ServiceType.SoundCloud:
+                case ServiceType.SoundCloudV2:
+                     hasLiked = await new SoundCloudTrack(Id).LikeAsync();
+                    break;
+                case ServiceType.Fanburst:
+                    hasLiked = await new FanburstTrack(Id).LikeAsync();
+                    break;
+                case ServiceType.YouTube:
+                    hasLiked = await new YouTubeTrack(Id).LikeAsync();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            IsLiked = hasLiked;
+        }
+
+        public async void Unlike()
+        {
+            // We have already unliked the track
+            if (!IsLiked)
+                return;
+
+            bool hasUnliked;
+
+            switch (ServiceType)
+            {
+                case ServiceType.SoundCloud:
+                case ServiceType.SoundCloudV2:
+                    hasUnliked = await new SoundCloudTrack(Id).UnlikeAsync();
+                    break;
+                case ServiceType.Fanburst:
+                    hasUnliked = await new FanburstTrack(Id).UnlikeAsync();
+                    break;
+                case ServiceType.YouTube:
+                    hasUnliked = await new YouTubeTrack(Id).UnlikeAsync();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            IsLiked = !hasUnliked;
         }
 
         public class CommentResponse
