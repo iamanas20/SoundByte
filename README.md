@@ -5,7 +5,9 @@ SoundByte
 
 <img src="UWP_AppPreview_v17_12b6.png" alt="SoundByte Screenshot (v17.12 Build 6)">
 
-<h4 align="center">A <a href="https://soundcloud.com/" target="_blank">SoundCloud</a> &amp; <a href="https://fanburst.com/" target="_blank">Fanburst</a> Client for Windows 10 &amp; Xbox One.</h4>
+<h4 align="center">Music client for Windows 10 &amp; Xbox One (with other platforms in development) supporting SoundCloud, YouTube, Fanburst, Local Playback* and Podcasts*.</h4>
+
+<p>*Features still in development.</p>
 
 <p align="center">
     <a href="https://github.com/DominicMaas/SoundByte/issues">
@@ -17,7 +19,7 @@ SoundByte
 </p>
 
 ## Introduction
-SoundByte is a cross platform music client that intergrates with the SoundCloud, Fanburst and YouTube APIs allowing a user to listen to these platforms natively. Currently SoundByte supports UWP (Windows 10) and is published through the Windows Store for free.
+SoundByte is a Windows 10 and Xbox One app (with other platforms in development) that intergrates with the SoundCloud, Fanburst and YouTube APIs allowing a user to listen to these platforms natively. SoundByte will also support local playback and podcasts in the future. Currently SoundByte supports UWP (Windows 10) and is published through the Windows Store for free.
 
 Please Note: SoundByte source code is to only be used for educational purposes. Distrubution of SoundByte source code in any form outside this repository is forbidden.
 
