@@ -127,9 +127,8 @@ namespace SoundByte.UWP
                     return;
 
                 vault.Add(new PasswordCredential(vaultName, "Token", token.AccessToken));
-                vault.Add(new PasswordCredential(vaultName, "RefreshToken", token.RefreshToken));
-                vault.Add(new PasswordCredential(vaultName, "ExpireTime", token.ExpireTime));
-                vault.Add(new PasswordCredential(vaultName, "Scope", token.Scope));
+                vault.Add(new PasswordCredential(vaultName, "RefreshToken", token?.RefreshToken));
+                vault.Add(new PasswordCredential(vaultName, "ExpireTime", token?.ExpireTime));
 
                 // Track the connect event
                 TelemetryService.Instance.TrackEvent("Service Connected",
@@ -207,7 +206,6 @@ namespace SoundByte.UWP
                         AccessToken = vault.Retrieve(vaultName, "Token")?.Password,
                         RefreshToken = vault.Retrieve(vaultName, "RefreshToken")?.Password,
                         ExpireTime = vault.Retrieve(vaultName, "ExpireTime")?.Password,
-                        Scope = vault.Retrieve(vaultName, "Scope")?.Password,
                         ServiceType = service
                     };
                 }               

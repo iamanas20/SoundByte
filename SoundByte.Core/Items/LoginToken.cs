@@ -47,12 +47,6 @@ namespace SoundByte.Core.Items
         public string RefreshToken { get; set; }
 
         /// <summary>
-        ///     What scope we have
-        /// </summary>
-        [JsonProperty("scope")]
-        public string Scope { get; set; }
-
-        /// <summary>
         /// Used for remote login
         /// </summary>
         public string LoginCode { get; set; }
