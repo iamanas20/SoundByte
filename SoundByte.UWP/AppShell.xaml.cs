@@ -183,6 +183,9 @@ namespace SoundByte.UWP
                     // Handle donation logic
                     await MonitizeService.Instance.InitProductInfoAsync();
 
+                    // Load logged in user objects
+                    await SoundByteV3Service.Current.InitUsersAsync();
+
                     // Register notifications
                     //   var engagementManager = StoreServicesEngagementManager.GetDefault();
                     //   await engagementManager.RegisterNotificationChannelAsync();
@@ -262,7 +265,6 @@ namespace SoundByte.UWP
         }
 
         #region Protocol
-
         public async Task HandleProtocolAsync(string path)
         {
             LoggingService.Log(LoggingService.LogType.Debug, "Performing protocol work using path of " + path);
@@ -392,7 +394,6 @@ namespace SoundByte.UWP
                 RootFrame.Navigate(typeof(ExploreView));
             }
         }
-
         #endregion
 
         private void ShellFrame_Navigated(object sender, NavigationEventArgs e)

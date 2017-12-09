@@ -108,6 +108,42 @@ namespace SoundByte.Core.Services
 
             _isLoaded = true;
         }
+
+        /// <summary>
+        /// Init logged in user objects. This should be called in the background after the app
+        /// has started.
+        /// </summary>
+        /// <returns></returns>
+        public async Task InitUsersAsync()
+        {
+            foreach (var serviceSecret in ServiceSecrets)
+            {
+                // Don't run if the user has not logged in
+                if (serviceSecret.UserToken == null) continue;
+
+                try
+                {
+                    switch (serviceSecret.Service)
+                    {
+                        case ServiceType.Fanburst:
+                            serviceSecret.CurrentUser = (await GetAsync<FanburstUser>(ServiceType.Fanburst, "/me").ConfigureAwait(false)).ToBaseUser();
+                            break;
+                        case ServiceType.SoundCloud:
+                        case ServiceType.SoundCloudV2:
+                            serviceSecret.CurrentUser = (await GetAsync<SoundCloudUser>(ServiceType.SoundCloud, "/me").ConfigureAwait(false)).ToBaseUser();
+                            break;
+                        case ServiceType.YouTube:
+                            // Do this later
+                            break;
+                    }
+                }
+                catch
+                {
+                    // ignored
+                }
+            }
+        }
+
         #endregion
 
         #region Service Methods
