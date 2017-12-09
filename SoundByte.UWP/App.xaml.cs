@@ -105,20 +105,31 @@ namespace SoundByte.UWP
                 var vault = new PasswordVault();
 
                 // Add the password to the vault so we can access it when restarting the app
+                string vaultName;
                 switch (type)
                 {
                     case ServiceType.SoundCloud:
                     case ServiceType.SoundCloudV2:
-                        vault.Add(new PasswordCredential("SoundByte.SoundCloud", "Token", token.AccessToken));
-                        vault.Add(new PasswordCredential("SoundByte.SoundCloud", "Scope", token.Scope));
+                        vaultName = "SoundByte.SoundCloud";
                         break;
                     case ServiceType.Fanburst:
-                        vault.Add(new PasswordCredential("SoundByte.FanBurst", "Token", token.AccessToken));
+                        vaultName = "SoundByte.FanBurst";
                         break;
                     case ServiceType.YouTube:
-                        vault.Add(new PasswordCredential("SoundByte.YouTube", "Token", token.AccessToken));
+                        vaultName = "SoundByte.YouTube";
+                        break;
+                    default:
+                        vaultName = string.Empty;
                         break;
                 }
+
+                if (string.IsNullOrEmpty(vaultName))
+                    return;
+
+                vault.Add(new PasswordCredential(vaultName, "Token", token.AccessToken));
+                vault.Add(new PasswordCredential(vaultName, "RefreshToken", token.RefreshToken));
+                vault.Add(new PasswordCredential(vaultName, "ExpireTime", token.ExpireTime));
+                vault.Add(new PasswordCredential(vaultName, "Scope", token.Scope));
 
                 // Track the connect event
                 TelemetryService.Instance.TrackEvent("Service Connected",
@@ -180,48 +191,41 @@ namespace SoundByte.UWP
             };
         }
 
-        private void InitV3Service()
+        private LoginToken GetLoginTokenFromVault(string vaultName, ServiceType service)
         {
             // Get the password vault
             var vault = new PasswordVault();
 
-            LoginToken soundCloudToken = null;
-            LoginToken fanburstToken = null;
-            LoginToken youTubeToken = null;
-
             try
             {
-                var soundCloudResource = vault.FindAllByResource("SoundByte.SoundCloud");
+                var soundCloudResource = vault.FindAllByResource(vaultName);
+
                 if (soundCloudResource != null)
-                    soundCloudToken = new LoginToken { AccessToken = vault.Retrieve("SoundByte.SoundCloud", "Token").Password };
+                {
+                    return new LoginToken
+                    {
+                        AccessToken = vault.Retrieve(vaultName, "Token")?.Password,
+                        RefreshToken = vault.Retrieve(vaultName, "RefreshToken")?.Password,
+                        ExpireTime = vault.Retrieve(vaultName, "ExpireTime")?.Password,
+                        Scope = vault.Retrieve(vaultName, "Scope")?.Password,
+                        ServiceType = service
+                    };
+                }               
             }
             catch
             {
-                // ignored
+                return null;
             }
 
-            try
-            {
-                var fanburstResource = vault.FindAllByResource("SoundByte.FanBurst");
-                if (fanburstResource != null)
-                    fanburstToken = new LoginToken { AccessToken = vault.Retrieve("SoundByte.FanBurst", "Token").Password };
-            }
-            catch
-            {
-                // ignored
-            }
+            return null;
+        }
 
-            try
-            {
-                var youTubeResource = vault.FindAllByResource("SoundByte.YouTube");
-                if (youTubeResource != null)
-                    youTubeToken = new LoginToken { AccessToken = vault.Retrieve("SoundByte.YouTube", "Token").Password };
-            }
-            catch
-            {
-                // ignored
-            }
-
+        private void InitV3Service()
+        {
+            var soundCloudToken = GetLoginTokenFromVault("SoundByte.SoundCloud", ServiceType.SoundCloud);
+            var fanburstToken = GetLoginTokenFromVault("SoundByte.FanBurst", ServiceType.Fanburst);
+            var youTubeToken = GetLoginTokenFromVault("SoundByte.YouTube", ServiceType.YouTube);
+       
             var secretList = new List<ServiceSecret>
             {
                 new ServiceSecret
