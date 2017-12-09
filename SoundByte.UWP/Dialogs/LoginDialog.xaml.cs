@@ -11,23 +11,17 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using Windows.ApplicationModel;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Microsoft.Toolkit.Uwp.Helpers;
-using Newtonsoft.Json;
 using SoundByte.Core;
-using SoundByte.Core.Items;
+using SoundByte.Core.Exceptions;
+using SoundByte.Core.Helpers;
 using SoundByte.Core.Services;
 using SoundByte.UWP.Assets;
 using SoundByte.UWP.Services;
+using QueryParameterCollection = Microsoft.Toolkit.Uwp.Helpers.QueryParameterCollection;
 
 namespace SoundByte.UWP.Dialogs
 {
@@ -79,7 +73,7 @@ namespace SoundByte.UWP.Dialogs
                 case ServiceType.SoundCloud:
                 case ServiceType.SoundCloudV2:
                     connectUri =
-                        $"https://soundcloud.com/connect?scope=non-expiring&client_id={AppKeys.SoundCloudClientId}&response_type=code&display=popup&redirect_uri={_appCallback}&state={_stateVerification}";
+                        $"https://soundcloud.com/connect?scope=*&client_id={AppKeys.SoundCloudClientId}&response_type=code&display=popup&redirect_uri={_appCallback}&state={_stateVerification}";
                     break;
                 case ServiceType.Fanburst:
                     connectUri =
@@ -96,19 +90,6 @@ namespace SoundByte.UWP.Dialogs
             // Show the web view and navigate to the connect URI
             LoginWebView.Visibility = Visibility.Visible;
             LoginWebView.Navigate(new Uri(connectUri));
-        }
-
-        [JsonObject]
-        class SoundByteAuthHolder
-        {
-            [JsonProperty("successful")]
-            public bool IsSuccess { get; set; }
-
-            [JsonProperty("error_message")]
-            public string ErrorMessage { get; set; }
-
-            [JsonProperty("login_token")]
-            public LoginToken Token { get; set; }
         }
 
         private async void LoginWebView_OnNavigationStarting(WebView sender, WebViewNavigationStartingEventArgs eventArgs)
@@ -167,102 +148,48 @@ namespace SoundByte.UWP.Dialogs
 
                 var code = parser.FirstOrDefault(x => x.Key == "code").Value;
 
-                // Create a http client to get the token
-                using (var httpClient = new HttpClient(new HttpClientHandler
+                try
                 {
-                    AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip
-                }))
-                {
-                    // Set the user agent string
-                    httpClient.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("SoundByte",
-                        Package.Current.Id.Version.Major + "." + Package.Current.Id.Version.Minor + "." +
-                        Package.Current.Id.Version.Build));
+                    var loginToken = await AuthorizationHelpers.GetAuthTokenAsync(_loginService.ToString(), code);
 
-                    var encodedContent = new FormUrlEncodedContent(new Dictionary<string, string>
+                    if (!_isRemoteConnect)
                     {
-                        { "service", _loginService.ToString().ToLower() },
-                        { "code", code }
-                    });
-
-                    try
-                    {
-                        // Post to the the respected API
-                        using (var postQuery = await httpClient.PostAsync("https://soundbyte.gridentertainment.net/api/v1/app/auth", encodedContent))
-                        {
-                            postQuery.EnsureSuccessStatusCode();
-
-                            // Get the stream
-                            using (var stream = await postQuery.Content.ReadAsStreamAsync())
-                            {
-                                // Read the stream
-                                using (var streamReader = new StreamReader(stream))
-                                {
-                                    // Get the text from the stream
-                                    using (var textReader = new JsonTextReader(streamReader))
-                                    {
-                                        // Used to get the data from JSON
-                                        var serializer = new JsonSerializer
-                                        {
-                                            NullValueHandling = NullValueHandling.Ignore
-                                        };
-
-                                        // Get the class from the json
-                                        var response = serializer.Deserialize<SoundByteAuthHolder>(textReader);
-
-                                        // Error happened, tell the user
-                                        if (!response.IsSuccess)
-                                        {
-                                            // Display the error to the user
-                                            await new MessageDialog("Token Error. Try again later.\n" + response.ErrorMessage, "Sign in Error").ShowAsync();
-
-                                            // Close
-                                            Hide();
-                                            return;
-                                        }
-
-                                        if (!_isRemoteConnect)
-                                        {
-                                            // Connect the service
-                                            SoundByteV3Service.Current.ConnectService(_loginService, response.Token);
-
-                                            // Close
-                                            Hide();
-                                        }
-                                        else
-                                        {
-                                            LoadingSection.Visibility = Visibility.Visible;
-
-                                            var loginToken = response;
-                                            loginToken.Token.LoginCode = _loginCode;
-                                            loginToken.Token.ServiceType = _loginService;
-
-                                            var serviceResponse = await BackendService.Instance.LoginSendInfoAsync(loginToken.Token);
-
-                                            if (string.IsNullOrEmpty(serviceResponse))
-                                            {
-                                                // Close
-                                                Hide();
-                                            }
-                                            else
-                                            {
-                                                await new MessageDialog("Could not connect to your Xbox One. Please check that the codes match and try again.\n\n" + serviceResponse, "Xbox Connect Error").ShowAsync();
-                                                // Close
-                                                Hide();
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        // Display the error to the user
-                        await new MessageDialog("Token Error. Try again later.\n" + ex.Message, "Sign in Error").ShowAsync();
+                        // Connect the service
+                        SoundByteV3Service.Current.ConnectService(_loginService, loginToken);
 
                         // Close
                         Hide();
                     }
+                    else
+                    {
+                        LoadingSection.Visibility = Visibility.Visible;
+
+                        loginToken.LoginCode = _loginCode;
+                        loginToken.ServiceType = _loginService;
+
+                        var serviceResponse = await BackendService.Instance.LoginSendInfoAsync(loginToken);
+
+                        if (string.IsNullOrEmpty(serviceResponse))
+                        {
+                            // Close
+                            Hide();
+                        }
+                        else
+                        {
+                            await new MessageDialog("Could not connect to your Xbox One. Please check that the codes match and try again.\n\n" + serviceResponse, 
+                                "Xbox Connect Error").ShowAsync();
+                            // Close
+                            Hide();
+                        }
+                    }
+                }
+                catch (SoundByteException ex)
+                {
+                    // Display the error to the user
+                    await new MessageDialog(ex.ErrorDescription, ex.ErrorTitle).ShowAsync();
+
+                    // Close
+                    Hide();
                 }
             }
         }
