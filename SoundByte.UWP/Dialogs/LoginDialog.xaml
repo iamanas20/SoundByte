@@ -18,7 +18,7 @@
 
 
         <Grid x:Name="LoadingSection" Canvas.ZIndex="10" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
-              Visibility="Collapsed" Background="Transparent">
+              Visibility="Collapsed" Background="White">
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                 <ProgressRing IsActive="True" Width="80" Height="80" />
                 <TextBlock TextAlignment="Center" Text="Loading..." FontSize="28" FontWeight="SemiBold"
