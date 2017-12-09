@@ -33,11 +33,6 @@ namespace SoundByte.Core.Items
         public string ClientId { get; set; }
 
         /// <summary>
-        /// Client secret used to access private resources
-        /// </summary>
-        public string ClientSecret { get; set; }
-
-        /// <summary>
         /// The logged in users token
         /// </summary>
         [CanBeNull]

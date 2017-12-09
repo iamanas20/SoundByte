@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using Windows.ApplicationModel;
@@ -97,6 +98,19 @@ namespace SoundByte.UWP.Dialogs
             LoginWebView.Navigate(new Uri(connectUri));
         }
 
+        [JsonObject]
+        class SoundByteAuthHolder
+        {
+            [JsonProperty("successful")]
+            public bool IsSuccess { get; set; }
+
+            [JsonProperty("error_message")]
+            public string ErrorMessage { get; set; }
+
+            [JsonProperty("login_token")]
+            public LoginToken Token { get; set; }
+        }
+
         private async void LoginWebView_OnNavigationStarting(WebView sender, WebViewNavigationStartingEventArgs eventArgs)
         {
             if (eventArgs.Uri.Host == "localhost")
@@ -154,82 +168,26 @@ namespace SoundByte.UWP.Dialogs
                 var code = parser.FirstOrDefault(x => x.Key == "code").Value;
 
                 // Create a http client to get the token
-                using (var httpClient = new HttpClient())
+                using (var httpClient = new HttpClient(new HttpClientHandler
+                {
+                    AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip
+                }))
                 {
                     // Set the user agent string
                     httpClient.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("SoundByte",
                         Package.Current.Id.Version.Major + "." + Package.Current.Id.Version.Minor + "." +
                         Package.Current.Id.Version.Build));
 
-                    // Get the correct client ID
-                    string clientId;
-                    switch (_loginService)
+                    var encodedContent = new FormUrlEncodedContent(new Dictionary<string, string>
                     {
-                        case ServiceType.SoundCloud:
-                        case ServiceType.SoundCloudV2:
-                            clientId = AppKeys.SoundCloudClientId;
-                            break;
-                        case ServiceType.Fanburst:
-                            clientId = AppKeys.FanburstClientId;
-                            break;
-                        case ServiceType.YouTube:
-                            clientId = AppKeys.YouTubeLoginClientId;
-                            break;
-                        default:
-                            throw new ArgumentOutOfRangeException();
-                    }
-
-                    // Get the correct client secret
-                    string clientSecret;
-                    switch (_loginService)
-                    {
-                        case ServiceType.SoundCloud:
-                        case ServiceType.SoundCloudV2:
-                            clientSecret = AppKeys.SoundCloudClientSecret;
-                            break;
-                        case ServiceType.Fanburst:
-                            clientSecret = AppKeys.FanburstClientSecret;
-                            break;
-                        case ServiceType.YouTube:
-                            clientSecret = "";
-                            break;
-                        default:
-                            throw new ArgumentOutOfRangeException();
-                    }
-
-                    // Get all the params
-                    var parameters = new Dictionary<string, string>
-                    {
-                        {"client_id", clientId },
-                        { "client_secret", clientSecret },
-                        { "grant_type", "authorization_code" },
-                        { "redirect_uri", _appCallback },
+                        { "service", _loginService.ToString().ToLower() },
                         { "code", code }
-                    };
-
-                    var encodedContent = new FormUrlEncodedContent(parameters);
-
-                    string postUrl;
-                    switch (_loginService)
-                    {
-                        case ServiceType.SoundCloud:
-                        case ServiceType.SoundCloudV2:
-                            postUrl = "https://api.soundcloud.com/oauth2/token";
-                            break;
-                        case ServiceType.Fanburst:
-                            postUrl = "https://fanburst.com/oauth/token";
-                            break;
-                        case ServiceType.YouTube:
-                            postUrl = "https://www.googleapis.com/oauth2/v4/token";
-                            break;
-                        default:
-                            throw new ArgumentOutOfRangeException();
-                    }
+                    });
 
                     try
                     {
                         // Post to the the respected API
-                        using (var postQuery = await httpClient.PostAsync(postUrl, encodedContent))
+                        using (var postQuery = await httpClient.PostAsync("https://soundbyte.gridentertainment.net/api/v1/app/auth", encodedContent))
                         {
                             postQuery.EnsureSuccessStatusCode();
 
@@ -249,12 +207,23 @@ namespace SoundByte.UWP.Dialogs
                                         };
 
                                         // Get the class from the json
-                                        var response = serializer.Deserialize<LoginToken>(textReader);
+                                        var response = serializer.Deserialize<SoundByteAuthHolder>(textReader);
+
+                                        // Error happened, tell the user
+                                        if (!response.IsSuccess)
+                                        {
+                                            // Display the error to the user
+                                            await new MessageDialog("Token Error. Try again later.\n" + response.ErrorMessage, "Sign in Error").ShowAsync();
+
+                                            // Close
+                                            Hide();
+                                            return;
+                                        }
 
                                         if (!_isRemoteConnect)
                                         {
                                             // Connect the service
-                                            SoundByteV3Service.Current.ConnectService(_loginService, response);
+                                            SoundByteV3Service.Current.ConnectService(_loginService, response.Token);
 
                                             // Close
                                             Hide();
@@ -264,10 +233,10 @@ namespace SoundByte.UWP.Dialogs
                                             LoadingSection.Visibility = Visibility.Visible;
 
                                             var loginToken = response;
-                                            loginToken.LoginCode = _loginCode;
-                                            loginToken.ServiceType = _loginService;
+                                            loginToken.Token.LoginCode = _loginCode;
+                                            loginToken.Token.ServiceType = _loginService;
 
-                                            var serviceResponse = await BackendService.Instance.LoginSendInfoAsync(loginToken);
+                                            var serviceResponse = await BackendService.Instance.LoginSendInfoAsync(loginToken.Token);
 
                                             if (string.IsNullOrEmpty(serviceResponse))
                                             {

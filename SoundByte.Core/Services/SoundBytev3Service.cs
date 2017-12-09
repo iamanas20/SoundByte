@@ -269,7 +269,7 @@ namespace SoundByte.Core.Services
                     if (soundCloudService == null)
                         throw new ServiceDoesNotExistException(ServiceType.SoundCloud);
 
-                    requestUri = $"https://api.soundcloud.com/{endpoint}?client_id={soundCloudService.ClientId}&client_secret={soundCloudService.ClientSecret}";
+                    requestUri = $"https://api.soundcloud.com/{endpoint}?client_id={soundCloudService.ClientId}";
                     break;
 
                 case ServiceType.SoundCloudV2:
@@ -277,7 +277,7 @@ namespace SoundByte.Core.Services
                     if (soundCloudV2Service == null)
                         throw new ServiceDoesNotExistException(ServiceType.SoundCloudV2);
 
-                    requestUri = $"https://api-v2.soundcloud.com/{endpoint}?client_id={soundCloudV2Service.ClientId}&client_secret={soundCloudV2Service.ClientSecret}";
+                    requestUri = $"https://api-v2.soundcloud.com/{endpoint}?client_id={soundCloudV2Service.ClientId}";
                     break;
 
                 case ServiceType.Fanburst:
@@ -285,7 +285,7 @@ namespace SoundByte.Core.Services
                     if (fanburstService == null)
                         throw new ServiceDoesNotExistException(ServiceType.Fanburst);
 
-                    requestUri = $"https://api.fanburst.com/{endpoint}?client_id={fanburstService.ClientId}&client_secret={fanburstService.ClientSecret}";
+                    requestUri = $"https://api.fanburst.com/{endpoint}?client_id={fanburstService.ClientId}";
                     break;
                 case ServiceType.YouTube:
                     var youtubeService = ServiceSecrets.FirstOrDefault(x => x.Service == ServiceType.YouTube);

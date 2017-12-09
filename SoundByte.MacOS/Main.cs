@@ -11,8 +11,6 @@ namespace SoundByte.MacOS
         {
             // ReSharper disable once InconsistentNaming
             public string SoundCloudClientID { get; set; }
-            // ReSharper disable once InconsistentNaming
-            public string SoundCloudClientSecret { get; set; }          
         }
 
         static void Main(string[] args)
@@ -22,12 +20,11 @@ namespace SoundByte.MacOS
             var secretKeys = JsonConvert.DeserializeObject<KeyObject>(secretKeyFile);
 
             // Setup the V3 SoundByte service for SoundCloud
-            SoundByte.Core.Services.SoundByteV3Service.Current.Init(new List<ServiceSecret>{
+            Core.Services.SoundByteV3Service.Current.Init(new List<ServiceSecret>{
                 new ServiceSecret
                 {
                     Service = Core.ServiceType.SoundCloud,
-                    ClientId = secretKeys.SoundCloudClientID,
-                    ClientSecret = secretKeys.SoundCloudClientSecret
+                    ClientId = secretKeys.SoundCloudClientID
                 }
             });
 

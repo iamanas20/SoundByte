@@ -228,21 +228,18 @@ namespace SoundByte.UWP
                 {
                     Service = ServiceType.SoundCloud,
                     ClientId = AppKeys.SoundCloudClientId,
-                    ClientSecret = AppKeys.SoundCloudClientSecret,
                     UserToken = soundCloudToken
                 },
                 new ServiceSecret
                 {
                     Service = ServiceType.SoundCloudV2,
                     ClientId = AppKeys.SoundCloudClientId,
-                    ClientSecret = AppKeys.SoundCloudClientSecret,
                     UserToken = soundCloudToken
                 },
                 new ServiceSecret
                 {
                     Service = ServiceType.Fanburst,
                     ClientId = AppKeys.FanburstClientId,
-                    ClientSecret = AppKeys.FanburstClientSecret,
                     UserToken = fanburstToken
                 },
                 new ServiceSecret
