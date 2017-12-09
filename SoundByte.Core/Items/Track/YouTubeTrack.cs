@@ -111,6 +111,8 @@ namespace SoundByte.Core.Items.Track
             public string Duration { get; set; }
         }
 
+        public string LikedPlaylistId { get; set; }
+
         [JsonProperty("kind")]
         public string Kind { get; set; }
 
@@ -201,18 +203,18 @@ namespace SoundByte.Core.Items.Track
                     { "mine", "true"}
                 });
 
-            // See if the SoundByte Playlist exists
-            var hasSoundByteLikesPlaylist =
-                userYouTubePlaylists.Items.FirstOrDefault(x => x.Snippet.Title == "SoundByte Likes") != null;
+            // The soundbyte likes playlist
+            var soundByteLikes = userYouTubePlaylists.Items.FirstOrDefault(x => x.Snippet.Title == "SoundByte Likes");
 
-            if (!hasSoundByteLikesPlaylist)
+            // If the playlist does not exist, we must create it
+            if (soundByteLikes == null)
             {
                 // Create the json string needed to create the playlist
-                var json = "{'snippet.title':'SoundByte Likes', 'snippet.description':'Used to save your SoundBye likes. Do not delete', 'status.privacyStatus':'private'}";
+                var json = "{\"snippet\":{\"title\":\"SoundByte Likes\",\"description\":\"Used to save your SoundBye likes. Do not delete\"},\"status\":{\"privacyStatus\":\"private\"}}";
 
                 try
                 {
-                    var createdPlaylist = SoundByteV3Service.Current.PostAsync<YouTubePlaylist>(ServiceType.YouTube, "playlists", json, new Dictionary<string, string>
+                    soundByteLikes = await SoundByteV3Service.Current.PostAsync<YouTubePlaylist>(ServiceType.YouTube, "playlists", json, new Dictionary<string, string>
                     {
                         { "part", "snippet,status"},
                     });
@@ -223,16 +225,45 @@ namespace SoundByte.Core.Items.Track
                 }
             }
 
-            return false;
+            try
+            {
+                var playlistId = soundByteLikes.Id;
+                var addVideoJson = "{\"snippet\":{\"playlistId\":\"" + playlistId + "\",\"resourceId\":{\"kind\":\"youtube#video\",\"videoId\":\"" + Id.VideoId + "\"}}}";
+                var track = await SoundByteV3Service.Current.PostAsync<YouTubeTrack>(ServiceType.YouTube, "playlistItems", addVideoJson, new Dictionary<string, string>
+                {
+                    { "part", "snippet"},
+                });
 
+                Id.PlaylistId = track.Id.VideoId;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         public async Task<bool> UnlikeAsync()
         {
             if (!SoundByteV3Service.Current.IsServiceConnected(ServiceType.YouTube))
-                return false;
+                return true;
 
-            throw new NotImplementedException();
+            // If this value is null, we are unsure if the track has been liked or not.
+            // most likely (99%) it has not been liked
+            if (string.IsNullOrEmpty(Id.PlaylistId))
+                return true;
+
+            try
+            {
+                await SoundByteV3Service.Current.DeleteAsync(ServiceType.YouTube, "playlistItems/"+ LikedPlaylistId);
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         [JsonObject]

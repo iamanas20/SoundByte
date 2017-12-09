@@ -81,7 +81,7 @@ namespace SoundByte.UWP.Dialogs
                     break;
                 case ServiceType.YouTube:
                     connectUri =
-                        $"https://accounts.google.com/o/oauth2/v2/auth?client_id={AppKeys.YouTubeLoginClientId}&redirect_uri={_appCallback}&response_type=code&state={_stateVerification}&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fyoutube.readonly";
+                        $"https://accounts.google.com/o/oauth2/v2/auth?client_id={AppKeys.YouTubeLoginClientId}&redirect_uri={_appCallback}&response_type=code&state={_stateVerification}&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fyoutube";
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

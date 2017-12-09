@@ -137,9 +137,6 @@ namespace SoundByte.UWP
                         {"Service", type.ToString()}
                     });
 
-                // Navigate home if we connected SoundCloud, else navigate to explore
-                NavigateTo(type == ServiceType.SoundCloud ? typeof(SoundCloudStreamView) : typeof(ExploreView));
-
                 // Update the UI depending if we are logged in or not
                 if (SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud) ||
                     SoundByteV3Service.Current.IsServiceConnected(ServiceType.YouTube) ||

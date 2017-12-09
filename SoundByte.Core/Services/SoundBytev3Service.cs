@@ -450,6 +450,33 @@ namespace SoundByte.Core.Services
             }
             catch (HttpRequestException hex)
             {
+                // If we get a 401 error AND the service is connected, we probably
+                // need to refresh the auth token
+                if (hex.Message.ToLower().Contains("401") && IsServiceConnected(type))
+                {
+                    try
+                    {
+                        // Get the token
+                        var userToken = ServiceSecrets.FirstOrDefault(x => x.Service == type)?.UserToken;
+                        if (userToken != null)
+                        {
+                            var newToken = await AuthorizationHelpers.GetNewAuthTokenAsync(type.ToString(), userToken.RefreshToken);
+                            userToken.AccessToken = newToken.AccessToken;
+                            userToken.ExpireTime = newToken.ExpireTime;
+
+                            // Reconnect the service
+                            ConnectService(type, userToken);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        throw new SoundByteException("Error obtaining new access token.", e.Message);
+                    }
+
+                    // Recall the service
+                    return await GetAsync<T>(type, endpoint, optionalParams, cancellationTokenSource);
+                }
+
                 throw new SoundByteException("No connection?", hex.Message + "\n" + requestUri);
             }
             catch (Exception ex)
@@ -544,9 +571,36 @@ namespace SoundByte.Core.Services
             {
                 throw new SoundByteException("Parsing error", "An error occured when parsing the results. This could be caused by an API change. Report the following message to the app developer:\n" + jsex.Message);
             }
-            catch (HttpRequestException)
+            catch (HttpRequestException hex)
             {
-                throw new SoundByteException("No connection?", "Could not perform the requested task, make sure you are connected to the internet.");
+                // If we get a 401 error AND the service is connected, we probably
+                // need to refresh the auth token
+                if (hex.Message.ToLower().Contains("401") && IsServiceConnected(type))
+                {
+                    try
+                    {
+                        // Get the token
+                        var userToken = ServiceSecrets.FirstOrDefault(x => x.Service == type)?.UserToken;
+                        if (userToken != null)
+                        {
+                            var newToken = await AuthorizationHelpers.GetNewAuthTokenAsync(type.ToString(), userToken.RefreshToken);
+                            userToken.AccessToken = newToken.AccessToken;
+                            userToken.ExpireTime = newToken.ExpireTime;
+
+                            // Reconnect the service
+                            ConnectService(type, userToken);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        throw new SoundByteException("Error obtaining new access token.", e.Message);
+                    }
+
+                    // Recall the service
+                    return await PutAsync(type, endpoint, content, cancellationTokenSource);
+                }
+
+                throw new SoundByteException("No connection?", hex.Message + "\n" + requestUri);
             }
             catch (Exception ex)
             {
@@ -670,9 +724,36 @@ namespace SoundByte.Core.Services
             {
                 throw new SoundByteException("Parsing error", "An error occured when parsing the results. This could be caused by an API change. Report the following message to the app developer:\n" + jsex.Message);
             }
-            catch (HttpRequestException)
+            catch (HttpRequestException hex)
             {
-                throw new SoundByteException("No connection?", "Could not perform the requested task, make sure you are connected to the internet.");
+                // If we get a 401 error AND the service is connected, we probably
+                // need to refresh the auth token
+                if (hex.Message.ToLower().Contains("401") && IsServiceConnected(type))
+                {
+                    try
+                    {
+                        // Get the token
+                        var userToken = ServiceSecrets.FirstOrDefault(x => x.Service == type)?.UserToken;
+                        if (userToken != null)
+                        {
+                            var newToken = await AuthorizationHelpers.GetNewAuthTokenAsync(type.ToString(), userToken.RefreshToken);
+                            userToken.AccessToken = newToken.AccessToken;
+                            userToken.ExpireTime = newToken.ExpireTime;
+
+                            // Reconnect the service
+                            ConnectService(type, userToken);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        throw new SoundByteException("Error obtaining new access token.", e.Message);
+                    }
+
+                    // Recall the service
+                    return await PostAsync<T>(type, endpoint, content, optionalParams, cancellationTokenSource);
+                }
+
+                throw new SoundByteException("No connection?", hex.Message + "\n" + requestUri);
             }
             catch (Exception ex)
             {
@@ -713,7 +794,8 @@ namespace SoundByte.Core.Services
                     }))
                     {
                         // We want json
-                        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                        client.DefaultRequestHeaders.Accept.Add(
+                            new MediaTypeWithQualityHeaderValue("application/json"));
 
                         // Add the user agent
                         client.DefaultRequestHeaders.UserAgent.Add(
@@ -729,13 +811,15 @@ namespace SoundByte.Core.Services
                             switch (type)
                             {
                                 case ServiceType.YouTube:
-                                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                                    client.DefaultRequestHeaders.Authorization =
+                                        new AuthenticationHeaderValue("Bearer", token);
                                     break;
                                 case ServiceType.Fanburst:
                                     requestUri += $"&access_token={token}";
                                     break;
                                 default:
-                                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("OAuth", token);
+                                    client.DefaultRequestHeaders.Authorization =
+                                        new AuthenticationHeaderValue("OAuth", token);
                                     break;
                             }
                         }
@@ -744,7 +828,8 @@ namespace SoundByte.Core.Services
                         var escapedUri = new Uri(Uri.EscapeUriString(requestUri));
 
                         // Get the URL
-                        using (var webRequest = await client.DeleteAsync(escapedUri, cancellationTokenSource.Token).ConfigureAwait(false))
+                        using (var webRequest = await client.DeleteAsync(escapedUri, cancellationTokenSource.Token)
+                            .ConfigureAwait(false))
                         {
                             // Return if successful
                             return webRequest.StatusCode == HttpStatusCode.OK;
@@ -752,7 +837,38 @@ namespace SoundByte.Core.Services
                     }
                 }).ConfigureAwait(false);
             }
-            catch (Exception)
+            catch (HttpRequestException hex)
+            {
+                // If we get a 401 error AND the service is connected, we probably
+                // need to refresh the auth token
+                if (hex.Message.ToLower().Contains("401") && IsServiceConnected(type))
+                {
+                    try
+                    {
+                        // Get the token
+                        var userToken = ServiceSecrets.FirstOrDefault(x => x.Service == type)?.UserToken;
+                        if (userToken != null)
+                        {
+                            var newToken = await AuthorizationHelpers.GetNewAuthTokenAsync(type.ToString(), userToken.RefreshToken);
+                            userToken.AccessToken = newToken.AccessToken;
+                            userToken.ExpireTime = newToken.ExpireTime;
+
+                            // Reconnect the service
+                            ConnectService(type, userToken);
+                        }
+                    }
+                    catch
+                    {
+                        return false;
+                    }
+
+                    // Recall the service
+                    return await DeleteAsync(type, endpoint, cancellationTokenSource);
+                }
+
+                return false;
+            }
+            catch (Exception ex)
             {
                 return false;
             }
@@ -790,7 +906,8 @@ namespace SoundByte.Core.Services
                         AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip
                     }))
                     {
-                        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                        client.DefaultRequestHeaders.Accept.Add(
+                            new MediaTypeWithQualityHeaderValue("application/json"));
 
                         // Add the user agent
                         client.DefaultRequestHeaders.UserAgent.Add(
@@ -806,13 +923,15 @@ namespace SoundByte.Core.Services
                             switch (type)
                             {
                                 case ServiceType.YouTube:
-                                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                                    client.DefaultRequestHeaders.Authorization =
+                                        new AuthenticationHeaderValue("Bearer", token);
                                     break;
                                 case ServiceType.Fanburst:
                                     requestUri += $"&access_token={token}";
                                     break;
                                 default:
-                                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("OAuth", token);
+                                    client.DefaultRequestHeaders.Authorization =
+                                        new AuthenticationHeaderValue("OAuth", token);
                                     break;
                             }
                         }
@@ -821,13 +940,46 @@ namespace SoundByte.Core.Services
                         var escapedUri = new Uri(Uri.EscapeUriString(requestUri));
 
                         // Get the URL
-                        using (var webRequest = await client.GetAsync(escapedUri, HttpCompletionOption.ResponseHeadersRead, cancellationTokenSource.Token).ConfigureAwait(false))
+                        using (var webRequest = await client.GetAsync(escapedUri,
+                                HttpCompletionOption.ResponseHeadersRead, cancellationTokenSource.Token)
+                            .ConfigureAwait(false))
                         {
                             // Return if the resource exists
                             return webRequest.IsSuccessStatusCode;
                         }
                     }
                 }).ConfigureAwait(false);
+            }
+            catch (HttpRequestException hex)
+            {
+                // If we get a 401 error AND the service is connected, we probably
+                // need to refresh the auth token
+                if (hex.Message.ToLower().Contains("401") && IsServiceConnected(type))
+                {
+                    try
+                    {
+                        // Get the token
+                        var userToken = ServiceSecrets.FirstOrDefault(x => x.Service == type)?.UserToken;
+                        if (userToken != null)
+                        {
+                            var newToken = await AuthorizationHelpers.GetNewAuthTokenAsync(type.ToString(), userToken.RefreshToken);
+                            userToken.AccessToken = newToken.AccessToken;
+                            userToken.ExpireTime = newToken.ExpireTime;
+
+                            // Reconnect the service
+                            ConnectService(type, userToken);
+                        }
+                    }
+                    catch
+                    {
+                        return false;
+                    }
+
+                    // Recall the service
+                    return await ExistsAsync(type, endpoint, cancellationTokenSource);
+                }
+
+                return false;
             }
             catch (Exception)
             {

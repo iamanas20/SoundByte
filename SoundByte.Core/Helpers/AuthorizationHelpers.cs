@@ -92,7 +92,6 @@ namespace SoundByte.Core.Helpers
             }
         }
 
-
         public static async Task<LoginToken> GetNewAuthTokenAsync(string service, string refreshToken)
         {
             // Create a http client to get the token
@@ -108,7 +107,7 @@ namespace SoundByte.Core.Helpers
                 var encodedContent = new FormUrlEncodedContent(new Dictionary<string, string>
                 {
                     { "service", service.ToLower() },
-                    { "refresh_token", refreshToken }
+                    { "refreshtoken", refreshToken }
                 });
 
                 try
