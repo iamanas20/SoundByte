@@ -80,7 +80,7 @@ namespace SoundByte.UWP
             NavigationService.Current.RegisterTypeAsDialog<PlaylistDialog>();
             NavigationService.Current.RegisterTypeAsDialog<ShareDialog>();
             NavigationService.Current.RegisterTypeAsDialog<LoginDialog>();
-         
+
             // Handle App Crashes
             CrashHelper.HandleAppCrashes(Current);
 
@@ -192,38 +192,34 @@ namespace SoundByte.UWP
             // Get the password vault
             var vault = new PasswordVault();
 
-            var soundByteResource = vault.FindAllByResource(vaultName);
-            LoginToken loginToken = null;
+            LoginToken loginToken;
 
-            if (soundByteResource != null)
+            try
             {
-                try
+                loginToken = new LoginToken
                 {
-                    loginToken = new LoginToken
-                    {
-                        AccessToken = vault.Retrieve(vaultName, "Token")?.Password,
-                        ServiceType = service
-                    };
-                }
-                catch
-                {
-                    return null;
-                }
-
-                try
-                {
-                    loginToken.RefreshToken = vault.Retrieve(vaultName, "RefreshToken")?.Password;
-                    loginToken.ExpireTime = vault.Retrieve(vaultName, "ExpireTime")?.Password;
-                }   
-                catch
-                {
-                    // Ignore. In version 17.10, refresh and expire times were not used,
-                    // so the above will cause an exception when updaating to the latest version.
-                    // Normally the crash would indicate that the user is not logged in, but in fact
-                    // they are. So we just ignore this.
-                }
+                    AccessToken = vault.Retrieve(vaultName, "Token")?.Password,
+                    ServiceType = service
+                };
             }
-          
+            catch
+            {
+                return null;
+            }
+
+            try
+            {
+                loginToken.RefreshToken = vault.Retrieve(vaultName, "RefreshToken")?.Password;
+                loginToken.ExpireTime = vault.Retrieve(vaultName, "ExpireTime")?.Password;
+            }
+            catch
+            {
+                // Ignore. In version 17.10, refresh and expire times were not used,
+                // so the above will cause an exception when updaating to the latest version.
+                // Normally the crash would indicate that the user is not logged in, but in fact
+                // they are. So we just ignore this.
+            }
+
             return loginToken;
         }
 
@@ -232,7 +228,7 @@ namespace SoundByte.UWP
             var soundCloudToken = GetLoginTokenFromVault("SoundByte.SoundCloud", ServiceType.SoundCloud);
             var fanburstToken = GetLoginTokenFromVault("SoundByte.FanBurst", ServiceType.Fanburst);
             var youTubeToken = GetLoginTokenFromVault("SoundByte.YouTube", ServiceType.YouTube);
-       
+
             var secretList = new List<ServiceSecret>
             {
                 new ServiceSecret
@@ -258,7 +254,7 @@ namespace SoundByte.UWP
                     Service = ServiceType.YouTube,
                     ClientId = AppKeysHelper.YouTubeClientId,
                     UserToken = youTubeToken
-                }, 
+                },
                 new ServiceSecret
                 {
                     Service = ServiceType.ITunesPodcast
@@ -333,7 +329,7 @@ namespace SoundByte.UWP
                     NavigateTo(typeof(NowPlayingView));
                     break;
                 case VirtualKey.Back:
-                    
+
 
                     if (_isCtrlKeyPressed)
                         CurrentFrame.Frame.GoBack();
@@ -401,7 +397,7 @@ namespace SoundByte.UWP
                     return;
                 }
 
-              
+
                 OnlineAppInitComplete = true;
             }
 
@@ -491,12 +487,12 @@ namespace SoundByte.UWP
                 });
             }
             catch (Exception ex)
-            { 
+            {
                 // This can crash if the UI thread does not exist.
                 // 99.9% of the time, the background switch will prevent
                 // this from happening though.
                 LoggingService.Log(LoggingService.LogType.Warning, "Exception when setting loading status: " + ex.Message);
-            }          
+            }
         }
 
         #endregion
