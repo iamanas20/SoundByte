@@ -57,7 +57,7 @@ namespace SoundByte.UWP.Views.Application
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             // Track Event
-            TelemetryService.Instance.TrackPage("Info View");
+            App.Telemetry.TrackPage("Info View");
             // TEMP, Load the page
             LoadSettingsPage();
 
@@ -85,7 +85,7 @@ namespace SoundByte.UWP.Views.Application
         /// </summary>
         public async void RateAndReview()
         {
-            TelemetryService.Instance.TrackPage("Rate and Review App");
+            App.Telemetry.TrackPage("Rate and Review App");
 
             await Launcher.LaunchUriAsync(new Uri($"ms-windows-store:REVIEW?PFN={Package.Current.Id.FamilyName}"));
         }

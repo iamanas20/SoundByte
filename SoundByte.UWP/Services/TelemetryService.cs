@@ -13,12 +13,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using GoogleAnalytics;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.HockeyApp;
-using SoundByte.Core.Helpers;
-using SoundByte.UWP.Assets;
 
 namespace SoundByte.UWP.Services
 {
@@ -28,41 +27,43 @@ namespace SoundByte.UWP.Services
     /// </summary>
     public class TelemetryService
     {
+        private bool _isInit;
+        private Tracker _googleAnalyticsClient;
+
         /// <summary>
-        ///     Setup the telemetry providers
+        /// Setup the telementry service to start handling app telemetry.
         /// </summary>
-        private TelemetryService()
+        /// <param name="googleAnalyticsTrackerId">Google Analytics Tracker ID</param>
+        /// <param name="hockeyAppClientId">Hockeyapp Client ID</param>
+        /// <param name="mobileCenterClientId">VS Mobile Center Client ID</param>
+        /// <returns></returns>
+        public async Task InitAsync(string googleAnalyticsTrackerId, string hockeyAppClientId, string mobileCenterClientId)
         {
-            try
-            {
+            // Used for crash reporting
+            HockeyClient.Current.Configure(hockeyAppClientId);
 
-                // Used for crash reporting
-                HockeyClient.Current.Configure(AppKeys.HockeyAppClientId);
+            // Used for general analytics
+            _googleAnalyticsClient = AnalyticsManager.Current.CreateTracker(googleAnalyticsTrackerId);
 
-                // Used for general analytics
-          //      AppCenter.Start(AppKeys.AzureMobileCenterClientId, typeof(Analytics)); // Takes too long to start? Bug in app center.
-                _googleAnalyticsClient = AnalyticsManager.Current.CreateTracker(AppKeys.GoogleAnalyticsTrackerId);
-
-                // Log that we have started processing telemetry
-                LoggingService.Log(LoggingService.LogType.Debug, "Now Processing Telemetry");
-
+            // Used for general analytics, push notifications and crashes
+            AppCenter.Start(mobileCenterClientId, typeof(Analytics));
 #if DEBUG
-                // Disable this on debug
-                AnalyticsManager.Current.IsDebug = true;
-           //     AsyncHelper.RunSync(async () => { await AppCenter.SetEnabledAsync(false); });
+            // Disable this on debug
+            AnalyticsManager.Current.IsDebug = true;
+            AnalyticsManager.Current.AppOptOut = true;
+            await Analytics.SetEnabledAsync(false);
 #endif
-            }
-            catch
-            {
-                // ignored
-            }
+            _isInit = true;
+
+            LoggingService.Log(LoggingService.LogType.Debug, "Now Processing Telemetry");
         }
-
-        private readonly Tracker _googleAnalyticsClient;
-
 
         public void TrackPage(string pageName)
         {
+            // Ignore telementry before service is init
+            if (!_isInit)
+                return;
+
             try
             {
                 TrackEvent("Page Navigation", new Dictionary<string, string> { {"PageName", pageName} });
@@ -82,9 +83,13 @@ namespace SoundByte.UWP.Services
         /// <param name="properties"></param>
         public void TrackEvent(string eventName, Dictionary<string, string> properties = null)
         {
+            // Ignore telementry before service is init
+            if (!_isInit)
+                return;
+
             try
             {
-       //         Analytics.TrackEvent(eventName, properties);
+                Analytics.TrackEvent(eventName, properties);
                 _googleAnalyticsClient.Send(HitBuilder.CreateCustomEvent("App", "Action", eventName).Build());
             }
             catch
@@ -99,6 +104,10 @@ namespace SoundByte.UWP.Services
 
         public void TrackException(Exception exception, bool isFatal)
         {
+            // Ignore crashes before service is init
+            if (!_isInit)
+                return;
+
             try
             {
                 HockeyClient.Current.TrackException(exception, new Dictionary<string, string>
@@ -111,12 +120,5 @@ namespace SoundByte.UWP.Services
                 // ignored
             }
         }
-
-        #region Service Setup
-        private static readonly Lazy<TelemetryService> InstanceHolder =
-            new Lazy<TelemetryService>(() => new TelemetryService());
-
-        public static TelemetryService Instance => InstanceHolder.Value;
-        #endregion
     }
 }

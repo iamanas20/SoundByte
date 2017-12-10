@@ -29,6 +29,7 @@ using Microsoft.Toolkit.Uwp.Helpers;
 using NotificationsExtensions;
 using NotificationsExtensions.Toasts;
 using SoundByte.Core;
+using SoundByte.Core.Helpers;
 using SoundByte.Core.Items.Playlist;
 using SoundByte.Core.Items.Track;
 using SoundByte.Core.Items.User;
@@ -161,37 +162,43 @@ namespace SoundByte.UWP
             // Run on the background thread
             await Task.Run(async () =>
             {
+                // We have not yet run the online init
+                if (!App.OnlineAppInitComplete)
+                {
+                    await AuthorizationHelpers.OnlineAppInitAsync("windows", "10.0.0.", "", true);
+                }
+
+                // Test Version and tell user app upgraded
+                HandleNewAppVersion();
+
+                // Clear the unread badge
+                BadgeUpdateManager.CreateBadgeUpdaterForApplication().Clear();
+
+                // Get the store and check for app updates
+                var updates = await StoreContext.GetDefault().GetAppAndOptionalStorePackageUpdatesAsync();
+
+                // If we have updates navigate to the update page where we
+                // ask the user if they would like to update or not (depending
+                // if the update is mandatory or not).
+                if (updates.Count > 0)
+                {
+                    await NavigationService.Current.CallDialogAsync<PendingUpdateDialog>();
+                }
+
+                // Handle donation logic
+                await MonitizeService.Instance.InitProductInfoAsync();
+
+                // Load logged in user objects
+                await SoundByteV3Service.Current.InitUsersAsync();
+
+                // Register notifications
+                //   var engagementManager = StoreServicesEngagementManager.GetDefault();
+                //   await engagementManager.RegisterNotificationChannelAsync();
+                //Todo: Implement this when fix is ready (UWP .NET CORE)
+                //https://developercommunity.visualstudio.com/content/problem/130643/cant-build-release-when-i-use-microsoftservicessto.html
+
                 try
                 {
-                    // Get the store and check for app updates
-                    var updates = await StoreContext.GetDefault().GetAppAndOptionalStorePackageUpdatesAsync();
-
-                    // If we have updates navigate to the update page where we
-                    // ask the user if they would like to update or not (depending
-                    // if the update is mandatory or not).
-                    if (updates.Count > 0)
-                    {
-                        await NavigationService.Current.CallDialogAsync<PendingUpdateDialog>();
-                    }
-
-                    // Test Version and tell user app upgraded
-                    HandleNewAppVersion();
-
-                    // Clear the unread badge
-                    BadgeUpdateManager.CreateBadgeUpdaterForApplication().Clear();
-
-                    // Handle donation logic
-                    await MonitizeService.Instance.InitProductInfoAsync();
-
-                    // Load logged in user objects
-                    await SoundByteV3Service.Current.InitUsersAsync();
-
-                    // Register notifications
-                    //   var engagementManager = StoreServicesEngagementManager.GetDefault();
-                    //   await engagementManager.RegisterNotificationChannelAsync();
-                    //Todo: Implement this when fix is ready (UWP .NET CORE)
-                    //https://developercommunity.visualstudio.com/content/problem/130643/cant-build-release-when-i-use-microsoftservicessto.html
-
                     // Install Cortana Voice Commands
                     var vcdStorageFile = await Package.Current.InstalledLocation.GetFileAsync(@"SoundByteCommands.xml");
                     await VoiceCommandDefinitionManager.InstallCommandDefinitionsFromStorageFileAsync(vcdStorageFile);

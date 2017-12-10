@@ -32,7 +32,7 @@ namespace SoundByte.UWP.Views.Me
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            TelemetryService.Instance.TrackPage("Manage Accounts View");
+            App.Telemetry.TrackPage("Manage Accounts View");
 
             MainView.Visibility = Visibility.Visible;
             ConnectAccountView.Visibility = Visibility.Collapsed;

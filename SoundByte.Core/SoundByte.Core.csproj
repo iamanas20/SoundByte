@@ -4,9 +4,15 @@
     <TargetFramework>netstandard1.4</TargetFramework>
     <Company>Grid Entertainment</Company>
     <Authors>Dominic Maas</Authors>
-    <Description>API Endpoints used by SoundByte + Other related services.</Description>
+    <Description>Core package used by SoundByte apps.</Description>
     <Copyright>Copyright (c) Grid Entertainment 2017</Copyright>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>17.12.1</Version>
+    <PackageProjectUrl>https://github.com/DominicMaas/SoundByte</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/DominicMaas/SoundByte</PackageLicenseUrl>
+    <RepositoryUrl>https://github.com/DominicMaas/SoundByte</RepositoryUrl>
+    <AssemblyVersion>17.12.1.0</AssemblyVersion>
+    <FileVersion>17.12.1.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,6 +26,10 @@
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
     <PackageReference Include="System.Net.Http" Version="4.3.3" />
     <PackageReference Include="System.ValueTuple" Version="4.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Items\SoundByte\" />
   </ItemGroup>
 
 </Project>

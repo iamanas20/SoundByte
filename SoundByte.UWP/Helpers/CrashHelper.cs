@@ -59,7 +59,7 @@ namespace SoundByte.UWP.Helpers
 
         private static async Task HandleAppCrashAsync(Exception ex)
         {
-            TelemetryService.Instance.TrackException(ex, true);
+            App.Telemetry.TrackException(ex, true);
 
             try
             {

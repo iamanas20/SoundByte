@@ -50,7 +50,7 @@ namespace SoundByte.UWP.Views.Search
             PageTitle.Text = $"Results for \"{ViewModel.SearchQuery}\"";
 
             // Track Event
-            TelemetryService.Instance.TrackPage("Search View");
+            App.Telemetry.TrackPage("Search View");
         }
     }
 }

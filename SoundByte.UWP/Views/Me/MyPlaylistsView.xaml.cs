@@ -46,7 +46,7 @@ namespace SoundByte.UWP.Views.Me
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             PlaylistModel.Source.User = SoundByteV3Service.Current.GetConnectedUser(ServiceType.SoundCloud);
-            TelemetryService.Instance.TrackPage("User Playlists View");
+            App.Telemetry.TrackPage("User Playlists View");
         }
 
         public void NavigatePlaylist(object sender, ItemClickEventArgs e)

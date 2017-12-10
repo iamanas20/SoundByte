@@ -286,7 +286,7 @@ namespace SoundByte.UWP.ViewModels
                     {
                         PinButtonText = "Pin";
                         // Track Event
-                        TelemetryService.Instance.TrackEvent("Unpin Track");
+                        App.Telemetry.TrackEvent("Unpin Track");
                     }
                     else
                     {
@@ -302,7 +302,7 @@ namespace SoundByte.UWP.ViewModels
                     {
                         PinButtonText = "Unpin";
                         // Track Event
-                        TelemetryService.Instance.TrackEvent("Pin Track");
+                        App.Telemetry.TrackEvent("Pin Track");
                     }
                     else
                     {
@@ -328,7 +328,7 @@ namespace SoundByte.UWP.ViewModels
                 {
                     RepostButtonText = "Repost";
                     // Track Event
-                    TelemetryService.Instance.TrackEvent("Unpost Track");
+                    App.Telemetry.TrackEvent("Unpost Track");
                 }
                 else
                 {
@@ -342,7 +342,7 @@ namespace SoundByte.UWP.ViewModels
                 {
                     RepostButtonText = "Unpost";
                     // Track Event
-                    TelemetryService.Instance.TrackEvent("Repost Track");
+                    App.Telemetry.TrackEvent("Repost Track");
                 }
                 else
                 {
@@ -367,7 +367,7 @@ namespace SoundByte.UWP.ViewModels
                 {
                     LikeButtonText = "Like";
                     // Track Event
-                    TelemetryService.Instance.TrackEvent("Unlike Track");
+                    App.Telemetry.TrackEvent("Unlike Track");
                 }
                 else
                 {
@@ -381,7 +381,7 @@ namespace SoundByte.UWP.ViewModels
                 {
                     LikeButtonText = "Unlike";
                     // Track Event
-                    TelemetryService.Instance.TrackEvent("Like Track");
+                    App.Telemetry.TrackEvent("Like Track");
                 }
                 else
                 {

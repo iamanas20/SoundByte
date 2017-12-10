@@ -26,6 +26,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Microsoft.Toolkit.Uwp.Helpers;
 using SoundByte.Core;
+using SoundByte.Core.Helpers;
 using SoundByte.Core.Items;
 using SoundByte.Core.Services;
 using SoundByte.UWP.Assets;
@@ -41,6 +42,10 @@ namespace SoundByte.UWP
 {
     sealed partial class App
     {
+        public static bool OnlineAppInitComplete { get; set; }
+
+        public static TelemetryService Telemetry { get; } = new TelemetryService();
+
         #region App Setup
 
         /// <summary>
@@ -74,13 +79,7 @@ namespace SoundByte.UWP
             NavigationService.Current.RegisterTypeAsDialog<PlaylistDialog>();
             NavigationService.Current.RegisterTypeAsDialog<ShareDialog>();
             NavigationService.Current.RegisterTypeAsDialog<LoginDialog>();
-
-            // Live tile helpers
-            TileHelper.Init();
-
-            // Init service
-            InitV3Service();
-
+         
             // Handle App Crashes
             CrashHelper.HandleAppCrashes(Current);
 
@@ -131,7 +130,7 @@ namespace SoundByte.UWP
                 vault.Add(new PasswordCredential(vaultName, "ExpireTime", token?.ExpireTime));
 
                 // Track the connect event
-                TelemetryService.Instance.TrackEvent("Service Connected",
+                App.Telemetry.TrackEvent("Service Connected",
                     new Dictionary<string, string>
                     {
                         {"Service", type.ToString()}
@@ -168,7 +167,7 @@ namespace SoundByte.UWP
                 }
 
                 // Track the disconnect event
-                TelemetryService.Instance.TrackEvent("Service Disconnected",
+                App.Telemetry.TrackEvent("Service Disconnected",
                     new Dictionary<string, string>
                     {
                         {"Service", type.ToString()}
@@ -307,7 +306,7 @@ namespace SoundByte.UWP
             {
                 case VirtualKey.F11:
                     // Send hit
-                    TelemetryService.Instance.TrackEvent("Toggle FullScreen");
+                    App.Telemetry.TrackEvent("Toggle FullScreen");
                     // Toggle between fullscreen or not
                     if (!DeviceHelper.IsDeviceFullScreen)
                         ApplicationView.GetForCurrentView().TryEnterFullScreenMode();
@@ -316,13 +315,13 @@ namespace SoundByte.UWP
                     break;
                 case VirtualKey.GamepadView:
                     // Send hit
-                    TelemetryService.Instance.TrackEvent("Xbox Playing Page");
+                    App.Telemetry.TrackEvent("Xbox Playing Page");
                     // Navigate to the current playing track
                     NavigateTo(typeof(NowPlayingView));
                     break;
                 case VirtualKey.GamepadY:
                     // Send hit
-                    TelemetryService.Instance.TrackEvent("Xbox Search Page");
+                    App.Telemetry.TrackEvent("Xbox Search Page");
                     // Navigate to the search page
                     NavigateTo(typeof(SearchView));
                     break;
@@ -345,6 +344,28 @@ namespace SoundByte.UWP
         private async Task InitializeShellAsync(string parameters = null)
         {
             LoggingService.Log(LoggingService.LogType.Debug, "Initialize Main App Shell...");
+
+            // Live tile helpers
+            TileHelper.Init();
+
+            // Before we init the v3 service, we must check to see if we have the required API keys
+            if (!AppKeysHelper.KeysValid)
+            {
+                LoggingService.Log(LoggingService.LogType.Info, "App keys are not valid. Requesting new keys.");
+
+                // Call the init method now and request new app keys
+                await AuthorizationHelpers.OnlineAppInitAsync("windows", "10.0.0.", "", true);
+
+                OnlineAppInitComplete = true;
+            }
+
+            // Init service
+            InitV3Service();
+
+            // Init the telemetry service
+            await Telemetry.InitAsync(AppKeys.GoogleAnalyticsTrackerId, AppKeys.HockeyAppClientId,
+                AppKeys.AzureMobileCenterClientId);
+
             // Get the main shell
             var shell = Window.Current.Content as AppShell;
 
@@ -445,7 +466,7 @@ namespace SoundByte.UWP
             DeviceHelper.IsBackground = false;
 
             // Send hit
-            TelemetryService.Instance.TrackEvent("Leave Background");
+            App.Telemetry.TrackEvent("Leave Background");
 
             // Restore view content if it was previously unloaded
             if (Window.Current != null && Window.Current.Content == null)
@@ -464,7 +485,7 @@ namespace SoundByte.UWP
             try
             {
                 // Send hit
-                TelemetryService.Instance.TrackEvent("Enter Background");
+                App.Telemetry.TrackEvent("Enter Background");
 
                 // Update the variable
                 DeviceHelper.IsBackground = true;
@@ -497,7 +518,7 @@ namespace SoundByte.UWP
                 await ReduceMemoryUsageAsync();
 
             // Send hit
-            TelemetryService.Instance.TrackEvent("Reducing Memory Usage", new Dictionary<string, string>
+            App.Telemetry.TrackEvent("Reducing Memory Usage", new Dictionary<string, string>
             {
                 {"NewLimit", e.NewLimit / 1024 / 1024 + "M"},
                 {"OldLimit", e.OldLimit / 1024 / 1024 + "M"},
@@ -533,7 +554,7 @@ namespace SoundByte.UWP
                 await ReduceMemoryUsageAsync();
 
             // Send hit
-            TelemetryService.Instance.TrackEvent("Memory Usage Increader", new Dictionary<string, string>
+            App.Telemetry.TrackEvent("Memory Usage Increader", new Dictionary<string, string>
             {
                 {"CurrentUsage", MemoryManager.AppMemoryUsage / 1024 / 1024 + "M"}
             });

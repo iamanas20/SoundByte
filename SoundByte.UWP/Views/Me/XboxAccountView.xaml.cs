@@ -32,7 +32,7 @@ namespace SoundByte.UWP.Views.Me
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            TelemetryService.Instance.TrackPage("Xbox Account View");
+            App.Telemetry.TrackPage("Xbox Account View");
 
             var generator = new Random();
             var randomCode = generator.Next(0, 100000).ToString("D5");

@@ -201,6 +201,7 @@
     <Compile Include="Dialogs\ShareDialog.xaml.cs">
       <DependentUpon>ShareDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\AppKeysHelper.cs" />
     <Compile Include="Helpers\ColorHelper.cs" />
     <Compile Include="Helpers\CompositionHelper.cs" />
     <Compile Include="Helpers\CrashHelper.cs" />

@@ -63,7 +63,7 @@ namespace SoundByte.UWP.Services
 
         public async Task PurchaseDonation(string storeId)
         {
-            TelemetryService.Instance.TrackEvent("Donation Attempt",
+            App.Telemetry.TrackEvent("Donation Attempt",
                 new Dictionary<string, string> {{"StoreID", storeId}});
 
             // Get the item
@@ -77,14 +77,14 @@ namespace SoundByte.UWP.Services
                 // Check if the purchase was successful
                 if (result.Status == StorePurchaseStatus.Succeeded)
                 {
-                    TelemetryService.Instance.TrackEvent("Donation Successful",
+                    App.Telemetry.TrackEvent("Donation Successful",
                         new Dictionary<string, string> { { "StoreID", storeId } });
 
                     await new MessageDialog("Thank you for your donation!", "SoundByte").ShowAsync();
                 }
                 else
                 {
-                    TelemetryService.Instance.TrackEvent("Donation Failed",
+                    App.Telemetry.TrackEvent("Donation Failed",
                         new Dictionary<string, string> { { "StoreID", storeId }, { "Reason", result?.ExtendedError?.Message } });
 
                     await new MessageDialog("Your account has not been charged:\n" + result?.ExtendedError?.Message,

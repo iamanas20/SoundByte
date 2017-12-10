@@ -37,7 +37,7 @@ namespace SoundByte.UWP.Views.Me
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            TelemetryService.Instance.TrackPage("History View");
+            App.Telemetry.TrackPage("History View");
         }
 
         public async void PlayShuffleItems()

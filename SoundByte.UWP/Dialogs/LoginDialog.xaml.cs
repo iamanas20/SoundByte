@@ -113,7 +113,7 @@ namespace SoundByte.UWP.Dialogs
                     await new MessageDialog(
                         "State Verfication Failed. This could be caused by another process intercepting the SoundByte login procedure. Signin has been canceled to protect your privacy.",
                         "Sign in Error").ShowAsync();
-                    TelemetryService.Instance.TrackEvent("State Verfication Failed");
+                    App.Telemetry.TrackEvent("State Verfication Failed");
 
                     // Close
                     Hide();

@@ -43,7 +43,7 @@ namespace SoundByte.UWP.Views.Me
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            TelemetryService.Instance.TrackPage("User Likes View");
+            App.Telemetry.TrackPage("User Likes View");
 
             LikesModel.Source.User = SoundByteV3Service.Current.GetConnectedUser(ServiceType.SoundCloud);
         }

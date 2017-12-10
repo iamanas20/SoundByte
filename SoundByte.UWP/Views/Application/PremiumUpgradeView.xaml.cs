@@ -31,7 +31,7 @@ namespace SoundByte.UWP.Views.Application
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            TelemetryService.Instance.TrackPage("Premium View");
+            App.Telemetry.TrackPage("Premium View");
 
             PremuimStatus.Text = "Status: Loading...";
             PremuimStatus.Foreground = new SolidColorBrush(Colors.Orange);

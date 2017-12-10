@@ -49,7 +49,7 @@ namespace SoundByte.UWP.Views
 
             // Make sure the view is ready for the user
             // Track Event
-            TelemetryService.Instance.TrackPage("Playlist View");
+            App.Telemetry.TrackPage("Playlist View");
             await ViewModel.SetupView((BasePlaylist)e.Parameter);
         }
     }

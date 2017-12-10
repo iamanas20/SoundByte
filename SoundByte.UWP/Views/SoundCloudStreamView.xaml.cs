@@ -52,7 +52,7 @@ namespace SoundByte.UWP.Views
                 App.NavigateTo(typeof(ExploreView));
 
             // Track Event
-            TelemetryService.Instance.TrackPage("SoundCloud Stream View");
+            App.Telemetry.TrackPage("SoundCloud Stream View");
         }
     }
 }

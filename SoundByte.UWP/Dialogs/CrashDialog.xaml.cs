@@ -75,14 +75,14 @@ namespace SoundByte.UWP.Dialogs
 
         private async void SendAndCloseApp(object sender, RoutedEventArgs e)
         {
-            TelemetryService.Instance.TrackEvent("Crash Dialog - Send and Close App");
+            App.Telemetry.TrackEvent("Crash Dialog - Send and Close App");
             await Send();
             Application.Current.Exit();
         }
 
         private async void SendAndContinue(object sender, RoutedEventArgs e)
         {
-            TelemetryService.Instance.TrackEvent("Crash Dialog - Send and Continue");
+            App.Telemetry.TrackEvent("Crash Dialog - Send and Continue");
             Hide();
             await Send();
         }

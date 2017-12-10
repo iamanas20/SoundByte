@@ -63,7 +63,7 @@ namespace SoundByte.UWP.Views
             ViewModel.SetupModel();
 
             // Track Event
-            TelemetryService.Instance.TrackPage("Now Playing View");
+            App.Telemetry.TrackPage("Now Playing View");
 
             if (DeviceHelper.IsDesktop)
             {
@@ -156,7 +156,7 @@ namespace SoundByte.UWP.Views
 
         private void ShowOverlay()
         {
-            TelemetryService.Instance.TrackEvent("Show Now Playing Overlay");
+            App.Telemetry.TrackEvent("Show Now Playing Overlay");
 
             IsEnhanced = true;
 

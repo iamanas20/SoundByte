@@ -30,7 +30,7 @@ namespace SoundByte.UWP.Views.Application
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            TelemetryService.Instance.TrackPage("What's New View");
+            App.Telemetry.TrackPage("What's New View");
 
             CurrentVersion.Text = $"Current Version: {Package.Current.Id.Version.Major}.{Package.Current.Id.Version.Minor}.{Package.Current.Id.Version.Build}.{Package.Current.Id.Version.Revision}";
 

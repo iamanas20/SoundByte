@@ -371,7 +371,7 @@ namespace SoundByte.UWP.Services
         {
             IsRepeatEnabled = !IsRepeatEnabled;
 
-            TelemetryService.Instance.TrackEvent("Toggle Repeat");
+            App.Telemetry.TrackEvent("Toggle Repeat");
         }
 
         /// <summary>
@@ -381,7 +381,7 @@ namespace SoundByte.UWP.Services
         {
             IsShuffleEnabled = !IsShuffleEnabled;
 
-            TelemetryService.Instance.TrackEvent("Toggle Shuffle");
+            App.Telemetry.TrackEvent("Toggle Shuffle");
         }
 
         /// <summary>
@@ -593,7 +593,7 @@ namespace SoundByte.UWP.Services
             }
             catch (Exception)
             {
-                TelemetryService.Instance.TrackEvent("Could not add Playback Item",
+                App.Telemetry.TrackEvent("Could not add Playback Item",
                     new Dictionary<string, string>
                     {
                         {"track_id", track?.Id}
@@ -794,7 +794,7 @@ namespace SoundByte.UWP.Services
 
             if (keepTrying < 50) return new PlaybackResponse(true, string.Empty);
 
-            TelemetryService.Instance.TrackEvent("Playback Could not Start", new Dictionary<string, string>
+            App.Telemetry.TrackEvent("Playback Could not Start", new Dictionary<string, string>
             {
                 {"track_id", startingItem.Id}
             });
@@ -990,7 +990,7 @@ namespace SoundByte.UWP.Services
                 currentUsageLimit = "Less than 128MB";
             }
 
-            TelemetryService.Instance.TrackEvent("Current Song Changed", new Dictionary<string, string>
+            App.Telemetry.TrackEvent("Current Song Changed", new Dictionary<string, string>
             {
                 { "CurrentUsage", currentUsageLimit },
                 { "TrackType", track?.ServiceType.ToString() ?? "Null" },
@@ -1134,7 +1134,7 @@ namespace SoundByte.UWP.Services
             }
             catch (Exception ex)
             {
-                TelemetryService.Instance.TrackException(ex, false);
+                App.Telemetry.TrackException(ex, false);
 #if  DEBUG
                 throw;
 #endif

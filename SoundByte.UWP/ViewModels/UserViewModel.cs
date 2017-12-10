@@ -240,7 +240,7 @@ namespace SoundByte.UWP.ViewModels
                 // Unfollow the user
                 if (await SoundByteV3Service.Current.DeleteAsync(ServiceType.SoundCloud, "/me/followings/" + User.Id))
                 {
-                    TelemetryService.Instance.TrackEvent("Unfollow User");
+                    App.Telemetry.TrackEvent("Unfollow User");
                     FollowUserIcon = "\uE8FA";
                     FollowUserText = "Follow User";
                 }
@@ -255,7 +255,7 @@ namespace SoundByte.UWP.ViewModels
                 // Follow the user
                 if (await SoundByteV3Service.Current.PutAsync(ServiceType.SoundCloud, $"/me/followings/{User.Id}"))
                 {
-                    TelemetryService.Instance.TrackEvent("Follow User");
+                    App.Telemetry.TrackEvent("Follow User");
                     FollowUserIcon = "\uE1E0";
                     FollowUserText = "Unfollow User";
                 }
@@ -282,7 +282,7 @@ namespace SoundByte.UWP.ViewModels
                 // Try remove the tile
                 if (await TileHelper.RemoveTileAsync("User_" + User.Id))
                 {
-                    TelemetryService.Instance.TrackEvent("Unpin User");
+                    App.Telemetry.TrackEvent("Unpin User");
                     PinButtonIcon = "\uE718";
                     PinButtonText = resources.GetString("AppBarUI_Pin_Raw");
                 }
@@ -299,7 +299,7 @@ namespace SoundByte.UWP.ViewModels
                     "soundbyte://core/user?id=" + User.Id, new Uri(ArtworkConverter.ConvertObjectToImage(User)),
                     ForegroundText.Light))
                 {
-                    TelemetryService.Instance.TrackEvent("Pin User");
+                    App.Telemetry.TrackEvent("Pin User");
                     PinButtonIcon = "\uE77A";
                     PinButtonText = resources.GetString("AppBarUI_Unpin_Raw");
                 }
