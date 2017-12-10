@@ -16,6 +16,9 @@ SoundByte
     <a href="https://discord.gg/tftSadE">
         <img src="https://img.shields.io/discord/333524708463214594.svg" alt="Chat on Discord">
     </a>
+    <a href="#">
+     <img src="http://gridentertainment.visualstudio.com/_apis/public/build/definitions/29470259-4594-4fc0-9b08-99514c07cfd0/2/badge" alt="Build Status">
+    </a> 
 </p>
 
 ## Introduction
