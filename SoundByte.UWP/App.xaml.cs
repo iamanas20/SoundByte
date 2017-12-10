@@ -35,7 +35,6 @@ using SoundByte.UWP.Helpers;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.Views;
 using SoundByte.UWP.Views.Application;
-using SoundByte.UWP.Views.Search;
 using WinRTXamlToolkit.Tools;
 
 namespace SoundByte.UWP
@@ -46,7 +45,7 @@ namespace SoundByte.UWP
 
         public static TelemetryService Telemetry { get; } = new TelemetryService();
 
-        private bool isInit = false;
+        private bool _isInit;
 
         #region App Setup
 
@@ -128,11 +127,11 @@ namespace SoundByte.UWP
                     return;
 
                 vault.Add(new PasswordCredential(vaultName, "Token", token.AccessToken));
-                vault.Add(new PasswordCredential(vaultName, "RefreshToken", token?.RefreshToken));
-                vault.Add(new PasswordCredential(vaultName, "ExpireTime", token?.ExpireTime));
+                vault.Add(new PasswordCredential(vaultName, "RefreshToken", token.RefreshToken));
+                vault.Add(new PasswordCredential(vaultName, "ExpireTime", token.ExpireTime));
 
                 // Track the connect event
-                App.Telemetry.TrackEvent("Service Connected",
+                Telemetry.TrackEvent("Service Connected",
                     new Dictionary<string, string>
                     {
                         {"Service", type.ToString()}
@@ -169,7 +168,7 @@ namespace SoundByte.UWP
                 }
 
                 // Track the disconnect event
-                App.Telemetry.TrackEvent("Service Disconnected",
+                Telemetry.TrackEvent("Service Disconnected",
                     new Dictionary<string, string>
                     {
                         {"Service", type.ToString()}
@@ -193,27 +192,39 @@ namespace SoundByte.UWP
             // Get the password vault
             var vault = new PasswordVault();
 
-            try
-            {
-                var soundCloudResource = vault.FindAllByResource(vaultName);
+            var soundByteResource = vault.FindAllByResource(vaultName);
+            LoginToken loginToken = null;
 
-                if (soundCloudResource != null)
+            if (soundByteResource != null)
+            {
+                try
                 {
-                    return new LoginToken
+                    loginToken = new LoginToken
                     {
                         AccessToken = vault.Retrieve(vaultName, "Token")?.Password,
-                        RefreshToken = vault.Retrieve(vaultName, "RefreshToken")?.Password,
-                        ExpireTime = vault.Retrieve(vaultName, "ExpireTime")?.Password,
                         ServiceType = service
                     };
-                }               
-            }
-            catch
-            {
-                return null;
-            }
+                }
+                catch
+                {
+                    return null;
+                }
 
-            return null;
+                try
+                {
+                    loginToken.RefreshToken = vault.Retrieve(vaultName, "RefreshToken")?.Password;
+                    loginToken.ExpireTime = vault.Retrieve(vaultName, "ExpireTime")?.Password;
+                }   
+                catch
+                {
+                    // Ignore. In version 17.10, refresh and expire times were not used,
+                    // so the above will cause an exception when updaating to the latest version.
+                    // Normally the crash would indicate that the user is not logged in, but in fact
+                    // they are. So we just ignore this.
+                }
+            }
+          
+            return loginToken;
         }
 
         private void InitV3Service()
@@ -308,7 +319,7 @@ namespace SoundByte.UWP
             {
                 case VirtualKey.F11:
                     // Send hit
-                    App.Telemetry.TrackEvent("Toggle FullScreen");
+                    Telemetry.TrackEvent("Toggle FullScreen");
                     // Toggle between fullscreen or not
                     if (!DeviceHelper.IsDeviceFullScreen)
                         ApplicationView.GetForCurrentView().TryEnterFullScreenMode();
@@ -317,7 +328,7 @@ namespace SoundByte.UWP
                     break;
                 case VirtualKey.GamepadY:
                     // Send hit
-                    App.Telemetry.TrackEvent("Xbox Playing Page");
+                    Telemetry.TrackEvent("Xbox Playing Page");
                     // Navigate to the current playing track
                     NavigateTo(typeof(NowPlayingView));
                     break;
@@ -341,7 +352,7 @@ namespace SoundByte.UWP
         {
             LoggingService.Log(LoggingService.LogType.Debug, "Initialize Main App Shell...");
 
-            isInit = true;
+            _isInit = true;
 
             // Live tile helpers
             TileHelper.Init();
@@ -501,10 +512,10 @@ namespace SoundByte.UWP
             DeviceHelper.IsBackground = false;
 
             // Send hit
-            App.Telemetry.TrackEvent("Leave Background");
+            Telemetry.TrackEvent("Leave Background");
 
             // Restore view content if it was previously unloaded
-            if (Window.Current != null && Window.Current.Content == null && !isInit)
+            if (Window.Current != null && Window.Current.Content == null && !_isInit)
             {
                 LoggingService.Log(LoggingService.LogType.Debug, "App Enter Foreground");
                 await InitializeShellAsync();
@@ -521,7 +532,7 @@ namespace SoundByte.UWP
             try
             {
                 // Send hit
-                App.Telemetry.TrackEvent("Enter Background");
+                Telemetry.TrackEvent("Enter Background");
 
                 // Update the variable
                 DeviceHelper.IsBackground = true;
@@ -554,7 +565,7 @@ namespace SoundByte.UWP
                 await ReduceMemoryUsageAsync();
 
             // Send hit
-            App.Telemetry.TrackEvent("Reducing Memory Usage", new Dictionary<string, string>
+            Telemetry.TrackEvent("Reducing Memory Usage", new Dictionary<string, string>
             {
                 {"NewLimit", e.NewLimit / 1024 / 1024 + "M"},
                 {"OldLimit", e.OldLimit / 1024 / 1024 + "M"},
@@ -590,7 +601,7 @@ namespace SoundByte.UWP
                 await ReduceMemoryUsageAsync();
 
             // Send hit
-            App.Telemetry.TrackEvent("Memory Usage Increader", new Dictionary<string, string>
+            Telemetry.TrackEvent("Memory Usage Increader", new Dictionary<string, string>
             {
                 {"CurrentUsage", MemoryManager.AppMemoryUsage / 1024 / 1024 + "M"}
             });
