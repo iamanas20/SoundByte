@@ -127,8 +127,8 @@ namespace SoundByte.UWP
                     return;
 
                 vault.Add(new PasswordCredential(vaultName, "Token", token.AccessToken));
-                vault.Add(new PasswordCredential(vaultName, "RefreshToken", token.RefreshToken));
-                vault.Add(new PasswordCredential(vaultName, "ExpireTime", token.ExpireTime));
+                vault.Add(new PasswordCredential(vaultName, "RefreshToken", string.IsNullOrEmpty(token.RefreshToken) ? "n/a" : token.RefreshToken));
+                vault.Add(new PasswordCredential(vaultName, "ExpireTime", string.IsNullOrEmpty(token.ExpireTime) ? "n/a" : token.ExpireTime));
 
                 // Track the connect event
                 Telemetry.TrackEvent("Service Connected",
@@ -593,7 +593,7 @@ namespace SoundByte.UWP
             // Check the usage level to determine whether reducing memory is necessary.
             // Memory usage may have been fine when initially entering the background but
             // the app may have increased its memory usage since then and will need to trim back.
-            if (level != AppMemoryUsageLevel.OverLimit && level != AppMemoryUsageLevel.High)
+            if (level == AppMemoryUsageLevel.OverLimit || level == AppMemoryUsageLevel.High)
                 await ReduceMemoryUsageAsync();
 
             // Send hit
@@ -657,7 +657,7 @@ namespace SoundByte.UWP
                     Window.Current.Content = null;
 
                     GC.Collect();
-                });
+                }, CoreDispatcherPriority.High);
             }
             catch
             {

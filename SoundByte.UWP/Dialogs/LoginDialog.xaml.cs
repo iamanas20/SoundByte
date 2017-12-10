@@ -73,7 +73,7 @@ namespace SoundByte.UWP.Dialogs
                 case ServiceType.SoundCloud:
                 case ServiceType.SoundCloudV2:
                     connectUri =
-                        $"https://soundcloud.com/connect?client_id={AppKeysHelper.SoundCloudClientId}&response_type=code&display=popup&redirect_uri={_appCallback}&state={_stateVerification}";
+                        $"https://soundcloud.com/connect?scope=non-expiring&client_id={AppKeysHelper.SoundCloudClientId}&response_type=code&display=popup&redirect_uri={_appCallback}&state={_stateVerification}";
                     break;
                 case ServiceType.Fanburst:
                     connectUri =
