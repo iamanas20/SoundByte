@@ -165,7 +165,36 @@ namespace SoundByte.UWP
                 // We have not yet run the online init
                 if (!App.OnlineAppInitComplete)
                 {
-                    await AuthorizationHelpers.OnlineAppInitAsync("windows", "10.0.0.", "", true);
+                    try
+                    {
+                        var returnInfo = await AuthorizationHelpers.OnlineAppInitAsync("windows", "10.0.0.", "", true);
+
+                        if (!returnInfo.Successful)
+                        {
+                            // In the future we will navigate to another page
+                            var i = 0;
+                        }
+
+                        // If the server returned app keys, use them.
+                        if (returnInfo.AppKeys != null)
+                        {
+                            var appKeys = returnInfo.AppKeys;
+
+                            AppKeysHelper.SoundCloudClientId = appKeys.SoundCloudClientId;
+                            AppKeysHelper.SoundCloudPlaybackIds = appKeys.SoundCloudPlaybackIds;
+                            AppKeysHelper.YouTubeLoginClientId = appKeys.YouTubeLoginClientId;
+                            AppKeysHelper.YouTubeClientId = appKeys.YouTubeClientId;
+                            AppKeysHelper.FanburstClientId = appKeys.FanburstClientId;
+                            AppKeysHelper.LastFmClientId = appKeys.LastFmClientId;
+                            AppKeysHelper.GoogleAnalyticsTrackerId = appKeys.GoogleAnalyticsTrackerId;
+                            AppKeysHelper.AppCenterClientId = appKeys.AppCenterClientId;
+                            AppKeysHelper.HockeyAppClientId = appKeys.HockeyAppClientId;
+                        }
+                    }
+                    catch
+                    {
+                        // Does not matter if we fail.
+                    }
                 }
 
                 // Test Version and tell user app upgraded

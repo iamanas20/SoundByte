@@ -171,9 +171,6 @@ namespace SoundByte.Core.Helpers
         public static async Task<InitResult> OnlineAppInitAsync(string platform, string version, string appId,
             bool requestNewKeys)
         {
-            return null;
-
-
             // Create a http client to get the token
             using (var httpClient = new HttpClient(new HttpClientHandler
             {
@@ -189,7 +186,7 @@ namespace SoundByte.Core.Helpers
                 // Encode the body content
                 var encodedContent = new FormUrlEncodedContent(new Dictionary<string, string>
                 {
-                    
+                    { "requestnewkeys", requestNewKeys.ToString() }
                 });
 
                 try
