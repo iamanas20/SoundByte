@@ -315,17 +315,11 @@ namespace SoundByte.UWP
                     else
                         ApplicationView.GetForCurrentView().ExitFullScreenMode();
                     break;
-                case VirtualKey.GamepadView:
+                case VirtualKey.GamepadY:
                     // Send hit
                     App.Telemetry.TrackEvent("Xbox Playing Page");
                     // Navigate to the current playing track
                     NavigateTo(typeof(NowPlayingView));
-                    break;
-                case VirtualKey.GamepadY:
-                    // Send hit
-                    App.Telemetry.TrackEvent("Xbox Search Page");
-                    // Navigate to the search page
-                    NavigateTo(typeof(SearchView));
                     break;
                 case VirtualKey.Back:
                     
