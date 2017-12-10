@@ -91,7 +91,6 @@ namespace SoundByte.UWP.Views.Application
 
         private void NavigateXboxView(object sender, RoutedEventArgs e)
         {
-            App.NavigateTo(typeof(XboxMenuView));
 
         }
     }

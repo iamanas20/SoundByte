@@ -13,7 +13,11 @@
                         <stateTriggers:DeviceStateTrigger DeviceFamily="Windows.Xbox" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="NavView.ExpandedModeThresholdWidth" Value="10000" />
+                        <Setter Target="NavView.CompactModeThresholdWidth" Value="100000" />
+                        <Setter Target="NavView.ExpandedModeThresholdWidth" Value="100000" />
+
+                        <Setter Target="AppTitle.Visibility" Value="Collapsed" />
+                        <Setter Target="NavView.Background" Value="{ThemeResource NavigationViewDefaultPaneBackground}" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -39,34 +43,11 @@
                      Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}"
                      Visibility="Collapsed" />
 
-        <Grid x:Name="Titlebar" 
-              Background="Transparent"
-              HorizontalAlignment="Stretch" 
-              VerticalAlignment="Top"
-              Canvas.ZIndex="1000"
-              Height="32" />
-        
-
-        <Button x:Name="BackButton"
-                Padding="0"
-                Width="64"
-                Height="32"
-                Background="Transparent"
-                BorderThickness="0"
-                VerticalAlignment="Top"
-                HorizontalAlignment="Left"
-                Visibility="Collapsed"
-                Click="GoBack"
-                Canvas.ZIndex="1020">
-            <Button.Content>
-                 <TextBlock Text="&#xE830;" 
-                            Opacity="0.8"
-                            FontSize="12"
-                            FontFamily="Segoe MDL2 Assets" 
-                            VerticalAlignment="Center" 
-                            HorizontalAlignment="Center" />
-            </Button.Content>
-        </Button>
+        <TextBlock x:Name="AppTitle" 
+                   Canvas.ZIndex="100"
+                   Style="{StaticResource CaptionTextBlockStyle}" 
+                   Text="SoundByte"
+                   IsHitTestVisible="False" />
         
         <Grid x:Name="DesktopBlurGrid" 
               Width="320"
@@ -82,8 +63,7 @@
                         SelectionChanged="NavView_OnSelectionChanged"
                         OpenPaneLength="320" 
                         CompactPaneLength="64"
-                        CompactModeThresholdWidth="560" 
-                        
+                        CompactModeThresholdWidth="560"                        
                         IsSettingsVisible="False"
                         ExpandedModeThresholdWidth="760">
 
@@ -91,16 +71,7 @@
                 <AutoSuggestBox QueryIcon="Find" PlaceholderText="Search" QuerySubmitted="SearchForItem" Style="{StaticResource AppSearchBox}"  />
             </NavigationView.AutoSuggestBox>
 
-            <NavigationView.PaneFooter>
-                <NavigationViewList SelectedItem="{Binding Path=SelectedItem, ElementName=NavView, Mode=TwoWay}"
-                                    SelectionMode="Single" 
-                                    IsItemClickEnabled="True">
                    
-                </NavigationViewList>
-                
-             
-            </NavigationView.PaneFooter>
-            
             <NavigationView.MenuItems>
                 <NavigationViewItem Content="Explore"     
                                     Style="{StaticResource NavStyle}" 

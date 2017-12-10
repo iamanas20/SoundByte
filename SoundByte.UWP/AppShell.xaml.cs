@@ -16,10 +16,12 @@ using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
+using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.VoiceCommands;
 using Windows.Globalization;
 using Windows.Services.Store;
 using Windows.UI;
+using Windows.UI.Core;
 using Windows.UI.Notifications;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
@@ -65,6 +67,12 @@ namespace SoundByte.UWP
             // Unload events
             Unloaded += (sender, args) => Dispose();
 
+            var titleBar = CoreApplication.GetCurrentView().TitleBar;
+            titleBar.LayoutMetricsChanged += (s, e) =>
+            {
+                AppTitle.Margin = new Thickness(CoreApplication.GetCurrentView().TitleBar.SystemOverlayLeftInset + 12, 8, 0, 0);
+            };
+
             // This is a dirty to show the now playing
             // bar when a track is played. This method
             // updates the required layout for the now
@@ -88,8 +96,6 @@ namespace SoundByte.UWP
                 Application.Current.Resources["CircleButtonStyle"] =
                     Application.Current.Resources["XboxCircleButtonStyle"];
             }
-
-            Window.Current.SetTitleBar(Titlebar);
 
             RootFrame.Focus(FocusState.Keyboard);
         }
@@ -116,31 +122,31 @@ namespace SoundByte.UWP
             PlaybackService.Instance.OnCurrentTrackChanged -= InstanceOnOnCurrentTrackChanged;
         }
 
-        private void GoBack(object sender, RoutedEventArgs e)
+        private void OnBackRequested(object sender, BackRequestedEventArgs e)
         {
             if (App.OverrideBackEvent)
             {
+                e.Handled = true;
             }
             else
             {
                 if (RootFrame.SourcePageType == typeof(BlankView))
                 {
                     RootFrame.BackStack.Clear();
-                    RootFrame.Navigate(DeviceHelper.IsXbox
-                        ? typeof(XboxMenuView)
-                        : typeof(ExploreView));
+                    RootFrame.Navigate(typeof(ExploreView));
+                    e.Handled = true;
                 }
                 else
                 {
                     if (RootFrame.CanGoBack)
                     {
                         RootFrame.GoBack();
+                        e.Handled = true;
                     }
                     else
                     {
-                        RootFrame.Navigate(DeviceHelper.IsXbox
-                            ? typeof(SoundCloudStreamView)
-                            : typeof(ExploreView));
+                        RootFrame.Navigate(typeof(ExploreView));
+                        e.Handled = true;
                     }
                 }
             }
@@ -155,6 +161,8 @@ namespace SoundByte.UWP
                 string.IsNullOrEmpty(SettingsService.Instance.CurrentAppLanguage)
                     ? ApplicationLanguages.Languages[0]
                     : SettingsService.Instance.CurrentAppLanguage;
+
+            SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
 
             // Navigate to the first page
             await HandleProtocolAsync(path);
@@ -417,11 +425,7 @@ namespace SoundByte.UWP
                 await App.SetLoadingAsync(false);
             }
 
-            if (DeviceHelper.IsXbox)
-            {
-                RootFrame.Navigate(typeof(XboxMenuView));
-            }
-            else if (DeviceHelper.IsMobile)
+            if (DeviceHelper.IsMobile)
             {
                 RootFrame.Navigate(typeof(MobileView));
             }
@@ -469,15 +473,9 @@ namespace SoundByte.UWP
                     break;
             }
 
-            if (((Frame) sender).CanGoBack && DeviceHelper.IsDesktop)
-            {
-                BackButton.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                BackButton.Visibility = Visibility.Collapsed;
-
-            }
+            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = ((Frame)sender).CanGoBack 
+                ? AppViewBackButtonVisibility.Visible 
+                : AppViewBackButtonVisibility.Collapsed;
 
             // Update the UI depending if we are logged in or not
             if (SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud) || 
@@ -488,7 +486,8 @@ namespace SoundByte.UWP
                 ShowLogoutContent();
 
             if (DeviceHelper.IsDesktop)
-                if (((Frame) sender).SourcePageType == typeof(NowPlayingView))
+            {
+                if (((Frame)sender).SourcePageType == typeof(NowPlayingView))
                 {
                     NavView.IsPaneToggleButtonVisible = false;
                     NavView.CompactPaneLength = 0;
@@ -508,10 +507,10 @@ namespace SoundByte.UWP
                     else
                         ShowNowPlayingBar();
                 }
+            }            
 
             RootFrame.Focus(FocusState.Programmatic);
             RootFrame.Focus(FocusState.Keyboard);
-
         }
 
         private void HideNowPlayingBar()

@@ -51,6 +51,9 @@ namespace SoundByte.UWP.Controls
 
                 await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                 {
+                    if (PlaybackService.Instance.CurrentTrack == null)
+                        return;
+
                     if (PlaybackService.Instance.CurrentTrack?.Id == Track?.Id)
                     {
                         FindName("TrackNowPlaying");
