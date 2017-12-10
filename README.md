@@ -44,8 +44,7 @@ Before calling the `SoundByteV3Service` class, you must first set it up. This is
 var soundCloudSecret = new ServiceSecret
 {
     Service = ServiceType.SoundCloud,
-    ClientId = "client_id",
-    ClientSecret = "client_secret"
+    ClientId = "client_id"
 };
 ```
 
@@ -61,8 +60,6 @@ Each SoundByte endpoint has its own namespace within the `items` namespace. For 
 
 Every item in SoundByte following the above logic. This allows easy extensions of the app to support more services in the future. It also allow very different APIs to convert their code into a universal SoundByte standard.
 
-**SoundByte.Service:** This project is a web app that runs in Microsoft Azure. This web app will allow spotify like features in the app (login to xbox with PC, continue listening to a song on another device etc.)
-
 **SoundByte.UWP:** This project contains the main code for SoundByte on Windows 10 / Xbox One. Items such as brushes, view models, models, views, playback service etc. are all stored here.
 
 SoundByte logic is based around a central XAML/C# file called `AppShell.xaml`/`AppShell.xaml.cs`. This file displays key app elements such as the left hand navigation pane, and mobile navigation bar. It also supports app navigation, and is used to load key app resources at load time.
@@ -75,9 +72,6 @@ The `UserControls` folder contains the XAML and behind code for common user cont
 
 The `Services` folder contains static services used around the app. Noticable examples are the Playback Service (handles starting songs and playing / pausing songs) and the SoundByte service (used by the app to login / logout, access api resources etc.)
 
-The `Models` folder contains models for the app. The name models may sound a little confusing at first (as these are not empty classes for JSON deserialization - these classes are located in the `SoundByte.Core` project). These classes typically extend `ObservableCollection<item>` and `ISupportIncrementalLoading` and are used for automatic loading of content within list views and grid views.
-
-
 ## Features
 - **SoundCloud API:** SoundByte is able to access the SoundCloud API either logged in or logged out. When logged out a user can serarch for music and then play the music. When logged in, a user can like / repost items, add items to their playlist, view their history, likes, stream, created/liked playlists and notifications. When also logged in the user can upload their own music to the SoundCloud API.
 
@@ -88,45 +82,11 @@ The `Models` folder contains models for the app. The name models may sound a lit
 - **Background Notifications:** Initial versions of SoundByte supported background notifications that were provided by a background timer service that ran every 15 minutes. This service would update a temporary list with all new items in the users stream since the last check, and display notifications for these items. This newly open-sourced version of SoundByte no longer supports this notification system due to instability issues. 
 
 ## Download
-SoundByte can be either downloaded from the Windows Store [here](https://www.microsoft.com/store/apps/9nblggh4xbjg) or downloaded from the build server. Windows 10 Creators Update or newer is required to run SoundByte.
-
-## Extending SoundByte
-
-SoundByte.Core Gen3 is designed to be easily extendable. More Information is coming soon...
-
+SoundByte can be either downloaded from the Windows Store [here](https://www.microsoft.com/store/apps/9nblggh4xbjg). Windows 10 Creators Update or newer is required to run SoundByte. If you would like to run beta version (compiled every Sunday) direct message the SoundByte twitter (@SoundByteUWP).
 
 ## Development
 
-Create a new file under SoundByte.UWP/Assets called AppKeys.cs. This file will contain all the keys needed to run the app.
-Insert the following c# code into this file and fill in the required keys:
-
-``` 
-using System.Collections.Generic;
-
-namespace SoundByte.UWP.Assets
-{
-    public static class AppKeys
-    {
-        public const string GoogleAnalyticsTrackerId = "";
-
-        public const string HockeyAppClientId = "";
-        public const string AzureMobileCenterClientId = "";
-
-        public const string SoundCloudClientId = "";
-        public const string SoundCloudClientSecret = "";
-
-        public const string FanburstClientId = "";
-        public const string FanburstClientSecret = "";
-
-        public const string YouTubeClientId = "";
-
-        public static readonly List<string> BackupSoundCloudPlaybackIDs = new List<string>()
-        {
-
-        };
-    }
-}
-```
+Simply clone the repo to get started. SoundByte will download the required information from the SoundByte servers on app startup.
 
 ## Credits
 
@@ -137,7 +97,7 @@ See also the list of [contributors](https://github.com/DominicMaas/SoundByte/con
 
 ## License
 
-Copyright (c) 2017, Grid Entertainment
+Copyright (c) 2016 - 2017, Grid Entertainment
 
 *All Rights Reserved*
 
