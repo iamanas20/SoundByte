@@ -6,7 +6,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:audioVisualizer="using:AudioVisualizer"
-    Loaded="NowPlayingBar_OnLoaded"
     mc:Ignorable="d"
     d:DesignHeight="64">
 

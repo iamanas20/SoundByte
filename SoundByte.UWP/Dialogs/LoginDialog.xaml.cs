@@ -19,7 +19,7 @@ using SoundByte.Core;
 using SoundByte.Core.Exceptions;
 using SoundByte.Core.Helpers;
 using SoundByte.Core.Services;
-using SoundByte.UWP.Assets;
+using SoundByte.UWP.Helpers;
 using SoundByte.UWP.Services;
 using QueryParameterCollection = Microsoft.Toolkit.Uwp.Helpers.QueryParameterCollection;
 
@@ -73,15 +73,15 @@ namespace SoundByte.UWP.Dialogs
                 case ServiceType.SoundCloud:
                 case ServiceType.SoundCloudV2:
                     connectUri =
-                        $"https://soundcloud.com/connect?client_id={AppKeys.SoundCloudClientId}&response_type=code&display=popup&redirect_uri={_appCallback}&state={_stateVerification}";
+                        $"https://soundcloud.com/connect?client_id={AppKeysHelper.SoundCloudClientId}&response_type=code&display=popup&redirect_uri={_appCallback}&state={_stateVerification}";
                     break;
                 case ServiceType.Fanburst:
                     connectUri =
-                        $"https://fanburst.com/oauth/authorize?client_id={AppKeys.FanburstClientId}&response_type=code&redirect_uri={_appCallback}&state={_stateVerification}&display=popup";
+                        $"https://fanburst.com/oauth/authorize?client_id={AppKeysHelper.FanburstClientId}&response_type=code&redirect_uri={_appCallback}&state={_stateVerification}&display=popup";
                     break;
                 case ServiceType.YouTube:
                     connectUri =
-                        $"https://accounts.google.com/o/oauth2/v2/auth?client_id={AppKeys.YouTubeLoginClientId}&redirect_uri={_appCallback}&response_type=code&state={_stateVerification}&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fyoutube";
+                        $"https://accounts.google.com/o/oauth2/v2/auth?client_id={AppKeysHelper.YouTubeLoginClientId}&redirect_uri={_appCallback}&response_type=code&state={_stateVerification}&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fyoutube";
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

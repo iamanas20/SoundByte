@@ -41,8 +41,6 @@ using SoundByte.Core.Services;
 using SoundByte.UWP.DatabaseContexts;
 using SoundByte.Core.Models.MediaStreams;
 using SoundByte.Core.Sources;
-using SoundByte.UWP.Assets;
-using Windows.Foundation.Collections;
 using Microsoft.EntityFrameworkCore;
 
 namespace SoundByte.UWP.Services
@@ -63,8 +61,6 @@ namespace SoundByte.UWP.Services
         /// This event is fired when the current track changes.
         /// </summary>
         public event CurrentTrackChangedEventHandler OnCurrentTrackChanged;
-
-        public event EventHandler<IVisualizationSource> VisualizationSourceChanged;
         #endregion
 
         #region Class Variables / Getters and Setters
@@ -300,8 +296,6 @@ namespace SoundByte.UWP.Services
         }
 
         #endregion
-
-      
 
         #region Service Setup
         private static readonly Lazy<PlaybackService> InstanceHolder =
@@ -596,7 +590,7 @@ namespace SoundByte.UWP.Services
                 App.Telemetry.TrackEvent("Could not add Playback Item",
                     new Dictionary<string, string>
                     {
-                        {"track_id", track?.Id}
+                        {"track_id", track.Id}
                     });
                 return null;
             }
@@ -619,7 +613,7 @@ namespace SoundByte.UWP.Services
                 switch (track.ServiceType)
                 {
                     case ServiceType.Fanburst:
-                        args.SetUri(new Uri("https://api.fanburst.com/tracks/" + track.Id + "/stream?client_id=" + AppKeys.FanburstClientId));
+                        args.SetUri(new Uri("https://api.fanburst.com/tracks/" + track.Id + "/stream?client_id=" + AppKeysHelper.FanburstClientId));
                         break;
                     case ServiceType.SoundCloud:
                     case ServiceType.SoundCloudV2:
@@ -679,10 +673,10 @@ namespace SoundByte.UWP.Services
 
         public class PlaybackResponse
         {
-            public PlaybackResponse(bool _success, string _messsage)
+            public PlaybackResponse(bool success, string messsage)
             {
-                Success = _success;
-                Message = _messsage;
+                Success = success;
+                Message = messsage;
             }
 
             public string Message { get; set; }
@@ -993,7 +987,7 @@ namespace SoundByte.UWP.Services
             App.Telemetry.TrackEvent("Current Song Changed", new Dictionary<string, string>
             {
                 { "CurrentUsage", currentUsageLimit },
-                { "TrackType", track?.ServiceType.ToString() ?? "Null" },
+                { "TrackType", track.ServiceType.ToString() ?? "Null" },
                 { "IsSoundCloudConnected", SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud).ToString() },
                 { "IsFanburstConnected", SoundByteV3Service.Current.IsServiceConnected(ServiceType.Fanburst).ToString() },
                 { "IsYouTubeConnected", SoundByteV3Service.Current.IsServiceConnected(ServiceType.YouTube).ToString() }
@@ -1056,16 +1050,16 @@ namespace SoundByte.UWP.Services
             {
                 // Check if we have hit the soundcloud api limit
                 if (await ApiCheck(
-                    $"https://api.soundcloud.com/tracks/320126814/stream?client_id={AppKeys.SoundCloudClientId}"))
-                    return AppKeys.SoundCloudClientId;
+                    $"https://api.soundcloud.com/tracks/320126814/stream?client_id={AppKeysHelper.SoundCloudClientId}"))
+                    return AppKeysHelper.SoundCloudClientId;
 
                 // Loop through all the backup keys
-                foreach (var key in AppKeys.BackupSoundCloudPlaybackIDs)
+                foreach (var key in AppKeysHelper.SoundCloudPlaybackIds)
                     if (await ApiCheck(
                         $"https://api.soundcloud.com/tracks/320126814/stream?client_id={key}"))
                         return key;
 
-                return AppKeys.SoundCloudClientId;
+                return AppKeysHelper.SoundCloudClientId;
             });
         }
         #endregion

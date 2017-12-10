@@ -30,7 +30,6 @@ using SoundByte.Core;
 using SoundByte.Core.Helpers;
 using SoundByte.Core.Items;
 using SoundByte.Core.Services;
-using SoundByte.UWP.Assets;
 using SoundByte.UWP.Dialogs;
 using SoundByte.UWP.Helpers;
 using SoundByte.UWP.Services;
@@ -46,6 +45,8 @@ namespace SoundByte.UWP
         public static bool OnlineAppInitComplete { get; set; }
 
         public static TelemetryService Telemetry { get; } = new TelemetryService();
+
+        private bool isInit = false;
 
         #region App Setup
 
@@ -226,25 +227,25 @@ namespace SoundByte.UWP
                 new ServiceSecret
                 {
                     Service = ServiceType.SoundCloud,
-                    ClientId = AppKeys.SoundCloudClientId,
+                    ClientId = AppKeysHelper.SoundCloudClientId,
                     UserToken = soundCloudToken
                 },
                 new ServiceSecret
                 {
                     Service = ServiceType.SoundCloudV2,
-                    ClientId = AppKeys.SoundCloudClientId,
+                    ClientId = AppKeysHelper.SoundCloudClientId,
                     UserToken = soundCloudToken
                 },
                 new ServiceSecret
                 {
                     Service = ServiceType.Fanburst,
-                    ClientId = AppKeys.FanburstClientId,
+                    ClientId = AppKeysHelper.FanburstClientId,
                     UserToken = fanburstToken
                 },
                 new ServiceSecret
                 {
                     Service = ServiceType.YouTube,
-                    ClientId = AppKeys.YouTubeClientId,
+                    ClientId = AppKeysHelper.YouTubeClientId,
                     UserToken = youTubeToken
                 }, 
                 new ServiceSecret
@@ -346,6 +347,8 @@ namespace SoundByte.UWP
         {
             LoggingService.Log(LoggingService.LogType.Debug, "Initialize Main App Shell...");
 
+            isInit = true;
+
             // Live tile helpers
             TileHelper.Init();
 
@@ -393,8 +396,7 @@ namespace SoundByte.UWP
                     return;
                 }
 
-               
-
+              
                 OnlineAppInitComplete = true;
             }
 
@@ -402,8 +404,8 @@ namespace SoundByte.UWP
             InitV3Service();
 
             // Init the telemetry service
-            await Telemetry.InitAsync(AppKeys.GoogleAnalyticsTrackerId, AppKeys.HockeyAppClientId,
-                AppKeys.AzureMobileCenterClientId);
+            await Telemetry.InitAsync(AppKeysHelper.GoogleAnalyticsTrackerId, AppKeysHelper.HockeyAppClientId,
+                AppKeysHelper.AppCenterClientId);
 
             // Get the main shell
             var shell = Window.Current.Content as AppShell;
@@ -508,8 +510,9 @@ namespace SoundByte.UWP
             App.Telemetry.TrackEvent("Leave Background");
 
             // Restore view content if it was previously unloaded
-            if (Window.Current != null && Window.Current.Content == null)
+            if (Window.Current != null && Window.Current.Content == null && !isInit)
             {
+                LoggingService.Log(LoggingService.LogType.Debug, "App Enter Foreground");
                 await InitializeShellAsync();
             }
         }
@@ -675,6 +678,8 @@ namespace SoundByte.UWP
         {
             var path = string.Empty;
 
+            LoggingService.Log(LoggingService.LogType.Debug, "App Activate Requested");
+
             // Handle all the activation protocols that could occure
             switch (e.Kind)
             {
@@ -707,6 +712,8 @@ namespace SoundByte.UWP
             // Handle all the activation protocols that could occure
             if (!string.IsNullOrEmpty(e.TileId))
                 path = e.Arguments;
+
+            LoggingService.Log(LoggingService.LogType.Debug, "App Launch Requested");
 
             // If this is just a prelaunch, don't 
             // actually set the content to the frame.

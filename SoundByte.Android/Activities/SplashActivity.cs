@@ -44,19 +44,16 @@ namespace SoundByte.Android.Activities
                 {
                     Service = ServiceType.SoundCloud,
                     ClientId = AppKeys.SoundCloudClientId,
-                    ClientSecret = AppKeys.SoundCloudClientSecret,
                 },
                 new ServiceSecret
                 {
                     Service = ServiceType.SoundCloudV2,
                     ClientId = AppKeys.SoundCloudClientId,
-                    ClientSecret = AppKeys.SoundCloudClientSecret,
                 },
                 new ServiceSecret
                 {
                     Service = ServiceType.Fanburst,
                     ClientId = AppKeys.FanburstClientId,
-                    ClientSecret = AppKeys.FanburstClientSecret,
                 },
                 new ServiceSecret
                 {
