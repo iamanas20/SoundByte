@@ -541,7 +541,7 @@ namespace SoundByte.UWP.Services
 
                 // Set the maximum value
                 MaxTimeValue = Player.PlaybackSession.NaturalDuration.TotalSeconds;
-            }  
+            }
         }
         #endregion
 
@@ -562,7 +562,7 @@ namespace SoundByte.UWP.Services
 
                 // So we can access the item later
                 source.CustomProperties["SoundByteItem.ID"] = track.Id;
-                
+
                 // Create a configurable playback item backed by the media source
                 var playbackItem = new MediaPlaybackItem(source);
 
@@ -608,24 +608,29 @@ namespace SoundByte.UWP.Services
                 if (track == null)
                     return;
 
-                args.SetUri(await track.GetAudioStreamAsync());
+                var url = await track.GetAudioStreamAsync();
 
-                // If the user is listening to a youtube livesteam, we must set an adaptive source 
-                // for the steam.
-                if (track.IsLive && track.ServiceType == ServiceType.YouTube)
+                await DispatcherHelper.ExecuteOnUIThreadAsync(async () =>
                 {
-                    var source = await AdaptiveMediaSource.CreateFromUriAsync(new Uri(track.AudioStreamUrl));
-                    if (source.Status == AdaptiveMediaSourceCreationStatus.Success)
+                    args.SetUri(url);
+
+                    // If the user is listening to a youtube livesteam, we must set an adaptive source 
+                    // for the steam.
+                    if (track.IsLive && track.ServiceType == ServiceType.YouTube)
                     {
-                        args.SetAdaptiveMediaSource(source.MediaSource);
+                        var source = await AdaptiveMediaSource.CreateFromUriAsync(new Uri(track.AudioStreamUrl));
+                        if (source.Status == AdaptiveMediaSourceCreationStatus.Success)
+                        {
+                            args.SetAdaptiveMediaSource(source.MediaSource);
+                        }
                     }
-                }
+                });
             }
             catch (Exception e)
             {
                 await DispatcherHelper.ExecuteOnUIThreadAsync(async () =>
                 {
-                    await new MessageDialog("Could not play track.\nError: " + e.Message).ShowAsync();
+                   await new MessageDialog("Could not play track.\nError: " + e.Message).ShowAsync();
                 });
             }
 
@@ -858,7 +863,7 @@ namespace SoundByte.UWP.Services
                     CurrentTimeValue = 1;
                     MaxTimeValue = 1;
                 }
-              
+
                 // Set the last playback date
                 CurrentTrack.LastPlaybackDate = DateTime.UtcNow;
 
@@ -922,9 +927,9 @@ namespace SoundByte.UWP.Services
                     await db.SaveChangesAsync();
                 }
             }
-            catch 
+            catch
             {
-               // Ignore
+                // Ignore
             }
 
             string currentUsageLimit;
@@ -984,7 +989,7 @@ namespace SoundByte.UWP.Services
         }
 
         #endregion
-       
+
         #region Live Tiles
 
         private void UpdatePausedTile()

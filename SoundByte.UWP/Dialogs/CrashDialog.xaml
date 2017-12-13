@@ -40,7 +40,7 @@
                        FontWeight="SemiLight"
                        TextAlignment="Center"
                        Margin="2,2,2,2"
-                       Text="SoundByte has encountered a problem and needs to close, we are sorry for the inconvenience. If you would like to help us fix this problem, fill in the box below." />
+                       Text="SoundByte has encountered a problem and tried to prevent it. You can continue using the app, but it may be unstable. " />
 
             <!-- Information about the error -->
             <TextBlock x:Name="MoreInfo"

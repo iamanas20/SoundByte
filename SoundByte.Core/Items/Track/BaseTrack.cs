@@ -47,10 +47,12 @@ namespace SoundByte.Core.Items.Track
             if (service == null)
                 throw new Exception("Oh shit, this should like, never be null dude. You should probably direct message me on twitter :D (@dominicjmaas)");
 
+            var audioStream = string.Empty;
+
             switch (ServiceType)
             {
                 case ServiceType.Fanburst:
-                    AudioStreamUrl = $"https://api.fanburst.com/tracks/{Id}/stream?client_id={service.ClientId}";
+                    audioStream = $"https://api.fanburst.com/tracks/{Id}/stream?client_id={service.ClientId}";
                     break;
                 case ServiceType.SoundCloud:
                 case ServiceType.SoundCloudV2:
@@ -58,7 +60,7 @@ namespace SoundByte.Core.Items.Track
                     // If we have not hit the rate limit for our current main key, use that key
                     if (await SoundCloudApiCheck($"https://api.soundcloud.com/tracks/320126814/stream?client_id={service.ClientId}"))
                     {
-                        AudioStreamUrl = $"https://api.soundcloud.com/tracks/{Id}/stream?client_id={service.ClientId}";
+                        audioStream = $"https://api.soundcloud.com/tracks/{Id}/stream?client_id={service.ClientId}";
                     }
 
                     // The key is invalid, loop through the other keys
@@ -67,7 +69,7 @@ namespace SoundByte.Core.Items.Track
                         if (!await SoundCloudApiCheck($"https://api.soundcloud.com/tracks/320126814/stream?client_id={key}"))
                             continue;
 
-                        AudioStreamUrl = $"https://api.soundcloud.com/tracks/{Id}/stream?client_id={key}";
+                        audioStream = $"https://api.soundcloud.com/tracks/{Id}/stream?client_id={key}";
                         break;
                     }
                     break;
@@ -78,7 +80,7 @@ namespace SoundByte.Core.Items.Track
 
                     // Set the audio stream URL to the highest quality
                     // TODO: Set it at an alright quality.
-                    AudioStreamUrl = mediaStreams.Audio.OrderBy(q => q.AudioEncoding).Last()?.Url;
+                    audioStream = mediaStreams.Audio.OrderBy(q => q.AudioEncoding).Last()?.Url;
 
                     // 720p is max quality we want
                     // If 720p does not exit, set it to the
@@ -92,8 +94,8 @@ namespace SoundByte.Core.Items.Track
                     if (IsLive)
                     {
                         // Wait for lib to update
-                    //    VideoStreamUrl = mediaStreams.HlsLiveStreamUrl;
-                    //    AudioStreamUrl = mediaStreams.HlsLiveStreamUrl;
+                        //    VideoStreamUrl = mediaStreams.HlsLiveStreamUrl;
+                        //    audioStream = mediaStreams.HlsLiveStreamUrl;
                     }
 
                     break;
@@ -101,7 +103,7 @@ namespace SoundByte.Core.Items.Track
                     throw new ArgumentOutOfRangeException();
             }
 
-            return new Uri(AudioStreamUrl);
+            return new Uri(audioStream);
         }
 
         /// <summary>
