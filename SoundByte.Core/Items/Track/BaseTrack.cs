@@ -56,7 +56,7 @@ namespace SoundByte.Core.Items.Track
                 case ServiceType.SoundCloudV2:
 
                     // If we have not hit the rate limit for our current main key, use that key
-                    if (await SoundCloudApiCheck($"https://api.soundcloud.com/tracks/{Id}/stream?client_id={service.ClientId}"))
+                    if (await SoundCloudApiCheck($"https://api.soundcloud.com/tracks/320126814/stream?client_id={service.ClientId}"))
                     {
                         AudioStreamUrl = $"https://api.soundcloud.com/tracks/{Id}/stream?client_id={service.ClientId}";
                     }
@@ -64,7 +64,7 @@ namespace SoundByte.Core.Items.Track
                     // The key is invalid, loop through the other keys
                     foreach (var key in service.ClientIds)
                     {
-                        if (!await SoundCloudApiCheck($"https://api.soundcloud.com/tracks/{Id}/stream?client_id={key}"))
+                        if (!await SoundCloudApiCheck($"https://api.soundcloud.com/tracks/320126814/stream?client_id={key}"))
                             continue;
 
                         AudioStreamUrl = $"https://api.soundcloud.com/tracks/{Id}/stream?client_id={key}";

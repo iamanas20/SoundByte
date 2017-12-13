@@ -556,7 +556,7 @@ namespace SoundByte.UWP.Services
                 {
                     Token = track.Id
                 };
-                binder.Binding += Binder_Binding;
+                binder.Binding += BindMediaSource;
 
                 var source = MediaSource.CreateFromMediaBinder(binder);
 
@@ -594,7 +594,7 @@ namespace SoundByte.UWP.Services
             }
         }
 
-        private async void Binder_Binding(MediaBinder sender, MediaBindingEventArgs args)
+        private async void BindMediaSource(MediaBinder sender, MediaBindingEventArgs args)
         {
             // We are performing
             var defferal = args.GetDeferral();
@@ -623,7 +623,10 @@ namespace SoundByte.UWP.Services
             }
             catch (Exception e)
             {
-                await new MessageDialog("Could not play track.\nError: " + e.Message).ShowAsync();
+                await DispatcherHelper.ExecuteOnUIThreadAsync(async () =>
+                {
+                    await new MessageDialog("Could not play track.\nError: " + e.Message).ShowAsync();
+                });
             }
 
             await App.SetLoadingAsync(false);
