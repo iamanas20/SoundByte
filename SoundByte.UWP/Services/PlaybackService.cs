@@ -25,6 +25,7 @@ using Windows.Media.Streaming.Adaptive;
 using Windows.Storage.Streams;
 using Windows.System;
 using Windows.UI.Notifications;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.Web.Http;
@@ -39,7 +40,6 @@ using SoundByte.UWP.Converters;
 using SoundByte.UWP.Helpers;
 using SoundByte.Core.Services;
 using SoundByte.UWP.DatabaseContexts;
-using SoundByte.Core.Models.MediaStreams;
 using SoundByte.Core.Sources;
 using Microsoft.EntityFrameworkCore;
 
@@ -610,60 +610,32 @@ namespace SoundByte.UWP.Services
                 if (track == null)
                     return;
 
+                args.SetUri(await track.GetAudioStreamAsync());
+
+                // If the user is listening to a youtube livesteam, we must set an adaptive source 
+                // for the steam.
+                if (track.IsLive && track.ServiceType == ServiceType.YouTube)
+                {
+                    var source = await AdaptiveMediaSource.CreateFromUriAsync(new Uri(track.AudioStreamUrl));
+                    if (source.Status == AdaptiveMediaSourceCreationStatus.Success)
+                    {
+                        args.SetAdaptiveMediaSource(source.MediaSource);
+                    }
+                }
+
                 switch (track.ServiceType)
                 {
-                    case ServiceType.Fanburst:
-                        args.SetUri(new Uri("https://api.fanburst.com/tracks/" + track.Id + "/stream?client_id=" + AppKeysHelper.FanburstClientId));
-                        break;
                     case ServiceType.SoundCloud:
                     case ServiceType.SoundCloudV2:
                         var key = await GetCorrectApiKey(track);
 
                         args.SetUri(new Uri("https://api.soundcloud.com/tracks/" + track.Id + "/stream?client_id=" + key));
-                        break;
-                    case ServiceType.YouTube:
-                        var video = await new YoutubeClient().GetVideoInfoAsync(track.Id);
-
-                        // Add missing details
-                        track.Duration = video.Duration;
-                        track.ViewCount = video.ViewCount;
-                        track.ArtworkUrl = video.ImageHighResUrl;
-                        track.AudioStreamUrl =
-                            video.AudioStreams.OrderBy(q => q.AudioEncoding).Last()?.Url;
-
-                        // 720p is max quality we want
-                        var wantedQuality =
-                            video.VideoStreams
-                                .FirstOrDefault(x => x.VideoQuality == VideoQuality.High720)?.Url;
-
-                        // If quality is not there, just get the highest (480p for example).
-                        if (string.IsNullOrEmpty(wantedQuality))
-                            wantedQuality = video.VideoStreams.OrderBy(s => s.VideoQuality).Last()?.Url;
-
-                        track.VideoStreamUrl = wantedQuality;
-
-                        if (track.IsLive)
-                        {
-                            var source = await AdaptiveMediaSource.CreateFromUriAsync(new Uri(video.AdaptiveLiveStreamUrl));
-                            if (source.Status == AdaptiveMediaSourceCreationStatus.Success)
-                            {
-                                track.VideoStreamUrl = video.AdaptiveLiveStreamUrl;
-                                args.SetAdaptiveMediaSource(source.MediaSource);
-                                break;
-                            }
-                        }
-
-                        args.SetUri(new Uri(track.AudioStreamUrl));
-                        break;
-                    case ServiceType.ITunesPodcast:
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
+                        break;      
                 }
             }
-            catch
+            catch (Exception e)
             {
-                // ignored
+                await new MessageDialog("Could not play track.\nError: " + e.Message).ShowAsync();
             }
 
             await App.SetLoadingAsync(false);

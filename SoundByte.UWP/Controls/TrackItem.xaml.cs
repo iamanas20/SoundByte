@@ -11,10 +11,8 @@
  */
 
 using System;
-using Windows.Media.Playback;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Input;
-using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.UI.Animations;
 using SoundByte.Core.Items.Track;
 using SoundByte.UWP.Dialogs;
@@ -43,67 +41,8 @@ namespace SoundByte.UWP.Controls
         public TrackItem()
         {
             InitializeComponent();
-
-            Loaded += async (s, e) =>
-            {
-                PlaybackService.Instance.Player.CurrentStateChanged += PlayerOnCurrentStateChanged;
-                PlaybackService.Instance.OnCurrentTrackChanged += CurrentTrackChanged;
-
-                await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
-                {
-                    if (PlaybackService.Instance.CurrentTrack == null)
-                        return;
-
-                    if (PlaybackService.Instance.CurrentTrack?.Id == Track?.Id)
-                    {
-                        FindName("TrackNowPlaying");
-                    }
-                    else
-                    {
-                        UnloadObject(TrackNowPlaying);
-                    }
-                });
-            };
-
-            Unloaded += (s, e) =>
-            {
-                PlaybackService.Instance.Player.CurrentStateChanged -= PlayerOnCurrentStateChanged;
-                PlaybackService.Instance.OnCurrentTrackChanged -= CurrentTrackChanged;
-            };
         }
-
-        private async void PlayerOnCurrentStateChanged(MediaPlayer sender, object args)
-        {
-            await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
-            {
-                if (PlaybackService.Instance.CurrentTrack?.Id == Track?.Id)
-                {
-                    if (sender.CurrentState == MediaPlayerState.Playing)
-                    {
-                        FindName("TrackNowPlaying");
-                    }
-                    else
-                    {
-                        UnloadObject(TrackNowPlaying);
-                    }
-                }
-            });
-        }
-
-        private async void CurrentTrackChanged(BaseTrack newTrack)
-        {
-            await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
-            {
-                if (newTrack?.Id == Track?.Id)
-                {
-                    FindName("TrackNowPlaying");
-                }
-                else
-                {
-                    UnloadObject(TrackNowPlaying);
-                }
-            });
-        }
+ 
 
         private async void Share(object sender, RoutedEventArgs e)
         {
@@ -117,6 +56,8 @@ namespace SoundByte.UWP.Controls
 
         private async void OnPointerEntered(object sender, PointerRoutedEventArgs e)
         {
+            FindName("HoverArea");
+
             ShadowPanel.DropShadow.StartAnimation("Offset.Y",
                 ShadowPanel.DropShadow.Compositor.CreateScalarKeyFrameAnimation(null, 10.0f, TimeSpan.FromMilliseconds(250), null));
 
@@ -146,7 +87,10 @@ namespace SoundByte.UWP.Controls
 
             TrackImage.Blur(0, 200).Start();
 
-            await HoverArea.Fade(0, 200).StartAsync();
+            if (HoverArea != null)
+                await HoverArea.Fade(0, 200).StartAsync();
+
+            UnloadObject(HoverArea);
         }
     }
 }

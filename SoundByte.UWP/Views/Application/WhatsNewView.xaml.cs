@@ -43,7 +43,7 @@ namespace SoundByte.UWP.Views.Application
                 {
                     var changelog =
                         await httpClient.GetStringAsync(
-                            new Uri("https://gridentertainment.net/api/soundbyte/changelog"));
+                            new Uri("https://soundbyte.gridentertainment.net/api/v1/app/changelog"));
 
                     ChangelogView.Text = changelog;
                 }

@@ -60,10 +60,10 @@ namespace SoundByte.Core.Services
         private bool _isLoaded;
 
         /// <summary>
-        /// Private list of services and their client id / client secrets.
+        /// List of services and their client id / client secrets.
         /// Also contains login information.
         /// </summary>
-        private List<ServiceSecret> ServiceSecrets { get; } = new List<ServiceSecret>();
+        public List<ServiceSecret> ServiceSecrets { get; } = new List<ServiceSecret>();
 
         #endregion
 
