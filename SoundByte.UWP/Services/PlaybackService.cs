@@ -28,8 +28,6 @@ using Windows.UI.Notifications;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.Web.Http;
-using Windows.Web.Http.Filters;
 using AudioVisualizer;
 using JetBrains.Annotations;
 using Microsoft.Toolkit.Uwp.Helpers;
@@ -622,16 +620,6 @@ namespace SoundByte.UWP.Services
                         args.SetAdaptiveMediaSource(source.MediaSource);
                     }
                 }
-
-                switch (track.ServiceType)
-                {
-                    case ServiceType.SoundCloud:
-                    case ServiceType.SoundCloudV2:
-                        var key = await GetCorrectApiKey(track);
-
-                        args.SetUri(new Uri("https://api.soundcloud.com/tracks/" + track.Id + "/stream?client_id=" + key));
-                        break;      
-                }
             }
             catch (Exception e)
             {
@@ -993,48 +981,6 @@ namespace SoundByte.UWP.Services
         }
 
         #endregion
-
-        #region SoundCloud API Key Helpers
-        private static async Task<bool> ApiCheck(string url)
-        {
-            try
-            {
-                // Create the client
-                using (var client = new HttpClient(new HttpBaseProtocolFilter { AutomaticDecompression = true }))
-                {
-                    // No Auth for this
-                    client.DefaultRequestHeaders.Authorization = null;
-
-                    using (var webRequest = await client.GetAsync(new Uri(Uri.EscapeUriString(url))))
-                    {
-                        return webRequest.IsSuccessStatusCode;
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-        private static async Task<string> GetCorrectApiKey(BaseTrack track)
-        {
-            return await Task.Run(async () =>
-            {
-                // Check if we have hit the soundcloud api limit
-                if (await ApiCheck(
-                    $"https://api.soundcloud.com/tracks/320126814/stream?client_id={AppKeysHelper.SoundCloudClientId}"))
-                    return AppKeysHelper.SoundCloudClientId;
-
-                // Loop through all the backup keys
-                foreach (var key in AppKeysHelper.SoundCloudPlaybackIds)
-                    if (await ApiCheck(
-                        $"https://api.soundcloud.com/tracks/320126814/stream?client_id={key}"))
-                        return key;
-
-                return AppKeysHelper.SoundCloudClientId;
-            });
-        }
-        #endregion
        
         #region Live Tiles
 
@@ -1108,6 +1054,5 @@ namespace SoundByte.UWP.Services
         }
 
         #endregion    
-
     }
 }

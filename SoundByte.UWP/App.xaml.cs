@@ -229,33 +229,35 @@ namespace SoundByte.UWP
             var fanburstToken = GetLoginTokenFromVault("SoundByte.FanBurst", ServiceType.Fanburst);
             var youTubeToken = GetLoginTokenFromVault("SoundByte.YouTube", ServiceType.YouTube);
 
-            var secretList = new List<ServiceSecret>
+            var secretList = new List<ServiceInfo>
             {
-                new ServiceSecret
+                new ServiceInfo
                 {
                     Service = ServiceType.SoundCloud,
+                    ClientIds = AppKeysHelper.SoundCloudPlaybackIds,
                     ClientId = AppKeysHelper.SoundCloudClientId,
                     UserToken = soundCloudToken
                 },
-                new ServiceSecret
+                new ServiceInfo
                 {
                     Service = ServiceType.SoundCloudV2,
+                    ClientIds = AppKeysHelper.SoundCloudPlaybackIds,
                     ClientId = AppKeysHelper.SoundCloudClientId,
                     UserToken = soundCloudToken
                 },
-                new ServiceSecret
+                new ServiceInfo
                 {
                     Service = ServiceType.Fanburst,
                     ClientId = AppKeysHelper.FanburstClientId,
                     UserToken = fanburstToken
                 },
-                new ServiceSecret
+                new ServiceInfo
                 {
                     Service = ServiceType.YouTube,
                     ClientId = AppKeysHelper.YouTubeClientId,
                     UserToken = youTubeToken
                 },
-                new ServiceSecret
+                new ServiceInfo
                 {
                     Service = ServiceType.ITunesPodcast
                 }

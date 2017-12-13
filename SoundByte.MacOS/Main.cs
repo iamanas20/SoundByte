@@ -20,8 +20,8 @@ namespace SoundByte.MacOS
             var secretKeys = JsonConvert.DeserializeObject<KeyObject>(secretKeyFile);
 
             // Setup the V3 SoundByte service for SoundCloud
-            Core.Services.SoundByteV3Service.Current.Init(new List<ServiceSecret>{
-                new ServiceSecret
+            Core.Services.SoundByteV3Service.Current.Init(new List<ServiceInfo>{
+                new ServiceInfo
                 {
                     Service = Core.ServiceType.SoundCloud,
                     ClientId = secretKeys.SoundCloudClientID

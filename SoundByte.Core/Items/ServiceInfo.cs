@@ -10,6 +10,7 @@
  * |----------------------------------------------------------------|
  */
 
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using JetBrains.Annotations;
 using SoundByte.Core.Items.User;
@@ -20,10 +21,10 @@ namespace SoundByte.Core.Items
     /// Used to store information about a service for the new Core system.
     /// </summary>
     [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
-    public class ServiceSecret
+    public class ServiceInfo
     {
         /// <summary>
-        /// The service that this client id - secret pair belong to
+        /// What service this info belongs to
         /// </summary>
         public ServiceType Service { get; set; }
 
@@ -31,6 +32,11 @@ namespace SoundByte.Core.Items
         /// Client ID used to access API resources
         /// </summary>
         public string ClientId { get; set; }
+
+        /// <summary>
+        /// A list of backup client Ids
+        /// </summary>
+        public IEnumerable<string> ClientIds { get; set; }
 
         /// <summary>
         /// The logged in users token

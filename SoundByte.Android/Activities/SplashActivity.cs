@@ -38,29 +38,29 @@ namespace SoundByte.Android.Activities
         private void RunStartupLogic()
         {
             // Load the SoundByte V3 API
-            var secretList = new List<ServiceSecret>
+            var secretList = new List<ServiceInfo>
             {
-                new ServiceSecret
+                new ServiceInfo
                 {
                     Service = ServiceType.SoundCloud,
                     ClientId = AppKeys.SoundCloudClientId,
                 },
-                new ServiceSecret
+                new ServiceInfo
                 {
                     Service = ServiceType.SoundCloudV2,
                     ClientId = AppKeys.SoundCloudClientId,
                 },
-                new ServiceSecret
+                new ServiceInfo
                 {
                     Service = ServiceType.Fanburst,
                     ClientId = AppKeys.FanburstClientId,
                 },
-                new ServiceSecret
+                new ServiceInfo
                 {
                     Service = ServiceType.YouTube,
                     ClientId = AppKeys.YouTubeClientId,
                 },
-                new ServiceSecret
+                new ServiceInfo
                 {
                     Service = ServiceType.ITunesPodcast
                 }

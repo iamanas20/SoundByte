@@ -42,7 +42,7 @@ namespace SoundByte.Core.Items.Track
         public async Task<Uri> GetAudioStreamAsync()
         {
             // Get the appropriate client Ids
-            var service = SoundByteV3Service.Current.ServiceSecrets.FirstOrDefault(x => x.Service == ServiceType);
+            var service = SoundByteV3Service.Current.Services.FirstOrDefault(x => x.Service == ServiceType);
 
             if (service == null)
                 throw new Exception("Oh shit, this should like, never be null dude. You should probably direct message me on twitter :D (@dominicjmaas)");
@@ -55,17 +55,21 @@ namespace SoundByte.Core.Items.Track
                 case ServiceType.SoundCloud:
                 case ServiceType.SoundCloudV2:
 
-                    // Check if we have hit the soundcloud api limit
-                    if (await SoundCloudApiCheck("https://api.soundcloud.com/tracks/320126814/stream?client_id={AppKeysHelper.SoundCloudClientId}")
-                    )
+                    // If we have not hit the rate limit for our current main key, use that key
+                    if (await SoundCloudApiCheck($"https://api.soundcloud.com/tracks/{Id}/stream?client_id={service.ClientId}"))
                     {
-                        
+                        AudioStreamUrl = $"https://api.soundcloud.com/tracks/{Id}/stream?client_id={service.ClientId}";
                     }
 
+                    // The key is invalid, loop through the other keys
+                    foreach (var key in service.ClientIds)
+                    {
+                        if (!await SoundCloudApiCheck($"https://api.soundcloud.com/tracks/{Id}/stream?client_id={key}"))
+                            continue;
 
-
-
-
+                        AudioStreamUrl = $"https://api.soundcloud.com/tracks/{Id}/stream?client_id={key}";
+                        break;
+                    }
                     break;
                 case ServiceType.YouTube:
                     // Get the video streams

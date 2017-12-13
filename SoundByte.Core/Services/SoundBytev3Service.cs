@@ -63,7 +63,7 @@ namespace SoundByte.Core.Services
         /// List of services and their client id / client secrets.
         /// Also contains login information.
         /// </summary>
-        public List<ServiceSecret> ServiceSecrets { get; } = new List<ServiceSecret>();
+        public List<ServiceInfo> Services { get; } = new List<ServiceInfo>();
 
         #endregion
 
@@ -83,27 +83,21 @@ namespace SoundByte.Core.Services
         /// <summary>
         /// Setup the service
         /// </summary>
-        /// <param name="secrets">A list of services and their secrets that will be used in the app</param>
-        public void Init(IEnumerable<ServiceSecret> secrets)
+        /// <param name="services">A list of services that will be used in the app</param>
+        public void Init(IEnumerable<ServiceInfo> services)
         {
-            // A list of secrets must be provided
-            var serviceSecrets = secrets as ServiceSecret[] ?? secrets.ToArray();
-
-            if (!serviceSecrets.Any())
-                throw new Exception("No Keys Provided");
-
             // Empty any other secrets
-            ServiceSecrets.Clear();
+            Services.Clear();
 
             // Loop through all the keys and add them
-            foreach (var secret in serviceSecrets)
+            foreach (var service in services)
             {
                 // If there is already a service in the list, thow an exception, there
                 // should only be one key for each service.
-                if (ServiceSecrets.FirstOrDefault(x => x.Service == secret.Service) != null)
+                if (Services.FirstOrDefault(x => x.Service == service.Service) != null)
                     throw new Exception("Only one key for each service!");
 
-                ServiceSecrets.Add(secret);
+                Services.Add(service);
             }
 
             _isLoaded = true;
@@ -116,21 +110,21 @@ namespace SoundByte.Core.Services
         /// <returns></returns>
         public async Task InitUsersAsync()
         {
-            foreach (var serviceSecret in ServiceSecrets)
+            foreach (var service in Services)
             {
                 // Don't run if the user has not logged in
-                if (serviceSecret.UserToken == null) continue;
+                if (service.UserToken == null) continue;
 
                 try
                 {
-                    switch (serviceSecret.Service)
+                    switch (service.Service)
                     {
                         case ServiceType.Fanburst:
-                            serviceSecret.CurrentUser = (await GetAsync<FanburstUser>(ServiceType.Fanburst, "/me").ConfigureAwait(false)).ToBaseUser();
+                            service.CurrentUser = (await GetAsync<FanburstUser>(ServiceType.Fanburst, "/me").ConfigureAwait(false)).ToBaseUser();
                             break;
                         case ServiceType.SoundCloud:
                         case ServiceType.SoundCloudV2:
-                            serviceSecret.CurrentUser = (await GetAsync<SoundCloudUser>(ServiceType.SoundCloud, "/me").ConfigureAwait(false)).ToBaseUser();
+                            service.CurrentUser = (await GetAsync<SoundCloudUser>(ServiceType.SoundCloud, "/me").ConfigureAwait(false)).ToBaseUser();
                             break;
                         case ServiceType.YouTube:
                             // Do this later
@@ -160,23 +154,23 @@ namespace SoundByte.Core.Services
                 throw new SoundByteNotLoadedException();
 
             // Check that the service actually exists
-            var serviceSecret = ServiceSecrets.FirstOrDefault(x => x.Service == type);
-            if (serviceSecret == null)
+            var service = Services.FirstOrDefault(x => x.Service == type);
+            if (service == null)
                 throw new ServiceDoesNotExistException(type);
 
             // If the user token is not null, but the user is null, update the user
-            if (serviceSecret.UserToken != null && serviceSecret.CurrentUser == null)
+            if (service.UserToken != null && service.CurrentUser == null)
             {
                 try
                 {
-                    switch (serviceSecret.Service)
+                    switch (service.Service)
                     {
                         case ServiceType.Fanburst:
-                            serviceSecret.CurrentUser = AsyncHelper.RunSync(async () => await GetAsync<FanburstUser>(ServiceType.Fanburst, "/me").ConfigureAwait(false)).ToBaseUser();
+                            service.CurrentUser = AsyncHelper.RunSync(async () => await GetAsync<FanburstUser>(ServiceType.Fanburst, "/me").ConfigureAwait(false)).ToBaseUser();
                             break;
                         case ServiceType.SoundCloud:
                         case ServiceType.SoundCloudV2:
-                            serviceSecret.CurrentUser = AsyncHelper.RunSync(async () => await GetAsync<SoundCloudUser>(ServiceType.SoundCloud, "/me").ConfigureAwait(false)).ToBaseUser();
+                            service.CurrentUser = AsyncHelper.RunSync(async () => await GetAsync<SoundCloudUser>(ServiceType.SoundCloud, "/me").ConfigureAwait(false)).ToBaseUser();
                             break;
                         case ServiceType.YouTube:
                             // Do this later
@@ -190,7 +184,7 @@ namespace SoundByte.Core.Services
             }
 
             // Return the connected user
-            return serviceSecret.CurrentUser;
+            return service.CurrentUser;
         }
 
         /// <summary>
@@ -204,25 +198,25 @@ namespace SoundByte.Core.Services
             if (_isLoaded == false)
                 throw new SoundByteNotLoadedException();
 
-            var serviceSecret = ServiceSecrets.FirstOrDefault(x => x.Service == type);
-            if (serviceSecret == null)
+            var service = Services.FirstOrDefault(x => x.Service == type);
+            if (service == null)
                 throw new ServiceDoesNotExistException(type);
 
             // Set the token
-            serviceSecret.UserToken = token;
+            service.UserToken = token;
 
-            if (serviceSecret.UserToken != null)
+            if (service.UserToken != null)
             {
                 try
                 {
-                    switch (serviceSecret.Service)
+                    switch (service.Service)
                     {
                         case ServiceType.Fanburst:
-                            serviceSecret.CurrentUser = AsyncHelper.RunSync(async () => await GetAsync<FanburstUser>(ServiceType.Fanburst, "/me").ConfigureAwait(false)).ToBaseUser();
+                            service.CurrentUser = AsyncHelper.RunSync(async () => await GetAsync<FanburstUser>(ServiceType.Fanburst, "/me").ConfigureAwait(false)).ToBaseUser();
                             break;
                         case ServiceType.SoundCloud:
                         case ServiceType.SoundCloudV2:
-                            serviceSecret.CurrentUser = AsyncHelper.RunSync(async () => await GetAsync<SoundCloudUser>(ServiceType.SoundCloud, "/me").ConfigureAwait(false)).ToBaseUser();
+                            service.CurrentUser = AsyncHelper.RunSync(async () => await GetAsync<SoundCloudUser>(ServiceType.SoundCloud, "/me").ConfigureAwait(false)).ToBaseUser();
                             break;
                         case ServiceType.YouTube:
                             // Do this later
@@ -233,7 +227,7 @@ namespace SoundByte.Core.Services
                 {
                     // Todo: There are many reasons why this could fail.
                     // For now we just delete the user token
-                    serviceSecret.UserToken = null;
+                    service.UserToken = null;
                 }
             }
 
@@ -252,7 +246,7 @@ namespace SoundByte.Core.Services
                 throw new SoundByteNotLoadedException();
 
             // Get the service information
-            var service = ServiceSecrets.FirstOrDefault(x => x.Service == type);
+            var service = Services.FirstOrDefault(x => x.Service == type);
             if (service == null)
                 throw new ServiceDoesNotExistException(type);
 
@@ -276,7 +270,7 @@ namespace SoundByte.Core.Services
                 throw new SoundByteNotLoadedException();
 
             // Get the service information
-            var service = ServiceSecrets.FirstOrDefault(x => x.Service == type);
+            var service = Services.FirstOrDefault(x => x.Service == type);
 
             if (service == null)
                 throw new ServiceDoesNotExistException(type);
@@ -301,7 +295,7 @@ namespace SoundByte.Core.Services
             switch (type)
             {
                 case ServiceType.SoundCloud:
-                    var soundCloudService = ServiceSecrets.FirstOrDefault(x => x.Service == ServiceType.SoundCloud);
+                    var soundCloudService = Services.FirstOrDefault(x => x.Service == ServiceType.SoundCloud);
                     if (soundCloudService == null)
                         throw new ServiceDoesNotExistException(ServiceType.SoundCloud);
 
@@ -309,7 +303,7 @@ namespace SoundByte.Core.Services
                     break;
 
                 case ServiceType.SoundCloudV2:
-                    var soundCloudV2Service = ServiceSecrets.FirstOrDefault(x => x.Service == ServiceType.SoundCloudV2);
+                    var soundCloudV2Service = Services.FirstOrDefault(x => x.Service == ServiceType.SoundCloudV2);
                     if (soundCloudV2Service == null)
                         throw new ServiceDoesNotExistException(ServiceType.SoundCloudV2);
 
@@ -317,14 +311,14 @@ namespace SoundByte.Core.Services
                     break;
 
                 case ServiceType.Fanburst:
-                    var fanburstService = ServiceSecrets.FirstOrDefault(x => x.Service == ServiceType.Fanburst);
+                    var fanburstService = Services.FirstOrDefault(x => x.Service == ServiceType.Fanburst);
                     if (fanburstService == null)
                         throw new ServiceDoesNotExistException(ServiceType.Fanburst);
 
                     requestUri = $"https://api.fanburst.com/{endpoint}?client_id={fanburstService.ClientId}";
                     break;
                 case ServiceType.YouTube:
-                    var youtubeService = ServiceSecrets.FirstOrDefault(x => x.Service == ServiceType.YouTube);
+                    var youtubeService = Services.FirstOrDefault(x => x.Service == ServiceType.YouTube);
                     if (youtubeService == null)
                         throw new ServiceDoesNotExistException(ServiceType.YouTube);
 
@@ -393,7 +387,7 @@ namespace SoundByte.Core.Services
                         if (IsServiceConnected(type))
                         {
                             // Get the token
-                            var token = ServiceSecrets.FirstOrDefault(x => x.Service == type)?.UserToken?.AccessToken;
+                            var token = Services.FirstOrDefault(x => x.Service == type)?.UserToken?.AccessToken;
 
                             // Add the auth request
                             switch (type)
@@ -457,7 +451,7 @@ namespace SoundByte.Core.Services
                     try
                     {
                         // Get the token
-                        var userToken = ServiceSecrets.FirstOrDefault(x => x.Service == type)?.UserToken;
+                        var userToken = Services.FirstOrDefault(x => x.Service == type)?.UserToken;
                         if (userToken != null)
                         {
                             var newToken = await AuthorizationHelpers.GetNewAuthTokenAsync(type.ToString(), userToken.RefreshToken);
@@ -528,7 +522,7 @@ namespace SoundByte.Core.Services
                         if (IsServiceConnected(type))
                         {
                             // Get the token
-                            var token = ServiceSecrets.FirstOrDefault(x => x.Service == type)?.UserToken?.AccessToken;
+                            var token = Services.FirstOrDefault(x => x.Service == type)?.UserToken?.AccessToken;
 
                             // Add the auth request
                             switch (type)
@@ -580,7 +574,7 @@ namespace SoundByte.Core.Services
                     try
                     {
                         // Get the token
-                        var userToken = ServiceSecrets.FirstOrDefault(x => x.Service == type)?.UserToken;
+                        var userToken = Services.FirstOrDefault(x => x.Service == type)?.UserToken;
                         if (userToken != null)
                         {
                             var newToken = await AuthorizationHelpers.GetNewAuthTokenAsync(type.ToString(), userToken.RefreshToken);
@@ -662,7 +656,7 @@ namespace SoundByte.Core.Services
                         if (IsServiceConnected(type))
                         {
                             // Get the token
-                            var token = ServiceSecrets.FirstOrDefault(x => x.Service == type)?.UserToken?.AccessToken;
+                            var token = Services.FirstOrDefault(x => x.Service == type)?.UserToken?.AccessToken;
 
                             // Add the auth request
                             switch (type)
@@ -733,7 +727,7 @@ namespace SoundByte.Core.Services
                     try
                     {
                         // Get the token
-                        var userToken = ServiceSecrets.FirstOrDefault(x => x.Service == type)?.UserToken;
+                        var userToken = Services.FirstOrDefault(x => x.Service == type)?.UserToken;
                         if (userToken != null)
                         {
                             var newToken = await AuthorizationHelpers.GetNewAuthTokenAsync(type.ToString(), userToken.RefreshToken);
@@ -805,7 +799,7 @@ namespace SoundByte.Core.Services
                         if (IsServiceConnected(type))
                         {
                             // Get the token
-                            var token = ServiceSecrets.FirstOrDefault(x => x.Service == type)?.UserToken?.AccessToken;
+                            var token = Services.FirstOrDefault(x => x.Service == type)?.UserToken?.AccessToken;
 
                             // Add the auth request
                             switch (type)
@@ -846,7 +840,7 @@ namespace SoundByte.Core.Services
                     try
                     {
                         // Get the token
-                        var userToken = ServiceSecrets.FirstOrDefault(x => x.Service == type)?.UserToken;
+                        var userToken = Services.FirstOrDefault(x => x.Service == type)?.UserToken;
                         if (userToken != null)
                         {
                             var newToken = await AuthorizationHelpers.GetNewAuthTokenAsync(type.ToString(), userToken.RefreshToken);
@@ -917,7 +911,7 @@ namespace SoundByte.Core.Services
                         if (IsServiceConnected(type))
                         {
                             // Get the token
-                            var token = ServiceSecrets.FirstOrDefault(x => x.Service == type)?.UserToken?.AccessToken;
+                            var token = Services.FirstOrDefault(x => x.Service == type)?.UserToken?.AccessToken;
 
                             // Add the auth request
                             switch (type)
@@ -959,7 +953,7 @@ namespace SoundByte.Core.Services
                     try
                     {
                         // Get the token
-                        var userToken = ServiceSecrets.FirstOrDefault(x => x.Service == type)?.UserToken;
+                        var userToken = Services.FirstOrDefault(x => x.Service == type)?.UserToken;
                         if (userToken != null)
                         {
                             var newToken = await AuthorizationHelpers.GetNewAuthTokenAsync(type.ToString(), userToken.RefreshToken);
