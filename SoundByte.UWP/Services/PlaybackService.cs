@@ -618,7 +618,7 @@ namespace SoundByte.UWP.Services
                     // for the steam.
                     if (track.IsLive && track.ServiceType == ServiceType.YouTube)
                     {
-                        var source = await AdaptiveMediaSource.CreateFromUriAsync(new Uri(track.AudioStreamUrl));
+                        var source = await AdaptiveMediaSource.CreateFromUriAsync(url);
                         if (source.Status == AdaptiveMediaSourceCreationStatus.Success)
                         {
                             args.SetAdaptiveMediaSource(source.MediaSource);
