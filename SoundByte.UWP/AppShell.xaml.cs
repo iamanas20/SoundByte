@@ -412,8 +412,8 @@ namespace SoundByte.UWP
                                 App.NavigateTo(typeof(UserView), user.ToBaseUser());
                                 return;
                             case "changelog":
-                                App.NavigateTo(typeof(WhatsNewView));
-                                return;
+                                await NavigationService.Current.CallDialogAsync<WhatsNewDialog>();
+                                break;
                         }
                     }       
                 }

@@ -11,30 +11,23 @@
  */
 
 using System;
+using System.Net.Http;
 using Windows.ApplicationModel;
-using Windows.UI.Xaml.Navigation;
-using Windows.Web.Http;
-using SoundByte.UWP.Services;
+using Windows.UI.Xaml.Controls;
 
-namespace SoundByte.UWP.Views.Application
+namespace SoundByte.UWP.Dialogs
 {
-    /// <summary>
-    ///     Open a webview with the current changelog
-    /// </summary>
-    public sealed partial class WhatsNewView
+    public sealed partial class WhatsNewDialog 
     {
-        public WhatsNewView()
+        public WhatsNewDialog()
         {
             InitializeComponent();
+            Opened += WhatsNewDialog_Opened;
         }
 
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        private async void WhatsNewDialog_Opened(ContentDialog sender, ContentDialogOpenedEventArgs args)
         {
-            App.Telemetry.TrackPage("What's New View");
-
-            CurrentVersion.Text = $"Current Version: {Package.Current.Id.Version.Major}.{Package.Current.Id.Version.Minor}.{Package.Current.Id.Version.Build}.{Package.Current.Id.Version.Revision}";
-
-            await App.SetLoadingAsync(true);
+            App.Telemetry.TrackPage("What's New Dialog");
 
             try
             {
@@ -43,7 +36,7 @@ namespace SoundByte.UWP.Views.Application
                 {
                     var changelog =
                         await httpClient.GetStringAsync(
-                            new Uri("https://soundbyte.gridentertainment.net/api/v1/app/changelog"));
+                            new Uri($"https://soundbyte.gridentertainment.net/api/v1/app/changelog?platform=uwp&version={Package.Current.Id.Version.Major}.{Package.Current.Id.Version.Minor}.{Package.Current.Id.Version.Build}"));
 
                     ChangelogView.Text = changelog;
                 }
@@ -52,8 +45,6 @@ namespace SoundByte.UWP.Views.Application
             {
                 ChangelogView.Text = "*Error:* An error occured while getting the changelog.";
             }
-
-            await App.SetLoadingAsync(false);
         }
     }
 }

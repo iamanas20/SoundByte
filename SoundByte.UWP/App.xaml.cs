@@ -80,6 +80,7 @@ namespace SoundByte.UWP
             NavigationService.Current.RegisterTypeAsDialog<PlaylistDialog>();
             NavigationService.Current.RegisterTypeAsDialog<ShareDialog>();
             NavigationService.Current.RegisterTypeAsDialog<LoginDialog>();
+            NavigationService.Current.RegisterTypeAsDialog<WhatsNewDialog>();
 
             // Handle App Crashes
             CrashHelper.HandleAppCrashes(Current);

@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.UI.Core;
 using Windows.UI.Xaml.Controls;
 using Microsoft.Toolkit.Uwp.Helpers;
 
@@ -51,10 +52,10 @@ namespace SoundByte.UWP.Services
 
             if (dialogType != null)
             {
-
-
                 try
                 {
+                    SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
+
                     await DispatcherHelper.ExecuteOnUIThreadAsync(async () =>
                     {
                         var instance = Activator.CreateInstance(dialogType, param);
@@ -77,6 +78,8 @@ namespace SoundByte.UWP.Services
                 var instance = Activator.CreateInstance(dialogType, param);
                 try
                 {
+                    SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
+
                     await DispatcherHelper.ExecuteOnUIThreadAsync(async () =>
                     {
                         await ((ContentDialog)instance).ShowAsync();

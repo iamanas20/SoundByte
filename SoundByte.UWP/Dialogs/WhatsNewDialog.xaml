@@ -1,0 +1,21 @@
+﻿<ContentDialog
+    x:Class="SoundByte.UWP.Dialogs.WhatsNewDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    Style="{StaticResource AppContentDialog}"
+    Background="{ThemeResource SystemControlBackgroundChromeMediumBrush }">
+
+    <ScrollViewer HorizontalAlignment="Stretch"
+                  Width="540"
+                  Padding="25,0,25,0"
+                  VerticalScrollBarVisibility="Hidden">
+        <!-- Stack items ontop of each other -->
+        <StackPanel>
+            <controls:MarkdownTextBlock x:Name="ChangelogView"
+                                        Margin="0,25,0,25"
+                                        VerticalAlignment="Stretch"
+                                        HorizontalAlignment="Stretch" />
+        </StackPanel>
+    </ScrollViewer>
+</ContentDialog>

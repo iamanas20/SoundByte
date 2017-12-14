@@ -19,6 +19,7 @@ using Windows.UI.Xaml.Navigation;
 using SoundByte.Core.Sources.Fanburst;
 using SoundByte.Core.Sources.SoundCloud;
 using SoundByte.Core.Sources.YouTube;
+using SoundByte.UWP.Dialogs;
 using SoundByte.UWP.Helpers;
 using SoundByte.UWP.ViewModels.Generic;
 using SoundByte.UWP.Views.Account;
@@ -98,9 +99,9 @@ namespace SoundByte.UWP.Views
             });
         }
 
-        private void WhatsNewButtonClick(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private async void WhatsNewButtonClick(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            App.NavigateTo(typeof(WhatsNewView));
+            await NavigationService.Current.CallDialogAsync<WhatsNewDialog>();
         }
 
         private void SoundByteAccountLearnMoreClick(object sender, Windows.UI.Xaml.RoutedEventArgs e)

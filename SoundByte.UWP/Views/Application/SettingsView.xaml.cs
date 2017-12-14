@@ -20,6 +20,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using Newtonsoft.Json;
 using SoundByte.Core.Items;
+using SoundByte.UWP.Dialogs;
 using SoundByte.UWP.Helpers;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.ViewModels;
@@ -75,9 +76,9 @@ namespace SoundByte.UWP.Views.Application
             AppBuildTime.Text = buildData.BuildTime;
         }
 
-        public void NavigateNew()
+        public async void NavigateNew()
         {
-            App.NavigateTo(typeof(WhatsNewView));
+            await NavigationService.Current.CallDialogAsync<WhatsNewDialog>();
         }
 
         /// <summary>

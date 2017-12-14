@@ -200,6 +200,9 @@
     <Compile Include="Dialogs\ShareDialog.xaml.cs">
       <DependentUpon>ShareDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\WhatsNewDialog.xaml.cs">
+      <DependentUpon>WhatsNewDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Helpers\AppKeysHelper.cs" />
     <Compile Include="Helpers\ColorHelper.cs" />
     <Compile Include="Helpers\CompositionHelper.cs" />
@@ -286,9 +289,6 @@
     </Compile>
     <Compile Include="Views\SoundCloudExploreView.xaml.cs">
       <DependentUpon>SoundCloudExploreView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Application\WhatsNewView.xaml.cs">
-      <DependentUpon>WhatsNewView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SoundCloudStreamView.xaml.cs">
       <DependentUpon>SoundCloudStreamView.xaml</DependentUpon>
@@ -405,6 +405,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Dialogs\WhatsNewDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Resources\DataTemplates.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -487,10 +491,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SoundCloudExploreView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Application\WhatsNewView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
