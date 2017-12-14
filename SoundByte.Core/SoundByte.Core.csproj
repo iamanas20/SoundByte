@@ -7,12 +7,12 @@
     <Description>Core package used by SoundByte apps.</Description>
     <Copyright>Copyright (c) Grid Entertainment 2017</Copyright>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>17.12.1</Version>
+    <Version Condition=" '$(BUILD_BUILDNUMBER)' == '' ">17.12.1</Version>
+    <Version Condition=" '$(BUILD_BUILDNUMBER)' != '' ">$(BUILD_BUILDNUMBER)</Version>
+
     <PackageProjectUrl>https://github.com/DominicMaas/SoundByte</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/DominicMaas/SoundByte</PackageLicenseUrl>
     <RepositoryUrl>https://github.com/DominicMaas/SoundByte</RepositoryUrl>
-    <AssemblyVersion>17.12.1.0</AssemblyVersion>
-    <FileVersion>17.12.1.0</FileVersion>
     <PackageTags>soundbyte youtube fanburst soundcloud</PackageTags>
   </PropertyGroup>
 
