@@ -16,10 +16,14 @@ SoundByte
     <a href="https://discord.gg/tftSadE">
         <img src="https://img.shields.io/discord/333524708463214594.svg" alt="Chat on Discord">
     </a>
-    <a href="#">
-     <img src="http://gridentertainment.visualstudio.com/_apis/public/build/definitions/29470259-4594-4fc0-9b08-99514c07cfd0/2/badge" alt="Build Status">
-    </a> 
 </p>
+
+## Status
+
+|Project|Status|Download (Stable)|Download (Beta)
+|--|--|--|--|
+|SoundByte Core|![VSTS](https://gridentertainment.visualstudio.com/_apis/public/build/definitions/2ed2cbbe-2068-4924-89a8-1b43989872e6/4/badge) | [![NuGet](https://img.shields.io/nuget/v/SoundByte.Core.svg)](https://www.nuget.org/packages/SoundByte.Core/)| [![NuGet](https://img.shields.io/nuget/vpre/SoundByte.Core.svg)](https://www.nuget.org/packages/SoundByte.Core/)
+|SoundByte UWP|![VSTS](https://gridentertainment.visualstudio.com/_apis/public/build/definitions/29470259-4594-4fc0-9b08-99514c07cfd0/2/badge) | [![NuGet](https://img.shields.io/badge/microsoft_%20store-stable-green.svg)](https://www.microsoft.com/store/apps/9nblggh4xbjg)| [![NuGet](https://img.shields.io/badge/microsoft_%20store-beta-orange.svg)](https://twitter.com/soundbyteuwp)
 
 ## Introduction
 SoundByte is a Windows 10 and Xbox One app (with other platforms in development) that intergrates with the SoundCloud, Fanburst and YouTube APIs allowing a user to listen to these platforms natively. SoundByte will also support local playback and podcasts in the future. Currently SoundByte supports UWP (Windows 10) and is published through the Windows Store for free.
