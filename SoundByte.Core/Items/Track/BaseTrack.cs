@@ -93,9 +93,8 @@ namespace SoundByte.Core.Items.Track
 
                     if (IsLive)
                     {
-                        // Wait for lib to update
-                        //    VideoStreamUrl = mediaStreams.HlsLiveStreamUrl;
-                        //    audioStream = mediaStreams.HlsLiveStreamUrl;
+                         VideoStreamUrl = mediaStreams.HlsLiveStreamUrl;
+                         audioStream = mediaStreams.HlsLiveStreamUrl;
                     }
 
                     break;
