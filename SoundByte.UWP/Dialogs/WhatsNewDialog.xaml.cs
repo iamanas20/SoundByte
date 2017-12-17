@@ -29,6 +29,8 @@ namespace SoundByte.UWP.Dialogs
         {
             App.Telemetry.TrackPage("What's New Dialog");
 
+            ProgressRing.IsActive = true;
+
             try
             {
                 // Get the changelog string from the azure api
@@ -36,7 +38,8 @@ namespace SoundByte.UWP.Dialogs
                 {
                     var changelog =
                         await httpClient.GetStringAsync(
-                            new Uri($"https://soundbyte.gridentertainment.net/api/v1/app/changelog?platform=uwp&version={Package.Current.Id.Version.Major}.{Package.Current.Id.Version.Minor}.{Package.Current.Id.Version.Build}"));
+                            new Uri(
+                                $"https://soundbyte.gridentertainment.net/api/v1/app/changelog?platform=uwp&version={Package.Current.Id.Version.Major}.{Package.Current.Id.Version.Minor}.{Package.Current.Id.Version.Build}"));
 
                     ChangelogView.Text = changelog;
                 }
@@ -44,6 +47,10 @@ namespace SoundByte.UWP.Dialogs
             catch (Exception)
             {
                 ChangelogView.Text = "*Error:* An error occured while getting the changelog.";
+            }
+            finally
+            {
+                ProgressRing.IsActive = false;
             }
         }
     }

@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using GoogleAnalytics;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 using Microsoft.HockeyApp;
 
 namespace SoundByte.UWP.Services
@@ -46,7 +47,7 @@ namespace SoundByte.UWP.Services
             _googleAnalyticsClient = AnalyticsManager.Current.CreateTracker(googleAnalyticsTrackerId);
 
             // Used for general analytics, push notifications and crashes
-            AppCenter.Start(mobileCenterClientId, typeof(Analytics));
+            AppCenter.Start(mobileCenterClientId, typeof(Analytics), typeof(Crashes));
 #if DEBUG
             // Disable this on debug
             AnalyticsManager.Current.IsDebug = true;

@@ -10,12 +10,21 @@
                   Width="540"
                   Padding="25,0,25,0"
                   VerticalScrollBarVisibility="Hidden">
-        <!-- Stack items ontop of each other -->
         <StackPanel>
+
+            <ProgressRing Canvas.ZIndex="100" x:Name="ProgressRing" />
+
             <controls:MarkdownTextBlock x:Name="ChangelogView"
                                         Margin="0,25,0,25"
                                         VerticalAlignment="Stretch"
                                         HorizontalAlignment="Stretch" />
+
+            <HyperlinkButton Content="Close"
+                             Margin="0,15,0,0"
+                             Foreground="{ThemeResource SystemControlPageTextBaseHighBrush}"
+                             ContentTemplate="{StaticResource HyperlinkClean}"
+                             Click="{x:Bind Hide}"
+                             HorizontalAlignment="Center" />
         </StackPanel>
     </ScrollViewer>
 </ContentDialog>

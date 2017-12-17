@@ -16,6 +16,8 @@
     <PackageTags>soundbyte youtube fanburst soundcloud</PackageTags>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>1.0.0.0</FileVersion>
+    <PackageReleaseNotes>Updated to sync with weekly UWP build</PackageReleaseNotes>
+    <Version>17.12.2</Version>
   </PropertyGroup>
 
   <ItemGroup>
