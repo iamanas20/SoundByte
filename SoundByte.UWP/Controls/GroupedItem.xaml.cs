@@ -10,17 +10,11 @@
  * |----------------------------------------------------------------|
  */
 
-using System;
-using Windows.UI;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Input;
-using Microsoft.Toolkit.Uwp.UI.Animations;
-using Microsoft.Toolkit.Uwp.UI.Controls;
 using SoundByte.Core;
 using SoundByte.Core.Items.Playlist;
 using SoundByte.Core.Items.Track;
 using SoundByte.Core.Items.User;
-using UICompositionAnimations.Composition;
 
 namespace SoundByte.UWP.Controls
 {
@@ -89,7 +83,6 @@ namespace SoundByte.UWP.Controls
             DataContextChanged += SoundByteItem_DataContextChanged;
         }
 
-
         private void SoundByteItem_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
         {
             switch (ItemType)
@@ -106,66 +99,10 @@ namespace SoundByte.UWP.Controls
                     break;
                 case ItemType.User:
                     // Generate and show the desktop user item
+                    FindName("DesktopUserItem");
                     DesktopUserItem.Visibility = Visibility.Visible;
                     break;
             }
-        }
-
-        public static void StartAnimations(UIElement element, Windows.UI.Color hoverColor)
-        {
-            var panel = (DropShadowPanel)element;
-
-            panel.Offset(0, -3, 250).Start();
-
-            panel.DropShadow.StartAnimation("Offset.Y",
-                      panel.DropShadow.Compositor.CreateScalarKeyFrameAnimation(null, 10.0f, TimeSpan.FromMilliseconds(250), null));
-
-            panel.DropShadow.StartAnimation("Opacity",
-                panel.DropShadow.Compositor.CreateScalarKeyFrameAnimation(null, 0.9f, TimeSpan.FromMilliseconds(250), null));
-
-            panel.DropShadow.StartAnimation("BlurRadius",
-                panel.DropShadow.Compositor.CreateScalarKeyFrameAnimation(null, 45.0f, TimeSpan.FromMilliseconds(250), null));
-
-            var colorAnimation = panel.DropShadow.Compositor.CreateColorKeyFrameAnimation();
-            colorAnimation.Duration = TimeSpan.FromMilliseconds(250);
-
-            colorAnimation.InsertKeyFrame(0.0f, Colors.Black);
-            colorAnimation.InsertKeyFrame(1.0f, hoverColor);
-
-            panel.DropShadow.StartAnimation("Color", colorAnimation);   
-        }
-
-        public static void StopAnimation(UIElement element)
-        {
-            var panel = (DropShadowPanel)element;
-
-            panel.Offset(0, 0, 250).Start();
-
-               panel.DropShadow.StartAnimation("Offset.Y",
-                   panel.DropShadow.Compositor.CreateScalarKeyFrameAnimation(null, 6.0f, TimeSpan.FromMilliseconds(250), null));
-
-            panel.DropShadow.StartAnimation("Opacity",
-                panel.DropShadow.Compositor.CreateScalarKeyFrameAnimation(null, 0.4f, TimeSpan.FromMilliseconds(250), null));
-
-            panel.DropShadow.StartAnimation("BlurRadius",
-                panel.DropShadow.Compositor.CreateScalarKeyFrameAnimation(null, 25.0f, TimeSpan.FromMilliseconds(250), null));
-
-            var colorAnimation = panel.DropShadow.Compositor.CreateColorKeyFrameAnimation();
-            colorAnimation.Duration = TimeSpan.FromMilliseconds(250);
-
-            colorAnimation.InsertKeyFrame(1.0f, Colors.Black);
-
-            panel.DropShadow.StartAnimation("Color", colorAnimation);
-        }    
-
-        private void DesktopUserItem_OnPointerEntered(object sender, PointerRoutedEventArgs e)
-        {
-            StartAnimations(UserDropShadow, Colors.Black);
-        }
-
-        private void DesktopUserItem_OnPointerExited(object sender, PointerRoutedEventArgs e)
-        {
-            StopAnimation(UserDropShadow);
-        }
+        }  
     }
 }

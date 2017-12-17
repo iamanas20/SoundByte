@@ -42,9 +42,8 @@
                       HorizontalAlignment="Stretch" />
 
                 <!-- Playlist Image -->
-                <controls:ImageEx x:Name="PodcastImage"
+                <Image x:Name="PodcastImage"
                                   Source="{x:Bind Path=Podcast.ArtworkUrl, Mode=OneWay}"
-                                  IsCacheEnabled="True"
                                   VerticalAlignment="Center"
                                   Width="170" 
                                   Height="170"
@@ -119,14 +118,19 @@
                         </LinearGradientBrush>
                     </Grid.Background>
 
-
-                    <!-- Number of podcast episodes -->
-                    <TextBlock RequestedTheme="Dark"
-                               HorizontalAlignment="Right"
-                               VerticalAlignment="Bottom"
-                               Text="{x:Bind Path=Podcast.TrackCount, Mode=OneWay}"
-                               FontSize="13"
-                               FontWeight="SemiBold" />
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Right"
+                                RequestedTheme="Dark"
+                                VerticalAlignment="Bottom">
+                        <!-- Number of podcast episodes -->
+                        <TextBlock Text="{x:Bind Path=Podcast.TrackCount, Mode=OneWay}"
+                                   FontSize="13"
+                                   FontWeight="SemiBold" />
+                        <TextBlock Text="Episodes"
+                                   Margin="3,0,0,0"
+                                   FontSize="13"
+                                   FontWeight="SemiBold" />
+                    </StackPanel>
                 </Grid>
             </Grid>
         </controls:DropShadowPanel>

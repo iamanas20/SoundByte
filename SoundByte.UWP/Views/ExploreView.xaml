@@ -194,7 +194,7 @@
                               HorizontalAlignment="Stretch">
                         <GridView.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <ItemsWrapGrid Orientation="Vertical" />
+                                <ItemsStackPanel Orientation="Horizontal" CacheLength="1.0" />
                             </ItemsPanelTemplate>
                         </GridView.ItemsPanel>
                     </GridView>
@@ -237,7 +237,7 @@
                               HorizontalAlignment="Stretch">
                         <GridView.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <ItemsWrapGrid Orientation="Vertical" />
+                                <ItemsStackPanel Orientation="Horizontal" CacheLength="1.0" />
                             </ItemsPanelTemplate>
                         </GridView.ItemsPanel>
                     </GridView>
@@ -280,7 +280,7 @@
                               HorizontalAlignment="Stretch">
                         <GridView.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <ItemsWrapGrid Orientation="Vertical" />
+                                <ItemsStackPanel Orientation="Horizontal" CacheLength="1.0" />
                             </ItemsPanelTemplate>
                         </GridView.ItemsPanel>
                     </GridView>

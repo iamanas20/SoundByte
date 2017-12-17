@@ -102,8 +102,7 @@
 
     <!-- User Item -->
     <DataTemplate x:Key="UserItem">
-        <controls1:GroupedItem ItemType="User" 
-                                    User="{Binding}"/>
+        <controls1:UserItem User="{Binding}" />
     </DataTemplate>
 
     <!-- Clean hyperlinks without underline -->

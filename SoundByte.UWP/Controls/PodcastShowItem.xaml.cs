@@ -67,9 +67,6 @@ namespace SoundByte.UWP.Controls
             ShadowPanel.DropShadow.StartAnimation("BlurRadius",
                 ShadowPanel.DropShadow.Compositor.CreateScalarKeyFrameAnimation(null, 25.0f, TimeSpan.FromMilliseconds(200), null));
 
-            var colorAnimation = ShadowPanel.DropShadow.Compositor.CreateColorKeyFrameAnimation();
-            colorAnimation.Duration = TimeSpan.FromMilliseconds(200);
-
             PodcastImage.Blur(0, 200).Start();
 
             await HoverArea.Fade(0, 200).StartAsync();

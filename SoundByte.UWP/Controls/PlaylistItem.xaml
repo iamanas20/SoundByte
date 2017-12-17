@@ -43,9 +43,8 @@
                       HorizontalAlignment="Stretch" />
 
                 <!-- Playlist Image -->
-                <controls:ImageEx x:Name="PlaylistImage"
+                <Image x:Name="PlaylistImage"
                                   Source="{x:Bind Path=Playlist, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
-                                  IsCacheEnabled="True"
                                   VerticalAlignment="Center"
                                   Width="170" 
                                   Height="170"

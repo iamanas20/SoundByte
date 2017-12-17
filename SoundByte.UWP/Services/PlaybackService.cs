@@ -315,7 +315,7 @@ namespace SoundByte.UWP.Services
             _playbackList = new MediaPlaybackList
             {
                 AutoRepeatEnabled = true,
-                MaxPlayedItemsToKeepOpen = 20
+                MaxPlayedItemsToKeepOpen = 5           
             };
 
             // Subscribe to the item change event
@@ -612,8 +612,6 @@ namespace SoundByte.UWP.Services
 
                 await DispatcherHelper.ExecuteOnUIThreadAsync(async () =>
                 {
-                    args.SetUri(url);
-
                     // If the user is listening to a youtube livesteam, we must set an adaptive source 
                     // for the steam.
                     if (track.IsLive && track.ServiceType == ServiceType.YouTube)
@@ -623,6 +621,10 @@ namespace SoundByte.UWP.Services
                         {
                             args.SetAdaptiveMediaSource(source.MediaSource);
                         }
+                    }
+                    else
+                    {
+                        args.SetUri(url);
                     }
                 });
             }

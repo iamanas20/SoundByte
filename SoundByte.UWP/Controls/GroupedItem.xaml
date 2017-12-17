@@ -4,74 +4,27 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:controls1="using:SoundByte.UWP.Controls"
+    xmlns:controls="using:SoundByte.UWP.Controls"
     mc:Ignorable="d"
     d:DesignHeight="260"
     d:DesignWidth="200">
 
     <Grid>
-
-        <Grid x:Name="DesktopUserItem"
-              PointerEntered="DesktopUserItem_OnPointerEntered"
-              PointerExited="DesktopUserItem_OnPointerExited"
-              Visibility="Collapsed"
-              Background="#00FFFFFF"
-              IsHitTestVisible="True"
-              Height="245"
-              Width="170">
-            <StackPanel Orientation="Vertical">
-                <controls:DropShadowPanel x:Name="UserDropShadow"
-                                          
-                                          VerticalAlignment="Top"
-                                          HorizontalAlignment="Center"
-                                          BlurRadius="25"
-                                          ShadowOpacity="0.6"
-                                          OffsetX="0"
-                                          OffsetY="7"
-                                          IsTabStop="False"
-                                          IsHitTestVisible="False"
-                                          Margin="5,5,5,12"
-                                          Color="Black">
-                    <Ellipse VerticalAlignment="Stretch"
-                         HorizontalAlignment="Stretch"
-                         IsHitTestVisible="False"
-                         Width="160"
-                         Height="160"
-                         Stretch="Uniform">
-                        <Ellipse.Fill>
-                            <ImageBrush ImageSource="{x:Bind Path=User, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
-                                    Stretch="Uniform" />
-                        </Ellipse.Fill>
-                    </Ellipse>
-                </controls:DropShadowPanel>
-                <TextBlock Text="{x:Bind User.Username, Mode=OneWay}" 
-                           Margin="6,10,6,2" 
-                           TextAlignment="Center" 
-                           FontSize="14"
-                           Opacity="0.9"
-                           FontWeight="Bold"
-                           TextWrapping="Wrap" 
-                           MaxHeight="50" 
-                           TextTrimming="CharacterEllipsis" />
-                <TextBlock Text="{x:Bind User.Country, Mode=OneWay}" 
-                           FontSize="13" 
-                           Margin="6,0,6,0"
-                           Opacity="0.8" 
-                           TextAlignment="Center"/>
-            </StackPanel>
-
-        </Grid>
+        <!-- Playlist Item -->
+        <controls:UserItem x:Name="DesktopUserItem" 
+                           User="{x:Bind User, Mode=OneWay}" 
+                           x:Load="False"
+                           Visibility="Collapsed" />
 
         <!-- Playlist Item -->
-        <controls1:PlaylistItem x:Name="DesktopPlaylistItem" 
-                             Playlist="{x:Bind Playlist, Mode=TwoWay}" 
-                             x:Load="False"
-                             Visibility="Collapsed" />
+        <controls:PlaylistItem x:Name="DesktopPlaylistItem" 
+                                Playlist="{x:Bind Playlist, Mode=OneWay}" 
+                                x:Load="False"
+                                Visibility="Collapsed" />
         
         <!-- Track Item -->
-        <controls1:TrackItem x:Name="DesktopTrackItem" 
-                             Track="{x:Bind Track, Mode=TwoWay}" 
+        <controls:TrackItem x:Name="DesktopTrackItem" 
+                             Track="{x:Bind Track, Mode=OneWay}" 
                              x:Load="False"
                              Visibility="Collapsed" />
     </Grid>
