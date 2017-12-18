@@ -96,6 +96,17 @@ namespace SoundByte.UWP.ViewModels.Search
         #endregion
 
         #region Method Bindings
+
+        public void RefreshAll()
+        {
+            SearchTracks.RefreshItems();
+            SearchPlaylists.RefreshItems();
+            SearchUsers.RefreshItems();
+            FanburstTracks.RefreshItems();
+            YouTubeTracks.RefreshItems();
+            SearchPodcasts.RefreshItems();
+        }
+
         public void NavigateSoundCloudPlaylist(object sender, ItemClickEventArgs e)
         {
             if (e.ClickedItem == null)
@@ -168,11 +179,13 @@ namespace SoundByte.UWP.ViewModels.Search
             }
         }
 
-        public void NavigateSoundCloudTracks()
+    
+
+        public void NavigateSoundCloudUsers()
         {
-            App.NavigateTo(typeof(TrackListView), new TrackListViewModel.TrackViewModelHolder
+            App.NavigateTo(typeof(UserListView), new UserListViewModel.UserViewModelHolder
             {
-                Track = SearchTracks.Source,
+                User = SearchUsers.Source,
                 Title = $"Results for \"{SearchQuery}\""
             });
         }
@@ -186,15 +199,28 @@ namespace SoundByte.UWP.ViewModels.Search
             });
         }
 
-        public void NavigateSoundCloudUsers()
+        #region SoundCloud Tracks
+        public void NavigateSoundCloudTracks()
         {
-            App.NavigateTo(typeof(UserListView), new UserListViewModel.UserViewModelHolder
+            App.NavigateTo(typeof(TrackListView), new TrackListViewModel.TrackViewModelHolder
             {
-                User = SearchUsers.Source,
+                Track = SearchTracks.Source,
                 Title = $"Results for \"{SearchQuery}\""
             });
         }
 
+        public async void PlayShuffleSoundCloud()
+        {
+            await ShuffleTracksAsync(SearchTracks);
+        }
+
+        public async void PlaySoundCloud()
+        {
+            await PlayAllItemsAsync(SearchTracks);
+        }
+        #endregion
+
+        #region YouTube Tracks
         public void NavigateYouTubeTracks()
         {
             App.NavigateTo(typeof(TrackListView), new TrackListViewModel.TrackViewModelHolder
@@ -204,6 +230,18 @@ namespace SoundByte.UWP.ViewModels.Search
             });
         }
 
+        public async void PlayShuffleYouTube()
+        {
+            await ShuffleTracksAsync(YouTubeTracks);
+        }
+
+        public async void PlayYouTube()
+        {
+            await PlayAllItemsAsync(YouTubeTracks);
+        }
+        #endregion
+
+        #region Fanburst Tracks
         public void NavigateFanburstTracks()
         {
             App.NavigateTo(typeof(TrackListView), new TrackListViewModel.TrackViewModelHolder
@@ -212,6 +250,17 @@ namespace SoundByte.UWP.ViewModels.Search
                 Title = $"Results for \"{SearchQuery}\""
             });
         }
+
+        public async void PlayShuffleFanburst()
+        {
+            await ShuffleTracksAsync(FanburstTracks);
+        }
+
+        public async void PlayFanburst()
+        {
+            await PlayAllItemsAsync(FanburstTracks);
+        }
+        #endregion
 
         public void NavigatePodcasts()
         {

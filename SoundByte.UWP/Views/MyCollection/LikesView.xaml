@@ -18,6 +18,7 @@
                            VerticalAlignment="Center"
                            HorizontalAlignment="Left" />
                 <controls:AppButton HorizontalAlignment="Right"
+                                    VerticalAlignment="Bottom"                     
                                     Label="View All" 
                                     IsExtended="True"
                                     Glyph="&#xE8A9;"/>

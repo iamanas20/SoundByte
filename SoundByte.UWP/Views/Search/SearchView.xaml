@@ -24,10 +24,16 @@
 
         <ScrollViewer>
             <StackPanel Orientation="Vertical" Padding="{ThemeResource PagePadding}">
-                <Grid Margin="10,0,40,0">
+                <Grid Margin="10,0,00,0">
                     <TextBlock Text="Results for..."
                                x:Name="PageTitle"
                                Style="{StaticResource TitleStyle}" />
+
+                    <controls:AppButton HorizontalAlignment="Right"
+                                        Click="{x:Bind ViewModel.RefreshAll}"
+                                        VerticalAlignment="Bottom"                     
+                                        Label="Refresh" 
+                                        Glyph="&#xE72C;"/>
                 </Grid>
                       
                 <!-- SoundCloud Tracks Header -->
@@ -36,11 +42,27 @@
                                Style="{StaticResource SubTitleStyle}"
                                VerticalAlignment="Center"
                                HorizontalAlignment="Left" />
-                    <controls:AppButton HorizontalAlignment="Right"
-                                                IsExtended="True"
-                                                Label="View All" 
-                                                Click="{x:Bind ViewModel.NavigateSoundCloudTracks}"
-                                                Glyph="&#xE8A9;"/>
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Bottom">
+                        <controls:AppButton HorizontalAlignment="Right"
+                                            Label="Play All" 
+                                            Click="{x:Bind ViewModel.PlaySoundCloud}"
+                                            Margin="0,0,15,0"
+                                            Glyph="&#xE768;"/>
+                        <controls:AppButton HorizontalAlignment="Right"
+                                            Label="Shuffle Play" 
+                                            Click="{x:Bind ViewModel.PlayShuffleSoundCloud}"
+                                            Margin="0,0,15,0"
+                                            Glyph="&#xE8B1;"/>
+                        <controls:AppButton HorizontalAlignment="Right"
+                                            Label="View All" 
+                                            IsExtended="True"
+                                            Click="{x:Bind ViewModel.NavigateSoundCloudTracks}"
+                                            Glyph="&#xE8A9;"/>
+                    </StackPanel>
+
+                       
                 </Grid>
                 
                 <!-- SoundCloud Tracks Content -->
@@ -81,11 +103,27 @@
                                Style="{StaticResource SubTitleStyle}"
                                VerticalAlignment="Center"
                                HorizontalAlignment="Left" />
-                    <controls:AppButton HorizontalAlignment="Right"
-                                                IsExtended="True"
-                                                Click="{x:Bind ViewModel.NavigateYouTubeTracks}"
-                                                Label="View All" 
-                                                Glyph="&#xE8A9;" />
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Bottom">
+                        <controls:AppButton HorizontalAlignment="Right"
+                                            Click="{x:Bind ViewModel.PlayYouTube}"
+                                            Margin="0,0,15,0"
+                                            Label="Play All" 
+                                            Glyph="&#xE768;" />
+                        <controls:AppButton HorizontalAlignment="Right"
+                                            Margin="0,0,15,0"
+                                            Click="{x:Bind ViewModel.PlayShuffleYouTube}"
+                                            Label="Shuffle Play" 
+                                            Glyph="&#xE8B1;" />
+                        <controls:AppButton HorizontalAlignment="Right"
+                                            Click="{x:Bind ViewModel.NavigateYouTubeTracks}"
+                                            IsExtended="True"
+                                            Label="View All" 
+                                            Glyph="&#xE8A9;" />
+                    </StackPanel>
+                    
+                    
                 </Grid>
                 <!-- YouTube Content -->
                 <Grid Height="260">
@@ -125,12 +163,26 @@
                                Style="{StaticResource SubTitleStyle}"
                                VerticalAlignment="Center"
                                HorizontalAlignment="Left"/>
-                    <controls:AppButton HorizontalAlignment="Right"
-                                                IsExtended="True"
-                                                Click="{x:Bind ViewModel.NavigateFanburstTracks}"
-                                                Label="View All" 
-                                                Glyph="&#xE8A9;"
-                    />
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Bottom">
+                        <controls:AppButton HorizontalAlignment="Right"
+                                            Margin="0,0,15,0"
+                                            Click="{x:Bind ViewModel.PlayFanburst}"
+                                            Label="Play All" 
+                                            Glyph="&#xE768;" />
+                        <controls:AppButton HorizontalAlignment="Right"
+                                            Margin="0,0,15,0"
+                                            Click="{x:Bind ViewModel.PlayShuffleFanburst}"
+                                            Label="Shuffle Play" 
+                                            Glyph="&#xE8B1;" />
+                        <controls:AppButton HorizontalAlignment="Right"
+                                            Click="{x:Bind ViewModel.NavigateFanburstTracks}"
+                                            IsExtended="True"
+                                            Label="View All" 
+                                            Glyph="&#xE8A9;"/>
+                    </StackPanel>
+
                 </Grid>
                 <!-- Fanburst Content -->
                 <Grid Height="260">
