@@ -2,8 +2,8 @@
     x:Class="SoundByte.UWP.Controls.AppButton"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-
-    <Button x:Name="MainButton"
+    <Button Style="{StaticResource ButtonRevealStyle}"
+            x:Name="MainButton"
             Padding="11,0,11,0"
             Height="44"
             BorderThickness="1"

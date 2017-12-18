@@ -21,9 +21,9 @@ using SoundByte.Core.Sources.SoundCloud;
 using SoundByte.Core.Sources.YouTube;
 using SoundByte.UWP.Dialogs;
 using SoundByte.UWP.Helpers;
+using SoundByte.UWP.ViewModels;
 using SoundByte.UWP.ViewModels.Generic;
 using SoundByte.UWP.Views.Account;
-using SoundByte.UWP.Views.Application;
 using SoundByte.UWP.Views.Generic;
 
 namespace SoundByte.UWP.Views
@@ -41,7 +41,7 @@ namespace SoundByte.UWP.Views
         public SoundByteCollection<ExploreFanburstPopularSource, BaseTrack> FanburstTracks { get; } =
             new SoundByteCollection<ExploreFanburstPopularSource, BaseTrack>();
 
-        public SoundByteCollection<ExploreSoundCloudSource, BaseTrack> ExploreTracks { get; } =
+        public SoundByteCollection<ExploreSoundCloudSource, BaseTrack> SoundCloudTracks { get; } =
             new SoundByteCollection<ExploreSoundCloudSource, BaseTrack>();
 
         #endregion
@@ -53,23 +53,10 @@ namespace SoundByte.UWP.Views
             NavigationCacheMode = NavigationCacheMode.Enabled;
         }
 
+        #region SoundCloud
         public async void PlayChartItem(object sender, ItemClickEventArgs e)
         {
-            var startPlayback = await PlaybackService.Instance.StartModelMediaPlaybackAsync(ExploreTracks, false, (BaseTrack)e.ClickedItem);
-            if (!startPlayback.Success)
-                await new MessageDialog(startPlayback.Message, "Error playing track.").ShowAsync();
-        }
-
-        public async void PlayYouTubeItem(object sender, ItemClickEventArgs e)
-        {
-            var startPlayback = await PlaybackService.Instance.StartModelMediaPlaybackAsync(YouTubeTracks, false, (BaseTrack)e.ClickedItem);
-            if (!startPlayback.Success)
-                await new MessageDialog(startPlayback.Message, "Error playing track.").ShowAsync();
-        }
-
-        public async void PlayFanburstItem(object sender, ItemClickEventArgs e)
-        {
-            var startPlayback = await PlaybackService.Instance.StartModelMediaPlaybackAsync(FanburstTracks, false, (BaseTrack)e.ClickedItem);
+            var startPlayback = await PlaybackService.Instance.StartModelMediaPlaybackAsync(SoundCloudTracks, false, (BaseTrack)e.ClickedItem);
             if (!startPlayback.Success)
                 await new MessageDialog(startPlayback.Message, "Error playing track.").ShowAsync();
         }
@@ -77,6 +64,25 @@ namespace SoundByte.UWP.Views
         public void NavigateMoreCharts()
         {
             App.NavigateTo(typeof(SoundCloudExploreView));
+        }
+
+        public async void PlayShuffleSoundCloud()
+        {
+            await BaseViewModel.ShuffleTracksAsync(SoundCloudTracks);
+        }
+
+        public async void PlaySoundCloud()
+        {
+            await BaseViewModel.PlayAllItemsAsync(SoundCloudTracks);
+        }
+        #endregion
+
+        #region YouTube
+        public async void PlayYouTubeItem(object sender, ItemClickEventArgs e)
+        {
+            var startPlayback = await PlaybackService.Instance.StartModelMediaPlaybackAsync(YouTubeTracks, false, (BaseTrack)e.ClickedItem);
+            if (!startPlayback.Success)
+                await new MessageDialog(startPlayback.Message, "Error playing track.").ShowAsync();
         }
 
         public void NavigateMoreYouTube()
@@ -89,6 +95,25 @@ namespace SoundByte.UWP.Views
             });
         }
 
+        public async void PlayShuffleYouTube()
+        {
+            await BaseViewModel.ShuffleTracksAsync(YouTubeTracks);
+        }
+
+        public async void PlayYouTube()
+        {
+            await BaseViewModel.PlayAllItemsAsync(YouTubeTracks);
+        }
+        #endregion
+
+        #region Fanburst
+        public async void PlayFanburstItem(object sender, ItemClickEventArgs e)
+        {
+            var startPlayback = await PlaybackService.Instance.StartModelMediaPlaybackAsync(FanburstTracks, false, (BaseTrack)e.ClickedItem);
+            if (!startPlayback.Success)
+                await new MessageDialog(startPlayback.Message, "Error playing track.").ShowAsync();
+        }
+
         public void NavigateMoreFanburst()
         {
             App.NavigateTo(typeof(TrackListView), new TrackListViewModel.TrackViewModelHolder
@@ -98,6 +123,17 @@ namespace SoundByte.UWP.Views
                 Subtitle = "Trending"
             });
         }
+
+        public async void PlayShuffleFanburst()
+        {
+            await BaseViewModel.ShuffleTracksAsync(FanburstTracks);
+        }
+
+        public async void PlayFanburst()
+        {
+            await BaseViewModel.PlayAllItemsAsync(FanburstTracks);
+        }
+        #endregion
 
         private async void WhatsNewButtonClick(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {

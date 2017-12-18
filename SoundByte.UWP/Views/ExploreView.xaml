@@ -163,26 +163,44 @@
                                Style="{StaticResource SubTitleStyle}"
                                VerticalAlignment="Center"
                                HorizontalAlignment="Left" />
-                    <controls:AppButton HorizontalAlignment="Right"
-                                                Label="View All" 
-                                                IsExtended="True"
-                                                Click="{x:Bind NavigateMoreCharts}"
-                                                Glyph="&#xE8A9;"/>
+
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Bottom">
+
+                        <controls:AppButton HorizontalAlignment="Right"
+                                            Label="Play All" 
+                                            Margin="0,0,15,0"
+                                            Click="{x:Bind NavigateMoreCharts}"
+                                            Glyph="&#xE768;"/>
+
+                        <controls:AppButton HorizontalAlignment="Right"
+                                            Label="Shuffle Play" 
+                                            Margin="0,0,15,0"
+                                            Click="{x:Bind PlayShuffleSoundCloud}"
+                                            Glyph="&#xE8B1;"/>
+
+                        <controls:AppButton HorizontalAlignment="Right"
+                                            Label="View All" 
+                                            IsExtended="True"
+                                            Click="{x:Bind PlaySoundCloud}"
+                                            Glyph="&#xE8A9;"/>
+                    </StackPanel>
                 </Grid>
 
                 <Grid Height="260" Padding="{ThemeResource PagePadding}" Margin="-10,0,0,0">
                     <controls:InfoPane VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
                                          Visibility="Collapsed" Canvas.ZIndex="50"
-                                         Header="{x:Bind ExploreTracks.ErrorHeader, Mode=OneWay}"
-                                         Text="{x:Bind ExploreTracks.ErrorDescription, Mode=OneWay}"
-                                         IsLoading="{x:Bind ExploreTracks.IsLoading, Mode=OneWay}"
-                                         IsError="{x:Bind ExploreTracks.IsError, Mode=OneWay}" />
+                                         Header="{x:Bind SoundCloudTracks.ErrorHeader, Mode=OneWay}"
+                                         Text="{x:Bind SoundCloudTracks.ErrorDescription, Mode=OneWay}"
+                                         IsLoading="{x:Bind SoundCloudTracks.IsLoading, Mode=OneWay}"
+                                         IsError="{x:Bind SoundCloudTracks.IsError, Mode=OneWay}" />
                     <GridView Height="280"
                               ScrollViewer.HorizontalScrollMode="Disabled"
                               ScrollViewer.VerticalScrollMode="Disabled"
                               ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                               ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                              ItemsSource="{x:Bind Path=ExploreTracks, Mode=OneWay}"
+                              ItemsSource="{x:Bind Path=SoundCloudTracks, Mode=OneWay}"
                               ItemTemplate="{StaticResource TrackItem}"
                               SelectionMode="None"
                               ItemContainerStyle="{StaticResource MainGridViewItem}"
@@ -206,11 +224,29 @@
                                Style="{StaticResource SubTitleStyle}"
                                VerticalAlignment="Center"
                                HorizontalAlignment="Left" />
-                    <controls:AppButton HorizontalAlignment="Right"
-                                                Click="{x:Bind NavigateMoreYouTube}"
-                                                Label="View All" 
-                                                IsExtended="True"
-                                                Glyph="&#xE8A9;"/>
+
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Bottom">
+
+                        <controls:AppButton HorizontalAlignment="Right"
+                                            Label="Play All" 
+                                            Margin="0,0,15,0"
+                                            Click="{x:Bind NavigateMoreYouTube}"
+                                            Glyph="&#xE768;"/>
+
+                        <controls:AppButton HorizontalAlignment="Right"
+                                            Label="Shuffle Play" 
+                                            Margin="0,0,15,0"
+                                            Click="{x:Bind PlayShuffleYouTube}"
+                                            Glyph="&#xE8B1;"/>
+
+                        <controls:AppButton HorizontalAlignment="Right"
+                                            Label="View All" 
+                                            IsExtended="True"
+                                            Click="{x:Bind PlayYouTube}"
+                                            Glyph="&#xE8A9;"/>
+                    </StackPanel>
                 </Grid>
 
                 <Grid Height="260" Padding="{ThemeResource PagePadding}" Margin="-10,0,0,0">
@@ -248,11 +284,29 @@
                                Style="{StaticResource SubTitleStyle}"
                                VerticalAlignment="Center"
                                HorizontalAlignment="Left" />
-                    <controls:AppButton HorizontalAlignment="Right"
-                                                IsExtended="True"
-                                                Click="{x:Bind NavigateMoreFanburst}"
-                                                Label="View All" 
-                                                Glyph="&#xE8A9;"/>
+
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Bottom">
+
+                        <controls:AppButton HorizontalAlignment="Right"
+                                            Label="Play All" 
+                                            Margin="0,0,15,0"
+                                            Click="{x:Bind NavigateMoreFanburst}"
+                                            Glyph="&#xE768;"/>
+
+                        <controls:AppButton HorizontalAlignment="Right"
+                                            Label="Shuffle Play" 
+                                            Margin="0,0,15,0"
+                                            Click="{x:Bind PlayShuffleFanburst}"
+                                            Glyph="&#xE8B1;"/>
+
+                        <controls:AppButton HorizontalAlignment="Right"
+                                            Label="View All" 
+                                            IsExtended="True"
+                                            Click="{x:Bind PlayFanburst}"
+                                            Glyph="&#xE8A9;"/>
+                    </StackPanel>
                 </Grid>
 
                 <Grid Height="260" Padding="{ThemeResource PagePadding}" Margin="-10,0,0,0">

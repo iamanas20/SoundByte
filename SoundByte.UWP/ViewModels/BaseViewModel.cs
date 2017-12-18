@@ -66,6 +66,20 @@ namespace SoundByte.UWP.ViewModels
 
         }
 
+        public static async Task PlayAllItemsAsync<TSource>(SoundByteCollection<TSource, BaseTrack> model) where TSource : ISource<BaseTrack>
+        {
+            // We are loading
+            model.IsLoading = true;
+
+            var startPlayback = await PlaybackService.Instance.StartModelMediaPlaybackAsync(model);
+
+            if (!startPlayback.Success)
+                await new MessageDialog(startPlayback.Message, "Playback Error").ShowAsync();
+
+            // We are not loading
+            model.IsLoading = false;
+        }
+
         #region Property Changed Event Handlers
 
         public event PropertyChangedEventHandler PropertyChanged;
