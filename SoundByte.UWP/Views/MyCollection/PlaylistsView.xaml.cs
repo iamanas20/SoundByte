@@ -10,50 +10,41 @@
  * |----------------------------------------------------------------|
  */
 
-using System;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
 using SoundByte.Core;
 using SoundByte.Core.Items.Playlist;
 using SoundByte.Core.Services;
 using SoundByte.Core.Sources.SoundCloud;
 using SoundByte.UWP.Helpers;
-using SoundByte.UWP.Services;
+using SoundByte.UWP.ViewModels.Generic;
+using SoundByte.UWP.Views.Generic;
 
-namespace SoundByte.UWP.Views.Me
+namespace SoundByte.UWP.Views.MyCollection
 {
-    /// <summary>
-    ///     Let the user view their playlists
-    /// </summary>
-    public sealed partial class MyPlaylistsView
+    public sealed partial class PlaylistsView 
     {
-        public MyPlaylistsView()
-        {
-            InitializeComponent();
-
-            Unloaded += (sender, args) =>
-            {
-                GC.Collect();
-            };
-        }
-
-        /// <summary>
-        ///     The playlist model that contains the users playlists / liked playlists
-        /// </summary>
         public SoundByteCollection<UserSoundCloudPlaylistSource, BasePlaylist> PlaylistModel { get; } =
             new SoundByteCollection<UserSoundCloudPlaylistSource, BasePlaylist>();
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        public PlaylistsView()
         {
+            InitializeComponent();
+
             PlaylistModel.Source.User = SoundByteV3Service.Current.GetConnectedUser(ServiceType.SoundCloud);
-            App.Telemetry.TrackPage("User Playlists View");
         }
 
         public void NavigatePlaylist(object sender, ItemClickEventArgs e)
         {
-            StackPanel.PrepareConnectedAnimation("PlaylistImage", e.ClickedItem as BasePlaylist, "PlaylistImage");
-
             App.NavigateTo(typeof(PlaylistView), e.ClickedItem as BasePlaylist);
+        }
+
+        public void ViewAllSoundCloud()
+        {
+            App.NavigateTo(typeof(PlaylistListView), new PlaylistListViewModel.PlaylistViewModelHolder
+            {
+                Playlist = PlaylistModel.Source,
+                Title = "Playlists"
+            });
         }
     }
 }

@@ -87,16 +87,7 @@
                                     x:Name="NavigationItemSoundCloudStream"
                                     Tag="scstream">
                     <NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xEA37;"/>
-                    </NavigationViewItem.Icon>
-                </NavigationViewItem>
-
-                <NavigationViewItem Content="My Playlists" 
-                                    Style="{StaticResource NavStyle}" 
-                                    x:Name="NavigationItemPlaylists"
-                                    Tag="playlists">
-                    <NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xE93C;"/>
+                        <FontIcon Glyph="&#xE753;"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
 
@@ -105,7 +96,7 @@
                                     x:Name="NavigationItemCollection"
                                     Tag="mycollection">
                     <NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xEA69;"/>
+                        <FontIcon Glyph="&#xE189;"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
 
@@ -114,7 +105,7 @@
                                     x:Name="NavigationItemDownloads"
                                     Tag="mydevice">
                     <NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xE896;"/>
+                        <FontIcon Glyph="&#xE703;"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
 
@@ -153,7 +144,7 @@
                                     x:Name="NavigationItemDonations"
                                     Tag="donations">
                     <NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xE8EC;"/>
+                        <FontIcon Glyph="&#xE719;"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
             </NavigationView.MenuItems>

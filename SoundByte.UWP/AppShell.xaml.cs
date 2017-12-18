@@ -455,9 +455,6 @@ namespace SoundByte.UWP
                 case nameof(PremiumUpgradeView):
                     NavView.SelectedItem = NavigationItemDonations;
                     break;
-                case nameof(MyPlaylistsView):
-                    NavView.SelectedItem = NavigationItemPlaylists;
-                    break;
                 case nameof(HistoryView):
                     NavView.SelectedItem = NavigationItemHistory;
                     break;
@@ -470,7 +467,7 @@ namespace SoundByte.UWP
                 case nameof(CollectionView):
                     NavView.SelectedItem = NavigationItemCollection;
                     break;
-                case nameof(MyDeviceView):
+                case nameof(DeviceView):
                     NavView.SelectedItem = NavigationItemDownloads;
                     break;
             }
@@ -536,8 +533,6 @@ namespace SoundByte.UWP
         public void ShowLoginContent()
         {
             NavigationItemCollection.Visibility = Visibility.Visible;
-            NavigationItemPlaylists.Visibility = Visibility.Visible;
-
             // Only show this tab if the users soundcloud account is connected
             NavigationItemSoundCloudStream.Visibility = SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud) ? Visibility.Visible : Visibility.Collapsed;
         }
@@ -545,8 +540,8 @@ namespace SoundByte.UWP
         public void ShowLogoutContent()
         {
             NavigationItemCollection.Visibility = Visibility.Collapsed;
-            NavigationItemPlaylists.Visibility = Visibility.Collapsed;
-            NavigationItemSoundCloudStream.Visibility = Visibility.Collapsed;
+            // Only show this tab if the users soundcloud account is connected
+            NavigationItemSoundCloudStream.Visibility = SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud) ? Visibility.Visible : Visibility.Collapsed;
         }
 
 
@@ -591,10 +586,6 @@ namespace SoundByte.UWP
                 case "explore":
                     RootFrame.Navigate(typeof(ExploreView));
                     break;
-                    break;
-                case "playlists":
-                    RootFrame.Navigate(typeof(MyPlaylistsView));
-                    break;
                 case "history":
                     RootFrame.Navigate(typeof(HistoryView));
                     break;
@@ -611,7 +602,7 @@ namespace SoundByte.UWP
                     RootFrame.Navigate(typeof(CollectionView));
                     break;
                 case "mydevice":
-                    RootFrame.Navigate(typeof(MyDeviceView));
+                    RootFrame.Navigate(typeof(DeviceView));
                     break;
 
             }

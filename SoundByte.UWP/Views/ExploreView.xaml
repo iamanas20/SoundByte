@@ -120,6 +120,7 @@
                           VerticalAlignment="Stretch">
 
                         <Image Source="../Assets/Misc/soundbyteaccount.jpg"
+                               VerticalAlignment="Bottom"
                                Stretch="UniformToFill"/>
 
                         <Rectangle>
@@ -141,9 +142,9 @@
                             <TextBlock Text="Do more with a SoundByte account." FontWeight="SemiBold"
                                        FontSize="18"/>
                             <TextBlock Text="Sync your playlist, likes and history across devices." 
-                                       FontWeight="SemiLight"
+                                       FontWeight="Normal"
                                        FontSize="14"
-                                       Opacity="0.8" />
+                                       Opacity="0.9" />
                         </StackPanel>
 
                         <Button HorizontalAlignment="Right" 

@@ -11,7 +11,6 @@
  */
 
 using Windows.UI.Xaml.Navigation;
-using SoundByte.UWP.Services;
 using SoundByte.UWP.ViewModels.Search;
 
 namespace SoundByte.UWP.Views.Search
