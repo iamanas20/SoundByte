@@ -10,14 +10,14 @@
  * |----------------------------------------------------------------|
  */
 
-namespace SoundByte.UWP.Views.Me
+namespace SoundByte.UWP.Views
 {
     /// <summary>
     /// Shows a list of shows that the user has subscribed to.
     /// </summary>
-    public sealed partial class MyCollectionView
+    public sealed partial class CollectionView
     {
-        public MyCollectionView()
+        public CollectionView()
         {
             InitializeComponent();
         }

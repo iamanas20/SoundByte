@@ -281,6 +281,9 @@
     <Compile Include="Views\Generic\PodcastShowListView.xaml.cs">
       <DependentUpon>PodcastShowListView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\MyCollection\LikesView.xaml.cs">
+      <DependentUpon>LikesView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Setup\AppModeView.xaml.cs">
       <DependentUpon>AppModeView.xaml</DependentUpon>
     </Compile>
@@ -299,8 +302,8 @@
     <Compile Include="Views\Me\MyDeviceView.xaml.cs">
       <DependentUpon>MyDeviceView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Me\MyCollectionView.xaml.cs">
-      <DependentUpon>MyCollectionView.xaml</DependentUpon>
+    <Compile Include="Views\CollectionView.xaml.cs">
+      <DependentUpon>CollectionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Me\XboxAccountView.xaml.cs">
       <DependentUpon>XboxAccountView.xaml</DependentUpon>
@@ -334,9 +337,6 @@
     </Compile>
     <Compile Include="Views\UserView.xaml.cs">
       <DependentUpon>UserView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Me\MyLikesView.xaml.cs">
-      <DependentUpon>MyLikesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Me\MyPlaylistsView.xaml.cs">
       <DependentUpon>MyPlaylistsView.xaml</DependentUpon>
@@ -482,6 +482,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\MyCollection\LikesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Setup\AppModeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -506,7 +510,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Me\MyCollectionView.xaml">
+    <Page Include="Views\CollectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -551,10 +555,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\UserView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Me\MyLikesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

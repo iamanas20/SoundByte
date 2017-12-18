@@ -446,34 +446,31 @@ namespace SoundByte.UWP
             // Update the side bar
             switch (((Frame) sender).SourcePageType.Name)
             {
-                case "SoundCloudStreamView":
+                case nameof(SoundCloudStreamView):
                     NavView.SelectedItem = NavigationItemSoundCloudStream;
                     break;
-                case "ExploreView":
+                case nameof(ExploreView):
                     NavView.SelectedItem = NavigationItemExplore;
                     break;
-                case "PremiumUpgradeView":
+                case nameof(PremiumUpgradeView):
                     NavView.SelectedItem = NavigationItemDonations;
                     break;
-                case "MyLikesView":
-                    NavView.SelectedItem = NavigationItemLikes;
-                    break;
-                case "MyPlaylistsView":
+                case nameof(MyPlaylistsView):
                     NavView.SelectedItem = NavigationItemPlaylists;
                     break;
-                case "HistoryView":
+                case nameof(HistoryView):
                     NavView.SelectedItem = NavigationItemHistory;
                     break;
-                case "AccountManagerView":
+                case nameof(AccountManagerView):
                     NavView.SelectedItem = NavigationItemAccounts;
                     break;
-                case "SettingsView":
+                case nameof(SettingsView):
                     NavView.SelectedItem = NavigationItemSettings;
                     break;
-                case "MyShowsView":
-                    NavView.SelectedItem = NavigationItemShows;
+                case nameof(CollectionView):
+                    NavView.SelectedItem = NavigationItemCollection;
                     break;
-                case "DownloadsView":
+                case nameof(MyDeviceView):
                     NavView.SelectedItem = NavigationItemDownloads;
                     break;
             }
@@ -538,7 +535,7 @@ namespace SoundByte.UWP
         // are visiable to the user.
         public void ShowLoginContent()
         {
-            NavigationItemLikes.Visibility = Visibility.Visible;
+            NavigationItemCollection.Visibility = Visibility.Visible;
             NavigationItemPlaylists.Visibility = Visibility.Visible;
 
             // Only show this tab if the users soundcloud account is connected
@@ -547,7 +544,7 @@ namespace SoundByte.UWP
 
         public void ShowLogoutContent()
         {
-            NavigationItemLikes.Visibility = Visibility.Collapsed;
+            NavigationItemCollection.Visibility = Visibility.Collapsed;
             NavigationItemPlaylists.Visibility = Visibility.Collapsed;
             NavigationItemSoundCloudStream.Visibility = Visibility.Collapsed;
         }
@@ -594,8 +591,6 @@ namespace SoundByte.UWP
                 case "explore":
                     RootFrame.Navigate(typeof(ExploreView));
                     break;
-                case "likes":
-                    RootFrame.Navigate(typeof(MyLikesView));
                     break;
                 case "playlists":
                     RootFrame.Navigate(typeof(MyPlaylistsView));
@@ -613,7 +608,7 @@ namespace SoundByte.UWP
                     RootFrame.Navigate(typeof(AccountManagerView));
                     break;
                 case "mycollection":
-                    RootFrame.Navigate(typeof(MyCollectionView));
+                    RootFrame.Navigate(typeof(CollectionView));
                     break;
                 case "mydevice":
                     RootFrame.Navigate(typeof(MyDeviceView));

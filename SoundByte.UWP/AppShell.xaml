@@ -91,15 +91,6 @@
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
 
-                <NavigationViewItem Content="My Likes" 
-                                    Style="{StaticResource NavStyle}" 
-                                    x:Name="NavigationItemLikes"
-                                    Tag="likes">
-                    <NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xE006;"/>
-                    </NavigationViewItem.Icon>
-                </NavigationViewItem>
-
                 <NavigationViewItem Content="My Playlists" 
                                     Style="{StaticResource NavStyle}" 
                                     x:Name="NavigationItemPlaylists"
@@ -111,7 +102,7 @@
 
                 <NavigationViewItem Content="My Collection" 
                                     Style="{StaticResource NavStyle}" 
-                                    x:Name="NavigationItemShows"
+                                    x:Name="NavigationItemCollection"
                                     Tag="mycollection">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xEA69;"/>
