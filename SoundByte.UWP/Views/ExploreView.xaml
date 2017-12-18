@@ -47,6 +47,7 @@
                                                TextAlignment="Center"/>
                                     <Button HorizontalAlignment="Center" 
                                             Click="WhatsNewButtonClick"
+                                            Style="{StaticResource ButtonRevealStyle}"
                                             Background="{ThemeResource ButtonAccentBrush}"
                                             Opacity="0.8"
                                             Content="What's New?"
@@ -91,6 +92,7 @@
                                                TextAlignment="Center"/>
                                     <Button HorizontalAlignment="Center" 
                                             Background="{ThemeResource ButtonAccentBrush}"
+                                            Style="{StaticResource ButtonRevealStyle}"
                                             Opacity="0.8"
                                             Content="Click Here"
                                             RequestedTheme="Dark"
@@ -146,6 +148,7 @@
 
                         <Button HorizontalAlignment="Right" 
                                 Click="SoundByteAccountLearnMoreClick"
+                                Style="{StaticResource ButtonRevealStyle}"
                                 Background="{ThemeResource ButtonAccentBrush}"
                                 Opacity="0.8"
                                 Content="Learn More"
@@ -171,7 +174,7 @@
                         <controls:AppButton HorizontalAlignment="Right"
                                             Label="Play All" 
                                             Margin="0,0,15,0"
-                                            Click="{x:Bind NavigateMoreCharts}"
+                                            Click="{x:Bind PlaySoundCloud}"
                                             Glyph="&#xE768;"/>
 
                         <controls:AppButton HorizontalAlignment="Right"
@@ -183,7 +186,7 @@
                         <controls:AppButton HorizontalAlignment="Right"
                                             Label="View All" 
                                             IsExtended="True"
-                                            Click="{x:Bind PlaySoundCloud}"
+                                            Click="{x:Bind NavigateMoreCharts}"
                                             Glyph="&#xE8A9;"/>
                     </StackPanel>
                 </Grid>
@@ -232,7 +235,7 @@
                         <controls:AppButton HorizontalAlignment="Right"
                                             Label="Play All" 
                                             Margin="0,0,15,0"
-                                            Click="{x:Bind NavigateMoreYouTube}"
+                                            Click="{x:Bind PlayYouTube}"
                                             Glyph="&#xE768;"/>
 
                         <controls:AppButton HorizontalAlignment="Right"
@@ -244,7 +247,7 @@
                         <controls:AppButton HorizontalAlignment="Right"
                                             Label="View All" 
                                             IsExtended="True"
-                                            Click="{x:Bind PlayYouTube}"
+                                            Click="{x:Bind NavigateMoreYouTube}"
                                             Glyph="&#xE8A9;"/>
                     </StackPanel>
                 </Grid>
@@ -292,7 +295,7 @@
                         <controls:AppButton HorizontalAlignment="Right"
                                             Label="Play All" 
                                             Margin="0,0,15,0"
-                                            Click="{x:Bind NavigateMoreFanburst}"
+                                            Click="{x:Bind PlayFanburst}"
                                             Glyph="&#xE768;"/>
 
                         <controls:AppButton HorizontalAlignment="Right"
@@ -304,7 +307,7 @@
                         <controls:AppButton HorizontalAlignment="Right"
                                             Label="View All" 
                                             IsExtended="True"
-                                            Click="{x:Bind PlayFanburst}"
+                                            Click="{x:Bind NavigateMoreFanburst}"
                                             Glyph="&#xE8A9;"/>
                     </StackPanel>
                 </Grid>
