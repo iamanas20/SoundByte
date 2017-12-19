@@ -13,7 +13,7 @@
 using Windows.UI.Xaml.Navigation;
 using SoundByte.UWP.ViewModels.Search;
 
-namespace SoundByte.UWP.Views.Search
+namespace SoundByte.UWP.Views
 {
     /// <summary>
     ///     This page lets the user search for tracks/playlists/people

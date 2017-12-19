@@ -23,9 +23,9 @@ namespace SoundByte.UWP.Views.Application
     /// <summary>
     /// Blank page used for debugging.
     /// </summary>
-    public sealed partial class DebugView
+    public sealed partial class SettingsAdvancedView
     {
-        public DebugView()
+        public SettingsAdvancedView()
         {
             InitializeComponent();
         }

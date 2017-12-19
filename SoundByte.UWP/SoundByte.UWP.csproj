@@ -263,8 +263,8 @@
     <Compile Include="Views\Account\SoundByteAccountView.xaml.cs">
       <DependentUpon>SoundByteAccountView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Application\DebugView.xaml.cs">
-      <DependentUpon>DebugView.xaml</DependentUpon>
+    <Compile Include="Views\Application\SettingsAdvancedView.xaml.cs">
+      <DependentUpon>SettingsAdvancedView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Application\MobileView.xaml.cs">
       <DependentUpon>MobileView.xaml</DependentUpon>
@@ -275,17 +275,35 @@
     <Compile Include="Views\Application\BlankView.xaml.cs">
       <DependentUpon>BlankView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\CollectionViews\DownloadsView.xaml.cs">
+      <DependentUpon>DownloadsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CollectionViews\ShowsView.xaml.cs">
+      <DependentUpon>ShowsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ExploreView.xaml.cs">
       <DependentUpon>ExploreView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Generic\PodcastShowListView.xaml.cs">
       <DependentUpon>PodcastShowListView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MyCollection\LikesView.xaml.cs">
+    <Compile Include="Views\CollectionViews\LikesView.xaml.cs">
       <DependentUpon>LikesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MyCollection\PlaylistsView.xaml.cs">
+    <Compile Include="Views\CollectionViews\PlaylistsView.xaml.cs">
       <DependentUpon>PlaylistsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SearchViews\PlaylistsView.xaml.cs">
+      <DependentUpon>PlaylistsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SearchViews\PodcastsView.xaml.cs">
+      <DependentUpon>PodcastsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SearchViews\TracksView.xaml.cs">
+      <DependentUpon>TracksView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SearchViews\UsersView.xaml.cs">
+      <DependentUpon>UsersView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Setup\AppModeView.xaml.cs">
       <DependentUpon>AppModeView.xaml</DependentUpon>
@@ -326,7 +344,7 @@
     <Compile Include="Views\Generic\UserListView.xaml.cs">
       <DependentUpon>UserListView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Search\SearchView.xaml.cs">
+    <Compile Include="Views\SearchView.xaml.cs">
       <DependentUpon>SearchView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Application\SettingsView.xaml.cs">
@@ -458,7 +476,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Application\DebugView.xaml">
+    <Page Include="Views\Application\SettingsAdvancedView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -474,6 +492,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\CollectionViews\DownloadsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CollectionViews\ShowsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ExploreView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -482,11 +508,27 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MyCollection\LikesView.xaml">
+    <Page Include="Views\CollectionViews\LikesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MyCollection\PlaylistsView.xaml">
+    <Page Include="Views\CollectionViews\PlaylistsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SearchViews\PlaylistsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SearchViews\PodcastsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SearchViews\TracksView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SearchViews\UsersView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -542,7 +584,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Search\SearchView.xaml">
+    <Page Include="Views\SearchView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

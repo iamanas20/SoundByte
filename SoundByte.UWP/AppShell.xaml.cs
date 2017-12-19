@@ -44,6 +44,7 @@ using SoundByte.UWP.Views;
 using SoundByte.UWP.Views.Application;
 using SoundByte.UWP.Views.Me;
 using SoundByte.UWP.Views.Search;
+using SearchView = SoundByte.UWP.Views.SearchView;
 
 namespace SoundByte.UWP
 {

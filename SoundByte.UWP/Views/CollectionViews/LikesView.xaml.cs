@@ -23,7 +23,7 @@ using SoundByte.UWP.ViewModels;
 using SoundByte.UWP.ViewModels.Generic;
 using SoundByte.UWP.Views.Generic;
 
-namespace SoundByte.UWP.Views.MyCollection
+namespace SoundByte.UWP.Views.CollectionViews
 {
     public sealed partial class LikesView
     {

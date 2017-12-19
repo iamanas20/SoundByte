@@ -140,8 +140,8 @@
                            Style="{StaticResource TextStyle}" />
 
                 <!-- Legal -->
-                <TextBlock Text="Awesome Legal Stuff" Style="{StaticResource SubTitleStyle}" />
-                <TextBlock Text="Copyright © Grid Entertainment 2016 - 2017. All Rights Reserved" Style="{StaticResource TextStyle}" />
+                <TextBlock Text="Legal" Style="{StaticResource SubTitleStyle}" />
+                <TextBlock Text="Copyright © Grid Entertainment 2016 - 2018. All Rights Reserved" Style="{StaticResource TextStyle}" />
                 <TextBlock Text="Source code is licensed under educational use."  Style="{StaticResource TextStyle}" />
                 <HyperlinkButton Content="Privacy Policy" 
                                  Style="{StaticResource LinkStyle}" 
@@ -152,7 +152,7 @@
 
                 <HyperlinkButton Click="{x:Bind ViewModel.NavigateDebugOptions}" 
                                  Style="{StaticResource LinkStyle}"
-                                 Content="Debug Options" />
+                                 Content="Advanced Settings" />
 
                 <HyperlinkButton Click="{x:Bind ViewModel.ClearAppCache}" 
                                  Style="{StaticResource LinkStyle}"

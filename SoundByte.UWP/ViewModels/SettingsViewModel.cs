@@ -61,7 +61,7 @@ namespace SoundByte.UWP.ViewModels
 
         public void NavigateDebugOptions()
         {
-            App.NavigateTo(typeof(DebugView));
+            App.NavigateTo(typeof(SettingsAdvancedView));
         }
 
         /// <summary>

@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:c="using:SoundByte.UWP.Views.MyCollection"
     xmlns:controls="using:SoundByte.UWP.Controls"
+    xmlns:collectionViews="using:SoundByte.UWP.Views.CollectionViews"
     NavigationCacheMode="Enabled">
 
     <Grid Background="Transparent">
@@ -37,7 +38,7 @@
                     <TextBlock Text="Likes" FontSize="18" FontWeight="SemiBold" />
                 </PivotItem.Header>
 
-                <c:LikesView />
+                <collectionViews:LikesView />
             </PivotItem>
 
             <PivotItem>
@@ -45,7 +46,7 @@
                     <TextBlock Text="Playlists" FontSize="18" FontWeight="SemiBold" />
                 </PivotItem.Header>
 
-                <c:PlaylistsView />
+                <collectionViews:PlaylistsView />
             </PivotItem>
 
             <PivotItem>
