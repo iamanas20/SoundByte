@@ -7,18 +7,19 @@
 
     <ScrollViewer>
         <StackPanel>
-            <!-- SoundByte Header -->
-            <Grid Margin="0,20,0,10" Padding="{ThemeResource PagePadding}">
-                <TextBlock Text="SoundByte" 
-                           Style="{StaticResource SubTitleStyle}"
-                           VerticalAlignment="Center"
-                           HorizontalAlignment="Left" />
-                <controls:AppButton HorizontalAlignment="Right"
-                                    VerticalAlignment="Bottom"                     
-                                    Label="View All" 
-                                    IsExtended="True"
-                                    Glyph="&#xE8A9;"/>
-            </Grid>
+            <!-- SOUNDBYTE HEADER -->
+            <controls:SectionHeader Title="SoundByte" Margin="{ThemeResource PagePadding}">
+                <controls:SectionHeader.Buttons>
+                    <controls:AppButton Label="Play All" 
+                                        Glyph="&#xE768;" />
+                    <controls:AppButton Label="Shuffle Play" 
+                                        Glyph="&#xE8B1;" />
+                    <controls:AppButton IsExtended="True"
+                                        Label="View All" 
+                                        Glyph="&#xE8A9;"/>
+                </controls:SectionHeader.Buttons>
+            </controls:SectionHeader>
+
 
             <Grid Height="260" Padding="{ThemeResource PagePadding}" Margin="-10,0,0,0">
                 <controls:InfoPane VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
@@ -44,33 +45,22 @@
                 </GridView>
             </Grid>
 
-            <!-- SoundCloud Header -->
-            <Grid Margin="0,20,0,10" Padding="{ThemeResource PagePadding}">
-                <TextBlock Text="SoundCloud" 
-                           Style="{StaticResource SubTitleStyle}"
-                           VerticalAlignment="Center"
-                           HorizontalAlignment="Left" />
-                <StackPanel Orientation="Horizontal"
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Bottom">
-                    <controls:AppButton HorizontalAlignment="Right"
-                                        Margin="0,0,15,0"
-                                        Click="{x:Bind PlaySoundCloud}"
+            <!-- SOUNDCLOUD HEADER -->
+            <controls:SectionHeader Title="SoundCloud" Margin="{ThemeResource PagePadding}">
+                <controls:SectionHeader.Buttons>
+                    <controls:AppButton Click="{x:Bind PlaySoundCloud}"
                                         Label="Play All" 
                                         Glyph="&#xE768;" />
-                    <controls:AppButton HorizontalAlignment="Right"
-                                        Margin="0,0,15,0"
-                                        Click="{x:Bind PlayShuffleSoundCloud}"
+                    <controls:AppButton Click="{x:Bind PlayShuffleSoundCloud}"
                                         Label="Shuffle Play" 
                                         Glyph="&#xE8B1;" />
-                    <controls:AppButton HorizontalAlignment="Right"
-                                        Click="{x:Bind NavigateMoreSoundCloudLikes}"
+                    <controls:AppButton Click="{x:Bind NavigateMoreSoundCloudLikes}"
                                         IsExtended="True"
                                         Label="View All" 
                                         Glyph="&#xE8A9;"/>
-                </StackPanel>
-            </Grid>
-
+                </controls:SectionHeader.Buttons>
+            </controls:SectionHeader>
+            
             <Grid Height="260" Padding="{ThemeResource PagePadding}" Margin="-10,0,0,0">
                 <controls:InfoPane VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
                                    Visibility="Collapsed" Canvas.ZIndex="50"
@@ -101,17 +91,19 @@
                 </GridView>
             </Grid>
 
-            <!-- Fanburst Header -->
-            <Grid Margin="0,20,0,10" Padding="{ThemeResource PagePadding}">
-                <TextBlock Text="Fanburst" 
-                           Style="{StaticResource SubTitleStyle}"
-                           VerticalAlignment="Center"
-                           HorizontalAlignment="Left" />
-                <controls:AppButton HorizontalAlignment="Right"
-                                    Label="View All" 
-                                    IsExtended="True"
-                                    Glyph="&#xE8A9;"/>
-            </Grid>
+            <!-- FANBURST HEADER -->
+            <controls:SectionHeader Title="Fanburst" Margin="{ThemeResource PagePadding}">
+                <controls:SectionHeader.Buttons>
+                    <controls:AppButton Label="Play All" 
+                                        Glyph="&#xE768;" />
+                    <controls:AppButton Label="Shuffle Play" 
+                                        Glyph="&#xE8B1;" />
+                    <controls:AppButton IsExtended="True"
+                                        Label="View All" 
+                                        Glyph="&#xE8A9;"/>
+                </controls:SectionHeader.Buttons>
+            </controls:SectionHeader>
+
 
             <Grid Height="260" Padding="{ThemeResource PagePadding}" Margin="-10,0,0,0">
                 <controls:InfoPane VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
@@ -137,17 +129,18 @@
                 </GridView>
             </Grid>
 
-            <!-- YouTube Header -->
-            <Grid Margin="0,20,0,10" Padding="{ThemeResource PagePadding}">
-                <TextBlock Text="YouTube" 
-                           Style="{StaticResource SubTitleStyle}"
-                           VerticalAlignment="Center"
-                           HorizontalAlignment="Left" />
-                <controls:AppButton HorizontalAlignment="Right"
-                                    Label="View All" 
-                                    IsExtended="True"
-                                    Glyph="&#xE8A9;"/>
-            </Grid>
+            <!-- YOUTUBE HEADER -->
+            <controls:SectionHeader Title="YouTube" Margin="{ThemeResource PagePadding}">
+                <controls:SectionHeader.Buttons>
+                    <controls:AppButton Label="Play All" 
+                                        Glyph="&#xE768;" />
+                    <controls:AppButton Label="Shuffle Play" 
+                                        Glyph="&#xE8B1;" />
+                    <controls:AppButton IsExtended="True"
+                                        Label="View All" 
+                                        Glyph="&#xE8A9;"/>
+                </controls:SectionHeader.Buttons>
+            </controls:SectionHeader>
 
             <Grid Height="260" Padding="{ThemeResource PagePadding}" Margin="-10,0,0,0">
                 <controls:InfoPane VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 

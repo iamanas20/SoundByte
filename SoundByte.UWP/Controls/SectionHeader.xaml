@@ -1,0 +1,33 @@
+﻿<UserControl
+    x:Class="SoundByte.UWP.Controls.SectionHeader"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:SoundByte.UWP.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="46">
+
+    <Grid>
+        <!-- Section Title -->
+        <TextBlock Text="{x:Bind Title, Mode=OneWay}" 
+                   Style="{StaticResource SubTitleStyle}"
+                   VerticalAlignment="Bottom"
+                   HorizontalAlignment="Left" />
+
+        <ItemsControl ItemsSource="{x:Bind Buttons, Mode=TwoWay}"
+                      HorizontalAlignment="Right"
+                      VerticalAlignment="Bottom">
+            <ItemsControl.ItemContainerStyle>
+                <Style TargetType="local:AppButton">
+                    <Setter Property="Margin" Value="15,0,0,0" />
+                </Style>
+            </ItemsControl.ItemContainerStyle>
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
+    </Grid>
+</UserControl>

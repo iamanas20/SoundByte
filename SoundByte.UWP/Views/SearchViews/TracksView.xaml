@@ -2,12 +2,45 @@
     x:Class="SoundByte.UWP.Views.SearchViews.TracksView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:SoundByte.UWP.Views.SearchViews"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    xmlns:searchViewModels="using:SoundByte.UWP.ViewModels.SearchViewModels"
+    xmlns:controls="using:SoundByte.UWP.Controls">
+    <Page.DataContext>
+        <searchViewModels:TracksViewModel />
+    </Page.DataContext>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <ScrollViewer>
+        <StackPanel>
+            <!-- SOUNDCLOUD HEADER -->
+            <Grid Margin="0,20,0,10" Padding="{ThemeResource PagePadding}">
+                <TextBlock Text="SoundCloud" 
+                           Style="{StaticResource SubTitleStyle}"
+                           VerticalAlignment="Bottom"
+                           HorizontalAlignment="Left" />
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Bottom">
+                    <controls:AppButton HorizontalAlignment="Right"
+                                        Margin="0,0,15,0"
+                                        Click="{x:Bind ViewModel.PlayAllSoundCloud}"
+                                        Label="Play All" 
+                                        Glyph="&#xE768;" />
+                    <controls:AppButton HorizontalAlignment="Right"
+                                        Margin="0,0,15,0"
+                                        Click="{x:Bind ViewModel.PlayShuffleSoundCloud}"
+                                        Label="Shuffle Play" 
+                                        Glyph="&#xE8B1;" />
+                    <controls:AppButton HorizontalAlignment="Right"
+                                        Click="{x:Bind ViewModel.NavigateSoundCloudTracks}"
+                                        IsExtended="True"
+                                        Label="View All" 
+                                        Glyph="&#xE8A9;"/>
+                </StackPanel>
 
-    </Grid>
+            </Grid>
+            
+            
+        </StackPanel>
+        
+        
+    </ScrollViewer>
 </Page>

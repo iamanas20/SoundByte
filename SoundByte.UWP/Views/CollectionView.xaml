@@ -2,7 +2,6 @@
     x:Class="SoundByte.UWP.Views.CollectionView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:c="using:SoundByte.UWP.Views.MyCollection"
     xmlns:controls="using:SoundByte.UWP.Controls"
     xmlns:collectionViews="using:SoundByte.UWP.Views.CollectionViews"
     NavigationCacheMode="Enabled">
