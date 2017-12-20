@@ -25,6 +25,9 @@ namespace SoundByte.UWP.Controls
             set => SetValue(TitleProperty, value);
         }
 
+        /// <summary>
+        /// Buttons to display on section
+        /// </summary>
         public List<AppButton> Buttons
         {
             get => (List<AppButton>)GetValue(ButtonsProperty);

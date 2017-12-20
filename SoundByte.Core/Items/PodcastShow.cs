@@ -23,7 +23,7 @@ using System.Xml.Linq;
 namespace SoundByte.Core.Items
 {
     [JsonObject]
-    public class PodcastShow
+    public class PodcastShow 
     {
         [JsonProperty("trackId")]
         public int Id { get; set; }
