@@ -23,8 +23,8 @@ using SoundByte.UWP.Dialogs;
 using SoundByte.UWP.Helpers;
 using SoundByte.UWP.ViewModels;
 using SoundByte.UWP.ViewModels.Generic;
-using SoundByte.UWP.Views.Account;
 using SoundByte.UWP.Views.Generic;
+using SoundByte.UWP.Views.Me;
 
 namespace SoundByte.UWP.Views
 {
@@ -142,8 +142,8 @@ namespace SoundByte.UWP.Views
 
         private void SoundByteAccountLearnMoreClick(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            App.NavigateTo(typeof(SoundByteAccountView));
-
+            // Second pivot is the soundbyte account pivot
+            App.NavigateTo(typeof(AccountManagerView), new AccountManagerView.AccountManagerArgs { PivotIndex = 1 });
         }
     }
 }

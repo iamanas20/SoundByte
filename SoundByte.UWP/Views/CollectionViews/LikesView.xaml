@@ -36,6 +36,9 @@
                     <controls:AppButton Click="{x:Bind PlayShuffleSoundCloud}"
                                         Label="Shuffle Play" 
                                         Glyph="&#xE8B1;" />
+                    <controls:AppButton Click="{x:Bind ImportSoundCloud}"
+                                        Label="Import Likes" 
+                                        Glyph="&#xE8B6;" />
                     <controls:AppButton Click="{x:Bind NavigateMoreSoundCloudLikes}"
                                         IsExtended="True"
                                         Label="View All" 
@@ -63,6 +66,8 @@
                                         Glyph="&#xE768;" />
                     <controls:AppButton Label="Shuffle Play" 
                                         Glyph="&#xE8B1;" />
+                    <controls:AppButton Label="Import Likes" 
+                                        Glyph="&#xE8B6;" />
                     <controls:AppButton IsExtended="True"
                                         Label="View All" 
                                         Glyph="&#xE8A9;"/>
@@ -83,6 +88,8 @@
                                         Glyph="&#xE768;" />
                     <controls:AppButton Label="Shuffle Play" 
                                         Glyph="&#xE8B1;" />
+                    <controls:AppButton Label="Import Likes" 
+                                        Glyph="&#xE8B6;" />
                     <controls:AppButton IsExtended="True"
                                         Label="View All" 
                                         Glyph="&#xE8A9;"/>

@@ -16,7 +16,7 @@ using Windows.UI.Xaml;
 using SoundByte.UWP.Services;
 using WinRTXamlToolkit.Tools;
 using System.Linq;
-using SoundByte.UWP.Views.Setup;
+using WelcomeView = SoundByte.UWP.Views.ImportViews.WelcomeView;
 
 namespace SoundByte.UWP.Views.Application
 {

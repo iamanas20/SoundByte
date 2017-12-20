@@ -6,9 +6,196 @@
     Transitions="{StaticResource MainTransition}">
 
     <!-- Main Page -->
-    <Grid Background="Transparent" x:Name="RootGrid">
+    <Grid Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
 
-        <StackPanel x:Name="ConnectAccountView" Orientation="Vertical" VerticalAlignment="Center" Visibility="Collapsed">
+        <Grid Margin="10,0,00,0" Padding="{ThemeResource PagePadding}">
+            <TextBlock Text="Account Manager"
+                       Style="{StaticResource TitleStyle}"  />
+        </Grid>
+
+        <Pivot Grid.Row="1" Margin="10,0,0,0" x:Name="Pivot">
+            <Pivot.Resources>
+                <Style TargetType="PivotItem">
+                    <Setter Property="Margin" Value="0,0,0,0"/>
+                </Style>
+                <Style TargetType="PivotHeaderItem" BasedOn="{StaticResource FluentPivotHeader}" />
+            </Pivot.Resources>
+
+            <PivotItem>
+                <PivotItem.Header>
+                    <TextBlock Text="Connected Accounts" FontSize="18" FontWeight="SemiBold" />
+                </PivotItem.Header>
+
+                <ScrollViewer HorizontalAlignment="Stretch"
+                      Visibility="Visible"
+                      x:Name="MainView">
+                    <StackPanel x:Name="StackPanel" Padding="{ThemeResource PagePadding}">
+                    
+                        <TextBlock Text="SoundCloud Account" Style="{StaticResource SubTitleStyle}" />
+
+                        <HyperlinkButton x:Name="SoundCloudConnectAccount" 
+                                 Content="Connect Account" 
+                                 Style="{StaticResource LinkStyle}" 
+                                 Click="ConnectSoundCloudAccount" />
+
+                        <HyperlinkButton x:Name="SoundCloudViewProfile" 
+                                 Content="View Profile"
+                                 Style="{StaticResource LinkStyle}" 
+                                 Click="NavigateSoundCloudProfile" />
+
+                        <HyperlinkButton x:Name="SoundCloudDisconnectAccount"  
+                                 Content="Disconnect Account" 
+                                 Style="{StaticResource LinkStyle}"
+                                 Click="DisconnectSoundCloudAccount" />
+
+
+
+                        <TextBlock Text="Fanburst Account" Style="{StaticResource SubTitleStyle}" />
+
+                        <HyperlinkButton x:Name="FanburstConnectAccount"  
+                                 Content="Connect Account" 
+                                 Style="{StaticResource LinkStyle}" 
+                                 Click="ConnectFanburstAccount" />
+
+                        <HyperlinkButton x:Name="FanburstViewProfile"  
+                                 Content="View Profile" 
+                                 IsEnabled="False"
+                                 Style="{StaticResource LinkStyle}" 
+                                 Click="NavigateFanburstProfile" />
+
+                        <HyperlinkButton x:Name="FanburstDisconnectAccount"  
+                                 Content="Disconnect Account" 
+                                 Style="{StaticResource LinkStyle}" 
+                                 Click="DisconnectFanburstAccount" />
+
+
+
+                        <TextBlock Text="Youtube Account" Style="{StaticResource SubTitleStyle}" />
+
+                        <HyperlinkButton x:Name="YouTubeConnectAccount"  
+                                 Content="Connect Account"
+                                 Style="{StaticResource LinkStyle}" 
+                                 Click="ConnectYouTubeAccount" />
+
+                        <HyperlinkButton x:Name="YouTubeViewProfile"  
+                                 IsEnabled="False"
+                                 Content="View Profile" 
+                                 Style="{StaticResource LinkStyle}" 
+                                 Click="NavigateYouTubeProfile" />
+
+                        <HyperlinkButton x:Name="YouTubeDisconnectAccount"  
+                                 Content="Disconnect Account" 
+                                 Style="{StaticResource LinkStyle}" 
+                                 Click="DisconnectYouTubeAccount" />
+
+                        <TextBlock Text="Remote" Style="{StaticResource SubTitleStyle}" />
+                        <HyperlinkButton x:Name="XboxConnectPanel"
+                                  Content="Connect Remote Device" 
+                                 Style="{StaticResource LinkStyle}" 
+                                 Click="ConnectXboxOne" />
+
+                        <HyperlinkButton x:Name="XboxConnectPanelHost"
+                                 Content="Connect with PC" 
+                                 Style="{StaticResource LinkStyle}" 
+                                 Click="NavigateToXboxConnect" />
+                    </StackPanel>
+                </ScrollViewer>
+            </PivotItem>
+
+            <PivotItem >
+                <PivotItem.Header>
+                    <TextBlock Text="SoundByte Account" FontSize="18" FontWeight="SemiBold" />
+                </PivotItem.Header>
+
+                <ScrollViewer HorizontalAlignment="Stretch">
+                    <StackPanel Padding="{ThemeResource PagePadding}">
+
+                        <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                            <TextBlock Text="&#xE753;" 
+                               FontSize="48"
+                               Opacity="0.8"
+                               FontFamily="Segoe MDL2 Assets"  />
+                            <TextBlock Text="Your content everywhere, anywhere" 
+                               VerticalAlignment="Center"
+                               FontSize="22"
+                               Margin="20,0,0,0"
+                               FontWeight="SemiBold"
+                               TextWrapping="Wrap"/>
+                        </StackPanel>
+
+                        <TextBlock Text="Connected accounts, likes, playlists and more are stored in the cloud. Access all your content, no matter what device you are using."
+                           Margin="0,10,0,0"
+                           HorizontalAlignment="Left"
+                           TextWrapping="Wrap"/>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,30,0,0">
+                            <TextBlock Text="&#xEC57;" 
+                               Opacity="0.8"
+                               FontSize="48"
+                               FontFamily="Segoe MDL2 Assets"  />
+                            <TextBlock Text="Resume playback across devices*" 
+                               VerticalAlignment="Center"
+                               FontSize="22"
+                               Margin="20,0,0,0"
+                               FontWeight="SemiBold"
+                               TextWrapping="Wrap"/>
+                        </StackPanel>
+
+                        <TextBlock Text="Continue your current playlist/song on another device. Control playback of music on other devices."
+                           Margin="0,15,0,0"
+                           HorizontalAlignment="Left"
+                           TextWrapping="Wrap"/>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,30,0,0">
+                            <TextBlock Text="&#xE713;" 
+                               FontSize="48"
+                               Opacity="0.8"
+                               FontFamily="Segoe MDL2 Assets"  />
+                            <TextBlock Text="Sync settings across devices" 
+                               VerticalAlignment="Center"
+                               FontSize="22"
+                               Margin="20,0,0,0"
+                               FontWeight="SemiBold"
+                               TextWrapping="Wrap"/>
+                        </StackPanel>
+
+                        <TextBlock Text="..."
+                           Margin="0,15,0,0"
+                           HorizontalAlignment="Left"
+                           MaxWidth="440"
+                           TextWrapping="Wrap"/>
+
+                        <TextBlock Text="Note" Style="{StaticResource SubTitleStyle}" />
+                        <TextBlock Text="*This is a paid SoundByte premium feature."
+                           Opacity="0.8"
+                           Style="{StaticResource TextStyle}" />
+
+
+                        <Button Foreground="White"
+                        Click="ButtonBase_OnClick"
+                        Background="{ThemeResource ButtonAccentBrush}"
+                        Content="Create Account"
+                        BorderThickness="1"
+                        Margin="0,20,0,0"
+                        Padding="20,10"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </PivotItem>
+        </Pivot>
+
+
+
+
+
+
+
+
+
+        <StackPanel x:Name="ConnectAccountView" Orientation="Vertical" VerticalAlignment="Center" Visibility="Collapsed" Grid.Row="0" Grid.RowSpan="2" Canvas.ZIndex="10">
             <TextBlock Text="&#xE990;" 
                        TextAlignment="Center"
                        FontFamily="Segoe MDL2 Assets"
@@ -43,89 +230,11 @@
             <HyperlinkButton Content="Go Back"  HorizontalAlignment="Center" ContentTemplate="{StaticResource HyperlinkClean}" Foreground="{ThemeResource AppBarItemForegroundThemeBrush}" Margin="0,15,0,0" Click="XboxConnectGoBack"/>
         </StackPanel>
         
-        <ScrollViewer HorizontalAlignment="Stretch"
-                      Visibility="Visible"
-                      x:Name="MainView">
-            <StackPanel x:Name="StackPanel" Padding="{ThemeResource PagePadding}">
-                <TextBlock Text="Account Manager"
-                           Style="{StaticResource TitleStyle}"  />
-                <TextBlock Text="About" Style="{StaticResource SubTitleStyle}" />
+      
 
-
-                <TextBlock Text="Manage all your connected services below. By connecting an account you enable features such as liking, following users and playlist support. You can also connect your Xbox One to a service remotely." 
-                           Style="{StaticResource TextStyle}" />
-
-                <TextBlock Text="SoundCloud Account" Style="{StaticResource SubTitleStyle}" />
-                
-                <HyperlinkButton x:Name="SoundCloudConnectAccount" 
-                                 Content="Connect Account" 
-                                 Style="{StaticResource LinkStyle}" 
-                                 Click="ConnectSoundCloudAccount" />
-                
-                <HyperlinkButton x:Name="SoundCloudViewProfile" 
-                                 Content="View Profile"
-                                 Style="{StaticResource LinkStyle}" 
-                                 Click="NavigateSoundCloudProfile" />
-              
-                <HyperlinkButton x:Name="SoundCloudDisconnectAccount"  
-                                 Content="Disconnect Account" 
-                                 Style="{StaticResource LinkStyle}"
-                                 Click="DisconnectSoundCloudAccount" />
-
-                
-                
-                <TextBlock Text="Fanburst Account" Style="{StaticResource SubTitleStyle}" />
-                
-                <HyperlinkButton x:Name="FanburstConnectAccount"  
-                                 Content="Connect Account" 
-                                 Style="{StaticResource LinkStyle}" 
-                                 Click="ConnectFanburstAccount" />
-                
-                <HyperlinkButton x:Name="FanburstViewProfile"  
-                                 Content="View Profile" 
-                                 IsEnabled="False"
-                                 Style="{StaticResource LinkStyle}" 
-                                 Click="NavigateFanburstProfile" />
-               
-                <HyperlinkButton x:Name="FanburstDisconnectAccount"  
-                                 Content="Disconnect Account" 
-                                 Style="{StaticResource LinkStyle}" 
-                                 Click="DisconnectFanburstAccount" />
-
-                
-                
-                <TextBlock Text="Youtube Account" Style="{StaticResource SubTitleStyle}" />
-               
-                <HyperlinkButton x:Name="YouTubeConnectAccount"  
-                                 Content="Connect Account"
-                                 Style="{StaticResource LinkStyle}" 
-                                 Click="ConnectYouTubeAccount" />
-                
-                <HyperlinkButton x:Name="YouTubeViewProfile"  
-                                 IsEnabled="False"
-                                 Content="View Profile" 
-                                 Style="{StaticResource LinkStyle}" 
-                                 Click="NavigateYouTubeProfile" />
-              
-                <HyperlinkButton x:Name="YouTubeDisconnectAccount"  
-                                 Content="Disconnect Account" 
-                                 Style="{StaticResource LinkStyle}" 
-                                 Click="DisconnectYouTubeAccount" />
-
-                <TextBlock Text="Remote" Style="{StaticResource SubTitleStyle}" />
-                <HyperlinkButton x:Name="XboxConnectPanel"
-                                  Content="Connect Remote Device" 
-                                 Style="{StaticResource LinkStyle}" 
-                                 Click="ConnectXboxOne" />
-
-                <HyperlinkButton x:Name="XboxConnectPanelHost"
-                                 Content="Connect with PC" 
-                                 Style="{StaticResource LinkStyle}" 
-                                 Click="NavigateToXboxConnect" />
-            </StackPanel>
-        </ScrollViewer>
-
-        <Grid x:Name="LoadingSection" Canvas.ZIndex="10" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+        <Grid x:Name="LoadingSection" Canvas.ZIndex="20" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+              Grid.RowSpan="2"
+              Grid.Row="0"
               Margin="-40,0,0,0"
               Visibility="Collapsed" Background="{ThemeResource ShellNavigationBackground}">
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">

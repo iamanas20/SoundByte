@@ -267,9 +267,6 @@
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\NowPlayingViewModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
-    <Compile Include="Views\Account\SoundByteAccountView.xaml.cs">
-      <DependentUpon>SoundByteAccountView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Application\SettingsAdvancedView.xaml.cs">
       <DependentUpon>SettingsAdvancedView.xaml</DependentUpon>
     </Compile>
@@ -309,10 +306,10 @@
     <Compile Include="Views\SearchViews\UsersView.xaml.cs">
       <DependentUpon>UsersView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Setup\AppModeView.xaml.cs">
-      <DependentUpon>AppModeView.xaml</DependentUpon>
+    <Compile Include="Views\ImportViews\ImportModeView.xaml.cs">
+      <DependentUpon>ImportModeView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Setup\WelcomeView.xaml.cs">
+    <Compile Include="Views\ImportViews\WelcomeView.xaml.cs">
       <DependentUpon>WelcomeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SoundCloudExploreView.xaml.cs">
@@ -480,10 +477,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Account\SoundByteAccountView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\Application\SettingsAdvancedView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -536,11 +529,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Setup\AppModeView.xaml">
+    <Page Include="Views\ImportViews\ImportModeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Setup\WelcomeView.xaml">
+    <Page Include="Views\ImportViews\WelcomeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

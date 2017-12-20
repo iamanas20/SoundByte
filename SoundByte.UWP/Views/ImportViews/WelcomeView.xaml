@@ -1,5 +1,5 @@
 ﻿<Page
-    x:Class="SoundByte.UWP.Views.Setup.WelcomeView"
+    x:Class="SoundByte.UWP.Views.ImportViews.WelcomeView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     RequestedTheme="Dark">
@@ -18,10 +18,10 @@
                 <StackPanel Orientation="Horizontal"
                             HorizontalAlignment="Center">
                     <TextBlock Text="SoundByte" FontWeight="SemiBold" FontSize="52"  />
-                    <TextBlock Text="Welcome" Margin="15,0,0,0" FontWeight="Thin" FontSize="52" Opacity="0.3" VerticalAlignment="Center" />
+                    <TextBlock Text="Import" Margin="15,0,0,0" FontWeight="Thin" FontSize="52" Opacity="0.3" VerticalAlignment="Center" />
                 </StackPanel>
                 
-                <TextBlock Text="Welcome! To begin we must first setup SoundByte. Click 'Get Started' to continue."
+                <TextBlock Text="You can import your likes from other services into SoundByte to access anywhere. Click 'Get Started' to begin."
                            MaxWidth="410" 
                            TextWrapping="Wrap" 
                            TextAlignment="Center" 

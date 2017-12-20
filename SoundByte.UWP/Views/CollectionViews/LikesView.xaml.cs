@@ -22,6 +22,7 @@ using SoundByte.UWP.Services;
 using SoundByte.UWP.ViewModels;
 using SoundByte.UWP.ViewModels.Generic;
 using SoundByte.UWP.Views.Generic;
+using SoundByte.UWP.Views.ImportViews;
 
 namespace SoundByte.UWP.Views.CollectionViews
 {
@@ -63,6 +64,11 @@ namespace SoundByte.UWP.Views.CollectionViews
         public async void PlaySoundCloud()
         {
             await BaseViewModel.PlayAllItemsAsync(SoundCloudLikes);
+        }
+
+        public void ImportSoundCloud()
+        {
+            App.NavigateTo(typeof(WelcomeView));
         }
     }
 }

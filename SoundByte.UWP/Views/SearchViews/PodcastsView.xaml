@@ -14,6 +14,7 @@
                             IsError="{x:Bind ViewModel.Podcasts.IsError, Mode=OneWay}" />
 
         <GridView ItemsSource="{x:Bind ViewModel.Podcasts, Mode=OneWay}"
+                  Margin="-10,20,0,0"
                   ItemTemplate="{StaticResource PodcastShowItem}"
                   ItemContainerStyle="{StaticResource MainGridViewItem}"
                   Padding="{ThemeResource PagePadding}"

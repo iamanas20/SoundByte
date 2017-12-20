@@ -2,12 +2,8 @@
     x:Class="SoundByte.UWP.Views.ExploreView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
     xmlns:controls="using:SoundByte.UWP.Controls"
-    NavigationCacheMode="Enabled"
-    mc:Ignorable="d">
+    NavigationCacheMode="Enabled">
 
     <Grid Background="Transparent">
         <ScrollViewer>
@@ -107,7 +103,7 @@
                 </FlipView>
                 
                 <!-- Common functions -->
-                <Grid Margin="0,25,0,0" Padding="{ThemeResource PagePadding}">
+                <Grid Margin="0,25,0,25" Padding="{ThemeResource PagePadding}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
@@ -162,186 +158,90 @@
                 </Grid>
 
                 <!-- SoundCloud Header -->
-                <Grid Margin="0,20,0,10" Padding="{ThemeResource PagePadding}">
-                    <TextBlock Text="Popular SoundCloud Tracks" 
-                               Style="{StaticResource SubTitleStyle}"
-                               VerticalAlignment="Center"
-                               HorizontalAlignment="Left" />
-
-                    <StackPanel Orientation="Horizontal"
-                                HorizontalAlignment="Right"
-                                VerticalAlignment="Bottom">
-
-                        <controls:AppButton HorizontalAlignment="Right"
-                                            Label="Play All" 
-                                            Margin="0,0,15,0"
+                <controls:SectionHeader Title="Popular SoundCloud Tracks" Margin="{ThemeResource PagePadding}">
+                    <controls:SectionHeader.Buttons>
+                        <controls:AppButton Label="Play All" 
                                             Click="{x:Bind PlaySoundCloud}"
-                                            Glyph="&#xE768;"/>
-
-                        <controls:AppButton HorizontalAlignment="Right"
-                                            Label="Shuffle Play" 
-                                            Margin="0,0,15,0"
+                                            Glyph="&#xE768;" />
+                        <controls:AppButton Label="Shuffle Play" 
                                             Click="{x:Bind PlayShuffleSoundCloud}"
-                                            Glyph="&#xE8B1;"/>
-
-                        <controls:AppButton HorizontalAlignment="Right"
-                                            Label="View All" 
-                                            IsExtended="True"
+                                            Glyph="&#xE8B1;" />
+                        <controls:AppButton IsExtended="True"
                                             Click="{x:Bind NavigateMoreCharts}"
+                                            Label="View All" 
                                             Glyph="&#xE8A9;"/>
-                    </StackPanel>
-                </Grid>
+                    </controls:SectionHeader.Buttons>
+                </controls:SectionHeader>
 
-                <Grid Height="260" Padding="{ThemeResource PagePadding}" Margin="-10,0,0,0">
+                <Grid Height="300" Padding="{ThemeResource PagePadding}" Margin="-10,0,0,0">
                     <controls:InfoPane VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
                                          Visibility="Collapsed" Canvas.ZIndex="50"
                                          Header="{x:Bind SoundCloudTracks.ErrorHeader, Mode=OneWay}"
                                          Text="{x:Bind SoundCloudTracks.ErrorDescription, Mode=OneWay}"
                                          IsLoading="{x:Bind SoundCloudTracks.IsLoading, Mode=OneWay}"
                                          IsError="{x:Bind SoundCloudTracks.IsError, Mode=OneWay}" />
-                    <GridView Height="280"
-                              ScrollViewer.HorizontalScrollMode="Disabled"
-                              ScrollViewer.VerticalScrollMode="Disabled"
-                              ScrollViewer.HorizontalScrollBarVisibility="Hidden"
-                              ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                    <GridView Style="{StaticResource CompactSoundByteGridView}"
                               ItemsSource="{x:Bind Path=SoundCloudTracks, Mode=OneWay}"
                               ItemTemplate="{StaticResource TrackItem}"
-                              SelectionMode="None"
-                              ItemContainerStyle="{StaticResource MainGridViewItem}"
-                              IsSwipeEnabled="False"
-                              IsItemClickEnabled="True"
-                              ItemClick="{x:Bind PlayChartItem}"
-                              IsMultiSelectCheckBoxEnabled="False"       
-                              animations:ReorderGridAnimation.Duration="150"
-                              HorizontalAlignment="Stretch">
-                        <GridView.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <ItemsStackPanel Orientation="Horizontal" CacheLength="1.0" />
-                            </ItemsPanelTemplate>
-                        </GridView.ItemsPanel>
-                    </GridView>
+                              ItemClick="{x:Bind PlayChartItem}" />
                 </Grid>
 
-
-                <Grid Margin="0,20,0,10" Padding="{ThemeResource PagePadding}">
-                    <TextBlock Text="Trending YouTube Music Videos" 
-                               Style="{StaticResource SubTitleStyle}"
-                               VerticalAlignment="Center"
-                               HorizontalAlignment="Left" />
-
-                    <StackPanel Orientation="Horizontal"
-                                HorizontalAlignment="Right"
-                                VerticalAlignment="Bottom">
-
-                        <controls:AppButton HorizontalAlignment="Right"
-                                            Label="Play All" 
-                                            Margin="0,0,15,0"
+                <!-- YouTube Header -->
+                <controls:SectionHeader Title="Trending YouTube Music Videos" Margin="{ThemeResource PagePadding}">
+                    <controls:SectionHeader.Buttons>
+                        <controls:AppButton Label="Play All" 
                                             Click="{x:Bind PlayYouTube}"
-                                            Glyph="&#xE768;"/>
-
-                        <controls:AppButton HorizontalAlignment="Right"
-                                            Label="Shuffle Play" 
-                                            Margin="0,0,15,0"
+                                            Glyph="&#xE768;" />
+                        <controls:AppButton Label="Shuffle Play" 
                                             Click="{x:Bind PlayShuffleYouTube}"
-                                            Glyph="&#xE8B1;"/>
-
-                        <controls:AppButton HorizontalAlignment="Right"
-                                            Label="View All" 
-                                            IsExtended="True"
+                                            Glyph="&#xE8B1;" />
+                        <controls:AppButton IsExtended="True"
                                             Click="{x:Bind NavigateMoreYouTube}"
+                                            Label="View All" 
                                             Glyph="&#xE8A9;"/>
-                    </StackPanel>
-                </Grid>
-
-                <Grid Height="260" Padding="{ThemeResource PagePadding}" Margin="-10,0,0,0">
+                    </controls:SectionHeader.Buttons>
+                </controls:SectionHeader>
+                
+                <Grid Height="300" Padding="{ThemeResource PagePadding}" Margin="-10,0,0,0">
                     <controls:InfoPane VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
                                          Visibility="Collapsed" Canvas.ZIndex="50"
                                          Header="{x:Bind YouTubeTracks.ErrorHeader, Mode=OneWay}"
                                          Text="{x:Bind YouTubeTracks.ErrorDescription, Mode=OneWay}"
                                          IsLoading="{x:Bind YouTubeTracks.IsLoading, Mode=OneWay}"
                                          IsError="{x:Bind YouTubeTracks.IsError, Mode=OneWay}" />
-                    <GridView Height="280"
-                              ScrollViewer.HorizontalScrollMode="Disabled"
-                              ScrollViewer.VerticalScrollMode="Disabled"
-                              ScrollViewer.HorizontalScrollBarVisibility="Hidden"
-                              ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                    <GridView Style="{StaticResource CompactSoundByteGridView}"
                               ItemsSource="{x:Bind Path=YouTubeTracks, Mode=OneWay}"
                               ItemTemplate="{StaticResource TrackItem}"
-                              SelectionMode="None"
-                              ItemContainerStyle="{StaticResource MainGridViewItem}"
-                              IsSwipeEnabled="False"
-                              IsItemClickEnabled="True"
-                              ItemClick="{x:Bind PlayYouTubeItem}"
-                              animations:ReorderGridAnimation.Duration="150"
-                              IsMultiSelectCheckBoxEnabled="False"                        
-                              HorizontalAlignment="Stretch">
-                        <GridView.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <ItemsStackPanel Orientation="Horizontal" CacheLength="1.0" />
-                            </ItemsPanelTemplate>
-                        </GridView.ItemsPanel>
-                    </GridView>
+                              ItemClick="{x:Bind PlayYouTubeItem}" />
                 </Grid>
 
-                <Grid Margin="0,20,0,10" Padding="{ThemeResource PagePadding}">
-                    <TextBlock Text="Popular Fanburst Tracks" 
-                               Style="{StaticResource SubTitleStyle}"
-                               VerticalAlignment="Center"
-                               HorizontalAlignment="Left" />
-
-                    <StackPanel Orientation="Horizontal"
-                                HorizontalAlignment="Right"
-                                VerticalAlignment="Bottom">
-
-                        <controls:AppButton HorizontalAlignment="Right"
-                                            Label="Play All" 
-                                            Margin="0,0,15,0"
+                <!-- Fanburst Header -->
+                <controls:SectionHeader Title="Popular Fanburst Tracks" Margin="{ThemeResource PagePadding}">
+                    <controls:SectionHeader.Buttons>
+                        <controls:AppButton Label="Play All" 
                                             Click="{x:Bind PlayFanburst}"
-                                            Glyph="&#xE768;"/>
-
-                        <controls:AppButton HorizontalAlignment="Right"
-                                            Label="Shuffle Play" 
-                                            Margin="0,0,15,0"
+                                            Glyph="&#xE768;" />
+                        <controls:AppButton Label="Shuffle Play" 
                                             Click="{x:Bind PlayShuffleFanburst}"
-                                            Glyph="&#xE8B1;"/>
-
-                        <controls:AppButton HorizontalAlignment="Right"
-                                            Label="View All" 
-                                            IsExtended="True"
+                                            Glyph="&#xE8B1;" />
+                        <controls:AppButton IsExtended="True"
                                             Click="{x:Bind NavigateMoreFanburst}"
+                                            Label="View All" 
                                             Glyph="&#xE8A9;"/>
-                    </StackPanel>
-                </Grid>
-
-                <Grid Height="260" Padding="{ThemeResource PagePadding}" Margin="-10,0,0,0">
+                    </controls:SectionHeader.Buttons>
+                </controls:SectionHeader>
+            
+                <Grid Height="300" Padding="{ThemeResource PagePadding}" Margin="-10,0,0,0">
                     <controls:InfoPane VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
                                          Visibility="Collapsed" Canvas.ZIndex="50"
                                          Header="{x:Bind FanburstTracks.ErrorHeader, Mode=OneWay}"
                                          Text="{x:Bind FanburstTracks.ErrorDescription, Mode=OneWay}"
                                          IsLoading="{x:Bind FanburstTracks.IsLoading, Mode=OneWay}"
                                          IsError="{x:Bind FanburstTracks.IsError, Mode=OneWay}" />
-                    <GridView x:Name="TracksView"
-                              Height="280"
-                              ScrollViewer.HorizontalScrollMode="Disabled"
-                              ScrollViewer.VerticalScrollMode="Disabled"
-                              ScrollViewer.HorizontalScrollBarVisibility="Hidden"
-                              ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                    <GridView Style="{StaticResource CompactSoundByteGridView}"                         
                               ItemsSource="{x:Bind Path=FanburstTracks, Mode=OneWay}"
-                              ItemTemplate="{StaticResource TrackItem}"
-                              SelectionMode="None"
-                              ItemContainerStyle="{StaticResource MainGridViewItem}"
-                              IsSwipeEnabled="False"
-                              IsItemClickEnabled="True"
-                              ItemClick="{x:Bind PlayFanburstItem}"
-                              animations:ReorderGridAnimation.Duration="150"
-                              IsMultiSelectCheckBoxEnabled="False"                        
-                              HorizontalAlignment="Stretch">
-                        <GridView.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <ItemsStackPanel Orientation="Horizontal" CacheLength="1.0" />
-                            </ItemsPanelTemplate>
-                        </GridView.ItemsPanel>
-                    </GridView>
+                              ItemTemplate="{StaticResource TrackItem}"                        
+                              ItemClick="{x:Bind PlayFanburstItem}" />
                 </Grid>
             </StackPanel>
         </ScrollViewer>

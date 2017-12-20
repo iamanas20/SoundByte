@@ -10,18 +10,23 @@
  * |----------------------------------------------------------------|
  */
 
-namespace SoundByte.UWP.Views.Setup
+namespace SoundByte.UWP.Views.ImportViews
 {
-    public sealed partial class WelcomeView
+    public sealed partial class ImportModeView
     {
-        public WelcomeView()
+        public ImportModeView()
         {
             InitializeComponent();
         }
 
-        private void NavigateAppModeView(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void NavigateLocalMode(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            App.NavigateTo(typeof(AppModeView));
+
+        }
+
+        private void NavigateOnlineMode(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+
         }
     }
 }

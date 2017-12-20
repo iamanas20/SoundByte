@@ -10,6 +10,7 @@
  * |----------------------------------------------------------------|
  */
 
+using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Navigation;
 using SoundByte.Core;
@@ -25,6 +26,11 @@ namespace SoundByte.UWP.Views.Me
     /// </summary>
     public sealed partial class AccountManagerView
     {
+        public class AccountManagerArgs
+        {
+            public int PivotIndex { get; set; }
+        }
+
         public AccountManagerView()
         {
             InitializeComponent();
@@ -32,6 +38,14 @@ namespace SoundByte.UWP.Views.Me
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            var args = e.Parameter as AccountManagerArgs;
+
+            if (args != null)
+            {
+                Pivot.SelectedIndex = args.PivotIndex;
+            }
+
+
             App.Telemetry.TrackPage("Manage Accounts View");
 
             MainView.Visibility = Visibility.Visible;
@@ -172,5 +186,15 @@ namespace SoundByte.UWP.Views.Me
             RefreshUi();
         }
         #endregion
+
+        private async void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+        {
+            var startURL = "https://soundbyte.gridentertainment.net/connect/authorize?client_id=client&scope=api1&response_type=code&redirect_uri=http://localhost/soundbyte";
+
+            var webAuthenticationResult =
+                await Windows.Security.Authentication.Web.WebAuthenticationBroker.AuthenticateAsync(
+                    Windows.Security.Authentication.Web.WebAuthenticationOptions.None,
+                    new Uri(startURL));
+        }
     }
 }
