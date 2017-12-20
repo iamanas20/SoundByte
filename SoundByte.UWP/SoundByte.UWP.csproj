@@ -291,9 +291,6 @@
     <Compile Include="Views\ExploreView.xaml.cs">
       <DependentUpon>ExploreView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Generic\PodcastShowListView.xaml.cs">
-      <DependentUpon>PodcastShowListView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\CollectionViews\LikesView.xaml.cs">
       <DependentUpon>LikesView.xaml</DependentUpon>
     </Compile>
@@ -512,10 +509,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ExploreView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Generic\PodcastShowListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
