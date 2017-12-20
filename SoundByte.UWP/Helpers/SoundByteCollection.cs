@@ -183,8 +183,6 @@ namespace SoundByte.UWP.Helpers
         {
             Token = string.Empty;
             Clear();
-
-            LoadMoreItemsAsync(0);
         }
 
         protected async Task ShowErrorMessageAsync(string title, string description)

@@ -19,10 +19,6 @@ namespace SoundByte.UWP.Views.SearchViews
         public TracksView()
         {
             InitializeComponent();
-            DataContextChanged += (s, e) =>                
-            {
-                ViewModel = DataContext as TracksViewModel;
-            };
         }
 
         public TracksViewModel ViewModel { get; set; }

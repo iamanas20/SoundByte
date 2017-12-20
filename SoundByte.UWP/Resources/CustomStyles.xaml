@@ -28,9 +28,7 @@
         </Setter>
     </Style>
     
-    
-    
-    
+
     
     <!-- Default style for Windows.UI.Xaml.Controls.Primitives.PivotHeaderItem -->
     <Style TargetType="PivotHeaderItem" x:Key="FluentPivotHeader">

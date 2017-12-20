@@ -10,23 +10,7 @@
  * |----------------------------------------------------------------|
  */
 
-using System;
-using Windows.UI.Popups;
-using Windows.UI.Xaml.Controls;
-using SoundByte.Core;
-using SoundByte.Core.Items;
-using SoundByte.Core.Items.Playlist;
-using SoundByte.Core.Items.Track;
-using SoundByte.Core.Items.User;
-using SoundByte.Core.Sources;
-using SoundByte.Core.Sources.Fanburst;
-using SoundByte.Core.Sources.SoundCloud;
-using SoundByte.Core.Sources.YouTube;
-using SoundByte.UWP.Services;
-using SoundByte.UWP.Views;
-using SoundByte.UWP.Views.Generic;
-using SoundByte.UWP.Helpers;
-using SoundByte.UWP.ViewModels.Generic;
+using SoundByte.UWP.ViewModels.SearchViewModels;
 
 namespace SoundByte.UWP.ViewModels.Search
 {
@@ -35,27 +19,30 @@ namespace SoundByte.UWP.ViewModels.Search
         #region Private Variables
         // The query string
         private string _searchQuery;
+
         #endregion
 
-        #region Sources
+        #region View Models
+        /// <summary>
+        /// View Model for tracks page
+        /// </summary>
+        public TracksViewModel TracksViewModel { get; } = new TracksViewModel();
 
-        public SoundByteCollection<SearchSoundCloudTrackSource, BaseTrack> SearchTracks { get; } =
-            new SoundByteCollection<SearchSoundCloudTrackSource, BaseTrack>();
+        /// <summary>
+        /// View model for the playlists page
+        /// </summary>
+        public PlaylistsViewModel PlaylistsViewModel { get; } = new PlaylistsViewModel();
 
-        public SoundByteCollection<SearchFanburstTrackSource, BaseTrack> FanburstTracks { get; } =
-            new SoundByteCollection<SearchFanburstTrackSource, BaseTrack>();
+        /// <summary>
+        /// View model for the users page
+        /// </summary>
+        public UsersViewModel UsersViewModel { get; } = new UsersViewModel();
 
-        public SoundByteCollection<SearchSoundCloudPlaylistSource, BasePlaylist> SearchPlaylists { get; } =
-            new SoundByteCollection<SearchSoundCloudPlaylistSource, BasePlaylist>();
+        /// <summary>
+        /// View model for the podcasts page
+        /// </summary>
+        public PodcastsViewModel PodcastsViewModel { get; } = new PodcastsViewModel();
 
-        public SoundByteCollection<SearchPodcastSource, PodcastShow> SearchPodcasts { get; } = 
-            new SoundByteCollection<SearchPodcastSource, PodcastShow>();
-
-        public SoundByteCollection<SearchSoundCloudUserSource, BaseUser> SearchUsers { get; } =
-            new SoundByteCollection<SearchSoundCloudUserSource, BaseUser>();
-
-        public SoundByteCollection<SearchYouTubeTrackSource, BaseTrack> YouTubeTracks { get; } =
-            new SoundByteCollection<SearchYouTubeTrackSource, BaseTrack>();
         #endregion
 
         #region Getters and Setters
@@ -72,203 +59,25 @@ namespace SoundByte.UWP.ViewModels.Search
                     _searchQuery = value;
                     UpdateProperty();
 
-                    // Update the models
-                    SearchTracks.Source.SearchQuery = value;
-                    SearchTracks.RefreshItems();
-
-                    SearchPlaylists.Source.SearchQuery = value;
-                    SearchPlaylists.RefreshItems();
-
-                    SearchUsers.Source.SearchQuery = value;
-                    SearchUsers.RefreshItems();
-
-                    FanburstTracks.Source.SearchQuery = value;
-                    FanburstTracks.RefreshItems();
-
-                    YouTubeTracks.Source.SearchQuery = value;
-                    YouTubeTracks.RefreshItems();
-
-                    SearchPodcasts.Source.SearchQuery = value;
-                    SearchPodcasts.RefreshItems();
+                    TracksViewModel.SearchQuery = value;
+                    PlaylistsViewModel.SearchQuery = value;
+                    UsersViewModel.SearchQuery = value;
+                    PodcastsViewModel.SearchQuery = value;
                 }
             }
         }
         #endregion
 
         #region Method Bindings
-
+        /// <summary>
+        /// Refresh all items
+        /// </summary>
         public void RefreshAll()
         {
-            SearchTracks.RefreshItems();
-            SearchPlaylists.RefreshItems();
-            SearchUsers.RefreshItems();
-            FanburstTracks.RefreshItems();
-            YouTubeTracks.RefreshItems();
-            SearchPodcasts.RefreshItems();
-        }
-
-        public void NavigateSoundCloudPlaylist(object sender, ItemClickEventArgs e)
-        {
-            if (e.ClickedItem == null)
-                return;
-
-           // var gridView = App.CurrentFrame.FindName("PlaylistsView") as GridView;
-           // gridView?.PrepareConnectedAnimation("PlaylistImage", e.ClickedItem as BasePlaylist, "ImagePanel");
-
-            App.NavigateTo(typeof(PlaylistView), e.ClickedItem as BasePlaylist);
-        }
-
-        public void NavigateSoundCloudUser(object sender, ItemClickEventArgs e)
-        {
-            if (e.ClickedItem == null)
-                return;
-
-            App.NavigateTo(typeof(UserView), e.ClickedItem as BaseUser);
-        }
-
-        public async void NavigateTrack(object sender, ItemClickEventArgs e)
-        {
-            if (e.ClickedItem == null)
-                return;
-
-            var searchItem = (BaseTrack)e.ClickedItem;
-
-            switch (searchItem.ServiceType)
-            {
-                case ServiceType.Fanburst:
-                    {
-                        // Load some more items
-                        await FanburstTracks.LoadMoreItemsAsync(50);
-
-                        var startPlayback =
-                            await PlaybackService.Instance.StartModelMediaPlaybackAsync(FanburstTracks, false, searchItem);
-                        if (!startPlayback.Success)
-                            await new MessageDialog(startPlayback.Message, "Error playing searched track.")
-                                .ShowAsync();
-                    }
-                    break;
-                case ServiceType.YouTube:
-                    {
-                        // Load some more items
-                        await YouTubeTracks.LoadMoreItemsAsync(50);
-
-                        var startPlayback =
-                            await PlaybackService.Instance.StartModelMediaPlaybackAsync(YouTubeTracks, false, searchItem);
-                        if (!startPlayback.Success)
-                            await new MessageDialog(startPlayback.Message, "Error playing searched track.")
-                                .ShowAsync();
-                    }
-                    break;
-                case ServiceType.SoundCloud:
-                case ServiceType.SoundCloudV2:
-                {
-                        // Load some more items
-                        await SearchTracks.LoadMoreItemsAsync(50);
-
-                        // Start media playback
-                        var startPlayback = await PlaybackService.Instance.StartModelMediaPlaybackAsync(SearchTracks, false, searchItem);
-                        if (!startPlayback.Success)
-                            await new MessageDialog(startPlayback.Message, "Error playing searched track.")
-                                .ShowAsync();
-                    }
-                    break;
-                case ServiceType.ITunesPodcast:
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
-
-    
-
-        public void NavigateSoundCloudUsers()
-        {
-            App.NavigateTo(typeof(UserListView), new UserListViewModel.UserViewModelHolder
-            {
-                User = SearchUsers.Source,
-                Title = $"Results for \"{SearchQuery}\""
-            });
-        }
-
-        public void NavigateSoundCloudPlaylists()
-        {
-            App.NavigateTo(typeof(PlaylistListView), new PlaylistListViewModel.PlaylistViewModelHolder
-            {
-                Playlist = SearchPlaylists.Source,
-                Title = $"Results for \"{SearchQuery}\""
-            });
-        }
-
-        #region SoundCloud Tracks
-        public void NavigateSoundCloudTracks()
-        {
-            App.NavigateTo(typeof(TrackListView), new TrackListViewModel.TrackViewModelHolder
-            {
-                Track = SearchTracks.Source,
-                Title = $"Results for \"{SearchQuery}\""
-            });
-        }
-
-        public async void PlayShuffleSoundCloud()
-        {
-            await ShuffleTracksAsync(SearchTracks);
-        }
-
-        public async void PlaySoundCloud()
-        {
-            await PlayAllItemsAsync(SearchTracks);
-        }
-        #endregion
-
-        #region YouTube Tracks
-        public void NavigateYouTubeTracks()
-        {
-            App.NavigateTo(typeof(TrackListView), new TrackListViewModel.TrackViewModelHolder
-            {
-                Track = YouTubeTracks.Source,
-                Title = $"Results for \"{SearchQuery}\""
-            });
-        }
-
-        public async void PlayShuffleYouTube()
-        {
-            await ShuffleTracksAsync(YouTubeTracks);
-        }
-
-        public async void PlayYouTube()
-        {
-            await PlayAllItemsAsync(YouTubeTracks);
-        }
-        #endregion
-
-        #region Fanburst Tracks
-        public void NavigateFanburstTracks()
-        {
-            App.NavigateTo(typeof(TrackListView), new TrackListViewModel.TrackViewModelHolder
-            {
-                Track = FanburstTracks.Source,
-                Title = $"Results for \"{SearchQuery}\""
-            });
-        }
-
-        public async void PlayShuffleFanburst()
-        {
-            await ShuffleTracksAsync(FanburstTracks);
-        }
-
-        public async void PlayFanburst()
-        {
-            await PlayAllItemsAsync(FanburstTracks);
-        }
-        #endregion
-
-        public void NavigatePodcasts()
-        {
-            App.NavigateTo(typeof(PodcastShowListView), new PodcastShowListViewModel.PodcastShowViewModelHolder
-            {
-                PodcastSource = SearchPodcasts.Source,
-                Title = $"Results for \"{SearchQuery}\""
-            });
+            TracksViewModel.RefreshAll();
+            PlaylistsViewModel.RefreshAll();
+            UsersViewModel.RefreshAll();
+            PodcastsViewModel.RefreshAll();
         }
         #endregion
     }

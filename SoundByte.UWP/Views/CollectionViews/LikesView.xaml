@@ -56,6 +56,26 @@
                           ItemTemplate="{StaticResource TrackItem}" />
             </Grid>
 
+            <!-- YOUTUBE HEADER -->
+            <controls:SectionHeader Title="YouTube" Margin="{ThemeResource PagePadding}">
+                <controls:SectionHeader.Buttons>
+                    <controls:AppButton Label="Play All" 
+                                        Glyph="&#xE768;" />
+                    <controls:AppButton Label="Shuffle Play" 
+                                        Glyph="&#xE8B1;" />
+                    <controls:AppButton IsExtended="True"
+                                        Label="View All" 
+                                        Glyph="&#xE8A9;"/>
+                </controls:SectionHeader.Buttons>
+            </controls:SectionHeader>
+
+            <Grid Height="300" Padding="{ThemeResource PagePadding}" Margin="-10,0,0,0">
+                <controls:InfoPane VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+                                   Visibility="Collapsed" Canvas.ZIndex="50"  />
+                <GridView Style="{StaticResource CompactSoundByteGridView}"
+                          ItemTemplate="{StaticResource TrackItem}" />
+            </Grid>
+
             <!-- FANBURST HEADER -->
             <controls:SectionHeader Title="Fanburst" Margin="{ThemeResource PagePadding}">
                 <controls:SectionHeader.Buttons>
@@ -77,25 +97,6 @@
                           ItemTemplate="{StaticResource TrackItem}" />
             </Grid>
 
-            <!-- YOUTUBE HEADER -->
-            <controls:SectionHeader Title="YouTube" Margin="{ThemeResource PagePadding}">
-                <controls:SectionHeader.Buttons>
-                    <controls:AppButton Label="Play All" 
-                                        Glyph="&#xE768;" />
-                    <controls:AppButton Label="Shuffle Play" 
-                                        Glyph="&#xE8B1;" />
-                    <controls:AppButton IsExtended="True"
-                                        Label="View All" 
-                                        Glyph="&#xE8A9;"/>
-                </controls:SectionHeader.Buttons>
-            </controls:SectionHeader>
-
-            <Grid Height="300" Padding="{ThemeResource PagePadding}" Margin="-10,0,0,0">
-                <controls:InfoPane VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
-                                   Visibility="Collapsed" Canvas.ZIndex="50"  />
-                <GridView Style="{StaticResource CompactSoundByteGridView}"
-                          ItemTemplate="{StaticResource TrackItem}" />
-            </Grid>
         </StackPanel>
     </ScrollViewer>
 </Page>
