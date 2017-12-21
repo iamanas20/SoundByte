@@ -6,161 +6,200 @@
     Transitions="{StaticResource MainTransition}">
 
     <Grid Background="Transparent">
-        <ScrollViewer>
-            <StackPanel Padding="{ThemeResource PagePadding}">
-                <TextBlock Style="{StaticResource TitleStyle}" Text="Settings" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        
+        <Grid Margin="10,0,00,0" Padding="{ThemeResource PagePadding}">
+            <TextBlock Text="SoundByte"
+                       Style="{StaticResource TitleStyle}"  />
+        </Grid>
 
-                <!-- About App -->
-                <TextBlock Text="About SoundByte" 
+        <Pivot Grid.Row="1" Margin="10,0,0,0" x:Name="Pivot">
+            <Pivot.Resources>
+                <Style TargetType="PivotItem">
+                    <Setter Property="Margin" Value="0,0,0,0"/>
+                </Style>
+                <Style TargetType="PivotHeaderItem" BasedOn="{StaticResource FluentPivotHeader}" />
+            </Pivot.Resources>
+
+            <PivotItem>
+                <PivotItem.Header>
+                    <TextBlock Text="Settings" FontSize="18" FontWeight="SemiBold" />
+                </PivotItem.Header>
+
+                <ScrollViewer>
+                    <StackPanel Padding="{ThemeResource PagePadding}">
+
+                       
+
+                        <TextBlock Text="Theme" 
                            Style="{StaticResource SubTitleStyle}" />
 
-                <TextBlock Text="SoundByte is your go to beautiful music client built for Windows 10 &amp; Xbox One. SoundByte lets you listen to indie artists via SoundCloud and Fanburst, popular artists via YouTube and your favourite podcasts via iTunes and custom providers." 
-                           Style="{StaticResource TextStyle}" />
-
-                <TextBlock Text="SoundByte is designed to be easily extendable. This allows easy additions of more services. Check out the SoundByte GitHub page (linked below) for more information."
-                           Style="{StaticResource TextStyle}" />
-
-                <TextBlock Text="If you enjoy SoundByte, please consider donating, it will help a lot with development and hosting costs. If you would rather not donate, consider leaving a review. It really helps!" 
-                           Style="{StaticResource TextStyle}" />
-
-                <HyperlinkButton Content="Write a Review" Click="{x:Bind RateAndReview}" 
-                                 Style="{StaticResource LinkStyle}" />
-
-
-                <!-- App version -->
-                <TextBlock Text="Version" 
-                           Style="{StaticResource SubTitleStyle}"/>
-                <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
-                    <TextBlock Text="Version: "
-                               Margin="0,0,5,0"
-                               FontSize="16" />
-
-                    <TextBlock x:Name="AppVersion"
-                               Text="--.--"
-                               Opacity="0.7"
-                               FontSize="16" />
-                </StackPanel>
-
-                <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
-                    <TextBlock Text="Build: "
-                               Margin="0,0,5,0"
-                               FontSize="16" />
-
-                    <TextBlock x:Name="AppBuild"
-                               Text="---"
-                               Opacity="0.7"
-                               FontSize="16" />
-                </StackPanel>
-
-                <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
-                    <TextBlock Text="Build Time: "
-                               Margin="0,0,5,0"
-                               FontSize="16" />
-                    <TextBlock x:Name="AppBuildTime"
-                               Opacity="0.7"
-                               Text="..."
-                               FontSize="16" />
-                </StackPanel>
-
-                <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
-                    <TextBlock Text="Branch: "
-                               Margin="0,0,5,0"
-                               FontSize="16" />
-                    <TextBlock Text="master"
-                               Opacity="0.7"
-                               FontSize="16" />
-                </StackPanel>
-
-                <HyperlinkButton Content="What's New?" 
-                                 Style="{StaticResource LinkStyle}"
-                                 Click="{x:Bind NavigateNew}" />
-
-                <!-- More links -->
-                <TextBlock Text="More Links" Style="{StaticResource SubTitleStyle}" />
-                <HyperlinkButton Content="Facebook" NavigateUri="https://gridentertainment.net/fwlink/rOye5hzCXt" Style="{StaticResource LinkStyle}"  />
-                <HyperlinkButton Content="Reddit" NavigateUri="https://gridentertainment.net/fwlink/68vfoKLYJS" Style="{StaticResource LinkStyle}"  />
-                <HyperlinkButton Content="Send Feedback / Report Bug" NavigateUri="https://gridentertainment.net/fwlink/GvC5iXmJSo" Style="{StaticResource LinkStyle}"  />
-                <HyperlinkButton Content="GitHub Repo" NavigateUri="https://gridentertainment.net/fwlink/O3i37tbVVO" Style="{StaticResource LinkStyle}"  />
-
-                <TextBlock Text="Theme" 
-                           Style="{StaticResource SubTitleStyle}" />
-
-                <ComboBox Padding="15,8" BorderThickness="1"
+                        <ComboBox Padding="15,8" BorderThickness="1"
                           Margin="0,4,0,4"
                           BorderBrush="{ThemeResource SystemControlDisabledListMediumBrush}"
                           x:Name="ThemeComboBox" SelectionChanged="AppThemeComboBoxChanged" Width="170">
-                    <ComboBoxItem x:Uid="Settings_ThemeDefaultLabel" x:Name="DefaultTheme" />
-                    <ComboBoxItem x:Uid="Settings_ThemeDarkLabel" x:Name="DarkTheme" />
-                    <ComboBoxItem x:Uid="Settings_ThemeLightLabel" x:Name="LightTheme" />
-                </ComboBox>
+                            <ComboBoxItem x:Uid="Settings_ThemeDefaultLabel" x:Name="DefaultTheme" />
+                            <ComboBoxItem x:Uid="Settings_ThemeDarkLabel" x:Name="DarkTheme" />
+                            <ComboBoxItem x:Uid="Settings_ThemeLightLabel" x:Name="LightTheme" />
+                        </ComboBox>
 
-                <TextBlock Text="Language" 
+                        <TextBlock Text="Language" 
                            Style="{StaticResource SubTitleStyle}"/>
 
-                <ComboBox Padding="15,8" SelectionChanged="{x:Bind ViewModel.ChangeLangauge}"
+                        <ComboBox Padding="15,8" SelectionChanged="{x:Bind ViewModel.ChangeLangauge}"
                           BorderThickness="1"
                           Margin="0,4,0,4"
                           BorderBrush="{ThemeResource SystemControlDisabledListMediumBrush}"
                           x:Name="LanguageComboBox" Width="170">
-                    <ComboBoxItem x:Name="Language_English_US" Content="English" Tag="en-US" IsSelected="True" />
-                    <ComboBoxItem x:Name="Language_French_FR" Content="French (Alpha)" Tag="fr" />
-                    <ComboBoxItem x:Name="Language_Dutch_NL" Content="Dutch (Alpha)" Tag="nl" />
-                </ComboBox>
+                            <ComboBoxItem x:Name="Language_English_US" Content="English" Tag="en-US" IsSelected="True" />
+                            <ComboBoxItem x:Name="Language_French_FR" Content="French (Alpha)" Tag="fr" />
+                            <ComboBoxItem x:Name="Language_Dutch_NL" Content="Dutch (Alpha)" Tag="nl" />
+                        </ComboBox>
 
-                <TextBlock Text="Sync Settings" 
+                        <TextBlock Text="Sync Settings" 
                            Style="{StaticResource SubTitleStyle}" />
 
-                <ToggleSwitch OffContent="No" OnContent="Yes"
+                        <ToggleSwitch OffContent="No" OnContent="Yes"
                               FontSize="16" IsOn="{x:Bind SettingsService.IsSyncSettingsEnabled, Mode=TwoWay}" />
 
-                <TextBlock Text="UI Look and Feel" 
+                        <TextBlock Text="UI Look and Feel" 
                            Style="{StaticResource SubTitleStyle}" />
 
-                <!-- Use high quality artwork -->
-                <ToggleSwitch FontSize="16"
+                        <!-- Use high quality artwork -->
+                        <ToggleSwitch FontSize="16"
                               OnContent="Adjust for Appearance"
                               OffContent="Adjust for Performance"
                               IsOn="{x:Bind SettingsService.IsHighQualityArtwork, Mode=TwoWay}" />
 
 
 
-                <!-- Thanks To -->
-                <TextBlock Text="Thanks To" Style="{StaticResource SubTitleStyle}" />
-                <TextBlock Text="Dennis Bednarz for helping out with app design and creating the logo. (Really awesome guy, check him out on twitter (@DennisBednarz))." 
-                           Style="{StaticResource TextStyle}" />
-                <TextBlock Text="My friends for just being awesome!" 
-                           Style="{StaticResource TextStyle}" />
-                <TextBlock Text="Zac Bowden for getting me hooked into the Windows world! (WinBeta podcasts ~2015)." 
-                           Style="{StaticResource TextStyle}" />
-                <TextBlock Text="My family for always being there to help me when ever I may need help." 
-                           Style="{StaticResource TextStyle}" />
-                <TextBlock Text="Mr. C - The best teacher out there! Enjoy your retirement." 
-                           Style="{StaticResource TextStyle}" />
-                <TextBlock Text="Dennis Bednarz, Justin, Kesava, thmnmlist for all the help with beta testing. Thanks guys for always being there to help me out :)" 
-                           Style="{StaticResource TextStyle}" />
+                       
 
-                <!-- Legal -->
-                <TextBlock Text="Legal" Style="{StaticResource SubTitleStyle}" />
-                <TextBlock Text="Copyright © Grid Entertainment 2016 - 2018. All Rights Reserved" Style="{StaticResource TextStyle}" />
-                <TextBlock Text="Source code is licensed under educational use."  Style="{StaticResource TextStyle}" />
-                <HyperlinkButton Content="Privacy Policy" 
-                                 Style="{StaticResource LinkStyle}" 
-                                 NavigateUri="https://gridentertainment.net/fwlink/Y5jGLtoFXs" />
-
-                <TextBlock Text="Advanced" 
+                        <TextBlock Text="Advanced" 
                            Style="{StaticResource SubTitleStyle}" />
 
-                <HyperlinkButton Click="{x:Bind ViewModel.NavigateDebugOptions}" 
+                        <HyperlinkButton Click="{x:Bind ViewModel.NavigateDebugOptions}" 
                                  Style="{StaticResource LinkStyle}"
                                  Content="Advanced Settings" />
 
-                <HyperlinkButton Click="{x:Bind ViewModel.ClearAppCache}" 
+                        <HyperlinkButton Click="{x:Bind ViewModel.ClearAppCache}" 
                                  Style="{StaticResource LinkStyle}"
                                  Content="Clear Application Cache" />
 
-            </StackPanel>
-        </ScrollViewer>
-        
-    
+                    </StackPanel>
+                </ScrollViewer>
+            </PivotItem>
+
+            <PivotItem>
+                <PivotItem.Header>
+                    <TextBlock Text="About" FontSize="18" FontWeight="SemiBold" />
+                </PivotItem.Header>
+
+                <ScrollViewer>
+                    <StackPanel Padding="{ThemeResource PagePadding}">
+                        <!-- About App -->
+                        <TextBlock Text="About SoundByte" 
+                           Style="{StaticResource SubTitleStyle}" />
+
+                        <TextBlock Text="SoundByte is your go-to beautiful music client built for Windows 10 &amp; Xbox One. SoundByte lets you listen to indie artists via SoundCloud and Fanburst, popular artists via YouTube and your favourite podcasts via iTunes and custom providers." 
+                           Style="{StaticResource TextStyle}" />
+
+                        <TextBlock Text="SoundByte is designed to be easily extendable. This allows easy additions of more services. Check out the SoundByte GitHub page (linked below) for more information."
+                           Style="{StaticResource TextStyle}" />
+
+                        <TextBlock Text="If you enjoy SoundByte, please consider donating, it will help a lot with development and hosting costs. If you would rather not donate, consider leaving a review. It really helps!" 
+                           Style="{StaticResource TextStyle}" />
+
+                        <HyperlinkButton Content="Write a Review" Click="{x:Bind RateAndReview}" 
+                                 Style="{StaticResource LinkStyle}" />
+
+
+                        <!-- App version -->
+                        <TextBlock Text="Version" 
+                           Style="{StaticResource SubTitleStyle}"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                            <TextBlock Text="Version: "
+                               Margin="0,0,5,0"
+                               FontSize="16" />
+
+                            <TextBlock x:Name="AppVersion"
+                               Text="--.--"
+                               Opacity="0.7"
+                               FontSize="16" />
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                            <TextBlock Text="Build: "
+                               Margin="0,0,5,0"
+                               FontSize="16" />
+
+                            <TextBlock x:Name="AppBuild"
+                               Text="---"
+                               Opacity="0.7"
+                               FontSize="16" />
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                            <TextBlock Text="Build Time: "
+                               Margin="0,0,5,0"
+                               FontSize="16" />
+                            <TextBlock x:Name="AppBuildTime"
+                               Opacity="0.7"
+                               Text="..."
+                               FontSize="16" />
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
+                            <TextBlock Text="Branch: "
+                               Margin="0,0,5,0"
+                               FontSize="16" />
+                            <TextBlock Text="master"
+                               Opacity="0.7"
+                               FontSize="16" />
+                        </StackPanel>
+
+                        <HyperlinkButton Content="What's New?" 
+                                 Style="{StaticResource LinkStyle}"
+                                 Click="{x:Bind NavigateNew}" />
+
+                        <!-- More links -->
+                        <TextBlock Text="More Links" Style="{StaticResource SubTitleStyle}" />
+                        <HyperlinkButton Content="Facebook" NavigateUri="https://gridentertainment.net/fwlink/rOye5hzCXt" Style="{StaticResource LinkStyle}"  />
+                        <HyperlinkButton Content="Reddit" NavigateUri="https://gridentertainment.net/fwlink/68vfoKLYJS" Style="{StaticResource LinkStyle}"  />
+                        <HyperlinkButton Content="Send Feedback / Report Bug" NavigateUri="https://gridentertainment.net/fwlink/GvC5iXmJSo" Style="{StaticResource LinkStyle}"  />
+                        <HyperlinkButton Content="GitHub Repo" NavigateUri="https://gridentertainment.net/fwlink/O3i37tbVVO" Style="{StaticResource LinkStyle}"  />
+
+                        <!-- Thanks To -->
+                        <TextBlock Text="Thanks To" Style="{StaticResource SubTitleStyle}" />
+                        <TextBlock Text="Dennis Bednarz for helping out with app design and creating the logo. (Really awesome guy, check him out on twitter (@DennisBednarz))." 
+                               Style="{StaticResource TextStyle}" />
+                        <TextBlock Text="My friends for just being awesome!" 
+                               Style="{StaticResource TextStyle}" />
+                        <TextBlock Text="Zac Bowden for getting me hooked into the Windows world! (WinBeta podcasts ~2015)." 
+                               Style="{StaticResource TextStyle}" />
+                        <TextBlock Text="My family for always being there to help me when ever I may need help." 
+                               Style="{StaticResource TextStyle}" />
+                        <TextBlock Text="Mr. C - The best teacher out there! Enjoy your retirement." 
+                               Style="{StaticResource TextStyle}" />
+                        <TextBlock Text="Dennis Bednarz, Justin, Kesava, thmnmlist for all the help with beta testing. Thanks guys for always being there to help me out :)" 
+                               Style="{StaticResource TextStyle}" />
+
+                        <!-- Legal -->
+                        <TextBlock Text="Legal" Style="{StaticResource SubTitleStyle}" />
+                        <TextBlock Text="Copyright © Grid Entertainment 2018. All Rights Reserved" Style="{StaticResource TextStyle}" />
+                        <TextBlock Text="SoundByte Core is licensed under MIT."  Style="{StaticResource TextStyle}" />
+                        <TextBlock Text="SoundByte Client Apps source code is licensed under educational use."  Style="{StaticResource TextStyle}" />
+
+                        <HyperlinkButton Content="Privacy Policy" 
+                                     Style="{StaticResource LinkStyle}" 
+                                     NavigateUri="https://gridentertainment.net/fwlink/Y5jGLtoFXs" />
+
+                    </StackPanel>
+                </ScrollViewer>
+            </PivotItem>
+        </Pivot>
     </Grid>
 </Page>

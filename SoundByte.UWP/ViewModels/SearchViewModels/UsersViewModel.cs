@@ -12,6 +12,7 @@
 
 using Windows.UI.Xaml.Controls;
 using SoundByte.Core.Items.User;
+using SoundByte.Core.Sources.Fanburst;
 using SoundByte.Core.Sources.SoundCloud;
 using SoundByte.Core.Sources.YouTube;
 using SoundByte.UWP.Helpers;
@@ -35,6 +36,12 @@ namespace SoundByte.UWP.ViewModels.SearchViewModels
         /// </summary>
         public SoundByteCollection<SearchYouTubeUserSource, BaseUser> YouTubeUsers { get; } =
             new SoundByteCollection<SearchYouTubeUserSource, BaseUser>();
+
+        /// <summary>
+        /// Model for Fanburst users
+        /// </summary>
+        public SoundByteCollection<SearchFanburstUserSource, BaseUser> FanburstUsers { get; } =
+            new SoundByteCollection<SearchFanburstUserSource, BaseUser>();
         #endregion
 
         #region Private Variables
@@ -63,6 +70,9 @@ namespace SoundByte.UWP.ViewModels.SearchViewModels
 
                 YouTubeUsers.Source.SearchQuery = value;
                 YouTubeUsers.RefreshItems();
+
+                FanburstUsers.Source.SearchQuery = value;
+                FanburstUsers.RefreshItems();
             }
         }
         #endregion
@@ -72,6 +82,7 @@ namespace SoundByte.UWP.ViewModels.SearchViewModels
         {
             SoundCloudUsers.RefreshItems();
             YouTubeUsers.RefreshItems();
+            FanburstUsers.RefreshItems();
         }
         #endregion
 
@@ -90,6 +101,15 @@ namespace SoundByte.UWP.ViewModels.SearchViewModels
             App.NavigateTo(typeof(UserListView), new UserListViewModel.UserViewModelHolder
             {
                 User = YouTubeUsers.Source,
+                Title = $"Results for \"{SearchQuery}\""
+            });
+        }
+
+        public void NavigateFanburstUsers()
+        {
+            App.NavigateTo(typeof(UserListView), new UserListViewModel.UserViewModelHolder
+            {
+                User = FanburstUsers.Source,
                 Title = $"Results for \"{SearchQuery}\""
             });
         }

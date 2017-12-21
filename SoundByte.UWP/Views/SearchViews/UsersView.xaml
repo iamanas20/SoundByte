@@ -51,6 +51,30 @@
                           ItemClick="{x:Bind ViewModel.NavigateUser}"                      
                           ItemTemplate="{StaticResource UserItem}" />
             </Grid>
+
+            <!-- FANBURST HEADER -->
+            <controls:SectionHeader Title="Fanburst" Margin="{ThemeResource PagePadding}">
+                <controls:SectionHeader.Buttons>
+                    <controls:AppButton IsExtended="True"
+                                        Click="{x:Bind ViewModel.NavigateFanburstUsers}"
+                                        Label="View All" 
+                                        Glyph="&#xE8A9;"/>
+                </controls:SectionHeader.Buttons>
+            </controls:SectionHeader>
+
+            <Grid Height="300" Padding="{ThemeResource PagePadding}" Margin="-10,0,0,0">
+                <controls:InfoPane VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+                                   Visibility="Collapsed" Canvas.ZIndex="50"
+                                   Header="{x:Bind ViewModel.FanburstUsers.ErrorHeader, Mode=OneWay}"
+                                   Text="{x:Bind ViewModel.FanburstUsers.ErrorDescription, Mode=OneWay}"
+                                   IsLoading="{x:Bind ViewModel.FanburstUsers.IsLoading, Mode=OneWay}"
+                                   IsError="{x:Bind ViewModel.FanburstUsers.IsError, Mode=OneWay}" />
+                <GridView Style="{StaticResource CompactSoundByteGridView}"
+                          ItemsSource="{x:Bind ViewModel.FanburstUsers, Mode=OneWay}"
+                          ItemClick="{x:Bind ViewModel.NavigateUser}"                      
+                          ItemTemplate="{StaticResource UserItem}" />
+            </Grid>
+
         </StackPanel>
     </ScrollViewer>
 </Page>

@@ -12,6 +12,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -26,6 +27,7 @@ using JetBrains.Annotations;
 using Newtonsoft.Json;
 using SoundByte.Core.Helpers;
 using SoundByte.Core.Items.User;
+using SoundByte.Core.Items.YouTube;
 
 namespace SoundByte.Core.Services
 {
@@ -127,13 +129,17 @@ namespace SoundByte.Core.Services
                             service.CurrentUser = (await GetAsync<SoundCloudUser>(ServiceType.SoundCloud, "/me").ConfigureAwait(false)).ToBaseUser();
                             break;
                         case ServiceType.YouTube:
-                            // Do this later
+                            service.CurrentUser = AsyncHelper.RunSync(async () => await GetAsync<YouTubeChannelHolder>(ServiceType.YouTube, "/channels", new Dictionary<string, string>
+                            {
+                                { "mine", "true" },
+                                { "part", "snippet" }
+                            }).ConfigureAwait(false)).Channels.FirstOrDefault()?.ToBaseUser();
                             break;
                     }
                 }
-                catch
+                catch (Exception ex)
                 {
-                    // ignored
+                    Debug.WriteLine("Could not load user: " + ex.Message);
                 }
             }
         }
@@ -173,13 +179,17 @@ namespace SoundByte.Core.Services
                             service.CurrentUser = AsyncHelper.RunSync(async () => await GetAsync<SoundCloudUser>(ServiceType.SoundCloud, "/me").ConfigureAwait(false)).ToBaseUser();
                             break;
                         case ServiceType.YouTube:
-                            // Do this later
+                            service.CurrentUser = AsyncHelper.RunSync(async () => await GetAsync<YouTubeChannelHolder>(ServiceType.YouTube, "/channels", new Dictionary<string, string>
+                            {
+                                { "mine", "true" },
+                                { "part", "snippet" }
+                            }).ConfigureAwait(false)).Channels.FirstOrDefault()?.ToBaseUser();
                             break;
                     }
                 }
-                catch
+                catch (Exception ex)
                 {
-                    // ignored
+                    Debug.WriteLine("Could not load user: " + ex.Message);
                 }
             }
 
@@ -434,7 +444,7 @@ namespace SoundByte.Core.Services
                     }
                 }).ConfigureAwait(false);
             }
-            catch (OperationCanceledException) 
+            catch (OperationCanceledException)
             {
                 return default(T);
             }
@@ -448,26 +458,20 @@ namespace SoundByte.Core.Services
                 // need to refresh the auth token
                 if (hex.Message.ToLower().Contains("401") && IsServiceConnected(type))
                 {
-                    try
+                    // Get the token
+                    var userToken = Services.FirstOrDefault(x => x.Service == type)?.UserToken;
+                    if (userToken != null)
                     {
-                        // Get the token
-                        var userToken = Services.FirstOrDefault(x => x.Service == type)?.UserToken;
-                        if (userToken != null)
-                        {
-                            var newToken = await AuthorizationHelpers.GetNewAuthTokenAsync(type.ToString(), userToken.RefreshToken);
-                            userToken.AccessToken = newToken.AccessToken;
-                            userToken.ExpireTime = newToken.ExpireTime;
+                        var newToken = await AuthorizationHelpers.GetNewAuthTokenAsync(type.ToString(), userToken.RefreshToken);
+                        userToken.AccessToken = newToken.AccessToken;
+                        userToken.ExpireTime = newToken.ExpireTime;
 
-                            // Reconnect the service
-                            ConnectService(type, userToken);
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        throw new SoundByteException("Error obtaining new access token.", e.Message);
+                        // Reconnect the service
+                        ConnectService(type, userToken);
                     }
 
                     // Recall the service
+                    await Task.Delay(500);
                     return await GetAsync<T>(type, endpoint, optionalParams, cancellationTokenSource);
                 }
 
