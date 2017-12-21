@@ -16,7 +16,7 @@ using SoundByte.Core.Items.YouTube;
 
 namespace SoundByte.Core.Converters
 {
-    public class YouTubePlaylistIdConverter : JsonConverter
+    public class YouTubeChannelIdConverter : JsonConverter
     {
         public override bool CanConvert(Type objectType)
         {
@@ -29,8 +29,8 @@ namespace SoundByte.Core.Converters
             {
                 return new YouTubeId
                 {
-                    PlaylistId = (string)reader.Value,
-                    Kind = "youtube#playlist"
+                    ChannelId = (string)reader.Value,
+                    Kind = "youtube#channel"
                 };
             }
 

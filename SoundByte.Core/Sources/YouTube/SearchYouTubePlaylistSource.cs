@@ -19,6 +19,7 @@ using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
 using SoundByte.Core.Items.Playlist;
+using SoundByte.Core.Items.YouTube;
 using SoundByte.Core.Services;
 
 namespace SoundByte.Core.Sources.YouTube
@@ -35,7 +36,8 @@ namespace SoundByte.Core.Sources.YouTube
             CancellationTokenSource cancellationToken = default(CancellationTokenSource))
         {
             // Call the YouTube API and get the items
-            var playlists = await SoundByteV3Service.Current.GetAsync<YouTubeSearchHolder>(ServiceType.YouTube, "search",
+            var playlists = await SoundByteV3Service.Current.GetAsync<YouTubePlaylistHolder>(ServiceType.YouTube,
+                "search",
                 new Dictionary<string, string>
                 {
                     {"part", "id"},
@@ -48,17 +50,19 @@ namespace SoundByte.Core.Sources.YouTube
             // If there are no tracks
             if (!playlists.Playlists.Any())
             {
-                return new SourceResponse<BasePlaylist>(null, null, false, "No results found", "Could not find any results for '" + SearchQuery + "'");
+                return new SourceResponse<BasePlaylist>(null, null, false, "No results found",
+                    "Could not find any results for '" + SearchQuery + "'");
             }
 
             // We now need to get the content details (ugh)
             var youTubeIdList = string.Join(",", playlists.Playlists.Select(m => m.Id.PlaylistId));
 
-            var extendedPlaylists = await SoundByteV3Service.Current.GetAsync<YouTubeSearchHolder>(ServiceType.YouTube, "playlists",
+            var extendedPlaylists = await SoundByteV3Service.Current.GetAsync<YouTubePlaylistHolder>(ServiceType.YouTube,
+                "playlists",
                 new Dictionary<string, string>
                 {
                     {"part", "snippet,contentDetails"},
-                    { "id", youTubeIdList }
+                    {"id", youTubeIdList}
                 }, cancellationToken).ConfigureAwait(false);
 
 
@@ -74,22 +78,6 @@ namespace SoundByte.Core.Sources.YouTube
 
             // Return the items
             return new SourceResponse<BasePlaylist>(basePlaylists, playlists.NextList);
-        }
-
-        [JsonObject]
-        private class YouTubeSearchHolder
-        {
-            /// <summary>
-            ///     Collection of playlists
-            /// </summary>
-            [JsonProperty("items")]
-            public List<YouTubePlaylist> Playlists { get; set; }
-
-            /// <summary>
-            ///     The next list of items
-            /// </summary>
-            [JsonProperty("nextPageToken")]
-            public string NextList { get; set; }
         }
     }
 }

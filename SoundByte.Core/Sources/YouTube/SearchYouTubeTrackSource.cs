@@ -16,8 +16,8 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
-using Newtonsoft.Json;
 using SoundByte.Core.Items.Track;
+using SoundByte.Core.Items.YouTube;
 using SoundByte.Core.Services;
 
 namespace SoundByte.Core.Sources.YouTube
@@ -34,7 +34,7 @@ namespace SoundByte.Core.Sources.YouTube
             CancellationTokenSource cancellationToken = default(CancellationTokenSource))
         {
             // Call the YouTube API and get the items
-            var tracks = await SoundByteV3Service.Current.GetAsync<YouTubeSearchHolder>(ServiceType.YouTube, "search",
+            var tracks = await SoundByteV3Service.Current.GetAsync<YouTubeVideoHolder>(ServiceType.YouTube, "search",
                 new Dictionary<string, string>
                 {
                     {"part", "id"},
@@ -53,7 +53,7 @@ namespace SoundByte.Core.Sources.YouTube
             // We now need to get the content details (ugh)
             var youTubeIdList = string.Join(",", tracks.Tracks.Select(m => m.Id.VideoId));
 
-            var extendedTracks = await SoundByteV3Service.Current.GetAsync<YouTubeSearchHolder>(ServiceType.YouTube, "videos",
+            var extendedTracks = await SoundByteV3Service.Current.GetAsync<YouTubeVideoHolder>(ServiceType.YouTube, "videos",
                 new Dictionary<string, string>
                 {
                     {"part", "snippet,contentDetails"},
@@ -72,22 +72,6 @@ namespace SoundByte.Core.Sources.YouTube
 
             // Return the items
             return new SourceResponse<BaseTrack>(baseTracks, tracks.NextList);
-        }
-
-        [JsonObject]
-        private class YouTubeSearchHolder
-        {
-            /// <summary>
-            ///     Collection of tracks
-            /// </summary>
-            [JsonProperty("items")]
-            public List<YouTubeTrack> Tracks { get; set; }
-
-            /// <summary>
-            ///     The next list of items
-            /// </summary>
-            [JsonProperty("nextPageToken")]
-            public string NextList { get; set; }
         }
     }
 }

@@ -12,6 +12,7 @@
 
 using Newtonsoft.Json;
 using System;
+using SoundByte.Core.Items.YouTube;
 
 namespace SoundByte.Core.Converters
 {
@@ -19,21 +20,21 @@ namespace SoundByte.Core.Converters
     {
         public override bool CanConvert(Type objectType)
         {
-            return objectType == typeof(Items.Track.YouTubeTrack.YouTubeId);
+            return objectType == typeof(YouTubeId);
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             if (reader.TokenType == JsonToken.String)
             {
-                return new Items.Track.YouTubeTrack.YouTubeId
+                return new YouTubeId
                 {
                     VideoId = (string)reader.Value,
                     Kind = "youtube#video"
                 };
             }
 
-            return serializer.Deserialize<Items.Track.YouTubeTrack.YouTubeId>(reader);
+            return serializer.Deserialize<YouTubeId>(reader);
         }
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)

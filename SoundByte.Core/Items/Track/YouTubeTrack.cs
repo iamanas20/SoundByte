@@ -22,6 +22,7 @@ using System.Threading;
 using SoundByte.Core.Converters;
 using System.Xml;
 using SoundByte.Core.Items.Playlist;
+using SoundByte.Core.Items.YouTube;
 
 namespace SoundByte.Core.Items.Track
 {
@@ -36,49 +37,7 @@ namespace SoundByte.Core.Items.Track
         {
             Id = new YouTubeId { VideoId = id };
         }
-
-        [JsonObject]
-        public class YouTubeId
-        {
-            [JsonProperty("kind")]
-            public string Kind { get; set; }
-
-            [JsonProperty("channelId")]
-            public string ChannelId { get; set; }
-
-            [JsonProperty("videoId")]
-            public string VideoId { get; set; }
-
-            [JsonProperty("playlistId")]
-            public string PlaylistId { get; set; }
-        }
-
-        [JsonObject]
-        public class YouTubeThumbnailSize
-        {
-            [JsonProperty("url")]
-            public string Url { get; set; }
-
-            [JsonProperty("width")]
-            public int? Width { get; set; }
-
-            [JsonProperty("height")]
-            public int? Height { get; set; }
-        }
-
-        [JsonObject]
-        public class YouTubeThumbnails
-        {
-            [JsonProperty("default")]
-            public YouTubeThumbnailSize DefaultSize { get; set; }
-
-            [JsonProperty("medium")]
-            public YouTubeThumbnailSize MediumSize { get; set; }
-
-            [JsonProperty("high")]
-            public YouTubeThumbnailSize HighSize { get; set; }
-        }
-
+   
         [JsonObject]
         public class YouTubeSnippet
         {
@@ -195,7 +154,7 @@ namespace SoundByte.Core.Items.Track
 
             // SoundByte YouTube likes are stored in a playlist called "SoundByte Likes". We
             // must first check to see if this playlist exists, if it does not, we must create it.
-            var userYouTubePlaylists = await SoundByteV3Service.Current.GetAsync<YouTubePlaylist.YouTubePlaylistHolder>(ServiceType.YouTube,
+            var userYouTubePlaylists = await SoundByteV3Service.Current.GetAsync<YouTubePlaylistHolder>(ServiceType.YouTube,
                 "playlists", new Dictionary<string, string>
                 {
                     { "maxResults", "50"},
@@ -204,7 +163,7 @@ namespace SoundByte.Core.Items.Track
                 });
 
             // The soundbyte likes playlist
-            var soundByteLikes = userYouTubePlaylists.Items.FirstOrDefault(x => x.Snippet.Title == "SoundByte Likes");
+            var soundByteLikes = userYouTubePlaylists.Playlists.FirstOrDefault(x => x.Snippet.Title == "SoundByte Likes");
 
             // If the playlist does not exist, we must create it
             if (soundByteLikes == null)

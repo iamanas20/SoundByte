@@ -11,11 +11,10 @@
  */
 
 using System;
-using System.Collections.Generic;
 using Newtonsoft.Json;
 using SoundByte.Core.Converters;
-using SoundByte.Core.Items.Track;
 using SoundByte.Core.Items.User;
+using SoundByte.Core.Items.YouTube;
 
 namespace SoundByte.Core.Items.Playlist
 { 
@@ -27,39 +26,13 @@ namespace SoundByte.Core.Items.Playlist
 
         [JsonProperty("id")]
         [JsonConverter(typeof(YouTubePlaylistIdConverter))]
-        public YouTubeTrack.YouTubeId Id { get; set; }
+        public YouTubeId Id { get; set; }
 
         [JsonProperty("snippet")]
         public YouTubeSnippet Snippet { get; set; }
 
         [JsonProperty("contentDetails")]
         public ContentDetails YouTubeContentDetails { get; set; }
-
-        [JsonObject]
-        public class YouTubeThumbnailSize
-        {
-            [JsonProperty("url")]
-            public string Url { get; set; }
-
-            [JsonProperty("width")]
-            public int? Width { get; set; }
-
-            [JsonProperty("height")]
-            public int? Height { get; set; }
-        }
-
-        [JsonObject]
-        public class YouTubeThumbnails
-        {
-            [JsonProperty("default")]
-            public YouTubeTrack.YouTubeThumbnailSize DefaultSize { get; set; }
-
-            [JsonProperty("medium")]
-            public YouTubeTrack.YouTubeThumbnailSize MediumSize { get; set; }
-
-            [JsonProperty("high")]
-            public YouTubeTrack.YouTubeThumbnailSize HighSize { get; set; }
-        }
 
         [JsonObject]
         public class YouTubeSnippet
@@ -112,16 +85,6 @@ namespace SoundByte.Core.Items.Playlist
                 LikesCount = 0,
                 TrackCount = YouTubeContentDetails.ItemCount
             };
-        }
-
-        [JsonObject]
-        public class YouTubePlaylistHolder
-        {
-            [JsonProperty("nextPageToken")]
-            public string NextPageToken { get; set; }
-
-            [JsonProperty("items")]
-            public List<YouTubePlaylist> Items { get; set; }
         }
     }
 }

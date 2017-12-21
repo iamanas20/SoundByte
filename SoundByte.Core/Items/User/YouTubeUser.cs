@@ -12,32 +12,13 @@
 
 using System;
 using Newtonsoft.Json;
-using SoundByte.Core.Items.YouTube;
 
-namespace SoundByte.Core.Converters
+namespace SoundByte.Core.Items.User
 {
-    public class YouTubePlaylistIdConverter : JsonConverter
+    [JsonObject]
+    public class YouTubeUser : IUser
     {
-        public override bool CanConvert(Type objectType)
-        {
-            return objectType == typeof(YouTubeId);
-        }
-
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-        {
-            if (reader.TokenType == JsonToken.String)
-            {
-                return new YouTubeId
-                {
-                    PlaylistId = (string)reader.Value,
-                    Kind = "youtube#playlist"
-                };
-            }
-
-            return serializer.Deserialize<YouTubeId>(reader);
-        }
-
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        public BaseUser ToBaseUser()
         {
             throw new NotImplementedException();
         }
