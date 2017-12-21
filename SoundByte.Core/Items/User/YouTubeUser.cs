@@ -12,15 +12,56 @@
 
 using System;
 using Newtonsoft.Json;
+using SoundByte.Core.Converters;
+using SoundByte.Core.Items.YouTube;
 
 namespace SoundByte.Core.Items.User
 {
     [JsonObject]
     public class YouTubeUser : IUser
     {
+        [JsonProperty("kind")]
+        public string Kind { get; set; }
+
+        [JsonProperty("id")]
+        [JsonConverter(typeof(YouTubeChannelIdConverter))]
+        public YouTubeId Id { get; set; }
+
+        [JsonProperty("snippet")]
+        public YouTubeSnippet Snippet { get; set; }
+
+        [JsonObject]
+        public class YouTubeSnippet
+        {
+            [JsonProperty("publishedAt")]
+            public string PublishedAt { get; set; }
+
+            [JsonProperty("channelId")]
+            public string ChannelId { get; set; }
+
+            [JsonProperty("title")]
+            public string Title { get; set; }
+
+            [JsonProperty("description")]
+            public string Description { get; set; }
+
+            [JsonProperty("thumbnails")]
+            public YouTubeThumbnails Thumbnails { get; set; }
+
+            [JsonProperty("channelTitle")]
+            public string ChannelTitle { get; set; }
+        }
+
         public BaseUser ToBaseUser()
         {
-            throw new NotImplementedException();
+            return new BaseUser
+            {
+                ServiceType = ServiceType.YouTube,
+                Id = Id.ChannelId,
+                Username = Snippet.Title,
+                ArtworkLink = Snippet.Thumbnails.HighSize.Url,
+                Description = Snippet.Description
+            };
         }
     }
 }

@@ -13,6 +13,7 @@
 using Windows.UI.Xaml.Controls;
 using SoundByte.Core.Items.User;
 using SoundByte.Core.Sources.SoundCloud;
+using SoundByte.Core.Sources.YouTube;
 using SoundByte.UWP.Helpers;
 using SoundByte.UWP.ViewModels.Generic;
 using SoundByte.UWP.Views;
@@ -28,6 +29,12 @@ namespace SoundByte.UWP.ViewModels.SearchViewModels
         /// </summary>
         public SoundByteCollection<SearchSoundCloudUserSource, BaseUser> SoundCloudUsers { get; } =
             new SoundByteCollection<SearchSoundCloudUserSource, BaseUser>();
+
+        /// <summary>
+        /// Model for YouTube users
+        /// </summary>
+        public SoundByteCollection<SearchYouTubeUserSource, BaseUser> YouTubeUsers { get; } =
+            new SoundByteCollection<SearchYouTubeUserSource, BaseUser>();
         #endregion
 
         #region Private Variables
@@ -53,6 +60,9 @@ namespace SoundByte.UWP.ViewModels.SearchViewModels
                 // Update the models
                 SoundCloudUsers.Source.SearchQuery = value;
                 SoundCloudUsers.RefreshItems();
+
+                YouTubeUsers.Source.SearchQuery = value;
+                YouTubeUsers.RefreshItems();
             }
         }
         #endregion
@@ -61,6 +71,7 @@ namespace SoundByte.UWP.ViewModels.SearchViewModels
         public void RefreshAll()
         {
             SoundCloudUsers.RefreshItems();
+            YouTubeUsers.RefreshItems();
         }
         #endregion
 
@@ -73,10 +84,19 @@ namespace SoundByte.UWP.ViewModels.SearchViewModels
                 Title = $"Results for \"{SearchQuery}\""
             });
         }
+
+        public void NavigateYouTubeUsers()
+        {
+            App.NavigateTo(typeof(UserListView), new UserListViewModel.UserViewModelHolder
+            {
+                User = YouTubeUsers.Source,
+                Title = $"Results for \"{SearchQuery}\""
+            });
+        }
         #endregion
 
         #region ViewSingle
-        public void NavigateSoundCloudUser(object sender, ItemClickEventArgs e)
+        public void NavigateUser(object sender, ItemClickEventArgs e)
         {
             if (e.ClickedItem == null)
                 return;

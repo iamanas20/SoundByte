@@ -47,7 +47,7 @@ namespace SoundByte.Core.Sources.YouTube
                     {"q", WebUtility.UrlEncode(SearchQuery)}
                 }, cancellationToken).ConfigureAwait(false);
 
-            // If there are no tracks
+            // If there are no playlists
             if (!playlists.Playlists.Any())
             {
                 return new SourceResponse<BasePlaylist>(null, null, false, "No results found",
@@ -66,7 +66,7 @@ namespace SoundByte.Core.Sources.YouTube
                 }, cancellationToken).ConfigureAwait(false);
 
 
-            // Convert YouTube specific tracks to base tracks
+            // Convert YouTube specific playlists to base playlists
             var basePlaylists = new List<BasePlaylist>();
             foreach (var playlist in extendedPlaylists.Playlists)
             {

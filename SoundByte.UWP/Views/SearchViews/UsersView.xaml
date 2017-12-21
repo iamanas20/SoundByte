@@ -25,7 +25,30 @@
                                    IsError="{x:Bind ViewModel.SoundCloudUsers.IsError, Mode=OneWay}" />
                 <GridView Style="{StaticResource CompactSoundByteGridView}"
                           ItemsSource="{x:Bind ViewModel.SoundCloudUsers, Mode=OneWay}"
-                          ItemClick="{x:Bind ViewModel.NavigateSoundCloudUser}"                      
+                          ItemClick="{x:Bind ViewModel.NavigateUser}"                      
+                          ItemTemplate="{StaticResource UserItem}" />
+            </Grid>
+
+            <!-- YOUTUBE HEADER -->
+            <controls:SectionHeader Title="YouTube" Margin="{ThemeResource PagePadding}">
+                <controls:SectionHeader.Buttons>
+                    <controls:AppButton IsExtended="True"
+                                        Click="{x:Bind ViewModel.NavigateYouTubeUsers}"
+                                        Label="View All" 
+                                        Glyph="&#xE8A9;"/>
+                </controls:SectionHeader.Buttons>
+            </controls:SectionHeader>
+
+            <Grid Height="300" Padding="{ThemeResource PagePadding}" Margin="-10,0,0,0">
+                <controls:InfoPane VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+                                   Visibility="Collapsed" Canvas.ZIndex="50"
+                                   Header="{x:Bind ViewModel.YouTubeUsers.ErrorHeader, Mode=OneWay}"
+                                   Text="{x:Bind ViewModel.YouTubeUsers.ErrorDescription, Mode=OneWay}"
+                                   IsLoading="{x:Bind ViewModel.YouTubeUsers.IsLoading, Mode=OneWay}"
+                                   IsError="{x:Bind ViewModel.YouTubeUsers.IsError, Mode=OneWay}" />
+                <GridView Style="{StaticResource CompactSoundByteGridView}"
+                          ItemsSource="{x:Bind ViewModel.YouTubeUsers, Mode=OneWay}"
+                          ItemClick="{x:Bind ViewModel.NavigateUser}"                      
                           ItemTemplate="{StaticResource UserItem}" />
             </Grid>
         </StackPanel>
