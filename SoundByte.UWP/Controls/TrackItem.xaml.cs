@@ -11,6 +11,8 @@
  */
 
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Input;
 using Microsoft.Toolkit.Uwp.UI.Animations;
@@ -56,8 +58,6 @@ namespace SoundByte.UWP.Controls
 
         private async void OnPointerEntered(object sender, PointerRoutedEventArgs e)
         {
-            FindName("HoverArea");
-
             ShadowPanel.DropShadow.StartAnimation("Offset.Y",
                 ShadowPanel.DropShadow.Compositor.CreateScalarKeyFrameAnimation(null, 10.0f, TimeSpan.FromMilliseconds(250), null));
 
@@ -67,8 +67,11 @@ namespace SoundByte.UWP.Controls
             ShadowPanel.DropShadow.StartAnimation("BlurRadius",
                 ShadowPanel.DropShadow.Compositor.CreateScalarKeyFrameAnimation(null, 45.0f, TimeSpan.FromMilliseconds(200), null));
 
-            TrackImage.Blur(5, 200).Start();
-            await HoverArea.Fade(1, 200).StartAsync();
+            await Task.WhenAll(new List<Task>
+            {
+                HoverArea.Fade(1, 200).StartAsync(),
+                TrackImage.Blur(15, 200).StartAsync()
+            });
         }
 
         private async void OnPointerExited(object sender, PointerRoutedEventArgs e)
@@ -82,12 +85,11 @@ namespace SoundByte.UWP.Controls
             ShadowPanel.DropShadow.StartAnimation("BlurRadius",
                 ShadowPanel.DropShadow.Compositor.CreateScalarKeyFrameAnimation(null, 25.0f, TimeSpan.FromMilliseconds(200), null));
 
-            TrackImage.Blur(0, 200).Start();
-
-            if (HoverArea != null)
-                await HoverArea.Fade(0, 200).StartAsync();
-
-            UnloadObject(HoverArea);
+            await Task.WhenAll(new List<Task>
+            {
+                HoverArea.Fade(0, 200).StartAsync(),
+                TrackImage.Blur(0, 200).StartAsync()
+            });
         }
     }
 }

@@ -11,6 +11,8 @@
  */
 
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Input;
 using Microsoft.Toolkit.Uwp.UI.Animations;
@@ -52,8 +54,11 @@ namespace SoundByte.UWP.Controls
             ShadowPanel.DropShadow.StartAnimation("BlurRadius",
                 ShadowPanel.DropShadow.Compositor.CreateScalarKeyFrameAnimation(null, 45.0f, TimeSpan.FromMilliseconds(200), null));
 
-            PlaylistImage.Blur(5, 200).Start();
-            await HoverArea.Fade(1, 200).StartAsync();
+            await Task.WhenAll(new List<Task>
+            {
+                HoverArea.Fade(1, 200).StartAsync(),
+                PlaylistImage.Blur(15, 200).StartAsync()
+            });
         }
 
         private async void OnPointerExited(object sender, PointerRoutedEventArgs e)
@@ -70,9 +75,11 @@ namespace SoundByte.UWP.Controls
             var colorAnimation = ShadowPanel.DropShadow.Compositor.CreateColorKeyFrameAnimation();
             colorAnimation.Duration = TimeSpan.FromMilliseconds(200);
 
-            PlaylistImage.Blur(0, 200).Start();
-
-            await HoverArea.Fade(0, 200).StartAsync();
+            await Task.WhenAll(new List<Task>
+            {
+                HoverArea.Fade(0, 200).StartAsync(),
+                PlaylistImage.Blur(0, 200).StartAsync()
+            });
         }
     }
 }
