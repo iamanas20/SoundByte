@@ -141,6 +141,8 @@ namespace SoundByte.UWP.Views.Application
             if (ViewModel.IsComboboxBlockingEnabled)
                 return;
 
+            var theme = Windows.UI.Xaml.Application.Current.RequestedTheme;
+
             switch (((ComboBoxItem) (sender as ComboBox)?.SelectedItem)?.Name.ToLower())
             {
                 case "defaulttheme":
@@ -150,10 +152,12 @@ namespace SoundByte.UWP.Views.Application
                 case "darktheme":
                     SettingsService.Instance.ApplicationThemeType = AppTheme.Dark;
                     ((AppShell) Window.Current.Content).RequestedTheme = ElementTheme.Dark;
+                    theme = ApplicationTheme.Dark;
                     break;
                 case "lighttheme":
                     SettingsService.Instance.ApplicationThemeType = AppTheme.Light;
                     ((AppShell) Window.Current.Content).RequestedTheme = ElementTheme.Light;
+                    theme = ApplicationTheme.Dark;
                     break;
                 default:
                     SettingsService.Instance.ApplicationThemeType = AppTheme.Default;
@@ -162,7 +166,7 @@ namespace SoundByte.UWP.Views.Application
             }
 
             // Reload the style
-            TitlebarHelper.UpdateTitlebarStyle();
+            TitlebarHelper.UpdateTitlebarStyle(theme);
         }
     }
 }

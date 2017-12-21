@@ -56,7 +56,7 @@ namespace SoundByte.UWP
             InitializeComponent();
 
             // Set the accent color
-            TitlebarHelper.UpdateTitlebarStyle();
+            TitlebarHelper.UpdateTitlebarStyle(Application.Current.RequestedTheme);
 
             LoggingService.Log(LoggingService.LogType.Debug, "Attaching Event Handlers");
 

@@ -16,10 +16,8 @@ using System.Runtime.CompilerServices;
 using Windows.UI.Core;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
-using Microsoft.Toolkit.Uwp.UI.Animations;
 using SoundByte.UWP.Converters;
 using SoundByte.UWP.Helpers;
-using SoundByte.UWP.Services;
 using SoundByte.UWP.ViewModels;
 
 namespace SoundByte.UWP.Views
@@ -43,7 +41,7 @@ namespace SoundByte.UWP.Views
             ViewModel.Service.PropertyChanged += Service_PropertyChanged;
 
             // Set the accent color
-            TitlebarHelper.UpdateTitlebarStyle();
+            TitlebarHelper.UpdateTitlebarStyle(Windows.UI.Xaml.Application.Current.RequestedTheme);
 
             BackgroundImage.Source =
                 new BitmapImage(new Uri(ArtworkConverter.ConvertObjectToImage(ViewModel.Service.CurrentTrack)));
