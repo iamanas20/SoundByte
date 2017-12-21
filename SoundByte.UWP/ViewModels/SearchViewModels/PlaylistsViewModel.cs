@@ -13,6 +13,7 @@
 using Windows.UI.Xaml.Controls;
 using SoundByte.Core.Items.Playlist;
 using SoundByte.Core.Sources.SoundCloud;
+using SoundByte.Core.Sources.YouTube;
 using SoundByte.UWP.Helpers;
 using SoundByte.UWP.ViewModels.Generic;
 using SoundByte.UWP.Views;
@@ -28,6 +29,12 @@ namespace SoundByte.UWP.ViewModels.SearchViewModels
         /// </summary>
         public SoundByteCollection<SearchSoundCloudPlaylistSource, BasePlaylist> SoundCloudPlaylists { get; } =
             new SoundByteCollection<SearchSoundCloudPlaylistSource, BasePlaylist>();
+
+        /// <summary>
+        /// Model for YouTube playlists
+        /// </summary>
+        public SoundByteCollection<SearchYouTubePlaylistSource, BasePlaylist> YouTubePlaylists { get; } =
+            new SoundByteCollection<SearchYouTubePlaylistSource, BasePlaylist>();
         #endregion
 
         #region Private Variables
@@ -53,6 +60,9 @@ namespace SoundByte.UWP.ViewModels.SearchViewModels
                 // Update the models
                 SoundCloudPlaylists.Source.SearchQuery = value;
                 SoundCloudPlaylists.RefreshItems();
+
+                YouTubePlaylists.Source.SearchQuery = value;
+                YouTubePlaylists.RefreshItems();
             }
         }
         #endregion
@@ -61,6 +71,7 @@ namespace SoundByte.UWP.ViewModels.SearchViewModels
         public void RefreshAll()
         {
             SoundCloudPlaylists.RefreshItems();
+            YouTubePlaylists.RefreshItems();
         }
         #endregion
 
@@ -73,10 +84,19 @@ namespace SoundByte.UWP.ViewModels.SearchViewModels
                 Title = $"Results for \"{SearchQuery}\""
             });
         }
+
+        public void NavigateYouTubePlaylists()
+        {
+            App.NavigateTo(typeof(PlaylistListView), new PlaylistListViewModel.PlaylistViewModelHolder
+            {
+                Playlist = YouTubePlaylists.Source,
+                Title = $"Results for \"{SearchQuery}\""
+            });
+        }
         #endregion
 
         #region ViewSingle
-        public void NavigateSoundCloudPlaylist(object sender, ItemClickEventArgs e)
+        public void NavigatePlaylist(object sender, ItemClickEventArgs e)
         {
             if (e.ClickedItem == null)
                 return;

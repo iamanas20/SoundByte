@@ -27,9 +27,9 @@ namespace SoundByte.UWP.Helpers
         /// <summary>
         ///     Refreshes the stored app accent color
         /// </summary>
-        public static async void UpdateTitlebarStyle(ApplicationTheme requestedTheme)
+        public static async void UpdateTitlebarStyle()
         {
-            var textColor = requestedTheme == ApplicationTheme.Dark ? Colors.White : Colors.Black;
+            var textColor = Application.Current.RequestedTheme == ApplicationTheme.Dark ? Colors.White : Colors.Black;
 
             if (DeviceHelper.IsDesktop)
             {

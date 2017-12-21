@@ -41,7 +41,7 @@ namespace SoundByte.UWP.Views
             ViewModel.Service.PropertyChanged += Service_PropertyChanged;
 
             // Set the accent color
-            TitlebarHelper.UpdateTitlebarStyle(Windows.UI.Xaml.Application.Current.RequestedTheme);
+            TitlebarHelper.UpdateTitlebarStyle();
 
             BackgroundImage.Source =
                 new BitmapImage(new Uri(ArtworkConverter.ConvertObjectToImage(ViewModel.Service.CurrentTrack)));

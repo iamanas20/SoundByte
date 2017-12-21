@@ -21,6 +21,7 @@ using SoundByte.Core.Items.Comment;
 using SoundByte.Core.Items.User;
 using System.Threading;
 using SoundByte.Core.Services;
+using YoutubeExplode;
 using YoutubeExplode.Models.MediaStreams;
 
 // ReSharper disable CompareOfFloatsByEqualityOperator
@@ -38,8 +39,9 @@ namespace SoundByte.Core.Items.Track
         /// <summary>
         /// Get the audio stream for this item
         /// </summary>
+        /// <param name="youTubeClient">Used for YouTube videos</param>
         /// <returns></returns>
-        public async Task<Uri> GetAudioStreamAsync()
+        public async Task<Uri> GetAudioStreamAsync(YoutubeClient youTubeClient)
         {
             // Get the appropriate client Ids
             var service = SoundByteV3Service.Current.Services.FirstOrDefault(x => x.Service == ServiceType);
@@ -75,8 +77,7 @@ namespace SoundByte.Core.Items.Track
                     break;
                 case ServiceType.YouTube:
                     // Get the video streams
-                    var client = new YoutubeExplode.YoutubeClient();
-                    var mediaStreams = await client.GetVideoMediaStreamInfosAsync(Id);
+                    var mediaStreams = await youTubeClient.GetVideoMediaStreamInfosAsync(Id);
 
                     // Set the audio stream URL to the highest quality
                     // TODO: Set it at an alright quality.

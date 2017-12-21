@@ -13,6 +13,7 @@
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using SoundByte.Core.Converters;
 using SoundByte.Core.Items.Track;
 using SoundByte.Core.Items.User;
 
@@ -25,7 +26,8 @@ namespace SoundByte.Core.Items.Playlist
         public string Kind { get; set; }
 
         [JsonProperty("id")]
-        public string Id { get; set; }
+        [JsonConverter(typeof(YouTubePlaylistIdConverter))]
+        public YouTubeTrack.YouTubeId Id { get; set; }
 
         [JsonProperty("snippet")]
         public YouTubeSnippet Snippet { get; set; }
@@ -95,7 +97,7 @@ namespace SoundByte.Core.Items.Playlist
             return new BasePlaylist
             {
                 ServiceType = ServiceType.YouTube,
-                Id = Id,
+                Id = Id.PlaylistId,
                 Duration = TimeSpan.FromMilliseconds(0),
                 Title = Snippet.Title,
                 Genre = "YouTube",

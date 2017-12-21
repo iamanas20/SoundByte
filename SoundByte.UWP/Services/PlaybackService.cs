@@ -40,6 +40,7 @@ using SoundByte.Core.Services;
 using SoundByte.UWP.DatabaseContexts;
 using SoundByte.Core.Sources;
 using Microsoft.EntityFrameworkCore;
+using YoutubeExplode;
 
 namespace SoundByte.UWP.Services
 {
@@ -65,8 +66,8 @@ namespace SoundByte.UWP.Services
 
         // Playlist Object
         private MediaPlaybackList _playbackList;
-
-        public PlaybackSource VisualizationSource { get; set; }
+        // Used for working with YouTube video streams
+        private YoutubeClient _youTubeClient;
 
         /// The audio-video sync timer is used to sync YouTube videos
         /// to the background audio. This has to run a little faster for
@@ -330,6 +331,9 @@ namespace SoundByte.UWP.Services
             {
                 Interval = TimeSpan.FromMilliseconds(500)
             };
+
+            // Init the youtube client
+            _youTubeClient = new YoutubeClient();
 
             // Setup the tick event
             pageTimer.Tick += PlayingSliderUpdate;
@@ -608,7 +612,7 @@ namespace SoundByte.UWP.Services
                 if (track == null)
                     return;
 
-                var url = await track.GetAudioStreamAsync();
+                var url = await track.GetAudioStreamAsync(_youTubeClient);
 
                 await DispatcherHelper.ExecuteOnUIThreadAsync(async () =>
                 {
