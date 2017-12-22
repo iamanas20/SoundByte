@@ -45,7 +45,7 @@ namespace SoundByte.Core.Helpers
                 {
                     // Post to the the respected API
                     using (var postQuery = await httpClient.PostAsync(
-                        "https://soundbyte.gridentertainment.net/api/v1/app/auth",
+                        "https://soundbytemedia.com/api/v1/app/auth",
                         encodedContent))
                     {
                         // Ensure successful
@@ -114,7 +114,7 @@ namespace SoundByte.Core.Helpers
                 {
                     // Post to the the respected API
                     using (var postQuery = await httpClient.PostAsync(
-                        "https://soundbyte.gridentertainment.net/api/v1/app/refresh-auth", encodedContent))
+                        "https://soundbytemedia.com/api/v1/app/refresh-auth", encodedContent))
                     {
                         // Ensure successful
                         postQuery.EnsureSuccessStatusCode();
@@ -193,7 +193,7 @@ namespace SoundByte.Core.Helpers
                 {
                     // Post to the the respected API
                     using (var postQuery = await httpClient.PostAsync(
-                        "https://soundbyte.gridentertainment.net/api/v1/app/init", encodedContent))
+                        "https://soundbytemedia.com/api/v1/app/init", encodedContent))
                     {
                         // Ensure successful
                         postQuery.EnsureSuccessStatusCode();

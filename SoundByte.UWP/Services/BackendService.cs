@@ -26,7 +26,7 @@ namespace SoundByte.UWP.Services
 
         public static BackendService Instance => InstanceHolder.Value;
 
-        private string _backendServiceUrl = "https://soundbyte.gridentertainment.net";
+        private string _backendServiceUrl = "https://soundbytemedia.com";
 
         private readonly HubConnection _mobileHub;
         public IHubProxy LoginHub { get; }

@@ -39,7 +39,7 @@ namespace SoundByte.UWP.Dialogs
                     var changelog =
                         await httpClient.GetStringAsync(
                             new Uri(
-                                $"https://soundbyte.gridentertainment.net/api/v1/app/changelog?platform=uwp&version={Package.Current.Id.Version.Major}.{Package.Current.Id.Version.Minor}.{Package.Current.Id.Version.Build}"));
+                                $"https://soundbytemedia.com/api/v1/app/changelog?platform=uwp&version={Package.Current.Id.Version.Major}.{Package.Current.Id.Version.Minor}.{Package.Current.Id.Version.Build}"));
 
                     ChangelogView.Text = changelog;
                 }

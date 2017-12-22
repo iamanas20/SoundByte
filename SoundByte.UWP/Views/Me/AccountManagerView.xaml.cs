@@ -189,7 +189,7 @@ namespace SoundByte.UWP.Views.Me
 
         private async void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
-            var startURL = "https://soundbyte.gridentertainment.net/connect/authorize?client_id=client&scope=api1&response_type=code&redirect_uri=http://localhost/soundbyte";
+            var startURL = "https://soundbytemedia.com/connect/authorize?client_id=client&scope=api1&response_type=code&redirect_uri=http://localhost/soundbyte";
 
             var webAuthenticationResult =
                 await Windows.Security.Authentication.Web.WebAuthenticationBroker.AuthenticateAsync(
