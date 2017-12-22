@@ -119,6 +119,9 @@ namespace SoundByte.UWP
                     case ServiceType.YouTube:
                         vaultName = "SoundByte.YouTube";
                         break;
+                    case ServiceType.SoundByte:
+                        vaultName = "SoundByte.SoundByte";
+                        break;
                     default:
                         vaultName = string.Empty;
                         break;
@@ -165,6 +168,9 @@ namespace SoundByte.UWP
                         break;
                     case ServiceType.YouTube:
                         vault.FindAllByResource("SoundByte.YouTube").ForEach(x => vault.Remove(x));
+                        break;
+                    case ServiceType.SoundByte:
+                        vault.FindAllByResource("SoundByte.SoundByte").ForEach(x => vault.Remove(x));
                         break;
                 }
 
@@ -229,6 +235,8 @@ namespace SoundByte.UWP
             var soundCloudToken = GetLoginTokenFromVault("SoundByte.SoundCloud", ServiceType.SoundCloud);
             var fanburstToken = GetLoginTokenFromVault("SoundByte.FanBurst", ServiceType.Fanburst);
             var youTubeToken = GetLoginTokenFromVault("SoundByte.YouTube", ServiceType.YouTube);
+            var soundByteToken = GetLoginTokenFromVault("SoundByte.SoundByte", ServiceType.SoundByte);
+
 
             var secretList = new List<ServiceInfo>
             {
@@ -261,6 +269,12 @@ namespace SoundByte.UWP
                 new ServiceInfo
                 {
                     Service = ServiceType.ITunesPodcast
+                },
+                new ServiceInfo
+                {
+                    Service = ServiceType.SoundByte,
+                    ClientId = "46c3a728b490d119933857d35b63b473",
+                    UserToken = soundByteToken
                 }
             };
 

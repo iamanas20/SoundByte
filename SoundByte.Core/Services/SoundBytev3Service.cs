@@ -458,19 +458,25 @@ namespace SoundByte.Core.Services
                 // need to refresh the auth token
                 if (hex.Message.ToLower().Contains("401") && IsServiceConnected(type))
                 {
-                    // Get the token
-                    var userToken = Services.FirstOrDefault(x => x.Service == type)?.UserToken;
-                    if (userToken != null)
+                    try
                     {
-                        var newToken = await AuthorizationHelpers.GetNewAuthTokenAsync(type.ToString(), userToken.RefreshToken);
-                        userToken.AccessToken = newToken.AccessToken;
-                        userToken.ExpireTime = newToken.ExpireTime;
+                        // Get the token
+                        var userToken = Services.FirstOrDefault(x => x.Service == type)?.UserToken;
+                        if (userToken != null)
+                        {
+                            var newToken = await AuthorizationHelpers.GetNewAuthTokenAsync(type.ToString(), userToken.RefreshToken);
+                            userToken.AccessToken = newToken.AccessToken;
+                            userToken.ExpireTime = newToken.ExpireTime;
 
-                        // Reconnect the service
-                        ConnectService(type, userToken);
+                            // Reconnect the service
+                            ConnectService(type, userToken);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new SoundByteException(ex.Message, ex.StackTrace);
                     }
 
-                    // Recall the service
                     await Task.Delay(500);
                     return await GetAsync<T>(type, endpoint, optionalParams, cancellationTokenSource);
                 }

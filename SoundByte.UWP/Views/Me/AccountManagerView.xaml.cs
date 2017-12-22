@@ -165,6 +165,14 @@ namespace SoundByte.UWP.Views.Me
             RefreshUi();
 
         }
+
+        private async void ConnectSoundByteAccount(object sender, RoutedEventArgs e)
+        {
+            // Connect Account
+            await NavigationService.Current.CallDialogAsync<LoginDialog>(ServiceType.SoundByte, false, "");
+            RefreshUi();
+
+        }
         #endregion
 
         #region Disconnect Account Methods
@@ -186,15 +194,5 @@ namespace SoundByte.UWP.Views.Me
             RefreshUi();
         }
         #endregion
-
-        private async void ButtonBase_OnClick(object sender, RoutedEventArgs e)
-        {
-            var startURL = "https://soundbytemedia.com/connect/authorize?client_id=client&scope=api1&response_type=code&redirect_uri=http://localhost/soundbyte";
-
-            var webAuthenticationResult =
-                await Windows.Security.Authentication.Web.WebAuthenticationBroker.AuthenticateAsync(
-                    Windows.Security.Authentication.Web.WebAuthenticationOptions.None,
-                    new Uri(startURL));
-        }
     }
 }

@@ -20,6 +20,7 @@ namespace SoundByte.Core
         YouTube,
         // ReSharper disable once InconsistentNaming
         ITunesPodcast,
+        SoundByte,
         Unknown
     }
 }

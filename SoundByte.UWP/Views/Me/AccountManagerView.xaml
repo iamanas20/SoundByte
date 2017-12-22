@@ -176,7 +176,7 @@
 
 
                         <Button Foreground="White"
-                        Click="ButtonBase_OnClick"
+                        Click="{x:Bind ConnectSoundByteAccount}"
                         Background="{ThemeResource ButtonAccentBrush}"
                         Content="Create Account"
                         BorderThickness="1"
