@@ -206,7 +206,7 @@ namespace SoundByte.UWP
                 }
 
                 // Test Version and tell user app upgraded
-                HandleNewAppVersion();
+                await HandleNewAppVersionAsync();
 
                 // Clear the unread badge
                 BadgeUpdateManager.CreateBadgeUpdaterForApplication().Clear();
@@ -247,7 +247,7 @@ namespace SoundByte.UWP
             });
         }
 
-        private async Task HandleNewAppVersion()
+        private async Task HandleNewAppVersionAsync()
         {
             var currentAppVersionString = Package.Current.Id.Version.Major + "." + Package.Current.Id.Version.Minor +
                                           "." + Package.Current.Id.Version.Build;
