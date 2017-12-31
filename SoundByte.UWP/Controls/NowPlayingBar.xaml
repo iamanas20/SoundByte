@@ -92,7 +92,7 @@
     
     <!-- Content -->
     <Grid x:Name="RootGrid"
-          Background="Transparent"
+          Background="{ThemeResource NavigationViewExpandedPaneBackground}"
           VerticalAlignment="Stretch"
           Height="64"
           HorizontalAlignment="Stretch">
@@ -103,17 +103,7 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <!-- Background -->
-        <controls:ImageEx
-            Grid.Column="0"
-            Grid.ColumnSpan="2"
-            Opacity="1"
-            Stretch="UniformToFill"
-            Source="{x:Bind Service.CurrentTrack, Converter={StaticResource ArtworkConverter}, Mode=OneWay}" />
-
-        <Grid Grid.Column="0" Grid.ColumnSpan="2" Canvas.ZIndex="2" Background="{ThemeResource SystemControlChromeHighAcrylicElementMediumBrush }">
-        </Grid>
-
+       
 
         <audioVisualizer:CustomVisualizer  Grid.Column="0" Grid.ColumnSpan="2" Canvas.ZIndex="5" x:Name="Visualizer"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="64"  />
         
@@ -135,10 +125,10 @@
             <Grid>
                 <controls:DropShadowPanel HorizontalAlignment="Left"
                                           OffsetX="0"
-                                          OffsetY="6"
-                                          BlurRadius="25"
+                                          OffsetY="2"
+                                          BlurRadius="15"
                                           
-                                          ShadowOpacity="0.68"
+                                          ShadowOpacity="0.6"
                                           Color="Black"
                                           Margin="20,10,10,10">
                     <Grid CornerRadius="1" 

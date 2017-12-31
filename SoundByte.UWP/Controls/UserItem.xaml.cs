@@ -57,13 +57,13 @@ namespace SoundByte.UWP.Controls
         private void OnPointerExited(object sender, PointerRoutedEventArgs e)
         {
             ShadowPanel.DropShadow.StartAnimation("Offset.Y",
-                ShadowPanel.DropShadow.Compositor.CreateScalarKeyFrameAnimation(null, 6.0f, TimeSpan.FromMilliseconds(250), null));
+                ShadowPanel.DropShadow.Compositor.CreateScalarKeyFrameAnimation(null, 3.0f, TimeSpan.FromMilliseconds(250), null));
 
             ShadowPanel.DropShadow.StartAnimation("Opacity",
-                ShadowPanel.DropShadow.Compositor.CreateScalarKeyFrameAnimation(null, 0.4f, TimeSpan.FromMilliseconds(200), null));
+                ShadowPanel.DropShadow.Compositor.CreateScalarKeyFrameAnimation(null, 0.6f, TimeSpan.FromMilliseconds(200), null));
 
             ShadowPanel.DropShadow.StartAnimation("BlurRadius",
-                ShadowPanel.DropShadow.Compositor.CreateScalarKeyFrameAnimation(null, 25.0f, TimeSpan.FromMilliseconds(200), null));
+                ShadowPanel.DropShadow.Compositor.CreateScalarKeyFrameAnimation(null, 15.0f, TimeSpan.FromMilliseconds(200), null));
         }
     }
 }

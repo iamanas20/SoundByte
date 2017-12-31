@@ -18,12 +18,12 @@
         <!-- Shadow Panel -->
         <controls:DropShadowPanel x:Name="ShadowPanel"
                                   VerticalAlignment="Top"
-                                  BlurRadius="25"
-                                  ShadowOpacity="0.4"
+                                  BlurRadius="15"
+                                  ShadowOpacity="0.6"
                                   OffsetX="0"
                                   IsTabStop="False"
                                   Margin="5,5,5,12"
-                                  OffsetY="6"
+                                  OffsetY="3"
                                   Color="Black">
             <Grid>
 

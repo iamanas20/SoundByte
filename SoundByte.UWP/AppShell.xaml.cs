@@ -82,12 +82,9 @@ namespace SoundByte.UWP
             // Create a shell frame shadow for mobile and desktop
             if (DeviceHelper.IsDesktop)
             {
-                ShellFrame.CreateElementShadow(new Vector3(2, 0, 0), 30, new Color { A = 82, R = 0, G = 0, B = 0 },
+                ShellFrame.CreateElementShadow(new Vector3(4, 0, 0), 40, new Color { A = 82, R = 0, G = 0, B = 0 },
                     ShellFrameShadow);
             }                
-
-            NowPlaying.CreateElementShadow(new Vector3(0, -4, 0), 40, new Color { A = 92, R = 0, G = 0, B = 0 },
-                NowPlayingShadow);
 
             // Events for Xbox
             if (DeviceHelper.IsXbox)
@@ -515,16 +512,12 @@ namespace SoundByte.UWP
         private void HideNowPlayingBar()
         {
             NowPlaying.Visibility = Visibility.Collapsed;
-            NowPlayingShadow.Visibility = Visibility.Collapsed;
-
             NavView.Margin = new Thickness { Bottom = 0 };
         }
 
         private void ShowNowPlayingBar()
         {
             NowPlaying.Visibility = Visibility.Visible;
-            NowPlayingShadow.Visibility = Visibility.Visible;
-
             NavView.Margin = new Thickness { Bottom = 64 };
         }
 
