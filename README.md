@@ -104,7 +104,7 @@ See also the list of [contributors](https://github.com/DominicMaas/SoundByte/con
 
 ## License
 
-Copyright (c) 2016 - 2017, Grid Entertainment
+Copyright (c) 2016 - 2018, Grid Entertainment
 
 *All Rights Reserved*
 
