@@ -14,8 +14,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using SoundByte.Core.Items.Comment;
 using SoundByte.Core.Items.User;
@@ -49,7 +47,7 @@ namespace SoundByte.Core.Items.Track
             if (service == null)
                 throw new Exception("Oh shit, this should like, never be null dude. You should probably direct message me on twitter :D (@dominicjmaas)");
 
-            var audioStream = string.Empty;
+            string audioStream;
 
             switch (ServiceType)
             {
@@ -58,22 +56,22 @@ namespace SoundByte.Core.Items.Track
                     break;
                 case ServiceType.SoundCloud:
                 case ServiceType.SoundCloudV2:
+                    // SoundCloud has a fixed rate on playbacks. This system chooses a key on random and plays from it. These
+                    // keys are provided by the web service (so more can be added when needed) so chances of expiring the key should
+                    // be rare (especially when users start using YouTube and Fanburst Playback instead).
 
-                    // If we have not hit the rate limit for our current main key, use that key
-                    if (await SoundCloudApiCheck($"https://api.soundcloud.com/tracks/320126814/stream?client_id={service.ClientId}"))
-                    {
-                        audioStream = $"https://api.soundcloud.com/tracks/{Id}/stream?client_id={service.ClientId}";
-                    }
+                    // Todo: If this fails, we have a problem
 
-                    // The key is invalid, loop through the other keys
-                    foreach (var key in service.ClientIds)
-                    {
-                        if (!await SoundCloudApiCheck($"https://api.soundcloud.com/tracks/320126814/stream?client_id={key}"))
-                            continue;
+                    // Create list of keys with our default key
+                    var apiKeys = new List<string>();
+                    apiKeys.Add(service.ClientId);
 
-                        audioStream = $"https://api.soundcloud.com/tracks/{Id}/stream?client_id={key}";
-                        break;
-                    }
+                    // Add backup keys
+                    apiKeys.AddRange(service.ClientIds);
+
+                    // Get random key
+                    var randomNumber = new Random().Next(apiKeys.Count);
+                    audioStream = $"https://api.soundcloud.com/tracks/{Id}/stream?client_id={apiKeys[randomNumber]}";
                     break;
                 case ServiceType.YouTube:
                     // Get the video streams
@@ -104,33 +102,6 @@ namespace SoundByte.Core.Items.Track
             }
 
             return new Uri(audioStream);
-        }
-
-        /// <summary>
-        /// Perform checks with the soundcloud api key
-        /// </summary>
-        /// <param name="url"></param>
-        /// <returns></returns>
-        private async Task<bool> SoundCloudApiCheck(string url)
-        {
-            try
-            {
-                // Create the client
-                using (var client = new HttpClient(new HttpClientHandler { AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip }))
-                {
-                    // No Auth for this
-                    client.DefaultRequestHeaders.Authorization = null;
-
-                    using (var webRequest = await client.GetAsync(new Uri(Uri.EscapeUriString(url))))
-                    {
-                        return webRequest.IsSuccessStatusCode;
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                return false;
-            }
         }
 
         /// <summary>
