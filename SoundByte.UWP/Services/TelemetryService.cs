@@ -19,35 +19,35 @@ using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using Microsoft.HockeyApp;
+using SoundByte.Core.Services;
 
 namespace SoundByte.UWP.Services
 {
     /// <summary>
     ///     This class handles global app telemetry to all telemetry services
-    ///     connected to this app. (Application Insights, HockeyApp, Google Analytics).
+    ///     connected to this app. 
     /// </summary>
-    public class TelemetryService
+    public class TelemetryService : ITelemetryService
     {
         private bool _isInit;
         private Tracker _googleAnalyticsClient;
 
         /// <summary>
-        /// Setup the telementry service to start handling app telemetry.
+        ///     Init the Telemetry Service.
         /// </summary>
-        /// <param name="googleAnalyticsTrackerId">Google Analytics Tracker ID</param>
-        /// <param name="hockeyAppClientId">Hockeyapp Client ID</param>
-        /// <param name="mobileCenterClientId">VS Mobile Center Client ID</param>
-        /// <returns></returns>
-        public async Task InitAsync(string googleAnalyticsTrackerId, string hockeyAppClientId, string mobileCenterClientId)
-        {
+        /// <param name="gaKey">Google Analytics Tracker Id</param>
+        /// <param name="haKey">HockeyApp Client Id</param>
+        /// <param name="mcKey">VS Mobile Center Client Id</param>
+        public async Task InitAsync(string gaKey, string haKey, string mcKey)
+    {
             // Used for crash reporting
-            HockeyClient.Current.Configure(hockeyAppClientId);
+            HockeyClient.Current.Configure(haKey);
 
             // Used for general analytics
-            _googleAnalyticsClient = AnalyticsManager.Current.CreateTracker(googleAnalyticsTrackerId);
+            _googleAnalyticsClient = AnalyticsManager.Current.CreateTracker(gaKey);
 
             // Used for general analytics, push notifications and crashes
-            AppCenter.Start(mobileCenterClientId, typeof(Analytics), typeof(Crashes));
+            AppCenter.Start(mcKey, typeof(Analytics), typeof(Crashes));
 #if DEBUG
             // Disable this on debug
             AnalyticsManager.Current.IsDebug = true;
@@ -59,6 +59,10 @@ namespace SoundByte.UWP.Services
             LoggingService.Log(LoggingService.LogType.Debug, "Now Processing Telemetry");
         }
 
+        /// <summary>
+        ///     Track a page/view hit.
+        /// </summary>
+        /// <param name="pageName">Page/View name</param>
         public void TrackPage(string pageName)
         {
             // Ignore telementry before service is init
@@ -79,9 +83,10 @@ namespace SoundByte.UWP.Services
         }
 
         /// <summary>
+        ///     Track an event with paramaters.
         /// </summary>
-        /// <param name="eventName"></param>
-        /// <param name="properties"></param>
+        /// <param name="eventName">Event name</param>
+        /// <param name="properties">Paramaters for the event</param>
         public void TrackEvent(string eventName, Dictionary<string, string> properties = null)
         {
             // Ignore telementry before service is init
@@ -103,6 +108,11 @@ namespace SoundByte.UWP.Services
                 : $"{eventName}");
         }
 
+        /// <summary>
+        ///     Track an exception
+        /// </summary>
+        /// <param name="ex">Exception to track</param>
+        /// <param name="isFatal">Is the exception fatal (app crash)</param>
         public void TrackException(Exception exception, bool isFatal)
         {
             // Ignore crashes before service is init

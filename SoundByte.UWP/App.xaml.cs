@@ -43,7 +43,7 @@ namespace SoundByte.UWP
     {
         public static bool OnlineAppInitComplete { get; set; }
 
-        public static TelemetryService Telemetry { get; } = new TelemetryService();
+        public static ITelemetryService Telemetry { get; } = new TelemetryService();
 
         private bool _isInit;
 
