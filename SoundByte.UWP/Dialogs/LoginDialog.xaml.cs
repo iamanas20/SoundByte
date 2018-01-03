@@ -154,7 +154,7 @@ namespace SoundByte.UWP.Dialogs
 
                 try
                 {
-                    var loginToken = await AuthorizationHelpers.GetAuthTokenAsync(_loginService.ToString(), code);
+                    var loginToken = await AuthorizationHelpers.GetAuthTokenAsync(_loginService, code);
 
                     if (!_isRemoteConnect)
                     {

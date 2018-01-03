@@ -80,6 +80,15 @@ namespace SoundByte.Core.Services
         /// <param name="cancellationTokenSource">Allows the ability to cancel the current task.</param>
         /// <returns></returns>
         Task<T> PutAsync<T>(string url, string body, CancellationTokenSource cancellationTokenSource = null);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="body"></param>
+        /// <param name="cancellationTokenSource"></param>
+        /// <returns></returns>
+        Task<bool> PutAsync(string url, string body, CancellationTokenSource cancellationTokenSource = null);
         #endregion
 
         #region DELETE

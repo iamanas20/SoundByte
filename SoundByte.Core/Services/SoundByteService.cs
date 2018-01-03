@@ -14,17 +14,13 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 using SoundByte.Core.Exceptions;
 using SoundByte.Core.Items;
-using System.IO;
-using System.Text;
 using JetBrains.Annotations;
-using Newtonsoft.Json;
 using SoundByte.Core.Helpers;
 using SoundByte.Core.Items.User;
 using SoundByte.Core.Items.YouTube;
@@ -291,15 +287,14 @@ namespace SoundByte.Core.Services
         #endregion
 
         #region Web API
-
         /// <summary>
-        /// This method builds the request url for the specified service.
+        ///     This method builds the request url for the specified service.
         /// </summary>
         /// <param name="type">The service type to build the request url</param>
         /// <param name="endpoint">User defiend endpoint</param>
         /// <param name="optionalParams"></param>
         /// <returns>Fully build request url</returns>
-        private string BuildRequestUrl(ServiceType type, string endpoint, Dictionary<string, string> optionalParams = null)
+        private string BuildRequestUrl(ServiceType type, string endpoint, [CanBeNull] Dictionary<string, string> optionalParams)
         {
             // Start building the request URL
             string requestUri;
@@ -394,14 +389,44 @@ namespace SoundByte.Core.Services
         }
 
         /// <summary>
-        /// Fetches an object from the specified service API and returns it.
+        ///     Handles token refreshing when the access token expires
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="type"></param>
-        /// <param name="endpoint"></param>
-        /// <param name="optionalParams"></param>
-        /// <param name="cancellationTokenSource"></param>
-        /// <returns></returns>
+        /// <param name="hex">HttpRequestException exception</param>
+        /// <param name="type">The service type</param>
+        /// <returns>If we refreshed the refresh token</returns>
+        private async Task<bool> HandleAuthTokenRefreshAsync(HttpRequestException hex, ServiceType type)
+        {
+            if (!hex.Message.ToLower().Contains("401") || !IsServiceConnected(type))
+                return false;
+
+            try
+            {
+                // Get the token
+                var userToken = Services.FirstOrDefault(x => x.Service == type)?.UserToken;
+                if (userToken != null)
+                {
+                    var newToken = await AuthorizationHelpers.GetNewAuthTokenAsync(type, userToken.RefreshToken);
+
+                    userToken.AccessToken = newToken.AccessToken;
+                    userToken.ExpireTime = newToken.ExpireTime;
+
+                    // Reconnect the service
+                    ConnectService(type, userToken);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new SoundByteException("Error obtaining new access token.", ex.Message);
+            }
+
+            // Return after a slight 
+            await Task.Delay(500);
+            return true;
+        }
+
+        /// <summary>
+        ///     Fetches an object from the specified service API and returns it.
+        /// </summary>
         public async Task<T> GetAsync<T>(ServiceType type, string endpoint, Dictionary<string, string> optionalParams = null, CancellationTokenSource cancellationTokenSource = null)
         {
             if (_isLoaded == false)
@@ -425,155 +450,51 @@ namespace SoundByte.Core.Services
                     return await httpService.GetAsync<T>(requestUri, cancellationTokenSource).ConfigureAwait(false);
                 }
             }
-            catch (HttpRequestException hex) // Handle HTTP Request errors
+            catch (HttpRequestException hex) 
             {
-                // If we get a 401 error AND the service is connected, we probably
-                // need to refresh the auth token
-                if (hex.Message.ToLower().Contains("401") && IsServiceConnected(type))
-                {
-                    try
-                    {
-                        // Get the token
-                        var userToken = Services.FirstOrDefault(x => x.Service == type)?.UserToken;
-                        if (userToken != null)
-                        {
-                            var newToken =
-                                await AuthorizationHelpers.GetNewAuthTokenAsync(type.ToString(),
-                                    userToken.RefreshToken);
-                            userToken.AccessToken = newToken.AccessToken;
-                            userToken.ExpireTime = newToken.ExpireTime;
-
-                            // Reconnect the service
-                            ConnectService(type, userToken);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        throw new SoundByteException(ex.Message, ex.StackTrace);
-                    }
-
-                    await Task.Delay(500);
+                if (await HandleAuthTokenRefreshAsync(hex, type))
                     return await GetAsync<T>(type, endpoint, optionalParams, cancellationTokenSource);
-                }
 
                 throw new SoundByteException("No connection?", hex.Message + "\n" + requestUri);
             }
         }
 
         /// <summary>
-        /// This method allows the ability to perform a PUT command at a certain API method. Also
-        /// adds required OAuth token.
-        /// Returns if the PUT request has successful or not
+        ///     This method allows the ability to perform a PUT command at a certain API method. Also
+        ///     adds required OAuth token.
+        ///     Returns if the PUT request has successful or not
         /// </summary>
-        /// <param name="type">The service we are working with</param>
-        /// <param name="endpoint">Endpoint you want to access</param>
-        /// <param name="content">The string content to places at the external api</param>
-        /// <param name="cancellationTokenSource">Allows the ability to cancel this request</param>
-        /// <returns></returns>
         public async Task<bool> PutAsync(ServiceType type, string endpoint, string content = null, CancellationTokenSource cancellationTokenSource = null)
         {
             if (_isLoaded == false)
                 throw new SoundByteNotLoadedException();
 
-            // Create cancel token if not provided
-            if (cancellationTokenSource == null)
-                cancellationTokenSource = new CancellationTokenSource();
-
-            // Strip out the '/' in front of the end point (if there is one)
-            endpoint = endpoint.TrimStart('/');
-
             // Start building the request URL
-            var requestUri = BuildRequestUrl(type, endpoint);
+            var requestUri = BuildRequestUrl(type, endpoint, null);
+
+            // We have to have content (ugh)
+            if (string.IsNullOrEmpty(content))
+                content = "n/a";
 
             try
             {
-                return await Task.Run(async () =>
+                using (var httpService = new HttpService())
                 {
-                    // Create the client
-                    using (var client = new HttpClient(new HttpClientHandler
-                    {
-                        AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip
-                    }))
-                    {
-                        // Add the user agent
-                        client.DefaultRequestHeaders.UserAgent.Add(
-                            new ProductInfoHeaderValue("SoundByte.Core", "1.0.0"));
+                    // Accept JSON
+                    httpService.Client.DefaultRequestHeaders.Accept.Add(
+                        new MediaTypeWithQualityHeaderValue("application/json"));
 
-                        // Add the service only if it's connected
-                        if (IsServiceConnected(type))
-                        {
-                            // Get the token
-                            var token = Services.FirstOrDefault(x => x.Service == type)?.UserToken?.AccessToken;
+                    // Build the required auth headers
+                    BuildAuthLayer(httpService, type);
 
-                            // Add the auth request
-                            switch (type)
-                            {
-                                case ServiceType.YouTube:
-                                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-                                    break;
-                                case ServiceType.Fanburst:
-                                    requestUri += $"&access_token={token}";
-                                    break;
-                                default:
-                                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("OAuth", token);
-                                    break;
-                            }
-                        }
-
-                        // escape the url
-                        var escapedUri = new Uri(Uri.EscapeUriString(requestUri));
-
-                        if (string.IsNullOrEmpty(content))
-                            content = "n/a";
-
-                        // Full the body content if it is null
-                        var httpContent = new StringContent(content, Encoding.UTF8, "application/json");
-
-                        // Put the URL
-                        using (var webRequest = await client.PutAsync(escapedUri, httpContent, cancellationTokenSource.Token).ConfigureAwait(false))
-                        {
-                            // Return if tsuccessful
-                            return webRequest.IsSuccessStatusCode;
-                        }
-                    }
-                }).ConfigureAwait(false);
-            }
-            catch (OperationCanceledException)
-            {
-                return false;
-            }
-            catch (JsonSerializationException jsex)
-            {
-                throw new SoundByteException("Parsing error", "An error occured when parsing the results. This could be caused by an API change. Report the following message to the app developer:\n" + jsex.Message);
+                    // Perform HTTP request
+                    return await httpService.PutAsync(requestUri, content, cancellationTokenSource).ConfigureAwait(false);
+                }
             }
             catch (HttpRequestException hex)
             {
-                // If we get a 401 error AND the service is connected, we probably
-                // need to refresh the auth token
-                if (hex.Message.ToLower().Contains("401") && IsServiceConnected(type))
-                {
-                    try
-                    {
-                        // Get the token
-                        var userToken = Services.FirstOrDefault(x => x.Service == type)?.UserToken;
-                        if (userToken != null)
-                        {
-                            var newToken = await AuthorizationHelpers.GetNewAuthTokenAsync(type.ToString(), userToken.RefreshToken);
-                            userToken.AccessToken = newToken.AccessToken;
-                            userToken.ExpireTime = newToken.ExpireTime;
-
-                            // Reconnect the service
-                            ConnectService(type, userToken);
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        throw new SoundByteException("Error obtaining new access token.", e.Message);
-                    }
-
-                    // Recall the service
+                if (await HandleAuthTokenRefreshAsync(hex, type))
                     return await PutAsync(type, endpoint, content, cancellationTokenSource);
-                }
 
                 throw new SoundByteException("No connection?", hex.Message + "\n" + requestUri);
             }
@@ -586,21 +507,18 @@ namespace SoundByte.Core.Services
         /// <summary>
         ///     Contacts the specified API and posts the content.
         /// </summary>
-        /// <typeparam name="T">The object type we will serialize</typeparam>
-        /// <param name="type">The service to post to</param>
-        /// <param name="endpoint">The endpoint to post to</param>
-        /// <param name="content">The content to post</param>
-        /// <param name="optionalParams">A list of any optional params to send in the URI</param>
-        /// <param name="cancellationTokenSource">Used to cancel the request.</param>
-        /// <returns></returns>
         public async Task<T> PostAsync<T>(ServiceType type, string endpoint, string content = null,
             Dictionary<string, string> optionalParams = null, CancellationTokenSource cancellationTokenSource = null)
         {
             if (_isLoaded == false)
                 throw new SoundByteNotLoadedException();
 
-            // Start building the request URL
+            // Build the request Url
             var requestUri = BuildRequestUrl(type, endpoint, optionalParams);
+
+            // We have to have content (ugh)
+            if (string.IsNullOrEmpty(content))
+                content = "n/a";
 
             try
             {
@@ -619,32 +537,8 @@ namespace SoundByte.Core.Services
             }
             catch (HttpRequestException hex)
             {
-                // If we get a 401 error AND the service is connected, we probably
-                // need to refresh the auth token
-                if (hex.Message.ToLower().Contains("401") && IsServiceConnected(type))
-                {
-                    try
-                    {
-                        // Get the token
-                        var userToken = Services.FirstOrDefault(x => x.Service == type)?.UserToken;
-                        if (userToken != null)
-                        {
-                            var newToken = await AuthorizationHelpers.GetNewAuthTokenAsync(type.ToString(), userToken.RefreshToken);
-                            userToken.AccessToken = newToken.AccessToken;
-                            userToken.ExpireTime = newToken.ExpireTime;
-
-                            // Reconnect the service
-                            ConnectService(type, userToken);
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        throw new SoundByteException("Error obtaining new access token.", e.Message);
-                    }
-
-                    // Recall the service
+                if (await HandleAuthTokenRefreshAsync(hex, type))
                     return await PostAsync<T>(type, endpoint, content, optionalParams, cancellationTokenSource);
-                }
 
                 throw new SoundByteException("No connection?", hex.Message + "\n" + requestUri);
             }
@@ -653,111 +547,44 @@ namespace SoundByte.Core.Services
         /// <summary>
         ///    Attempts to delete an object from the specified API
         /// </summary>
-        /// <param name="type">What type of service this is</param>
-        /// <param name="endpoint">The endpoint to delete from</param>
-        /// <param name="cancellationTokenSource"></param>
-        /// <returns>If the delete was successful</returns>
         public async Task<bool> DeleteAsync(ServiceType type, string endpoint, CancellationTokenSource cancellationTokenSource = null)
         {
             if (_isLoaded == false)
                 throw new SoundByteNotLoadedException();
 
-            // Create cancel token if not provided
-            if (cancellationTokenSource == null)
-                cancellationTokenSource = new CancellationTokenSource();
-
-            // Strip out the / infront of the endpoint if it exists
-            endpoint = endpoint.TrimStart('/');
-
-            // Start building the request URL
-            var requestUri = BuildRequestUrl(type, endpoint);
+            // Build the request Url
+            var requestUri = BuildRequestUrl(type, endpoint, null);
 
             try
             {
-                return await Task.Run(async () =>
+                using (var httpService = new HttpService())
                 {
-                    // Create the client
-                    using (var client = new HttpClient(new HttpClientHandler
-                    {
-                        AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip
-                    }))
-                    {
-                        // We want json
-                        client.DefaultRequestHeaders.Accept.Add(
-                            new MediaTypeWithQualityHeaderValue("application/json"));
+                    // Accept JSON
+                    httpService.Client.DefaultRequestHeaders.Accept.Add(
+                        new MediaTypeWithQualityHeaderValue("application/json"));
 
-                        // Add the user agent
-                        client.DefaultRequestHeaders.UserAgent.Add(
-                            new ProductInfoHeaderValue("SoundByte.Core", "1.0.0"));
+                    // Build the required auth headers
+                    BuildAuthLayer(httpService, type);
 
-                        // Add the service only if it's connected
-                        if (IsServiceConnected(type))
-                        {
-                            // Get the token
-                            var token = Services.FirstOrDefault(x => x.Service == type)?.UserToken?.AccessToken;
-
-                            // Add the auth request
-                            switch (type)
-                            {
-                                case ServiceType.YouTube:
-                                    client.DefaultRequestHeaders.Authorization =
-                                        new AuthenticationHeaderValue("Bearer", token);
-                                    break;
-                                case ServiceType.Fanburst:
-                                    requestUri += $"&access_token={token}";
-                                    break;
-                                default:
-                                    client.DefaultRequestHeaders.Authorization =
-                                        new AuthenticationHeaderValue("OAuth", token);
-                                    break;
-                            }
-                        }
-
-                        // escape the url
-                        var escapedUri = new Uri(Uri.EscapeUriString(requestUri));
-
-                        // Get the URL
-                        using (var webRequest = await client.DeleteAsync(escapedUri, cancellationTokenSource.Token)
-                            .ConfigureAwait(false))
-                        {
-                            // Return if successful
-                            return webRequest.StatusCode == HttpStatusCode.OK;
-                        }
-                    }
-                }).ConfigureAwait(false);
+                    // Perform HTTP request
+                    return await httpService.DeleteAsync(requestUri, cancellationTokenSource).ConfigureAwait(false);
+                }
             }
             catch (HttpRequestException hex)
             {
-                // If we get a 401 error AND the service is connected, we probably
-                // need to refresh the auth token
-                if (hex.Message.ToLower().Contains("401") && IsServiceConnected(type))
+                try
                 {
-                    try
-                    {
-                        // Get the token
-                        var userToken = Services.FirstOrDefault(x => x.Service == type)?.UserToken;
-                        if (userToken != null)
-                        {
-                            var newToken = await AuthorizationHelpers.GetNewAuthTokenAsync(type.ToString(), userToken.RefreshToken);
-                            userToken.AccessToken = newToken.AccessToken;
-                            userToken.ExpireTime = newToken.ExpireTime;
-
-                            // Reconnect the service
-                            ConnectService(type, userToken);
-                        }
-                    }
-                    catch
-                    {
-                        return false;
-                    }
-
-                    // Recall the service
-                    return await DeleteAsync(type, endpoint, cancellationTokenSource);
+                    if (await HandleAuthTokenRefreshAsync(hex, type))
+                        return await DeleteAsync(type, endpoint, cancellationTokenSource);
+                }
+                catch
+                {
+                    return false;
                 }
 
                 return false;
             }
-            catch (Exception ex)
+            catch
             {
                 return false;
             }
@@ -766,17 +593,13 @@ namespace SoundByte.Core.Services
         /// <summary>
         ///     Checks to see if an items exists at the specified endpoint
         /// </summary>
-        /// <param name="type">The service that we want to check exists (object)</param>
-        /// <param name="endpoint">The endpoint we are checking</param>
-        /// <param name="cancellationTokenSource">used if we want to cancel the request</param>
-        /// <returns>If the object exists</returns>
         public async Task<bool> ExistsAsync(ServiceType type, string endpoint, CancellationTokenSource cancellationTokenSource = null)
         {
             if (_isLoaded == false)
                 throw new SoundByteNotLoadedException();
 
             // Build the request Url
-            var requestUri = BuildRequestUrl(type, endpoint);
+            var requestUri = BuildRequestUrl(type, endpoint, null);
 
             try
             {
@@ -795,41 +618,23 @@ namespace SoundByte.Core.Services
             }
             catch (HttpRequestException hex)
             {
-                // If we get a 401 error AND the service is connected, we probably
-                // need to refresh the auth token
-                if (hex.Message.ToLower().Contains("401") && IsServiceConnected(type))
+                try
                 {
-                    try
-                    {
-                        // Get the token
-                        var userToken = Services.FirstOrDefault(x => x.Service == type)?.UserToken;
-                        if (userToken != null)
-                        {
-                            var newToken = await AuthorizationHelpers.GetNewAuthTokenAsync(type.ToString(), userToken.RefreshToken);
-                            userToken.AccessToken = newToken.AccessToken;
-                            userToken.ExpireTime = newToken.ExpireTime;
-
-                            // Reconnect the service
-                            ConnectService(type, userToken);
-                        }
-                    }
-                    catch
-                    {
-                        return false;
-                    }
-
-                    // Recall the service
-                    return await ExistsAsync(type, endpoint, cancellationTokenSource);
+                    if (await HandleAuthTokenRefreshAsync(hex, type))
+                        return await ExistsAsync(type, endpoint, cancellationTokenSource);
+                }
+                catch
+                {
+                    return false;
                 }
 
                 return false;
             }
-            catch (Exception)
+            catch
             {
                 return false;
             }
         }
     }
-
     #endregion
 }

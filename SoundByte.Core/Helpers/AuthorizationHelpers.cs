@@ -33,14 +33,14 @@ namespace SoundByte.Core.Helpers
         /// <param name="service">The service that this code belongs to.</param>
         /// <param name="authCode">The code you got from the login call</param>
         /// <returns></returns>
-        public static async Task<LoginToken> GetAuthTokenAsync(string service, string authCode)
+        public static async Task<LoginToken> GetAuthTokenAsync(ServiceType service, string authCode)
         {
             try
             {
                 var result = await HttpService.Instance.PostAsync<SoundByteAuthHolder>("https://soundbytemedia.com/api/v1/app/auth",
                     new Dictionary<string, string>
                     {
-                        { "service", service.ToLower() },
+                        { "service", service.ToString().ToLower() },
                         { "code", authCode }
                     });
 
@@ -61,14 +61,14 @@ namespace SoundByte.Core.Helpers
             }
         }
 
-        public static async Task<LoginToken> GetNewAuthTokenAsync(string service, string refreshToken)
+        public static async Task<LoginToken> GetNewAuthTokenAsync(ServiceType service, string refreshToken)
         {
             try
             {
                 var result = await HttpService.Instance.PostAsync<SoundByteAuthHolder>("https://soundbytemedia.com/api/v1/app/refresh-auth",
                     new Dictionary<string, string>
                     {
-                        { "service", service.ToLower() },
+                        { "service", service.ToString().ToLower() },
                         { "refreshtoken", refreshToken }
                     });
 

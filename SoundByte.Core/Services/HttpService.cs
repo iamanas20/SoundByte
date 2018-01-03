@@ -144,7 +144,6 @@ namespace SoundByte.Core.Services
                 throw new SoundByteException(Resources.Resources.HttpService_JsonError_Title,
                     Resources.Resources.HttpService_JsonError_Description + $"\n{jsex.Message}");
             }
-
         }
         #endregion
 
@@ -294,6 +293,40 @@ namespace SoundByte.Core.Services
         {
             throw new NotImplementedException();
         }
+
+        public async Task<bool> PutAsync(string url, string body, CancellationTokenSource cancellationTokenSource = null)
+        {
+            // Create cancel token if not provided
+            if (cancellationTokenSource == null)
+                cancellationTokenSource = new CancellationTokenSource();
+
+            // Encode this content so we can send it.
+            var encodedContent = new StringContent(body, Encoding.UTF8, "application/json");
+
+            // Escape the url
+            var escapedUri = new Uri(Uri.EscapeUriString(url));
+
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    // Post this request to the url
+                    using (var putQuery = await _client.PutAsync(escapedUri, encodedContent, cancellationTokenSource.Token).ConfigureAwait(false))
+                    {
+                        return putQuery.IsSuccessStatusCode;
+                    }
+                }).ConfigureAwait(false);
+            }
+            catch (OperationCanceledException)
+            {
+                return false;
+            }
+            catch (JsonSerializationException jsex)
+            {
+                throw new SoundByteException(Resources.Resources.HttpService_JsonError_Title,
+                    Resources.Resources.HttpService_JsonError_Description + $"\n{jsex.Message}");
+            }
+        }
         #endregion
 
         #region DELETE
@@ -304,10 +337,37 @@ namespace SoundByte.Core.Services
         /// <param name="url">The url resource to delete</param>
         /// <param name="cancellationTokenSource">Allows the ability to cancel the current task.</param>
         /// <returns>True if the resource was deleted, false if not.</returns>
-        public Task<bool> DeleteAsync(string url, CancellationTokenSource cancellationTokenSource = null)
+        public async Task<bool> DeleteAsync(string url, CancellationTokenSource cancellationTokenSource = null)
         {
-            throw new NotImplementedException();
-        }
+            // Create cancel token if not provided
+            if (cancellationTokenSource == null)
+                cancellationTokenSource = new CancellationTokenSource();
+
+            // Escape the url
+            var escapedUri = new Uri(Uri.EscapeUriString(url));
+
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    // Get the URL
+                    using (var webRequest = await _client.DeleteAsync(escapedUri, cancellationTokenSource.Token).ConfigureAwait(false))
+                    {
+                        return webRequest.StatusCode == HttpStatusCode.OK;
+                    }
+
+                }).ConfigureAwait(false);
+            }
+            catch (OperationCanceledException)
+            {
+                return false;
+            }
+            catch (JsonSerializationException jsex)
+            {
+                throw new SoundByteException(Resources.Resources.HttpService_JsonError_Title,
+                    Resources.Resources.HttpService_JsonError_Description + $"\n{jsex.Message}");
+            }
+        }    
         #endregion
 
         #region EXISTS
@@ -346,9 +406,10 @@ namespace SoundByte.Core.Services
             {
                 return false;
             }
-            catch (JsonSerializationException)
+            catch (JsonSerializationException jsex)
             {
-                return false;
+                throw new SoundByteException(Resources.Resources.HttpService_JsonError_Title,
+                    Resources.Resources.HttpService_JsonError_Description + $"\n{jsex.Message}");
             }
         }
         #endregion
