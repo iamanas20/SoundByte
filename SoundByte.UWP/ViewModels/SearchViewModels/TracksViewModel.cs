@@ -1,5 +1,5 @@
 ﻿/* |----------------------------------------------------------------|
- * | Copyright (c) 2017, Grid Entertainment                         |
+ * | Copyright (c) 2017 - 2018 Grid Entertainment                   |
  * | All Rights Reserved                                            |
  * |                                                                |
  * | This source code is to only be used for educational            |
@@ -15,8 +15,8 @@ using Windows.UI.Popups;
 using Windows.UI.Xaml.Controls;
 using SoundByte.Core;
 using SoundByte.Core.Items.Track;
-using SoundByte.Core.Sources.Fanburst;
-using SoundByte.Core.Sources.SoundCloud;
+using SoundByte.Core.Sources.Fanburst.Search;
+using SoundByte.Core.Sources.SoundCloud.Search;
 using SoundByte.Core.Sources.YouTube;
 using SoundByte.UWP.Helpers;
 using SoundByte.UWP.Services;
@@ -34,20 +34,20 @@ namespace SoundByte.UWP.ViewModels.SearchViewModels
         /// <summary>
         /// Search for SoundCloud tracks
         /// </summary>
-        public SoundByteCollection<SearchSoundCloudTrackSource, BaseTrack> SoundCloudTracks { get; } =
-            new SoundByteCollection<SearchSoundCloudTrackSource, BaseTrack>();
+        public SoundByteCollection<SoundCloudSearchTrackSource, BaseTrack> SoundCloudTracks { get; } =
+            new SoundByteCollection<SoundCloudSearchTrackSource, BaseTrack>();
 
         /// <summary>
         /// Search for Fanburst tracks
         /// </summary>
-        public SoundByteCollection<SearchFanburstTrackSource, BaseTrack> FanburstTracks { get; } =
-            new SoundByteCollection<SearchFanburstTrackSource, BaseTrack>();
+        public SoundByteCollection<FanburstSearchTrackSource, BaseTrack> FanburstTracks { get; } =
+            new SoundByteCollection<FanburstSearchTrackSource, BaseTrack>();
 
         /// <summary>
         /// Search for YouTube videos/tracks
         /// </summary>
-        public SoundByteCollection<SearchYouTubeTrackSource, BaseTrack> YouTubeTracks { get; } =
-            new SoundByteCollection<SearchYouTubeTrackSource, BaseTrack>();
+        public SoundByteCollection<YouTubeSearchTrackSource, BaseTrack> YouTubeTracks { get; } =
+            new SoundByteCollection<YouTubeSearchTrackSource, BaseTrack>();
         #endregion
 
         #region Private Variables

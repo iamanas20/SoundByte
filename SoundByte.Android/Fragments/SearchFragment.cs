@@ -1,5 +1,5 @@
 ﻿/* |----------------------------------------------------------------|
- * | Copyright (c) 2017, Grid Entertainment                         |
+ * | Copyright (c) 2017 - 2018 Grid Entertainment                   |
  * | All Rights Reserved                                            |
  * |                                                                |
  * | This source code is to only be used for educational            |
@@ -21,6 +21,7 @@ using SoundByte.Android.Adapters;
 using SoundByte.Core.Items.Track;
 using SoundByte.Android.Services;
 using SoundByte.Core.Sources.SoundCloud;
+using SoundByte.Core.Sources.SoundCloud.Search;
 
 namespace SoundByte.Android.Fragments
 {
@@ -59,7 +60,7 @@ namespace SoundByte.Android.Fragments
             {
                 _searchTracks.Clear();
 
-                var searchResults = await new SearchSoundCloudTrackSource
+                var searchResults = await new SoundCloudSearchTrackSource
                 {
                     SearchQuery = "monstercat"
                 }.GetItemsAsync(50, null); 

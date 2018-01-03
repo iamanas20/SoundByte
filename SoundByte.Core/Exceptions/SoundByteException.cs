@@ -1,5 +1,5 @@
 ﻿/* |----------------------------------------------------------------|
- * | Copyright (c) 2017, Grid Entertainment                         |
+ * | Copyright (c) 2017 - 2018 Grid Entertainment                   |
  * | All Rights Reserved                                            |
  * |                                                                |
  * | This source code is to only be used for educational            |
@@ -15,8 +15,8 @@ using System;
 namespace SoundByte.Core.Exceptions
 {
     /// <summary>
-    ///     Used for exception handling within the app. Supports an error title,
-    ///     message and custom image.
+    ///     Used for exception handling within the app. Supports an 
+    ///     error title and message.
     /// </summary>
     public class SoundByteException : Exception
     {

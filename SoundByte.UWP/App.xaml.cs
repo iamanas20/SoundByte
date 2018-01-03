@@ -1,5 +1,5 @@
 ﻿/* |----------------------------------------------------------------|
- * | Copyright (c) 2017, Grid Entertainment                         |
+ * | Copyright (c) 2017 - 2018 Grid Entertainment                   |
  * | All Rights Reserved                                            |
  * |                                                                |
  * | This source code is to only be used for educational            |
@@ -101,7 +101,7 @@ namespace SoundByte.UWP
             MemoryManager.AppMemoryUsageIncreased += MemoryManager_AppMemoryUsageIncreased;
 
             // Run this code when a service is connected to SoundByte
-            SoundByteV3Service.Current.OnServiceConnected += (type, token) =>
+            SoundByteService.Current.OnServiceConnected += (type, token) =>
             {
                 var vault = new PasswordVault();
 
@@ -142,16 +142,16 @@ namespace SoundByte.UWP
                     });
 
                 // Update the UI depending if we are logged in or not
-                if (SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud) ||
-                    SoundByteV3Service.Current.IsServiceConnected(ServiceType.YouTube) ||
-                    SoundByteV3Service.Current.IsServiceConnected(ServiceType.Fanburst))
+                if (SoundByteService.Current.IsServiceConnected(ServiceType.SoundCloud) ||
+                    SoundByteService.Current.IsServiceConnected(ServiceType.YouTube) ||
+                    SoundByteService.Current.IsServiceConnected(ServiceType.Fanburst))
                     Shell.ShowLoginContent();
                 else
                     Shell.ShowLogoutContent();
             };
 
             // Run this code when a service is disconencted from SoundByte
-            SoundByteV3Service.Current.OnServiceDisconnected += type =>
+            SoundByteService.Current.OnServiceDisconnected += type =>
             {
                 // Get the password vault
                 var vault = new PasswordVault();
@@ -185,9 +185,9 @@ namespace SoundByte.UWP
                 NavigateTo(typeof(ExploreView));
 
                 // Update the UI depending if we are logged in or not
-                if (SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud) ||
-                    SoundByteV3Service.Current.IsServiceConnected(ServiceType.YouTube) ||
-                    SoundByteV3Service.Current.IsServiceConnected(ServiceType.Fanburst))
+                if (SoundByteService.Current.IsServiceConnected(ServiceType.SoundCloud) ||
+                    SoundByteService.Current.IsServiceConnected(ServiceType.YouTube) ||
+                    SoundByteService.Current.IsServiceConnected(ServiceType.Fanburst))
                     Shell.ShowLoginContent();
                 else
                     Shell.ShowLogoutContent();
@@ -278,7 +278,7 @@ namespace SoundByte.UWP
                 }
             };
 
-            SoundByteV3Service.Current.Init(secretList);
+            SoundByteService.Current.Init(secretList);
             LoggingService.Log(LoggingService.LogType.Debug, "SoundByte V3 Service Started");
         }
 

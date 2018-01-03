@@ -1,5 +1,5 @@
 ﻿/* |----------------------------------------------------------------|
- * | Copyright (c) 2017, Grid Entertainment                         |
+ * | Copyright (c) 2017 - 2018 Grid Entertainment                   |
  * | All Rights Reserved                                            |
  * |                                                                |
  * | This source code is to only be used for educational            |
@@ -42,7 +42,7 @@ namespace SoundByte.Core.Items.Track
         public async Task<Uri> GetAudioStreamAsync(YoutubeClient youTubeClient)
         {
             // Get the appropriate client Ids
-            var service = SoundByteV3Service.Current.Services.FirstOrDefault(x => x.Service == ServiceType);
+            var service = SoundByteService.Current.Services.FirstOrDefault(x => x.Service == ServiceType);
 
             if (service == null)
                 throw new Exception("Oh shit, this should like, never be null dude. You should probably direct message me on twitter :D (@dominicjmaas)");
@@ -60,7 +60,7 @@ namespace SoundByte.Core.Items.Track
                     // keys are provided by the web service (so more can be added when needed) so chances of expiring the key should
                     // be rare (especially when users start using YouTube and Fanburst Playback instead).
 
-                    // Todo: If this fails, we have a problem
+                    // TODO: THIS CAN FAIL (due to 17.10.x using old system). If this fails, the song wont play. Minor issue. 
 
                     // Create list of keys with our default key
                     var apiKeys = new List<string>();

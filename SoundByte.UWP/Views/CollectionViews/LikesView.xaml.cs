@@ -1,5 +1,5 @@
 ﻿/* |----------------------------------------------------------------|
- * | Copyright (c) 2017, Grid Entertainment                         |
+ * | Copyright (c) 2017 - 2018 Grid Entertainment                   |
  * | All Rights Reserved                                            |
  * |                                                                |
  * | This source code is to only be used for educational            |
@@ -28,14 +28,14 @@ namespace SoundByte.UWP.Views.CollectionViews
 {
     public sealed partial class LikesView
     {
-        public SoundByteCollection<LikeSoundCloudSource, BaseTrack> SoundCloudLikes { get; } =
-            new SoundByteCollection<LikeSoundCloudSource, BaseTrack>();
+        public SoundByteCollection<SoundCloudLikeSource, BaseTrack> SoundCloudLikes { get; } =
+            new SoundByteCollection<SoundCloudLikeSource, BaseTrack>();
 
         public LikesView()
         {
             InitializeComponent();
 
-            SoundCloudLikes.Source.User = SoundByteV3Service.Current.GetConnectedUser(ServiceType.SoundCloud);
+            SoundCloudLikes.Source.User = SoundByteService.Current.GetConnectedUser(ServiceType.SoundCloud);
         }
 
         public async void PlaySoundCloudLikes(object sender, ItemClickEventArgs e)

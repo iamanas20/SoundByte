@@ -1,5 +1,5 @@
 ﻿/* |----------------------------------------------------------------|
- * | Copyright (c) 2017, Grid Entertainment                         |
+ * | Copyright (c) 2017 - 2018 Grid Entertainment                   |
  * | All Rights Reserved                                            |
  * |                                                                |
  * | This source code is to only be used for educational            |
@@ -22,6 +22,7 @@ using SoundByte.Core.Items.Track;
 using SoundByte.Core.Items.User;
 using SoundByte.Core.Services;
 using SoundByte.Core.Sources.SoundCloud;
+using SoundByte.Core.Sources.SoundCloud.User;
 using SoundByte.UWP.Converters;
 using SoundByte.UWP.Helpers;
 using SoundByte.UWP.Services;
@@ -181,8 +182,8 @@ namespace SoundByte.UWP.ViewModels
                 PinButtonText = resources.GetString("AppBarUI_Pin_Raw");
             }
 
-            if (SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud) &&
-                User.Id == SoundByteV3Service.Current.GetConnectedUser(ServiceType.SoundCloud)?.Id)
+            if (SoundByteService.Current.IsServiceConnected(ServiceType.SoundCloud) &&
+                User.Id == SoundByteService.Current.GetConnectedUser(ServiceType.SoundCloud)?.Id)
             {
                 ShowFollowButton = false;
             }
@@ -191,7 +192,7 @@ namespace SoundByte.UWP.ViewModels
                 ShowFollowButton = true;
 
                 // Check if we are following the user
-                if (await SoundByteV3Service.Current.ExistsAsync(ServiceType.SoundCloud, "/me/followings/" + User.Id))
+                if (await SoundByteService.Current.ExistsAsync(ServiceType.SoundCloud, "/me/followings/" + User.Id))
                 {
                     FollowUserIcon = "\uE1E0";
                     FollowUserText = "Unfollow User";
@@ -203,8 +204,8 @@ namespace SoundByte.UWP.ViewModels
                 }
             }
 
-            if (SoundByteV3Service.Current.IsServiceConnected(ServiceType.Fanburst) &&
-                User.Id == SoundByteV3Service.Current.GetConnectedUser(ServiceType.Fanburst)?.Id)
+            if (SoundByteService.Current.IsServiceConnected(ServiceType.Fanburst) &&
+                User.Id == SoundByteService.Current.GetConnectedUser(ServiceType.Fanburst)?.Id)
             {
                 ShowFollowButton = false;
             }
@@ -213,7 +214,7 @@ namespace SoundByte.UWP.ViewModels
                 ShowFollowButton = true;
 
                 // Check if we are following the user
-                if (await SoundByteV3Service.Current.ExistsAsync(ServiceType.Fanburst, "/me/following/" + User.Id))
+                if (await SoundByteService.Current.ExistsAsync(ServiceType.Fanburst, "/me/following/" + User.Id))
                 {
                     FollowUserIcon = "\uE1E0";
                     FollowUserText = "Unfollow User";
@@ -235,10 +236,10 @@ namespace SoundByte.UWP.ViewModels
             await App.SetLoadingAsync(true);
 
             // Check if we are following the user
-            if (await SoundByteV3Service.Current.ExistsAsync(ServiceType.SoundCloud, "/me/followings/" + User.Id))
+            if (await SoundByteService.Current.ExistsAsync(ServiceType.SoundCloud, "/me/followings/" + User.Id))
             {
                 // Unfollow the user
-                if (await SoundByteV3Service.Current.DeleteAsync(ServiceType.SoundCloud, "/me/followings/" + User.Id))
+                if (await SoundByteService.Current.DeleteAsync(ServiceType.SoundCloud, "/me/followings/" + User.Id))
                 {
                     App.Telemetry.TrackEvent("Unfollow User");
                     FollowUserIcon = "\uE8FA";
@@ -253,7 +254,7 @@ namespace SoundByte.UWP.ViewModels
             else
             {
                 // Follow the user
-                if (await SoundByteV3Service.Current.PutAsync(ServiceType.SoundCloud, $"/me/followings/{User.Id}"))
+                if (await SoundByteService.Current.PutAsync(ServiceType.SoundCloud, $"/me/followings/{User.Id}"))
                 {
                     App.Telemetry.TrackEvent("Follow User");
                     FollowUserIcon = "\uE1E0";
@@ -350,24 +351,24 @@ namespace SoundByte.UWP.ViewModels
         #region Models
 
         // Items that the user has liked
-        public SoundByteCollection<LikeSoundCloudSource, BaseTrack> LikeItems { get; } =
-            new SoundByteCollection<LikeSoundCloudSource, BaseTrack>();
+        public SoundByteCollection<SoundCloudLikeSource, BaseTrack> LikeItems { get; } =
+            new SoundByteCollection<SoundCloudLikeSource, BaseTrack>();
 
         // Playlists that the user has liked / uploaded
-        public SoundByteCollection<UserSoundCloudPlaylistSource, BasePlaylist> PlaylistItems { get; } =
-            new SoundByteCollection<UserSoundCloudPlaylistSource, BasePlaylist>();
+        public SoundByteCollection<SoundCloudUserPlaylistSource, BasePlaylist> PlaylistItems { get; } =
+            new SoundByteCollection<SoundCloudUserPlaylistSource, BasePlaylist>();
 
         // List of user followers
-        public SoundByteCollection<UserSoundCloudFollowingsSource, BaseUser> FollowersList { get; } =
-            new SoundByteCollection<UserSoundCloudFollowingsSource, BaseUser>();
+        public SoundByteCollection<SoundCloudUserFollowersSource, BaseUser> FollowersList { get; } =
+            new SoundByteCollection<SoundCloudUserFollowersSource, BaseUser>();
 
         // List of user followings
-        public SoundByteCollection<UserSoundCloudFollowingsSource, BaseUser> FollowingsList { get; } =
-            new SoundByteCollection<UserSoundCloudFollowingsSource, BaseUser>();
+        public SoundByteCollection<SoundCloudUserFollowersSource, BaseUser> FollowingsList { get; } =
+            new SoundByteCollection<SoundCloudUserFollowersSource, BaseUser>();
 
         // List of users tracks
-        public SoundByteCollection<TrackSoundCloudSource, BaseTrack> TracksList { get; } =
-            new SoundByteCollection<TrackSoundCloudSource, BaseTrack>();
+        public SoundByteCollection<SoundCloudUserTrackSource, BaseTrack> TracksList { get; } =
+            new SoundByteCollection<SoundCloudUserTrackSource, BaseTrack>();
         #endregion
     }
 }

@@ -1,5 +1,5 @@
 ﻿/* |----------------------------------------------------------------|
- * | Copyright (c) 2017, Grid Entertainment                         |
+ * | Copyright (c) 2017 - 2018 Grid Entertainment                   |
  * | All Rights Reserved                                            |
  * |                                                                |
  * | This source code is to only be used for educational            |
@@ -17,8 +17,6 @@ using Windows.UI.Notifications;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Microsoft.EntityFrameworkCore;
-using SoundByte.UWP.DatabaseContexts;
 using SoundByte.UWP.Helpers;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.Views.Application;
@@ -51,12 +49,6 @@ namespace SoundByte.UWP.ViewModels
             await rootCacheFolder.DeleteAsync();
             // Remove all toast notifications
             ToastNotificationManager.History.Clear();
-
-            using (var db = new HistoryContext())
-            {
-                db.Database.EnsureDeleted();
-                db.Database.Migrate();
-            }
         }
 
         public void NavigateDebugOptions()

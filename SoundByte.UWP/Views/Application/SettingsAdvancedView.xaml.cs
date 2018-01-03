@@ -1,5 +1,5 @@
 ﻿/* |----------------------------------------------------------------|
- * | Copyright (c) 2017, Grid Entertainment                         |
+ * | Copyright (c) 2017 - 2018 Grid Entertainment                   |
  * | All Rights Reserved                                            |
  * |                                                                |
  * | This source code is to only be used for educational            |
@@ -16,6 +16,7 @@ using Windows.UI.Xaml;
 using SoundByte.UWP.Services;
 using WinRTXamlToolkit.Tools;
 using System.Linq;
+using SoundByte.Core.Items.Podcast;
 using WelcomeView = SoundByte.UWP.Views.ImportViews.WelcomeView;
 
 namespace SoundByte.UWP.Views.Application
@@ -48,7 +49,7 @@ namespace SoundByte.UWP.Views.Application
 
         private async void GetItunes(object sender, RoutedEventArgs e)
         {
-            var items = await Core.Items.PodcastShow.SearchAsync("WAN Show");
+            var items = await PodcastShow.SearchAsync("WAN Show");
             var wanShow = items.FirstOrDefault();
 
             var wanShowItems = await wanShow.GetEpisodesAsync();

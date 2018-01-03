@@ -1,5 +1,5 @@
 ﻿/* |----------------------------------------------------------------|
- * | Copyright (c) 2017, Grid Entertainment                         |
+ * | Copyright (c) 2017 - 2018 Grid Entertainment                   |
  * | All Rights Reserved                                            |
  * |                                                                |
  * | This source code is to only be used for educational            |
@@ -38,11 +38,11 @@ namespace SoundByte.UWP.Views
         public SoundByteCollection<ExploreYouTubeTrendingSource, BaseTrack> YouTubeTracks { get; } =
             new SoundByteCollection<ExploreYouTubeTrendingSource, BaseTrack>();
 
-        public SoundByteCollection<ExploreFanburstPopularSource, BaseTrack> FanburstTracks { get; } =
-            new SoundByteCollection<ExploreFanburstPopularSource, BaseTrack>();
+        public SoundByteCollection<FanburstPopularTracksSource, BaseTrack> FanburstTracks { get; } =
+            new SoundByteCollection<FanburstPopularTracksSource, BaseTrack>();
 
-        public SoundByteCollection<ExploreSoundCloudSource, BaseTrack> SoundCloudTracks { get; } =
-            new SoundByteCollection<ExploreSoundCloudSource, BaseTrack>();
+        public SoundByteCollection<SoundCloudExploreSource, BaseTrack> SoundCloudTracks { get; } =
+            new SoundByteCollection<SoundCloudExploreSource, BaseTrack>();
 
         #endregion
 

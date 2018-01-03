@@ -1,5 +1,5 @@
 ﻿/* |----------------------------------------------------------------|
- * | Copyright (c) 2017, Grid Entertainment                         |
+ * | Copyright (c) 2017 - 2018 Grid Entertainment                   |
  * | All Rights Reserved                                            |
  * |                                                                |
  * | This source code is to only be used for educational            |
@@ -32,6 +32,7 @@ using NotificationsExtensions;
 using NotificationsExtensions.Toasts;
 using SoundByte.Core;
 using SoundByte.Core.Helpers;
+using SoundByte.Core.Items.Generic;
 using SoundByte.Core.Items.Playlist;
 using SoundByte.Core.Items.Track;
 using SoundByte.Core.Items.User;
@@ -223,7 +224,7 @@ namespace SoundByte.UWP
                 await MonitizeService.Instance.InitProductInfoAsync();
 
                 // Load logged in user objects
-                await SoundByteV3Service.Current.InitUsersAsync();
+                await SoundByteService.Current.InitUsersAsync();
 
                 // Register notifications
                 //   var engagementManager = StoreServicesEngagementManager.GetDefault();
@@ -321,14 +322,14 @@ namespace SoundByte.UWP
                 {
                     if (path == "playUserLikes" || path == "shufflePlayUserLikes")
                     {
-                        if (SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud))
+                        if (SoundByteService.Current.IsServiceConnected(ServiceType.SoundCloud))
                         {
                             // Navigate to the now playing screen
                             RootFrame.Navigate(typeof(NowPlayingView));
 
                             // Get and load the user liked items
-                            var userLikes = new SoundByteCollection<LikeSoundCloudSource, BaseTrack>();
-                            userLikes.Source.User = SoundByteV3Service.Current.GetConnectedUser(ServiceType.SoundCloud);
+                            var userLikes = new SoundByteCollection<SoundCloudLikeSource, BaseTrack>();
+                            userLikes.Source.User = SoundByteService.Current.GetConnectedUser(ServiceType.SoundCloud);
 
                             // Loop through loading all the likes
                             while (userLikes.HasMoreItems)
@@ -343,13 +344,13 @@ namespace SoundByte.UWP
 
                     if (path == "playUserStream")
                     {
-                        if (SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud))
+                        if (SoundByteService.Current.IsServiceConnected(ServiceType.SoundCloud))
                         {
                             // Navigate to the now playing screen
                             RootFrame.Navigate(typeof(NowPlayingView));
 
                             // Get and load the user liked items
-                            var userStream = new SoundByteCollection<StreamSoundCloudSource, GroupedItem>();
+                            var userStream = new SoundByteCollection<SoundCloudStreamSource, GroupedItem>();
 
                             // Counter so we don't get an insane amount of items
                             var i = 0;
@@ -386,12 +387,12 @@ namespace SoundByte.UWP
                                 switch (parser["service"])
                                 {
                                     case "soundcloud":
-                                        track = (await SoundByteV3Service.Current.GetAsync<SoundCloudTrack>(ServiceType.SoundCloud, $"/tracks/{parser["id"]}")).ToBaseTrack();
+                                        track = (await SoundByteService.Current.GetAsync<SoundCloudTrack>(ServiceType.SoundCloud, $"/tracks/{parser["id"]}")).ToBaseTrack();
                                         break;
                                     case "youtube":
                                         break;
                                     case "fanburst":
-                                        track = (await SoundByteV3Service.Current.GetAsync<FanburstTrack>(ServiceType.Fanburst, $"/videos/{parser["id"]}")).ToBaseTrack();
+                                        track = (await SoundByteService.Current.GetAsync<FanburstTrack>(ServiceType.Fanburst, $"/videos/{parser["id"]}")).ToBaseTrack();
                                         break;
                                 }
 
@@ -406,11 +407,11 @@ namespace SoundByte.UWP
                                 break;
                             case "playlist":
                                 var playlist =
-                                    await SoundByteV3Service.Current.GetAsync<SoundCloudPlaylist>(ServiceType.SoundCloud, $"/playlists/{parser["id"]}");
+                                    await SoundByteService.Current.GetAsync<SoundCloudPlaylist>(ServiceType.SoundCloud, $"/playlists/{parser["id"]}");
                                 App.NavigateTo(typeof(PlaylistView), playlist.ToBasePlaylist());
                                 return;
                             case "user":
-                                var user = await SoundByteV3Service.Current.GetAsync<SoundCloudUser>(ServiceType.SoundCloud, $"/users/{parser["id"]}");
+                                var user = await SoundByteService.Current.GetAsync<SoundCloudUser>(ServiceType.SoundCloud, $"/users/{parser["id"]}");
                                 App.NavigateTo(typeof(UserView), user.ToBaseUser());
                                 return;
                             case "changelog":
@@ -474,9 +475,9 @@ namespace SoundByte.UWP
                 : AppViewBackButtonVisibility.Collapsed;
 
             // Update the UI depending if we are logged in or not
-            if (SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud) || 
-                SoundByteV3Service.Current.IsServiceConnected(ServiceType.YouTube) ||
-                SoundByteV3Service.Current.IsServiceConnected(ServiceType.Fanburst))
+            if (SoundByteService.Current.IsServiceConnected(ServiceType.SoundCloud) || 
+                SoundByteService.Current.IsServiceConnected(ServiceType.YouTube) ||
+                SoundByteService.Current.IsServiceConnected(ServiceType.Fanburst))
                 ShowLoginContent();
             else
                 ShowLogoutContent();
@@ -527,14 +528,14 @@ namespace SoundByte.UWP
         {
             NavigationItemCollection.Visibility = Visibility.Visible;
             // Only show this tab if the users soundcloud account is connected
-            NavigationItemSoundCloudStream.Visibility = SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud) ? Visibility.Visible : Visibility.Collapsed;
+            NavigationItemSoundCloudStream.Visibility = SoundByteService.Current.IsServiceConnected(ServiceType.SoundCloud) ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public void ShowLogoutContent()
         {
             NavigationItemCollection.Visibility = Visibility.Collapsed;
             // Only show this tab if the users soundcloud account is connected
-            NavigationItemSoundCloudStream.Visibility = SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud) ? Visibility.Visible : Visibility.Collapsed;
+            NavigationItemSoundCloudStream.Visibility = SoundByteService.Current.IsServiceConnected(ServiceType.SoundCloud) ? Visibility.Visible : Visibility.Collapsed;
         }
 
 

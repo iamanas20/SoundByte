@@ -1,5 +1,5 @@
 ﻿/* |----------------------------------------------------------------|
- * | Copyright (c) 2017, Grid Entertainment                         |
+ * | Copyright (c) 2017 - 2018 Grid Entertainment                   |
  * | All Rights Reserved                                            |
  * |                                                                |
  * | This source code is to only be used for educational            |
@@ -21,7 +21,7 @@ namespace SoundByte.Core.Helpers
 #pragma warning disable CS1584 // XML comment has syntactically incorrect cref attribute
 #pragma warning disable CS1658 // Warning is overriding an error
     /// <summary>
-    /// Provides an enumerable way to look at query string parameters from a Uri
+    ///     Provides an enumerable way to look at query string parameters from a Uri
     /// </summary>
     /// <seealso cref="System.Collections.ObjectModel.Collection{System.Collections.Generic.KeyValuePair{string, string}}" />
     public class QueryParameterCollection : Collection<KeyValuePair<string, string>>
@@ -49,7 +49,7 @@ namespace SoundByte.Core.Helpers
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="QueryParameterCollection"/> class.
+        ///     Initializes a new instance of the <see cref="QueryParameterCollection"/> class.
         /// </summary>
         /// <param name="uri">The URI.</param>
         public QueryParameterCollection(Uri uri)
@@ -58,7 +58,7 @@ namespace SoundByte.Core.Helpers
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="QueryParameterCollection"/> class.
+        ///     Initializes a new instance of the <see cref="QueryParameterCollection"/> class.
         /// </summary>
         /// <param name="uri">The URI.</param>
         public QueryParameterCollection(string uri)

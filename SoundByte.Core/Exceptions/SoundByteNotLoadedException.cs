@@ -1,5 +1,5 @@
 ﻿/* |----------------------------------------------------------------|
- * | Copyright (c) 2017, Grid Entertainment                         |
+ * | Copyright (c) 2017 - 2018 Grid Entertainment                   |
  * | All Rights Reserved                                            |
  * |                                                                |
  * | This source code is to only be used for educational            |
@@ -10,16 +10,18 @@
  * |----------------------------------------------------------------|
  */
 
-
 using System;
 
 namespace SoundByte.Core.Exceptions
 {
+    /// <summary>
+    ///     Generic exception called when trying to access resources before the SoundByte
+    ///     Service has loaded.
+    /// </summary>
     [Serializable]
     public class SoundByteNotLoadedException : Exception
     {
-        public SoundByteNotLoadedException() : base("The SoundByte service has not been loaded. Cannot continue.")
-        {
-        }
+        public SoundByteNotLoadedException() : base("The SoundByte Service has not been loaded. Cannot continue.")
+        { }
     }
 }

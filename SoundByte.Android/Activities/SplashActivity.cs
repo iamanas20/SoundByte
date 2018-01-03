@@ -1,5 +1,5 @@
 ﻿/* |----------------------------------------------------------------|
- * | Copyright (c) 2017, Grid Entertainment                         |
+ * | Copyright (c) 2017 - 2018 Grid Entertainment                   |
  * | All Rights Reserved                                            |
  * |                                                                |
  * | This source code is to only be used for educational            |
@@ -67,7 +67,7 @@ namespace SoundByte.Android.Activities
             };
 
             // Init the V3 service
-            SoundByteV3Service.Current.Init(secretList);
+            SoundByteService.Current.Init(secretList);
 
             MobileCenter.Start(AppKeys.AzureMobileCenterClientId,
                 typeof(Analytics), typeof(Crashes), typeof(Distribute));

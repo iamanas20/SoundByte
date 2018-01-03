@@ -1,5 +1,5 @@
 ﻿/* |----------------------------------------------------------------|
- * | Copyright (c) 2017, Grid Entertainment                         |
+ * | Copyright (c) 2017 - 2018 Grid Entertainment                   |
  * | All Rights Reserved                                            |
  * |                                                                |
  * | This source code is to only be used for educational            |
@@ -15,6 +15,7 @@ using SoundByte.Core;
 using SoundByte.Core.Items.Playlist;
 using SoundByte.Core.Services;
 using SoundByte.Core.Sources.SoundCloud;
+using SoundByte.Core.Sources.SoundCloud.User;
 using SoundByte.UWP.Helpers;
 using SoundByte.UWP.ViewModels.Generic;
 using SoundByte.UWP.Views.Generic;
@@ -23,14 +24,14 @@ namespace SoundByte.UWP.Views.CollectionViews
 {
     public sealed partial class PlaylistsView 
     {
-        public SoundByteCollection<UserSoundCloudPlaylistSource, BasePlaylist> PlaylistModel { get; } =
-            new SoundByteCollection<UserSoundCloudPlaylistSource, BasePlaylist>();
+        public SoundByteCollection<SoundCloudUserPlaylistSource, BasePlaylist> PlaylistModel { get; } =
+            new SoundByteCollection<SoundCloudUserPlaylistSource, BasePlaylist>();
 
         public PlaylistsView()
         {
             InitializeComponent();
 
-            PlaylistModel.Source.User = SoundByteV3Service.Current.GetConnectedUser(ServiceType.SoundCloud);
+            PlaylistModel.Source.User = SoundByteService.Current.GetConnectedUser(ServiceType.SoundCloud);
         }
 
         public void NavigatePlaylist(object sender, ItemClickEventArgs e)

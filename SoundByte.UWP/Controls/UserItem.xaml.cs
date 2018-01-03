@@ -1,5 +1,5 @@
 ﻿/* |----------------------------------------------------------------|
- * | Copyright (c) 2017, Grid Entertainment                         |
+ * | Copyright (c) 2017 - 2018 Grid Entertainment                   |
  * | All Rights Reserved                                            |
  * |                                                                |
  * | This source code is to only be used for educational            |
@@ -13,7 +13,6 @@
 using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Input;
-using Microsoft.Toolkit.Uwp.UI.Animations;
 using SoundByte.Core.Items.User;
 using UICompositionAnimations.Composition;
 

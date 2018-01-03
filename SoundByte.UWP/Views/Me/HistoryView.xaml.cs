@@ -1,5 +1,5 @@
 ﻿/* |----------------------------------------------------------------|
- * | Copyright (c) 2017, Grid Entertainment                         |
+ * | Copyright (c) 2017 - 2018 Grid Entertainment                   |
  * | All Rights Reserved                                            |
  * |                                                                |
  * | This source code is to only be used for educational            |
@@ -17,7 +17,6 @@ using Windows.UI.Xaml.Navigation;
 using SoundByte.Core.Items.Track;
 using SoundByte.UWP.Helpers;
 using SoundByte.UWP.Services;
-using SoundByte.UWP.Sources;
 using SoundByte.UWP.ViewModels;
 
 namespace SoundByte.UWP.Views.Me
@@ -32,9 +31,6 @@ namespace SoundByte.UWP.Views.Me
             InitializeComponent();
         }
 
-        public SoundByteCollection<HistorySource, BaseTrack> HistoryModel { get; } =
-            new SoundByteCollection<HistorySource, BaseTrack>();
-
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             App.Telemetry.TrackPage("History View");
@@ -42,30 +38,16 @@ namespace SoundByte.UWP.Views.Me
 
         public async void PlayShuffleItems()
         {
-            await BaseViewModel.ShuffleTracksAsync(HistoryModel);
         }
 
         public async void PlayAllItems()
         {
-            HistoryModel.IsLoading = true;
-
-            var startPlayback =
-                await PlaybackService.Instance.StartModelMediaPlaybackAsync(HistoryModel);
-           if (!startPlayback.Success)
-                await new MessageDialog(startPlayback.Message, "Error playing track.").ShowAsync();
-
-            HistoryModel.IsLoading = false;
+     
         }
 
         public async void PlayItem(object sender, ItemClickEventArgs e)
         {
-            HistoryModel.IsLoading = true;
-
-            var startPlayback = await PlaybackService.Instance.StartModelMediaPlaybackAsync(HistoryModel, false, (BaseTrack) e.ClickedItem);
-            if (!startPlayback.Success)
-                await new MessageDialog(startPlayback.Message, "Error playing track.").ShowAsync();
-
-            HistoryModel.IsLoading = false;
+        
         }
     }
 }

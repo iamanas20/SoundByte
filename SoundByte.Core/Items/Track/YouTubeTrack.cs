@@ -1,5 +1,5 @@
 ﻿/* |----------------------------------------------------------------|
- * | Copyright (c) 2017, Grid Entertainment                         |
+ * | Copyright (c) 2017 - 2018 Grid Entertainment                   |
  * | All Rights Reserved                                            |
  * |                                                                |
  * | This source code is to only be used for educational            |
@@ -19,8 +19,8 @@ using SoundByte.Core.Items.Comment;
 using SoundByte.Core.Items.User;
 using SoundByte.Core.Services;
 using System.Threading;
-using SoundByte.Core.Converters;
 using System.Xml;
+using SoundByte.Core.Converters.YouTube;
 using SoundByte.Core.Items.Playlist;
 using SoundByte.Core.Items.YouTube;
 
@@ -130,7 +130,7 @@ namespace SoundByte.Core.Items.Track
         public async Task<BaseTrack.CommentResponse> GetCommentsAsync(int count, string token, CancellationTokenSource cancellationTokenSource = null)
         {
             // Grab a list of YouTube comments
-            var youTubeComments = await SoundByteV3Service.Current.GetAsync<YouTubeCommentHolder>(ServiceType.YouTube,
+            var youTubeComments = await SoundByteService.Current.GetAsync<YouTubeCommentHolder>(ServiceType.YouTube,
                 "commentThreads", new Dictionary<string, string>
                 {
                     {"maxResults", count.ToString()},
@@ -149,12 +149,12 @@ namespace SoundByte.Core.Items.Track
 
         public async Task<bool> LikeAsync()
         {
-            if (!SoundByteV3Service.Current.IsServiceConnected(ServiceType.YouTube))
+            if (!SoundByteService.Current.IsServiceConnected(ServiceType.YouTube))
                 return false;
 
             // SoundByte YouTube likes are stored in a playlist called "SoundByte Likes". We
             // must first check to see if this playlist exists, if it does not, we must create it.
-            var userYouTubePlaylists = await SoundByteV3Service.Current.GetAsync<YouTubePlaylistHolder>(ServiceType.YouTube,
+            var userYouTubePlaylists = await SoundByteService.Current.GetAsync<YouTubePlaylistHolder>(ServiceType.YouTube,
                 "playlists", new Dictionary<string, string>
                 {
                     { "maxResults", "50"},
@@ -173,7 +173,7 @@ namespace SoundByte.Core.Items.Track
 
                 try
                 {
-                    soundByteLikes = await SoundByteV3Service.Current.PostAsync<YouTubePlaylist>(ServiceType.YouTube, "playlists", json, new Dictionary<string, string>
+                    soundByteLikes = await SoundByteService.Current.PostAsync<YouTubePlaylist>(ServiceType.YouTube, "playlists", json, new Dictionary<string, string>
                     {
                         { "part", "snippet,status"},
                     });
@@ -188,7 +188,7 @@ namespace SoundByte.Core.Items.Track
             {
                 var playlistId = soundByteLikes.Id;
                 var addVideoJson = "{\"snippet\":{\"playlistId\":\"" + playlistId + "\",\"resourceId\":{\"kind\":\"youtube#video\",\"videoId\":\"" + Id.VideoId + "\"}}}";
-                var track = await SoundByteV3Service.Current.PostAsync<YouTubeTrack>(ServiceType.YouTube, "playlistItems", addVideoJson, new Dictionary<string, string>
+                var track = await SoundByteService.Current.PostAsync<YouTubeTrack>(ServiceType.YouTube, "playlistItems", addVideoJson, new Dictionary<string, string>
                 {
                     { "part", "snippet"},
                 });
@@ -205,7 +205,7 @@ namespace SoundByte.Core.Items.Track
 
         public async Task<bool> UnlikeAsync()
         {
-            if (!SoundByteV3Service.Current.IsServiceConnected(ServiceType.YouTube))
+            if (!SoundByteService.Current.IsServiceConnected(ServiceType.YouTube))
                 return true;
 
             // If this value is null, we are unsure if the track has been liked or not.
@@ -215,7 +215,7 @@ namespace SoundByte.Core.Items.Track
 
             try
             {
-                await SoundByteV3Service.Current.DeleteAsync(ServiceType.YouTube, "playlistItems/"+ LikedPlaylistId);
+                await SoundByteService.Current.DeleteAsync(ServiceType.YouTube, "playlistItems/"+ LikedPlaylistId);
             }
             catch (Exception e)
             {

@@ -1,5 +1,5 @@
 ﻿/* |----------------------------------------------------------------|
- * | Copyright (c) 2017, Grid Entertainment                         |
+ * | Copyright (c) 2017 - 2018 Grid Entertainment                   |
  * | All Rights Reserved                                            |
  * |                                                                |
  * | This source code is to only be used for educational            |
@@ -13,7 +13,6 @@
 using Windows.ApplicationModel.DataTransfer;
 using Windows.UI.Xaml;
 using SoundByte.Core.Items.Track;
-using SoundByte.UWP.Services;
 
 namespace SoundByte.UWP.Dialogs
 {

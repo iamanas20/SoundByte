@@ -41,7 +41,7 @@
                     </AppBarButton.Icon>
                 </AppBarButton>
 
-                <AppBarButton Label="Refresh" Click="{x:Bind HistoryModel.RefreshItems}">
+                <AppBarButton Label="Refresh">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE72C;" />
                     </AppBarButton.Icon>
@@ -51,15 +51,11 @@
 
         <controls:InfoPane VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
                                Visibility="Collapsed" Canvas.ZIndex="50"
-                               Header="{x:Bind HistoryModel.ErrorHeader, Mode=OneWay}"
-                               Text="{x:Bind HistoryModel.ErrorDescription, Mode=OneWay}"
-                               IsLoading="{x:Bind HistoryModel.IsLoading, Mode=OneWay}"
-                               IsError="{x:Bind HistoryModel.IsError, Mode=OneWay}" />
+                              />
 
 
         <GridView ItemClick="{x:Bind PlayItem}"
                   Padding="{ThemeResource PagePadding}"
-                  ItemsSource="{x:Bind HistoryModel}"
                   ItemContainerStyle="{StaticResource MainGridViewItem}"
                   x:Name="StackPanel"
                   VerticalAlignment="Stretch"
@@ -84,7 +80,7 @@
                         <controls:AppButton Glyph="&#xE8B1;" Label="Shuffle Play"
                                                     Click="{x:Bind PlayShuffleItems}" Margin="0,0,15,0" />
                         <controls:AppButton Glyph="&#xE72C;" Label="Refresh"
-                                                    Click="{x:Bind HistoryModel.RefreshItems}" Margin="0,0,15,0" />
+                                                  Margin="0,0,15,0" />
                     </StackPanel>
                 </StackPanel>
             </GridView.Header>

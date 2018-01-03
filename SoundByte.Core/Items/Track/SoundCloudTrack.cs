@@ -1,5 +1,5 @@
 ﻿/* |----------------------------------------------------------------|
- * | Copyright (c) 2017, Grid Entertainment                         |
+ * | Copyright (c) 2017 - 2018 Grid Entertainment                   |
  * | All Rights Reserved                                            |
  * |                                                                |
  * | This source code is to only be used for educational            |
@@ -174,7 +174,7 @@ namespace SoundByte.Core.Items.Track
         public async Task<BaseTrack.CommentResponse> GetCommentsAsync(int count, string token, CancellationTokenSource cancellationTokenSource = null)
         {
             // Grab a list of SoundCloud comments
-            var soundCloudComments = await SoundByteV3Service.Current.GetAsync<CommentListHolder>(ServiceType.SoundCloud,
+            var soundCloudComments = await SoundByteService.Current.GetAsync<CommentListHolder>(ServiceType.SoundCloud,
                 $"/tracks/{Id}/comments", new Dictionary<string, string>
                 {
                     {"limit", count.ToString()},
@@ -196,19 +196,19 @@ namespace SoundByte.Core.Items.Track
 
         public async Task<bool> LikeAsync()
         {
-            if (!SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud))
+            if (!SoundByteService.Current.IsServiceConnected(ServiceType.SoundCloud))
                 return false;
 
-            return await SoundByteV3Service.Current.PutAsync(ServiceType.SoundCloud,
+            return await SoundByteService.Current.PutAsync(ServiceType.SoundCloud,
                 $"/e1/me/track_likes/{Id}");
         }
 
         public async Task<bool> UnlikeAsync()
         {
-            if (!SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud))
+            if (!SoundByteService.Current.IsServiceConnected(ServiceType.SoundCloud))
                 return false;
 
-            return await SoundByteV3Service.Current.DeleteAsync(ServiceType.SoundCloud,
+            return await SoundByteService.Current.DeleteAsync(ServiceType.SoundCloud,
                 $"/e1/me/track_likes/{Id}");
         }
 

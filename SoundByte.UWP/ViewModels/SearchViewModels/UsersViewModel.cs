@@ -1,5 +1,5 @@
 ﻿/* |----------------------------------------------------------------|
- * | Copyright (c) 2017, Grid Entertainment                         |
+ * | Copyright (c) 2017 - 2018 Grid Entertainment                   |
  * | All Rights Reserved                                            |
  * |                                                                |
  * | This source code is to only be used for educational            |
@@ -12,8 +12,8 @@
 
 using Windows.UI.Xaml.Controls;
 using SoundByte.Core.Items.User;
-using SoundByte.Core.Sources.Fanburst;
-using SoundByte.Core.Sources.SoundCloud;
+using SoundByte.Core.Sources.Fanburst.Search;
+using SoundByte.Core.Sources.SoundCloud.Search;
 using SoundByte.Core.Sources.YouTube;
 using SoundByte.UWP.Helpers;
 using SoundByte.UWP.ViewModels.Generic;
@@ -28,20 +28,20 @@ namespace SoundByte.UWP.ViewModels.SearchViewModels
         /// <summary>
         /// Model for SoundCloud users
         /// </summary>
-        public SoundByteCollection<SearchSoundCloudUserSource, BaseUser> SoundCloudUsers { get; } =
-            new SoundByteCollection<SearchSoundCloudUserSource, BaseUser>();
+        public SoundByteCollection<SoundCloudSearchUserSource, BaseUser> SoundCloudUsers { get; } =
+            new SoundByteCollection<SoundCloudSearchUserSource, BaseUser>();
 
         /// <summary>
         /// Model for YouTube users
         /// </summary>
-        public SoundByteCollection<SearchYouTubeUserSource, BaseUser> YouTubeUsers { get; } =
-            new SoundByteCollection<SearchYouTubeUserSource, BaseUser>();
+        public SoundByteCollection<YouTubeSearchUserSource, BaseUser> YouTubeUsers { get; } =
+            new SoundByteCollection<YouTubeSearchUserSource, BaseUser>();
 
         /// <summary>
         /// Model for Fanburst users
         /// </summary>
-        public SoundByteCollection<SearchFanburstUserSource, BaseUser> FanburstUsers { get; } =
-            new SoundByteCollection<SearchFanburstUserSource, BaseUser>();
+        public SoundByteCollection<FanburstSearchUserSource, BaseUser> FanburstUsers { get; } =
+            new SoundByteCollection<FanburstSearchUserSource, BaseUser>();
         #endregion
 
         #region Private Variables

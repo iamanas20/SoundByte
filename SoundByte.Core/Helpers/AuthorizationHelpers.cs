@@ -1,274 +1,128 @@
-﻿using System;
+﻿/* |----------------------------------------------------------------|
+ * | Copyright (c) 2017 - 2018 Grid Entertainment                   |
+ * | All Rights Reserved                                            |
+ * |                                                                |
+ * | This source code is to only be used for educational            |
+ * | purposes. Distribution of SoundByte source code in             |
+ * | any form outside this repository is forbidden. If you          |
+ * | would like to contribute to the SoundByte source code, you     |
+ * | are welcome.                                                   |
+ * |----------------------------------------------------------------|
+ */
+
+using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using SoundByte.Core.Exceptions;
 using SoundByte.Core.Items;
+using SoundByte.Core.Items.SoundByte;
+using SoundByte.Core.Services;
 
 namespace SoundByte.Core.Helpers
 {
     /// <summary>
-    /// A set of helpers used for general app auth
+    /// These helpers are used for communicating with the SoundByte website.
     /// </summary>
     public static class AuthorizationHelpers
     {
         /// <summary>
-        /// Provide an auth code and a service name. This method calls the SoundByte
-        /// Website and performs login logic to get the auth token used in app. 
+        ///     Provide an auth code and a service name. This method calls the SoundByte
+        ///     Website and performs login logic to get the auth token used in app. 
         /// </summary>
         /// <param name="service">The service that this code belongs to.</param>
         /// <param name="authCode">The code you got from the login call</param>
         /// <returns></returns>
         public static async Task<LoginToken> GetAuthTokenAsync(string service, string authCode)
         {
-            // Create a http client to get the token
-            using (var httpClient = new HttpClient(new HttpClientHandler
+            try
             {
-                AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip
-            }))
-            {
-                // Set the user agent string
-                httpClient.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("SoundByte", "1.0.0"));
-
-                // Encode the body content
-                var encodedContent = new FormUrlEncodedContent(new Dictionary<string, string>
-                {
-                    { "service", service.ToLower() },
-                    { "code", authCode }
-                });
-
-                try
-                {
-                    // Post to the the respected API
-                    using (var postQuery = await httpClient.PostAsync(
-                        "https://soundbytemedia.com/api/v1/app/auth",
-                        encodedContent))
+                var result = await HttpService.Instance.PostAsync<SoundByteAuthHolder>("https://soundbytemedia.com/api/v1/app/auth",
+                    new Dictionary<string, string>
                     {
-                        // Ensure successful
-                        postQuery.EnsureSuccessStatusCode();
+                        { "service", service.ToLower() },
+                        { "code", authCode }
+                    });
 
-                        // Get the stream
-                        using (var stream = await postQuery.Content.ReadAsStreamAsync())
-                        {
-                            // Read the stream
-                            using (var streamReader = new StreamReader(stream))
-                            {
-                                // Get the text from the stream
-                                using (var textReader = new JsonTextReader(streamReader))
-                                {
-                                    // Used to get the data from JSON
-                                    var serializer = new JsonSerializer
-                                    {
-                                        NullValueHandling = NullValueHandling.Ignore
-                                    };
-
-                                    // Get the class from the json
-                                    var response = serializer.Deserialize<SoundByteAuthHolder>(textReader);
-
-                                    if (!response.IsSuccess)
-                                    {
-                                        throw new SoundByteException("Error Logging In", response.ErrorMessage);
-                                    }
-
-                                    return response.Token;
-                                }
-                            }
-                        }
-                    }
-                }
-                catch (HttpRequestException hex)
+                if (!result.IsSuccess)
                 {
-                    throw new SoundByteException("SoundByte Server Error", "There is currently an error with the SoundByte services. Please try again later. Message: " + hex.Message);
-                }
-                catch (Exception ex)
-                {
-                    throw new SoundByteException("Error Logging In", ex.Message);
+                    throw new SoundByteException("Error Logging In", result.ErrorMessage);
                 }
 
+                return result.Token;
+            }
+            catch (HttpRequestException hex)
+            {
+                throw new SoundByteException("SoundByte Server Error", "There is currently an error with the SoundByte services. Please try again later. Message: " + hex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new SoundByteException("Error Logging In", ex.Message);
             }
         }
 
         public static async Task<LoginToken> GetNewAuthTokenAsync(string service, string refreshToken)
         {
-            // Create a http client to get the token
-            using (var httpClient = new HttpClient(new HttpClientHandler
+            try
             {
-                AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip
-            }))
-            {
-                // Set the user agent string
-                httpClient.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("SoundByte", "1.0.0"));
-
-                // Encode the body content
-                var encodedContent = new FormUrlEncodedContent(new Dictionary<string, string>
-                {
-                    { "service", service.ToLower() },
-                    { "refreshtoken", refreshToken }
-                });
-
-                try
-                {
-                    // Post to the the respected API
-                    using (var postQuery = await httpClient.PostAsync(
-                        "https://soundbytemedia.com/api/v1/app/refresh-auth", encodedContent))
+                var result = await HttpService.Instance.PostAsync<SoundByteAuthHolder>("https://soundbytemedia.com/api/v1/app/refresh-auth",
+                    new Dictionary<string, string>
                     {
-                        // Ensure successful
-                        postQuery.EnsureSuccessStatusCode();
+                        { "service", service.ToLower() },
+                        { "refreshtoken", refreshToken }
+                    });
 
-                        // Get the stream
-                        using (var stream = await postQuery.Content.ReadAsStreamAsync())
-                        {
-                            // Read the stream
-                            using (var streamReader = new StreamReader(stream))
-                            {
-                                // Get the text from the stream
-                                using (var textReader = new JsonTextReader(streamReader))
-                                {
-                                    // Used to get the data from JSON
-                                    var serializer = new JsonSerializer
-                                    {
-                                        NullValueHandling = NullValueHandling.Ignore
-                                    };
-
-                                    // Get the class from the json
-                                    var response = serializer.Deserialize<SoundByteAuthHolder>(textReader);
-
-                                    if (!response.IsSuccess)
-                                    {
-                                        throw new SoundByteException("Error Refreshing Token", response.ErrorMessage);
-                                    }
-
-                                    return response.Token;
-                                }
-                            }
-                        }
-                    }
-                }
-                catch (HttpRequestException hex)
+                if (!result.IsSuccess)
                 {
-                    throw new SoundByteException("SoundByte Server Error", "There is currently an error with the SoundByte services. Please try again later. Message: " + hex.Message);
-                }
-                catch (Exception ex)
-                {
-                    throw new SoundByteException("Error Refreshing Token", ex.Message);
+                    throw new SoundByteException("Error Refreshing Token", result.ErrorMessage);
                 }
 
+                return result.Token;
+            }
+            catch (HttpRequestException hex)
+            {
+                throw new SoundByteException("SoundByte Server Error", "There is currently an error with the SoundByte services. Please try again later. Message: " + hex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new SoundByteException("Error Logging In", ex.Message);
             }
         }
 
         /// <summary>
-        /// Init the app with the online service. This is required for the app to work.
+        ///     Init the app with the online service. This is required for the app to work.
         /// </summary>
         /// <param name="platform">What platform this app is running on.</param>
         /// <param name="version">Version of the app</param>
         /// <param name="appId">The Unique app install ID for this app</param>
         /// <param name="requestNewKeys">Tell the server that we want new app keys.</param>
         /// <returns></returns>
-        public static async Task<InitResult> OnlineAppInitAsync(string platform, string version, string appId,
+        public static async Task<AppInitializationResult> OnlineAppInitAsync(string platform, string version, string appId,
             bool requestNewKeys)
         {
-            // Create a http client to get the token
-            using (var httpClient = new HttpClient(new HttpClientHandler
+            try
             {
-                AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip
-            }))
-            {
-                // Set the user agent string
-                httpClient.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("SoundByte", "1.0.0"));
-
-                // Set the user agent string
-                httpClient.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("SoundByte", "1.0.0"));
-
-                // Encode the body content
-                var encodedContent = new FormUrlEncodedContent(new Dictionary<string, string>
-                {
-                    { "requestnewkeys", requestNewKeys.ToString() }
-                });
-
-                try
-                {
-                    // Post to the the respected API
-                    using (var postQuery = await httpClient.PostAsync(
-                        "https://soundbytemedia.com/api/v1/app/init", encodedContent))
+                var result = await HttpService.Instance.PostAsync<AppInitializationResult>("https://soundbytemedia.com/api/v1/app/init",
+                    new Dictionary<string, string>
                     {
-                        // Ensure successful
-                        postQuery.EnsureSuccessStatusCode();
+                        { "requestnewkeys", requestNewKeys.ToString() }
+                    });
 
-                        // Get the stream
-                        using (var stream = await postQuery.Content.ReadAsStreamAsync())
-                        {
-                            // Read the stream
-                            using (var streamReader = new StreamReader(stream))
-                            {
-                                // Get the text from the stream
-                                using (var textReader = new JsonTextReader(streamReader))
-                                {
-                                    // Used to get the data from JSON
-                                    var serializer = new JsonSerializer
-                                    {
-                                        NullValueHandling = NullValueHandling.Ignore
-                                    };
-
-                                    // Get the class from the json
-                                    var response = serializer.Deserialize<InitResult>(textReader);
-
-                                    if (!response.Successful)
-                                    {
-                                        throw new SoundByteException("Error Refreshing Token", response.ErrorMessage);
-                                    }
-
-                                    return response;
-                                }
-                            }
-                        }
-                    }
-                }
-                catch (HttpRequestException hex)
+                if (!result.Successful)
                 {
-                    throw new SoundByteException("SoundByte Server Error", "There is currently an error with the SoundByte services. Please try again later. Message: " + hex.Message);
+                    throw new SoundByteException(result.ErrorTitle, result.ErrorMessage);
                 }
-                catch (Exception ex)
-                {
-                    throw new SoundByteException("Error Init App", ex.Message);
-                }
+
+                return result;
             }
-        }
-
-
-        [JsonObject]
-        public class InitResult
-        {
-            [JsonProperty("success")]
-            public bool Successful { get; set; }
-
-            [JsonProperty("error_title")]
-            public string ErrorTitle { get; set; }
-
-            [JsonProperty("error_message")]
-            public string ErrorMessage { get; set; }
-
-            [JsonProperty("app_id")]
-            public string AppId { get; set; }
-
-            [JsonProperty("app_keys")]
-            public AppKeys AppKeys { get; set; }
-        }
-
-        public class AppKeys
-        {
-            public string SoundCloudClientId { get; set; }
-            public List<string> SoundCloudPlaybackIds { get; set; }
-            public string FanburstClientId { get; set; }
-            public string YouTubeClientId { get; set; }
-            public string YouTubeLoginClientId { get; set; }
-            public string LastFmClientId { get; set; }
-            public string HockeyAppClientId { get; set; }
-            public string GoogleAnalyticsTrackerId { get; set; }
-            public string AppCenterClientId { get; set; }
+            catch (HttpRequestException hex)
+            {
+                throw new SoundByteException("SoundByte Server Error", "There is currently an error with the SoundByte services. Please try again later. Message: " + hex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new SoundByteException("Error Init App", ex.Message);
+            }
         }
     }
 }

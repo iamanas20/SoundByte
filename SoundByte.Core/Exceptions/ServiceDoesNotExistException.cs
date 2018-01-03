@@ -1,5 +1,5 @@
 ﻿/* |----------------------------------------------------------------|
- * | Copyright (c) 2017, Grid Entertainment                         |
+ * | Copyright (c) 2017 - 2018 Grid Entertainment                   |
  * | All Rights Reserved                                            |
  * |                                                                |
  * | This source code is to only be used for educational            |
@@ -15,7 +15,7 @@ using System;
 namespace SoundByte.Core.Exceptions
 {
     /// <summary>
-    /// Thrown when trying to access a service which does not exist
+    ///     Thrown when trying to access a service which does not exist
     /// </summary>
     [Serializable]
     public class ServiceDoesNotExistException : Exception

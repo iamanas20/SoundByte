@@ -1,5 +1,5 @@
 ﻿/* |----------------------------------------------------------------|
- * | Copyright (c) 2017, Grid Entertainment                         |
+ * | Copyright (c) 2017 - 2018 Grid Entertainment                   |
  * | All Rights Reserved                                            |
  * |                                                                |
  * | This source code is to only be used for educational            |
@@ -28,7 +28,7 @@ namespace SoundByte.Core.Sources.YouTube
             CancellationTokenSource cancellationToken = default(CancellationTokenSource))
         {
             // Call the YouTube API and get the items
-            var tracks = await SoundByteV3Service.Current.GetAsync<YouTubeExploreHolder>(ServiceType.YouTube, "videos",
+            var tracks = await SoundByteService.Current.GetAsync<YouTubeExploreHolder>(ServiceType.YouTube, "videos",
                 new Dictionary<string, string>
                 {
                     {"part", "snippet,contentDetails"},

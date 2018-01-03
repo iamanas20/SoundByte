@@ -1,5 +1,5 @@
 ﻿/* |----------------------------------------------------------------|
- * | Copyright (c) 2017, Grid Entertainment                         |
+ * | Copyright (c) 2017 - 2018 Grid Entertainment                   |
  * | All Rights Reserved                                            |
  * |                                                                |
  * | This source code is to only be used for educational            |
@@ -10,6 +10,7 @@
  * |----------------------------------------------------------------|
  */
 
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
@@ -22,6 +23,7 @@ namespace SoundByte.Core.Sources
     /// collection when using a list of songs and not a model.
     /// </summary>
     [UsedImplicitly]
+    [Obsolete("This class restricts future development")]
     public class DummyTrackSource : ISource<BaseTrack>
     {
         public async Task<SourceResponse<BaseTrack>> GetItemsAsync(int count, string token,

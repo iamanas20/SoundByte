@@ -1,5 +1,5 @@
 ﻿/* |----------------------------------------------------------------|
- * | Copyright (c) 2017, Grid Entertainment                         |
+ * | Copyright (c) 2017 - 2018 Grid Entertainment                   |
  * | All Rights Reserved                                            |
  * |                                                                |
  * | This source code is to only be used for educational            |
@@ -12,8 +12,8 @@
 
 using Windows.UI.Xaml.Controls;
 using SoundByte.Core.Items.Playlist;
-using SoundByte.Core.Sources.SoundCloud;
-using SoundByte.Core.Sources.YouTube;
+using SoundByte.Core.Sources.SoundCloud.Search;
+using SoundByte.Core.Sources.YouTube.Search;
 using SoundByte.UWP.Helpers;
 using SoundByte.UWP.ViewModels.Generic;
 using SoundByte.UWP.Views;
@@ -27,14 +27,14 @@ namespace SoundByte.UWP.ViewModels.SearchViewModels
         /// <summary>
         /// Model for SoundCloud playlists
         /// </summary>
-        public SoundByteCollection<SearchSoundCloudPlaylistSource, BasePlaylist> SoundCloudPlaylists { get; } =
-            new SoundByteCollection<SearchSoundCloudPlaylistSource, BasePlaylist>();
+        public SoundByteCollection<SoundCloudSearchPlaylistSource, BasePlaylist> SoundCloudPlaylists { get; } =
+            new SoundByteCollection<SoundCloudSearchPlaylistSource, BasePlaylist>();
 
         /// <summary>
         /// Model for YouTube playlists
         /// </summary>
-        public SoundByteCollection<SearchYouTubePlaylistSource, BasePlaylist> YouTubePlaylists { get; } =
-            new SoundByteCollection<SearchYouTubePlaylistSource, BasePlaylist>();
+        public SoundByteCollection<YouTubeSearchPlaylistSource, BasePlaylist> YouTubePlaylists { get; } =
+            new SoundByteCollection<YouTubeSearchPlaylistSource, BasePlaylist>();
         #endregion
 
         #region Private Variables

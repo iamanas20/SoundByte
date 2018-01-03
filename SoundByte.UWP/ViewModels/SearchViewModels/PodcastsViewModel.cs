@@ -1,5 +1,5 @@
 ﻿/* |----------------------------------------------------------------|
- * | Copyright (c) 2017, Grid Entertainment                         |
+ * | Copyright (c) 2017 - 2018 Grid Entertainment                   |
  * | All Rights Reserved                                            |
  * |                                                                |
  * | This source code is to only be used for educational            |
@@ -10,8 +10,8 @@
  * |----------------------------------------------------------------|
  */
 
-using SoundByte.Core.Items;
-using SoundByte.Core.Sources;
+using SoundByte.Core.Items.Podcast;
+using SoundByte.Core.Sources.Podcast;
 using SoundByte.UWP.Helpers;
 
 namespace SoundByte.UWP.ViewModels.SearchViewModels
@@ -22,8 +22,8 @@ namespace SoundByte.UWP.ViewModels.SearchViewModels
         /// <summary>
         /// Model for podcasts
         /// </summary>
-        public SoundByteCollection<SearchPodcastSource, PodcastShow> Podcasts { get; } =
-            new SoundByteCollection<SearchPodcastSource, PodcastShow>();
+        public SoundByteCollection<PodcastSearchSource, PodcastShow> Podcasts { get; } =
+            new SoundByteCollection<PodcastSearchSource, PodcastShow>();
         #endregion
 
         #region Private Variables

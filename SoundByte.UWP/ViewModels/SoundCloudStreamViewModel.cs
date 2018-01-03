@@ -1,5 +1,5 @@
 ﻿/* |----------------------------------------------------------------|
- * | Copyright (c) 2017, Grid Entertainment                         |
+ * | Copyright (c) 2017 - 2018 Grid Entertainment                   |
  * | All Rights Reserved                                            |
  * |                                                                |
  * | This source code is to only be used for educational            |
@@ -18,6 +18,7 @@ using SoundByte.UWP.Helpers;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.Views;
 using SoundByte.Core;
+using SoundByte.Core.Items.Generic;
 using SoundByte.Core.Sources.SoundCloud;
 
 namespace SoundByte.UWP.ViewModels
@@ -27,8 +28,8 @@ namespace SoundByte.UWP.ViewModels
     /// </summary>
     public class SoundCloudStreamViewModel : BaseViewModel
     {
-        public SoundByteCollection<StreamSoundCloudSource, GroupedItem> StreamItems { get; } =
-            new SoundByteCollection<StreamSoundCloudSource, GroupedItem>();
+        public SoundByteCollection<SoundCloudStreamSource, GroupedItem> StreamItems { get; } =
+            new SoundByteCollection<SoundCloudStreamSource, GroupedItem>();
 
 
         public async void PlayAllStreamTracks()

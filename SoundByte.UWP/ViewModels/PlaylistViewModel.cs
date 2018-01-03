@@ -1,5 +1,5 @@
 ﻿/* |----------------------------------------------------------------|
- * | Copyright (c) 2017, Grid Entertainment                         |
+ * | Copyright (c) 2017 - 2018 Grid Entertainment                   |
  * | All Rights Reserved                                            |
  * |                                                                |
  * | This source code is to only be used for educational            |
@@ -63,7 +63,7 @@ namespace SoundByte.UWP.ViewModels
                     PinButtonText = resources.GetString("AppBarUI_Pin_Raw");
                 }
 
-                if (await SoundByteV3Service.Current.ExistsAsync(ServiceType.SoundCloud, $"/e1/me/playlist_likes/{Playlist.Id}"))
+                if (await SoundByteService.Current.ExistsAsync(ServiceType.SoundCloud, $"/e1/me/playlist_likes/{Playlist.Id}"))
                     LikeButtonText = "Unlike Playlist";
                 else
                     LikeButtonText = "Like Playlist";
@@ -72,7 +72,7 @@ namespace SoundByte.UWP.ViewModels
                 {
                     // Get the playlist tracks
                     var playlistTracks =
-                        (await SoundByteV3Service.Current.GetAsync<SoundCloudPlaylist>(ServiceType.SoundCloud, "/playlists/" + Playlist.Id)).Tracks;
+                        (await SoundByteService.Current.GetAsync<SoundCloudPlaylist>(ServiceType.SoundCloud, "/playlists/" + Playlist.Id)).Tracks;
                     playlistTracks.ForEach(x => Tracks.Add(x.ToBaseTrack()));
                 }
                 catch (Exception)

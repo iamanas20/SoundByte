@@ -1,5 +1,5 @@
 ﻿/* |----------------------------------------------------------------|
- * | Copyright (c) 2017, Grid Entertainment                         |
+ * | Copyright (c) 2017 - 2018 Grid Entertainment                   |
  * | All Rights Reserved                                            |
  * |                                                                |
  * | This source code is to only be used for educational            |
@@ -9,7 +9,6 @@
  * | are welcome.                                                   |
  * |----------------------------------------------------------------|
  */
-
 using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Navigation;
@@ -62,7 +61,7 @@ namespace SoundByte.UWP.Views.Me
 
         private void RefreshUi()
         {
-            if (SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud))
+            if (SoundByteService.Current.IsServiceConnected(ServiceType.SoundCloud))
             {
                 SoundCloudDisconnectAccount.Visibility = Visibility.Visible;
                 SoundCloudViewProfile.Visibility = Visibility.Visible;
@@ -75,7 +74,7 @@ namespace SoundByte.UWP.Views.Me
                 SoundCloudConnectAccount.Visibility = Visibility.Visible;
             }
 
-            if (SoundByteV3Service.Current.IsServiceConnected(ServiceType.Fanburst))
+            if (SoundByteService.Current.IsServiceConnected(ServiceType.Fanburst))
             {
                 FanburstDisconnectAccount.Visibility = Visibility.Visible;
                 FanburstViewProfile.Visibility = Visibility.Visible;
@@ -88,7 +87,7 @@ namespace SoundByte.UWP.Views.Me
                 FanburstConnectAccount.Visibility = Visibility.Visible;
             }
 
-            if (SoundByteV3Service.Current.IsServiceConnected(ServiceType.YouTube))
+            if (SoundByteService.Current.IsServiceConnected(ServiceType.YouTube))
             {
                 YouTubeDisconnectAccount.Visibility = Visibility.Visible;
                 YouTubeViewProfile.Visibility = Visibility.Visible;
@@ -129,17 +128,17 @@ namespace SoundByte.UWP.Views.Me
         #region Navigate Profile Methods
         private void NavigateSoundCloudProfile(object sender, RoutedEventArgs e)
         {
-            App.NavigateTo(typeof(UserView), SoundByteV3Service.Current.GetConnectedUser(ServiceType.SoundCloud));
+            App.NavigateTo(typeof(UserView), SoundByteService.Current.GetConnectedUser(ServiceType.SoundCloud));
         }
 
         private void NavigateFanburstProfile(object sender, RoutedEventArgs e)
         {
-            App.NavigateTo(typeof(UserView), SoundByteV3Service.Current.GetConnectedUser(ServiceType.Fanburst));
+            App.NavigateTo(typeof(UserView), SoundByteService.Current.GetConnectedUser(ServiceType.Fanburst));
         }
 
         private void NavigateYouTubeProfile(object sender, RoutedEventArgs e)
         {
-            App.NavigateTo(typeof(UserView), SoundByteV3Service.Current.GetConnectedUser(ServiceType.YouTube));
+            App.NavigateTo(typeof(UserView), SoundByteService.Current.GetConnectedUser(ServiceType.YouTube));
         }
         #endregion
 
@@ -178,19 +177,19 @@ namespace SoundByte.UWP.Views.Me
         #region Disconnect Account Methods
         private void DisconnectSoundCloudAccount(object sender, RoutedEventArgs e)
         {
-            SoundByteV3Service.Current.DisconnectService(ServiceType.SoundCloud);
+            SoundByteService.Current.DisconnectService(ServiceType.SoundCloud);
             RefreshUi();
         }
 
         private void DisconnectFanburstAccount(object sender, RoutedEventArgs e)
         {
-            SoundByteV3Service.Current.DisconnectService(ServiceType.Fanburst);
+            SoundByteService.Current.DisconnectService(ServiceType.Fanburst);
             RefreshUi();
         }
 
         private void DisconnectYouTubeAccount(object sender, RoutedEventArgs e)
         {
-            SoundByteV3Service.Current.DisconnectService(ServiceType.YouTube);
+            SoundByteService.Current.DisconnectService(ServiceType.YouTube);
             RefreshUi();
         }
         #endregion

@@ -1,5 +1,5 @@
 ﻿/* |----------------------------------------------------------------|
- * | Copyright (c) 2017, Grid Entertainment                         |
+ * | Copyright (c) 2017 - 2018 Grid Entertainment                   |
  * | All Rights Reserved                                            |
  * |                                                                |
  * | This source code is to only be used for educational            |
@@ -43,7 +43,7 @@ namespace SoundByte.UWP.Views.Me
             BackendService.Instance.LoginHub.On<LoginToken>("RecieveLoginInfo", info =>
             {
                 // Login with the gen3.0 service
-                SoundByteV3Service.Current.ConnectService(info.ServiceType, info);
+                SoundByteService.Current.ConnectService(info.ServiceType, info);
             });
         }
 

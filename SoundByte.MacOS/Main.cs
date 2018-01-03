@@ -1,4 +1,16 @@
-﻿using System.Collections.Generic;
+﻿/* |----------------------------------------------------------------|
+ * | Copyright (c) 2017 - 2018 Grid Entertainment                   |
+ * | All Rights Reserved                                            |
+ * |                                                                |
+ * | This source code is to only be used for educational            |
+ * | purposes. Distribution of SoundByte source code in             |
+ * | any form outside this repository is forbidden. If you          |
+ * | would like to contribute to the SoundByte source code, you     |
+ * | are welcome.                                                   |
+ * |----------------------------------------------------------------|
+ */
+
+using System.Collections.Generic;
 using AppKit;
 using Newtonsoft.Json;
 using SoundByte.Core.Items;
@@ -20,7 +32,7 @@ namespace SoundByte.MacOS
             var secretKeys = JsonConvert.DeserializeObject<KeyObject>(secretKeyFile);
 
             // Setup the V3 SoundByte service for SoundCloud
-            Core.Services.SoundByteV3Service.Current.Init(new List<ServiceInfo>{
+            Core.Services.SoundByteService.Current.Init(new List<ServiceInfo>{
                 new ServiceInfo
                 {
                     Service = Core.ServiceType.SoundCloud,

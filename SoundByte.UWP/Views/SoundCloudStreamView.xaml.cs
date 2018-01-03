@@ -1,5 +1,5 @@
 ﻿/* |----------------------------------------------------------------|
- * | Copyright (c) 2017, Grid Entertainment                         |
+ * | Copyright (c) 2017 - 2018 Grid Entertainment                   |
  * | All Rights Reserved                                            |
  * |                                                                |
  * | This source code is to only be used for educational            |
@@ -13,7 +13,6 @@
 using Windows.UI.Xaml.Navigation;
 using SoundByte.Core;
 using SoundByte.Core.Services;
-using SoundByte.UWP.Services;
 using SoundByte.UWP.ViewModels;
 
 namespace SoundByte.UWP.Views
@@ -48,7 +47,7 @@ namespace SoundByte.UWP.Views
         /// </summary>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            if (!SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud))
+            if (!SoundByteService.Current.IsServiceConnected(ServiceType.SoundCloud))
                 App.NavigateTo(typeof(ExploreView));
 
             // Track Event

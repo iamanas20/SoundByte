@@ -1,5 +1,5 @@
 ﻿/* |----------------------------------------------------------------|
- * | Copyright (c) 2017, Grid Entertainment                         |
+ * | Copyright (c) 2017 - 2018 Grid Entertainment                   |
  * | All Rights Reserved                                            |
  * |                                                                |
  * | This source code is to only be used for educational            |
@@ -10,7 +10,7 @@
  * |----------------------------------------------------------------|
  */
 
-using SoundByte.Core.Items;
+using SoundByte.Core.Items.Podcast;
 using SoundByte.Core.Sources;
 using SoundByte.UWP.Helpers;
 

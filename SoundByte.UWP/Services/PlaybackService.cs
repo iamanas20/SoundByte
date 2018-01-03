@@ -1,5 +1,5 @@
 ﻿/* |----------------------------------------------------------------|
- * | Copyright (c) 2017, Grid Entertainment                         |
+ * | Copyright (c) 2017 - 2018 Grid Entertainment                   |
  * | All Rights Reserved                                            |
  * |                                                                |
  * | This source code is to only be used for educational            |
@@ -9,7 +9,6 @@
  * | are welcome.                                                   |
  * |----------------------------------------------------------------|
  */
-
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -28,7 +27,6 @@ using Windows.UI.Notifications;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using AudioVisualizer;
 using JetBrains.Annotations;
 using Microsoft.Toolkit.Uwp.Helpers;
 using SoundByte.Core;
@@ -37,9 +35,7 @@ using SoundByte.Core.Items.User;
 using SoundByte.UWP.Converters;
 using SoundByte.UWP.Helpers;
 using SoundByte.Core.Services;
-using SoundByte.UWP.DatabaseContexts;
 using SoundByte.Core.Sources;
-using Microsoft.EntityFrameworkCore;
 using YoutubeExplode;
 
 namespace SoundByte.UWP.Services
@@ -68,6 +64,8 @@ namespace SoundByte.UWP.Services
         private MediaPlaybackList _playbackList;
         // Used for working with YouTube video streams
         private YoutubeClient _youTubeClient;
+
+
 
         /// The audio-video sync timer is used to sync YouTube videos
         /// to the background audio. This has to run a little faster for
@@ -321,6 +319,7 @@ namespace SoundByte.UWP.Services
 
             // Subscribe to the item change event
             _playbackList.CurrentItemChanged += CurrentItemChanged;
+
 
             // Set the playback list
             Player.Source = _playbackList;
@@ -667,6 +666,7 @@ namespace SoundByte.UWP.Services
         /// <param name="isShuffled">Should we shuffle the items?</param>
         /// <param name="startingItem">The track to start playing from.</param>
         /// <returns>A Tuple, if sucessful and if not, the error message.</returns>
+        [Obsolete("This method restricts future development")]
         public async Task<PlaybackResponse> StartPlaylistMediaPlaybackAsync(IEnumerable<BaseTrack> playlist,
             bool isShuffled = false, BaseTrack startingItem = null)
         {
@@ -880,7 +880,7 @@ namespace SoundByte.UWP.Services
                 {
                     try
                     {
-                        CurrentTrack.IsLiked = await SoundByteV3Service.Current.ExistsAsync(ServiceType.SoundCloud,
+                        CurrentTrack.IsLiked = await SoundByteService.Current.ExistsAsync(ServiceType.SoundCloud,
                             "/me/favorites/" + CurrentTrack.Id);
                     }
                     catch
@@ -890,7 +890,7 @@ namespace SoundByte.UWP.Services
 
                     try
                     {
-                        CurrentTrack.User = (await SoundByteV3Service.Current.GetAsync<SoundCloudUser>(ServiceType.SoundCloud, $"/users/{CurrentTrack.User.Id}")).ToBaseUser();
+                        CurrentTrack.User = (await SoundByteService.Current.GetAsync<SoundCloudUser>(ServiceType.SoundCloud, $"/users/{CurrentTrack.User.Id}")).ToBaseUser();
                     }
                     catch
                     {
@@ -898,46 +898,7 @@ namespace SoundByte.UWP.Services
                     }
                 }
             });
-
-            try
-            {
-                using (var db = new HistoryContext())
-                {
-                    await db.Database.MigrateAsync();
-
-                    var existingUser = db.Users.FirstOrDefault(x => x.Id == track.User.Id);
-
-                    if (existingUser == null)
-                        db.Users.Add(track.User);
-
-                    await db.SaveChangesAsync();
-                }
-
-                using (var db = new HistoryContext())
-                {
-                    var existingUser = db.Users.FirstOrDefault(x => x.Id == track.User.Id);
-
-                    // Get the existing track in the database (if it exists)
-                    var existingTrack = db.Tracks.FirstOrDefault(x => x.Id == track.Id);
-
-                    if (existingTrack == null)
-                    {
-                        track.User = existingUser;
-                        db.Tracks.Add(track);
-                    }
-                    else
-                    {
-                        existingTrack.LastPlaybackDate = DateTime.UtcNow;
-                    }
-
-                    await db.SaveChangesAsync();
-                }
-            }
-            catch
-            {
-                // Ignore
-            }
-
+            
             string currentUsageLimit;
             var memoryUsage = MemoryManager.AppMemoryUsage / 1024 / 1024;
 
@@ -962,9 +923,9 @@ namespace SoundByte.UWP.Services
             {
                 { "CurrentUsage", currentUsageLimit },
                 { "TrackType", track.ServiceType.ToString() ?? "Null" },
-                { "IsSoundCloudConnected", SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud).ToString() },
-                { "IsFanburstConnected", SoundByteV3Service.Current.IsServiceConnected(ServiceType.Fanburst).ToString() },
-                { "IsYouTubeConnected", SoundByteV3Service.Current.IsServiceConnected(ServiceType.YouTube).ToString() }
+                { "IsSoundCloudConnected", SoundByteService.Current.IsServiceConnected(ServiceType.SoundCloud).ToString() },
+                { "IsFanburstConnected", SoundByteService.Current.IsServiceConnected(ServiceType.Fanburst).ToString() },
+                { "IsYouTubeConnected", SoundByteService.Current.IsServiceConnected(ServiceType.YouTube).ToString() }
             });
         }
 

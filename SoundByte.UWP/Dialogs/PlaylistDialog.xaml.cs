@@ -1,5 +1,5 @@
 ﻿/* |----------------------------------------------------------------|
- * | Copyright (c) 2017, Grid Entertainment                         |
+ * | Copyright (c) 2017 - 2018 Grid Entertainment                   |
  * | All Rights Reserved                                            |
  * |                                                                |
  * | This source code is to only be used for educational            |
@@ -103,7 +103,7 @@ namespace SoundByte.UWP.Dialogs
                     try
                     {
                         // Get the response message
-                        var response = await SoundByteV3Service.Current.PostAsync<BasePlaylist>(ServiceType.SoundCloud, "/playlists", json);
+                        var response = await SoundByteService.Current.PostAsync<BasePlaylist>(ServiceType.SoundCloud, "/playlists", json);
 
                         // Check that the creation was successful
                         if (response != null)
@@ -147,9 +147,9 @@ namespace SoundByte.UWP.Dialogs
             if (Track == null)
                 return;
 
-            if ((Track.ServiceType == ServiceType.Fanburst && !SoundByteV3Service.Current.IsServiceConnected(ServiceType.Fanburst))
+            if ((Track.ServiceType == ServiceType.Fanburst && !SoundByteService.Current.IsServiceConnected(ServiceType.Fanburst))
                 || (Track.ServiceType == ServiceType.SoundCloud &&
-                    !SoundByteV3Service.Current.IsServiceConnected(ServiceType.SoundCloud)))
+                    !SoundByteService.Current.IsServiceConnected(ServiceType.SoundCloud)))
             {
                 Hide();
                 await new MessageDialog("You must first login to add tracks to playlists.", "Login Required").ShowAsync();
@@ -172,7 +172,7 @@ namespace SoundByte.UWP.Dialogs
             {
                 // Get a list of the user playlists
                 var userPlaylists =
-                    await SoundByteV3Service.Current.GetAsync<List<SoundCloudPlaylist>>(ServiceType.SoundCloud,
+                    await SoundByteService.Current.GetAsync<List<SoundCloudPlaylist>>(ServiceType.SoundCloud,
                         "/me/playlists");
 
                 Playlist.Clear();
@@ -223,7 +223,7 @@ namespace SoundByte.UWP.Dialogs
             try
             {
                 // Get the playlist object from the internet
-                var playlistObject = await SoundByteV3Service.Current.GetAsync<SoundCloudPlaylist>(ServiceType.SoundCloud, "/playlists/" + playlistId);
+                var playlistObject = await SoundByteService.Current.GetAsync<SoundCloudPlaylist>(ServiceType.SoundCloud, "/playlists/" + playlistId);
                 // Get the track within the object
                 var trackObject = playlistObject.Tracks.FirstOrDefault(x => x.Id == int.Parse(Track?.Id));
 
@@ -240,7 +240,7 @@ namespace SoundByte.UWP.Dialogs
                 json = json.TrimEnd(',') + "]}}";
 
                 // Create the http request
-                var response = await SoundByteV3Service.Current.PutAsync(ServiceType.SoundCloud,  "/playlists/" + playlistId, json);
+                var response = await SoundByteService.Current.PutAsync(ServiceType.SoundCloud,  "/playlists/" + playlistId, json);
 
                 // Check that the remove was successful
                 if (!response)
@@ -289,7 +289,7 @@ namespace SoundByte.UWP.Dialogs
             try
             {
                 // Get the playlist object from the internet
-                var playlistObject = await SoundByteV3Service.Current.GetAsync<SoundCloudPlaylist>(ServiceType.SoundCloud, "/playlists/" + playlistId);
+                var playlistObject = await SoundByteService.Current.GetAsync<SoundCloudPlaylist>(ServiceType.SoundCloud, "/playlists/" + playlistId);
 
                 // Start creating the json track string with the basic json
                 var json = playlistObject.Tracks.Aggregate("{\"playlist\":{\"tracks\":[",
@@ -298,7 +298,7 @@ namespace SoundByte.UWP.Dialogs
                 // Complete the json string by adding the current track
                 json += "{\"id\":\"" + Track?.Id + "\"}]}}";
                 // Create the http request
-                var response = await SoundByteV3Service.Current.PutAsync(ServiceType.SoundCloud, $"/playlists/{playlistObject.Id}/?secret-token={playlistObject.SecretToken}", json);
+                var response = await SoundByteService.Current.PutAsync(ServiceType.SoundCloud, $"/playlists/{playlistObject.Id}/?secret-token={playlistObject.SecretToken}", json);
 
                 // Check that the update was successful
                 if (!response)

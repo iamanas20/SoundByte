@@ -1,5 +1,5 @@
 ﻿/* |----------------------------------------------------------------|
- * | Copyright (c) 2017, Grid Entertainment                         |
+ * | Copyright (c) 2017 - 2018 Grid Entertainment                   |
  * | All Rights Reserved                                            |
  * |                                                                |
  * | This source code is to only be used for educational            |
@@ -27,8 +27,8 @@ namespace SoundByte.UWP.Views
     /// </summary>
     public sealed partial class SoundCloudExploreView
     {
-        public SoundByteCollection<ExploreSoundCloudSource, BaseTrack> ChartsModel { get; } =
-            new SoundByteCollection<ExploreSoundCloudSource, BaseTrack>();
+        public SoundByteCollection<SoundCloudExploreSource, BaseTrack> ChartsModel { get; } =
+            new SoundByteCollection<SoundCloudExploreSource, BaseTrack>();
 
         public SoundCloudExploreView()
         {
