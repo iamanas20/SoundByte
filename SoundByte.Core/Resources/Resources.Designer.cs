@@ -60,5 +60,23 @@ namespace SoundByte.Core.Resources {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There was a problem parsing the response. This could be due to an API change. Please report the following:.
+        /// </summary>
+        internal static string HttpService_JsonError_Description {
+            get {
+                return ResourceManager.GetString("HttpService_JsonError_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to JSON Parsing Error.
+        /// </summary>
+        internal static string HttpService_JsonError_Title {
+            get {
+                return ResourceManager.GetString("HttpService_JsonError_Title", resourceCulture);
+            }
+        }
     }
 }

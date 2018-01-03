@@ -291,16 +291,21 @@ namespace SoundByte.Core.Services
         #endregion
 
         #region Web API
+
         /// <summary>
         /// This method builds the request url for the specified service.
         /// </summary>
         /// <param name="type">The service type to build the request url</param>
         /// <param name="endpoint">User defiend endpoint</param>
+        /// <param name="optionalParams"></param>
         /// <returns>Fully build request url</returns>
-        private string BuildRequestUrl(ServiceType type, string endpoint)
+        private string BuildRequestUrl(ServiceType type, string endpoint, Dictionary<string, string> optionalParams = null)
         {
             // Start building the request URL
             string requestUri;
+
+            // Strip out the / infront of the endpoint if it exists
+            endpoint = endpoint.TrimStart('/');
 
             switch (type)
             {
@@ -337,11 +342,55 @@ namespace SoundByte.Core.Services
                 case ServiceType.ITunesPodcast:
                     requestUri = $"https://itunes.apple.com/{endpoint}?key=0";
                     break;
+                case ServiceType.SoundByte:
+                    var soundByteService = Services.FirstOrDefault(x => x.Service == ServiceType.SoundByte);
+                    if (soundByteService == null)
+                        throw new ServiceDoesNotExistException(ServiceType.SoundByte);
+
+                    requestUri = $"https://soundbytemedia.com/api/v1/{endpoint}?client_id={soundByteService.ClientId}";
+                    break;
+
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);
             }
 
+            // Check that there are optional params then loop through all 
+            // the params and add them onto the request URL
+            if (optionalParams != null)
+                requestUri = optionalParams
+                    .Where(param => !string.IsNullOrEmpty(param.Key) && !string.IsNullOrEmpty(param.Value))
+                    .Aggregate(requestUri, (current, param) => current + "&" + param.Key + "=" + param.Value);
+
             return requestUri;
+        }
+
+        /// <summary>
+        ///     Adds the required headers to the http service depending on
+        ///     the service type. This defaults to OAuth, and uses Bearer for 
+        ///     YouTube and Fanburst
+        /// </summary>
+        /// <param name="service">Http Service to append the headers.</param>
+        /// <param name="type">What type of service is this user accessing.</param>
+        private void BuildAuthLayer(HttpService service, ServiceType type)
+        {
+            // Add the service only if it's connected
+            if (IsServiceConnected(type))
+            {
+                // Get the token
+                var token = Services.FirstOrDefault(x => x.Service == type)?.UserToken?.AccessToken;
+
+                // Add the auth request
+                switch (type)
+                {
+                    case ServiceType.YouTube:
+                    case ServiceType.Fanburst:
+                        service.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                        break;
+                    default:
+                        service.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("OAuth", token);
+                        break;
+                }
+            }
         }
 
         /// <summary>
@@ -358,101 +407,25 @@ namespace SoundByte.Core.Services
             if (_isLoaded == false)
                 throw new SoundByteNotLoadedException();
 
-            // Create cancel token if not provided
-            if (cancellationTokenSource == null)
-                cancellationTokenSource = new CancellationTokenSource();
-
-            // Strip out the / infront of the endpoint if it exists
-            endpoint = endpoint.TrimStart('/');
-
-            // Start building the request URL
-            var requestUri = BuildRequestUrl(type, endpoint);
-
-            // Check that there are optional params then loop through all 
-            // the params and add them onto the request URL
-            if (optionalParams != null)
-                requestUri = optionalParams
-                    .Where(param => !string.IsNullOrEmpty(param.Key) && !string.IsNullOrEmpty(param.Value))
-                    .Aggregate(requestUri, (current, param) => current + "&" + param.Key + "=" + param.Value);
+            // Build the request Url
+            var requestUri = BuildRequestUrl(type, endpoint, optionalParams);
 
             try
             {
-                return await Task.Run(async () =>
+                using (var httpService = new HttpService())
                 {
-                    // Create the client
-                    using (var client = new HttpClient(new HttpClientHandler
-                    {
-                        AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip
-                    }))
-                    {
-                        // We want json
-                        client.DefaultRequestHeaders.Accept.Add(
-                            new MediaTypeWithQualityHeaderValue("application/json"));
+                    // Accept JSON
+                    httpService.Client.DefaultRequestHeaders.Accept.Add(
+                        new MediaTypeWithQualityHeaderValue("application/json"));
 
-                        // Add the user agent
-                        client.DefaultRequestHeaders.UserAgent.Add(
-                            new ProductInfoHeaderValue("SoundByte.Core", "1.0.0"));
+                    // Build the required auth headers
+                    BuildAuthLayer(httpService, type);
 
-                        // Add the service only if it's connected
-                        if (IsServiceConnected(type))
-                        {
-                            // Get the token
-                            var token = Services.FirstOrDefault(x => x.Service == type)?.UserToken?.AccessToken;
-
-                            // Add the auth request
-                            switch (type)
-                            {
-                                case ServiceType.YouTube:
-                                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-                                    break;
-                                case ServiceType.Fanburst:
-                                    requestUri += $"&access_token={token}";
-                                    break;
-                                default:
-                                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("OAuth", token);
-                                    break;
-                            }
-                        }
-
-                        // escape the url
-                        var escapedUri = new Uri(Uri.EscapeUriString(requestUri));
-
-                        // Get the URL
-                        using (var webRequest = await client.GetAsync(escapedUri, HttpCompletionOption.ResponseContentRead, cancellationTokenSource.Token).ConfigureAwait(false))
-                        {
-                            // This request has to be successful
-                            webRequest.EnsureSuccessStatusCode();
-
-                            // Get the body of the request as a stream
-                            using (var stream = await webRequest.Content.ReadAsStreamAsync().ConfigureAwait(false))
-                            {
-                                // Read the stream
-                                using (var streamReader = new StreamReader(stream))
-                                {
-                                    // Get the text from the stream
-                                    using (var textReader = new JsonTextReader(streamReader))
-                                    {
-                                        // Used to get the data from JSON
-                                        var serializer =
-                                            new JsonSerializer { NullValueHandling = NullValueHandling.Ignore };
-                                        // Return the data
-                                        return serializer.Deserialize<T>(textReader);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }).ConfigureAwait(false);
+                    // Perform HTTP request
+                    return await httpService.GetAsync<T>(requestUri, cancellationTokenSource).ConfigureAwait(false);
+                }
             }
-            catch (OperationCanceledException)
-            {
-                return default(T);
-            }
-            catch (JsonSerializationException jsex)
-            {
-                throw new SoundByteException("Parsing error", "An error occured when parsing the results. This could be caused by an API change. Report the following message to the app developer:\n" + jsex.Message);
-            }
-            catch (HttpRequestException hex)
+            catch (HttpRequestException hex) // Handle HTTP Request errors
             {
                 // If we get a 401 error AND the service is connected, we probably
                 // need to refresh the auth token
@@ -464,7 +437,9 @@ namespace SoundByte.Core.Services
                         var userToken = Services.FirstOrDefault(x => x.Service == type)?.UserToken;
                         if (userToken != null)
                         {
-                            var newToken = await AuthorizationHelpers.GetNewAuthTokenAsync(type.ToString(), userToken.RefreshToken);
+                            var newToken =
+                                await AuthorizationHelpers.GetNewAuthTokenAsync(type.ToString(),
+                                    userToken.RefreshToken);
                             userToken.AccessToken = newToken.AccessToken;
                             userToken.ExpireTime = newToken.ExpireTime;
 
@@ -482,10 +457,6 @@ namespace SoundByte.Core.Services
                 }
 
                 throw new SoundByteException("No connection?", hex.Message + "\n" + requestUri);
-            }
-            catch (Exception ex)
-            {
-                throw new SoundByteException("Something went wrong", ex.Message);
             }
         }
 
@@ -628,105 +599,23 @@ namespace SoundByte.Core.Services
             if (_isLoaded == false)
                 throw new SoundByteNotLoadedException();
 
-            // Create cancel token if not provided
-            if (cancellationTokenSource == null)
-                cancellationTokenSource = new CancellationTokenSource();
-
-            // Strip out the / infront of the endpoint if it exists
-            endpoint = endpoint.TrimStart('/');
-
             // Start building the request URL
-            var requestUri = BuildRequestUrl(type, endpoint);
-
-            // Check that there are optional params then loop through all 
-            // the params and add them onto the request URL
-            if (optionalParams != null)
-                requestUri = optionalParams
-                    .Where(param => !string.IsNullOrEmpty(param.Key) && !string.IsNullOrEmpty(param.Value))
-                    .Aggregate(requestUri, (current, param) => current + "&" + param.Key + "=" + param.Value);
+            var requestUri = BuildRequestUrl(type, endpoint, optionalParams);
 
             try
             {
-                return await Task.Run(async () =>
+                using (var httpService = new HttpService())
                 {
-                    // Create the client
-                    using (var client = new HttpClient(new HttpClientHandler
-                    {
-                        AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip
-                    }))
-                    {
-                        // We want json
-                        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                    // Accept JSON
+                    httpService.Client.DefaultRequestHeaders.Accept.Add(
+                        new MediaTypeWithQualityHeaderValue("application/json"));
 
-                        // Add the user agent
-                        client.DefaultRequestHeaders.UserAgent.Add(
-                            new ProductInfoHeaderValue("SoundByte.Core", "1.0.0"));
+                    // Build the required auth headers
+                    BuildAuthLayer(httpService, type);
 
-                        // Add the service only if it's connected
-                        if (IsServiceConnected(type))
-                        {
-                            // Get the token
-                            var token = Services.FirstOrDefault(x => x.Service == type)?.UserToken?.AccessToken;
-
-                            // Add the auth request
-                            switch (type)
-                            {
-                                case ServiceType.YouTube:
-                                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-                                    break;
-                                case ServiceType.Fanburst:
-                                    requestUri += $"&access_token={token}";
-                                    break;
-                                default:
-                                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("OAuth", token);
-                                    break;
-                            }
-                        }
-
-                        // escape the url
-                        var escapedUri = new Uri(Uri.EscapeUriString(requestUri));
-
-                        if (string.IsNullOrEmpty(content))
-                            content = "n/a";
-
-                        // Full the body content if it is null
-                        var httpContent = new StringContent(content, Encoding.UTF8, "application/json");
-
-                        // Post the URL
-                        using (var webRequest = await client.PostAsync(escapedUri, httpContent, cancellationTokenSource.Token).ConfigureAwait(false))
-                        {
-                            // Throw exception if the request failed
-                            if (webRequest.StatusCode != HttpStatusCode.OK)
-                                throw new SoundByteException("No Connection?", webRequest.ReasonPhrase);
-
-                            // Get the body of the request as a stream
-                            using (var stream = await webRequest.Content.ReadAsStreamAsync().ConfigureAwait(false))
-                            {
-                                // Read the stream
-                                using (var streamReader = new StreamReader(stream))
-                                {
-                                    // Get the text from the stream
-                                    using (var textReader = new JsonTextReader(streamReader))
-                                    {
-                                        // Used to get the data from JSON
-                                        var serializer =
-                                            new JsonSerializer { NullValueHandling = NullValueHandling.Ignore };
-                                        // Return the data
-                                        return serializer.Deserialize<T>(textReader);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }).ConfigureAwait(false);
-            }
-            catch (OperationCanceledException)
-            {
-                return default(T);
-            }
-            catch (JsonSerializationException jsex)
-            {
-                throw new SoundByteException("Parsing error", "An error occured when parsing the results. This could be caused by an API change. Report the following message to the app developer:\n" + jsex.Message);
+                    // Perform HTTP request
+                    return await httpService.PostAsync<T>(requestUri, content, cancellationTokenSource).ConfigureAwait(false);
+                }
             }
             catch (HttpRequestException hex)
             {
@@ -758,10 +647,6 @@ namespace SoundByte.Core.Services
                 }
 
                 throw new SoundByteException("No connection?", hex.Message + "\n" + requestUri);
-            }
-            catch (Exception ex)
-            {
-                throw new SoundByteException("Something went wrong", ex.Message);
             }
         }
 
@@ -890,69 +775,23 @@ namespace SoundByte.Core.Services
             if (_isLoaded == false)
                 throw new SoundByteNotLoadedException();
 
-            // Create cancel token if not provided
-            if (cancellationTokenSource == null)
-                cancellationTokenSource = new CancellationTokenSource();
-
-            // Strip out the / infront of the endpoint if it exists
-            endpoint = endpoint.TrimStart('/');
-
-            // Start building the request URL
+            // Build the request Url
             var requestUri = BuildRequestUrl(type, endpoint);
 
             try
             {
-                return await Task.Run(async () =>
+                using (var httpService = new HttpService())
                 {
-                    // Create the client
-                    using (var client = new HttpClient(new HttpClientHandler
-                    {
-                        AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip
-                    }))
-                    {
-                        client.DefaultRequestHeaders.Accept.Add(
-                            new MediaTypeWithQualityHeaderValue("application/json"));
+                    // Accept JSON
+                    httpService.Client.DefaultRequestHeaders.Accept.Add(
+                        new MediaTypeWithQualityHeaderValue("application/json"));
 
-                        // Add the user agent
-                        client.DefaultRequestHeaders.UserAgent.Add(
-                            new ProductInfoHeaderValue("SoundByte.Core", "1.0.0"));
+                    // Build the required auth headers
+                    BuildAuthLayer(httpService, type);
 
-                        // Add the service only if it's connected
-                        if (IsServiceConnected(type))
-                        {
-                            // Get the token
-                            var token = Services.FirstOrDefault(x => x.Service == type)?.UserToken?.AccessToken;
-
-                            // Add the auth request
-                            switch (type)
-                            {
-                                case ServiceType.YouTube:
-                                    client.DefaultRequestHeaders.Authorization =
-                                        new AuthenticationHeaderValue("Bearer", token);
-                                    break;
-                                case ServiceType.Fanburst:
-                                    requestUri += $"&access_token={token}";
-                                    break;
-                                default:
-                                    client.DefaultRequestHeaders.Authorization =
-                                        new AuthenticationHeaderValue("OAuth", token);
-                                    break;
-                            }
-                        }
-
-                        // escape the url
-                        var escapedUri = new Uri(Uri.EscapeUriString(requestUri));
-
-                        // Get the URL
-                        using (var webRequest = await client.GetAsync(escapedUri,
-                                HttpCompletionOption.ResponseHeadersRead, cancellationTokenSource.Token)
-                            .ConfigureAwait(false))
-                        {
-                            // Return if the resource exists
-                            return webRequest.IsSuccessStatusCode;
-                        }
-                    }
-                }).ConfigureAwait(false);
+                    // Perform HTTP request
+                    return await httpService.ExistsAsync(requestUri, cancellationTokenSource).ConfigureAwait(false);
+                }
             }
             catch (HttpRequestException hex)
             {

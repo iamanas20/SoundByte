@@ -101,7 +101,7 @@ namespace SoundByte.UWP
             MemoryManager.AppMemoryUsageIncreased += MemoryManager_AppMemoryUsageIncreased;
 
             // Run this code when a service is connected to SoundByte
-            SoundByteService.Current.OnServiceConnected += (type, token) =>
+            SoundByteService.Current.OnServiceConnected += async (type, token) =>
             {
                 var vault = new PasswordVault();
 
@@ -141,13 +141,23 @@ namespace SoundByte.UWP
                         {"Service", type.ToString()}
                     });
 
-                // Update the UI depending if we are logged in or not
-                if (SoundByteService.Current.IsServiceConnected(ServiceType.SoundCloud) ||
-                    SoundByteService.Current.IsServiceConnected(ServiceType.YouTube) ||
-                    SoundByteService.Current.IsServiceConnected(ServiceType.Fanburst))
-                    Shell.ShowLoginContent();
-                else
-                    Shell.ShowLogoutContent();
+                try
+                {
+                    await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
+                    {
+                        // Update the UI depending if we are logged in or not
+                        if (SoundByteService.Current.IsServiceConnected(ServiceType.SoundCloud) ||
+                            SoundByteService.Current.IsServiceConnected(ServiceType.YouTube) ||
+                            SoundByteService.Current.IsServiceConnected(ServiceType.Fanburst))
+                            Shell.ShowLoginContent();
+                        else
+                            Shell.ShowLogoutContent();
+                    });
+                }
+                catch
+                {
+                    // Ignore
+                }           
             };
 
             // Run this code when a service is disconencted from SoundByte

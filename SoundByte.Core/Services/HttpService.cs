@@ -17,14 +17,16 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Reflection;
+using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
-using JetBrains.Annotations;
 using Newtonsoft.Json;
+using SoundByte.Core.Exceptions;
 
 namespace SoundByte.Core.Services
 {
     /// <summary>
-    /// A generic HTTP service that uses <see cref="HttpClient"/> for handling requests.
+    ///     A generic HTTP service that uses <see cref="HttpClient"/> for handling requests.
     /// </summary>
     public partial class HttpService : IHttpService, IDisposable
     {
@@ -37,6 +39,18 @@ namespace SoundByte.Core.Services
 
         // Used to deserialize data.
         private JsonSerializer _jsonSerializer;
+        #endregion
+
+        #region Getters
+        /// <summary>
+        ///     Get the HTTP Client used in the class
+        /// </summary>
+        public HttpClient Client => _client;
+
+        /// <summary>
+        ///     Get the JsonSerializer used in this class
+        /// </summary>
+        public JsonSerializer Serializer => _jsonSerializer;
         #endregion
 
         #region Constructors
@@ -75,60 +89,282 @@ namespace SoundByte.Core.Services
             };
         }
         #endregion
-    
 
-        public Task<T> GetAsync<T>(string url)
+        #region GET
+        /// <summary>
+        ///     Performs a GET request at the specified url. This method returns the response as 
+        ///     an object T.
+        /// </summary>
+        /// <typeparam name="T">Object type to deserialize into</typeparam>
+        /// <param name="url">The url resource to get</param>
+        /// <param name="cancellationTokenSource">Allows the ability to cancel the current task.</param>
+        /// <returns>An object of T</returns>
+        public async Task<T> GetAsync<T>(string url, CancellationTokenSource cancellationTokenSource = null)
+        {
+            // Create cancel token if not provided
+            if (cancellationTokenSource == null)
+                cancellationTokenSource = new CancellationTokenSource();
+         
+            // Escape the url
+            var escapedUri = new Uri(Uri.EscapeUriString(url));
+
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    // Get the URL
+                    using (var webRequest = await _client.GetAsync(escapedUri, HttpCompletionOption.ResponseContentRead, cancellationTokenSource.Token).ConfigureAwait(false))
+                    {
+                        // Ensure this request was successful
+                        webRequest.EnsureSuccessStatusCode();
+
+                        // Get the stream
+                        using (var stream = await webRequest.Content.ReadAsStreamAsync().ConfigureAwait(false))
+                        {
+                            // Read the stream
+                            using (var streamReader = new StreamReader(stream))
+                            {
+                                // Get the text from the stream
+                                using (var textReader = new JsonTextReader(streamReader))
+                                {
+                                    // Return the data
+                                    return _jsonSerializer.Deserialize<T>(textReader);
+                                }
+                            }
+                        }
+                    }
+                }).ConfigureAwait(false);
+            }
+            catch (OperationCanceledException)
+            {
+                return default(T);
+            }
+            catch (JsonSerializationException jsex)
+            {
+                throw new SoundByteException(Resources.Resources.HttpService_JsonError_Title,
+                    Resources.Resources.HttpService_JsonError_Description + $"\n{jsex.Message}");
+            }
+
+        }
+        #endregion
+
+        #region POST
+        /// <summary>
+        ///     Performs a POST request at a specified url. This version takes a string-string
+        ///     dictionary as the body.        
+        /// </summary>
+        /// <typeparam name="T">Object type to deserialize into</typeparam>
+        /// <param name="url">The url resource to post</param>
+        /// <param name="bodyParamaters">string-string dictionary as the body</param>
+        /// <param name="cancellationTokenSource">Allows the ability to cancel the current task.</param>
+        /// <returns>An object of T</returns>
+        public async Task<T> PostAsync<T>(string url, Dictionary<string, string> bodyParamaters, CancellationTokenSource cancellationTokenSource = null)
+        {
+            // Create cancel token if not provided
+            if (cancellationTokenSource == null)
+                cancellationTokenSource = new CancellationTokenSource();
+
+            // Encode this content so we can send it.
+            var encodedContent = new FormUrlEncodedContent(bodyParamaters);
+
+            // Escape the url
+            var escapedUri = new Uri(Uri.EscapeUriString(url));
+
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    // Post this request to the url
+                    using (var postQuery = await _client.PostAsync(escapedUri, encodedContent, cancellationTokenSource.Token).ConfigureAwait(false))
+                    {
+                        // Ensure this request was successful
+                        postQuery.EnsureSuccessStatusCode();
+
+                        // Get the stream
+                        using (var stream = await postQuery.Content.ReadAsStreamAsync().ConfigureAwait(false))
+                        {
+                            // Read the stream
+                            using (var streamReader = new StreamReader(stream))
+                            {
+                                // Get the text from the stream
+                                using (var textReader = new JsonTextReader(streamReader))
+                                {
+                                    return _jsonSerializer.Deserialize<T>(textReader);
+                                }
+                            }
+                        }
+                    }
+                }).ConfigureAwait(false);
+            }
+            catch (OperationCanceledException)
+            {
+                return default(T);
+            }
+            catch (JsonSerializationException jsex)
+            {
+                throw new SoundByteException(Resources.Resources.HttpService_JsonError_Title,
+                    Resources.Resources.HttpService_JsonError_Description + $"\n{jsex.Message}");
+            }
+        }
+
+        /// <summary>
+        ///     Performs a POST request at a specified url. This version takes a JSON string
+        ///     as the body.
+        /// </summary>
+        /// <typeparam name="T">Object type to deserialize into</typeparam>
+        /// <param name="url">The url resource to post</param>
+        /// <param name="body">json string as the body</param>
+        /// <param name="cancellationTokenSource">Allows the ability to cancel the current task.</param>
+        /// <returns>An object of T</returns>
+        public async Task<T> PostAsync<T>(string url, string body, CancellationTokenSource cancellationTokenSource = null)
+        {
+            // Create cancel token if not provided
+            if (cancellationTokenSource == null)
+                cancellationTokenSource = new CancellationTokenSource();
+
+            // Encode this content so we can send it.
+            var encodedContent = new StringContent(body, Encoding.UTF8, "application/json");
+
+            // Escape the url
+            var escapedUri = new Uri(Uri.EscapeUriString(url));
+
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    // Post this request to the url
+                    using (var postQuery = await _client.PostAsync(escapedUri, encodedContent, cancellationTokenSource.Token).ConfigureAwait(false))
+                    {
+                        // Ensure this request was successful
+                        postQuery.EnsureSuccessStatusCode();
+
+                        // Get the stream
+                        using (var stream = await postQuery.Content.ReadAsStreamAsync().ConfigureAwait(false))
+                        {
+                            // Read the stream
+                            using (var streamReader = new StreamReader(stream))
+                            {
+                                // Get the text from the stream
+                                using (var textReader = new JsonTextReader(streamReader))
+                                {
+                                    return _jsonSerializer.Deserialize<T>(textReader);
+                                }
+                            }
+                        }
+                    }
+                }).ConfigureAwait(false);
+            }
+            catch (OperationCanceledException)
+            {
+                return default(T);
+            }
+            catch (JsonSerializationException jsex)
+            {
+                throw new SoundByteException(Resources.Resources.HttpService_JsonError_Title,
+                    Resources.Resources.HttpService_JsonError_Description + $"\n{jsex.Message}");
+            }
+        }
+        #endregion
+
+        #region PUT
+        /// <summary>
+        ///     Performs a PUT request at a specified url. This version takes a string-string
+        ///     dictionary as the body.        
+        /// </summary>
+        /// <typeparam name="T">Object type to deserialize into</typeparam>
+        /// <param name="url">The url resource to put</param>
+        /// <param name="bodyParamaters">string-string dictionary as the body</param>
+        /// <param name="cancellationTokenSource">Allows the ability to cancel the current task.</param>
+        /// <returns>An object of T</returns>
+        public Task<T> PutAsync<T>(string url, Dictionary<string, string> bodyParamaters, CancellationTokenSource cancellationTokenSource = null)
         {
             throw new NotImplementedException();
         }
 
         /// <summary>
-        ///     
+        ///     Performs a PUT request at a specified url. This version takes a JSON string
+        ///     as the body.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="url"></param>
-        /// <param name="paramaters"></param>
+        /// <typeparam name="T">Object type to deserialize into</typeparam>
+        /// <param name="url">The url resource to put</param>
+        /// <param name="body">json string as the body</param>
+        /// <param name="cancellationTokenSource">Allows the ability to cancel the current task.</param>
         /// <returns></returns>
-        public async Task<T> PostAsync<T>(string url, [NotNull] Dictionary<string, string> paramaters)
+        public Task<T> PutAsync<T>(string url, string body, CancellationTokenSource cancellationTokenSource = null)
         {
-            // Encode this content so we can send it.
-            var encodedContent = new FormUrlEncodedContent(paramaters);
+            throw new NotImplementedException();
+        }
+        #endregion
 
-            // Post this request to the url
-            using (var postQuery = await _client.PostAsync(url, encodedContent))
+        #region DELETE
+        /// <summary>
+        ///     Deletes a specified resource. Will return true if the resource was deleted, else
+        ///     false is the resource was not deleted.
+        /// </summary>
+        /// <param name="url">The url resource to delete</param>
+        /// <param name="cancellationTokenSource">Allows the ability to cancel the current task.</param>
+        /// <returns>True if the resource was deleted, false if not.</returns>
+        public Task<bool> DeleteAsync(string url, CancellationTokenSource cancellationTokenSource = null)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
+
+        #region EXISTS
+        /// <summary>
+        ///     Checks to see if a resource is at the specified location. Returns true if the 
+        ///     resource exists, returns false if it does not. Will throw an exception incase of an
+        ///     unknown error.
+        /// </summary>
+        /// <param name="url">The url to check</param>
+        /// <param name="cancellationTokenSource">Allows the ability to cancel the current task.</param>
+        /// <returns>True if resource exists, false if not.</returns>
+        public async Task<bool> ExistsAsync(string url, CancellationTokenSource cancellationTokenSource = null)
+        {
+            // Create cancel token if not provided
+            if (cancellationTokenSource == null)
+                cancellationTokenSource = new CancellationTokenSource();
+
+            // Escape the url
+            var escapedUri = new Uri(Uri.EscapeUriString(url));
+
+            try
             {
-                // Ensure this request was successful
-                postQuery.EnsureSuccessStatusCode();
-
-                // Get the stream
-                using (var stream = await postQuery.Content.ReadAsStreamAsync())
+                return await Task.Run(async () =>
                 {
-                    // Read the stream
-                    using (var streamReader = new StreamReader(stream))
+                    // Get the URL
+                    using (var webRequest = await _client.GetAsync(escapedUri, HttpCompletionOption.ResponseContentRead,
+                        cancellationTokenSource.Token).ConfigureAwait(false))
                     {
-                        // Get the text from the stream
-                        using (var textReader = new JsonTextReader(streamReader))
-                        {
-                            return _jsonSerializer.Deserialize<T>(textReader);
-                        }
+                        // Return if the resource exists
+                        return webRequest.IsSuccessStatusCode;
                     }
-                }
+
+                }).ConfigureAwait(false);
+            }
+            catch (OperationCanceledException)
+            {
+                return false;
+            }
+            catch (JsonSerializationException)
+            {
+                return false;
             }
         }
+        #endregion
 
-
-
-
+        #region Dispose Resources
+        /// <inheritdoc />
         public void Dispose()
         {
             if (_disposed)
                 return;
 
-
             _client.Dispose();
 
             _disposed = true;
         }
+        #endregion
     }
 
     /// <summary>
