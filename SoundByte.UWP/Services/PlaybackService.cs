@@ -36,6 +36,7 @@ using SoundByte.UWP.Converters;
 using SoundByte.UWP.Helpers;
 using SoundByte.Core.Services;
 using SoundByte.Core.Sources;
+using SoundByte.UWP.Extensions;
 using YoutubeExplode;
 
 namespace SoundByte.UWP.Services
@@ -563,8 +564,8 @@ namespace SoundByte.UWP.Services
 
                 var source = MediaSource.CreateFromMediaBinder(binder);
 
-                // So we can access the item later
-                source.CustomProperties["SoundByteItem.ID"] = track.Id;
+                // Apply track metadata
+                source = track.AsMediaSource(source);
 
                 // Create a configurable playback item backed by the media source
                 var playbackItem = new MediaPlaybackItem(source);
@@ -606,7 +607,7 @@ namespace SoundByte.UWP.Services
 
             try
             {
-                var track = Playlist.FirstOrDefault(x => x.Id == args.MediaBinder.Token);
+                var track = PlaybackList.Items.FirstOrDefault(x => x.Source.AsBaseTrack().Id == args.MediaBinder.Token)?.Source?.AsBaseTrack();
 
                 if (track == null)
                     return;
@@ -706,7 +707,7 @@ namespace SoundByte.UWP.Services
 
             // Set the model
             Playlist = null;
-            Playlist = trackSource;
+         //   Playlist = trackSource;
 
             // Set the shuffle
             _playbackList.ShuffleEnabled = isShuffled;
@@ -737,7 +738,7 @@ namespace SoundByte.UWP.Services
                 {
                     // find the index of the track in the playlist
                     var index = _playbackList.Items.ToList()
-                        .FindIndex(item => (string)item.Source.CustomProperties["SoundByteItem.ID"] ==
+                        .FindIndex(item => item.Source.AsBaseTrack().Id ==
                                            startingItem.Id);
 
                     if (index == -1)
@@ -815,13 +816,8 @@ namespace SoundByte.UWP.Services
 
         private async void CurrentItemChanged(MediaPlaybackList sender, CurrentMediaPlaybackItemChangedEventArgs args)
         {
-            // If there is no new item, don't do anything
-            if (args.NewItem == null)
-                return;
-
             // Try get the track
-            var track = Playlist.FirstOrDefault(
-                x => x.Id == (string)args.NewItem.Source.CustomProperties["SoundByteItem.ID"]);
+            var track = args.NewItem?.Source.AsBaseTrack();
 
             // If the track does not exist, do nothing
             if (track == null)

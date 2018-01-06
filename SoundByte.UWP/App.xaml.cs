@@ -107,7 +107,7 @@ namespace SoundByte.UWP
 
                 // Add the password to the vault so we can access it when restarting the app
                 string vaultName;
-                switch (type)
+                 switch (type)
                 {
                     case ServiceType.SoundCloud:
                     case ServiceType.SoundCloudV2:

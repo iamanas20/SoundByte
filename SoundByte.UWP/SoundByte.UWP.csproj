@@ -205,6 +205,7 @@
     <Compile Include="Dialogs\WhatsNewDialog.xaml.cs">
       <DependentUpon>WhatsNewDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Extensions\PlaybackExtensions.cs" />
     <Compile Include="Helpers\AppKeysHelper.cs" />
     <Compile Include="Helpers\CompositionHelper.cs" />
     <Compile Include="Helpers\CrashHelper.cs" />
@@ -225,6 +226,7 @@
     <Compile Include="Services\MonitizeService.cs" />
     <Compile Include="Services\NavigationService.cs" />
     <Compile Include="Services\PlaybackService.cs" />
+    <Compile Include="Services\PlaybackV2Service.cs" />
     <Compile Include="Services\SettingsService.cs" />
     <Compile Include="Services\TelemetryService.cs" />
     <Compile Include="StateTriggers\DeviceStateTrigger.cs" />
