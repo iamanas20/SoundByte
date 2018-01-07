@@ -400,7 +400,7 @@ namespace SoundByte.UWP.ViewModels
             var comment = (BaseComment)e.ClickedItem;
 
             // Set the current position
-            Service.Player.PlaybackSession.Position = comment.CommentTime;
+            PlaybackV2Service.Instance.SetTrackPosition(comment.CommentTime);
         }
 
         public async void ShareTrack()

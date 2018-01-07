@@ -13,18 +13,11 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.Data.Xml.Dom;
-using Windows.Media;
-using Windows.Media.Core;
 using Windows.Media.Playback;
-using Windows.Media.Streaming.Adaptive;
-using Windows.Storage.Streams;
-using Windows.System;
 using Windows.UI.Notifications;
-using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using JetBrains.Annotations;
@@ -36,8 +29,6 @@ using SoundByte.UWP.Converters;
 using SoundByte.UWP.Helpers;
 using SoundByte.Core.Services;
 using SoundByte.Core.Sources;
-using SoundByte.UWP.Extensions;
-using YoutubeExplode;
 
 namespace SoundByte.UWP.Services
 {
@@ -46,6 +37,7 @@ namespace SoundByte.UWP.Services
     ///     app, provides access the the media player and active
     ///     playlist.
     /// </summary>
+    [Obsolete]
     public class PlaybackService : INotifyPropertyChanged
     {
         #region Delegates
@@ -60,14 +52,6 @@ namespace SoundByte.UWP.Services
         #endregion
 
         #region Class Variables / Getters and Setters
-
-        // Playlist Object
-        private MediaPlaybackList _playbackList;
-        // Used for working with YouTube video streams
-        private YoutubeClient _youTubeClient;
-
-
-
         /// The audio-video sync timer is used to sync YouTube videos
         /// to the background audio. This has to run a little faster for
         /// a smoother expirence.
@@ -79,6 +63,7 @@ namespace SoundByte.UWP.Services
         /// <summary>
         /// The current playing track
         /// </summary>
+        [Obsolete]
         [CanBeNull]
         public BaseTrack CurrentTrack
         {
@@ -97,6 +82,7 @@ namespace SoundByte.UWP.Services
         /// <summary>
         ///     The amount of time spent listening to the track
         /// </summary>
+
         public string TimeListened
         {
             get => _timeListened;
@@ -209,36 +195,36 @@ namespace SoundByte.UWP.Services
         /// </summary>
         public double MediaVolume
         {
-            get => Player.Volume * 100;
+            get => PlaybackV2Service.Instance.TrackVolume * 100;
             set
             {
                 // Set the volume
-                Player.Volume = value / 100;
+                PlaybackV2Service.Instance.SetTrackVolume(value / 100);
 
                 // Update the UI
                 if ((int)value == 0)
                 {
-                    Player.IsMuted = true;
+                    PlaybackV2Service.Instance.MuteTrack(true);
                     VolumeIcon = "\uE74F";
                 }
                 else if (value < 25)
                 {
-                    Player.IsMuted = false;
+                    PlaybackV2Service.Instance.MuteTrack(false);
                     VolumeIcon = "\uE992";
                 }
                 else if (value < 50)
                 {
-                    Player.IsMuted = false;
+                    PlaybackV2Service.Instance.MuteTrack(false);
                     VolumeIcon = "\uE993";
                 }
                 else if (value < 75)
                 {
-                    Player.IsMuted = false;
+                    PlaybackV2Service.Instance.MuteTrack(false);
                     VolumeIcon = "\uE994";
                 }
                 else
                 {
-                    Player.IsMuted = false;
+                    PlaybackV2Service.Instance.MuteTrack(false);
                     VolumeIcon = "\uE767";
                 }
 
@@ -247,30 +233,15 @@ namespace SoundByte.UWP.Services
         }
 
         /// <summary>
-        ///     Get the current list of items to be played back
-        /// </summary>
-        public MediaPlaybackList PlaybackList => Player.Source as MediaPlaybackList;
-
-        /// <summary>
-        ///     This application only requires a single shared MediaPlayer
-        ///     that all pages have access to.
-        /// </summary>
-        public MediaPlayer Player { get; }
-
-        /// <summary>
         ///     Are tracks shuffled
         /// </summary>
         public bool IsShuffleEnabled
         {
-            get => PlaybackList?.ShuffleEnabled ?? false;
+            get => PlaybackV2Service.Instance.IsPlaylistShuffled;
             set
             {
-                if (PlaybackList == null) return;
-
-                if (PlaybackList.ShuffleEnabled == value)
-                    return;
-
-                PlaybackList.ShuffleEnabled = value;
+                // Set the new value and force the UI to update
+                PlaybackV2Service.Instance.ShufflePlaylist(value);
                 UpdateProperty();
             }
         }
@@ -280,15 +251,10 @@ namespace SoundByte.UWP.Services
         /// </summary>
         public bool IsRepeatEnabled
         {
-            get => Player?.IsLoopingEnabled ?? false;
+            get => PlaybackV2Service.Instance.IsTrackRepeating;
             set
             {
-                if (Player == null) return;
-
-                if (Player.IsLoopingEnabled == value)
-                    return;
-
-                Player.IsLoopingEnabled = value;
+                PlaybackV2Service.Instance.RepeatTrack(value);
                 UpdateProperty();
             }
         }
@@ -306,24 +272,8 @@ namespace SoundByte.UWP.Services
         /// </summary>
         private PlaybackService()
         {
-            // Create the player instance
-            Player = new MediaPlayer { AutoPlay = false };
-
-            Player.PlaybackSession.PlaybackStateChanged += PlaybackSessionStateChanged;
-
-            // Create the new playback list (with autorepeat enabled)
-            _playbackList = new MediaPlaybackList
-            {
-                AutoRepeatEnabled = true,
-                MaxPlayedItemsToKeepOpen = 5           
-            };
-
-            // Subscribe to the item change event
-            _playbackList.CurrentItemChanged += CurrentItemChanged;
-
-
-            // Set the playback list
-            Player.Source = _playbackList;
+            PlaybackV2Service.Instance.OnStateChange += PlaybackSessionStateChanged;
+            PlaybackV2Service.Instance.OnTrackChange += CurrentItemChanged;
 
             // The page timer is used to update things like current position, time
             // remaining time etc.
@@ -331,9 +281,6 @@ namespace SoundByte.UWP.Services
             {
                 Interval = TimeSpan.FromMilliseconds(500)
             };
-
-            // Init the youtube client
-            _youTubeClient = new YoutubeClient();
 
             // Setup the tick event
             pageTimer.Tick += PlayingSliderUpdate;
@@ -386,10 +333,10 @@ namespace SoundByte.UWP.Services
         public void ToggleMute()
         {
             // Toggle the mute
-            Player.IsMuted = !Player.IsMuted;
+            PlaybackV2Service.Instance.MuteTrack(!PlaybackV2Service.Instance.IsTrackMuted);
 
             // Update the UI
-            VolumeIcon = Player.IsMuted ? "\uE74F" : "\uE767";
+            VolumeIcon = PlaybackV2Service.Instance.IsTrackMuted ? "\uE74F" : "\uE767";
         }
 
         /// <summary>
@@ -399,14 +346,14 @@ namespace SoundByte.UWP.Services
         public void ChangePlaybackState()
         {
             // Get the current state of the track
-            var currentState = Player.PlaybackSession.PlaybackState;
+            var currentState = PlaybackV2Service.Instance.CurrentPlaybackState;
 
             // If the track is currently paused
             if (currentState == MediaPlaybackState.Paused)
             {
                 UpdateNormalTiles();
                 // Play the track
-                Player.Play();
+                PlaybackV2Service.Instance.PlayTrack();
             }
 
             // If the track is currently playing
@@ -414,32 +361,24 @@ namespace SoundByte.UWP.Services
             {
                 UpdatePausedTile();
                 // Pause the track
-                Player.Pause();
+                PlaybackV2Service.Instance.PauseTrack();
             }
         }
 
         /// <summary>
         ///     Go forward one track
         /// </summary>
-        public async void SkipNext()
+        public void SkipNext()
         {
-            // Tell the controls that we are changing song
-            Player.SystemMediaTransportControls.PlaybackStatus = MediaPlaybackStatus.Changing;
-
-            // Move to the next item
-            await Task.Run(() => { _playbackList.MoveNext(); });
+            PlaybackV2Service.Instance.NextTrack();
         }
 
         /// <summary>
         ///     Go backwards one track
         /// </summary>
-        public async void SkipPrevious()
+        public void SkipPrevious()
         {
-            // Tell the controls that we are changing song
-            Player.SystemMediaTransportControls.PlaybackStatus = MediaPlaybackStatus.Changing;
-
-            // Move to the previous item
-            await Task.Run(() => { _playbackList.MovePrevious(); });
+            PlaybackV2Service.Instance.PreviousTrack();
         }
         #endregion
 
@@ -460,20 +399,19 @@ namespace SoundByte.UWP.Services
 
             // Only call the following if the player exists, is playing
             // and the time is greater then 0.
-            if (Player == null ||
-                Player.PlaybackSession.PlaybackState != MediaPlaybackState.Playing ||
-                Player.PlaybackSession.Position.Milliseconds <= 0)
+            if (PlaybackV2Service.Instance.CurrentPlaybackState != MediaPlaybackState.Playing
+                || PlaybackV2Service.Instance.GetTrackPosition().Milliseconds <= 0)
                 return;
 
             var overlay = App.CurrentFrame?.FindName("VideoOverlay") as MediaElement;
             if (overlay == null) return;
 
-            var difference = overlay.Position - Player.PlaybackSession.Position;
+            var difference = overlay.Position - PlaybackV2Service.Instance.GetTrackPosition();
 
             if (Math.Abs(difference.TotalMilliseconds) >= 1000)
             {
                 overlay.PlaybackRate = 1;
-                overlay.Position = Player.PlaybackSession.Position;
+                overlay.Position = PlaybackV2Service.Instance.GetTrackPosition();
                 System.Diagnostics.Debug.WriteLine("OUT OF SYNC: SKIPPING (>= 1000ms)");
             }
             else if (Math.Abs(difference.TotalMilliseconds) >= 500)
@@ -507,9 +445,8 @@ namespace SoundByte.UWP.Services
 
             // Only call the following if the player exists, is playing
             // and the time is greater then 0.
-            if (Player == null ||
-                Player.PlaybackSession.PlaybackState != MediaPlaybackState.Playing ||
-                Player.PlaybackSession.Position.Milliseconds <= 0)
+            if (PlaybackV2Service.Instance.CurrentPlaybackState != MediaPlaybackState.Playing
+                || PlaybackV2Service.Instance.GetTrackPosition().Milliseconds <= 0)
                 return;
 
             if (CurrentTrack == null)
@@ -532,119 +469,24 @@ namespace SoundByte.UWP.Services
             else
             {
                 // Set the current time value
-                CurrentTimeValue = Player.PlaybackSession.Position.TotalSeconds;
+                CurrentTimeValue = PlaybackV2Service.Instance.GetTrackPosition().TotalSeconds;
 
                 // Get the remaining time for the track
-                var remainingTime = Player.PlaybackSession.NaturalDuration.Subtract(Player.PlaybackSession.Position);
+                var remainingTime = PlaybackV2Service.Instance.GetTrackDuration().Subtract(PlaybackV2Service.Instance.GetTrackPosition());
 
                 // Set the time listened text
-                TimeListened = NumberFormatHelper.FormatTimeString(Player.PlaybackSession.Position.TotalMilliseconds);
+                TimeListened = NumberFormatHelper.FormatTimeString(PlaybackV2Service.Instance.GetTrackPosition().TotalMilliseconds);
 
                 // Set the time remaining text
                 TimeRemaining = "-" + NumberFormatHelper.FormatTimeString(remainingTime.TotalMilliseconds);
 
                 // Set the maximum value
-                MaxTimeValue = Player.PlaybackSession.NaturalDuration.TotalSeconds;
+                MaxTimeValue = PlaybackV2Service.Instance.GetTrackDuration().TotalSeconds;
             }
         }
         #endregion
 
-        public MediaPlaybackItem CreateMediaPlaybackItem(BaseTrack track)
-        {
-            if (track == null)
-                return null;
-
-            try
-            {
-                var binder = new MediaBinder
-                {
-                    Token = track.Id
-                };
-                binder.Binding += BindMediaSource;
-
-                var source = MediaSource.CreateFromMediaBinder(binder);
-
-                // Apply track metadata
-                source = track.AsMediaSource(source);
-
-                // Create a configurable playback item backed by the media source
-                var playbackItem = new MediaPlaybackItem(source);
-
-                // Populate display properties for the item that will be used
-                // to automatically update SystemMediaTransportControls when
-                // the item is playing.
-                var displayProperties = playbackItem.GetDisplayProperties();
-                displayProperties.Type = MediaPlaybackType.Music;
-                displayProperties.MusicProperties.Title = track.Title;
-                displayProperties.MusicProperties.Artist = track.User.Username;
-                displayProperties.Thumbnail =
-                    RandomAccessStreamReference.CreateFromUri(
-                        new Uri(ArtworkConverter.ConvertObjectToImage(track)));
-
-                // Apply the properties
-                playbackItem.ApplyDisplayProperties(displayProperties);
-
-                // Add the item to the required lists
-                return playbackItem;
-            }
-            catch (Exception)
-            {
-                App.Telemetry.TrackEvent("Could not add Playback Item",
-                    new Dictionary<string, string>
-                    {
-                        {"track_id", track.Id}
-                    });
-                return null;
-            }
-        }
-
-        private async void BindMediaSource(MediaBinder sender, MediaBindingEventArgs args)
-        {
-            // We are performing
-            var defferal = args.GetDeferral();
-
-            await App.SetLoadingAsync(true);
-
-            try
-            {
-                var track = PlaybackList.Items.FirstOrDefault(x => x.Source.AsBaseTrack().Id == args.MediaBinder.Token)?.Source?.AsBaseTrack();
-
-                if (track == null)
-                    return;
-
-                var url = await track.GetAudioStreamAsync(_youTubeClient);
-
-                await DispatcherHelper.ExecuteOnUIThreadAsync(async () =>
-                {
-                    // If the user is listening to a youtube livesteam, we must set an adaptive source 
-                    // for the steam.
-                    if (track.IsLive && track.ServiceType == ServiceType.YouTube)
-                    {
-                        var source = await AdaptiveMediaSource.CreateFromUriAsync(url);
-                        if (source.Status == AdaptiveMediaSourceCreationStatus.Success)
-                        {
-                            args.SetAdaptiveMediaSource(source.MediaSource);
-                        }
-                    }
-                    else
-                    {
-                        args.SetUri(url);
-                    }
-                });
-            }
-            catch (Exception e)
-            {
-                await DispatcherHelper.ExecuteOnUIThreadAsync(async () =>
-                {
-                   await new MessageDialog("Could not play track.\nError: " + e.Message).ShowAsync();
-                });
-            }
-
-            await App.SetLoadingAsync(false);
-
-            defferal.Complete();
-        }
-
+   
         public class PlaybackResponse
         {
             public PlaybackResponse(bool success, string messsage)
@@ -692,83 +534,20 @@ namespace SoundByte.UWP.Services
         public async Task<PlaybackResponse> StartModelMediaPlaybackAsync<TSource>(SoundByteCollection<TSource, BaseTrack> trackSource,
             bool isShuffled = false, BaseTrack startingItem = null) where TSource : ISource<BaseTrack>
         {
-            // If no playlist was specified, skip
-            if (trackSource == null || trackSource.Count == 0)
-                return new PlaybackResponse(false,
-                    "The playback list was missing or empty. This can be caused if there are not tracks avaliable (for example, you are trying to play your likes, but have not liked anything yet).\n\nAnother reason for this message is that if your playing a track from SoundCloud, SoundCloud has blocked these tracks from being played on 3rd party apps (such as SoundByte).");
+            // WRAP V2 SERVICE
 
             await App.SetLoadingAsync(true);
 
-            // Pause Everything
-            Player.Pause();
+            var result = await PlaybackV2Service.Instance.InitilizePlaylistAsync<TSource>(trackSource, trackSource.Token);
 
-            // Clear the playback list
-            _playbackList.Items.Clear();
+            if (!result.Success)
+                return new PlaybackResponse(false, result.Message);
 
-            // Set the model
-            Playlist = null;
-         //   Playlist = trackSource;
+            await PlaybackV2Service.Instance.StartTrackAsync(startingItem);
 
-            // Set the shuffle
-            _playbackList.ShuffleEnabled = isShuffled;
+            await App.SetLoadingAsync(false);
 
-            // Loop through all the tracks
-            foreach (var track in trackSource)
-            {
-                var mediaPlaybackItem = CreateMediaPlaybackItem(track);
-
-                if (mediaPlaybackItem != null)
-                    _playbackList.Items.Add(mediaPlaybackItem);
-            }
-
-            // Update the controls that we are changing track
-            Player.SystemMediaTransportControls.PlaybackStatus = MediaPlaybackStatus.Changing;
-
-            // If the track is shuffled, or no starting item is supplied, just play as usual
-            if (isShuffled || startingItem == null)
-            {
-                Player.Play();
-                return new PlaybackResponse(true, string.Empty);
-            }
-
-            var keepTrying = 0;
-
-            while (keepTrying < 100)
-                try
-                {
-                    // find the index of the track in the playlist
-                    var index = _playbackList.Items.ToList()
-                        .FindIndex(item => item.Source.AsBaseTrack().Id ==
-                                           startingItem.Id);
-
-                    if (index == -1)
-                    {
-                        await Task.Delay(50);
-                        keepTrying++;
-                        continue;
-                    }
-
-                    // Move to the track
-                    _playbackList.MoveTo((uint)index);
-                    // Begin playing
-                    Player.Play();
-
-                    return new PlaybackResponse(true, string.Empty);
-                }
-                catch (Exception)
-                {
-                    keepTrying++;
-                    await Task.Delay(200);
-                }
-
-            if (keepTrying < 50) return new PlaybackResponse(true, string.Empty);
-
-            App.Telemetry.TrackEvent("Playback Could not Start", new Dictionary<string, string>
-            {
-                {"track_id", startingItem.Id}
-            });
-
-            return new PlaybackResponse(false, "SoundByte could not play this track or list of tracks. Try again later.");
+            return new PlaybackResponse(true, string.Empty);
         }
         #endregion
 
@@ -776,7 +555,7 @@ namespace SoundByte.UWP.Services
         /// <summary>
         ///     Called when the playback session changes
         /// </summary>
-        private async void PlaybackSessionStateChanged(MediaPlaybackSession sender, object args)
+        private async void PlaybackSessionStateChanged(MediaPlaybackState mediaPlaybackState)
         {
             // Don't run in the background if on Xbox
             if (DeviceHelper.IsBackground && DeviceHelper.IsXbox)
@@ -786,7 +565,7 @@ namespace SoundByte.UWP.Services
             {
                 var overlay = App.CurrentFrame?.FindName("VideoOverlay") as MediaElement;
 
-                switch (sender.PlaybackState)
+                switch (mediaPlaybackState)
                 {
                     case MediaPlaybackState.Playing:
                         await App.SetLoadingAsync(false);
@@ -814,15 +593,8 @@ namespace SoundByte.UWP.Services
             });
         }
 
-        private async void CurrentItemChanged(MediaPlaybackList sender, CurrentMediaPlaybackItemChangedEventArgs args)
+        private async void CurrentItemChanged(BaseTrack track)
         {
-            // Try get the track
-            var track = args.NewItem?.Source.AsBaseTrack();
-
-            // If the track does not exist, do nothing
-            if (track == null)
-                return;
-
             // Same track, no need to perform this logic
             if (track == CurrentTrack)
                 return;
@@ -894,35 +666,7 @@ namespace SoundByte.UWP.Services
                     }
                 }
             });
-            
-            string currentUsageLimit;
-            var memoryUsage = MemoryManager.AppMemoryUsage / 1024 / 1024;
-
-            if (memoryUsage > 512)
-            {
-                currentUsageLimit = "More than 512MB";
-            }
-            else if (memoryUsage > 256)
-            {
-                currentUsageLimit = "More than 256MB";
-            }
-            else if (memoryUsage > 128)
-            {
-                currentUsageLimit = "More than 128MB";
-            }
-            else
-            {
-                currentUsageLimit = "Less than 128MB";
-            }
-
-            App.Telemetry.TrackEvent("Current Song Changed", new Dictionary<string, string>
-            {
-                { "CurrentUsage", currentUsageLimit },
-                { "TrackType", track.ServiceType.ToString() ?? "Null" },
-                { "IsSoundCloudConnected", SoundByteService.Current.IsServiceConnected(ServiceType.SoundCloud).ToString() },
-                { "IsFanburstConnected", SoundByteService.Current.IsServiceConnected(ServiceType.Fanburst).ToString() },
-                { "IsYouTubeConnected", SoundByteService.Current.IsServiceConnected(ServiceType.YouTube).ToString() }
-            });
+                    
         }
 
         /// <summary>
@@ -940,7 +684,7 @@ namespace SoundByte.UWP.Services
                 return;
 
             // Set the track position
-            Player.PlaybackSession.Position = TimeSpan.FromSeconds(CurrentTimeValue);
+            PlaybackV2Service.Instance.SetTrackPosition(TimeSpan.FromSeconds(CurrentTimeValue));
 
             await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
             {

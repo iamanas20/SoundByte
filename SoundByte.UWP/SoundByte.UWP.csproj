@@ -246,6 +246,7 @@
     <Compile Include="ViewModels\Generic\PlaylistListViewModel.cs" />
     <Compile Include="ViewModels\Generic\PodcastShowListViewModel.cs" />
     <Compile Include="ViewModels\Generic\UserListViewModel.cs" />
+    <Compile Include="ViewModels\PlaybackViewModel.cs" />
     <Compile Include="ViewModels\SearchViewModels\PlaylistsViewModel.cs" />
     <Compile Include="ViewModels\SearchViewModels\PodcastsViewModel.cs" />
     <Compile Include="ViewModels\SearchViewModels\TracksViewModel.cs" />
