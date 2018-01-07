@@ -11,17 +11,13 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 using Windows.ApplicationModel.Core;
 using Windows.Media.Playback;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using JetBrains.Annotations;
-using Microsoft.Toolkit.Uwp.Helpers;
 using SoundByte.Core;
 using SoundByte.Core.Items.Track;
 using SoundByte.Core.Items.User;
@@ -33,9 +29,14 @@ namespace SoundByte.UWP.ViewModels
 {
     public class PlaybackViewModel : BaseViewModel
     {
-        private CoreDispatcher _currentUiDispatcher;
+        private readonly CoreDispatcher _currentUiDispatcher;
 
         #region Getters and Setters
+        /// <summary>
+        /// Current playlist of items
+        /// </summary>
+        public ObservableCollection<BaseTrack> Playlist { get; } = new ObservableCollection<BaseTrack>();
+
         /// <summary>
         /// The current playing track
         /// </summary>
@@ -155,36 +156,36 @@ namespace SoundByte.UWP.ViewModels
         /// </summary>
         public double MediaVolume
         {
-            get => PlaybackV2Service.Instance.TrackVolume * 100;
+            get => PlaybackService.Instance.TrackVolume * 100;
             set
             {
                 // Set the volume
-                PlaybackV2Service.Instance.SetTrackVolume(value / 100);
+                PlaybackService.Instance.SetTrackVolume(value / 100);
 
                 // Update the UI
                 if ((int)value == 0)
                 {
-                    PlaybackV2Service.Instance.MuteTrack(true);
+                    PlaybackService.Instance.MuteTrack(true);
                     VolumeIcon = "\uE74F";
                 }
                 else if (value < 25)
                 {
-                    PlaybackV2Service.Instance.MuteTrack(false);
+                    PlaybackService.Instance.MuteTrack(false);
                     VolumeIcon = "\uE992";
                 }
                 else if (value < 50)
                 {
-                    PlaybackV2Service.Instance.MuteTrack(false);
+                    PlaybackService.Instance.MuteTrack(false);
                     VolumeIcon = "\uE993";
                 }
                 else if (value < 75)
                 {
-                    PlaybackV2Service.Instance.MuteTrack(false);
+                    PlaybackService.Instance.MuteTrack(false);
                     VolumeIcon = "\uE994";
                 }
                 else
                 {
-                    PlaybackV2Service.Instance.MuteTrack(false);
+                    PlaybackService.Instance.MuteTrack(false);
                     VolumeIcon = "\uE767";
                 }
 
@@ -197,11 +198,11 @@ namespace SoundByte.UWP.ViewModels
         /// </summary>
         public bool IsShuffleEnabled
         {
-            get => PlaybackV2Service.Instance.IsPlaylistShuffled;
+            get => PlaybackService.Instance.IsPlaylistShuffled;
             set
             {
                 // Set the new value and force the UI to update
-                PlaybackV2Service.Instance.ShufflePlaylist(value);
+                PlaybackService.Instance.ShufflePlaylist(value);
                 UpdateProperty();
             }
         }
@@ -211,10 +212,10 @@ namespace SoundByte.UWP.ViewModels
         /// </summary>
         public bool IsRepeatEnabled
         {
-            get => PlaybackV2Service.Instance.IsTrackRepeating;
+            get => PlaybackService.Instance.IsTrackRepeating;
             set
             {
-                PlaybackV2Service.Instance.RepeatTrack(value);
+                PlaybackService.Instance.RepeatTrack(value);
                 UpdateProperty();
             }
         }
@@ -251,8 +252,8 @@ namespace SoundByte.UWP.ViewModels
             _currentUiDispatcher = uiDispatcher;
 
             // Bind the methods that we need
-            PlaybackV2Service.Instance.OnStateChange += OnStateChange;
-            PlaybackV2Service.Instance.OnTrackChange += OnTrackChange;
+            PlaybackService.Instance.OnStateChange += OnStateChange;
+            PlaybackService.Instance.OnTrackChange += OnTrackChange;
 
             // Bind timer methods
             _updateInformationTimer.Tick += UpdateInformation;
@@ -287,8 +288,8 @@ namespace SoundByte.UWP.ViewModels
 
             // Only call the following if the player exists, is playing
             // and the time is greater then 0.
-            if (PlaybackV2Service.Instance.CurrentPlaybackState != MediaPlaybackState.Playing
-                || PlaybackV2Service.Instance.GetTrackPosition().Milliseconds <= 0)
+            if (PlaybackService.Instance.CurrentPlaybackState != MediaPlaybackState.Playing
+                || PlaybackService.Instance.GetTrackPosition().Milliseconds <= 0)
                 return;
 
             await _currentUiDispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
@@ -296,12 +297,12 @@ namespace SoundByte.UWP.ViewModels
                 if (!(App.CurrentFrame?.FindName("VideoOverlay") is MediaElement overlay))
                     return;
 
-                var difference = overlay.Position - PlaybackV2Service.Instance.GetTrackPosition();
+                var difference = overlay.Position - PlaybackService.Instance.GetTrackPosition();
 
                 if (Math.Abs(difference.TotalMilliseconds) >= 1000)
                 {
                     overlay.PlaybackRate = 1;
-                    overlay.Position = PlaybackV2Service.Instance.GetTrackPosition();
+                    overlay.Position = PlaybackService.Instance.GetTrackPosition();
                     System.Diagnostics.Debug.WriteLine("OUT OF SYNC: SKIPPING (>= 1000ms)");
                 }
                 else if (Math.Abs(difference.TotalMilliseconds) >= 500)
@@ -336,8 +337,8 @@ namespace SoundByte.UWP.ViewModels
 
             // Only call the following if the player exists, is playing
             // and the time is greater then 0.
-            if (PlaybackV2Service.Instance.CurrentPlaybackState != MediaPlaybackState.Playing
-                || PlaybackV2Service.Instance.GetTrackPosition().Milliseconds <= 0)
+            if (PlaybackService.Instance.CurrentPlaybackState != MediaPlaybackState.Playing
+                || PlaybackService.Instance.GetTrackPosition().Milliseconds <= 0)
                 return;
 
             if (CurrentTrack == null)
@@ -362,19 +363,19 @@ namespace SoundByte.UWP.ViewModels
                 else
                 {
                     // Set the current time value
-                    CurrentTimeValue = PlaybackV2Service.Instance.GetTrackPosition().TotalSeconds;
+                    CurrentTimeValue = PlaybackService.Instance.GetTrackPosition().TotalSeconds;
 
                     // Get the remaining time for the track
-                    var remainingTime = PlaybackV2Service.Instance.GetTrackDuration().Subtract(PlaybackV2Service.Instance.GetTrackPosition());
+                    var remainingTime = PlaybackService.Instance.GetTrackDuration().Subtract(PlaybackService.Instance.GetTrackPosition());
 
                     // Set the time listened text
-                    TimeListened = NumberFormatHelper.FormatTimeString(PlaybackV2Service.Instance.GetTrackPosition().TotalMilliseconds);
+                    TimeListened = NumberFormatHelper.FormatTimeString(PlaybackService.Instance.GetTrackPosition().TotalMilliseconds);
 
                     // Set the time remaining text
                     TimeRemaining = "-" + NumberFormatHelper.FormatTimeString(remainingTime.TotalMilliseconds);
 
                     // Set the maximum value
-                    MaxTimeValue = PlaybackV2Service.Instance.GetTrackDuration().TotalSeconds;
+                    MaxTimeValue = PlaybackService.Instance.GetTrackDuration().TotalSeconds;
                 }
             });
         }
@@ -403,10 +404,10 @@ namespace SoundByte.UWP.ViewModels
         public void ToggleMute()
         {
             // Toggle mute
-            PlaybackV2Service.Instance.MuteTrack(!PlaybackV2Service.Instance.IsTrackMuted);
+            PlaybackService.Instance.MuteTrack(!PlaybackService.Instance.IsTrackMuted);
 
             // Update the UI
-            VolumeIcon = PlaybackV2Service.Instance.IsTrackMuted ? "\uE74F" : "\uE767";
+            VolumeIcon = PlaybackService.Instance.IsTrackMuted ? "\uE74F" : "\uE767";
         }
         #endregion
 
@@ -418,14 +419,14 @@ namespace SoundByte.UWP.ViewModels
         public void ChangePlaybackState()
         {
             // Get the current state of the track
-            var currentState = PlaybackV2Service.Instance.CurrentPlaybackState;
+            var currentState = PlaybackService.Instance.CurrentPlaybackState;
 
             // If the track is currently paused
             if (currentState == MediaPlaybackState.Paused)
             {
                 //               UpdateNormalTiles();
                 // Play the track
-                PlaybackV2Service.Instance.PlayTrack();
+                PlaybackService.Instance.PlayTrack();
             }
 
             // If the track is currently playing
@@ -433,7 +434,7 @@ namespace SoundByte.UWP.ViewModels
             {
                 //              UpdatePausedTile();
                 // Pause the track
-                PlaybackV2Service.Instance.PauseTrack();
+                PlaybackService.Instance.PauseTrack();
             }
         }
 
@@ -442,7 +443,7 @@ namespace SoundByte.UWP.ViewModels
         /// </summary>
         public void SkipNext()
         {
-            PlaybackV2Service.Instance.NextTrack();
+            PlaybackService.Instance.NextTrack();
         }
 
         /// <summary>
@@ -450,7 +451,7 @@ namespace SoundByte.UWP.ViewModels
         /// </summary>
         public void SkipPrevious()
         {
-            PlaybackV2Service.Instance.PreviousTrack();
+            PlaybackService.Instance.PreviousTrack();
         }
 
         #endregion
@@ -468,7 +469,7 @@ namespace SoundByte.UWP.ViewModels
                 return;
 
             // Set the track position
-            PlaybackV2Service.Instance.SetTrackPosition(TimeSpan.FromSeconds(CurrentTimeValue));
+            PlaybackService.Instance.SetTrackPosition(TimeSpan.FromSeconds(CurrentTimeValue));
 
             await _currentUiDispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
@@ -593,8 +594,8 @@ namespace SoundByte.UWP.ViewModels
         public override void Dispose()
         {
             // Unbind the methods that we need
-            PlaybackV2Service.Instance.OnStateChange -= OnStateChange;
-            PlaybackV2Service.Instance.OnTrackChange -= OnTrackChange;
+            PlaybackService.Instance.OnStateChange -= OnStateChange;
+            PlaybackService.Instance.OnTrackChange -= OnTrackChange;
 
             // Unbind timer methods
             _updateInformationTimer.Tick -= UpdateInformation;

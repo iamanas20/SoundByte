@@ -226,7 +226,6 @@
     <Compile Include="Services\MonitizeService.cs" />
     <Compile Include="Services\NavigationService.cs" />
     <Compile Include="Services\PlaybackService.cs" />
-    <Compile Include="Services\PlaybackV2Service.cs" />
     <Compile Include="Services\SettingsService.cs" />
     <Compile Include="Services\TelemetryService.cs" />
     <Compile Include="StateTriggers\DeviceStateTrigger.cs" />

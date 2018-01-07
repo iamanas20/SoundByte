@@ -198,7 +198,7 @@ namespace SoundByte.UWP.Views
 
         private void VideoOverlay_OnMediaOpened(object sender, RoutedEventArgs e)
         {
-            VideoOverlay.Position = PlaybackV2Service.Instance.GetTrackPosition();
+            VideoOverlay.Position = PlaybackService.Instance.GetTrackPosition();
             VideoOverlay.Fade(1, 450).Start();
         }
     }

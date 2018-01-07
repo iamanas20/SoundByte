@@ -37,6 +37,7 @@ using SoundByte.Core.Items.Playlist;
 using SoundByte.Core.Items.Track;
 using SoundByte.Core.Items.User;
 using SoundByte.Core.Services;
+using SoundByte.Core.Sources;
 using SoundByte.Core.Sources.SoundCloud;
 using SoundByte.UWP.Dialogs;
 using SoundByte.UWP.Helpers;
@@ -78,7 +79,7 @@ namespace SoundByte.UWP
             // bar when a track is played. This method
             // updates the required layout for the now
             // playing bar.
-            PlaybackV2Service.Instance.OnTrackChange += InstanceOnOnCurrentTrackChanged;
+            PlaybackService.Instance.OnTrackChange += InstanceOnOnCurrentTrackChanged;
             
 
             // Create a shell frame shadow for mobile and desktop
@@ -118,7 +119,7 @@ namespace SoundByte.UWP
 
         public void Dispose()
         {
-            PlaybackV2Service.Instance.OnTrackChange -= InstanceOnOnCurrentTrackChanged;
+            PlaybackService.Instance.OnTrackChange -= InstanceOnOnCurrentTrackChanged;
         }
 
         private void OnBackRequested(object sender, BackRequestedEventArgs e)
@@ -364,8 +365,13 @@ namespace SoundByte.UWP
                             }
 
                             // Play the list of items
-                            await PlaybackService.Instance.StartPlaylistMediaPlaybackAsync(
+                            var result = await PlaybackService.Instance.InitilizePlaylistAsync<DummyTrackSource>(
                                 userStream.Where(x => x.Track != null).Select(x => x.Track).ToList());
+
+                            if (result.Success)
+                            {
+                                await PlaybackService.Instance.StartTrackAsync();
+                            }
 
                             return;
                         }
@@ -400,10 +406,16 @@ namespace SoundByte.UWP
                                 if (track != null)
                                 {
                                     var startPlayback =
-                                        await PlaybackService.Instance.StartPlaylistMediaPlaybackAsync(new List<BaseTrack> { track });
+                                        await PlaybackService.Instance.InitilizePlaylistAsync<DummyTrackSource>(new List<BaseTrack> { track });
 
-                                    if (!startPlayback.Success)
+                                    if (startPlayback.Success)
+                                    {
+                                        await PlaybackService.Instance.StartTrackAsync();
+                                    }
+                                    else
+                                    {
                                         await new MessageDialog(startPlayback.Message, "Error playing track.").ShowAsync();
+                                    }
                                 }
                                 break;
                             case "playlist":
@@ -500,7 +512,7 @@ namespace SoundByte.UWP
                     NavView.OpenPaneLength = 320;
 
 
-                    if (PlaybackV2Service.Instance.GetCurrentTrack() == null)
+                    if (PlaybackService.Instance.GetCurrentTrack() == null)
                         HideNowPlayingBar();
                     else
                         ShowNowPlayingBar();

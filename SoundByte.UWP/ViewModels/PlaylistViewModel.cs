@@ -12,7 +12,6 @@
 
 using System;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
 using Windows.UI.Popups;
@@ -22,6 +21,7 @@ using SoundByte.Core;
 using SoundByte.Core.Items.Playlist;
 using SoundByte.Core.Items.Track;
 using SoundByte.Core.Services;
+using SoundByte.Core.Sources;
 using SoundByte.UWP.Converters;
 using SoundByte.UWP.Helpers;
 using SoundByte.UWP.Services;
@@ -253,11 +253,15 @@ namespace SoundByte.UWP.ViewModels
             // Get the Click item
             var item = (BaseTrack) e.ClickedItem;
 
-            var startPlayback =
-                await PlaybackService.Instance.StartPlaylistMediaPlaybackAsync(Tracks.ToList(), false, item);
+            var startPlayback = await PlaybackService.Instance.InitilizePlaylistAsync<DummyTrackSource>(Tracks);
 
             if (!startPlayback.Success)
+            {
                 await new MessageDialog(startPlayback.Message, "Error playing playlist.").ShowAsync();
+                return;
+            }
+
+            await PlaybackService.Instance.StartTrackAsync(item);
         }
 
         /// <summary>
@@ -266,10 +270,15 @@ namespace SoundByte.UWP.ViewModels
         public async void NavigatePlay()
         {
             var startPlayback =
-                await PlaybackService.Instance.StartPlaylistMediaPlaybackAsync(Tracks.ToList());
+                await PlaybackService.Instance.InitilizePlaylistAsync<DummyTrackSource>(Tracks);
 
             if (!startPlayback.Success)
+            {
                 await new MessageDialog(startPlayback.Message, "Error playing playlist.").ShowAsync();
+                return;
+            }
+
+            await PlaybackService.Instance.StartTrackAsync();
         }
 
         #endregion

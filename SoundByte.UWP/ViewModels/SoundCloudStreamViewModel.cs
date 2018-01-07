@@ -19,6 +19,7 @@ using SoundByte.UWP.Services;
 using SoundByte.UWP.Views;
 using SoundByte.Core;
 using SoundByte.Core.Items.Generic;
+using SoundByte.Core.Sources;
 using SoundByte.Core.Sources.SoundCloud;
 
 namespace SoundByte.UWP.ViewModels
@@ -41,10 +42,16 @@ namespace SoundByte.UWP.ViewModels
             var trackList = StreamItems.Where(t => t.Type == ItemType.Track && t.Track != null)
                 .Select(t => t.Track);
 
-            var startPlayback = await PlaybackService.Instance.StartPlaylistMediaPlaybackAsync(trackList);
+            var startPlayback = await PlaybackService.Instance.InitilizePlaylistAsync<DummyTrackSource>(trackList);
 
             if (!startPlayback.Success)
+            {
                 await new MessageDialog(startPlayback.Message, "Error playing stream.").ShowAsync();
+                StreamItems.IsLoading = false;
+                return;
+            }
+
+            await PlaybackService.Instance.StartTrackAsync();
 
             // We are not loading
             StreamItems.IsLoading = false;
@@ -80,10 +87,16 @@ namespace SoundByte.UWP.ViewModels
                 case ItemType.Track:
                     if (streamItem.Track != null)
                     {
-                        var startPlayback = await PlaybackService.Instance.StartPlaylistMediaPlaybackAsync(trackList, false, streamItem.Track);
+                        var startPlayback = await PlaybackService.Instance.InitilizePlaylistAsync<DummyTrackSource>(trackList);
 
                         if (!startPlayback.Success)
+                        {
                             await new MessageDialog(startPlayback.Message, "Error playing stream.").ShowAsync();
+                            StreamItems.IsLoading = false;
+                            return;
+                        }
+
+                        await PlaybackService.Instance.StartTrackAsync(streamItem.Track);
                     }
                     break;
                 case ItemType.Playlist:

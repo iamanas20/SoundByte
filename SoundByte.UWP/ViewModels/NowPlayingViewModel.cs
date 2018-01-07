@@ -11,7 +11,6 @@
  */
 
 using System;
-using System.Linq;
 using Windows.UI.Popups;
 using Windows.UI.StartScreen;
 using Windows.UI.ViewManagement;
@@ -33,6 +32,8 @@ namespace SoundByte.UWP.ViewModels
 {
     public class NowPlayingViewModel : BaseViewModel
     {
+        public PlaybackViewModel PlaybackViewModel { get; private set; }
+
         #region Models
 
         public SoundByteCollection<CommentSource, BaseComment> CommentItems { get; } =
@@ -71,7 +72,7 @@ namespace SoundByte.UWP.ViewModels
                         overlay.Source = null;
                     }
                 }
-             
+
                 // Set the pin button text
                 PinButtonText = TileHelper.IsTilePinned("Track_" + newTrack.Id) ? "Unpin" : "Pin";
 
@@ -95,6 +96,8 @@ namespace SoundByte.UWP.ViewModels
             // Only clean if we are in the background
             if (!DeviceHelper.IsBackground)
                 return;
+
+            PlaybackViewModel.Dispose();
 
             CleanModel();
         }
@@ -193,13 +196,15 @@ namespace SoundByte.UWP.ViewModels
         /// </summary>
         public void SetupModel()
         {
+            PlaybackViewModel = new PlaybackViewModel();
+
             // Bind the method once we know a playback list exists
-            PlaybackV2Service.Instance.OnTrackChange += Instance_OnCurrentTrackChanged;
-            CommentItems.Source.Track = PlaybackV2Service.Instance.GetCurrentTrack();
+            PlaybackService.Instance.OnTrackChange += Instance_OnCurrentTrackChanged;
+            CommentItems.Source.Track = PlaybackService.Instance.GetCurrentTrack();
 
             var overlay = App.CurrentFrame.FindName("VideoOverlay") as MediaElement;
 
-            var currentTrack = PlaybackV2Service.Instance.GetCurrentTrack();
+            var currentTrack = PlaybackService.Instance.GetCurrentTrack();
 
             if (overlay != null)
             {
@@ -234,7 +239,7 @@ namespace SoundByte.UWP.ViewModels
         public void CleanModel()
         {
             // Unbind the events
-            PlaybackV2Service.Instance.OnTrackChange -= Instance_OnCurrentTrackChanged;
+            PlaybackService.Instance.OnTrackChange -= Instance_OnCurrentTrackChanged;
 
             var overlay = App.CurrentFrame?.FindName("VideoOverlay") as MediaElement;
 
@@ -255,7 +260,7 @@ namespace SoundByte.UWP.ViewModels
         /// </summary>
         public async void DisplayPlaylist()
         {
-            await NavigationService.Current.CallDialogAsync<PlaylistDialog>(PlaybackV2Service.Instance.GetCurrentTrack());
+            await NavigationService.Current.CallDialogAsync<PlaylistDialog>(PlaybackService.Instance.GetCurrentTrack());
         }
 
         /// <summary>
@@ -263,10 +268,15 @@ namespace SoundByte.UWP.ViewModels
         /// </summary>
         public async void GotoRelatedTrack(object sender, ItemClickEventArgs e)
         {
-            var startPlayback =
-                await PlaybackService.Instance.StartPlaylistMediaPlaybackAsync(PlaybackService.Instance.Playlist.ToList(), false, (BaseTrack)e.ClickedItem);
+            var startPlayback = await PlaybackService.Instance.InitilizePlaylistAsync<DummyTrackSource>(PlaybackViewModel.Playlist);
+
             if (!startPlayback.Success)
+            {
                 await new MessageDialog(startPlayback.Message, "Error playing related track.").ShowAsync();
+                return;
+            }
+
+            await PlaybackService.Instance.StartTrackAsync(e.ClickedItem as BaseTrack);
         }
 
         /// <summary>
@@ -274,7 +284,7 @@ namespace SoundByte.UWP.ViewModels
         /// </summary>
         public async void PinTile()
         {
-            var currentTrack = PlaybackV2Service.Instance.GetCurrentTrack();
+            var currentTrack = PlaybackService.Instance.GetCurrentTrack();
 
             if (currentTrack != null)
             {
@@ -311,7 +321,7 @@ namespace SoundByte.UWP.ViewModels
                         PinButtonText = "Pin";
                     }
                 }
-            } 
+            }
         }
 
         /// <summary>
@@ -319,7 +329,7 @@ namespace SoundByte.UWP.ViewModels
         /// </summary>
         public async void RepostTrack()
         {
-            var currentTrack = PlaybackV2Service.Instance.GetCurrentTrack();
+            var currentTrack = PlaybackService.Instance.GetCurrentTrack();
 
             if (currentTrack == null)
                 return;
@@ -360,7 +370,7 @@ namespace SoundByte.UWP.ViewModels
         /// </summary>
         public async void LikeTrack()
         {
-            var currentTrack = PlaybackV2Service.Instance.GetCurrentTrack();
+            var currentTrack = PlaybackService.Instance.GetCurrentTrack();
 
 
 
@@ -409,12 +419,12 @@ namespace SoundByte.UWP.ViewModels
             var comment = (BaseComment)e.ClickedItem;
 
             // Set the current position
-            PlaybackV2Service.Instance.SetTrackPosition(comment.CommentTime);
+            PlaybackService.Instance.SetTrackPosition(comment.CommentTime);
         }
 
         public async void ShareTrack()
         {
-            await NavigationService.Current.CallDialogAsync<ShareDialog>(PlaybackV2Service.Instance.GetCurrentTrack());
+            await NavigationService.Current.CallDialogAsync<ShareDialog>(PlaybackService.Instance.GetCurrentTrack());
         }
 
         /// <summary>
@@ -426,7 +436,7 @@ namespace SoundByte.UWP.ViewModels
             // some time.
             await App.SetLoadingAsync(true);
 
-            var currentTrack = PlaybackV2Service.Instance.GetCurrentTrack();
+            var currentTrack = PlaybackService.Instance.GetCurrentTrack();
 
             // We only support viewing soundcloud profiles at this time
             if (currentTrack?.ServiceType != ServiceType.SoundCloud)

@@ -29,11 +29,6 @@ namespace SoundByte.UWP.ViewModels
     public class BaseViewModel : INotifyPropertyChanged, IDisposable
     {
         /// <summary>
-        ///     The global playback service
-        /// </summary>
-        public PlaybackService Service => PlaybackService.Instance;
-
-        /// <summary>
         ///     Dispose the model
         /// </summary>
         public virtual void Dispose()
@@ -47,23 +42,32 @@ namespace SoundByte.UWP.ViewModels
 
         public static async Task ShuffleTracksListAsync(IEnumerable<BaseTrack> tracks)
         {
-            var startPlayback = await PlaybackService.Instance.StartPlaylistMediaPlaybackAsync(tracks, true);
+            var initPlaylistResponse = await PlaybackService.Instance.InitilizePlaylistAsync<DummyTrackSource>(tracks);
 
-            if (!startPlayback.Success)
-                await new MessageDialog(startPlayback.Message, "Error playing shuffled tracks.").ShowAsync();
+            if (!initPlaylistResponse.Success)
+            {
+                await new MessageDialog(initPlaylistResponse.Message, "Error playing shuffled tracks.").ShowAsync();
+                return;
+            }
+
+            PlaybackService.Instance.StartRandomTrack();
         }
 
         public static async Task ShuffleTracksAsync<TSource>(SoundByteCollection<TSource, BaseTrack> model) where TSource : ISource<BaseTrack>
         {
             model.IsLoading = true;
 
-            var startPlayback = await PlaybackService.Instance.StartModelMediaPlaybackAsync(model, true);
+            var initPlaylistResponse = await PlaybackService.Instance.InitilizePlaylistAsync<TSource>(model, model.Token);
 
-            if (!startPlayback.Success)
-                await new MessageDialog(startPlayback.Message, "Error playing shuffled tracks.").ShowAsync();
+            if (!initPlaylistResponse.Success)
+            {
+                await new MessageDialog(initPlaylistResponse.Message, "Error playing shuffled tracks.").ShowAsync();
+                return;
+            }
+
+            PlaybackService.Instance.StartRandomTrack();
 
             model.IsLoading = false;
-
         }
 
         public static async Task PlayAllItemsAsync<TSource>(SoundByteCollection<TSource, BaseTrack> model) where TSource : ISource<BaseTrack>

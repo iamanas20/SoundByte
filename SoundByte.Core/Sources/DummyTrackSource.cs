@@ -10,7 +10,6 @@
  * |----------------------------------------------------------------|
  */
 
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
@@ -23,7 +22,6 @@ namespace SoundByte.Core.Sources
     /// collection when using a list of songs and not a model.
     /// </summary>
     [UsedImplicitly]
-    [Obsolete("This class restricts future development")]
     public class DummyTrackSource : ISource<BaseTrack>
     {
         public async Task<SourceResponse<BaseTrack>> GetItemsAsync(int count, string token,
