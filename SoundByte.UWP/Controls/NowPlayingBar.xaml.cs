@@ -31,6 +31,7 @@ namespace SoundByte.UWP.Controls
             Unloaded += (sender, args) =>
             {
                 PlaybackViewModel?.Dispose();
+                PlaybackViewModel = null;
             };
         }
 

@@ -58,41 +58,39 @@ namespace SoundByte.Core.Services
         void RepeatTrack(bool repeat);
 
         /// <summary>
-        /// Skip to the next track in the playlist
+        ///     Skip to the next track in the playlist
         /// </summary>
         void NextTrack();
 
         /// <summary>
-        /// Play the previous track in the playlist
+        ///     Play the previous track in the playlist
         /// </summary>
         void PreviousTrack();
 
         /// <summary>
-        /// Pause the current track
+        ///     Pause the current track
         /// </summary>
         void PauseTrack();
 
         /// <summary>
-        /// Plays the current track
+        ///     Plays the current track
         /// </summary>
         void PlayTrack();
 
-        
-
         /// <summary>
-        /// Start playlist at a specific track (if no track is supplied, a random track 
-        /// will be played).
+        ///     Start playlist at a specific track (if no track is supplied, a random track 
+        ///     will be played).
         /// </summary>
         /// <param name="trackToPlay">The track to play, must exist in the playlist.</param>
         Task StartTrackAsync(BaseTrack trackToPlay);
 
         /// <summary>
-        /// Start playlist a random tracks
+        ///     Start playlist a random tracks
         /// </summary>
-        void StartRandomTrack();
+        Task StartRandomTrackAsync();
 
         /// <summary>
-        /// Get the current playing track (if exists)
+        ///     Get the current playing track (if exists)
         /// </summary>
         /// <returns>Returns the current playing track. Will be null if no tracks are playing</returns>
         [CanBeNull]

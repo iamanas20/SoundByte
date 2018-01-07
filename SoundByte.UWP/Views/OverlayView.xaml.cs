@@ -19,13 +19,22 @@ namespace SoundByte.UWP.Views
 {
     public sealed partial class OverlayView 
     {
-        public PlaybackViewModel PlaybackViewModel { get; }
+        public PlaybackViewModel PlaybackViewModel { get; private set; }
 
         public OverlayView()
         {
             InitializeComponent();
 
-            PlaybackViewModel = new PlaybackViewModel(CoreWindow.GetForCurrentThread().Dispatcher);
+            Loaded += (sender, args) =>
+            {
+                PlaybackViewModel = new PlaybackViewModel(CoreWindow.GetForCurrentThread().Dispatcher);
+            };
+
+            Unloaded += (sender, args) =>
+            {
+                PlaybackViewModel?.Dispose();
+                PlaybackViewModel = null;
+            };
 
             // Set the accent color
             TitlebarHelper.UpdateTitlebarStyle();

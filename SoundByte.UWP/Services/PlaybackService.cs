@@ -205,20 +205,16 @@ namespace SoundByte.UWP.Services
         public double TrackVolume => _mediaPlayer.Volume;
 
         public MediaPlaybackState CurrentPlaybackState => _mediaPlayer.PlaybackSession.PlaybackState;
-
         #endregion
 
         /// <summary>
         ///     Shuffle the playlist
         /// </summary>
         /// <param name="shuffle">True to shuffle, false to not.</param>
-        public void ShufflePlaylist(bool shuffle)
+        public async void ShufflePlaylist(bool shuffle)
         {
-            // Shuffle the playlist
-            MediaPlaybackList.ShuffleEnabled = true;
-
             // Start a random track
-            StartRandomTrack();
+            await StartRandomTrackAsync();
 
             // Track event
             App.Telemetry.TrackEvent("Shuffle Playlist", new Dictionary<string, string>
@@ -292,6 +288,10 @@ namespace SoundByte.UWP.Services
 
         public async Task StartTrackAsync(BaseTrack trackToPlay = null)
         {
+            MediaPlaybackList.ShuffleEnabled = false;
+
+            _mediaPlayer.Pause();
+
             if (trackToPlay == null)
             {
                 _mediaPlayer.Play();
@@ -334,9 +334,18 @@ namespace SoundByte.UWP.Services
             _mediaPlayer.Play();
         }
 
-        public void StartRandomTrack()
+        public async Task StartRandomTrackAsync()
         {
-            throw new NotImplementedException();
+            var playItemsCount = MediaPlaybackList.Items.Count;
+
+            // Get a random index
+            var index = new Random().Next(0, playItemsCount - 1);
+
+            // Start the track
+            await StartTrackAsync(MediaPlaybackList.Items.ElementAt(index)?.Source.AsBaseTrack());
+
+            // Call this afterwards (as the above method unshuffles items)
+            MediaPlaybackList.ShuffleEnabled = true;
         }
 
         public BaseTrack GetCurrentTrack()
@@ -466,21 +475,23 @@ namespace SoundByte.UWP.Services
         /// </summary>
         public static PlaybackService Instance => _instance ?? (_instance = new PlaybackService());
 
+        [Obsolete("Use direct InitilizePlaylistAsync methods instead")]
         public async Task<PlaybackInitilizeResponse> StartModelMediaPlaybackAsync<TSource>(SoundByteCollection<TSource, BaseTrack> trackSource,
             bool isShuffled = false, BaseTrack startingItem = null) where TSource : ISource<BaseTrack>
         {
-            // WRAP V2 SERVICE
-
-            await App.SetLoadingAsync(true);
-
-            var result = await PlaybackService.Instance.InitilizePlaylistAsync<TSource>(trackSource, trackSource.Token);
+            var result = await InitilizePlaylistAsync<TSource>(trackSource, trackSource.Token);
 
             if (!result.Success)
                 return result;
 
-            await PlaybackService.Instance.StartTrackAsync(startingItem);
-
-            await App.SetLoadingAsync(false);
+            if (isShuffled)
+            {
+                await StartRandomTrackAsync();
+            }
+            else
+            {
+                await StartTrackAsync(startingItem);
+            }
 
             return result;
         }

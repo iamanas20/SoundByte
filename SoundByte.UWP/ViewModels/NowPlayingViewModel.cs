@@ -97,11 +97,12 @@ namespace SoundByte.UWP.ViewModels
             if (!DeviceHelper.IsBackground)
                 return;
 
-            PlaybackViewModel.Dispose();
+            // Dispose of playback view model
+            PlaybackViewModel?.Dispose();
+            PlaybackViewModel = null;
 
             CleanModel();
         }
-
         #endregion
 
         #region Private Variables

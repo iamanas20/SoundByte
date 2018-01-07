@@ -50,7 +50,7 @@ namespace SoundByte.UWP.ViewModels
                 return;
             }
 
-            PlaybackService.Instance.StartRandomTrack();
+            await PlaybackService.Instance.StartRandomTrackAsync();
         }
 
         public static async Task ShuffleTracksAsync<TSource>(SoundByteCollection<TSource, BaseTrack> model) where TSource : ISource<BaseTrack>
@@ -62,10 +62,11 @@ namespace SoundByte.UWP.ViewModels
             if (!initPlaylistResponse.Success)
             {
                 await new MessageDialog(initPlaylistResponse.Message, "Error playing shuffled tracks.").ShowAsync();
+                model.IsLoading = false;
                 return;
             }
 
-            PlaybackService.Instance.StartRandomTrack();
+            await PlaybackService.Instance.StartRandomTrackAsync();
 
             model.IsLoading = false;
         }
