@@ -11,30 +11,25 @@
  */
 
 using System;
-using Windows.UI;
 using Windows.UI.Popups;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using SoundByte.UWP.Services;
 
 namespace SoundByte.UWP.Views.Application
 {
-    /// <summary>
-    ///     An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
-    public sealed partial class PremiumUpgradeView
+    public sealed partial class DonateView
     {
-        public PremiumUpgradeView()
+        public DonateView()
         {
             InitializeComponent();
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            App.Telemetry.TrackPage("Premium View");
+            App.Telemetry.TrackPage("Donate View");
 
-            PremuimStatus.Text = "Status: Loading...";
-            PremuimStatus.Foreground = new SolidColorBrush(Colors.Orange);
+        //    PremuimStatus.Text = "Status: Loading...";
+          //  PremuimStatus.Foreground = new SolidColorBrush(Colors.Orange);
 
             // We are loading
             await App.SetLoadingAsync(true);
@@ -46,19 +41,19 @@ namespace SoundByte.UWP.Views.Application
             {
                 if (await MonitizeService.Instance.IsPremium())
                 {
-                    PremuimStatus.Text = "Status: Premium Enabled";
-                    PremuimStatus.Foreground = new SolidColorBrush(Colors.Green);
+                 //   PremuimStatus.Text = "Status: Premium Enabled";
+                //    PremuimStatus.Foreground = new SolidColorBrush(Colors.Green);
                 }
                 else
                 {
-                    PremuimStatus.Text = "Status: Premium Disabled";
-                    PremuimStatus.Foreground = new SolidColorBrush(Colors.Red);
+                //    PremuimStatus.Text = "Status: Premium Disabled";
+                //    PremuimStatus.Foreground = new SolidColorBrush(Colors.Red);
                 }
             }
             catch
             {
-                PremuimStatus.Text = "Status: Premium Unknown";
-                PremuimStatus.Foreground = new SolidColorBrush(Colors.OrangeRed);
+               // PremuimStatus.Text = "Status: Premium Unknown";
+               // PremuimStatus.Foreground = new SolidColorBrush(Colors.OrangeRed);
             }
 
 

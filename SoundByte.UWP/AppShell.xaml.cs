@@ -463,7 +463,7 @@ namespace SoundByte.UWP
                 case nameof(ExploreView):
                     NavView.SelectedItem = NavigationItemExplore;
                     break;
-                case nameof(PremiumUpgradeView):
+                case nameof(DonateView):
                     NavView.SelectedItem = NavigationItemDonations;
                     break;
                 case nameof(HistoryView):
@@ -597,7 +597,7 @@ namespace SoundByte.UWP
                     RootFrame.Navigate(typeof(HistoryView));
                     break;
                 case "donations":
-                    RootFrame.Navigate(typeof(PremiumUpgradeView));
+                    RootFrame.Navigate(typeof(DonateView));
                     break;
                 case "settings":
                     RootFrame.Navigate(typeof(SettingsView));

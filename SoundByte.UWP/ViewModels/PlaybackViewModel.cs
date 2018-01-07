@@ -259,15 +259,12 @@ namespace SoundByte.UWP.ViewModels
             _updateInformationTimer.Tick += UpdateInformation;
             _audioVideoSyncTimer.Tick += SyncAudioVideo;
 
-            // Start the timers if ready
-            // TODO: Move this into playing logic
+            // Update the current track to whatever is playing
+            CurrentTrack = PlaybackService.Instance.GetCurrentTrack();
 
+            // Start the timer if ready
             if (!_updateInformationTimer.IsEnabled)
                 _updateInformationTimer.Start();
-
-
-            if (!_audioVideoSyncTimer.IsEnabled)
-                _audioVideoSyncTimer.Start();
         }
         #endregion
 

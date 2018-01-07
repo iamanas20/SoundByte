@@ -161,9 +161,6 @@
     <Compile Include="Controls\PlaylistItem.xaml.cs">
       <DependentUpon>PlaylistItem.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\PodcastEpisodeItem.xaml.cs">
-      <DependentUpon>PodcastEpisodeItem.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Controls\PodcastShowItem.xaml.cs">
       <DependentUpon>PodcastShowItem.xaml</DependentUpon>
     </Compile>
@@ -263,8 +260,8 @@
     <Compile Include="Views\Application\MobileView.xaml.cs">
       <DependentUpon>MobileView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Application\PremiumUpgradeView.xaml.cs">
-      <DependentUpon>PremiumUpgradeView.xaml</DependentUpon>
+    <Compile Include="Views\Application\DonateView.xaml.cs">
+      <DependentUpon>DonateView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Application\BlankView.xaml.cs">
       <DependentUpon>BlankView.xaml</DependentUpon>
@@ -283,6 +280,9 @@
     </Compile>
     <Compile Include="Views\CollectionViews\PlaylistsView.xaml.cs">
       <DependentUpon>PlaylistsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PodcastShowView.xaml.cs">
+      <DependentUpon>PodcastShowView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SearchViews\PlaylistsView.xaml.cs">
       <DependentUpon>PlaylistsView.xaml</DependentUpon>
@@ -371,10 +371,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="Controls\PlaylistItem.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\PodcastEpisodeItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -475,7 +471,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Application\PremiumUpgradeView.xaml">
+    <Page Include="Views\Application\DonateView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -500,6 +496,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CollectionViews\PlaylistsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PodcastShowView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -31,7 +31,5 @@ namespace SoundByte.Core.Items.Generic
         public BaseTrack Track { get; set; }
 
         public PodcastShow PodcastShow { get; set; }
-
-        public PodcastEpisode PodcastEpisode { get; set; }
     }
 }

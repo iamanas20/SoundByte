@@ -42,7 +42,15 @@ namespace SoundByte.UWP.Views
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            PlaybackViewModel = new PlaybackViewModel(CoreWindow.GetForCurrentThread().Dispatcher);
+
             App.Telemetry.TrackPage("Compact Overlay View");
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            PlaybackViewModel?.Dispose();
+            PlaybackViewModel = null;
         }
     }
 }

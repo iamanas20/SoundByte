@@ -12,13 +12,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 using Newtonsoft.Json;
-using SoundByte.Core.Exceptions;
-using SoundByte.Core.Services;
 
 namespace SoundByte.Core.Items.Podcast
 {
@@ -47,66 +41,6 @@ namespace SoundByte.Core.Items.Podcast
         public DateTime Created { get; set; }
 
         [JsonProperty("genres")]
-        public List<string> Genres { get; set; }
-
-        [JsonObject]
-        private class Root
-        {
-            [JsonProperty("results")]
-            public List<PodcastShow> Items { get; set; }
-        }
-
-        public async Task<List<PodcastEpisode>> GetEpisodesAsync()
-        {
-            try
-            {
-                return await Task.Run(async () => {
-                    using (var client = new HttpClient(new HttpClientHandler
-                    {
-                        AutomaticDecompression =
-                        System.Net.DecompressionMethods.GZip |
-                        System.Net.DecompressionMethods.Deflate
-                    }))
-                    {
-                        using (var request = await client.GetAsync(FeedUrl))
-                        {
-                            request.EnsureSuccessStatusCode();
-
-                            using (var stream = await request.Content.ReadAsStreamAsync())
-                            {
-                                var xmlDocument = XDocument.Load(stream);
-
-                                return xmlDocument.Root?.Element("channel")?.Elements("item")
-                                    .Select(x => new PodcastEpisode
-                                    {
-                                        Title = x.Element("title")?.Value
-                                    }).ToList();
-                            }
-                        }
-                    }
-                });
-            }
-            catch (OperationCanceledException)
-            {
-                return new List<PodcastEpisode>();
-            }
-            catch (HttpRequestException)
-            {
-                throw new SoundByteException("No connection?", "Could not get any results, make sure you are connected to the internet.");
-            }
-            catch (Exception ex)
-            {
-                throw new SoundByteException("Something went wrong", ex.Message);
-            }
-        }
-
-        public static async Task<List<PodcastShow>> SearchAsync(string searchTerms)
-        {
-            return (await SoundByteService.Current.GetAsync<Root>(ServiceType.ITunesPodcast, "/search", new Dictionary<string, string> {
-                { "term", searchTerms },
-                { "country", "us" },
-                { "entity", "podcast" }
-            })).Items;
-        }
+        public List<string> Genres { get; set; } 
     }
 }

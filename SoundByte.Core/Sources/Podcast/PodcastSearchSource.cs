@@ -10,12 +10,14 @@
  * |----------------------------------------------------------------|
  */
 
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
-using SoundByte.Core.Items;
+using Newtonsoft.Json;
 using SoundByte.Core.Items.Podcast;
+using SoundByte.Core.Services;
 
 namespace SoundByte.Core.Sources.Podcast
 {
@@ -31,16 +33,27 @@ namespace SoundByte.Core.Sources.Podcast
             CancellationTokenSource cancellationToken = default(CancellationTokenSource))
         {
             // Search for podcasts
-            var podcasts = await PodcastShow.SearchAsync(SearchQuery);
+            var podcasts = await SoundByteService.Current.GetAsync<Root>(ServiceType.ITunesPodcast, "/search", new Dictionary<string, string> {
+                { "term", SearchQuery },
+                { "country", "us" },
+                { "entity", "podcast" }
+            }).ConfigureAwait(false);
 
             // If there are no podcasts
-            if (!podcasts.Any())
+            if (!podcasts.Items.Any())
             {
                 return new SourceResponse<PodcastShow>(null, null, false, "No results found", "Could not find any results for '" + SearchQuery + "'");
             }
 
             // return the items
-            return new SourceResponse<PodcastShow>(podcasts, "eol");
+            return new SourceResponse<PodcastShow>(podcasts.Items, "eol");
+        }
+
+        [JsonObject]
+        private class Root
+        {
+            [JsonProperty("results")]
+            public List<PodcastShow> Items { get; set; }
         }
     }
 }

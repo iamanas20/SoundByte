@@ -1,0 +1,52 @@
+﻿<Page
+    x:Class="SoundByte.UWP.Views.Application.DonateView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    NavigationCacheMode="Enabled"
+    Transitions="{StaticResource MainTransition}">
+
+    <!-- Main Page -->
+    <Grid Background="Transparent">
+        <ScrollViewer HorizontalAlignment="Stretch"
+                      VerticalScrollBarVisibility="Hidden">
+            <StackPanel Padding="{ThemeResource PagePadding}">
+                <TextBlock Style="{StaticResource TitleStyle}" 
+                           Text="Donate" />
+
+                <TextBlock Text="Introduction" 
+                           Style="{StaticResource SubTitleStyle}" />
+
+                <TextBlock Style="{StaticResource TextStyle}"
+                           Text="Want to help support future SoundByte development? Consider donating below. There are muiltiple choices in donating." />
+
+                <TextBlock Text="What is the money used for?" 
+                           Style="{StaticResource SubTitleStyle}" />
+
+                <TextBlock Style="{StaticResource TextStyle}"
+                           Text="- Pay monthly expenses (server hosting)." />
+
+                <TextBlock Style="{StaticResource TextStyle}"
+                           Text="- Pay developer fees for each platform (Windows, Android, iOS/macOS)." />
+
+                <TextBlock Style="{StaticResource TextStyle}"
+                           Text="- Offset " />
+
+                <TextBlock Text="Donate through your Microsoft Account" 
+                           Style="{StaticResource SubTitleStyle}" />
+              
+                <HyperlinkButton Content="Loose Change ($--.--)" Style="{StaticResource LinkStyle}" IsEnabled="False"  />
+                <HyperlinkButton Content="Small Coffee ($--.--)" Style="{StaticResource LinkStyle}" IsEnabled="False"  />
+                <HyperlinkButton Content="Regular Coffee ($--.--)" Style="{StaticResource LinkStyle}" IsEnabled="False"  />
+                <HyperlinkButton Content="Large Coffee ($--.--)" Style="{StaticResource LinkStyle}" IsEnabled="False"  />
+
+
+                <TextBlock Text="Donate using other methods" 
+                           Style="{StaticResource SubTitleStyle}" />
+
+                <HyperlinkButton Content="PayPal (Flexible USD)" Style="{StaticResource LinkStyle}" NavigateUri="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=DET6LQGYXCU8N" />
+
+                <HyperlinkButton Content="Patreon ($1+ USD / month)" Style="{StaticResource LinkStyle}" NavigateUri="https://www.patreon.com/dominicmaas"  />
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

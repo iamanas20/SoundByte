@@ -29,13 +29,13 @@
 
                                 <StackPanel VerticalAlignment="Bottom" Margin="0,0,0,26" HorizontalAlignment="Center">
                                     <TextBlock Text="Welcome to the new SoundByte"
-                                               FontWeight="Bold"
+                                               FontWeight="SemiBold"
                                                Foreground="White"
                                                Opacity="1"
                                                FontSize="38"
                                                HorizontalAlignment="Center"
                                                TextAlignment="Center"/>
-                                    <TextBlock Text="There are loads of new features to get excited about!" 
+                                    <TextBlock Text="There's lots of new features to get excited about!" 
                                                HorizontalAlignment="Center"
                                                Foreground="White"
                                                Opacity="0.8"
@@ -74,7 +74,7 @@
 
                                 <StackPanel VerticalAlignment="Bottom" Margin="0,0,0,26" HorizontalAlignment="Center">
                                     <TextBlock Text="Have an Android phone?"
-                                               FontWeight="Bold"
+                                               FontWeight="SemiBold"
                                                Foreground="White"
                                                Opacity="1"
                                                FontSize="38"
@@ -230,7 +230,7 @@
                                             Glyph="&#xE8A9;"/>
                     </controls:SectionHeader.Buttons>
                 </controls:SectionHeader>
-            
+
                 <Grid Height="300" Padding="{ThemeResource PagePadding}" Margin="-10,0,0,0">
                     <controls:InfoPane VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
                                          Visibility="Collapsed" Canvas.ZIndex="50"

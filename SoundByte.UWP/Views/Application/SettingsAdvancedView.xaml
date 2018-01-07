@@ -17,22 +17,6 @@
             <TextBox x:Name="Command" />
             <Button Content="Run Command" Click="ButtonBase_OnClick" />
             <Button Content="Get Dialog List" Click="GetDialogList" />
-
-            <TextBlock Text="Podcast Testing"     
-                       Style="{StaticResource SubTitleStyle}" />
-            <Button Content="Search for 'WAN SHOW' and get all episodes." Click="GetItunes" />
-
-            <TextBlock Text="HTTP Testing"     
-                       Style="{StaticResource SubTitleStyle}" />
-            <Button Content="Get with System.Web.HTTPClient" Click="GetWebClient" />
-
-            <Button Content="Get with System.Net.HTTPClient" Click="GetNetClient" />
-
-            <TextBlock Text="Other"     
-                       Style="{StaticResource SubTitleStyle}" />
-            <Button Content="Navigate Setup Logic" Click="NavigateSetupLogic" />
-            <Button Content="Navigate Xbox View" Click="NavigateXboxView" />
-
         </StackPanel>
     </Grid>
     

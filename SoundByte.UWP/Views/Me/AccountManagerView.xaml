@@ -137,7 +137,7 @@
                                Opacity="0.8"
                                FontSize="48"
                                FontFamily="Segoe MDL2 Assets"  />
-                            <TextBlock Text="Resume playback across devices*" 
+                            <TextBlock Text="Resume playback across devices" 
                                VerticalAlignment="Center"
                                FontSize="22"
                                Margin="20,0,0,0"
@@ -169,16 +169,11 @@
                            MaxWidth="440"
                            TextWrapping="Wrap"/>
 
-                        <TextBlock Text="Note" Style="{StaticResource SubTitleStyle}" />
-                        <TextBlock Text="*This is a paid SoundByte premium feature."
-                           Opacity="0.8"
-                           Style="{StaticResource TextStyle}" />
-
 
                         <Button Foreground="White"
                         Click="{x:Bind ConnectSoundByteAccount}"
                         Background="{ThemeResource ButtonAccentBrush}"
-                        Content="Create Account"
+                        Content="Create Account / Login"
                         BorderThickness="1"
                         Margin="0,20,0,0"
                         Padding="20,10"/>

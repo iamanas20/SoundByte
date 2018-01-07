@@ -32,7 +32,6 @@ namespace SoundByte.UWP.ViewModels
 {
     public class NowPlayingViewModel : BaseViewModel
     {
-        public PlaybackViewModel PlaybackViewModel { get; private set; }
 
         #region Models
 
@@ -122,6 +121,21 @@ namespace SoundByte.UWP.ViewModels
         #endregion
 
         #region Getters and Setters
+
+        public PlaybackViewModel PlaybackViewModel
+        {
+            get => _playbackViewModel;
+            private set
+            {
+                if (_playbackViewModel == value)
+                    return;
+
+                _playbackViewModel = value;
+                UpdateProperty();
+            }
+        }
+        private PlaybackViewModel _playbackViewModel;
+
 
         /// <summary>
         ///     The text on the pin button

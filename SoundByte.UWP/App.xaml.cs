@@ -334,7 +334,7 @@ namespace SoundByte.UWP
         private bool _isCtrlKeyPressed;
 
         #region Key Events
-        private void CoreWindowOnKeyDown(CoreWindow sender, KeyEventArgs args)
+        private async void CoreWindowOnKeyDown(CoreWindow sender, KeyEventArgs args)
         {
             if (args.VirtualKey == VirtualKey.Control) _isCtrlKeyPressed = true;
 
@@ -354,6 +354,13 @@ namespace SoundByte.UWP
                     Telemetry.TrackEvent("Xbox Playing Page");
                     // Navigate to the current playing track
                     NavigateTo(typeof(NowPlayingView));
+                    break;
+                case VirtualKey.F12: // Simulates xbox memory cleanup process
+                    if (_isCtrlKeyPressed)
+                    {
+                        DeviceHelper.IsBackground = true;
+                        await ReduceMemoryUsageAsync();
+                    }
                     break;
                 case VirtualKey.Back:
 
@@ -684,10 +691,11 @@ namespace SoundByte.UWP
                     Window.Current.Content = null;
 
                     GC.Collect();
-                }, CoreDispatcherPriority.High);
+                }, CoreDispatcherPriority.Normal);
             }
             catch
             {
+                var i = 0;
                 // This will crash if no main view is active
             }
 
