@@ -96,7 +96,7 @@ namespace SoundByte.UWP.Views
 
         private void UserView_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            if (PlaybackService.Instance.CurrentTrack == null)
+            if (PlaybackV2Service.Instance.GetCurrentTrack() == null)
                 MainPivot.Height = Window.Current.Bounds.Height;
             else
                 MainPivot.Height = Window.Current.Bounds.Height - 64;

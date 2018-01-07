@@ -78,7 +78,8 @@ namespace SoundByte.UWP
             // bar when a track is played. This method
             // updates the required layout for the now
             // playing bar.
-            PlaybackService.Instance.OnCurrentTrackChanged += InstanceOnOnCurrentTrackChanged;
+            PlaybackV2Service.Instance.OnTrackChange += InstanceOnOnCurrentTrackChanged;
+            
 
             // Create a shell frame shadow for mobile and desktop
             if (DeviceHelper.IsDesktop)
@@ -117,7 +118,7 @@ namespace SoundByte.UWP
 
         public void Dispose()
         {
-            PlaybackService.Instance.OnCurrentTrackChanged -= InstanceOnOnCurrentTrackChanged;
+            PlaybackV2Service.Instance.OnTrackChange -= InstanceOnOnCurrentTrackChanged;
         }
 
         private void OnBackRequested(object sender, BackRequestedEventArgs e)
@@ -499,7 +500,7 @@ namespace SoundByte.UWP
                     NavView.OpenPaneLength = 320;
 
 
-                    if (PlaybackService.Instance.CurrentTrack == null)
+                    if (PlaybackV2Service.Instance.GetCurrentTrack() == null)
                         HideNowPlayingBar();
                     else
                         ShowNowPlayingBar();

@@ -67,10 +67,10 @@
             <MenuFlyoutItem Click="{x:Bind ViewModel.PinTile}" Text="{x:Bind ViewModel.PinButtonText, Mode=TwoWay}" />
 
             <MenuFlyoutItem Click="{x:Bind ViewModel.Service.ToggleShuffle}" Text="Shuffle"
-                            FontWeight="{x:Bind ViewModel.Service.IsShuffleEnabled, Mode=OneWay, Converter={StaticResource BoolToFontWeightConverter}}" />
+                            FontWeight="{x:Bind ViewModel.Service.ViewModel.IsShuffleEnabled, Mode=OneWay, Converter={StaticResource BoolToFontWeightConverter}}" />
             
             <MenuFlyoutItem Click="{x:Bind ViewModel.Service.ToggleRepeat}" Text="Repeat"
-                            FontWeight="{x:Bind ViewModel.Service.IsRepeatEnabled, Mode=OneWay, Converter={StaticResource BoolToFontWeightConverter}}" />
+                            FontWeight="{x:Bind ViewModel.Service.ViewModel.IsRepeatEnabled, Mode=OneWay, Converter={StaticResource BoolToFontWeightConverter}}" />
            
            
         </MenuFlyout>
@@ -90,7 +90,7 @@
         <!-- Background Image -->
         <controls:ImageEx
             x:Name="BackgroundImage"
-            Source="{x:Bind ViewModel.Service.CurrentTrack, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
+            Source="{x:Bind ViewModel.Service.ViewModel.CurrentTrack, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
             PlaceholderSource="/Assets/PlaceholderBackground.png"
             PlaceholderStretch="UniformToFill"
             Stretch="UniformToFill"
@@ -156,7 +156,7 @@
                     <Image x:Name="ArtworkImage"
                            IsHitTestVisible="False"
                            Stretch="UniformToFill"
-                           Source="{x:Bind Path=ViewModel.Service.CurrentTrack, Mode=OneWay, Converter={StaticResource ArtworkConverter}}" />
+                           Source="{x:Bind Path=ViewModel.Service.ViewModel.CurrentTrack, Mode=OneWay, Converter={StaticResource ArtworkConverter}}" />
                 </Grid>
                 
                 
@@ -164,14 +164,14 @@
 
             <Grid Margin="260,0,0,150" Height="180">
                 <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center">
-                    
-                    <TextBlock Text="{x:Bind Path=ViewModel.Service.CurrentTrack.Title, Mode=OneWay}"
+
+                    <TextBlock Text="{x:Bind Path=ViewModel.Service.ViewModel.CurrentTrack.Title, Mode=OneWay}"
                                TextTrimming="CharacterEllipsis" MaxHeight="82" Margin="0,0,0,2" TextWrapping="WrapWholeWords"
                                VerticalAlignment="Top" FontSize="30" FontWeight="SemiBold" Foreground="White" />
                     
                     <HyperlinkButton VerticalAlignment="Top" Click="{x:Bind ViewModel.GoToUserProfile}" >
                         <HyperlinkButton.Content>
-                            <TextBlock Text="{x:Bind Path=ViewModel.Service.CurrentTrack.User.Username, Mode=OneWay}" 
+                            <TextBlock Text="{x:Bind Path=ViewModel.Service.ViewModel.CurrentTrack.User.Username, Mode=OneWay}" 
                                        TextWrapping="Wrap" 
                                        Foreground="#FFFFFF" 
                                        FontSize="18" 
@@ -193,20 +193,20 @@
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Grid.Column="0" VerticalAlignment="Center" Foreground="White" HorizontalAlignment="Left"
-                           Text="{x:Bind ViewModel.Service.TimeListened, Mode=OneWay}" Opacity="0.9" FontSize="14" />
+                           Text="{x:Bind ViewModel.Service.ViewModel.TimeListened, Mode=OneWay}" Opacity="0.9" FontSize="14" />
                 
                 <Slider Grid.Column="1"
                         ThumbToolTipValueConverter="{StaticResource SliderValueConverter}"
                         VerticalAlignment="Center" 
                         PointerCaptureLost="{x:Bind ViewModel.Service.PlayingSliderChange}"
                         Margin="30,5,30,0" 
-                        Value="{x:Bind ViewModel.Service.CurrentTimeValue, Mode=TwoWay}"
-                        Maximum="{x:Bind ViewModel.Service.MaxTimeValue, Mode=OneWay}" 
+                        Value="{x:Bind ViewModel.Service.ViewModel.CurrentTimeValue, Mode=TwoWay}"
+                        Maximum="{x:Bind ViewModel.Service.ViewModel.MaxTimeValue, Mode=OneWay}" 
                         Foreground="White"
                         Style="{StaticResource MainSliderStyle}" RequestedTheme="Dark" />
                 
                 <TextBlock Grid.Column="2" VerticalAlignment="Center" Foreground="White" HorizontalAlignment="Right"
-                           Text="{x:Bind ViewModel.Service.TimeRemaining, Mode=OneWay}" Opacity="0.9" FontSize="14" />
+                           Text="{x:Bind ViewModel.Service.ViewModel.TimeRemaining, Mode=OneWay}" Opacity="0.9" FontSize="14" />
             </Grid>
 
 
@@ -269,7 +269,7 @@
                         Height="42">
                     <Button.Content>
                         <TextBlock OpticalMarginAlignment="TrimSideBearings"
-                                   Text="{x:Bind ViewModel.Service.PlayButtonContent, Mode=OneWay}" FontWeight="Light"
+                                   Text="{x:Bind ViewModel.Service.ViewModel.PlayButtonContent, Mode=OneWay}" FontWeight="Light"
                                    FontSize="20" FontFamily="Segoe MDL2 Assets" AutomationProperties.Name="Back"
                                    TextAlignment="Center" />
                     </Button.Content>
@@ -290,10 +290,10 @@
                         FocusVisualPrimaryThickness="0"
                         FocusVisualSecondaryThickness="0"
                         FocusVisualMargin="0"
-                        Click="{x:Bind ViewModel.Service.CurrentTrack.ToggleLike}" Width="42" Height="42">
+                        Click="{x:Bind ViewModel.Service.ViewModel.CurrentTrack.ToggleLike}" Width="42" Height="42">
                     <Button.Content>
                         <TextBlock OpticalMarginAlignment="TrimSideBearings"
-                                   Text="{x:Bind ViewModel.Service.CurrentTrack.IsLiked, Mode=OneWay, Converter={StaticResource TrackLikeToIconConverter}}" FontWeight="Light" FontSize="20"
+                                   Text="{x:Bind ViewModel.Service.ViewModel.CurrentTrack.IsLiked, Mode=OneWay, Converter={StaticResource TrackLikeToIconConverter}}" FontWeight="Light" FontSize="20"
                                    FontFamily="Segoe MDL2 Assets" AutomationProperties.Name="Next"
                                    TextAlignment="Center" />
                     </Button.Content>
@@ -305,7 +305,7 @@
                         Width="42" Height="42">
                     <Button.Content>
                         <TextBlock OpticalMarginAlignment="TrimSideBearings"
-                                   Text="{x:Bind ViewModel.Service.VolumeIcon, Mode=OneWay}" FontWeight="Light"
+                                   Text="{x:Bind ViewModel.Service.ViewModel.VolumeIcon, Mode=OneWay}" FontWeight="Light"
                                    FontSize="20" FontFamily="Segoe MDL2 Assets" AutomationProperties.Name="Back"
                                    TextAlignment="Center" />
                     </Button.Content>
@@ -317,16 +317,16 @@
                                         Margin="0,0,10,0">
                                     <Button.Content>
                                         <TextBlock OpticalMarginAlignment="TrimSideBearings"
-                                                   Text="{x:Bind ViewModel.Service.VolumeIcon, Mode=OneWay}"
+                                                   Text="{x:Bind ViewModel.Service.ViewModel.VolumeIcon, Mode=OneWay}"
                                                    FontWeight="Light" FontSize="20" FontFamily="Segoe MDL2 Assets"
                                                    AutomationProperties.Name="Next" TextAlignment="Center" />
                                     </Button.Content>
                                 </Button>
                                 <Slider VerticalAlignment="Center" Orientation="Horizontal" Padding="0"
-                                        Value="{x:Bind ViewModel.Service.MediaVolume, Mode=TwoWay}" Maximum="100"
+                                        Value="{x:Bind ViewModel.Service.ViewModel.MediaVolume, Mode=TwoWay}" Maximum="100"
                                         Minimum="0" Margin="0,0,0,-3" Width="105" Height="40" />
                                 <TextBlock VerticalAlignment="Center" TextAlignment="Center" Padding="0"
-                                           Text="{x:Bind ViewModel.Service.MediaVolume, Mode=OneWay}" Margin="15,0,0,0" />
+                                           Text="{x:Bind ViewModel.Service.ViewModel.MediaVolume, Mode=OneWay}" Margin="15,0,0,0" />
                             </StackPanel>
                         </Flyout>
                     </Button.Flyout>
@@ -382,7 +382,7 @@
                               HorizontalContentAlignment="Stretch"
                               ItemTemplate="{StaticResource RelatedItemTemplate}"
                               IsSwipeEnabled="False"
-                              SelectedItem="{x:Bind ViewModel.Service.CurrentTrack, Mode=OneWay}"
+                              SelectedItem="{x:Bind ViewModel.Service.ViewModel.CurrentTrack, Mode=OneWay}"
                               IsItemClickEnabled="True"
                               ItemClick="{x:Bind ViewModel.GotoRelatedTrack}">
                         <ListView.ItemContainerStyle>
@@ -407,7 +407,7 @@
                                                AutomationProperties.Name="Views" Margin="0,4,6,0" FontSize="14"
                                                Opacity="0.8" />
                                     <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap"
-                                               Text="{x:Bind Path=ViewModel.Service.CurrentTrack.ViewCount,Converter={StaticResource FormattedValueConverter}, Mode=OneWay}"
+                                               Text="{x:Bind Path=ViewModel.Service.ViewModel.CurrentTrack.ViewCount,Converter={StaticResource FormattedValueConverter}, Mode=OneWay}"
                                                VerticalAlignment="Top" FontSize="15" Opacity="0.8"
                                                FontWeight="SemiLight" />
                                     <TextBlock Text="Views" HorizontalAlignment="Left" Margin="5,0,0,0"
@@ -416,7 +416,7 @@
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" Margin="0,5,10,0" HorizontalAlignment="Right">
                                     <TextBlock
-                                        Text="{x:Bind Path=ViewModel.Service.CurrentTrack.Created, Mode=OneWay, Converter={StaticResource ModernDateTimeConverter}}"
+                                        Text="{x:Bind Path=ViewModel.Service.ViewModel.CurrentTrack.Created, Mode=OneWay, Converter={StaticResource ModernDateTimeConverter}}"
                                         TextWrapping="Wrap" VerticalAlignment="Top" FontSize="15" Opacity="0.8"
                                         FontWeight="SemiLight" />
                                     <TextBlock Text="&#xE787;" FontFamily="Segoe MDL2 Assets"
@@ -431,7 +431,7 @@
                                                AutomationProperties.Name="Like" Margin="0,4,6,0" FontSize="14"
                                                Opacity="0.8" />
                                     <TextBlock
-                                        Text="{x:Bind Path=ViewModel.Service.CurrentTrack.LikeCount,Converter={StaticResource FormattedValueConverter}, Mode=OneWay}"
+                                        Text="{x:Bind Path=ViewModel.Service.ViewModel.CurrentTrack.LikeCount,Converter={StaticResource FormattedValueConverter}, Mode=OneWay}"
                                         HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top"
                                         FontSize="15" Opacity="0.8" FontWeight="SemiLight" />
                                     <TextBlock Text="Likes" HorizontalAlignment="Left" Margin="5,0,0,0"
@@ -440,7 +440,7 @@
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" Margin="0,5,10,0" HorizontalAlignment="Right">
                                     <TextBlock
-                                        Text="{x:Bind Path=ViewModel.Service.CurrentTrack.Duration, Mode=OneWay, Converter={StaticResource TimeStampConverter}}"
+                                        Text="{x:Bind Path=ViewModel.Service.ViewModel.CurrentTrack.Duration, Mode=OneWay, Converter={StaticResource TimeStampConverter}}"
                                         HorizontalAlignment="Right" TextWrapping="Wrap" VerticalAlignment="Top"
                                         FontSize="15" Opacity="0.8" FontWeight="SemiLight" />
                                     <TextBlock Text="&#xE916;" FontFamily="Segoe MDL2 Assets"
@@ -455,7 +455,7 @@
                                                AutomationProperties.Name="Like" Margin="0,4,6,0" FontSize="14"
                                                Opacity="0.8" />
                                     <TextBlock
-                                        Text="{x:Bind Path=ViewModel.Service.CurrentTrack.CommentCount, Converter={StaticResource FormattedValueConverter}, Mode=OneWay}"
+                                        Text="{x:Bind Path=ViewModel.Service.ViewModel.CurrentTrack.CommentCount, Converter={StaticResource FormattedValueConverter}, Mode=OneWay}"
                                         HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top"
                                         FontSize="15" Opacity="0.8" FontWeight="SemiLight" />
                                     <TextBlock Text="Comments" HorizontalAlignment="Left" Margin="5,0,0,0"
@@ -463,7 +463,7 @@
                                                FontWeight="SemiLight" />
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" Margin="0,5,10,0" HorizontalAlignment="Right">
-                                    <TextBlock Text="{x:Bind Path=ViewModel.Service.CurrentTrack.Genre, Mode=OneWay}"
+                                    <TextBlock Text="{x:Bind Path=ViewModel.Service.ViewModel.CurrentTrack.Genre, Mode=OneWay}"
                                                HorizontalAlignment="Right" TextWrapping="Wrap" VerticalAlignment="Top"
                                                FontSize="15" Opacity="0.8" FontWeight="SemiLight" />
                                     <TextBlock Text="&#xE8D6;" FontFamily="Segoe MDL2 Assets"
@@ -487,14 +487,14 @@
                                                  HorizontalAlignment="Left">
                                             <Ellipse.Fill>
                                                 <ImageBrush
-                                                    ImageSource="{x:Bind Path=ViewModel.Service.CurrentTrack.User, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
+                                                    ImageSource="{x:Bind Path=ViewModel.Service.ViewModel.CurrentTrack.User, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
                                                     Stretch="UniformToFill" />
                                             </Ellipse.Fill>
                                         </Ellipse>
 
                                         <StackPanel Orientation="Vertical" Margin="70,10,0,10">
                                             <TextBlock
-                                                Text="{x:Bind Path=ViewModel.Service.CurrentTrack.User.Username, Mode=OneWay}"
+                                                Text="{x:Bind Path=ViewModel.Service.ViewModel.CurrentTrack.User.Username, Mode=OneWay}"
                                                 HorizontalAlignment="Left" Margin="0,0,0,2" TextWrapping="Wrap"
                                                 VerticalAlignment="Top" FontSize="17" Opacity="1" FontWeight="SemiBold" />
 
@@ -504,7 +504,7 @@
                                                            AutomationProperties.Name="Followers" Margin="0,4,6,0"
                                                            FontSize="14" Opacity="0.8" />
                                                 <TextBlock
-                                                    Text="{x:Bind Path=ViewModel.Service.CurrentTrack.User.FollowersCount, Converter={StaticResource FormattedValueConverter}, Mode=OneWay}"
+                                                    Text="{x:Bind Path=ViewModel.Service.ViewModel.CurrentTrack.User.FollowersCount, Converter={StaticResource FormattedValueConverter}, Mode=OneWay}"
                                                     TextWrapping="Wrap" FontSize="15" Opacity="0.8" FontWeight="Normal" />
                                                 <TextBlock Text="followers" HorizontalAlignment="Left" Margin="5,0,0,0"
                                                            TextWrapping="Wrap" VerticalAlignment="Top" FontSize="15"
@@ -517,7 +517,7 @@
 
                             <controls:MarkdownTextBlock Margin="0,10" HorizontalAlignment="Stretch"
                                                         VerticalAlignment="Stretch"
-                                                        Text="{x:Bind Path=ViewModel.Service.CurrentTrack.Description, Mode=OneWay}" />
+                                                        Text="{x:Bind Path=ViewModel.Service.ViewModel.CurrentTrack.Description, Mode=OneWay}" />
                         </StackPanel>
                     </ScrollViewer>
                 </PivotItem>

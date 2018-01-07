@@ -120,9 +120,15 @@ namespace SoundByte.UWP.Services
 
             // Assign event handlers
             MediaPlaybackList.CurrentItemChanged += MediaPlaybackListOnCurrentItemChanged;
-
+            _mediaPlayer.CurrentStateChanged += MediaPlayerOnCurrentStateChanged;
 
         }
+
+        private void MediaPlayerOnCurrentStateChanged(MediaPlayer sender, object args)
+        {       
+            OnStateChange?.Invoke(sender.PlaybackSession.PlaybackState);
+        }
+
         #endregion
 
         #region Private Event Handlers
@@ -334,7 +340,7 @@ namespace SoundByte.UWP.Services
 
         public BaseTrack GetCurrentTrack()
         {
-            return MediaPlaybackList.CurrentItem.Source.AsBaseTrack();
+            return MediaPlaybackList?.CurrentItem?.Source?.AsBaseTrack();
         }
 
         public async Task<PlaybackInitilizeResponse> InitilizePlaylistAsync<T>(IEnumerable<BaseTrack> playlist = null, string token = null) where T : ISource<BaseTrack>
