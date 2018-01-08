@@ -43,8 +43,8 @@ namespace SoundByte.UWP.Views
         /// </summary>
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            var imageAnimation = ConnectedAnimationService.GetForCurrentView().GetAnimation("PlaylistImage");
-            imageAnimation?.TryStart(PlaylistImageHolder, new[] { TitlePanel });
+          //  var imageAnimation = ConnectedAnimationService.GetForCurrentView().GetAnimation("PlaylistImage");
+         //   imageAnimation?.TryStart(PlaylistImageHolder, new[] { TitlePanel });
 
             // Make sure the view is ready for the user
             // Track Event

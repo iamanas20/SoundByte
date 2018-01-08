@@ -43,7 +43,7 @@
                 <TextBlock Text="Donate using other methods" 
                            Style="{StaticResource SubTitleStyle}" />
 
-                <HyperlinkButton Content="PayPal (Flexible USD)" Style="{StaticResource LinkStyle}" NavigateUri="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=DET6LQGYXCU8N" />
+                <HyperlinkButton Content="PayPal (Flexible USD)" Style="{StaticResource LinkStyle}" NavigateUri="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=DET6LQGYXCU8N" />
 
                 <HyperlinkButton Content="Patreon ($1+ USD / month)" Style="{StaticResource LinkStyle}" NavigateUri="https://www.patreon.com/dominicmaas"  />
             </StackPanel>

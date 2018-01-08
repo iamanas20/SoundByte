@@ -14,48 +14,10 @@
                 <DrillInNavigationTransitionInfo />
             </NavigationThemeTransition>
         </TransitionCollection>
-        
     </Page.Transitions>
 
-    <Grid Background="Transparent" x:Name="RootGrid">
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup x:Name="WindowSize">
-                <VisualState>
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="768" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="MobileCommandBar.Visibility" Value="Collapsed" />
-                        <Setter Target="DesktopCommandBar.Visibility" Value="Visible" />
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
-
-        </VisualStateManager.VisualStateGroups>
-
-        <CommandBar x:Name="MobileCommandBar" VerticalAlignment="Bottom" HorizontalAlignment="Stretch"
-                    Canvas.ZIndex="100">
-            <CommandBar.PrimaryCommands>
-                <AppBarButton Label="Play All" Click="{x:Bind ViewModel.NavigatePlay}">
-                    <AppBarButton.Icon>
-                        <FontIcon Glyph="&#xE768;" />
-                    </AppBarButton.Icon>
-                </AppBarButton>
-
-                <AppBarButton Label="Shuffle Play" Click="{x:Bind ViewModel.ShuffleItemsAsync}">
-                    <AppBarButton.Icon>
-                        <FontIcon Glyph="&#xE8B1;" />
-                    </AppBarButton.Icon>
-                </AppBarButton>
-
-                <AppBarButton Label="{x:Bind ViewModel.PinButtonText, Mode=OneWay}" Click="{x:Bind ViewModel.PinPlaylist}">
-                    <AppBarButton.Icon>
-                        <FontIcon Glyph="{x:Bind ViewModel.PinButtonIcon, Mode=OneWay}" />
-                    </AppBarButton.Icon>
-                </AppBarButton>
-            </CommandBar.PrimaryCommands>
-        </CommandBar>
-
+    <Grid Background="Transparent">
+      
         <controls1:InfoPane x:Name="PlaylistInfoPane" Margin="0,50,0,0" VerticalAlignment="Stretch"
                      HorizontalAlignment="Stretch" Visibility="Collapsed" />
 
@@ -81,7 +43,7 @@
                           FocusVisualMargin="0"
                           Margin="0,10">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
@@ -90,8 +52,9 @@
 
 
 
-                        <TextBlock HorizontalAlignment="Left" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Title}"
-                                   FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
+                        <TextBlock HorizontalAlignment="Left" Grid.Column="0" Grid.ColumnSpan="3" Text="{Binding Title}"
+                                   Margin="0,0,15,0"
+                                   FontWeight="SemiBold" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" />
 
                         <TextBlock HorizontalAlignment="Left" Grid.Column="3" Text="{Binding User.Username}"
                                    TextAlignment="Left"
@@ -114,97 +77,111 @@
                 <behaviors:FadeHeaderBehavior />
             </interactivity:Interaction.Behaviors>
             <ListView.Header>
-                <Grid Height="300" 
-                      Margin="0,0,0,30"
-                      Padding="{ThemeResource PagePaddingInvert}">
+                <Grid Margin="{ThemeResource PagePadding}"
+                      Padding="-17,0,-17,30">
 
-                    <!-- Hold playlist and details -->
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Canvas.ZIndex="15">
-                        <!-- Track Image -->
-                        <controls:DropShadowPanel BlurRadius="25"
-                                                  VerticalAlignment="Center"
-                                                  x:Name="PlaylistImageHolder"
-                                                  Margin="30,0,0,0"
-                                                  ShadowOpacity="0.7"
-                                                  OffsetX="0"
-                                                  OffsetY="5"
-                                                  Color="Black">
-                            <Grid>
-                                <Grid Background="#FF444444"
-                                      Width="200"
-                                      Margin="0,-42,0,0"
-                                      Height="200"
-                                      VerticalAlignment="Stretch"
-                                      HorizontalAlignment="Stretch" />
+                    <!-- Main Content -->
+                    <StackPanel Orientation="Vertical" Margin="260,0,0,0">
+                        <!-- Title -->
+                        <TextBlock Text="{x:Bind ViewModel.Playlist.Title, Mode=OneWay}" 
+                                   Style="{StaticResource TitleStyle}" />
 
-                                <Grid Background="#FF666666"
-                                      Width="210"
-                                      Margin="0,-20,0,0"
-                                      Height="210"
-                                      VerticalAlignment="Stretch"
-                                      HorizontalAlignment="Stretch" />
+                        <!-- User -->
+                        <TextBlock Text="{x:Bind ViewModel.Playlist.User.Username, Mode=OneWay}" 
+                                   Margin="0,10,0,0" Opacity="0.8" FontSize="16"/>
 
-                                <Grid VerticalAlignment="Stretch"
-                                      HorizontalAlignment="Stretch" 
-                                      Width="220"
-                                      Height="220">
-                                    <Image Source="{x:Bind ViewModel.Playlist, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
-                                           Stretch="UniformToFill" />
-                                </Grid>
-                            </Grid>
-                        </controls:DropShadowPanel>
-
-                       
-
-                        <!-- Detail Section -->
-                        <StackPanel  Margin="40,40,0,0" x:Name="TitlePanel">
-                            <TextBlock Text="{x:Bind ViewModel.Playlist.Title, Mode=OneWay}" 
-                                       x:Name="PlaylistTitle"
-                                       FontWeight="Bold"
-                                       FontSize="46" TextTrimming="CharacterEllipsis" Opacity="1" />
-                            <TextBlock Text="{x:Bind ViewModel.Playlist.User.Username, Mode=OneWay}" 
-                                       x:Name="PlaylistUser"
-                                       Opacity="0.8"
-                                       FontSize="16" Margin="0,5,0,6" HorizontalAlignment="Left" TextWrapping="Wrap" />
-
-                            <!-- Tracks -->
-                            <StackPanel Orientation="Horizontal" Margin="0,15,0,0">
-                                <TextBlock Text="&#xEA69;" FontFamily="Segoe MDL2 Assets" Margin="0,4,6,0"
-                                           FontSize="14" Opacity="0.8" />
-                                <TextBlock
-                                    Text="{x:Bind Path=ViewModel.Playlist.TrackCount, Converter={StaticResource FormattedValueConverter}, Mode=OneWay}"
-                                    HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top"
-                                    FontSize="15" Opacity="0.8" FontWeight="SemiLight" />
-                                <TextBlock Text="Tracks" Margin="5,0,0,0" HorizontalAlignment="Left"
-                                           TextWrapping="Wrap" VerticalAlignment="Top" FontSize="15" Opacity="0.8"
-                                           FontWeight="SemiLight" />
-                            </StackPanel>
-
-                            <!-- Likes -->
-                            <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                                <TextBlock Text="&#xE006;" FontFamily="Segoe MDL2 Assets" Margin="0,4,6,0"
-                                           FontSize="14" Opacity="0.8" />
-                                <TextBlock
-                                    Text="{x:Bind Path=ViewModel.Playlist.LikesCount, Converter={StaticResource FormattedValueConverter}, Mode=OneWay}"
-                                    HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top"
-                                    FontSize="15" Opacity="0.8" FontWeight="SemiLight" />
-                                <TextBlock Text="Likes" Margin="5,0,0,0" HorizontalAlignment="Left" TextWrapping="Wrap"
-                                           VerticalAlignment="Top" FontSize="15" Opacity="0.8" FontWeight="SemiLight" />
-                            </StackPanel>
-
-                            <StackPanel Canvas.ZIndex="20" Orientation="Horizontal" Margin="0,30,0,0" x:Name="DesktopCommandBar">
-                                <controls1:AppButton Glyph="&#xE768;" Label="Play All" Click="{x:Bind ViewModel.NavigatePlay}"
-                                                    Margin="0,0,25,0" />
-                                <controls1:AppButton Glyph="&#xE8B1;" Label="Shuffle Play"
-                                                    Click="{x:Bind ViewModel.ShuffleItemsAsync}" Margin="0,0,25,0" />
-                                <controls1:AppButton Glyph="{x:Bind ViewModel.PinButtonIcon, Mode=OneWay}"
-                                                    Label="{x:Bind ViewModel.PinButtonText, Mode=OneWay}"
-                                                    Click="{x:Bind ViewModel.PinPlaylist}" Margin="0,0,25,0" />
-                            </StackPanel>
+                        <!-- Tracks -->
+                        <StackPanel Orientation="Horizontal" Margin="0,15,0,0">
+                            <TextBlock Text="&#xEA69;" 
+                                       FontFamily="Segoe MDL2 Assets" 
+                                       Margin="0,4,10,0"
+                                       FontSize="16" Opacity="0.8" />
+                                
+                            <TextBlock Text="{x:Bind Path=ViewModel.Playlist.TrackCount, Converter={StaticResource FormattedValueConverter}, Mode=OneWay}"
+                                       FontSize="16" 
+                                       Opacity="0.8" />
+                                
+                            <TextBlock Text="Tracks" Margin="5,0,0,0" 
+                                       FontSize="16" 
+                                       Opacity="0.8" />
                         </StackPanel>
+
+                        <!-- Likes -->
+                        <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                            <TextBlock Text="&#xE006;" 
+                                       FontFamily="Segoe MDL2 Assets" 
+                                       Margin="0,4,10,0"
+                                       FontSize="16" 
+                                       Opacity="0.8" />
+
+                            <TextBlock Text="{x:Bind Path=ViewModel.Playlist.LikesCount, Converter={StaticResource FormattedValueConverter}, Mode=OneWay}"
+                                       FontSize="16" 
+                                       Opacity="0.8" />
+
+                            <TextBlock Text="Likes" 
+                                       Margin="5,0,0,0" 
+                                       FontSize="16" 
+                                       Opacity="0.8" />
+                        </StackPanel>
+
+                    
+
+                        </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" Margin="260,0,0,0">
+                        <controls1:AppButton Glyph="&#xE768;" 
+                                             Label="Play All" 
+                                             Click="{x:Bind ViewModel.NavigatePlay}"
+                                             Margin="0,0,15,0" />
+
+                        <controls1:AppButton Glyph="&#xE8B1;" 
+                                             Label="Shuffle Play"
+                                             Click="{x:Bind ViewModel.ShuffleItemsAsync}" 
+                                             Margin="0,0,15,0" />
+
+                        <controls1:AppButton Glyph="{x:Bind ViewModel.PinButtonIcon, Mode=OneWay}"
+                                             Label="{x:Bind ViewModel.PinButtonText, Mode=OneWay}"
+                                             Click="{x:Bind ViewModel.PinPlaylist}" 
+                                             Margin="0,0,15,0" />
+
+                        <controls1:AppButton Glyph="&#xE712;" 
+                                             Label="More"
+                                             Margin="0,0,15,0" />
                     </StackPanel>
 
-                  
+                    <!-- Track Image -->
+                    <controls:DropShadowPanel BlurRadius="15"
+                                              VerticalAlignment="Center"
+                                              HorizontalAlignment="Left"
+                                              Margin="0,58,20,0"
+                                              ShadowOpacity="0.6"
+                                              OffsetX="0"
+                                              OffsetY="0"
+                                              Color="Black">
+                        <Grid>
+                            <Grid Background="#FF444444"
+                                  Width="210"
+                                  Margin="0,-23,0,0"
+                                  Height="210"
+                                  VerticalAlignment="Stretch"
+                                  HorizontalAlignment="Stretch" />
+
+                            <Grid Background="#FF666666"
+                                  Width="215"
+                                  Margin="0,-12,0,0"
+                                  Height="215"
+                                  VerticalAlignment="Stretch"
+                                  HorizontalAlignment="Stretch" />
+
+                            <Grid VerticalAlignment="Stretch"
+                                  HorizontalAlignment="Stretch" 
+                                  Width="220"
+                                  Height="220">
+                                <Image Source="{x:Bind ViewModel.Playlist, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
+                                       Stretch="UniformToFill" />
+                            </Grid>
+                        </Grid>
+                    </controls:DropShadowPanel>
                 </Grid>
             </ListView.Header>
         </ListView>
