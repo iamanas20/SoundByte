@@ -133,6 +133,7 @@
                                VerticalAlignment="Bottom"
                                Text="{x:Bind Path=Track.Duration, Mode=OneWay, Converter={StaticResource TimeStampConverter}}"
                                FontSize="13"
+                               FontFamily="{StaticResource GlobalFont}"
                                FontWeight="SemiBold" />
                 </Grid>
             </Grid>
@@ -141,6 +142,7 @@
 
         <StackPanel Margin="10,190,10,0">
             <TextBlock Text="{x:Bind Track.Title, Mode=OneWay}"  
+                       FontFamily="{StaticResource GlobalFont}"
                        FontWeight="SemiBold"
                        TextAlignment="Center"                    
                        FontSize="14"
@@ -149,6 +151,7 @@
                        TextTrimming="CharacterEllipsis" />
 
             <TextBlock Text="{x:Bind Path=Track.User.Username, Mode=OneWay}"
+                       FontFamily="{StaticResource GlobalFont}"
                        Margin="0,1,0,0"
                        FontSize="13"
                        Opacity="0.6"

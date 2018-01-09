@@ -14,12 +14,14 @@
                        TextAlignment="Center"
                        FontWeight="SemiBold"
                        HorizontalAlignment="Center"
+                       FontFamily="{StaticResource GlobalFont}"
                        FontSize="26"
                        Margin="0,0,0,10"
                        VerticalAlignment="Center" />
 
             <TextBlock TextWrapping="Wrap"
                        TextAlignment="Center"
+                       FontFamily="{StaticResource GlobalFont}"
                        MaxWidth="800"
                        HorizontalAlignment="Center"
                        x:Name="TextTextBlock"

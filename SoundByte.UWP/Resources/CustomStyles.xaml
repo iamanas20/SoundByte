@@ -33,7 +33,7 @@
     <!-- Default style for Windows.UI.Xaml.Controls.Primitives.PivotHeaderItem -->
     <Style TargetType="PivotHeaderItem" x:Key="FluentPivotHeader">
         <Setter Property="FontSize" Value="{ThemeResource PivotHeaderItemFontSize}" />
-        <Setter Property="FontFamily" Value="{ThemeResource PivotHeaderItemFontFamily}" />
+        <Setter Property="FontFamily" Value="{StaticResource GlobalFont}" />
         <Setter Property="FontWeight" Value="{ThemeResource PivotHeaderItemThemeFontWeight}" />
         <Setter Property="CharacterSpacing" Value="{ThemeResource PivotHeaderItemCharacterSpacing}" />
         <Setter Property="Background" Value="{ThemeResource PivotHeaderItemBackgroundUnselected}" />
@@ -564,7 +564,7 @@
         <Setter Property="BorderBrush" Value="{ThemeResource TextControlBorderBrush}" />
         <Setter Property="SelectionHighlightColor" Value="{ThemeResource TextControlSelectionHighlightColor}" />
         <Setter Property="BorderThickness" Value="{ThemeResource TextControlBorderThemeThickness}" />
-        <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+        <Setter Property="FontFamily" Value="{StaticResource GlobalFont}" />
         <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
         <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Auto" />
         <Setter Property="ScrollViewer.VerticalScrollMode" Value="Auto" />
@@ -1769,6 +1769,7 @@
         <Setter Property="BorderThickness" Value="{StaticResource NavigationViewItemBorderThickness}"/>
         <Setter Property="UseSystemFocusVisuals" Value="True"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="FontFamily" Value="{StaticResource GlobalFont}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="NavigationViewItem">
@@ -1863,8 +1864,11 @@
 
     <Thickness x:Key="PagePadding">30,0,30,0</Thickness>
     <Thickness x:Key="PagePaddingInvert">-30,0,-30,0</Thickness>
-    
+
+    <FontFamily x:Key="GlobalFont">Segoe UI</FontFamily>
+
     <Style x:Key="LinkStyle" TargetType="HyperlinkButton">
+        <Setter Property="FontFamily" Value="{StaticResource GlobalFont}"/>
         <Setter Property="Foreground" Value="{ThemeResource SystemControlBackgroundAccentBrush}" />
         <Setter Property="ContentTemplate" Value="{StaticResource HyperlinkClean}" />
         <Setter Property="FontSize" Value="16" />
@@ -1873,6 +1877,7 @@
     
     <!-- Subtitle Style -->
     <Style x:Key="SubTitleStyle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource GlobalFont}"/>
         <Setter Property="TextTrimming" Value="CharacterEllipsis" />
         <Setter Property="FontWeight" Value="SemiBold" />
         <Setter Property="FontSize" Value="16" />
@@ -1882,14 +1887,17 @@
     
     <!-- Normal Text Style -->
     <Style x:Key="TextStyle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource GlobalFont}"/>
         <Setter Property="TextWrapping" Value="WrapWholeWords" />
         <Setter Property="FontSize" Value="16" />
         <Setter Property="Margin" Value="0,0,0,5" />
+        <Setter Property="Opacity" Value="0.8" />
     </Style>
     
     <!-- Page title style -->
     <Style x:Key="TitleStyle" TargetType="TextBlock">
         <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+        <Setter Property="FontFamily" Value="{StaticResource GlobalFont}"/>
         <Setter Property="Opacity" Value="1" />
         <Setter Property="FontSize" Value="48" />
         <Setter Property="FontWeight" Value="Bold" />

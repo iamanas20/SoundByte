@@ -270,7 +270,10 @@ namespace SoundByte.UWP.Services
             if (_mediaPlayer.CanPause)
                 _mediaPlayer.Pause();
 
-            // TODO: Remote features.
+            if (SoundByteService.Current.IsSoundByteAccountConnected)
+            {
+                // TODO: Remote features.
+            }
         }
 
         /// <summary>
@@ -280,7 +283,10 @@ namespace SoundByte.UWP.Services
         {
             _mediaPlayer.Play();
 
-            // TODO: Remote Features
+            if (SoundByteService.Current.IsSoundByteAccountConnected)
+            {
+                // TODO: Remote features.
+            }
         }
         #endregion
 

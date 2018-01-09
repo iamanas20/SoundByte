@@ -30,6 +30,7 @@
                 <TextBlock Text="{x:Bind Label, Mode=OneWay}" 
                            Visibility="Collapsed"
                            x:Name="ButtonText"
+                           FontFamily="{StaticResource GlobalFont}"
                            Margin="8,0,0,0" 
                            VerticalAlignment="Center" />
             </StackPanel>

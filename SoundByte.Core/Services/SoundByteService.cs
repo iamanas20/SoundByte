@@ -265,6 +265,11 @@ namespace SoundByte.Core.Services
         }
 
         /// <summary>
+        ///     Has the user logged in with their SoundByte account.
+        /// </summary>
+        public bool IsSoundByteAccountConnected => IsServiceConnected(ServiceType.SoundByte);
+
+        /// <summary>
         /// Is the user logged into a service. Warning: will throw an exception if
         /// the service does not exsit.
         /// </summary>
