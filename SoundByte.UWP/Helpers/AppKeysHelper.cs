@@ -106,6 +106,12 @@ namespace SoundByte.UWP.Helpers
             set => Save(value);
         }
 
+        public static string SoundByteClientId
+        {
+            get => Load();
+            set => Save(value);
+        }
+
         /// <summary>
         /// This method checks to see if all app keys are valid. If an app key is missing
         /// (such as new install, re-install, app update) this method will return false,
@@ -118,7 +124,8 @@ namespace SoundByte.UWP.Helpers
                                           string.IsNullOrEmpty(LastFmClientId) ||
                                           string.IsNullOrEmpty(HockeyAppClientId) ||
                                           string.IsNullOrEmpty(GoogleAnalyticsTrackerId) ||
-                                          string.IsNullOrEmpty(AppCenterClientId));
+                                          string.IsNullOrEmpty(AppCenterClientId) ||
+                                          string.IsNullOrEmpty(SoundByteClientId));
 
         private static void Save(string value, [CallerMemberName]string name = "")
         {

@@ -13,7 +13,6 @@
 using Windows.UI.Xaml.Navigation;
 using SoundByte.Core.Items.Playlist;
 using SoundByte.UWP.ViewModels;
-using Windows.UI.Xaml.Media.Animation;
 
 namespace SoundByte.UWP.Views
 {

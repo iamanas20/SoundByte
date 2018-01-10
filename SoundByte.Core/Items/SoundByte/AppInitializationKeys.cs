@@ -30,5 +30,6 @@ namespace SoundByte.Core.Items.SoundByte
         public string HockeyAppClientId { get; set; }
         public string GoogleAnalyticsTrackerId { get; set; }
         public string AppCenterClientId { get; set; }
+        public string SoundByteClientId { get; set; }
     }
 }

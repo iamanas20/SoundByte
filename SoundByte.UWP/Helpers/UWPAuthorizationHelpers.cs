@@ -57,6 +57,7 @@ namespace SoundByte.UWP.Helpers
                     AppKeysHelper.GoogleAnalyticsTrackerId = appKeys.GoogleAnalyticsTrackerId;
                     AppKeysHelper.AppCenterClientId = appKeys.AppCenterClientId;
                     AppKeysHelper.HockeyAppClientId = appKeys.HockeyAppClientId;
+                    AppKeysHelper.SoundByteClientId = appKeys.SoundByteClientId;
                 }
 
                 // Update the app ID (this should be the same as before / update to new value)

@@ -36,6 +36,9 @@ namespace SoundByte.Core.Sources.Podcast
             if (cancellationToken == null)
                 cancellationToken = new CancellationTokenSource();
 
+            if (Show == null)
+                throw new SoundByteException("Not Loaded", "Items not loaded yet.");
+
             try
             {
                 using (var request = await HttpService.Instance.Client.GetAsync(Show.FeedUrl, cancellationToken.Token).ConfigureAwait(false))

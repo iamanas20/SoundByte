@@ -10,9 +10,11 @@
  * |----------------------------------------------------------------|
  */
 
+using Windows.UI.Xaml.Controls;
 using SoundByte.Core.Items.Podcast;
 using SoundByte.Core.Sources.Podcast;
 using SoundByte.UWP.Helpers;
+using SoundByte.UWP.Views;
 
 namespace SoundByte.UWP.ViewModels.SearchViewModels
 {
@@ -57,6 +59,16 @@ namespace SoundByte.UWP.ViewModels.SearchViewModels
         public void RefreshAll()
         {
             Podcasts.RefreshItems();
+        }
+        #endregion
+
+        #region View Single
+        public void NavigatePodcastShow(object sender, ItemClickEventArgs e)
+        {
+            if (e.ClickedItem == null)
+                return;
+
+            App.NavigateTo(typeof(PodcastShowView), e.ClickedItem as PodcastShow);
         }
         #endregion
     }

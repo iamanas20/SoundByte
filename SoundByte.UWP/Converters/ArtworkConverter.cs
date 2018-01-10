@@ -14,6 +14,7 @@ using System;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media.Imaging;
 using SoundByte.Core.Items.Playlist;
+using SoundByte.Core.Items.Podcast;
 using SoundByte.Core.Items.Track;
 using SoundByte.Core.Items.User;
 using SoundByte.UWP.Services;
@@ -78,7 +79,7 @@ namespace SoundByte.UWP.Converters
                 var sourceType = value.GetType();
 
                 // Check that we can use this object
-                if (!(sourceType == typeof(BaseTrack) || sourceType == typeof(BasePlaylist) || sourceType == typeof(BaseUser)))
+                if (!(sourceType == typeof(BaseTrack) || sourceType == typeof(BasePlaylist) || sourceType == typeof(BaseUser) || sourceType == typeof(PodcastShow)))
                     throw new ArgumentException(
                         $"Expected object to convert is either Track, Playlist or User. {sourceType} was passed instead.",
                         nameof(value));
@@ -86,12 +87,17 @@ namespace SoundByte.UWP.Converters
                 // Switch between all the options
                 switch (sourceType.Name)
                 {
-                    case "BaseTrack":
+                    case nameof(BaseTrack):
                         return GetTrackImage(value as BaseTrack);
-                    case "BaseUser":
+                    case nameof(BaseUser):
                         return GetUserImage(value as BaseUser);
-                    case "BasePlaylist":
+                    case nameof(BasePlaylist):
                         return GetPlaylistImage(value as BasePlaylist);
+                    case nameof(PodcastShow):
+                        var podcast = (PodcastShow) value;
+                        return podcast.ArtworkUrl;
+                        break;
+
                 }
 
                 // If we reach here, something went wrong, this should never happen

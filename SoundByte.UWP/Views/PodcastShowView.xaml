@@ -5,8 +5,11 @@
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
+    xmlns:track="using:SoundByte.Core.Items.Track"
+    xmlns:controls="using:SoundByte.UWP.Controls"
+    xmlns:controls1="using:Microsoft.Toolkit.Uwp.UI.Controls"
     NavigationCacheMode="Enabled">
-
+    
     <Page.Transitions>
         <TransitionCollection>
             <NavigationThemeTransition>
@@ -17,7 +20,15 @@
 
     <Grid Background="Transparent">
 
+        <controls:InfoPane VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+                           Visibility="Collapsed" Canvas.ZIndex="50"
+                           Header="{x:Bind ViewModel.PodcastItems.ErrorHeader, Mode=OneWay}"
+                           Text="{x:Bind ViewModel.PodcastItems.ErrorDescription, Mode=OneWay}"
+                           IsLoading="{x:Bind ViewModel.PodcastItems.IsLoading, Mode=OneWay}"
+                           IsError="{x:Bind ViewModel.PodcastItems.IsError, Mode=OneWay}" />
+
         <ListView VerticalAlignment="Stretch"
+                  ItemsSource="{x:Bind ViewModel.PodcastItems}"
                   Padding="{ThemeResource PagePadding}"
                   SelectionMode="None"
                   IsSwipeEnabled="False"
@@ -27,7 +38,7 @@
                   IsMultiSelectCheckBoxEnabled="False"
                   animations:ReorderGridAnimation.Duration="150">
             <ListView.ItemTemplate>
-                <DataTemplate>
+                <DataTemplate x:DataType="track:BaseTrack">
                     <Grid HorizontalAlignment="Stretch"
                           FocusVisualPrimaryThickness="0"
                           BorderThickness="0,0,0,1"
@@ -35,7 +46,7 @@
                           FocusVisualMargin="0"
                           Margin="0,10">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
@@ -43,20 +54,107 @@
                         </Grid.ColumnDefinitions>
 
 
+                        <TextBlock HorizontalAlignment="Left" Grid.Column="0" Grid.ColumnSpan="3" Text="{x:Bind Title}"
+                                   Margin="0,0,15,0"
+                                   FontWeight="SemiBold" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" />
 
-                        <TextBlock HorizontalAlignment="Left" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Title}"
-                                   FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
-
-                        <TextBlock HorizontalAlignment="Left" Grid.Column="3" Text="{Binding User.Username}"
+                        <TextBlock HorizontalAlignment="Left" Grid.Column="3" Text="{x:Bind User.Username}"
                                    TextAlignment="Left"
                                    Opacity="0.8" TextTrimming="CharacterEllipsis" />
 
                         <TextBlock HorizontalAlignment="Right" Grid.Column="4"
-                                   Text="{Binding Duration, Mode=OneWay, Converter={StaticResource TimeStampConverter}}"
+                                   Text="{x:Bind Duration, Mode=OneWay, Converter={StaticResource TimeStampConverter}}"
                                    FontWeight="SemiBold" Opacity="0.8" Margin="15,0" />
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
+            <ListView.Header>
+                <Grid Margin="{ThemeResource PagePadding}"
+                      Padding="-17,0,-17,30">
+
+                    <!-- Main Content -->
+                    <StackPanel Orientation="Vertical" Margin="260,0,0,0">
+                        <!-- Title -->
+                        <TextBlock Text="{x:Bind ViewModel.PodcastShow.Title, Mode=OneWay}" 
+                                   Style="{StaticResource TitleStyle}" />
+
+                        <!-- User -->
+                        <TextBlock Text="{x:Bind ViewModel.PodcastShow.Username, Mode=OneWay}" 
+                                   Margin="0,10,0,0" Opacity="0.8" FontSize="16"/>
+
+                        <!-- Tracks -->
+                        <StackPanel Orientation="Horizontal" Margin="0,15,0,0">
+                            <TextBlock Text="&#xEA69;" 
+                                       FontFamily="Segoe MDL2 Assets" 
+                                       Margin="0,4,10,0"
+                                       FontSize="16" Opacity="0.8" />
+
+                            <TextBlock Text="{x:Bind Path=ViewModel.PodcastShow.TrackCount, Converter={StaticResource FormattedValueConverter}, Mode=OneWay}"
+                                       FontSize="16" 
+                                       Opacity="0.8" />
+
+                            <TextBlock Text="Tracks" Margin="5,0,0,0" 
+                                       FontSize="16" 
+                                       Opacity="0.8" />
+                        </StackPanel>
+
+
+
+
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" Margin="260,0,0,0">
+                        <controls:AppButton Glyph="&#xE768;" 
+                                             Label="Play All" 
+                                             Margin="0,0,15,0" />
+
+                        <controls:AppButton Glyph="&#xE8B1;" 
+                                             Label="Shuffle Play"
+                                             Margin="0,0,15,0" />
+
+                        <controls:AppButton 
+                                             Margin="0,0,15,0" />
+
+                        <controls:AppButton Glyph="&#xE712;" 
+                                             Label="More"
+                                             Margin="0,0,15,0" />
+                    </StackPanel>
+
+                    <!-- Track Image -->
+                    <controls1:DropShadowPanel BlurRadius="15"
+                                              VerticalAlignment="Center"
+                                              HorizontalAlignment="Left"
+                                              Margin="0,58,20,0"
+                                              ShadowOpacity="0.6"
+                                              OffsetX="0"
+                                              OffsetY="0"
+                                              Color="Black">
+                        <Grid>
+                            <Grid Background="#FF444444"
+                                  Width="210"
+                                  Margin="0,-23,0,0"
+                                  Height="210"
+                                  VerticalAlignment="Stretch"
+                                  HorizontalAlignment="Stretch" />
+
+                            <Grid Background="#FF666666"
+                                  Width="215"
+                                  Margin="0,-12,0,0"
+                                  Height="215"
+                                  VerticalAlignment="Stretch"
+                                  HorizontalAlignment="Stretch" />
+
+                            <Grid VerticalAlignment="Stretch"
+                                  HorizontalAlignment="Stretch" 
+                                  Width="220"
+                                  Height="220">
+                                <Image Source="{x:Bind ViewModel.PodcastShow, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
+                                       Stretch="UniformToFill" />
+                            </Grid>
+                        </Grid>
+                    </controls1:DropShadowPanel>
+                </Grid>
+            </ListView.Header>
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment"  Value="Stretch" />

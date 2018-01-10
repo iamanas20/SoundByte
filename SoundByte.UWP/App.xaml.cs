@@ -282,7 +282,7 @@ namespace SoundByte.UWP
                 new ServiceInfo
                 {
                     Service = ServiceType.SoundByte,
-                    ClientId = "46c3a728b490d119933857d35b63b473",
+                    ClientId = AppKeysHelper.SoundByteClientId,
                     UserToken = soundByteToken
                 }
             };
