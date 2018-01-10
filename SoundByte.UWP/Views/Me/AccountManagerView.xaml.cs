@@ -61,6 +61,18 @@ namespace SoundByte.UWP.Views.Me
 
         private void RefreshUi()
         {
+            if (SoundByteService.Current.IsServiceConnected(ServiceType.SoundByte))
+            {
+                SoundByteConnectedView.Visibility = Visibility.Visible;
+                SoundByteDisconnectedView.Visibility = Visibility.Collapsed;
+
+            }
+            else
+            {
+                SoundByteConnectedView.Visibility = Visibility.Collapsed;
+                SoundByteDisconnectedView.Visibility = Visibility.Visible;
+            }
+
             if (SoundByteService.Current.IsServiceConnected(ServiceType.SoundCloud))
             {
                 SoundCloudDisconnectAccount.Visibility = Visibility.Visible;
@@ -178,6 +190,12 @@ namespace SoundByte.UWP.Views.Me
         private void DisconnectSoundCloudAccount(object sender, RoutedEventArgs e)
         {
             SoundByteService.Current.DisconnectService(ServiceType.SoundCloud);
+            RefreshUi();
+        }
+
+        private void DisconnectSoundByteAccount(object sender, RoutedEventArgs e)
+        {
+            SoundByteService.Current.DisconnectService(ServiceType.SoundByte);
             RefreshUi();
         }
 

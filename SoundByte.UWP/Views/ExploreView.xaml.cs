@@ -14,8 +14,10 @@ using System;
 using SoundByte.Core.Items.Track;
 using SoundByte.UWP.Services;
 using Windows.UI.Popups;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using SoundByte.Core.Services;
 using SoundByte.Core.Sources.Fanburst;
 using SoundByte.Core.Sources.SoundCloud;
 using SoundByte.Core.Sources.YouTube;
@@ -51,6 +53,13 @@ namespace SoundByte.UWP.Views
             InitializeComponent();
 
             NavigationCacheMode = NavigationCacheMode.Enabled;
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            // If we have a connected SoundByte account, don't show the banner
+            SoundByteAccountBanner.Visibility = SoundByteService.Current.IsSoundByteAccountConnected 
+                ? Visibility.Collapsed : Visibility.Visible;
         }
 
         #region SoundCloud

@@ -112,72 +112,86 @@
                 </PivotItem.Header>
 
                 <ScrollViewer HorizontalAlignment="Stretch">
-                    <StackPanel Padding="{ThemeResource PagePadding}">
+                    <Grid>
+                        <StackPanel Padding="{ThemeResource PagePadding}" Visibility="Collapsed" x:Name="SoundByteConnectedView">
 
-                        <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-                            <TextBlock Text="&#xE753;" 
+                            <TextBlock Text="Manage" Style="{StaticResource SubTitleStyle}" />
+
+                            <TextBlock Text="Your SoundByte account is connected." Style="{StaticResource TextStyle}" />
+                            <HyperlinkButton Content="Disconnect Account" 
+                                             Style="{StaticResource LinkStyle}" 
+                                             Click="DisconnectSoundByteAccount" />
+                        </StackPanel>
+                        
+                        <StackPanel Padding="{ThemeResource PagePadding}" Visibility="Collapsed" x:Name="SoundByteDisconnectedView">
+
+                            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                                <TextBlock Text="&#xE753;" 
                                FontSize="48"
                                Opacity="0.8"
                                FontFamily="Segoe MDL2 Assets"  />
-                            <TextBlock Text="Your content everywhere, anywhere" 
+                                <TextBlock Text="Your content everywhere, anywhere" 
                                VerticalAlignment="Center"
                                FontSize="22"
                                Margin="20,0,0,0"
                                FontWeight="SemiBold"
                                TextWrapping="Wrap"/>
-                        </StackPanel>
+                            </StackPanel>
 
-                        <TextBlock Text="Connected accounts, likes, playlists and more are stored in the cloud. Access all your content, no matter what device you are using."
+                            <TextBlock Text="Connected accounts, likes, playlists and more are stored in the cloud. Access all your content, no matter what device you are using."
                            Margin="0,10,0,0"
                            HorizontalAlignment="Left"
                            TextWrapping="Wrap"/>
 
-                        <StackPanel Orientation="Horizontal" Margin="0,30,0,0">
-                            <TextBlock Text="&#xEC57;" 
+                            <StackPanel Orientation="Horizontal" Margin="0,30,0,0">
+                                <TextBlock Text="&#xEC57;" 
                                Opacity="0.8"
                                FontSize="48"
                                FontFamily="Segoe MDL2 Assets"  />
-                            <TextBlock Text="Resume playback across devices" 
+                                <TextBlock Text="Resume playback across devices" 
                                VerticalAlignment="Center"
                                FontSize="22"
                                Margin="20,0,0,0"
                                FontWeight="SemiBold"
                                TextWrapping="Wrap"/>
-                        </StackPanel>
+                            </StackPanel>
 
-                        <TextBlock Text="Continue your current playlist/song on another device. Control playback of music on other devices."
+                            <TextBlock Text="Continue your current playlist/song on another device. Control playback of music on other devices."
                            Margin="0,15,0,0"
                            HorizontalAlignment="Left"
                            TextWrapping="Wrap"/>
 
-                        <StackPanel Orientation="Horizontal" Margin="0,30,0,0">
-                            <TextBlock Text="&#xE713;" 
+                            <StackPanel Orientation="Horizontal" Margin="0,30,0,0">
+                                <TextBlock Text="&#xE713;" 
                                FontSize="48"
                                Opacity="0.8"
                                FontFamily="Segoe MDL2 Assets"  />
-                            <TextBlock Text="Sync settings across devices" 
+                                <TextBlock Text="Sync settings across devices" 
                                VerticalAlignment="Center"
                                FontSize="22"
                                Margin="20,0,0,0"
                                FontWeight="SemiBold"
                                TextWrapping="Wrap"/>
-                        </StackPanel>
+                            </StackPanel>
 
-                        <TextBlock Text="..."
+                            <TextBlock Text="..."
                            Margin="0,15,0,0"
                            HorizontalAlignment="Left"
                            MaxWidth="440"
                            TextWrapping="Wrap"/>
 
 
-                        <Button Foreground="White"
+                            <Button Foreground="White"
                         Click="{x:Bind ConnectSoundByteAccount}"
                         Background="{ThemeResource ButtonAccentBrush}"
                         Content="Create Account / Login"
                         BorderThickness="1"
                         Margin="0,20,0,0"
                         Padding="20,10"/>
-                    </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                    
+                   
                 </ScrollViewer>
             </PivotItem>
         </Pivot>

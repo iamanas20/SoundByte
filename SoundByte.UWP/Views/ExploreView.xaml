@@ -103,15 +103,17 @@
                 </FlipView>
                 
                 <!-- Common functions -->
-                <Grid Margin="0,25,0,25" Padding="{ThemeResource PagePadding}">
+                <Grid Margin="0,0,0,25" Padding="{ThemeResource PagePadding}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="80" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
-                    <Grid Margin="0,5,0,5"
+                    <Grid Margin="0,30,0,5"
+                          x:Name="SoundByteAccountBanner"
+                          Height="80"
                           HorizontalAlignment="Stretch"
                           VerticalAlignment="Stretch">
 
