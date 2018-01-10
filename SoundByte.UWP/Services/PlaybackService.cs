@@ -312,8 +312,8 @@ namespace SoundByte.UWP.Services
                 {
                     // find the index of the track in the playlist
                     var index = MediaPlaybackList.Items.ToList()
-                        .FindIndex(item => item.Source.AsBaseTrack().Id ==
-                                           trackToPlay.Id);
+                        .FindIndex(item => item.Source.AsBaseTrack().TrackId ==
+                                           trackToPlay.TrackId);
 
                     if (index == -1)
                     {
@@ -395,7 +395,7 @@ namespace SoundByte.UWP.Services
                 {
                     // Create a media binding for later (this is used to
                     // load the track streams as we need them).
-                    var binder = new MediaBinder { Token = track.Id };
+                    var binder = new MediaBinder { Token = track.TrackId };
                     binder.Binding += BindMediaSource;
 
                     // Create the source, bind track metadata and use it to
@@ -420,7 +420,7 @@ namespace SoundByte.UWP.Services
                 {
                     App.Telemetry.TrackEvent("Playback Item Addition Failed", new Dictionary<string, string>
                     {
-                        { "TrackID", track.Id },
+                        { "TrackID", track.TrackId },
                         { "TrackService", track.ServiceType.ToString() },
                         { "ErrorMessage", e.Message }
                     });
@@ -438,7 +438,7 @@ namespace SoundByte.UWP.Services
 
             // Get the track data
             var track = MediaPlaybackList.Items.ToList()
-                .FirstOrDefault(x => x.Source.AsBaseTrack().Id == args.MediaBinder.Token)
+                .FirstOrDefault(x => x.Source.AsBaseTrack().TrackId == args.MediaBinder.Token)
                 ?.Source?.AsBaseTrack();
 
             // Only run if the track exists

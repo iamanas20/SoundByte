@@ -98,7 +98,7 @@ namespace SoundByte.UWP.Dialogs
                 {
                     // Create the json string needed to create the playlist
                     var json = "{\"playlist\":{\"title\":\"" + playlistTitle.Text.Trim() + "\",\"tracks\":[{\"id\":\"" +
-                               Track?.Id + "\"}]}}";
+                               Track?.TrackId + "\"}]}}";
 
                     try
                     {
@@ -184,7 +184,7 @@ namespace SoundByte.UWP.Dialogs
 
                     _blockItemsLoading = true;
                     // Check if the track in in the playlist
-                    playlist.IsTrackInInternalSet = playlist.Tracks?.FirstOrDefault(x => x.Id == Track.Id) != null;
+                 //   playlist.IsTrackInInternalSet = playlist.Tracks?.FirstOrDefault(x => x.TrackId == Track.TrackId) != null;
                     // Add the track to the UI
                     Playlist.Add(playlist);
                     _blockItemsLoading = false;
@@ -225,7 +225,7 @@ namespace SoundByte.UWP.Dialogs
                 // Get the playlist object from the internet
                 var playlistObject = await SoundByteService.Current.GetAsync<SoundCloudPlaylist>(ServiceType.SoundCloud, "/playlists/" + playlistId);
                 // Get the track within the object
-                var trackObject = playlistObject.Tracks.FirstOrDefault(x => x.Id == int.Parse(Track?.Id));
+                var trackObject = playlistObject.Tracks.FirstOrDefault(x => x.Id == int.Parse(Track?.TrackId));
 
                 // Check that the track exits
                 if (trackObject != null)
@@ -296,7 +296,7 @@ namespace SoundByte.UWP.Dialogs
                     (current, track) => current + "{\"id\":\"" + track.Id + "\"},");
 
                 // Complete the json string by adding the current track
-                json += "{\"id\":\"" + Track?.Id + "\"}]}}";
+                json += "{\"id\":\"" + Track?.TrackId + "\"}]}}";
                 // Create the http request
                 var response = await SoundByteService.Current.PutAsync(ServiceType.SoundCloud, $"/playlists/{playlistObject.Id}/?secret-token={playlistObject.SecretToken}", json);
 

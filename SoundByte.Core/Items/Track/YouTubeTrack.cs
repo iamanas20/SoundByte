@@ -96,7 +96,7 @@ namespace SoundByte.Core.Items.Track
             var track = new BaseTrack
             {
                 ServiceType = ServiceType.YouTube,
-                Id = Id.VideoId,
+                TrackId = Id.VideoId,
                 Link = $"https://www.youtube.com/watch?v={Id.VideoId}",
                 ArtworkUrl = Snippet.Thumbnails.HighSize.Url,
                 Title = Snippet.Title,
@@ -107,22 +107,10 @@ namespace SoundByte.Core.Items.Track
                 IsLive = Snippet.LiveBroadcastContent != "none",
                 User = new BaseUser
                 {
-                    Id = Snippet.ChannelId,
+                    UserId = Snippet.ChannelId,
                     Username = Snippet.ChannelTitle
                 }
             };
-
-            // Get the correct kind value for the
-            // universal object
-            switch (Id.Kind)
-            {
-                case "youtube#video":
-                    track.Kind = "track";
-                    break;
-                default:
-                    track.Kind = Kind;
-                    break;
-            }
 
             return track;
         }

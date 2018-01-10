@@ -87,8 +87,7 @@ namespace SoundByte.Core.Items.Track
             return new BaseTrack
             {
                 ServiceType = ServiceType.Fanburst,
-                Id = Id,
-                Kind = "track", 
+                TrackId = Id,
                 Link = Url,
                 AudioStreamUrl = string.Empty,
                 VideoStreamUrl = string.Empty,

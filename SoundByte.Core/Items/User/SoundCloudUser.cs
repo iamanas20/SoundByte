@@ -78,7 +78,7 @@ namespace SoundByte.Core.Items.User
             return new BaseUser
             {
                 ServiceType = ServiceType.SoundCloud,
-                Id = Id.ToString(),
+                UserId = Id.ToString(),
                 Username = Username,
                 ArtworkLink = AvatarUrl,
                 Country = Country,

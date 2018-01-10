@@ -53,9 +53,9 @@ namespace SoundByte.Core.Sources.SoundCloud.User
             // If we are connected and the connect user is the current user we get the logged
             // in users playlists URL.
             if (SoundByteService.Current.IsServiceConnected(ServiceType.SoundCloud) &&
-                User?.Id == SoundByteService.Current.GetConnectedUser(ServiceType.SoundCloud)?.Id)
+                User?.UserId == SoundByteService.Current.GetConnectedUser(ServiceType.SoundCloud)?.UserId)
             {
-                endpoint = $"/users/{SoundByteService.Current.GetConnectedUser(ServiceType.SoundCloud)?.Id}/playlists/liked_and_owned";
+                endpoint = $"/users/{SoundByteService.Current.GetConnectedUser(ServiceType.SoundCloud)?.UserId}/playlists/liked_and_owned";
                 serviceType = ServiceType.SoundCloudV2;
 
                 // Call the SoundCloud api and get the items
@@ -81,7 +81,7 @@ namespace SoundByte.Core.Sources.SoundCloud.User
             }
             else
             {
-                endpoint = $"/users/{User.Id}/playlists";
+                endpoint = $"/users/{User.UserId}/playlists";
                 serviceType = ServiceType.SoundCloud;
 
                 // Call the SoundCloud api and get the items

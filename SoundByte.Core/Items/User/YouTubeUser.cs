@@ -56,7 +56,7 @@ namespace SoundByte.Core.Items.User
             return new BaseUser
             {
                 ServiceType = ServiceType.YouTube,
-                Id = Id.ChannelId,
+                UserId = Id.ChannelId,
                 Username = Snippet.Title,
                 ArtworkLink = Snippet.Thumbnails.HighSize.Url,
                 Description = Snippet.Description

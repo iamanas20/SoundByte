@@ -73,7 +73,7 @@ namespace SoundByte.UWP.Dialogs
             // Create a data package
             var dataPackage = new DataPackage {RequestedOperation = DataPackageOperation.Copy};
             // Set the link to the track on soundcloud
-            dataPackage.SetText($"soundbyte://core/track?id={Track.Id}&service={Track.ServiceType.ToString().ToLower()}");
+            dataPackage.SetText($"soundbyte://core/track?id={Track.TrackId}&service={Track.ServiceType.ToString().ToLower()}");
             // Set the clipboard content
             Clipboard.SetContent(dataPackage);
             // Hide the popup

@@ -20,7 +20,6 @@ using Android.Widget;
 using SoundByte.Android.Adapters;
 using SoundByte.Core.Items.Track;
 using SoundByte.Android.Services;
-using SoundByte.Core.Sources.SoundCloud;
 using SoundByte.Core.Sources.SoundCloud.Search;
 
 namespace SoundByte.Android.Fragments
@@ -92,7 +91,7 @@ namespace SoundByte.Android.Fragments
 
             var intent = new Intent(PlaybackService.ActionPlay);
             intent.SetPackage("net.gridentertainment.soundbyte.android");
-            intent.PutExtra("URL", "https://api.soundcloud.com/tracks/" + adapter.BaseTrack[position].Id + "/stream?client_id=" + AppKeys.BackupSoundCloudPlaybackIDs[2]);
+            intent.PutExtra("URL", "https://api.soundcloud.com/tracks/" + adapter.BaseTrack[position].TrackId + "/stream?client_id=" + AppKeys.BackupSoundCloudPlaybackIDs[2]);
             Activity.StartService(intent);
 
             // Display a toast that briefly shows the enumeration of the selected photo:

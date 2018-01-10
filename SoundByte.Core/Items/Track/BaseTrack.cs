@@ -12,12 +12,14 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using SoundByte.Core.Items.Comment;
 using SoundByte.Core.Items.User;
 using System.Threading;
+using Newtonsoft.Json;
 using SoundByte.Core.Services;
 using YoutubeExplode;
 using YoutubeExplode.Models.MediaStreams;
@@ -32,7 +34,9 @@ namespace SoundByte.Core.Items.Track
     /// the UI.
     /// </summary>
     [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
-    public class BaseTrack : BaseItem
+    [Table("tracks", Schema = "data")]
+    // ReSharper disable once PartialTypeWithSinglePart
+    public partial class BaseTrack : BaseItem
     {
         /// <summary>
         /// Get the audio stream for this item
@@ -52,7 +56,7 @@ namespace SoundByte.Core.Items.Track
             switch (ServiceType)
             {
                 case ServiceType.Fanburst:
-                    audioStream = $"https://api.fanburst.com/tracks/{Id}/stream?client_id={service.ClientId}";
+                    audioStream = $"https://api.fanburst.com/tracks/{TrackId}/stream?client_id={service.ClientId}";
                     break;
                 case ServiceType.SoundCloud:
                 case ServiceType.SoundCloudV2:
@@ -71,11 +75,11 @@ namespace SoundByte.Core.Items.Track
 
                     // Get random key
                     var randomNumber = new Random().Next(apiKeys.Count);
-                    audioStream = $"https://api.soundcloud.com/tracks/{Id}/stream?client_id={apiKeys[randomNumber]}";
+                    audioStream = $"https://api.soundcloud.com/tracks/{TrackId}/stream?client_id={apiKeys[randomNumber]}";
                     break;
                 case ServiceType.YouTube:
                     // Get the video streams
-                    var mediaStreams = await youTubeClient.GetVideoMediaStreamInfosAsync(Id);
+                    var mediaStreams = await youTubeClient.GetVideoMediaStreamInfosAsync(TrackId);
 
                     // Set the audio stream URL to the highest quality
                     // TODO: Set it at an alright quality.
@@ -108,45 +112,41 @@ namespace SoundByte.Core.Items.Track
         /// What service this track belongs to. Useful for
         /// performing service specific tasks such as liking.
         /// </summary>
+        [Column("service_type")]
+        [JsonProperty("service_type")]
         public ServiceType ServiceType { get; set; }
+
+        /// <summary>
+        ///     The SoundByte resource ID
+        /// </summary>
+        [Column("id")]
+        [JsonProperty("id")]
+        public Guid Id { get; set; }
 
         /// <summary>
         /// Id of track
         /// </summary>
-        public string Id
+        [Column("track_id")]
+        [JsonProperty("track_id")]
+        public string TrackId
         {
-            get => _id;
+            get => _trackId;
             set
             {
-                if (value == _id)
+                if (value == _trackId)
                     return;
 
-                _id = value;
+                _trackId = value;
                 UpdateProperty();
             }
         }
-        private string _id;
-
-        /// <summary>
-        /// Kind of track
-        /// </summary>
-        public string Kind
-        {
-            get => _kind;
-            set
-            {
-                if (value == _kind)
-                    return;
-
-                _kind = value;
-                UpdateProperty();
-            }
-        }
-        private string _kind;
+        private string _trackId;
 
         /// <summary>
         /// Link to the track
         /// </summary>
+        [Column("link")]
+        [JsonProperty("link")]
         public string Link
         {
             get => _link;
@@ -164,6 +164,8 @@ namespace SoundByte.Core.Items.Track
         /// <summary>
         /// Is the track currently live (used for YouTube videos)
         /// </summary>
+        [Column("is_live")]
+        [JsonProperty("is_live")]
         public bool IsLive
         {
             get => _isLive;
@@ -181,6 +183,7 @@ namespace SoundByte.Core.Items.Track
         /// <summary>
         /// Url to the audio stream
         /// </summary>
+        [NotMapped]
         public string AudioStreamUrl
         {
             get => _audioStreamUrl;
@@ -198,6 +201,7 @@ namespace SoundByte.Core.Items.Track
         /// <summary>
         /// Url to the video stream
         /// </summary>
+        [NotMapped]
         public string VideoStreamUrl
         {
             get => _videoStreamUrl;
@@ -215,6 +219,8 @@ namespace SoundByte.Core.Items.Track
         /// <summary>
         /// Artwork link
         /// </summary>
+        [Column("artwork_url")]
+        [JsonProperty("artwork_url")]
         public string ArtworkUrl
         {
             get => _artworkUrl;
@@ -232,6 +238,8 @@ namespace SoundByte.Core.Items.Track
         /// <summary>
         /// Title of the track
         /// </summary>
+        [Column("title")]
+        [JsonProperty("title")]
         public string Title
         {
             get => _title;
@@ -249,6 +257,8 @@ namespace SoundByte.Core.Items.Track
         /// <summary>
         /// Description of the track
         /// </summary>
+        [Column("description")]
+        [JsonProperty("description")]
         public string Description
         {
             get => _description;
@@ -266,6 +276,8 @@ namespace SoundByte.Core.Items.Track
         /// <summary>
         /// How long is the track
         /// </summary>
+        [Column("duration")]
+        [JsonProperty("duration")]
         public TimeSpan Duration
         {
             get => _duation;
@@ -283,6 +295,8 @@ namespace SoundByte.Core.Items.Track
         /// <summary>
         /// Date and time the track was created/uploaded
         /// </summary>
+        [Column("created")]
+        [JsonProperty("created")]
         public DateTime Created
         {
             get => _created;
@@ -298,25 +312,10 @@ namespace SoundByte.Core.Items.Track
         private DateTime _created;
 
         /// <summary>
-        /// Last time the user played back this track
-        /// </summary>
-        public DateTime LastPlaybackDate
-        {
-            get => _lastPlaybackDate;
-            set
-            {
-                if (value == _lastPlaybackDate)
-                    return;
-
-                _lastPlaybackDate = value;
-                UpdateProperty();
-            }
-        }
-        private DateTime _lastPlaybackDate;
-
-        /// <summary>
         /// Amount of likes
         /// </summary>
+        [Column("like_count")]
+        [JsonProperty("like_count")]
         public double LikeCount
         {
             get => _likeCount;
@@ -334,6 +333,8 @@ namespace SoundByte.Core.Items.Track
         /// <summary>
         /// Amount of dislikes (if supported - YouTube)
         /// </summary>
+        [Column("dislike_count")]
+        [JsonProperty("dislike_count")]
         public double DislikeCount
         {
             get => _dislikeCount;
@@ -351,6 +352,8 @@ namespace SoundByte.Core.Items.Track
         /// <summary>
         /// Amount of views
         /// </summary>
+        [Column("view_count")]
+        [JsonProperty("view_count")]
         public double ViewCount
         {
             get => _viewCount;
@@ -368,6 +371,8 @@ namespace SoundByte.Core.Items.Track
         /// <summary>
         /// Amount of comments
         /// </summary>
+        [Column("comment_count")]
+        [JsonProperty("comment_count")]
         public double CommentCount
         {
             get => _commentCount;
@@ -385,6 +390,8 @@ namespace SoundByte.Core.Items.Track
         /// <summary>
         ///     Track Genre
         /// </summary>
+        [Column("genre")]
+        [JsonProperty("genre")]
         public string Genre
         {
             get => _genre;
@@ -402,6 +409,8 @@ namespace SoundByte.Core.Items.Track
         /// <summary>
         ///     Has this track been liked
         /// </summary>
+        [Column("is_liked")]
+        [JsonProperty("is_liked")]
         public bool IsLiked
         {
             get => _isLiked;
@@ -417,8 +426,16 @@ namespace SoundByte.Core.Items.Track
         private bool _isLiked;
 
         /// <summary>
+        ///     Internal User Id used in SoundByte API.
+        /// </summary>
+        [Column("user_id")]
+        [JsonProperty("user_id")]
+        public Guid UserId { get; set; }
+
+        /// <summary>
         ///     The Track User
         /// </summary>
+        [NotMapped]
         public BaseUser User
         {
             get => _user;
@@ -444,11 +461,11 @@ namespace SoundByte.Core.Items.Track
             {
                 case ServiceType.SoundCloud:
                 case ServiceType.SoundCloudV2:
-                    return await new SoundCloudTrack(Id).GetCommentsAsync(count, token, cancellationTokenSource);
+                    return await new SoundCloudTrack(TrackId).GetCommentsAsync(count, token, cancellationTokenSource);
                 case ServiceType.Fanburst:
-                    return await new FanburstTrack(Id).GetCommentsAsync(count, token, cancellationTokenSource);
+                    return await new FanburstTrack(TrackId).GetCommentsAsync(count, token, cancellationTokenSource);
                 case ServiceType.YouTube:
-                    return await new YouTubeTrack(Id).GetCommentsAsync(count, token, cancellationTokenSource);
+                    return await new YouTubeTrack(TrackId).GetCommentsAsync(count, token, cancellationTokenSource);
                 default:
                     throw new ArgumentOutOfRangeException();
             }   
@@ -478,13 +495,13 @@ namespace SoundByte.Core.Items.Track
             {
                 case ServiceType.SoundCloud:
                 case ServiceType.SoundCloudV2:
-                     hasLiked = await new SoundCloudTrack(Id).LikeAsync();
+                     hasLiked = await new SoundCloudTrack(TrackId).LikeAsync();
                     break;
                 case ServiceType.Fanburst:
-                    hasLiked = await new FanburstTrack(Id).LikeAsync();
+                    hasLiked = await new FanburstTrack(TrackId).LikeAsync();
                     break;
                 case ServiceType.YouTube:
-                    hasLiked = await new YouTubeTrack(Id).LikeAsync();
+                    hasLiked = await new YouTubeTrack(TrackId).LikeAsync();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -505,13 +522,13 @@ namespace SoundByte.Core.Items.Track
             {
                 case ServiceType.SoundCloud:
                 case ServiceType.SoundCloudV2:
-                    hasUnliked = await new SoundCloudTrack(Id).UnlikeAsync();
+                    hasUnliked = await new SoundCloudTrack(TrackId).UnlikeAsync();
                     break;
                 case ServiceType.Fanburst:
-                    hasUnliked = await new FanburstTrack(Id).UnlikeAsync();
+                    hasUnliked = await new FanburstTrack(TrackId).UnlikeAsync();
                     break;
                 case ServiceType.YouTube:
-                    hasUnliked = await new YouTubeTrack(Id).UnlikeAsync();
+                    hasUnliked = await new YouTubeTrack(TrackId).UnlikeAsync();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

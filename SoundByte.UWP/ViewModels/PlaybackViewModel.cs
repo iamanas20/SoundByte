@@ -530,7 +530,7 @@ namespace SoundByte.UWP.ViewModels
                     try
                     {
                         CurrentTrack.IsLiked = await SoundByteService.Current.ExistsAsync(ServiceType.SoundCloud,
-                            "/me/favorites/" + CurrentTrack.Id);
+                            "/me/favorites/" + CurrentTrack.TrackId);
                     }
                     catch
                     {
@@ -539,7 +539,7 @@ namespace SoundByte.UWP.ViewModels
 
                     try
                     {
-                        CurrentTrack.User = (await SoundByteService.Current.GetAsync<SoundCloudUser>(ServiceType.SoundCloud, $"/users/{CurrentTrack.User.Id}")).ToBaseUser();
+                        CurrentTrack.User = (await SoundByteService.Current.GetAsync<SoundCloudUser>(ServiceType.SoundCloud, $"/users/{CurrentTrack.User.UserId}")).ToBaseUser();
                     }
                     catch
                     {

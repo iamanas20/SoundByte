@@ -50,7 +50,7 @@ namespace SoundByte.Core.Items.User
             return new BaseUser
             {
                 ServiceType = ServiceType.Fanburst,
-                Id = Id,
+                UserId = Id,
                 Username = Name,
                 ArtworkLink = AvatarUrl,
                 Country = Location,

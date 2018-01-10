@@ -38,7 +38,7 @@ namespace SoundByte.UWP.ViewModels
         public async Task SetupView(BasePlaylist newPlaylist)
         {
             // Check if the models saved playlist is null
-            if (newPlaylist != null && (Playlist == null || Playlist.Id != newPlaylist.Id))
+            if (newPlaylist != null && (Playlist == null || Playlist.PlaylistId != newPlaylist.PlaylistId))
             {
                 // Show the loading ring
                 await App.SetLoadingAsync(true);
@@ -52,7 +52,7 @@ namespace SoundByte.UWP.ViewModels
                 var resources = ResourceLoader.GetForCurrentView();
 
                 // Check if the tile is pinned
-                if (TileHelper.IsTilePinned("Playlist_" + Playlist.Id))
+                if (TileHelper.IsTilePinned("Playlist_" + Playlist.PlaylistId))
                 {
                     PinButtonIcon = "\uE77A";
                     PinButtonText = resources.GetString("AppBarUI_Unpin_Raw");
@@ -63,7 +63,7 @@ namespace SoundByte.UWP.ViewModels
                     PinButtonText = resources.GetString("AppBarUI_Pin_Raw");
                 }
 
-                if (await SoundByteService.Current.ExistsAsync(ServiceType.SoundCloud, $"/e1/me/playlist_likes/{Playlist.Id}"))
+                if (await SoundByteService.Current.ExistsAsync(ServiceType.SoundCloud, $"/e1/me/playlist_likes/{Playlist.PlaylistId}"))
                     LikeButtonText = "Unlike Playlist";
                 else
                     LikeButtonText = "Like Playlist";
@@ -72,7 +72,7 @@ namespace SoundByte.UWP.ViewModels
                 {
                     // Get the playlist tracks
                     var playlistTracks =
-                        (await SoundByteService.Current.GetAsync<SoundCloudPlaylist>(ServiceType.SoundCloud, "/playlists/" + Playlist.Id)).Tracks;
+                        (await SoundByteService.Current.GetAsync<SoundCloudPlaylist>(ServiceType.SoundCloud, "/playlists/" + Playlist.PlaylistId)).Tracks;
                     playlistTracks.ForEach(x => Tracks.Add(x.ToBaseTrack()));
                 }
                 catch (Exception)
@@ -202,10 +202,10 @@ namespace SoundByte.UWP.ViewModels
             // Get the resource loader
             var resources = ResourceLoader.GetForCurrentView();
             // Check if the tile exists
-            if (TileHelper.IsTilePinned("Playlist_" + Playlist.Id))
+            if (TileHelper.IsTilePinned("Playlist_" + Playlist.PlaylistId))
             {
                 // Try remove the tile
-                if (await TileHelper.RemoveTileAsync("Playlist_" + Playlist.Id))
+                if (await TileHelper.RemoveTileAsync("Playlist_" + Playlist.PlaylistId))
                 {
                     PinButtonIcon = "\uE718";
                     PinButtonText = resources.GetString("AppBarUI_Pin_Raw");
@@ -219,8 +219,8 @@ namespace SoundByte.UWP.ViewModels
             else
             {
                 // Create the tile
-                if (await TileHelper.CreateTileAsync("Playlist_" + Playlist.Id, Playlist.Title,
-                    "soundbyte://core/playlist?id=" + Playlist.Id,
+                if (await TileHelper.CreateTileAsync("Playlist_" + Playlist.PlaylistId, Playlist.Title,
+                    "soundbyte://core/playlist?id=" + Playlist.PlaylistId,
                     new Uri(ArtworkConverter.ConvertObjectToImage(Playlist)), ForegroundText.Light))
                 {
                     PinButtonIcon = "\uE77A";

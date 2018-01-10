@@ -17,7 +17,8 @@ using Newtonsoft.Json;
 namespace SoundByte.Core.Items.Podcast
 {
     [JsonObject]
-    public class PodcastShow 
+    // ReSharper disable once PartialTypeWithSinglePart
+    public partial class PodcastShow 
     {
         [JsonProperty("trackId")]
         public int Id { get; set; }

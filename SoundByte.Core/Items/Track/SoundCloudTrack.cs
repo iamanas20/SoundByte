@@ -144,8 +144,7 @@ namespace SoundByte.Core.Items.Track
             return new BaseTrack
             {
                 ServiceType = ServiceType.SoundCloud,
-                Id = Id.ToString(),
-                Kind = Kind,
+                TrackId = Id.ToString(),
                 Link = PermalinkUrl,
                 AudioStreamUrl = string.Empty,
                 VideoStreamUrl = string.Empty,

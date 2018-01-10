@@ -171,7 +171,7 @@ namespace SoundByte.UWP.ViewModels
             var resources = ResourceLoader.GetForCurrentView();
 
             // Check if the tile has been pinned
-            if (TileHelper.IsTilePinned("User_" + User.Id))
+            if (TileHelper.IsTilePinned("User_" + User.UserId))
             {
                 PinButtonIcon = "\uE77A";
                 PinButtonText = resources.GetString("AppBarUI_Unpin_Raw");
@@ -183,7 +183,7 @@ namespace SoundByte.UWP.ViewModels
             }
 
             if (SoundByteService.Current.IsServiceConnected(ServiceType.SoundCloud) &&
-                User.Id == SoundByteService.Current.GetConnectedUser(ServiceType.SoundCloud)?.Id)
+                User.UserId == SoundByteService.Current.GetConnectedUser(ServiceType.SoundCloud)?.UserId)
             {
                 ShowFollowButton = false;
             }
@@ -192,7 +192,7 @@ namespace SoundByte.UWP.ViewModels
                 ShowFollowButton = true;
 
                 // Check if we are following the user
-                if (await SoundByteService.Current.ExistsAsync(ServiceType.SoundCloud, "/me/followings/" + User.Id))
+                if (await SoundByteService.Current.ExistsAsync(ServiceType.SoundCloud, "/me/followings/" + User.UserId))
                 {
                     FollowUserIcon = "\uE1E0";
                     FollowUserText = "Unfollow User";
@@ -205,7 +205,7 @@ namespace SoundByte.UWP.ViewModels
             }
 
             if (SoundByteService.Current.IsServiceConnected(ServiceType.Fanburst) &&
-                User.Id == SoundByteService.Current.GetConnectedUser(ServiceType.Fanburst)?.Id)
+                User.UserId == SoundByteService.Current.GetConnectedUser(ServiceType.Fanburst)?.UserId)
             {
                 ShowFollowButton = false;
             }
@@ -214,7 +214,7 @@ namespace SoundByte.UWP.ViewModels
                 ShowFollowButton = true;
 
                 // Check if we are following the user
-                if (await SoundByteService.Current.ExistsAsync(ServiceType.Fanburst, "/me/following/" + User.Id))
+                if (await SoundByteService.Current.ExistsAsync(ServiceType.Fanburst, "/me/following/" + User.UserId))
                 {
                     FollowUserIcon = "\uE1E0";
                     FollowUserText = "Unfollow User";
@@ -236,10 +236,10 @@ namespace SoundByte.UWP.ViewModels
             await App.SetLoadingAsync(true);
 
             // Check if we are following the user
-            if (await SoundByteService.Current.ExistsAsync(ServiceType.SoundCloud, "/me/followings/" + User.Id))
+            if (await SoundByteService.Current.ExistsAsync(ServiceType.SoundCloud, "/me/followings/" + User.UserId))
             {
                 // Unfollow the user
-                if (await SoundByteService.Current.DeleteAsync(ServiceType.SoundCloud, "/me/followings/" + User.Id))
+                if (await SoundByteService.Current.DeleteAsync(ServiceType.SoundCloud, "/me/followings/" + User.UserId))
                 {
                     App.Telemetry.TrackEvent("Unfollow User");
                     FollowUserIcon = "\uE8FA";
@@ -254,7 +254,7 @@ namespace SoundByte.UWP.ViewModels
             else
             {
                 // Follow the user
-                if (await SoundByteService.Current.PutAsync(ServiceType.SoundCloud, $"/me/followings/{User.Id}"))
+                if (await SoundByteService.Current.PutAsync(ServiceType.SoundCloud, $"/me/followings/{User.UserId}"))
                 {
                     App.Telemetry.TrackEvent("Follow User");
                     FollowUserIcon = "\uE1E0";
@@ -278,10 +278,10 @@ namespace SoundByte.UWP.ViewModels
             var resources = ResourceLoader.GetForCurrentView();
 
             // Check if the tile exists
-            if (TileHelper.IsTilePinned("User_" + User.Id))
+            if (TileHelper.IsTilePinned("User_" + User.UserId))
             {
                 // Try remove the tile
-                if (await TileHelper.RemoveTileAsync("User_" + User.Id))
+                if (await TileHelper.RemoveTileAsync("User_" + User.UserId))
                 {
                     App.Telemetry.TrackEvent("Unpin User");
                     PinButtonIcon = "\uE718";
@@ -296,8 +296,8 @@ namespace SoundByte.UWP.ViewModels
             else
             {
                 // Create the tile
-                if (await TileHelper.CreateTileAsync("User_" + User.Id, User.Username,
-                    "soundbyte://core/user?id=" + User.Id, new Uri(ArtworkConverter.ConvertObjectToImage(User)),
+                if (await TileHelper.CreateTileAsync("User_" + User.UserId, User.Username,
+                    "soundbyte://core/user?id=" + User.UserId, new Uri(ArtworkConverter.ConvertObjectToImage(User)),
                     ForegroundText.Light))
                 {
                     App.Telemetry.TrackEvent("Pin User");

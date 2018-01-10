@@ -11,9 +11,9 @@
  */
 
 using System;
-using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
-using SoundByte.Core.Items.Track;
+using Newtonsoft.Json;
 using SoundByte.Core.Items.User;
 
 namespace SoundByte.Core.Items.Playlist
@@ -24,34 +24,49 @@ namespace SoundByte.Core.Items.Playlist
     ///     the UI.
     /// </summary>
     [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
-    public class BasePlaylist : BaseItem
+    [Table("playlists", Schema = "data")]
+    // ReSharper disable once PartialTypeWithSinglePart
+    public partial class BasePlaylist : BaseItem
     {
         /// <summary>
         ///     What service this playlist belongs to.
         /// </summary>
+        [Column("service_type")]
+        [JsonProperty("service_type")]
         public ServiceType ServiceType { get; set; }
+
+        /// <summary>
+        ///     The SoundByte resource ID
+        /// </summary>
+        [Column("id")]
+        [JsonProperty("id")]
+        public Guid Id { get; set; }
 
         /// <summary>
         ///     Id of the playlist, useful for performing 
         ///     tasks on the playlist.
         /// </summary>
-        public string Id
+        [Column("playlist_id")]
+        [JsonProperty("playlist_id")]
+        public string PlaylistId
         {
-            get => _id;
+            get => _playlistId;
             set
             {
-                if (value == _id)
+                if (value == _playlistId)
                     return;
 
-                _id = value;
+                _playlistId = value;
                 UpdateProperty();
             }
         }
-        private string _id;
+        private string _playlistId;
 
         /// <summary>
         /// The length of the playlist (all tracks)
         /// </summary>
+        [Column("duration")]
+        [JsonProperty("duration")]
         public TimeSpan Duration
         {
             get => _duration;
@@ -69,6 +84,8 @@ namespace SoundByte.Core.Items.Playlist
         /// <summary>
         /// Playlist title
         /// </summary>
+        [Column("title")]
+        [JsonProperty("title")]
         public string Title
         {
             get => _title;
@@ -86,6 +103,8 @@ namespace SoundByte.Core.Items.Playlist
         /// <summary>
         /// Genre of the playlist
         /// </summary>
+        [Column("genre")]
+        [JsonProperty("genre")]
         public string Genre
         {
             get => _genre;
@@ -103,6 +122,8 @@ namespace SoundByte.Core.Items.Playlist
         /// <summary>
         /// Secret playlist token (used by SoundCloud)
         /// </summary>
+        [Column("secret_token")]
+        [JsonProperty("secret_token")]
         public string SecretToken
         {
             get => _secretToken;
@@ -120,6 +141,8 @@ namespace SoundByte.Core.Items.Playlist
         /// <summary>
         /// Playlist description
         /// </summary>
+        [Column("description")]
+        [JsonProperty("description")]
         public string Description
         {
             get => _description;
@@ -135,25 +158,10 @@ namespace SoundByte.Core.Items.Playlist
         private string _description;
 
         /// <summary>
-        /// List of tracks within the playlist
-        /// </summary>
-        public IEnumerable<BaseTrack> Tracks
-        {
-            get => _tracks;
-            set
-            {
-                if (Equals(value, _tracks))
-                    return;
-
-                _tracks = value;
-                UpdateProperty();
-            }
-        }
-        private IEnumerable<BaseTrack> _tracks;
-
-        /// <summary>
         /// Date the playlist was created.
         /// </summary>
+        [Column("creation_date")]
+        [JsonProperty("creation_date")]
         public DateTime CreationDate
         {
             get => _creationDate;
@@ -171,6 +179,8 @@ namespace SoundByte.Core.Items.Playlist
         /// <summary>
         /// Playlist artwork url
         /// </summary>
+        [Column("artwork_link")]
+        [JsonProperty("artwork_link")]
         public string ArtworkLink
         {
             get => _artworkLink;
@@ -186,8 +196,16 @@ namespace SoundByte.Core.Items.Playlist
         private string _artworkLink;
 
         /// <summary>
+        ///     Internal User Id used in SoundByte API.
+        /// </summary>
+        [Column("user_id")]
+        [JsonProperty("user_id")]
+        public Guid UserId { get; set; }
+
+        /// <summary>
         /// User who created the playlist
         /// </summary>
+        [NotMapped]
         public BaseUser User
         {
             get => _user;
@@ -205,6 +223,7 @@ namespace SoundByte.Core.Items.Playlist
         /// <summary>
         ///     Used by SoundByte to determine if the track is in a playlist
         /// </summary>
+        [NotMapped]
         public bool IsTrackInInternalSet
         {
             get => _isTrackInInternalSet;
@@ -222,6 +241,8 @@ namespace SoundByte.Core.Items.Playlist
         /// <summary>
         /// How many likes does this playlist have.
         /// </summary>
+        [Column("likes_count")]
+        [JsonProperty("likes_count")]
         public double LikesCount
         {
             get => _likesCount;
@@ -236,6 +257,8 @@ namespace SoundByte.Core.Items.Playlist
         /// <summary>
         /// How many tracks are in this playlist
         /// </summary>
+        [Column("track_count")]
+        [JsonProperty("track_count")]
         public double TrackCount
         {
             get => _trackCount;

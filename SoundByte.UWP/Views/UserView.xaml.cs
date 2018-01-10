@@ -51,7 +51,7 @@ namespace SoundByte.UWP.Views
             // If we have both objects and they equal, do
             // nothing and return (we are navigating to the
             // same page.
-            if (ViewModel.User?.Id == targetUser?.Id)
+            if (ViewModel.User?.UserId == targetUser?.UserId)
                 return;
 
             // If both of these are null, we have a problem.

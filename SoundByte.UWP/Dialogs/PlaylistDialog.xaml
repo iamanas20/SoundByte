@@ -428,7 +428,7 @@
                                 </Grid>
 
                                 <CheckBox Grid.Column="1"
-                                          Tag="{Binding Id}"
+                                          Tag="{Binding PlaylistId}"
                                           IsChecked="{Binding IsTrackInInternalSet}"
                                           Unchecked="RemoveTrackFromPlaylist"
                                           Checked="AddTrackToPlaylist"

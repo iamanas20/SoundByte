@@ -100,7 +100,7 @@ namespace SoundByte.Core.Items.Playlist
             return new BasePlaylist
             {
                 ServiceType = ServiceType.SoundCloud,
-                Id = Id,
+                PlaylistId = Id,
                 Duration = TimeSpan.FromMilliseconds(Duration),
                 Title = Title,
                 Genre = Genre,

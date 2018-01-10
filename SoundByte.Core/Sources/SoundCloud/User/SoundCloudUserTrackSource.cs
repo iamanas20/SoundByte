@@ -32,7 +32,7 @@ namespace SoundByte.Core.Sources.SoundCloud.User
             CancellationTokenSource cancellationToken = default(CancellationTokenSource))
         {
             // Call the SoundCloud API and get the items
-            var tracks = await SoundByteService.Current.GetAsync<TrackHolder>(ServiceType.SoundCloud, $"/users/{User.Id}/tracks",
+            var tracks = await SoundByteService.Current.GetAsync<TrackHolder>(ServiceType.SoundCloud, $"/users/{User.UserId}/tracks",
                 new Dictionary<string, string>
                 {
                     {"limit", count.ToString()},

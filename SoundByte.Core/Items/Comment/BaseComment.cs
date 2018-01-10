@@ -11,13 +11,12 @@
  */
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 using SoundByte.Core.Items.User;
 
 namespace SoundByte.Core.Items.Comment
 {
-    [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
-    public class BaseComment : BaseItem
+    // ReSharper disable once PartialTypeWithSinglePart
+    public partial class BaseComment : BaseItem
     {
         /// <summary>
         ///     What service this playlist belongs to.

@@ -70,7 +70,7 @@ namespace SoundByte.Core.Items.Playlist
             return new BasePlaylist
             {
                 ServiceType = ServiceType.YouTube,
-                Id = Id.PlaylistId,
+                PlaylistId = Id.PlaylistId,
                 Duration = TimeSpan.FromMilliseconds(0),
                 Title = Snippet.Title,
                 Genre = "YouTube",
@@ -79,7 +79,7 @@ namespace SoundByte.Core.Items.Playlist
                 ArtworkLink = Snippet.Thumbnails.HighSize.Url,
                 User = new BaseUser
                 {
-                    Id = Snippet.ChannelId,
+                    UserId = Snippet.ChannelId,
                     Username = Snippet.ChannelTitle
                 },
                 LikesCount = 0,
