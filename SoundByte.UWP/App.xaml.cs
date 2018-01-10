@@ -20,14 +20,13 @@ using Windows.Foundation;
 using Windows.Security.Credentials;
 using Windows.System;
 using Windows.UI.Core;
-using Windows.UI.Popups;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
+using Microsoft.Services.Store.Engagement;
 using Microsoft.Toolkit.Uwp.Helpers;
 using SoundByte.Core;
-using SoundByte.Core.Helpers;
 using SoundByte.Core.Items;
 using SoundByte.Core.Services;
 using SoundByte.UWP.Dialogs;
@@ -392,45 +391,9 @@ namespace SoundByte.UWP
             {
                 LoggingService.Log(LoggingService.LogType.Info, "App keys are not valid. Requesting new keys.");
 
-                try
-                {
-                    // Call the init method now and request new app keys
-                    var returnInfo = await AuthorizationHelpers.OnlineAppInitAsync("windows", "10.0.0.", "", true);
-
-                    if (!returnInfo.Successful)
-                    {
-                        await new MessageDialog("SoundByte cannot load. The following error was returned from the SoundByte server: " + returnInfo.ErrorTitle + "\n\nPlease restart the app and try again. If this error continues, contact us on Twitter @SoundByteUWP or Facebook fb.com/SoundByteUWP.", "Critical Error").ShowAsync();
-                        // Don't run anything, app will not work.
-                        return;
-                    }
-
-                    if (returnInfo.AppKeys == null)
-                    {
-                        await new MessageDialog("SoundByte cannot load. The following error was returned from the SoundByte server: App Keys not provided.\n\nPlease restart the app and try again. If this error continues, contact us on Twitter @SoundByteUWP or Facebook fb.com/SoundByteUWP.", "Critical Error").ShowAsync();
-                        // Don't run anything, app will not work.
-                        return;
-                    }
-
-                    // We have keys! Time to update the app
-                    var appKeys = returnInfo.AppKeys;
-
-                    AppKeysHelper.SoundCloudClientId = appKeys.SoundCloudClientId;
-                    AppKeysHelper.SoundCloudPlaybackIds = appKeys.SoundCloudPlaybackIds;
-                    AppKeysHelper.YouTubeLoginClientId = appKeys.YouTubeLoginClientId;
-                    AppKeysHelper.YouTubeClientId = appKeys.YouTubeClientId;
-                    AppKeysHelper.FanburstClientId = appKeys.FanburstClientId;
-                    AppKeysHelper.LastFmClientId = appKeys.LastFmClientId;
-                    AppKeysHelper.GoogleAnalyticsTrackerId = appKeys.GoogleAnalyticsTrackerId;
-                    AppKeysHelper.AppCenterClientId = appKeys.AppCenterClientId;
-                    AppKeysHelper.HockeyAppClientId = appKeys.HockeyAppClientId;
-                }
-                catch (Exception e)
-                {
-                    await new MessageDialog("SoundByte cannot load. The following error was returned from the SoundByte server: " + e.Message + "\n\nPlease restart the app and try again. If this error continues, contact us on Twitter @SoundByteUWP or Facebook fb.com/SoundByteUWP.", "Critical Error").ShowAsync();
-                    // Don't run anything, app will not work.
+                // If this fails getting the keys, we have an issue and must close the app
+                if (!await UWPAuthorizationHelpers.OnlineAppInitAsync(true))
                     return;
-                }
-
 
                 OnlineAppInitComplete = true;
             }
@@ -691,11 +654,10 @@ namespace SoundByte.UWP
                     Window.Current.Content = null;
 
                     GC.Collect();
-                }, CoreDispatcherPriority.Normal);
+                });
             }
             catch
             {
-                var i = 0;
                 // This will crash if no main view is active
             }
 
@@ -721,16 +683,21 @@ namespace SoundByte.UWP
             {
                 // We were launched using the protocol
                 case ActivationKind.Protocol:
-                    var protoArgs = e as ProtocolActivatedEventArgs;
-                    if (protoArgs != null) path = protoArgs.Uri.ToString();
+                    if (e is ProtocolActivatedEventArgs protoArgs)
+                        path = protoArgs.Uri.ToString();
                     break;
                 case ActivationKind.ToastNotification:
-                    var toastArgs = e as IToastNotificationActivatedEventArgs;
-                    if (toastArgs != null) path = toastArgs.Argument;
+                    if (e is IToastNotificationActivatedEventArgs toastArgs)
+                        path = toastArgs.Argument;
+
+                    // Track app launched through dev center
+                    var engagementManager = StoreServicesEngagementManager.GetDefault();
+                    engagementManager.ParseArgumentsAndTrackAppLaunch(path);
+
                     break;
                 case ActivationKind.VoiceCommand:
-                    var voiceArgs = e as VoiceCommandActivatedEventArgs;
-                    if (voiceArgs != null) path = voiceArgs.Result.RulePath[0];
+                    if (e is VoiceCommandActivatedEventArgs voiceArgs)
+                        path = voiceArgs.Result.RulePath[0];
                     break;
             }
 

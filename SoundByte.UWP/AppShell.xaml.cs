@@ -27,11 +27,11 @@ using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using Microsoft.Services.Store.Engagement;
 using Microsoft.Toolkit.Uwp.Helpers;
 using NotificationsExtensions;
 using NotificationsExtensions.Toasts;
 using SoundByte.Core;
-using SoundByte.Core.Helpers;
 using SoundByte.Core.Items.Generic;
 using SoundByte.Core.Items.Playlist;
 using SoundByte.Core.Items.Track;
@@ -112,10 +112,6 @@ namespace SoundByte.UWP
             });
         }
 
-        /// <summary>
-        ///     Used to access the playback service from the UI
-        /// </summary>
-        public PlaybackService Service => PlaybackService.Instance;
 
         public void Dispose()
         {
@@ -173,36 +169,8 @@ namespace SoundByte.UWP
                 // We have not yet run the online init
                 if (!App.OnlineAppInitComplete)
                 {
-                    try
-                    {
-                        var returnInfo = await AuthorizationHelpers.OnlineAppInitAsync("windows", "10.0.0.", "", true);
-
-                        if (!returnInfo.Successful)
-                        {
-                            // In the future we will navigate to another page
-                            var i = 0;
-                        }
-
-                        // If the server returned app keys, use them.
-                        if (returnInfo.AppKeys != null)
-                        {
-                            var appKeys = returnInfo.AppKeys;
-
-                            AppKeysHelper.SoundCloudClientId = appKeys.SoundCloudClientId;
-                            AppKeysHelper.SoundCloudPlaybackIds = appKeys.SoundCloudPlaybackIds;
-                            AppKeysHelper.YouTubeLoginClientId = appKeys.YouTubeLoginClientId;
-                            AppKeysHelper.YouTubeClientId = appKeys.YouTubeClientId;
-                            AppKeysHelper.FanburstClientId = appKeys.FanburstClientId;
-                            AppKeysHelper.LastFmClientId = appKeys.LastFmClientId;
-                            AppKeysHelper.GoogleAnalyticsTrackerId = appKeys.GoogleAnalyticsTrackerId;
-                            AppKeysHelper.AppCenterClientId = appKeys.AppCenterClientId;
-                            AppKeysHelper.HockeyAppClientId = appKeys.HockeyAppClientId;
-                        }
-                    }
-                    catch
-                    {
-                        // Does not matter if we fail.
-                    }
+                    // Update the keys anyway to ensure we have the latest.
+                    await UWPAuthorizationHelpers.OnlineAppInitAsync(true);
                 }
 
                 // Test Version and tell user app upgraded
@@ -222,17 +190,12 @@ namespace SoundByte.UWP
                     await NavigationService.Current.CallDialogAsync<PendingUpdateDialog>();
                 }
 
-                // Handle donation logic
-                await MonitizeService.Instance.InitProductInfoAsync();
-
                 // Load logged in user objects
                 await SoundByteService.Current.InitUsersAsync();
 
                 // Register notifications
-                //   var engagementManager = StoreServicesEngagementManager.GetDefault();
-                //   await engagementManager.RegisterNotificationChannelAsync();
-                //Todo: Implement this when fix is ready (UWP .NET CORE)
-                //https://developercommunity.visualstudio.com/content/problem/130643/cant-build-release-when-i-use-microsoftservicessto.html
+                var engagementManager = StoreServicesEngagementManager.GetDefault();
+                await engagementManager.RegisterNotificationChannelAsync();
 
                 try
                 {
@@ -276,7 +239,7 @@ namespace SoundByte.UWP
             if (DeviceHelper.IsXbox)
                 clickText = "Hold down the Xbox button to read what's new.";
 
-            if (string.IsNullOrEmpty(storedAppVersionString))
+            if (!string.IsNullOrEmpty(storedAppVersionString))
             {
                 // Generate a notification
                 var toastContent = new ToastContent
@@ -294,7 +257,7 @@ namespace SoundByte.UWP
 
                                 new AdaptiveText
                                 {
-                                    Text = "Thank you for downloading SoundByte!"
+                                    Text = $"SoundByte was updated! {clickText}"
                                 }
                             }
                         }
@@ -306,10 +269,6 @@ namespace SoundByte.UWP
                 // Show the notification
                 var toast = new ToastNotification(toastContent.GetXml()) { ExpirationTime = DateTime.Now.AddMinutes(30) };
                 ToastNotificationManager.CreateToastNotifier().Show(toast);
-            }
-            else
-            {
-     //           await NavigationService.Current.CallDialogAsync<WhatsNewDialog>();
             }
         }
 

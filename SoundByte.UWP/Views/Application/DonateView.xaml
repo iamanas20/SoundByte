@@ -31,7 +31,7 @@
                 <TextBlock Style="{StaticResource TextStyle}"
                            Text="- Offset " />
 
-                <TextBlock Text="Donate through your Microsoft Account" 
+                <TextBlock Text="(Not supported by Microsoft TOS, going to use other method)" 
                            Style="{StaticResource SubTitleStyle}" />
               
                 <HyperlinkButton Content="Loose Change ($--.--)" Style="{StaticResource LinkStyle}" IsEnabled="False"  />
@@ -46,6 +46,34 @@
                 <HyperlinkButton Content="PayPal (Flexible USD)" Style="{StaticResource LinkStyle}" NavigateUri="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=DET6LQGYXCU8N" />
 
                 <HyperlinkButton Content="Patreon ($1+ USD / month)" Style="{StaticResource LinkStyle}" NavigateUri="https://www.patreon.com/dominicmaas"  />
+
+                <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                    <TextBlock Text="Bitcoin (BTC): " FontSize="16" FontWeight="SemiBold"/>
+                    <TextBox Text="1CWxkyiRyQEm3zVxzQhK9so4YJkJRbJSTC"
+                             Opacity="0.8"  
+                             Background="Transparent"
+                             Margin="10,0,0,0" 
+                             BorderThickness="0"  />
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                    <TextBlock Text="Ether (ETH): " FontSize="16" FontWeight="SemiBold" />
+                    <TextBox Text="0x001020CD3f042CE12843175B1e94a320a06eeB5E"
+                             Opacity="0.8"  
+                             Background="Transparent"
+                             Margin="10,0,0,0" 
+                             BorderThickness="0"  />
+
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                    <TextBlock Text="Litecoin (LTC): " FontSize="16" FontWeight="SemiBold" />
+                    <TextBox Text="LW6tKhnV6fHK3dbA4Xya537f4QUu3J8Y7p" 
+                             Opacity="0.8"  
+                             Background="Transparent"
+                             Margin="10,0,0,0" 
+                             BorderThickness="0"  />
+                </StackPanel>
             </StackPanel>
         </ScrollViewer>
     </Grid>
