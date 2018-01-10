@@ -309,7 +309,7 @@ namespace SoundByte.UWP
             }
             else
             {
-                await NavigationService.Current.CallDialogAsync<WhatsNewDialog>();
+     //           await NavigationService.Current.CallDialogAsync<WhatsNewDialog>();
             }
         }
 
