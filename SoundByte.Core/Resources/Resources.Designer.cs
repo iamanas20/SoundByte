@@ -79,6 +79,24 @@ namespace SoundByte.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please connect your Fanburst account to view your likes..
+        /// </summary>
+        internal static string Sources_Fanburst_Like_NoAccount_Description {
+            get {
+                return ResourceManager.GetString("Sources_Fanburst_Like_NoAccount_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fanburst Account Not Connected.
+        /// </summary>
+        internal static string Sources_Fanburst_NoAccount_Title {
+            get {
+                return ResourceManager.GetString("Sources_Fanburst_NoAccount_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please login or create a SoundByte Account to view and save your history..
         /// </summary>
         internal static string Sources_SoundByte_History_NoAccount_Description {
@@ -120,6 +138,24 @@ namespace SoundByte.Core.Resources {
         internal static string Sources_SoundByte_Podcast_NoAccount_Description {
             get {
                 return ResourceManager.GetString("Sources_SoundByte_Podcast_NoAccount_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please connect your YouTube account to view your likes..
+        /// </summary>
+        internal static string Sources_YouTube_Like_NoAccount_Description {
+            get {
+                return ResourceManager.GetString("Sources_YouTube_Like_NoAccount_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to YouTube Account Not Connected.
+        /// </summary>
+        internal static string Sources_YouTube_NoAccount_Title {
+            get {
+                return ResourceManager.GetString("Sources_YouTube_NoAccount_Title", resourceCulture);
             }
         }
     }

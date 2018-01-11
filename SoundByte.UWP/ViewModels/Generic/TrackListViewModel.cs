@@ -10,13 +10,10 @@
  * |----------------------------------------------------------------|
  */
 
-using System;
-using Windows.UI.Popups;
 using Windows.UI.Xaml.Controls;
 using SoundByte.Core.Items.Track;
 using SoundByte.Core.Sources;
 using SoundByte.UWP.Helpers;
-using SoundByte.UWP.Services;
 
 namespace SoundByte.UWP.ViewModels.Generic
 {
@@ -72,6 +69,15 @@ namespace SoundByte.UWP.ViewModels.Generic
 
         public class TrackViewModelHolder
         {
+            public TrackViewModelHolder()
+            { }
+
+            public TrackViewModelHolder(ISource<BaseTrack> track, string title)
+            {
+                Track = track;
+                Title = title;
+            }
+
             public ISource<BaseTrack> Track { get; set; }
             public string Title { get; set; }
         }
@@ -89,17 +95,7 @@ namespace SoundByte.UWP.ViewModels.Generic
 
         public async void PlayItem(object sender, ItemClickEventArgs e)
         {
-            // We are loading
-            Model.IsLoading = true;
-
-            var startPlayback =
-                await PlaybackService.Instance.StartModelMediaPlaybackAsync(Model, false, (BaseTrack)e.ClickedItem);
-
-            if (!startPlayback.Success)
-                await new MessageDialog(startPlayback.Message, "Playback Error").ShowAsync();
-
-            // We are not loading
-            Model.IsLoading = false;
+            await PlayAllTracksAsync(Model, (BaseTrack) e.ClickedItem);
         }
         #endregion
     }

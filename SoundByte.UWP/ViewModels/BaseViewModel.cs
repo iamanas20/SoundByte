@@ -44,60 +44,60 @@ namespace SoundByte.UWP.ViewModels
         {
             var initPlaylistResponse = await PlaybackService.Instance.InitilizePlaylistAsync<DummyTrackSource>(tracks);
 
-            if (!initPlaylistResponse.Success)
+            if (initPlaylistResponse.Success == false)
             {
-                await new MessageDialog(initPlaylistResponse.Message, "Error playing shuffled tracks.").ShowAsync();
+                await new MessageDialog(initPlaylistResponse.Message, "Could not build playlist.").ShowAsync();
                 return;
             }
 
             await PlaybackService.Instance.StartRandomTrackAsync();
         }
 
+        /// <summary>
+        ///     Helper method for PlayAllTracksAsync to play shuffled tracks. See 
+        ///     PlayAllTracksAsync for more information
+        /// </summary>
+        /// <typeparam name="TSource">A base track source.</typeparam>
+        /// <param name="model">SoundByte collection of a base track source.</param>
         public static async Task ShufflePlayAllTracksAsync<TSource>(SoundByteCollection<TSource, BaseTrack> model) where TSource : ISource<BaseTrack>
         {
-            model.IsLoading = true;
-
-            var initPlaylistResponse = await PlaybackService.Instance.InitilizePlaylistAsync<TSource>(model, model.Token);
-
-            if (!initPlaylistResponse.Success)
-            {
-                await new MessageDialog(initPlaylistResponse.Message, "Error playing shuffled tracks.").ShowAsync();
-                model.IsLoading = false;
-                return;
-            }
-
-            await PlaybackService.Instance.StartRandomTrackAsync();
-
-            model.IsLoading = false;
+            await PlayAllTracksAsync(model, null, true);
         }
 
-
-        public static async Task PlayAllTracksAsync<TSource>(SoundByteCollection<TSource, BaseTrack> model, BaseTrack startingTrack = null) where TSource : ISource<BaseTrack>
+        /// <summary>
+        ///     Attempts to play a model of type BaseTrack. This method handles playback and loading 
+        ///     feedback to the user. If an error occured, the user will see a message dialog.
+        /// </summary>
+        /// <typeparam name="TSource">A base track source.</typeparam>
+        /// <param name="model">SoundByte collection of a base track source.</param>
+        /// <param name="startingTrack">The track to start first (can be null)</param>
+        /// <param name="shuffle">Should the playlist be shuffled.</param>
+        public static async Task PlayAllTracksAsync<TSource>(SoundByteCollection<TSource, BaseTrack> model, BaseTrack startingTrack = null, bool shuffle = false) where TSource : ISource<BaseTrack>
         {
-            // We are loading
             model.IsLoading = true;
 
             // Attempt to create the playlist
-            var result = await PlaybackService.Instance.InitilizePlaylistAsync<TSource>(model, model.Token);
+            var result = await PlaybackService.Instance.InitilizePlaylistAsync(model.Source, model, model.Token);
 
             if (result.Success == false)
             {
                 model.IsLoading = false;
 
-                await new MessageDialog(result.Message, "Could Not Start Playback").ShowAsync();
+                await new MessageDialog(result.Message, "Could not build playlist.").ShowAsync();
 
                 return;
             }
-            
 
+            // Start playback
+            if (shuffle)
+            {
+                await PlaybackService.Instance.StartRandomTrackAsync();
+            }
+            else
+            {
+                await PlaybackService.Instance.StartTrackAsync(startingTrack);
+            }
 
-
-            var startPlayback = await PlaybackService.Instance.StartModelMediaPlaybackAsync(model, false, startingTrack);
-
-            if (!startPlayback.Success)
-               
-
-            // We are not loading
             model.IsLoading = false;
         }
 

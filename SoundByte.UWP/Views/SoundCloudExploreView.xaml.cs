@@ -10,14 +10,11 @@
  * |----------------------------------------------------------------|
  */
 
-using System;
 using System.Linq;
-using Windows.UI.Popups;
 using Windows.UI.Xaml.Controls;
 using SoundByte.Core.Items.Track;
 using SoundByte.Core.Sources.SoundCloud;
 using SoundByte.UWP.Helpers;
-using SoundByte.UWP.Services;
 using SoundByte.UWP.ViewModels;
 
 namespace SoundByte.UWP.Views
@@ -40,10 +37,7 @@ namespace SoundByte.UWP.Views
             if (ChartsModel.FirstOrDefault() == null)
                 return;
 
-            var startPlayback =
-                await PlaybackService.Instance.StartModelMediaPlaybackAsync(ChartsModel);
-            if (!startPlayback.Success)
-                await new MessageDialog(startPlayback.Message, "Error playing track.").ShowAsync();
+            await BaseViewModel.PlayAllTracksAsync(ChartsModel);
         }
 
         public async void PlayShuffleChartItems()
@@ -53,9 +47,7 @@ namespace SoundByte.UWP.Views
 
         public async void PlayChartItem(object sender, ItemClickEventArgs e)
         {
-            var startPlayback = await PlaybackService.Instance.StartModelMediaPlaybackAsync(ChartsModel, false, (BaseTrack)e.ClickedItem);
-            if (!startPlayback.Success)
-                await new MessageDialog(startPlayback.Message, "Error playing track.").ShowAsync();
+            await BaseViewModel.PlayAllTracksAsync(ChartsModel, (BaseTrack)e.ClickedItem);
         }
 
         /// <summary>

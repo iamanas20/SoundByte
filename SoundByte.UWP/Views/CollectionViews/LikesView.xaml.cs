@@ -31,18 +31,6 @@ namespace SoundByte.UWP.Views.CollectionViews
 {
     public sealed partial class LikesView
     {
-        public SoundByteCollection<SoundByteLikeSource, BaseTrack> SoundByteLikes { get; } =
-            new SoundByteCollection<SoundByteLikeSource, BaseTrack>();
-
-        public SoundByteCollection<SoundCloudLikeSource, BaseTrack> SoundCloudLikes { get; } =
-            new SoundByteCollection<SoundCloudLikeSource, BaseTrack>();
-
-        public SoundByteCollection<YouTubeLikeSource, BaseTrack> YouTubeLikes { get; } =
-            new SoundByteCollection<YouTubeLikeSource, BaseTrack>();
-
-        public SoundByteCollection<FanburstLikeSource, BaseTrack> FanburstLikes { get; } =
-            new SoundByteCollection<FanburstLikeSource, BaseTrack>();
-
         public LikesView()
         {
             InitializeComponent();
@@ -50,44 +38,132 @@ namespace SoundByte.UWP.Views.CollectionViews
             SoundCloudLikes.Source.User = SoundByteService.Current.GetConnectedUser(ServiceType.SoundCloud);
         }
 
-        public async void PlaySoundCloudLikes(object sender, ItemClickEventArgs e)
-        {
-            var startPlayback = await PlaybackService.Instance.StartModelMediaPlaybackAsync(SoundCloudLikes, false, (BaseTrack)e.ClickedItem);
-            if (!startPlayback.Success)
-                await new MessageDialog(startPlayback.Message, "Error playing track.").ShowAsync();
-        }
+        #region SoundByte
+        /// <summary>
+        ///     Collection and model for showing SoundByte likes.
+        /// </summary>
+        public SoundByteCollection<SoundByteLikeSource, BaseTrack> SoundByteLikes { get; } =
+            new SoundByteCollection<SoundByteLikeSource, BaseTrack>();
 
+        /// <summary>
+        ///     Play all SoundByte likes starting with this one.
+        /// </summary>
+        public async void PlaySoundByteItem(object sender, ItemClickEventArgs e) => 
+            await BaseViewModel.PlayAllTracksAsync(SoundByteLikes, (BaseTrack)e.ClickedItem);
 
-       
+        /// <summary>
+        ///     Shuffle play all SoundByte likes
+        /// </summary>
+        public async void ShuffleSoundByteItems() =>
+            await BaseViewModel.ShufflePlayAllTracksAsync(SoundByteLikes);
 
-        public async void PlayShuffleSoundCloud()
-        {
+        /// <summary>
+        ///     Play all SoundByte likes
+        /// </summary>
+        public async void PlayAllSoundByteItems() => 
+            await BaseViewModel.PlayAllTracksAsync(SoundByteLikes);
+
+        /// <summary>
+        ///     Navigate to see all SoundByte likes.
+        /// </summary>
+        public void NavigateAllSoundByteItems() => App.NavigateTo(typeof(TrackListView),
+            new TrackListViewModel.TrackViewModelHolder(SoundByteLikes.Source, "Likes"));
+        #endregion
+
+        #region SoundCloud
+        /// <summary>
+        ///     Collection and model for showing SoundCloud likes.
+        /// </summary>
+        public SoundByteCollection<SoundCloudLikeSource, BaseTrack> SoundCloudLikes { get; } =
+            new SoundByteCollection<SoundCloudLikeSource, BaseTrack>();
+
+        /// <summary>
+        ///     Play all SoundCloud likes starting with this one.
+        /// </summary>
+        public async void PlaySoundCloudItem(object sender, ItemClickEventArgs e) =>
+            await BaseViewModel.PlayAllTracksAsync(SoundCloudLikes, (BaseTrack)e.ClickedItem);
+
+        /// <summary>
+        ///     Shuffle play all SoundCloud likes
+        /// </summary>
+        public async void ShuffleSoundCloudItems() =>
             await BaseViewModel.ShufflePlayAllTracksAsync(SoundCloudLikes);
-        }
 
-        public async void PlaySoundCloud()
-        {
+        /// <summary>
+        ///     Play all SoundCloud likes
+        /// </summary>
+        public async void PlayAllSoundCloudItems() =>
             await BaseViewModel.PlayAllTracksAsync(SoundCloudLikes);
-        }
 
-        public void ImportSoundCloud()
-        {
-            App.NavigateTo(typeof(WelcomeView));
-        }
+        /// <summary>
+        ///     Navigate to see all SoundCloud likes.
+        /// </summary>
+        public void NavigateAllSoundCloudItems() => App.NavigateTo(typeof(TrackListView),
+            new TrackListViewModel.TrackViewModelHolder(SoundCloudLikes.Source, "Likes"));
+        #endregion
 
+        #region YouTube
+        /// <summary>
+        ///     Collection and model for showing YouTube likes.
+        /// </summary>
+        public SoundByteCollection<YouTubeLikeSource, BaseTrack> YouTubeLikes { get; } =
+            new SoundByteCollection<YouTubeLikeSource, BaseTrack>();
 
-        #region Navigate More
+        /// <summary>
+        ///     Play all YouTube likes starting with this one.
+        /// </summary>
+        public async void PlayYouTubeItem(object sender, ItemClickEventArgs e) =>
+            await BaseViewModel.PlayAllTracksAsync(YouTubeLikes, (BaseTrack)e.ClickedItem);
 
-        public void NavigateMoreSoundCloudLikes()
-        {
-            App.NavigateTo(typeof(TrackListView), new TrackListViewModel.TrackViewModelHolder
-            {
-                Track = SoundCloudLikes.Source,
-                Title = "Likes"
-                
-            });
-        }
+        /// <summary>
+        ///     Shuffle play all YouTube likes
+        /// </summary>
+        public async void ShuffleYouTubeItems() =>
+            await BaseViewModel.ShufflePlayAllTracksAsync(YouTubeLikes);
 
+        /// <summary>
+        ///     Play all YouTube likes
+        /// </summary>
+        public async void PlayAllYouTubeItems() =>
+            await BaseViewModel.PlayAllTracksAsync(YouTubeLikes);
+
+        /// <summary>
+        ///     Navigate to see all YouTube likes.
+        /// </summary>
+        public void NavigateAllYouTubeItems() => App.NavigateTo(typeof(TrackListView),
+            new TrackListViewModel.TrackViewModelHolder(YouTubeLikes.Source, "Likes"));
+        #endregion
+
+        #region Fanburst
+        /// <summary>
+        ///     Collection and model for showing Fanburst likes.
+        /// </summary>
+        public SoundByteCollection<FanburstLikeSource, BaseTrack> FanburstLikes { get; } =
+            new SoundByteCollection<FanburstLikeSource, BaseTrack>();
+       
+        /// <summary>
+        ///     Play all Fanburst likes starting with this one.
+        /// </summary>
+        public async void PlayFanburstItem(object sender, ItemClickEventArgs e) =>
+            await BaseViewModel.PlayAllTracksAsync(FanburstLikes, (BaseTrack)e.ClickedItem);
+
+        /// <summary>
+        ///     Shuffle play all Fanburst likes
+        /// </summary>
+        public async void ShuffleFanburstItems() =>
+            await BaseViewModel.ShufflePlayAllTracksAsync(FanburstLikes);
+
+        /// <summary>
+        ///     Play all Fanburst likes
+        /// </summary>
+        public async void PlayAllFanburstItems() =>
+            await BaseViewModel.PlayAllTracksAsync(FanburstLikes);
+        
+        /// <summary>
+        ///     Navigate to see all Fanburst likes.
+        /// </summary>
+        public void NavigateAllFanburstItems() => App.NavigateTo(typeof(TrackListView),
+            new TrackListViewModel.TrackViewModelHolder(FanburstLikes.Source, "Likes"));
         #endregion
     }
 }

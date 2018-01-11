@@ -10,14 +10,11 @@
  * |----------------------------------------------------------------|
  */
 
-using System;
-using Windows.UI.Popups;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using SoundByte.Core.Items.Track;
 using SoundByte.Core.Sources.SoundByte;
 using SoundByte.UWP.Helpers;
-using SoundByte.UWP.Services;
 using SoundByte.UWP.ViewModels;
 
 namespace SoundByte.UWP.Views.Me
@@ -43,16 +40,7 @@ namespace SoundByte.UWP.Views.Me
 
         public async void PlayAllItems()
         {
-            // We are loading
-            History.IsLoading = true;
-
-            var startPlayback = await PlaybackService.Instance.StartModelMediaPlaybackAsync(History);
-
-            if (!startPlayback.Success)
-                await new MessageDialog(startPlayback.Message, "Playback Error").ShowAsync();
-
-            // We are not loading
-            History.IsLoading = false;
+            await BaseViewModel.PlayAllTracksAsync(History);
         }
 
         public void ClearAll()
@@ -62,17 +50,7 @@ namespace SoundByte.UWP.Views.Me
 
         public async void PlayItem(object sender, ItemClickEventArgs e)
         {
-            // We are loading
-            History.IsLoading = true;
-
-            var startPlayback =
-                await PlaybackService.Instance.StartModelMediaPlaybackAsync(History, false, (BaseTrack)e.ClickedItem);
-
-            if (!startPlayback.Success)
-                await new MessageDialog(startPlayback.Message, "Playback Error").ShowAsync();
-
-            // We are not loading
-            History.IsLoading = false;
+            await BaseViewModel.PlayAllTracksAsync(History, (BaseTrack) e.ClickedItem);
         }
     }
 }

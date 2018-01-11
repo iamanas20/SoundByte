@@ -11,7 +11,6 @@
  */
 
 using System;
-using Windows.UI.Popups;
 using Windows.UI.Xaml.Controls;
 using SoundByte.Core;
 using SoundByte.Core.Items.Track;
@@ -19,7 +18,6 @@ using SoundByte.Core.Sources.Fanburst.Search;
 using SoundByte.Core.Sources.SoundCloud.Search;
 using SoundByte.Core.Sources.YouTube;
 using SoundByte.UWP.Helpers;
-using SoundByte.UWP.Services;
 using SoundByte.UWP.ViewModels.Generic;
 using SoundByte.UWP.Views.Generic;
 
@@ -163,27 +161,17 @@ namespace SoundByte.UWP.ViewModels.SearchViewModels
                 case ServiceType.SoundCloud:
                 case ServiceType.SoundCloudV2:
                     {
-                        // Start media playback
-                        var startPlayback = await PlaybackService.Instance.StartModelMediaPlaybackAsync(SoundCloudTracks, false, baseTrack);
-
-                        if (!startPlayback.Success)
-                            await new MessageDialog(startPlayback.Message, "Error playing searched track.").ShowAsync();
+                        await PlayAllTracksAsync(SoundCloudTracks, baseTrack);
                     }
                     break;
                 case ServiceType.YouTube:
                     {
-                        var startPlayback = await PlaybackService.Instance.StartModelMediaPlaybackAsync(YouTubeTracks, false, baseTrack);
-
-                        if (!startPlayback.Success)
-                            await new MessageDialog(startPlayback.Message, "Error playing searched track.").ShowAsync();
+                        await PlayAllTracksAsync(YouTubeTracks, baseTrack);
                     }
                     break;
                 case ServiceType.Fanburst:
                     {
-                        var startPlayback = await PlaybackService.Instance.StartModelMediaPlaybackAsync(FanburstTracks, false, baseTrack);
-
-                        if (!startPlayback.Success)
-                            await new MessageDialog(startPlayback.Message, "Error playing searched track.").ShowAsync();
+                        await PlayAllTracksAsync(FanburstTracks, baseTrack);
                     }
                     break;
                 default:

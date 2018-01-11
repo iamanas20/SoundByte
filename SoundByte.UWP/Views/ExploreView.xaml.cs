@@ -10,10 +10,8 @@
  * |----------------------------------------------------------------|
  */
 
-using System;
 using SoundByte.Core.Items.Track;
 using SoundByte.UWP.Services;
-using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -65,9 +63,7 @@ namespace SoundByte.UWP.Views
         #region SoundCloud
         public async void PlayChartItem(object sender, ItemClickEventArgs e)
         {
-            var startPlayback = await PlaybackService.Instance.StartModelMediaPlaybackAsync(SoundCloudTracks, false, (BaseTrack)e.ClickedItem);
-            if (!startPlayback.Success)
-                await new MessageDialog(startPlayback.Message, "Error playing track.").ShowAsync();
+            await BaseViewModel.PlayAllTracksAsync(SoundCloudTracks, (BaseTrack) e.ClickedItem);
         }
 
         public void NavigateMoreCharts()
@@ -89,9 +85,7 @@ namespace SoundByte.UWP.Views
         #region YouTube
         public async void PlayYouTubeItem(object sender, ItemClickEventArgs e)
         {
-            var startPlayback = await PlaybackService.Instance.StartModelMediaPlaybackAsync(YouTubeTracks, false, (BaseTrack)e.ClickedItem);
-            if (!startPlayback.Success)
-                await new MessageDialog(startPlayback.Message, "Error playing track.").ShowAsync();
+            await BaseViewModel.PlayAllTracksAsync(YouTubeTracks, (BaseTrack)e.ClickedItem);
         }
 
         public void NavigateMoreYouTube()
@@ -117,9 +111,7 @@ namespace SoundByte.UWP.Views
         #region Fanburst
         public async void PlayFanburstItem(object sender, ItemClickEventArgs e)
         {
-            var startPlayback = await PlaybackService.Instance.StartModelMediaPlaybackAsync(FanburstTracks, false, (BaseTrack)e.ClickedItem);
-            if (!startPlayback.Success)
-                await new MessageDialog(startPlayback.Message, "Error playing track.").ShowAsync();
+            await BaseViewModel.PlayAllTracksAsync(FanburstTracks, (BaseTrack)e.ClickedItem);
         }
 
         public void NavigateMoreFanburst()
@@ -142,12 +134,12 @@ namespace SoundByte.UWP.Views
         }
         #endregion
 
-        private async void WhatsNewButtonClick(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private async void WhatsNewButtonClick(object sender, RoutedEventArgs e)
         {
             await NavigationService.Current.CallDialogAsync<WhatsNewDialog>();
         }
 
-        private void SoundByteAccountLearnMoreClick(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void SoundByteAccountLearnMoreClick(object sender, RoutedEventArgs e)
         {
             // Second pivot is the soundbyte account pivot
             App.NavigateTo(typeof(AccountManagerView), new AccountManagerView.AccountManagerArgs { PivotIndex = 1 });

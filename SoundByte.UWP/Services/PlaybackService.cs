@@ -28,7 +28,6 @@ using SoundByte.Core.Services;
 using SoundByte.Core.Sources;
 using SoundByte.UWP.Converters;
 using SoundByte.UWP.Extensions;
-using SoundByte.UWP.Helpers;
 using YoutubeExplode;
 
 namespace SoundByte.UWP.Services
@@ -103,7 +102,7 @@ namespace SoundByte.UWP.Services
             // end of a list (or starting over if in playlist)
             var mediaPlaybackList = new MediaPlaybackList
             {
-                MaxPlayedItemsToKeepOpen = 5,
+                MaxPlayedItemsToKeepOpen = 2,
                 AutoRepeatEnabled = false
             };
 
@@ -122,11 +121,10 @@ namespace SoundByte.UWP.Services
             // Assign event handlers
             MediaPlaybackList.CurrentItemChanged += MediaPlaybackListOnCurrentItemChanged;
             _mediaPlayer.CurrentStateChanged += MediaPlayerOnCurrentStateChanged;
-
         }
 
         private void MediaPlayerOnCurrentStateChanged(MediaPlayer sender, object args)
-        {       
+        {
             OnStateChange?.Invoke(sender.PlaybackSession.PlaybackState);
         }
 
@@ -178,6 +176,35 @@ namespace SoundByte.UWP.Services
                     { "IsYouTubeConnected", SoundByteService.Current.IsServiceConnected(ServiceType.YouTube).ToString() }
                 });
             });
+
+            // Find the index of this item and see if we are near the end
+            var currentIndex = MediaPlaybackList.Items.IndexOf(args.NewItem);
+            var maxIndex = MediaPlaybackList.Items.Count - 1;
+
+            // When we are three items from the end, load more items
+            if (currentIndex >= maxIndex - 3)
+            {
+                var newItems = await _playlistSource.GetItemsAsync(50, _playlistToken);
+                _playlistToken = newItems.Token;
+
+                // Loop through all the tracks and add them to the playlist
+                foreach (var newTrack in newItems.Items)
+                {
+                    try
+                    {
+                        BuildMediaItem(newTrack);
+                    }
+                    catch (Exception e)
+                    {
+                        App.Telemetry.TrackEvent("Playback Item Addition Failed", new Dictionary<string, string>
+                        {
+                            { "TrackID", newTrack.TrackId },
+                            { "TrackService", newTrack.ServiceType.ToString() },
+                            { "ErrorMessage", e.Message }
+                        });
+                    }
+                }
+            }
         }
         #endregion
 
@@ -359,9 +386,16 @@ namespace SoundByte.UWP.Services
             return MediaPlaybackList?.CurrentItem?.Source?.AsBaseTrack();
         }
 
-        public async Task<PlaybackInitilizeResponse> InitilizePlaylistAsync<T>(IEnumerable<BaseTrack> playlist = null, string token = null) where T : ISource<BaseTrack>
+        public async Task<PlaybackInitilizeResponse> InitilizePlaylistAsync<T>(IEnumerable<BaseTrack> playlist = null,
+            string token = null) where T : ISource<BaseTrack>
         {
-            _playlistSource = Activator.CreateInstance<T>();
+            return await InitilizePlaylistAsync(Activator.CreateInstance<T>(), playlist, token);
+        }
+
+        public async Task<PlaybackInitilizeResponse> InitilizePlaylistAsync<T>(T model, IEnumerable<BaseTrack> playlist = null, 
+            string token = null) where T : ISource<BaseTrack>
+        {
+            _playlistSource = model;
             _playlistToken = token;
 
             // We are changing media
@@ -393,28 +427,7 @@ namespace SoundByte.UWP.Services
             {
                 try
                 {
-                    // Create a media binding for later (this is used to
-                    // load the track streams as we need them).
-                    var binder = new MediaBinder { Token = track.TrackId };
-                    binder.Binding += BindMediaSource;
-
-                    // Create the source, bind track metadata and use it to
-                    // create a playback item
-                    var source = MediaSource.CreateFromMediaBinder(binder);
-                    var mediaPlaybackItem = new MediaPlaybackItem(track.AsMediaSource(source));
-
-                    // Apply display properties to this item
-                    var displayProperties = mediaPlaybackItem.GetDisplayProperties();
-                    displayProperties.Type = MediaPlaybackType.Music;
-                    displayProperties.MusicProperties.Title = track.Title;
-                    displayProperties.MusicProperties.Artist = track.User.Username;
-                    displayProperties.Thumbnail = RandomAccessStreamReference.CreateFromUri(new Uri(ArtworkConverter.ConvertObjectToImage(track)));
-
-                    // Apply the properties
-                    mediaPlaybackItem.ApplyDisplayProperties(displayProperties);
-
-                    // Add this item to the list
-                    MediaPlaybackList.Items.Add(mediaPlaybackItem);
+                    BuildMediaItem(track);
                 }
                 catch (Exception e)
                 {
@@ -429,6 +442,36 @@ namespace SoundByte.UWP.Services
 
             // Everything loaded fine
             return new PlaybackInitilizeResponse();
+        }
+
+        /// <summary>
+        ///     Build a media item and add it to the list
+        /// </summary>
+        /// <param name="track">Track to build into a media item</param>
+        private void BuildMediaItem(BaseTrack track)
+        {
+            // Create a media binding for later (this is used to
+            // load the track streams as we need them).
+            var binder = new MediaBinder { Token = track.TrackId };
+            binder.Binding += BindMediaSource;
+
+            // Create the source, bind track metadata and use it to
+            // create a playback item
+            var source = MediaSource.CreateFromMediaBinder(binder);
+            var mediaPlaybackItem = new MediaPlaybackItem(track.AsMediaSource(source));
+
+            // Apply display properties to this item
+            var displayProperties = mediaPlaybackItem.GetDisplayProperties();
+            displayProperties.Type = MediaPlaybackType.Music;
+            displayProperties.MusicProperties.Title = track.Title;
+            displayProperties.MusicProperties.Artist = track.User.Username;
+            displayProperties.Thumbnail = RandomAccessStreamReference.CreateFromUri(new Uri(ArtworkConverter.ConvertObjectToImage(track)));
+
+            // Apply the properties
+            mediaPlaybackItem.ApplyDisplayProperties(displayProperties);
+
+            // Add this item to the list
+            MediaPlaybackList.Items.Add(mediaPlaybackItem);
         }
 
         #region Media Binding
@@ -480,26 +523,5 @@ namespace SoundByte.UWP.Services
         ///     Singleton instance of <see cref="PlaybackService"/>.
         /// </summary>
         public static PlaybackService Instance => _instance ?? (_instance = new PlaybackService());
-
-        [Obsolete("Use direct InitilizePlaylistAsync methods instead")]
-        public async Task<PlaybackInitilizeResponse> StartModelMediaPlaybackAsync<TSource>(SoundByteCollection<TSource, BaseTrack> trackSource,
-            bool isShuffled = false, BaseTrack startingItem = null) where TSource : ISource<BaseTrack>
-        {
-            var result = await InitilizePlaylistAsync<TSource>(trackSource, trackSource.Token);
-
-            if (!result.Success)
-                return result;
-
-            if (isShuffled)
-            {
-                await StartRandomTrackAsync();
-            }
-            else
-            {
-                await StartTrackAsync(startingItem);
-            }
-
-            return result;
-        }
     }
 }

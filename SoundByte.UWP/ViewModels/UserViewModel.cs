@@ -13,7 +13,6 @@
 using System;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
-using Windows.UI.Popups;
 using Windows.UI.StartScreen;
 using Windows.UI.Xaml.Controls;
 using SoundByte.Core;
@@ -25,7 +24,6 @@ using SoundByte.Core.Sources.SoundCloud;
 using SoundByte.Core.Sources.SoundCloud.User;
 using SoundByte.UWP.Converters;
 using SoundByte.UWP.Helpers;
-using SoundByte.UWP.Services;
 using SoundByte.UWP.Views;
 
 namespace SoundByte.UWP.ViewModels
@@ -316,26 +314,12 @@ namespace SoundByte.UWP.ViewModels
 
         public async void NavigateToUserTrack(object sender, ItemClickEventArgs e)
         {
-            await App.SetLoadingAsync(true);
-
-            var startPlayback =
-                await PlaybackService.Instance.StartModelMediaPlaybackAsync(TracksList, false, (BaseTrack) e.ClickedItem);
-            if (!startPlayback.Success)
-                await new MessageDialog(startPlayback.Message, "Error playing user track.").ShowAsync();
-
-            await App.SetLoadingAsync(false);
+            await PlayAllTracksAsync(TracksList, (BaseTrack) e.ClickedItem);
         }
 
         public async void NavigateToLikedTrack(object sender, ItemClickEventArgs e)
         {
-            await App.SetLoadingAsync(true);
-
-            var startPlayback =
-                await PlaybackService.Instance.StartModelMediaPlaybackAsync(LikeItems, false, (BaseTrack) e.ClickedItem);
-            if (!startPlayback.Success)
-                await new MessageDialog(startPlayback.Message, "Error playing liked user track.").ShowAsync();
-
-            await App.SetLoadingAsync(false);
+            await PlayAllTracksAsync(LikeItems, (BaseTrack)e.ClickedItem);
         }
 
         public void NavigateToPlaylist(object sender, ItemClickEventArgs e)

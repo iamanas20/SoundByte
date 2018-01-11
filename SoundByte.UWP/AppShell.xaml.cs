@@ -42,6 +42,7 @@ using SoundByte.Core.Sources.SoundCloud;
 using SoundByte.UWP.Dialogs;
 using SoundByte.UWP.Helpers;
 using SoundByte.UWP.Services;
+using SoundByte.UWP.ViewModels;
 using SoundByte.UWP.Views;
 using SoundByte.UWP.Views.Application;
 using SoundByte.UWP.Views.Me;
@@ -174,7 +175,7 @@ namespace SoundByte.UWP
                 }
 
                 // Test Version and tell user app upgraded
-                await HandleNewAppVersionAsync();
+                HandleNewAppVersion();
 
                 // Clear the unread badge
                 BadgeUpdateManager.CreateBadgeUpdaterForApplication().Clear();
@@ -210,7 +211,7 @@ namespace SoundByte.UWP
             });
         }
 
-        private async Task HandleNewAppVersionAsync()
+        private void HandleNewAppVersion()
         {
             var currentAppVersionString = Package.Current.Id.Version.Major + "." + Package.Current.Id.Version.Minor +
                                           "." + Package.Current.Id.Version.Build;
@@ -297,7 +298,7 @@ namespace SoundByte.UWP
                                 await userLikes.LoadMoreItemsAsync(50);
 
                             // Play the list of items
-                            await PlaybackService.Instance.StartModelMediaPlaybackAsync(userLikes, path == "shufflePlayUserLikes");
+                            await BaseViewModel.PlayAllTracksAsync(userLikes, null, path == "shufflePlayUserLikes");
 
                             return;
                         }
