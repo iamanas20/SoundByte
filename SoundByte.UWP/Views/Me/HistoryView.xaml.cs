@@ -15,17 +15,17 @@ using Windows.UI.Popups;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using SoundByte.Core.Items.Track;
+using SoundByte.Core.Sources.SoundByte;
 using SoundByte.UWP.Helpers;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.ViewModels;
 
 namespace SoundByte.UWP.Views.Me
 {
-    /// <summary>
-    ///     View to view messages
-    /// </summary>
     public sealed partial class HistoryView
     {
+        public SoundByteCollection<SoundByteHistorySource, BaseTrack> History { get; } = new SoundByteCollection<SoundByteHistorySource, BaseTrack>();
+
         public HistoryView()
         {
             InitializeComponent();
@@ -38,16 +38,41 @@ namespace SoundByte.UWP.Views.Me
 
         public async void PlayShuffleItems()
         {
+            await BaseViewModel.ShufflePlayAllTracksAsync(History);
         }
 
         public async void PlayAllItems()
         {
-     
+            // We are loading
+            History.IsLoading = true;
+
+            var startPlayback = await PlaybackService.Instance.StartModelMediaPlaybackAsync(History);
+
+            if (!startPlayback.Success)
+                await new MessageDialog(startPlayback.Message, "Playback Error").ShowAsync();
+
+            // We are not loading
+            History.IsLoading = false;
+        }
+
+        public void ClearAll()
+        {
+
         }
 
         public async void PlayItem(object sender, ItemClickEventArgs e)
         {
-        
+            // We are loading
+            History.IsLoading = true;
+
+            var startPlayback =
+                await PlaybackService.Instance.StartModelMediaPlaybackAsync(History, false, (BaseTrack)e.ClickedItem);
+
+            if (!startPlayback.Success)
+                await new MessageDialog(startPlayback.Message, "Playback Error").ShowAsync();
+
+            // We are not loading
+            History.IsLoading = false;
         }
     }
 }

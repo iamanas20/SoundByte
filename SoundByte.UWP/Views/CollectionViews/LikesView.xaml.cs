@@ -16,7 +16,10 @@ using Windows.UI.Xaml.Controls;
 using SoundByte.Core;
 using SoundByte.Core.Items.Track;
 using SoundByte.Core.Services;
+using SoundByte.Core.Sources.Fanburst;
+using SoundByte.Core.Sources.SoundByte;
 using SoundByte.Core.Sources.SoundCloud;
+using SoundByte.Core.Sources.YouTube;
 using SoundByte.UWP.Helpers;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.ViewModels;
@@ -28,8 +31,17 @@ namespace SoundByte.UWP.Views.CollectionViews
 {
     public sealed partial class LikesView
     {
+        public SoundByteCollection<SoundByteLikeSource, BaseTrack> SoundByteLikes { get; } =
+            new SoundByteCollection<SoundByteLikeSource, BaseTrack>();
+
         public SoundByteCollection<SoundCloudLikeSource, BaseTrack> SoundCloudLikes { get; } =
             new SoundByteCollection<SoundCloudLikeSource, BaseTrack>();
+
+        public SoundByteCollection<YouTubeLikeSource, BaseTrack> YouTubeLikes { get; } =
+            new SoundByteCollection<YouTubeLikeSource, BaseTrack>();
+
+        public SoundByteCollection<FanburstLikeSource, BaseTrack> FanburstLikes { get; } =
+            new SoundByteCollection<FanburstLikeSource, BaseTrack>();
 
         public LikesView()
         {
@@ -46,29 +58,36 @@ namespace SoundByte.UWP.Views.CollectionViews
         }
 
 
-        public void NavigateMoreSoundCloudLikes()
-        {
-            App.NavigateTo(typeof(TrackListView), new TrackListViewModel.TrackViewModelHolder
-            {
-                Track = SoundCloudLikes.Source,
-                Title = "Likes",
-                Subtitle = "Likes"
-            });
-        }
+       
 
         public async void PlayShuffleSoundCloud()
         {
-            await BaseViewModel.ShuffleTracksAsync(SoundCloudLikes);
+            await BaseViewModel.ShufflePlayAllTracksAsync(SoundCloudLikes);
         }
 
         public async void PlaySoundCloud()
         {
-            await BaseViewModel.PlayAllItemsAsync(SoundCloudLikes);
+            await BaseViewModel.PlayAllTracksAsync(SoundCloudLikes);
         }
 
         public void ImportSoundCloud()
         {
             App.NavigateTo(typeof(WelcomeView));
         }
+
+
+        #region Navigate More
+
+        public void NavigateMoreSoundCloudLikes()
+        {
+            App.NavigateTo(typeof(TrackListView), new TrackListViewModel.TrackViewModelHolder
+            {
+                Track = SoundCloudLikes.Source,
+                Title = "Likes"
+                
+            });
+        }
+
+        #endregion
     }
 }

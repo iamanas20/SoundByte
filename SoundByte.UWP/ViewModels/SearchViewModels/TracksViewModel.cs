@@ -98,7 +98,7 @@ namespace SoundByte.UWP.ViewModels.SearchViewModels
         /// </summary>
         public async void PlayAllSoundCloud()
         {
-            await PlayAllItemsAsync(SoundCloudTracks);
+            await PlayAllTracksAsync(SoundCloudTracks);
         }
 
         /// <summary>
@@ -106,7 +106,7 @@ namespace SoundByte.UWP.ViewModels.SearchViewModels
         /// </summary>
         public async void PlayAllYouTube()
         {
-            await PlayAllItemsAsync(YouTubeTracks);
+            await PlayAllTracksAsync(YouTubeTracks);
         }
 
         /// <summary>
@@ -114,7 +114,7 @@ namespace SoundByte.UWP.ViewModels.SearchViewModels
         /// </summary>
         public async void PlayFanburst()
         {
-            await PlayAllItemsAsync(FanburstTracks);
+            await PlayAllTracksAsync(FanburstTracks);
         }
         #endregion
 
@@ -124,7 +124,7 @@ namespace SoundByte.UWP.ViewModels.SearchViewModels
         /// </summary>
         public async void PlayShuffleSoundCloud()
         {
-            await ShuffleTracksAsync(SoundCloudTracks);
+            await ShufflePlayAllTracksAsync(SoundCloudTracks);
         }
 
         /// <summary>
@@ -132,7 +132,7 @@ namespace SoundByte.UWP.ViewModels.SearchViewModels
         /// </summary>
         public async void PlayShuffleFanburst()
         {
-            await ShuffleTracksAsync(FanburstTracks);
+            await ShufflePlayAllTracksAsync(FanburstTracks);
         }
 
         /// <summary>
@@ -140,7 +140,7 @@ namespace SoundByte.UWP.ViewModels.SearchViewModels
         /// </summary>
         public async void PlayShuffleYouTube()
         {
-            await ShuffleTracksAsync(YouTubeTracks);
+            await ShufflePlayAllTracksAsync(YouTubeTracks);
         }
         #endregion
 

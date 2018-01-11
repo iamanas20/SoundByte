@@ -6,6 +6,7 @@
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
     xmlns:controls="using:SoundByte.UWP.Controls"
+    xmlns:controls1="using:Microsoft.Toolkit.Uwp.UI.Controls"
     NavigationCacheMode="Enabled"
     Transitions="{StaticResource MainTransition}">
     <Grid Background="Transparent" x:Name="RootGrid">
@@ -50,11 +51,15 @@
         </CommandBar>
 
         <controls:InfoPane VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
-                               Visibility="Collapsed" Canvas.ZIndex="50"
-                              />
+                           Visibility="Collapsed" Canvas.ZIndex="50"
+                           Header="{x:Bind History.ErrorHeader, Mode=OneWay}"
+                           Text="{x:Bind History.ErrorDescription, Mode=OneWay}"
+                           IsLoading="{x:Bind History.IsLoading, Mode=OneWay}"
+                           IsError="{x:Bind History.IsError, Mode=OneWay}" />
 
 
         <GridView ItemClick="{x:Bind PlayItem}"
+                  ItemsSource="{x:Bind History}"
                   Padding="{ThemeResource PagePadding}"
                   ItemContainerStyle="{StaticResource MainGridViewItem}"
                   x:Name="StackPanel"
@@ -69,20 +74,39 @@
                   ItemsPanel="{StaticResource MobileGridPanel}"
                   ItemTemplate="{StaticResource MobileTrackItem}">
             <GridView.Header>
-                <StackPanel Margin="10,0,0,0">
-                    <TextBlock Text="Recent Plays"
-                               Style="{StaticResource TitleStyle}" />
+                <controls1:ScrollHeader TargetListViewBase="{Binding ElementName=StackPanel}" Mode="Fade">
+                    <Grid Padding="10,0,10,15" Margin="0,0,0,10">
+                        <TextBlock Text="Recent Plays"
+                                   Style="{StaticResource TitleStyle}" />
 
-                    <StackPanel x:Name="DesktopCommandBar" Visibility="Collapsed" Orientation="Horizontal"
-                                Margin="0,15,0,20">
-                        <controls:AppButton Glyph="&#xE768;" Label="Play All" Click="{x:Bind PlayAllItems}"
-                                                    Margin="0,0,15,0" />
-                        <controls:AppButton Glyph="&#xE8B1;" Label="Shuffle Play"
-                                                    Click="{x:Bind PlayShuffleItems}" Margin="0,0,15,0" />
-                        <controls:AppButton Glyph="&#xE72C;" Label="Refresh"
-                                                  Margin="0,0,15,0" />
-                    </StackPanel>
-                </StackPanel>
+                        <StackPanel x:Name="DesktopCommandBar" 
+                                    Visibility="Collapsed" 
+                                    Orientation="Horizontal"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Bottom">
+
+                            <controls:AppButton Glyph="&#xE768;" 
+                                                Label="Play All" 
+                                                Click="{x:Bind PlayAllItems}"
+                                                Margin="0,0,15,0" />
+                            
+                            <controls:AppButton Glyph="&#xE8B1;" 
+                                                Label="Shuffle Play"
+                                                Click="{x:Bind PlayShuffleItems}"
+                                                Margin="0,0,15,0" />
+
+                            <controls:AppButton Glyph="&#xE74D;" 
+                                                Label="Clear All"
+                                                Click="{x:Bind ClearAll}"
+                                                Margin="0,0,15,0" />
+
+                            <controls:AppButton Glyph="&#xE72C;" 
+                                                Label="Refresh"
+                                                Click="{x:Bind History.RefreshItems}"
+                                                Margin="0,0,15,0" />
+                        </StackPanel>
+                    </Grid>
+                </controls1:ScrollHeader>
             </GridView.Header>
             <interactivity:Interaction.Behaviors>
                 <behaviors:FadeHeaderBehavior />

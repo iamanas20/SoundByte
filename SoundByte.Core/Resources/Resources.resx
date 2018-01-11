@@ -123,4 +123,24 @@
   <data name="HttpService_JsonError_Title" xml:space="preserve">
     <value>JSON Parsing Error</value>
   </data>
+  <data name="Sources_SoundByte_History_NoAccount_Description" xml:space="preserve">
+    <value>Please login or create a SoundByte Account to view and save your history.</value>
+    <comment>The user has not connected their SoundByte Account.</comment>
+  </data>
+  <data name="Sources_SoundByte_Like_NoAccount_Description" xml:space="preserve">
+    <value>Please login or create a SoundByte Account to view your curated likes.</value>
+    <comment>The user has not connected their SoundByte Account.</comment>
+  </data>
+  <data name="Sources_SoundByte_NoAccount_Title" xml:space="preserve">
+    <value>SoundByte Account Not Connected</value>
+    <comment>The user has not connected their SoundByte account.</comment>
+  </data>
+  <data name="Sources_SoundByte_Playlist_NoAccount_Description" xml:space="preserve">
+    <value>Please login or create a SoundByte Account to view your curated playlists.</value>
+    <comment>The user has not connected their SoundByte Account.</comment>
+  </data>
+  <data name="Sources_SoundByte_Podcast_NoAccount_Description" xml:space="preserve">
+    <value>Please login or create a SoundByte Account to view your subscribed podcasts.</value>
+    <comment>The user has not connected their SoundByte Account.</comment>
+  </data>
 </root>

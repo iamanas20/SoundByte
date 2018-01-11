@@ -10,7 +10,6 @@
 
 namespace SoundByte.Core.Resources {
     using System;
-    using System.Reflection;
     
     
     /// <summary>
@@ -40,7 +39,7 @@ namespace SoundByte.Core.Resources {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SoundByte.Core.Resources.Resources", typeof(Resources).GetTypeInfo().Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SoundByte.Core.Resources.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -76,6 +75,51 @@ namespace SoundByte.Core.Resources {
         internal static string HttpService_JsonError_Title {
             get {
                 return ResourceManager.GetString("HttpService_JsonError_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please login or create a SoundByte Account to view and save your history..
+        /// </summary>
+        internal static string Sources_SoundByte_History_NoAccount_Description {
+            get {
+                return ResourceManager.GetString("Sources_SoundByte_History_NoAccount_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please login or create a SoundByte Account to view your curated likes..
+        /// </summary>
+        internal static string Sources_SoundByte_Like_NoAccount_Description {
+            get {
+                return ResourceManager.GetString("Sources_SoundByte_Like_NoAccount_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SoundByte Account Not Connected.
+        /// </summary>
+        internal static string Sources_SoundByte_NoAccount_Title {
+            get {
+                return ResourceManager.GetString("Sources_SoundByte_NoAccount_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please login or create a SoundByte Account to view your curated playlists..
+        /// </summary>
+        internal static string Sources_SoundByte_Playlist_NoAccount_Description {
+            get {
+                return ResourceManager.GetString("Sources_SoundByte_Playlist_NoAccount_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please login or create a SoundByte Account to view your subscribed podcasts..
+        /// </summary>
+        internal static string Sources_SoundByte_Podcast_NoAccount_Description {
+            get {
+                return ResourceManager.GetString("Sources_SoundByte_Podcast_NoAccount_Description", resourceCulture);
             }
         }
     }

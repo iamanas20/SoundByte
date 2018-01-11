@@ -77,12 +77,12 @@ namespace SoundByte.UWP.Views
 
         public async void PlayShuffleSoundCloud()
         {
-            await BaseViewModel.ShuffleTracksAsync(SoundCloudTracks);
+            await BaseViewModel.ShufflePlayAllTracksAsync(SoundCloudTracks);
         }
 
         public async void PlaySoundCloud()
         {
-            await BaseViewModel.PlayAllItemsAsync(SoundCloudTracks);
+            await BaseViewModel.PlayAllTracksAsync(SoundCloudTracks);
         }
         #endregion
 
@@ -99,19 +99,18 @@ namespace SoundByte.UWP.Views
             App.NavigateTo(typeof(TrackListView), new TrackListViewModel.TrackViewModelHolder
             {
                 Track = YouTubeTracks.Source,
-                Title = "YouTube",
-                Subtitle = "Trending"
+                Title = "YouTube"         
             });
         }
 
         public async void PlayShuffleYouTube()
         {
-            await BaseViewModel.ShuffleTracksAsync(YouTubeTracks);
+            await BaseViewModel.ShufflePlayAllTracksAsync(YouTubeTracks);
         }
 
         public async void PlayYouTube()
         {
-            await BaseViewModel.PlayAllItemsAsync(YouTubeTracks);
+            await BaseViewModel.PlayAllTracksAsync(YouTubeTracks);
         }
         #endregion
 
@@ -128,19 +127,18 @@ namespace SoundByte.UWP.Views
             App.NavigateTo(typeof(TrackListView), new TrackListViewModel.TrackViewModelHolder
             {
                 Track = FanburstTracks.Source,
-                Title = "Fanburst",
-                Subtitle = "Trending"
+                Title = "Fanburst"
             });
         }
 
         public async void PlayShuffleFanburst()
         {
-            await BaseViewModel.ShuffleTracksAsync(FanburstTracks);
+            await BaseViewModel.ShufflePlayAllTracksAsync(FanburstTracks);
         }
 
         public async void PlayFanburst()
         {
-            await BaseViewModel.PlayAllItemsAsync(FanburstTracks);
+            await BaseViewModel.PlayAllTracksAsync(FanburstTracks);
         }
         #endregion
 

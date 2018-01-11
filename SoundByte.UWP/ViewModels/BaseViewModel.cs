@@ -53,7 +53,7 @@ namespace SoundByte.UWP.ViewModels
             await PlaybackService.Instance.StartRandomTrackAsync();
         }
 
-        public static async Task ShuffleTracksAsync<TSource>(SoundByteCollection<TSource, BaseTrack> model) where TSource : ISource<BaseTrack>
+        public static async Task ShufflePlayAllTracksAsync<TSource>(SoundByteCollection<TSource, BaseTrack> model) where TSource : ISource<BaseTrack>
         {
             model.IsLoading = true;
 
@@ -71,19 +71,36 @@ namespace SoundByte.UWP.ViewModels
             model.IsLoading = false;
         }
 
-        public static async Task PlayAllItemsAsync<TSource>(SoundByteCollection<TSource, BaseTrack> model) where TSource : ISource<BaseTrack>
+
+        public static async Task PlayAllTracksAsync<TSource>(SoundByteCollection<TSource, BaseTrack> model, BaseTrack startingTrack = null) where TSource : ISource<BaseTrack>
         {
             // We are loading
             model.IsLoading = true;
 
-            var startPlayback = await PlaybackService.Instance.StartModelMediaPlaybackAsync(model);
+            // Attempt to create the playlist
+            var result = await PlaybackService.Instance.InitilizePlaylistAsync<TSource>(model, model.Token);
+
+            if (result.Success == false)
+            {
+                model.IsLoading = false;
+
+                await new MessageDialog(result.Message, "Could Not Start Playback").ShowAsync();
+
+                return;
+            }
+            
+
+
+
+            var startPlayback = await PlaybackService.Instance.StartModelMediaPlaybackAsync(model, false, startingTrack);
 
             if (!startPlayback.Success)
-                await new MessageDialog(startPlayback.Message, "Playback Error").ShowAsync();
+               
 
             // We are not loading
             model.IsLoading = false;
         }
+
 
         #region Property Changed Event Handlers
 

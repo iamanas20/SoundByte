@@ -48,7 +48,7 @@ namespace SoundByte.UWP.Views
 
         public async void PlayShuffleChartItems()
         {
-            await BaseViewModel.ShuffleTracksAsync(ChartsModel);
+            await BaseViewModel.ShufflePlayAllTracksAsync(ChartsModel);
         }
 
         public async void PlayChartItem(object sender, ItemClickEventArgs e)

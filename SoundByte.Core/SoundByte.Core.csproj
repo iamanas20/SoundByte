@@ -5,7 +5,7 @@
     <Company>Grid Entertainment</Company>
     <Authors>Dominic Maas</Authors>
     <Description>Core package used by SoundByte apps.</Description>
-    <Copyright>Copyright (c) Grid Entertainment 2017</Copyright>
+    <Copyright>Copyright (c) Grid Entertainment 2017 - 2018</Copyright>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Version Condition=" '$(BUILD_BUILDNUMBER)' == '' ">17.12.1</Version>
     <Version Condition=" '$(BUILD_BUILDNUMBER)' != '' ">$(BUILD_BUILDNUMBER)</Version>

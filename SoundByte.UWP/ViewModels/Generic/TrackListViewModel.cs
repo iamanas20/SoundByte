@@ -41,24 +41,6 @@ namespace SoundByte.UWP.ViewModels.Generic
         private string _title;
 
         /// <summary>
-        /// Subtitle to be displayed on the search page.
-        /// </summary>
-        public string SubTitle
-        {
-            get => _subTitle;
-            set
-            {
-                if (value == _subTitle)
-                    return;
-
-                _subTitle = value;
-                UpdateProperty();
-            }
-        }
-        private string _subTitle;
-
-
-        /// <summary>
         /// The track model to show on this page
         /// </summary>
         public SoundByteCollection<ISource<BaseTrack>, BaseTrack> Model
@@ -85,7 +67,6 @@ namespace SoundByte.UWP.ViewModels.Generic
         {
             Model = new SoundByteCollection<ISource<BaseTrack>, BaseTrack>(data.Track);
             Title = data.Title;
-            SubTitle = data.Subtitle;
         }
         #endregion
 
@@ -93,27 +74,17 @@ namespace SoundByte.UWP.ViewModels.Generic
         {
             public ISource<BaseTrack> Track { get; set; }
             public string Title { get; set; }
-            public string Subtitle { get; set; }
         }
 
         #region Method Bindings
         public async void PlayShuffleItems()
         {
-            await ShuffleTracksAsync(Model);
+            await ShufflePlayAllTracksAsync(Model);
         }
 
         public async void PlayAllItems()
         {
-            // We are loading
-            Model.IsLoading = true;
-
-            var startPlayback = await PlaybackService.Instance.StartModelMediaPlaybackAsync(Model);
-
-            if (!startPlayback.Success)
-                await new MessageDialog(startPlayback.Message, "Playback Error").ShowAsync();
-
-            // We are not loading
-            Model.IsLoading = false;
+            await PlayAllTracksAsync(Model);
         }
 
         public async void PlayItem(object sender, ItemClickEventArgs e)
