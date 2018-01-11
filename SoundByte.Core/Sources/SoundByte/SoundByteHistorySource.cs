@@ -30,7 +30,7 @@ namespace SoundByte.Core.Sources.SoundByte
                 return await Task.Run(() =>
                     new SourceResponse<BaseTrack>(null, null, false,
                         Resources.Resources.Sources_SoundByte_NoAccount_Title,
-                        Resources.Resources.Sources_SoundByte_Podcast_NoAccount_Description));
+                        Resources.Resources.Sources_SoundByte_History_NoAccount_Description));
             }
 
             return await Task.Run(() =>
