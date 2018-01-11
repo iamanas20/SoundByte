@@ -27,7 +27,6 @@ using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using Microsoft.Services.Store.Engagement;
 using Microsoft.Toolkit.Uwp.Helpers;
 using NotificationsExtensions;
 using NotificationsExtensions.Toasts;
@@ -195,8 +194,10 @@ namespace SoundByte.UWP
                 await SoundByteService.Current.InitUsersAsync();
 
                 // Register notifications
-                var engagementManager = StoreServicesEngagementManager.GetDefault();
-                await engagementManager.RegisterNotificationChannelAsync();
+                //  var engagementManager = StoreServicesEngagementManager.GetDefault();
+                //   await engagementManager.RegisterNotificationChannelAsync();
+                // TODO: NUGET FILE TOO LONG
+
 
                 try
                 {

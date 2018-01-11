@@ -24,7 +24,6 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
-using Microsoft.Services.Store.Engagement;
 using Microsoft.Toolkit.Uwp.Helpers;
 using SoundByte.Core;
 using SoundByte.Core.Items;
@@ -691,8 +690,9 @@ namespace SoundByte.UWP
                         path = toastArgs.Argument;
 
                     // Track app launched through dev center
-                    var engagementManager = StoreServicesEngagementManager.GetDefault();
-                    engagementManager.ParseArgumentsAndTrackAppLaunch(path);
+                  //  var engagementManager = StoreServicesEngagementManager.GetDefault();
+                  //  engagementManager.ParseArgumentsAndTrackAppLaunch(path);
+                  // TODO: NUGET FILE TOO LONG
 
                     break;
                 case ActivationKind.VoiceCommand:
