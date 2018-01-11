@@ -18,6 +18,7 @@ using Microsoft.Azure.Mobile;
 using Microsoft.Azure.Mobile.Analytics;
 using Microsoft.Azure.Mobile.Crashes;
 using Microsoft.Azure.Mobile.Distribute;
+using SoundByte.Android.Helpers;
 using SoundByte.Core;
 using SoundByte.Core.Items;
 using SoundByte.Core.Services;
@@ -35,41 +36,55 @@ namespace SoundByte.Android.Activities
         }
 
         // Simulates background work that happens behind the splash screen
-        private void RunStartupLogic()
+        private async void RunStartupLogic()
         {
+            if (!AppKeysHelper.KeysValid)
+            {
+                // If this fails getting the keys, we have an issue and must close the app
+                if (!await AndroidAuthorizationHelpers.OnlineAppInitAsync(true))
+                    return;
+            }
+
             // Load the SoundByte V3 API
             var secretList = new List<ServiceInfo>
             {
                 new ServiceInfo
                 {
                     Service = ServiceType.SoundCloud,
-                    ClientId = AppKeys.SoundCloudClientId,
+                    ClientIds = AppKeysHelper.SoundCloudPlaybackIds,
+                    ClientId = AppKeysHelper.SoundCloudClientId
                 },
                 new ServiceInfo
                 {
                     Service = ServiceType.SoundCloudV2,
-                    ClientId = AppKeys.SoundCloudClientId,
+                    ClientIds = AppKeysHelper.SoundCloudPlaybackIds,
+                    ClientId = AppKeysHelper.SoundCloudClientId
                 },
                 new ServiceInfo
                 {
                     Service = ServiceType.Fanburst,
-                    ClientId = AppKeys.FanburstClientId,
+                    ClientId = AppKeysHelper.FanburstClientId,
                 },
                 new ServiceInfo
                 {
                     Service = ServiceType.YouTube,
-                    ClientId = AppKeys.YouTubeClientId,
+                    ClientId = AppKeysHelper.YouTubeClientId,
                 },
                 new ServiceInfo
                 {
                     Service = ServiceType.ITunesPodcast
+                },
+                new ServiceInfo
+                {
+                    Service = ServiceType.SoundByte,
+                    ClientId = AppKeysHelper.SoundByteClientId
                 }
             };
 
             // Init the V3 service
             SoundByteService.Current.Init(secretList);
 
-            MobileCenter.Start(AppKeys.AzureMobileCenterClientId,
+            MobileCenter.Start(AppKeysHelper.AppCenterClientId,
                 typeof(Analytics), typeof(Crashes), typeof(Distribute));
 
             // Start the main app activity

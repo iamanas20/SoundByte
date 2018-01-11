@@ -78,7 +78,7 @@ namespace SoundByte.Android.Fragments
             return view;
         }
 
-        private void OnItemClick(object sender, int position)
+        private async void OnItemClick(object sender, int position)
         {
             var adapter = (TrackAdapter)sender;
 
@@ -89,10 +89,14 @@ namespace SoundByte.Android.Fragments
             intentA.SetPackage("net.gridentertainment.soundbyte.android");
             Activity.StartService(intentA);
 
+            var streamUrl = await adapter.BaseTrack[position].GetAudioStreamAsync(null);
+
+
             var intent = new Intent(PlaybackService.ActionPlay);
             intent.SetPackage("net.gridentertainment.soundbyte.android");
-            intent.PutExtra("URL", "https://api.soundcloud.com/tracks/" + adapter.BaseTrack[position].TrackId + "/stream?client_id=" + AppKeys.BackupSoundCloudPlaybackIDs[2]);
+            intent.PutExtra("URL", streamUrl.ToString());
             Activity.StartService(intent);
+
 
             // Display a toast that briefly shows the enumeration of the selected photo:
             Toast.MakeText(Activity, "Starting Song: " + adapter.BaseTrack[position].Title, ToastLength.Short).Show();

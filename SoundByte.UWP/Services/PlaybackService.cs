@@ -317,8 +317,6 @@ namespace SoundByte.UWP.Services
         }
         #endregion
 
-
-
         public async Task StartTrackAsync(BaseTrack trackToPlay = null)
         {
             MediaPlaybackList.ShuffleEnabled = false;

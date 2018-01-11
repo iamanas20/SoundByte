@@ -13,6 +13,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
@@ -74,6 +75,9 @@ namespace SoundByte.UWP.ViewModels
         /// <param name="shuffle">Should the playlist be shuffled.</param>
         public static async Task PlayAllTracksAsync<TSource>(SoundByteCollection<TSource, BaseTrack> model, BaseTrack startingTrack = null, bool shuffle = false) where TSource : ISource<BaseTrack>
         {
+            if (model.Count == 0)
+                return;
+
             model.IsLoading = true;
 
             // Attempt to create the playlist

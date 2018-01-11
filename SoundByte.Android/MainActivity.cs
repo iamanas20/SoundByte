@@ -31,7 +31,6 @@ namespace SoundByte.Android
 
             _bottomNavigationView = FindViewById<BottomNavigationView>(Resource.Id.bottom_navigation);
             _bottomNavigationView.NavigationItemSelected += BottomNavigation_NavigationItemSelected;
-
         }
 
         private void BottomNavigation_NavigationItemSelected(object sender, BottomNavigationView.NavigationItemSelectedEventArgs e)
@@ -46,16 +45,16 @@ namespace SoundByte.Android
             switch (id)
             {
                 case Resource.Id.menu_home:
-                    // fragment = Fragment1.NewInstance();
+                    fragment = HomeFragment.NewInstance();
                     break;
                 case Resource.Id.menu_library:
-                    // fragment = Fragment2.NewInstance();
+                    fragment = LibraryFragment.NewInstance();
                     break;
                 case Resource.Id.menu_search:
                     fragment = SearchFragment.NewInstance();
                     break;
                 case Resource.Id.menu_menu:
-                    // fragment = Fragment1.NewInstance();
+                    fragment = MenuFragment.NewInstance();
                     break;
             }
 

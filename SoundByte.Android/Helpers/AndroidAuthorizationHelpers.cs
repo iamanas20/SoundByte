@@ -12,28 +12,28 @@
 
 using System;
 using System.Threading.Tasks;
-using Windows.ApplicationModel;
-using Windows.UI.Popups;
-using Microsoft.Toolkit.Uwp.Helpers;
+using Android.App;
+using Android.OS;
+using Android.Widget;
+using SoundByte.Android.Services;
 using SoundByte.Core.Helpers;
-using SoundByte.UWP.Services;
 
-namespace SoundByte.UWP.Helpers
+namespace SoundByte.Android.Helpers
 {
-
-    // ReSharper disable once InconsistentNaming
-    public static class UWPAuthorizationHelpers
+    public static class AndroidAuthorizationHelpers
     {
         public static async Task<bool> OnlineAppInitAsync(bool updateKeys)
         {
             try
             {
+                var package = Application.Context.PackageManager.GetPackageInfo(Application.Context.PackageName, 0);
+
                 // Call the init method now and request new app keys
-                var returnInfo = await AuthorizationHelpers.OnlineAppInitAsync("uwp." + SystemInformation.DeviceFamily.ToLower() + "." + SystemInformation.OperatingSystemVersion, $"{Package.Current.Id.Version.Major}.{Package.Current.Id.Version.Minor}.{Package.Current.Id.Version.Build}.{Package.Current.Id.Version.Revision}", SettingsService.Instance.AppId, updateKeys);
+                var returnInfo = await AuthorizationHelpers.OnlineAppInitAsync($"android.{Build.VERSION.Release}", package.VersionName, SettingsService.Instance.AppId, updateKeys);
 
                 if (!returnInfo.Successful)
                 {
-                    await new MessageDialog("SoundByte cannot load. The following error was returned from the SoundByte server: " + returnInfo.ErrorTitle + "\n\nPlease restart the app and try again. If this error continues, contact us on Twitter @SoundByteUWP or Facebook fb.com/SoundByteUWP.", "Critical Error").ShowAsync();
+                    Toast.MakeText(Application.Context, "SoundByte cannot load. The following error was returned from the SoundByte server: " + returnInfo.ErrorTitle + "\n\nPlease restart the app and try again. If this error continues, contact us on Twitter @SoundByteUWP or Facebook fb.com/SoundByteUWP.", ToastLength.Long);
                     // Don't run anything, app will not work.
                     return false;
                 }
@@ -42,7 +42,7 @@ namespace SoundByte.UWP.Helpers
                 {
                     if (returnInfo.AppKeys == null)
                     {
-                        await new MessageDialog("SoundByte cannot load. The following error was returned from the SoundByte server: App Keys not provided.\n\nPlease restart the app and try again. If this error continues, contact us on Twitter @SoundByteUWP or Facebook fb.com/SoundByteUWP.", "Critical Error").ShowAsync();
+                        Toast.MakeText(Application.Context, "SoundByte cannot load. The following error was returned from the SoundByte server: App Keys not provided.\n\nPlease restart the app and try again. If this error continues, contact us on Twitter @SoundByteUWP or Facebook fb.com/SoundByteUWP.", ToastLength.Long);
                         // Don't run anything, app will not work.
                         return false;
                     }
@@ -69,8 +69,7 @@ namespace SoundByte.UWP.Helpers
             }
             catch (Exception e)
             {
-                await new MessageDialog("SoundByte cannot load. The following error was returned from the SoundByte server: " + e.Message + "\n\nPlease restart the app and try again. If this error continues, contact us on Twitter @SoundByteUWP or Facebook fb.com/SoundByteUWP.", "Critical Error").ShowAsync();
-                // Don't run anything, app will not work.
+                Toast.MakeText(Application.Context, "SoundByte cannot load. The following error was returned from the SoundByte server: " + e.Message + "\n\nPlease restart the app and try again. If this error continues, contact us on Twitter @SoundByteUWP or Facebook fb.com/SoundByteUWP.", ToastLength.Long);
                 return false;
             }
         }
