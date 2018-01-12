@@ -77,7 +77,8 @@ namespace SoundByte.UWP.ViewModels
                 }
                 catch (Exception)
                 {
-                    await new MessageDialog("Could not load tracks", "Something went wrong when trying to load the tracks for this playlist, please make sure you are connected to the internet and then go back, and click on this playlist again.").ShowAsync();
+                    await NavigationService.Current.CallMessageDialogAsync("Could not load tracks",
+                        "Something went wrong when trying to load the tracks for this playlist, please make sure you are connected to the internet and then go back, and click on this playlist again.");
                 }
 
                 // Hide the loading ring
@@ -257,7 +258,8 @@ namespace SoundByte.UWP.ViewModels
 
             if (!startPlayback.Success)
             {
-                await new MessageDialog(startPlayback.Message, "Error playing playlist.").ShowAsync();
+                await NavigationService.Current.CallMessageDialogAsync(startPlayback.Message,
+                    "Error playing playlist.");
                 return;
             }
 
@@ -274,7 +276,8 @@ namespace SoundByte.UWP.ViewModels
 
             if (!startPlayback.Success)
             {
-                await new MessageDialog(startPlayback.Message, "Error playing playlist.").ShowAsync();
+                await NavigationService.Current.CallMessageDialogAsync(startPlayback.Message,
+                    "Error playing playlist.");
                 return;
             }
 

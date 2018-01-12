@@ -46,7 +46,7 @@ namespace SoundByte.UWP.ViewModels
 
             if (!startPlayback.Success)
             {
-                await new MessageDialog(startPlayback.Message, "Error playing stream.").ShowAsync();
+                await NavigationService.Current.CallMessageDialogAsync(startPlayback.Message, "Error playing stream.");
                 StreamItems.IsLoading = false;
                 return;
             }
@@ -91,7 +91,8 @@ namespace SoundByte.UWP.ViewModels
 
                         if (!startPlayback.Success)
                         {
-                            await new MessageDialog(startPlayback.Message, "Error playing stream.").ShowAsync();
+                            await NavigationService.Current.CallMessageDialogAsync(startPlayback.Message,
+                                "Error playing stream.");
                             StreamItems.IsLoading = false;
                             return;
                         }

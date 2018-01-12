@@ -1,16 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.Media;
 using Android.Net.Wifi;
 using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
 using SoundByte.Core.Items.Generic;
 using SoundByte.Core.Items.Track;
 using SoundByte.Core.Services;

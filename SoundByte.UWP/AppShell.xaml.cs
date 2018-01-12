@@ -23,7 +23,6 @@ using Windows.Services.Store;
 using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Notifications;
-using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -375,7 +374,8 @@ namespace SoundByte.UWP
                                     }
                                     else
                                     {
-                                        await new MessageDialog(startPlayback.Message, "Error playing track.").ShowAsync();
+                                        await NavigationService.Current.CallMessageDialogAsync(startPlayback.Message,
+                                            "Error playing track.");
                                     }
                                 }
                                 break;
@@ -396,8 +396,8 @@ namespace SoundByte.UWP
                 }
                 catch (Exception)
                 {
-                    await new MessageDialog("The specified protocol is not correct. App will now launch as normal.")
-                        .ShowAsync();
+                    await NavigationService.Current.CallMessageDialogAsync(
+                        "The specified protocol is not correct. App will now launch as normal.");
                 }
                 await App.SetLoadingAsync(false);
             }

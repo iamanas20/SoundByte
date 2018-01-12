@@ -24,6 +24,7 @@ using SoundByte.Core.Items.Playlist;
 using SoundByte.Core.Items.Track;
 using SoundByte.Core.Services;
 using JetBrains.Annotations;
+using SoundByte.UWP.Services;
 
 namespace SoundByte.UWP.Dialogs
 {
@@ -127,7 +128,8 @@ namespace SoundByte.UWP.Dialogs
                 else
                 {
                     // Tell the user that they must enter a title
-                    await new MessageDialog("Please enter the set title in order to continue.").ShowAsync();
+                    await NavigationService.Current.CallMessageDialogAsync(
+                        "Please enter the set title in order to continue.");
                 }
             };
 
@@ -152,14 +154,14 @@ namespace SoundByte.UWP.Dialogs
                     !SoundByteService.Current.IsServiceConnected(ServiceType.SoundCloud)))
             {
                 Hide();
-                await new MessageDialog("You must first login to add tracks to playlists.", "Login Required").ShowAsync();
+                await NavigationService.Current.CallMessageDialogAsync("You must first login to add tracks to playlists.", "Login Required");
                 return;
             }
 
             if (Track.ServiceType == ServiceType.Fanburst)
             {
                 Hide();
-                await new MessageDialog("Adding Fanburst tracks to playlists is not currently supported.", "Not Supported").ShowAsync();
+                await NavigationService.Current.CallMessageDialogAsync("Adding Fanburst tracks to playlists is not currently supported.", "Not Supported");
                 return;
             }
 
@@ -192,7 +194,7 @@ namespace SoundByte.UWP.Dialogs
             }
             catch (SoundByteException ex)
             {
-                await new MessageDialog(ex.ErrorDescription, ex.ErrorTitle).ShowAsync();
+                await NavigationService.Current.CallMessageDialogAsync(ex.ErrorDescription, ex.ErrorTitle);
             }
             finally
             {
@@ -250,8 +252,8 @@ namespace SoundByte.UWP.Dialogs
                     _blockItemsLoading = false;
 
                     // Alert the user that the request failed, also alert the reason
-                    await new MessageDialog("An error occured while trying to remove the current sound from this set.")
-                        .ShowAsync();
+                    await NavigationService.Current.CallMessageDialogAsync(
+                        "An error occured while trying to remove the current sound from this set.");
                 }
             }
             catch (Exception)
@@ -261,9 +263,8 @@ namespace SoundByte.UWP.Dialogs
                 _blockItemsLoading = false;
 
                 // Alert the user about an unknown error
-                await new MessageDialog(
-                        "An unknown error occured while removing the current sound from this set. Make sure that you are connected to the internet and try again.")
-                    .ShowAsync();
+                await NavigationService.Current.CallMessageDialogAsync(
+                    "An unknown error occured while removing the current sound from this set. Make sure that you are connected to the internet and try again.");
             }
             finally
             {
@@ -308,8 +309,8 @@ namespace SoundByte.UWP.Dialogs
                     _blockItemsLoading = false;
 
                     // Alert the user that the request failed, also alert the reason
-                    await new MessageDialog("An error occured while trying to add the current sound to this set.")
-                        .ShowAsync();
+                    await NavigationService.Current.CallMessageDialogAsync(
+                        "An error occured while trying to add the current sound to this set.");
                 }
             }
             catch (Exception ex)
@@ -319,9 +320,9 @@ namespace SoundByte.UWP.Dialogs
                 _blockItemsLoading = false;
 
                 // Alert the user about an unknown error
-                await new MessageDialog(
+                await NavigationService.Current.CallMessageDialogAsync(
                     "An unknown error occured while adding the current sound to this set. Make sure that you are connected to the internet and try again. Error:\n" +
-                    ex).ShowAsync();
+                    ex);
             }
             finally
             {

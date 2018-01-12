@@ -287,7 +287,8 @@ namespace SoundByte.UWP.ViewModels
 
             if (!startPlayback.Success)
             {
-                await new MessageDialog(startPlayback.Message, "Error playing related track.").ShowAsync();
+                await NavigationService.Current.CallMessageDialogAsync(startPlayback.Message,
+                    "Error playing related track.");
                 return;
             }
 
@@ -456,9 +457,9 @@ namespace SoundByte.UWP.ViewModels
             // We only support viewing soundcloud profiles at this time
             if (currentTrack?.ServiceType != ServiceType.SoundCloud)
             {
-                await new MessageDialog(
+                await NavigationService.Current.CallMessageDialogAsync(
                     "SoundByte does not currently supporting user profiles that are not from SoundCloud.",
-                    "Not Ready Yet").ShowAsync();
+                    "Not Ready Yet");
                 return;
             }
 

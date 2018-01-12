@@ -12,9 +12,7 @@
 
 using System;
 using System.Threading.Tasks;
-using Windows.UI.Popups;
 using Microsoft.AspNet.SignalR.Client;
-using Microsoft.Toolkit.Uwp.Helpers;
 using SoundByte.Core.Items;
 
 namespace SoundByte.UWP.Services
@@ -55,16 +53,13 @@ namespace SoundByte.UWP.Services
                     }
                     else
                     {
-                        await DispatcherHelper.ExecuteOnUIThreadAsync(async () =>
-                        {
-                            await new MessageDialog("Could not Connect...").ShowAsync();
-                        });
+                        await NavigationService.Current.CallMessageDialogAsync("Could not Connect...");
                     }
                 });
             }
             catch
             {
-                await new MessageDialog("Could not Connect...").ShowAsync();
+                await NavigationService.Current.CallMessageDialogAsync("Could not Connect...");
                 // Do Nothing
             }
         }

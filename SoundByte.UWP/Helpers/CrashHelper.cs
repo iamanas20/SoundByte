@@ -14,7 +14,6 @@ using System;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Xaml;
-using Microsoft.Toolkit.Uwp.Helpers;
 using SoundByte.UWP.Dialogs;
 using SoundByte.UWP.Services;
 
@@ -65,11 +64,7 @@ namespace SoundByte.UWP.Helpers
             {
                 if (!DeviceHelper.IsBackground)
                 {
-                    await DispatcherHelper.ExecuteOnUIThreadAsync(
-                        async () =>
-                        {
-                            await NavigationService.Current.CallDialogAsync<CrashDialog>(ex);
-                        });
+                    await NavigationService.Current.CallDialogAsync<CrashDialog>(ex);
                 }      
             }
             catch

@@ -17,7 +17,6 @@ using Android.Media;
 using Android.Net;
 using Android.Net.Wifi;
 using Android.OS;
-using SoundByte.Android.Activities;
 using Uri = Android.Net.Uri;
 
 namespace SoundByte.Android.Services

@@ -13,10 +13,8 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using Windows.UI.Popups;
 using SoundByte.Core.Items.Track;
 using SoundByte.Core.Sources;
 using SoundByte.UWP.Services;
@@ -47,7 +45,8 @@ namespace SoundByte.UWP.ViewModels
 
             if (initPlaylistResponse.Success == false)
             {
-                await new MessageDialog(initPlaylistResponse.Message, "Could not build playlist.").ShowAsync();
+                await NavigationService.Current.CallMessageDialogAsync(initPlaylistResponse.Message,
+                    "Could not build playlist.");
                 return;
             }
 
@@ -87,7 +86,7 @@ namespace SoundByte.UWP.ViewModels
             {
                 model.IsLoading = false;
 
-                await new MessageDialog(result.Message, "Could not build playlist.").ShowAsync();
+                await NavigationService.Current.CallMessageDialogAsync(result.Message, "Could not build playlist.");
 
                 return;
             }

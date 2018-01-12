@@ -15,9 +15,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.UI.Core;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Microsoft.Toolkit.Uwp.Helpers;
+using WinRTXamlToolkit.Controls.Extensions;
 
 namespace SoundByte.UWP.Services
 {
@@ -45,6 +47,22 @@ namespace SoundByte.UWP.Services
                 altName = typeof(T).Name;
 
             _registeredDialogs.Add(altName, typeof(T));
+        }
+
+        public async Task CallMessageDialogAsync(string content, string title)
+        {
+            await DispatcherHelper.ExecuteOnUIThreadAsync(async () =>
+            {
+                await new MessageDialog(content, title).ShowQueuedAsync();
+            });
+        }
+
+        public async Task CallMessageDialogAsync(string content)
+        {
+            await DispatcherHelper.ExecuteOnUIThreadAsync(async () =>
+            {
+                await new MessageDialog(content).ShowQueuedAsync();
+            });
         }
 
         public async Task CallDialogAsync<T>(params object[] param)

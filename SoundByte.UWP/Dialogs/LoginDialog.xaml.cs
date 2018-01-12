@@ -12,7 +12,6 @@
 
 using System;
 using System.Linq;
-using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using SoundByte.Core;
@@ -27,11 +26,10 @@ namespace SoundByte.UWP.Dialogs
 {
     public sealed partial class LoginDialog 
     {
-        private readonly string _appCallback;
-        private ServiceType _loginService;
-        private string _stateVerification;
-        private bool _isRemoteConnect;
-        private string _loginCode;
+        private readonly ServiceType _loginService;
+        private readonly string _stateVerification;
+        private readonly bool _isRemoteConnect;
+        private readonly string _loginCode;
 
         /// <summary>
         /// 
@@ -63,7 +61,7 @@ namespace SoundByte.UWP.Dialogs
             };
 
             // Set the callback
-            _appCallback = Uri.EscapeUriString("http://localhost/soundbyte");
+            var appCallback = Uri.EscapeUriString("http://localhost/soundbyte");
 
             // Create the URI
             string connectUri;
@@ -73,19 +71,19 @@ namespace SoundByte.UWP.Dialogs
                 case ServiceType.SoundCloud:
                 case ServiceType.SoundCloudV2:
                     connectUri =
-                        $"https://soundcloud.com/connect?scope=non-expiring&client_id={AppKeysHelper.SoundCloudClientId}&response_type=code&display=popup&redirect_uri={_appCallback}&state={_stateVerification}";
+                        $"https://soundcloud.com/connect?scope=non-expiring&client_id={AppKeysHelper.SoundCloudClientId}&response_type=code&display=popup&redirect_uri={appCallback}&state={_stateVerification}";
                     break;
                 case ServiceType.Fanburst:
                     connectUri =
-                        $"https://fanburst.com/oauth/authorize?client_id={AppKeysHelper.FanburstClientId}&response_type=code&redirect_uri={_appCallback}&state={_stateVerification}&display=popup";
+                        $"https://fanburst.com/oauth/authorize?client_id={AppKeysHelper.FanburstClientId}&response_type=code&redirect_uri={appCallback}&state={_stateVerification}&display=popup";
                     break;
                 case ServiceType.YouTube:
                     connectUri =
-                        $"https://accounts.google.com/o/oauth2/v2/auth?client_id={AppKeysHelper.YouTubeLoginClientId}&redirect_uri={_appCallback}&response_type=code&state={_stateVerification}&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fyoutube";
+                        $"https://accounts.google.com/o/oauth2/v2/auth?client_id={AppKeysHelper.YouTubeLoginClientId}&redirect_uri={appCallback}&response_type=code&state={_stateVerification}&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fyoutube";
                     break;
                 case ServiceType.SoundByte:
                     connectUri =
-                        $"https://soundbytemedia.com/connect/authorize?client_id={AppKeysHelper.SoundByteClientId}&response_type=code&redirect_uri={_appCallback}&state={_stateVerification}&scope=api";
+                        $"https://soundbytemedia.com/connect/authorize?client_id={AppKeysHelper.SoundByteClientId}&response_type=code&redirect_uri={appCallback}&state={_stateVerification}&scope=api";
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -114,9 +112,9 @@ namespace SoundByte.UWP.Dialogs
                 if (string.IsNullOrEmpty(state) || state.TrimEnd('#') != _stateVerification)
                 {
                     // Display the error to the user
-                    await new MessageDialog(
+                    await NavigationService.Current.CallMessageDialogAsync(
                         "State Verfication Failed. This could be caused by another process intercepting the SoundByte login procedure. Signin has been canceled to protect your privacy.",
-                        "Sign in Error").ShowAsync();
+                        "Sign in Error");
                     App.Telemetry.TrackEvent("State Verfication Failed");
 
                     // Close
@@ -138,14 +136,14 @@ namespace SoundByte.UWP.Dialogs
                     }
 
                     // Display the error to the user
-                    await new MessageDialog(reason, "Sign in Error").ShowAsync();
+                    await NavigationService.Current.CallMessageDialogAsync(reason, "Sign in Error");
                     Hide();
                     return;
                 }
 
                 if (parser.FirstOrDefault(x => x.Key == "code").Value == null)
                 {
-                    await new MessageDialog("No Code", "Sign in Error").ShowAsync();
+                    await NavigationService.Current.CallMessageDialogAsync("No Code", "Sign in Error");
                     Hide();
                     return;
                 }
@@ -180,8 +178,8 @@ namespace SoundByte.UWP.Dialogs
                         }
                         else
                         {
-                            await new MessageDialog("Could not connect to your Xbox One. Please check that the codes match and try again.\n\n" + serviceResponse, 
-                                "Xbox Connect Error").ShowAsync();
+                            await NavigationService.Current.CallMessageDialogAsync("Could not connect to your Xbox One. Please check that the codes match and try again.\n\n" + serviceResponse, 
+                                "Xbox Connect Error");
                             // Close
                             Hide();
                         }
@@ -190,7 +188,7 @@ namespace SoundByte.UWP.Dialogs
                 catch (SoundByteException ex)
                 {
                     // Display the error to the user
-                    await new MessageDialog(ex.ErrorDescription, ex.ErrorTitle).ShowAsync();
+                    await NavigationService.Current.CallMessageDialogAsync(ex.ErrorDescription, ex.ErrorTitle);
 
                     // Close
                     Hide();

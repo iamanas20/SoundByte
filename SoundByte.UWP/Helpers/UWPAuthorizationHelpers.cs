@@ -33,7 +33,7 @@ namespace SoundByte.UWP.Helpers
 
                 if (!returnInfo.Successful)
                 {
-                    await new MessageDialog("SoundByte cannot load. The following error was returned from the SoundByte server: " + returnInfo.ErrorTitle + "\n\nPlease restart the app and try again. If this error continues, contact us on Twitter @SoundByteUWP or Facebook fb.com/SoundByteUWP.", "Critical Error").ShowAsync();
+                    await NavigationService.Current.CallMessageDialogAsync("SoundByte cannot load. The following error was returned from the SoundByte server: " + returnInfo.ErrorTitle + "\n\nPlease restart the app and try again. If this error continues, contact us on Twitter @SoundByteUWP or Facebook fb.com/SoundByteUWP.", "Critical Error");
                     // Don't run anything, app will not work.
                     return false;
                 }
@@ -42,7 +42,9 @@ namespace SoundByte.UWP.Helpers
                 {
                     if (returnInfo.AppKeys == null)
                     {
-                        await new MessageDialog("SoundByte cannot load. The following error was returned from the SoundByte server: App Keys not provided.\n\nPlease restart the app and try again. If this error continues, contact us on Twitter @SoundByteUWP or Facebook fb.com/SoundByteUWP.", "Critical Error").ShowAsync();
+                        await NavigationService.Current.CallMessageDialogAsync(
+                            "SoundByte cannot load. The following error was returned from the SoundByte server: App Keys not provided.\n\nPlease restart the app and try again. If this error continues, contact us on Twitter @SoundByteUWP or Facebook fb.com/SoundByteUWP.",
+                            "Critical Error");
                         // Don't run anything, app will not work.
                         return false;
                     }
@@ -69,7 +71,10 @@ namespace SoundByte.UWP.Helpers
             }
             catch (Exception e)
             {
-                await new MessageDialog("SoundByte cannot load. The following error was returned from the SoundByte server: " + e.Message + "\n\nPlease restart the app and try again. If this error continues, contact us on Twitter @SoundByteUWP or Facebook fb.com/SoundByteUWP.", "Critical Error").ShowAsync();
+                await NavigationService.Current.CallMessageDialogAsync(
+                    "SoundByte cannot load. The following error was returned from the SoundByte server: " + e.Message +
+                    "\n\nPlease restart the app and try again. If this error continues, contact us on Twitter @SoundByteUWP or Facebook fb.com/SoundByteUWP.",
+                    "Critical Error");
                 // Don't run anything, app will not work.
                 return false;
             }

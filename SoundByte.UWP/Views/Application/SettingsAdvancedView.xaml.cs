@@ -41,7 +41,7 @@ namespace SoundByte.UWP.Views.Application
 
             dialogs.ForEach(x => dialogList += "- " + x.Key + "\n");
 
-            await new MessageDialog(dialogList, "Registered Dialogs").ShowAsync();
+            await NavigationService.Current.CallMessageDialogAsync(dialogList, "Registered Dialogs");
         }
     }
 }
