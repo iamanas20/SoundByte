@@ -425,17 +425,12 @@ namespace SoundByte.Core.Items.Track
         }
         private bool _isLiked;
 
-        /// <summary>
-        ///     Internal User Id used in SoundByte API.
-        /// </summary>
-        [Column("user_id")]
-        [JsonProperty("user_id")]
-        public Guid UserId { get; set; }
 
         /// <summary>
         ///     The Track User
         /// </summary>
-        [NotMapped]
+        [Column("user")]
+        [JsonProperty("user")]
         public BaseUser User
         {
             get => _user;

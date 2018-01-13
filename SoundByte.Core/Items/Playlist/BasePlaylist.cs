@@ -11,9 +11,11 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 using Newtonsoft.Json;
+using SoundByte.Core.Items.Track;
 using SoundByte.Core.Items.User;
 
 namespace SoundByte.Core.Items.Playlist
@@ -196,16 +198,10 @@ namespace SoundByte.Core.Items.Playlist
         private string _artworkLink;
 
         /// <summary>
-        ///     Internal User Id used in SoundByte API.
-        /// </summary>
-        [Column("user_id")]
-        [JsonProperty("user_id")]
-        public Guid UserId { get; set; }
-
-        /// <summary>
         /// User who created the playlist
         /// </summary>
-        [NotMapped]
+        [Column("user")]
+        [JsonProperty("user")]
         public BaseUser User
         {
             get => _user;
@@ -219,6 +215,25 @@ namespace SoundByte.Core.Items.Playlist
             }
         }
         private BaseUser _user;
+
+        /// <summary>
+        ///     Tracks for this playlist
+        /// </summary>
+        [Column("tracks")]
+        [JsonProperty("tracks")]
+        public IEnumerable<BaseTrack> Tracks
+        {
+            get => _tracks;
+            set
+            {
+                if (value == _tracks)
+                    return;
+
+                _tracks = value;
+                UpdateProperty();
+            }
+        }
+        private IEnumerable<BaseTrack> _tracks;
 
         /// <summary>
         ///     Used by SoundByte to determine if the track is in a playlist

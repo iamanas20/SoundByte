@@ -192,6 +192,14 @@ namespace SoundByte.UWP
                 // Load logged in user objects
                 await SoundByteService.Current.InitUsersAsync();
 
+                App.Telemetry.TrackEvent("Connected Accounts", new Dictionary<string, string>
+                {
+                    { "IsSoundByteConnected", SoundByteService.Current.IsServiceConnected(ServiceType.SoundByte).ToString() },
+                    { "IsSoundCloudConnected", SoundByteService.Current.IsServiceConnected(ServiceType.SoundCloud).ToString() },
+                    { "IsFanburstConnected", SoundByteService.Current.IsServiceConnected(ServiceType.Fanburst).ToString() },
+                    { "IsYouTubeConnected", SoundByteService.Current.IsServiceConnected(ServiceType.YouTube).ToString() }
+                });
+
                 // Register notifications
                 //  var engagementManager = StoreServicesEngagementManager.GetDefault();
                 //   await engagementManager.RegisterNotificationChannelAsync();

@@ -100,7 +100,9 @@
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
 
+                <!-- Leave this hidden for now -->
                 <NavigationViewItem Content="My Device" 
+                                    Visibility="Collapsed"
                                     Style="{StaticResource NavStyle}" 
                                     x:Name="NavigationItemDownloads"
                                     Tag="mydevice">

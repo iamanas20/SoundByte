@@ -14,10 +14,10 @@
     <PackageLicenseUrl>https://github.com/DominicMaas/SoundByte</PackageLicenseUrl>
     <RepositoryUrl>https://github.com/DominicMaas/SoundByte</RepositoryUrl>
     <PackageTags>soundbyte youtube fanburst soundcloud</PackageTags>
-    <AssemblyVersion>1.0.0.0</AssemblyVersion>
-    <FileVersion>1.0.0.0</FileVersion>
-    <PackageReleaseNotes>Updated to sync with weekly UWP build</PackageReleaseNotes>
-    <Version>17.12.2</Version>
+    <AssemblyVersion>18.1.1.0</AssemblyVersion>
+    <FileVersion>18.1.1.0</FileVersion>
+    <PackageReleaseNotes>Lots of core changes</PackageReleaseNotes>
+    <Version>18.1.1</Version>
   </PropertyGroup>
 
   <ItemGroup>

@@ -13,7 +13,6 @@
 using System;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
-using Windows.UI.Popups;
 using Microsoft.Toolkit.Uwp.Helpers;
 using SoundByte.Core.Helpers;
 using SoundByte.UWP.Services;

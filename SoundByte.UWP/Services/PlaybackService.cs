@@ -12,6 +12,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Media;
@@ -21,6 +22,7 @@ using Windows.Media.Streaming.Adaptive;
 using Windows.Storage.Streams;
 using Windows.System;
 using JetBrains.Annotations;
+using Microsoft.Toolkit.Uwp.Helpers;
 using SoundByte.Core;
 using SoundByte.Core.Items.Generic;
 using SoundByte.Core.Items.Track;
@@ -167,13 +169,13 @@ namespace SoundByte.UWP.Services
                     currentUsageLimit = "Less than 128MB";
                 }
 
-                App.Telemetry.TrackEvent("Current Song Changed", new Dictionary<string, string>
+                App.Telemetry.TrackEvent("Current Song Change", new Dictionary<string, string>
                 {
-                    { "CurrentUsage", currentUsageLimit },
-                    { "TrackType", track.ServiceType.ToString() ?? "Null" },
-                    { "IsSoundCloudConnected", SoundByteService.Current.IsServiceConnected(ServiceType.SoundCloud).ToString() },
-                    { "IsFanburstConnected", SoundByteService.Current.IsServiceConnected(ServiceType.Fanburst).ToString() },
-                    { "IsYouTubeConnected", SoundByteService.Current.IsServiceConnected(ServiceType.YouTube).ToString() }
+                    { "Current Usage", currentUsageLimit },
+                    { "Free", SystemInformation.AvailableMemory.ToString(CultureInfo.InvariantCulture) },
+                    { "Track Type", track.ServiceType.ToString() ?? "Null" },
+                    { "Device", SystemInformation.DeviceFamily },
+                    { "Current Version / First Version", SystemInformation.FirstVersionInstalled.ToFormattedString() + "/" + SystemInformation.ApplicationVersion.ToFormattedString()},
                 });
             });
 

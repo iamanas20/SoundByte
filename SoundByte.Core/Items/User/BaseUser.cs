@@ -10,6 +10,7 @@
  * |----------------------------------------------------------------|
  */
 
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 using Newtonsoft.Json;
@@ -33,6 +34,13 @@ namespace SoundByte.Core.Items.User
         [Column("service_type")]
         [JsonProperty("service_type")]
         public ServiceType ServiceType { get; set; }
+
+        /// <summary>
+        ///     The SoundByte resource ID
+        /// </summary>
+        [Column("id")]
+        [JsonProperty("id")]
+        public Guid Id { get; set; }
 
         [Column("user_id")]
         [JsonProperty("user_id")]
