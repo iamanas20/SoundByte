@@ -21,6 +21,7 @@ using System.Threading.Tasks;
 using SoundByte.Core.Exceptions;
 using SoundByte.Core.Items;
 using JetBrains.Annotations;
+using Newtonsoft.Json;
 using SoundByte.Core.Helpers;
 using SoundByte.Core.Items.User;
 using SoundByte.Core.Items.YouTube;
@@ -544,6 +545,39 @@ namespace SoundByte.Core.Services
             {
                 if (await HandleAuthTokenRefreshAsync(hex, type))
                     return await PostAsync<T>(type, endpoint, content, optionalParams, cancellationTokenSource);
+
+                throw new SoundByteException("No connection?", hex.Message + "\n" + requestUri);
+            }
+        }
+
+        public async Task<T> PostItemAsync<T>(ServiceType type, string endpoint, T item, Dictionary<string, string> optionalParams = null,
+            CancellationTokenSource cancellationTokenSource = null)
+        {
+            if (_isLoaded == false)
+                throw new SoundByteNotLoadedException();
+
+            // Build the request Url
+            var requestUri = BuildRequestUrl(type, endpoint, optionalParams);
+
+            try
+            {
+                using (var httpService = new HttpService())
+                {
+                    // Accept JSON
+                    httpService.Client.DefaultRequestHeaders.Accept.Add(
+                        new MediaTypeWithQualityHeaderValue("application/json"));
+
+                    // Build the required auth headers
+                    BuildAuthLayer(httpService, type);
+
+                    // Perform HTTP request
+                    return await httpService.PostAsync<T>(requestUri, JsonConvert.SerializeObject(item), cancellationTokenSource).ConfigureAwait(false);
+                }
+            }
+            catch (HttpRequestException hex)
+            {
+                if (await HandleAuthTokenRefreshAsync(hex, type))
+                    return await PostItemAsync(type, endpoint, item, optionalParams, cancellationTokenSource);
 
                 throw new SoundByteException("No connection?", hex.Message + "\n" + requestUri);
             }

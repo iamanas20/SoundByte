@@ -12,6 +12,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 using Newtonsoft.Json;
@@ -42,6 +43,8 @@ namespace SoundByte.Core.Items.Playlist
         /// </summary>
         [Column("id")]
         [JsonProperty("id")]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key]
         public Guid Id { get; set; }
 
         /// <summary>
@@ -197,6 +200,10 @@ namespace SoundByte.Core.Items.Playlist
         }
         private string _artworkLink;
 
+        [Column("user_id")]
+        [JsonProperty("user_id")]
+        public Guid UserId { get; set; }
+
         /// <summary>
         /// User who created the playlist
         /// </summary>
@@ -226,7 +233,7 @@ namespace SoundByte.Core.Items.Playlist
             get => _tracks;
             set
             {
-                if (value == _tracks)
+                if (Equals(value, _tracks))
                     return;
 
                 _tracks = value;

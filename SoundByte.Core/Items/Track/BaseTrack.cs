@@ -12,6 +12,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -121,6 +122,8 @@ namespace SoundByte.Core.Items.Track
         /// </summary>
         [Column("id")]
         [JsonProperty("id")]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key]
         public Guid Id { get; set; }
 
         /// <summary>
@@ -425,6 +428,10 @@ namespace SoundByte.Core.Items.Track
         }
         private bool _isLiked;
 
+
+        [Column("user_id")]
+        [JsonProperty("user_id")]
+        public Guid UserId { get; set; }
 
         /// <summary>
         ///     The Track User

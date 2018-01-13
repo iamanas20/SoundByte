@@ -12,6 +12,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,6 +24,7 @@ using Windows.Storage.Streams;
 using Windows.System;
 using JetBrains.Annotations;
 using Microsoft.Toolkit.Uwp.Helpers;
+using Newtonsoft.Json;
 using SoundByte.Core;
 using SoundByte.Core.Items.Generic;
 using SoundByte.Core.Items.Track;
@@ -147,7 +149,9 @@ namespace SoundByte.UWP.Services
             // Invoke the track change method
             OnTrackChange?.Invoke(track);
 
-            await Task.Run(() =>
+            Debug.WriteLine(JsonConvert.SerializeObject(track));
+
+            await Task.Run(async () =>
             {
                 string currentUsageLimit;
                 var memoryUsage = MemoryManager.AppMemoryUsage / 1024 / 1024;
@@ -177,6 +181,18 @@ namespace SoundByte.UWP.Services
                     { "Device", SystemInformation.DeviceFamily },
                     { "Current Version / First Version", SystemInformation.FirstVersionInstalled.ToFormattedString() + "/" + SystemInformation.ApplicationVersion.ToFormattedString()},
                 });
+
+                try
+                {
+                    if (SoundByteService.Current.IsSoundByteAccountConnected)
+                    {
+                        await SoundByteService.Current.PostItemAsync(ServiceType.SoundByte, "history", track);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    var i = 0;
+                }
             });
 
             // Find the index of this item and see if we are near the end

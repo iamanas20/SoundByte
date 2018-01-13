@@ -11,6 +11,7 @@
  */
 
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 using Newtonsoft.Json;
@@ -40,6 +41,8 @@ namespace SoundByte.Core.Items.User
         /// </summary>
         [Column("id")]
         [JsonProperty("id")]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key]
         public Guid Id { get; set; }
 
         [Column("user_id")]
