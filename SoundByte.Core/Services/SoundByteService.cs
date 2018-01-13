@@ -385,6 +385,7 @@ namespace SoundByte.Core.Services
                 {
                     case ServiceType.YouTube:
                     case ServiceType.Fanburst:
+                    case ServiceType.SoundByte:
                         service.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
                         break;
                     default:
