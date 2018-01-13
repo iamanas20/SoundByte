@@ -83,7 +83,7 @@ namespace SoundByte.UWP.Dialogs
                     break;
                 case ServiceType.SoundByte:
                     connectUri =
-                        $"https://soundbytemedia.com/connect/authorize?client_id={AppKeysHelper.SoundByteClientId}&response_type=code&redirect_uri={appCallback}&state={_stateVerification}&scope=api";
+                        $"https://soundbytemedia.com/connect/authorize?client_id={AppKeysHelper.SoundByteClientId}&response_type=code&redirect_uri={appCallback}&state={_stateVerification}&scope=api%20offline_access";
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
