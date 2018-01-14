@@ -21,6 +21,7 @@ namespace SoundByte.Core
         // ReSharper disable once InconsistentNaming
         ITunesPodcast,
         SoundByte,
-        Unknown
+        Unknown,
+        Local
     }
 }

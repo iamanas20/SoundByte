@@ -12,12 +12,16 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Security.Credentials;
+using Windows.Storage;
+using Windows.Storage.FileProperties;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
@@ -27,7 +31,10 @@ using Windows.UI.Xaml.Media;
 using Microsoft.Toolkit.Uwp.Helpers;
 using SoundByte.Core;
 using SoundByte.Core.Items;
+using SoundByte.Core.Items.Track;
+using SoundByte.Core.Items.User;
 using SoundByte.Core.Services;
+using SoundByte.Core.Sources;
 using SoundByte.UWP.Dialogs;
 using SoundByte.UWP.Helpers;
 using SoundByte.UWP.Services;
@@ -277,6 +284,10 @@ namespace SoundByte.UWP
                 new ServiceInfo
                 {
                     Service = ServiceType.ITunesPodcast
+                },
+                new ServiceInfo
+                {
+                    Service = ServiceType.Local
                 },
                 new ServiceInfo
                 {
@@ -725,6 +736,68 @@ namespace SoundByte.UWP
             // Create / Get the main shell
             await InitializeShellAsync(path);
         }
+
+        protected override async void OnFileActivated(FileActivatedEventArgs args)
+        {
+            // Load the shell
+            LoggingService.Log(LoggingService.LogType.Debug, "App File Activation");
+            await InitializeShellAsync();
+
+            // Start playing content
+
+            // Convert to base tracks
+            var tracks = new List<BaseTrack>();
+
+            var random = new Random();
+
+            foreach (var item in args.Files)
+            {
+                var file = item as StorageFile;
+
+                if (file == null)
+                    continue;
+
+               // var thumbnail = await file.GetThumbnailAsync(ThumbnailMode.MusicView, 512);
+
+                var properties = await file.Properties.GetMusicPropertiesAsync();
+
+                var track = new BaseTrack
+                {
+                    ServiceType = ServiceType.Local,
+                    AudioStreamUrl = file.Path,
+                    Title = GetNullString(properties.Title, file.DisplayName),
+                    User = new BaseUser
+                    {
+                        ServiceType = ServiceType.Local,
+                        Username = GetNullString(properties.Artist, "Unknown Artist")
+                    },
+                    Genre = string.Join(',', properties.Genre),
+                    Duration = properties.Duration,
+                    TrackId = random.Next(0, 999999999).ToString()
+                };
+
+                track.CustomProperties.Add("File", file);
+
+                tracks.Add(track);
+            }
+
+            var result = await PlaybackService.Instance.InitilizePlaylistAsync<DummyTrackSource>(tracks);
+
+            if (result.Success)
+            {
+                await PlaybackService.Instance.StartTrackAsync();
+                return;
+            }
+
+            await NavigationService.Current.CallMessageDialogAsync(result.Message);
+        }
+
+        private string GetNullString(string text, string backupText)
+        {
+            return string.IsNullOrEmpty(text) 
+                ? backupText 
+                : text;
+        }
         #endregion
-    }
+        }
 }

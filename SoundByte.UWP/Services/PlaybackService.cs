@@ -20,6 +20,7 @@ using Windows.Media;
 using Windows.Media.Core;
 using Windows.Media.Playback;
 using Windows.Media.Streaming.Adaptive;
+using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.System;
 using JetBrains.Annotations;
@@ -184,7 +185,10 @@ namespace SoundByte.UWP.Services
 
                 try
                 {
-                    if (SoundByteService.Current.IsSoundByteAccountConnected)
+                    // Only perform logic if soundbyte account is connected
+                    // and the track type is not a local track
+                    if (SoundByteService.Current.IsSoundByteAccountConnected 
+                        && track.ServiceType != ServiceType.Local)
                     {
                         await SoundByteService.Current.PostItemAsync(ServiceType.SoundByte, "history", track);
                     }
@@ -205,23 +209,26 @@ namespace SoundByte.UWP.Services
                 var newItems = await _playlistSource.GetItemsAsync(50, _playlistToken);
                 _playlistToken = newItems.Token;
 
-                // Loop through all the tracks and add them to the playlist
-                foreach (var newTrack in newItems.Items)
+                if (newItems.IsSuccess)
                 {
-                    try
+                    // Loop through all the tracks and add them to the playlist
+                    foreach (var newTrack in newItems.Items)
                     {
-                        BuildMediaItem(newTrack);
-                    }
-                    catch (Exception e)
-                    {
-                        App.Telemetry.TrackEvent("Playback Item Addition Failed", new Dictionary<string, string>
+                        try
                         {
-                            { "TrackID", newTrack.TrackId },
-                            { "TrackService", newTrack.ServiceType.ToString() },
-                            { "ErrorMessage", e.Message }
-                        });
+                            BuildMediaItem(newTrack);
+                        }
+                        catch (Exception e)
+                        {
+                            App.Telemetry.TrackEvent("Playback Item Addition Failed", new Dictionary<string, string>
+                            {
+                                { "TrackID", newTrack.TrackId },
+                                { "TrackService", newTrack.ServiceType.ToString() },
+                                { "ErrorMessage", e.Message }
+                            });
+                        }
                     }
-                }
+                }   
             }
         }
         #endregion
@@ -514,6 +521,12 @@ namespace SoundByte.UWP.Services
                     {
                         args.SetAdaptiveMediaSource(source.MediaSource);
                     }
+                }
+                else if (track.ServiceType == ServiceType.Local)
+                {
+                    var file = track.CustomProperties["File"] as StorageFile;
+
+                    args.SetStorageFile(file);
                 }
                 else
                 {

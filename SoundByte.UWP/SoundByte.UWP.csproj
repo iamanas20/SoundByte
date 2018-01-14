@@ -123,6 +123,7 @@
     <Content Include="Assets\Services\fanburst.png" />
     <Content Include="Assets\Services\soundcloud.png" />
     <Content Include="Assets\Services\youtube.png" />
+    <Content Include="Assets\SmallLogo.png" />
     <Content Include="Assets\SocialLogo.png" />
     <Content Include="Assets\SplashScreen.scale-400.png" />
     <Content Include="Assets\Square150x150Logo.scale-100.png" />
@@ -687,6 +688,7 @@
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

@@ -27,8 +27,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using Microsoft.Toolkit.Uwp.Helpers;
-using NotificationsExtensions;
-using NotificationsExtensions.Toasts;
 using SoundByte.Core;
 using SoundByte.Core.Items.Generic;
 using SoundByte.Core.Items.Playlist;

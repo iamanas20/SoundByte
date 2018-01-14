@@ -56,6 +56,10 @@ namespace SoundByte.Core.Items.Track
 
             switch (ServiceType)
             {
+                case ServiceType.Local:
+                    // We already set the audio url
+                    audioStream = AudioStreamUrl;
+                    break;
                 case ServiceType.Fanburst:
                     audioStream = $"https://api.fanburst.com/tracks/{TrackId}/stream?client_id={service.ClientId}";
                     break;
@@ -451,6 +455,13 @@ namespace SoundByte.Core.Items.Track
             }
         }
         private BaseUser _user;
+
+        /// <summary>
+        ///     Custom properties you can set
+        /// </summary>
+        [NotMapped]
+        [JsonIgnore]
+        public Dictionary<string, object> CustomProperties { get; } = new Dictionary<string, object>();
 
         #region Methods
         public async Task<CommentResponse> GetCommentsAsync(int count, string token, CancellationTokenSource cancellationTokenSource = null)

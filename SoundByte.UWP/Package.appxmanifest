@@ -33,6 +33,23 @@
         </uap:InitialRotationPreference>
       </uap:VisualElements>
       <Extensions>
+        <uap:Extension Category="windows.fileTypeAssociation">
+          <uap:FileTypeAssociation Name="audio_file">
+            <uap:DisplayName>Audio File</uap:DisplayName>
+            <uap:Logo>Assets\SmallLogo.png</uap:Logo>
+            <uap:InfoTip>Open in SoundByte, a mordern and beautiful music app.</uap:InfoTip>
+            <uap:EditFlags OpenIsSafe="true" />
+            <uap:SupportedFileTypes>
+              <uap:FileType ContentType="audio/mp3">.mp3</uap:FileType>
+              <uap:FileType ContentType="audio/wav">.wav</uap:FileType>
+              <uap:FileType ContentType="audio/ogg">.ogg</uap:FileType>
+              <uap:FileType ContentType="audio/flac">.flac</uap:FileType>
+              <uap:FileType ContentType="audio/x-m4a">.m4a</uap:FileType>
+              <uap:FileType ContentType="audio/x-aiff">.aif</uap:FileType>
+              <uap:FileType ContentType="audio/x-ms-wma">.wma</uap:FileType>
+            </uap:SupportedFileTypes>
+          </uap:FileTypeAssociation>
+        </uap:Extension>
         <uap:Extension Category="windows.protocol">
           <uap:Protocol Name="soundbyte">
             <uap:DisplayName>SoundByte Protocol</uap:DisplayName>
@@ -43,8 +60,12 @@
   </Applications>
   <Capabilities>
     <Capability Name="internetClient" />
+    <Capability Name="privateNetworkClientServer" />
     <uap3:Capability Name="backgroundMediaPlayback" />
     <uap:Capability Name="musicLibrary" />
+    <uap:Capability Name="videosLibrary" />
+    <uap3:Capability Name="remoteSystem" />
+    <uap:Capability Name="removableStorage" />
     <DeviceCapability Name="proximity" />
   </Capabilities>
 </Package>
