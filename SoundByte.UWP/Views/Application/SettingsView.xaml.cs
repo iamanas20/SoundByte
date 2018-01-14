@@ -68,9 +68,9 @@ namespace SoundByte.UWP.Views.Application
             // Set the app version
             AppVersion.Text = $"{Package.Current.Id.Version.Major}.{Package.Current.Id.Version.Minor}";
             AppBuild.Text = $"{Package.Current.Id.Version.Build}";
+            AppId.Text = SettingsService.AppId;
 
             AppBuildTime.Text = "...";
-
 
             var dataFile = await Package.Current.InstalledLocation.GetFileAsync(@"Assets\build_info.json");
             var buildData =

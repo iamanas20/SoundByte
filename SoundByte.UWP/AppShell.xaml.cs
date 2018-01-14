@@ -173,7 +173,7 @@ namespace SoundByte.UWP
                 }
 
                 // Test Version and tell user app upgraded
-                HandleNewAppVersion();
+                await HandleNewAppVersionAsync();
 
                 // Clear the unread badge
                 BadgeUpdateManager.CreateBadgeUpdaterForApplication().Clear();
@@ -219,7 +219,7 @@ namespace SoundByte.UWP
             });
         }
 
-        private void HandleNewAppVersion()
+        private async Task HandleNewAppVersionAsync()
         {
             var currentAppVersionString = Package.Current.Id.Version.Major + "." + Package.Current.Id.Version.Minor +
                                           "." + Package.Current.Id.Version.Build;
@@ -242,42 +242,15 @@ namespace SoundByte.UWP
                     return;
             }
 
-            var clickText = "Tap here to read what's new.";
-            if (DeviceHelper.IsDesktop)
-                clickText = "Click here to read what's new.";
-            if (DeviceHelper.IsXbox)
-                clickText = "Hold down the Xbox button to read what's new.";
-
-            if (!string.IsNullOrEmpty(storedAppVersionString))
+            // First run
+            if (string.IsNullOrEmpty(storedAppVersionString))
             {
-                // Generate a notification
-                var toastContent = new ToastContent
-                {
-                    Visual = new ToastVisual
-                    {
-                        BindingGeneric = new ToastBindingGeneric
-                        {
-                            Children =
-                            {
-                                new AdaptiveText
-                                {
-                                    Text = "SoundByte"
-                                },
-
-                                new AdaptiveText
-                                {
-                                    Text = $"SoundByte was updated! {clickText}"
-                                }
-                            }
-                        }
-                    },
-                    ActivationType = ToastActivationType.Protocol,
-                    Launch = "soundbyte://core/changelog"
-                };
-
-                // Show the notification
-                var toast = new ToastNotification(toastContent.GetXml()) { ExpirationTime = DateTime.Now.AddMinutes(30) };
-                ToastNotificationManager.CreateToastNotifier().Show(toast);
+                //todo: show welcome dialog
+              //  await NavigationService.Current.CallDialogAsync<WhatsNewDialog>();
+            }
+            else
+            {
+                await NavigationService.Current.CallDialogAsync<WhatsNewDialog>();
             }
         }
 
