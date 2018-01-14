@@ -105,7 +105,10 @@ namespace SoundByte.Core.Helpers
                 var result = await HttpService.Instance.PostAsync<AppInitializationResult>("https://soundbytemedia.com/api/v1/app/init",
                     new Dictionary<string, string>
                     {
-                        { "requestnewkeys", requestNewKeys.ToString() }
+                        { "requestnewkeys", requestNewKeys.ToString() },
+                        { "appid", appId },
+                        { "platform", platform },
+                        { "version", version }
                     });
 
                 if (!result.Successful)

@@ -421,6 +421,10 @@ namespace SoundByte.Core.Services
                     ConnectService(type, userToken);
                 }
             }
+            catch (SoundByteException)
+            {
+                throw;
+            }
             catch (Exception ex)
             {
                 throw new SoundByteException("Error obtaining new access token.", ex.Message);

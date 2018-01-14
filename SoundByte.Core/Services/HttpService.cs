@@ -81,7 +81,7 @@ namespace SoundByte.Core.Services
 
             // Create the http client 
             _client = new HttpClient(httpClientHandler, true);
-            _client.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("SoundByte.Core", $"{version.Major}.{version.Minor}.{version.Revision}"));
+            _client.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("SoundByte", $"{version.Major}.{version.Minor}.{version.Revision}"));
 
             _jsonSerializer = new JsonSerializer
             {
