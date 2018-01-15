@@ -32,7 +32,7 @@ namespace SoundByte.UWP.Views
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            ViewModel.Init(e.Parameter as PodcastShow);
+            ViewModel.Init(e.Parameter as BasePodcast);
         }
     }
 }

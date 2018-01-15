@@ -27,7 +27,7 @@ namespace SoundByte.UWP.ViewModels
         /// <summary>
         ///     Gets or sets the current podcast show item
         /// </summary>
-        public PodcastShow PodcastShow
+        public BasePodcast PodcastShow
         {
             get => _podcastShow;
             set
@@ -38,10 +38,10 @@ namespace SoundByte.UWP.ViewModels
                 UpdateProperty();
             }
         }
-        private PodcastShow _podcastShow;
+        private BasePodcast _podcastShow;
         #endregion
 
-        public void Init(PodcastShow show)
+        public void Init(BasePodcast show)
         {
             PodcastShow = show;
 

@@ -6,6 +6,7 @@ namespace SoundByte.Core.Items.Podcast
 {
     [JsonObject]
     // ReSharper disable once PartialTypeWithSinglePart
+    // ReSharper disable once InconsistentNaming
     public partial class ITunesPodcast : IPodcast
     {
         [JsonProperty("trackId")]

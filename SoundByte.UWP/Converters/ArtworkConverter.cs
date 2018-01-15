@@ -79,7 +79,7 @@ namespace SoundByte.UWP.Converters
                 var sourceType = value.GetType();
 
                 // Check that we can use this object
-                if (!(sourceType == typeof(BaseTrack) || sourceType == typeof(BasePlaylist) || sourceType == typeof(BaseUser) || sourceType == typeof(PodcastShow)))
+                if (!(sourceType == typeof(BaseTrack) || sourceType == typeof(BasePlaylist) || sourceType == typeof(BaseUser) || sourceType == typeof(BasePodcast)))
                     throw new ArgumentException(
                         $"Expected object to convert is either Track, Playlist or User. {sourceType} was passed instead.",
                         nameof(value));
@@ -93,8 +93,8 @@ namespace SoundByte.UWP.Converters
                         return GetUserImage(value as BaseUser);
                     case nameof(BasePlaylist):
                         return GetPlaylistImage(value as BasePlaylist);
-                    case nameof(PodcastShow):
-                        var podcast = (PodcastShow) value;
+                    case nameof(BasePodcast):
+                        var podcast = (BasePodcast) value;
                         return podcast.ArtworkUrl;
                         break;
 

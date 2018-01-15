@@ -24,8 +24,8 @@ namespace SoundByte.UWP.ViewModels.SearchViewModels
         /// <summary>
         /// Model for podcasts
         /// </summary>
-        public SoundByteCollection<PodcastSearchSource, PodcastShow> Podcasts { get; } =
-            new SoundByteCollection<PodcastSearchSource, PodcastShow>();
+        public SoundByteCollection<PodcastSearchSource, BasePodcast> Podcasts { get; } =
+            new SoundByteCollection<PodcastSearchSource, BasePodcast>();
         #endregion
 
         #region Private Variables
@@ -68,7 +68,7 @@ namespace SoundByte.UWP.ViewModels.SearchViewModels
             if (e.ClickedItem == null)
                 return;
 
-            App.NavigateTo(typeof(PodcastShowView), e.ClickedItem as PodcastShow);
+            App.NavigateTo(typeof(PodcastShowView), e.ClickedItem as BasePodcast);
         }
         #endregion
     }

@@ -57,7 +57,7 @@ namespace SoundByte.UWP.ViewModels.Generic
         /// <summary>
         /// The podcast model to show on this page
         /// </summary>
-        public SoundByteCollection<ISource<PodcastShow>, PodcastShow> Model
+        public SoundByteCollection<ISource<BasePodcast>, BasePodcast> Model
         {
             get => _model;
             set
@@ -69,7 +69,7 @@ namespace SoundByte.UWP.ViewModels.Generic
                 UpdateProperty();
             }
         }
-        private SoundByteCollection<ISource<PodcastShow>, PodcastShow> _model;
+        private SoundByteCollection<ISource<BasePodcast>, BasePodcast> _model;
         #endregion
 
         #region Methods
@@ -79,7 +79,7 @@ namespace SoundByte.UWP.ViewModels.Generic
         /// <param name="data">The podcast model to use in this view</param>
         public void Init(PodcastShowViewModelHolder data)
         {
-            Model = new SoundByteCollection<ISource<PodcastShow>, PodcastShow>(data.PodcastSource);
+            Model = new SoundByteCollection<ISource<BasePodcast>, BasePodcast>(data.PodcastSource);
             Title = data.Title;
             SubTitle = data.Subtitle;
         }
@@ -87,7 +87,7 @@ namespace SoundByte.UWP.ViewModels.Generic
 
         public class PodcastShowViewModelHolder
         {
-            public ISource<PodcastShow> PodcastSource { get; set; }
+            public ISource<BasePodcast> PodcastSource { get; set; }
             public string Title { get; set; }
             public string Subtitle { get; set; }
         }

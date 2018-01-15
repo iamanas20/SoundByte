@@ -14,7 +14,6 @@ using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Input;
 using Microsoft.Toolkit.Uwp.UI.Animations;
-using SoundByte.Core.Items;
 using SoundByte.Core.Items.Podcast;
 using UICompositionAnimations.Composition;
 
@@ -26,14 +25,14 @@ namespace SoundByte.UWP.Controls
         /// Identifies the Podcast dependency property.
         /// </summary>
         public static readonly DependencyProperty PodcastProperty =
-            DependencyProperty.Register(nameof(Podcast), typeof(PodcastShow), typeof(PodcastShowItem), null);
+            DependencyProperty.Register(nameof(Podcast), typeof(BasePodcast), typeof(PodcastShowItem), null);
 
         /// <summary>
         /// Gets or sets the podcast for this item
         /// </summary>
-        public PodcastShow Podcast
+        public BasePodcast Podcast
         {
-            get => (PodcastShow)GetValue(PodcastProperty);
+            get => (BasePodcast)GetValue(PodcastProperty);
             set => SetValue(PodcastProperty, value);
         }
 

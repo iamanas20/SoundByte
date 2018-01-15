@@ -19,6 +19,6 @@ namespace SoundByte.Core.Items.Generic
 
         public BaseTrack Track { get; set; }
 
-        public PodcastShow Podcast { get; set; }
+        public BasePodcast Podcast { get; set; }
     }
 }
