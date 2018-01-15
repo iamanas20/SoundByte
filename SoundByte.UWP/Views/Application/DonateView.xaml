@@ -6,7 +6,7 @@
     Transitions="{StaticResource MainTransition}">
 
     <!-- Main Page -->
-    <Grid Background="Transparent">
+    <Grid Background="{ThemeResource ShellBackground}">
         <ScrollViewer HorizontalAlignment="Stretch"
                       VerticalScrollBarVisibility="Hidden">
             <StackPanel Padding="{ThemeResource PagePadding}">

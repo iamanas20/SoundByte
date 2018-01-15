@@ -9,7 +9,7 @@
     NavigationCacheMode="Enabled"
     Transitions="{StaticResource MainTransition}">
 
-    <Grid Background="Transparent">
+    <Grid Background="{ThemeResource ShellBackground}">
         <VisualStateManager.VisualStateGroups>
 
             <VisualStateGroup x:Name="WindowSize">

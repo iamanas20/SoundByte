@@ -6,7 +6,7 @@
     xmlns:searchViews="using:SoundByte.UWP.Views.SearchViews"
     Transitions="{StaticResource MainTransition}">
 
-    <Grid Background="Transparent">
+    <Grid Background="{ThemeResource ShellBackground}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />

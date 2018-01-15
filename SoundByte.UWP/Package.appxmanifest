@@ -33,6 +33,14 @@
         </uap:InitialRotationPreference>
       </uap:VisualElements>
       <Extensions>
+        <uap:Extension Category="windows.autoPlayContent">
+          <uap:AutoPlayContent>
+            <uap:LaunchAction Verb="play" ActionDisplayName="Play Music" ContentEvent="PlayMusicFilesOnArrival" />
+          </uap:AutoPlayContent>
+        </uap:Extension>
+        <uap:Extension Category="windows.dialProtocol">
+          <uap:DialProtocol Name="musiccasting" />
+        </uap:Extension>
         <uap:Extension Category="windows.fileTypeAssociation">
           <uap:FileTypeAssociation Name="audio_file">
             <uap:DisplayName>Audio File</uap:DisplayName>
@@ -56,6 +64,9 @@
           </uap:Protocol>
         </uap:Extension>
       </Extensions>
+      <uap:ApplicationContentUriRules>
+        <uap:Rule Match="https://soundbytemedia.com" Type="include" WindowsRuntimeAccess="all" />
+      </uap:ApplicationContentUriRules>
     </Application>
   </Applications>
   <Capabilities>

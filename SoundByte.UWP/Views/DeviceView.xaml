@@ -5,7 +5,7 @@
     xmlns:controls="using:SoundByte.UWP.Controls"
     NavigationCacheMode="Enabled">
 
-    <Grid Background="Transparent">
+    <Grid Background="{ThemeResource ShellBackground}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />

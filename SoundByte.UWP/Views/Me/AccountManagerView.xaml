@@ -6,7 +6,7 @@
     Transitions="{StaticResource MainTransition}">
 
     <!-- Main Page -->
-    <Grid Background="Transparent">
+    <Grid Background="{ThemeResource ShellBackground}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />

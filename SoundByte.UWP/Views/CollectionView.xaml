@@ -6,7 +6,7 @@
     xmlns:collectionViews="using:SoundByte.UWP.Views.CollectionViews"
     NavigationCacheMode="Enabled">
 
-    <Grid Background="Transparent">
+    <Grid Background="{ThemeResource ShellBackground}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />

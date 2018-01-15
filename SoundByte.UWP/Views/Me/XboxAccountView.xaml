@@ -6,7 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Background="Transparent">
+    <Grid Background="{ThemeResource ShellBackground}">
         <StackPanel VerticalAlignment="Center">
             <TextBlock Text="&#xEC4E;" 
                        TextAlignment="Center"

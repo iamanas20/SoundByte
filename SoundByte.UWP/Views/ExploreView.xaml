@@ -5,18 +5,19 @@
     xmlns:controls="using:SoundByte.UWP.Controls"
     NavigationCacheMode="Enabled">
 
-    <Grid Background="Transparent">
-        <ScrollViewer>
+    <Grid Background="{ThemeResource ShellBackground}">
+        <ScrollViewer x:Name="ScrollViewer">
             <StackPanel Orientation="Vertical" >
                 <!-- Main Carousel (featuring new content)  -->
-                <FlipView  Height="300">
+                <FlipView  Height="350">
                     <FlipView.Items>
                         <FlipViewItem>
                             <Grid>
-                                <Image Source="../Assets/Misc/SoundByte1712.jpg" 
-                                       HorizontalAlignment="Stretch"
-                                       Stretch="UniformToFill" 
-                                       VerticalAlignment="Center" />
+                                <ParallaxView Source="{x:Bind ScrollViewer}" VerticalShift="-700">
+                                    <!-- Background element -->
+                                    <Image Source="../Assets/Misc/SoundByte1712.jpg" 
+                                           Stretch="UniformToFill" />
+                                </ParallaxView>
 
                                 <Rectangle>
                                     <Rectangle.Fill>
@@ -27,7 +28,7 @@
                                     </Rectangle.Fill>
                                 </Rectangle>
 
-                                <StackPanel VerticalAlignment="Bottom" Margin="0,0,0,26" HorizontalAlignment="Center">
+                                <StackPanel VerticalAlignment="Bottom" Margin="0,0,0,40" HorizontalAlignment="Center">
                                     <TextBlock Text="Welcome to the new SoundByte"
                                                FontWeight="SemiBold"
                                                Foreground="White"
@@ -44,8 +45,7 @@
                                     <Button HorizontalAlignment="Center" 
                                             Click="WhatsNewButtonClick"
                                             Style="{StaticResource ButtonRevealStyle}"
-                                            Background="{ThemeResource ButtonAccentBrush}"
-                                            Opacity="0.8"
+                                            Background="{ThemeResource SystemControlAccentDark1AcrylicWindowAccentDark1Brush}"
                                             Content="What's New?"
                                             RequestedTheme="Dark"
                                             BorderThickness="1"
@@ -58,10 +58,11 @@
                         
                         <FlipViewItem>
                             <Grid>
-                                <Image Source="../Assets/Misc/mobilebeta.jpg" 
-                                       HorizontalAlignment="Stretch"
-                                       Stretch="UniformToFill" 
-                                       VerticalAlignment="Center" />
+                                <ParallaxView Source="{x:Bind ScrollViewer}" VerticalShift="-700">
+                                    <!-- Background element -->
+                                    <Image Source="../Assets/Misc/mobilebeta.jpg"
+                                           Stretch="UniformToFill" />
+                                </ParallaxView>
 
                                 <Rectangle>
                                     <Rectangle.Fill>
@@ -72,7 +73,7 @@
                                     </Rectangle.Fill>
                                 </Rectangle>
 
-                                <StackPanel VerticalAlignment="Bottom" Margin="0,0,0,26" HorizontalAlignment="Center">
+                                <StackPanel VerticalAlignment="Bottom" Margin="0,0,0,40" HorizontalAlignment="Center">
                                     <TextBlock Text="Have an Android phone?"
                                                FontWeight="SemiBold"
                                                Foreground="White"
@@ -87,9 +88,8 @@
                                                FontSize="20"
                                                TextAlignment="Center"/>
                                     <Button HorizontalAlignment="Center" 
-                                            Background="{ThemeResource ButtonAccentBrush}"
+                                            Background="{ThemeResource SystemControlAccentDark1AcrylicWindowAccentDark1Brush}"
                                             Style="{StaticResource ButtonRevealStyle}"
-                                            Opacity="0.8"
                                             Content="Click Here"
                                             RequestedTheme="Dark"
                                             BorderThickness="1"

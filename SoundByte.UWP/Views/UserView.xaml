@@ -77,7 +77,7 @@
         </Style>
     </Page.Resources>
 
-    <Grid Background="Transparent" x:Name="RootGrid">
+    <Grid Background="{ThemeResource ShellBackground}" x:Name="RootGrid">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="WindowSize">
                 <VisualState>

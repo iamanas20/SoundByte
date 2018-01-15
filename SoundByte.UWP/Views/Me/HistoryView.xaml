@@ -9,7 +9,7 @@
     xmlns:controls1="using:Microsoft.Toolkit.Uwp.UI.Controls"
     NavigationCacheMode="Enabled"
     Transitions="{StaticResource MainTransition}">
-    <Grid Background="Transparent" x:Name="RootGrid">
+    <Grid Background="{ThemeResource ShellBackground}" x:Name="RootGrid">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="WindowSize">
                 <VisualState>

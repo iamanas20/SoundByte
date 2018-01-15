@@ -6,7 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Transitions="{StaticResource MainTransition}"
     mc:Ignorable="d">
-    <Grid >
+    <Grid Background="{ThemeResource ShellBackground}">
         <StackPanel Padding="{ThemeResource PagePadding}">
             <TextBlock Style="{StaticResource TitleStyle}" 
                        Text="Advanced Settings" />
