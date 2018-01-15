@@ -1,16 +1,4 @@
-﻿/* |----------------------------------------------------------------|
- * | Copyright (c) 2017 - 2018 Grid Entertainment                   |
- * | All Rights Reserved                                            |
- * |                                                                |
- * | This source code is to only be used for educational            |
- * | purposes. Distribution of SoundByte source code in             |
- * | any form outside this repository is forbidden. If you          |
- * | would like to contribute to the SoundByte source code, you     |
- * | are welcome.                                                   |
- * |----------------------------------------------------------------|
- */
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -22,7 +10,7 @@ using SoundByte.Core.Services;
 namespace SoundByte.Core.Helpers
 {
     /// <summary>
-    /// These helpers are used for communicating with the SoundByte website.
+    ///     These helpers are used for communicating with the SoundByte website.
     /// </summary>
     public static class AuthorizationHelpers
     {

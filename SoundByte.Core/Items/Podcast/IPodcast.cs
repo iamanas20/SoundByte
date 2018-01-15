@@ -1,18 +1,18 @@
-﻿namespace SoundByte.Core.Items.Playlist
+﻿namespace SoundByte.Core.Items.Podcast
 {
     /// <summary>
-    ///     Extend custom service playlist classes
+    ///     Extend custom service podcast classes
     ///     off of this interface.
     /// </summary>
-    public interface IPlaylist
+    public interface IPodcast
     {
         /// <summary>
-        ///     Convert the service specific playlist implementation to a
+        ///     Convert the service specific podcast implementation to a
         ///     universal implementation. Overide this method and provide
         ///     the correct mapping between the service specific and universal
         ///     classes.
         ///     </summary>
-        /// <returns>A base playlist item.</returns>
-        BasePlaylist ToBasePlaylist();
+        /// <returns>A base podcast item.</returns>
+        BasePodcast ToBasePodcast();
     }
 }

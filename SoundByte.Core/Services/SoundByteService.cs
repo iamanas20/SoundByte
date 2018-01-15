@@ -1,16 +1,4 @@
-﻿/* |----------------------------------------------------------------|
- * | Copyright (c) 2017 - 2018 Grid Entertainment                   |
- * | All Rights Reserved                                            |
- * |                                                                |
- * | This source code is to only be used for educational            |
- * | purposes. Distribution of SoundByte source code in             |
- * | any form outside this repository is forbidden. If you          |
- * | would like to contribute to the SoundByte source code, you     |
- * | are welcome.                                                   |
- * |----------------------------------------------------------------|
- */
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -29,8 +17,8 @@ using SoundByte.Core.Items.YouTube;
 namespace SoundByte.Core.Services
 {
     /// <summary>
-    /// Next generation (Gen3.0) SoundByte Service. New features include portability (.NET Standard),
-    /// events (event based e.g OnServiceConnected), muiltiple services, easy to extend.
+    ///     Next generation (Gen3.0) SoundByte Service. New features include portability (.NET Standard),
+    ///     events (event based e.g OnServiceConnected), muiltiple services, easy to extend.
     /// </summary>
     public class SoundByteService
     {
@@ -159,7 +147,7 @@ namespace SoundByte.Core.Services
             // Check that the service actually exists
             var service = Services.FirstOrDefault(x => x.Service == type);
             if (service == null)
-                throw new ServiceDoesNotExistException(type);
+                throw new ServiceNotExistException(type);
 
             // If the user token is not null, but the user is null, update the user
             if (service.UserToken != null && service.CurrentUser == null)
@@ -207,7 +195,7 @@ namespace SoundByte.Core.Services
 
             var service = Services.FirstOrDefault(x => x.Service == type);
             if (service == null)
-                throw new ServiceDoesNotExistException(type);
+                throw new ServiceNotExistException(type);
 
             // Set the token
             service.UserToken = token;
@@ -255,7 +243,7 @@ namespace SoundByte.Core.Services
             // Get the service information
             var service = Services.FirstOrDefault(x => x.Service == type);
             if (service == null)
-                throw new ServiceDoesNotExistException(type);
+                throw new ServiceNotExistException(type);
 
             // Delete the user token
             service.UserToken = null;
@@ -285,7 +273,7 @@ namespace SoundByte.Core.Services
             var service = Services.FirstOrDefault(x => x.Service == type);
 
             if (service == null)
-                throw new ServiceDoesNotExistException(type);
+                throw new ServiceNotExistException(type);
 
             // If the user token is not null, we are connected
             return service.UserToken != null;
@@ -313,7 +301,7 @@ namespace SoundByte.Core.Services
                 case ServiceType.SoundCloud:
                     var soundCloudService = Services.FirstOrDefault(x => x.Service == ServiceType.SoundCloud);
                     if (soundCloudService == null)
-                        throw new ServiceDoesNotExistException(ServiceType.SoundCloud);
+                        throw new ServiceNotExistException(ServiceType.SoundCloud);
 
                     requestUri = $"https://api.soundcloud.com/{endpoint}?client_id={soundCloudService.ClientId}";
                     break;
@@ -321,7 +309,7 @@ namespace SoundByte.Core.Services
                 case ServiceType.SoundCloudV2:
                     var soundCloudV2Service = Services.FirstOrDefault(x => x.Service == ServiceType.SoundCloudV2);
                     if (soundCloudV2Service == null)
-                        throw new ServiceDoesNotExistException(ServiceType.SoundCloudV2);
+                        throw new ServiceNotExistException(ServiceType.SoundCloudV2);
 
                     requestUri = $"https://api-v2.soundcloud.com/{endpoint}?client_id={soundCloudV2Service.ClientId}";
                     break;
@@ -329,14 +317,14 @@ namespace SoundByte.Core.Services
                 case ServiceType.Fanburst:
                     var fanburstService = Services.FirstOrDefault(x => x.Service == ServiceType.Fanburst);
                     if (fanburstService == null)
-                        throw new ServiceDoesNotExistException(ServiceType.Fanburst);
+                        throw new ServiceNotExistException(ServiceType.Fanburst);
 
                     requestUri = $"https://api.fanburst.com/{endpoint}?client_id={fanburstService.ClientId}";
                     break;
                 case ServiceType.YouTube:
                     var youtubeService = Services.FirstOrDefault(x => x.Service == ServiceType.YouTube);
                     if (youtubeService == null)
-                        throw new ServiceDoesNotExistException(ServiceType.YouTube);
+                        throw new ServiceNotExistException(ServiceType.YouTube);
 
                     requestUri = $"https://www.googleapis.com/youtube/v3/{endpoint}?key={youtubeService.ClientId}";
                     break;
@@ -346,7 +334,7 @@ namespace SoundByte.Core.Services
                 case ServiceType.SoundByte:
                     var soundByteService = Services.FirstOrDefault(x => x.Service == ServiceType.SoundByte);
                     if (soundByteService == null)
-                        throw new ServiceDoesNotExistException(ServiceType.SoundByte);
+                        throw new ServiceNotExistException(ServiceType.SoundByte);
 
                     requestUri = $"https://soundbytemedia.com/api/v1/{endpoint}?client_id={soundByteService.ClientId}";
                     break;

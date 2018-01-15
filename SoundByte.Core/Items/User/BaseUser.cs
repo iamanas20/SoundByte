@@ -1,16 +1,4 @@
-﻿/* |----------------------------------------------------------------|
- * | Copyright (c) 2017 - 2018 Grid Entertainment                   |
- * | All Rights Reserved                                            |
- * |                                                                |
- * | This source code is to only be used for educational            |
- * | purposes. Distribution of SoundByte source code in             |
- * | any form outside this repository is forbidden. If you          |
- * | would like to contribute to the SoundByte source code, you     |
- * | are welcome.                                                   |
- * |----------------------------------------------------------------|
- */
-
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
@@ -19,9 +7,9 @@ using Newtonsoft.Json;
 namespace SoundByte.Core.Items.User
 {
     /// <summary>
-    /// A universal user class that is consistent for
-    /// all service types. All elements are updateable by
-    /// the UI.
+    ///     A universal user class that is consistent for
+    ///     all service types. All elements are updateable by
+    ///     the UI.
     /// </summary>
     [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
     [Table("users", Schema = "data")]
@@ -29,8 +17,8 @@ namespace SoundByte.Core.Items.User
     public partial class BaseUser : BaseItem
     {
         /// <summary>
-        /// What service this user belongs to. Useful for
-        /// performing service specific tasks such as following.
+        ///     What service this user belongs to. Useful for
+        ///     performing service specific tasks such as following.
         /// </summary>
         [Column("service_type")]
         [JsonProperty("service_type")]

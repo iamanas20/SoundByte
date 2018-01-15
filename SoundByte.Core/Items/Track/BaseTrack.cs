@@ -1,16 +1,4 @@
-﻿/* |----------------------------------------------------------------|
- * | Copyright (c) 2017 - 2018 Grid Entertainment                   |
- * | All Rights Reserved                                            |
- * |                                                                |
- * | This source code is to only be used for educational            |
- * | purposes. Distribution of SoundByte source code in             |
- * | any form outside this repository is forbidden. If you          |
- * | would like to contribute to the SoundByte source code, you     |
- * | are welcome.                                                   |
- * |----------------------------------------------------------------|
- */
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -30,9 +18,9 @@ using YoutubeExplode.Models.MediaStreams;
 namespace SoundByte.Core.Items.Track
 {
     /// <summary>
-    /// A universal track class that is consistent for
-    /// all service types. All elements are updateable by
-    /// the UI.
+    ///     A universal track class that is consistent for
+    ///     all service types. All elements are updateable by
+    ///     the UI.
     /// </summary>
     [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
     [Table("tracks", Schema = "data")]
@@ -40,7 +28,7 @@ namespace SoundByte.Core.Items.Track
     public partial class BaseTrack : BaseItem
     {
         /// <summary>
-        /// Get the audio stream for this item
+        ///     Get the audio stream for this item
         /// </summary>
         /// <param name="youTubeClient">Used for YouTube videos</param>
         /// <returns></returns>
@@ -114,8 +102,8 @@ namespace SoundByte.Core.Items.Track
         }
 
         /// <summary>
-        /// What service this track belongs to. Useful for
-        /// performing service specific tasks such as liking.
+        ///     What service this track belongs to. Useful for
+        ///     performing service specific tasks such as liking.
         /// </summary>
         [Column("service_type")]
         [JsonProperty("service_type")]
@@ -131,7 +119,7 @@ namespace SoundByte.Core.Items.Track
         public Guid Id { get; set; }
 
         /// <summary>
-        /// Id of track
+        ///     Id of track
         /// </summary>
         [Column("track_id")]
         [JsonProperty("track_id")]
@@ -150,7 +138,7 @@ namespace SoundByte.Core.Items.Track
         private string _trackId;
 
         /// <summary>
-        /// Link to the track
+        ///     Link to the track
         /// </summary>
         [Column("link")]
         [JsonProperty("link")]
@@ -169,7 +157,7 @@ namespace SoundByte.Core.Items.Track
         private string _link;
 
         /// <summary>
-        /// Is the track currently live (used for YouTube videos)
+        ///     Is the track currently live (used for YouTube videos)
         /// </summary>
         [Column("is_live")]
         [JsonProperty("is_live")]
@@ -188,7 +176,7 @@ namespace SoundByte.Core.Items.Track
         private bool _isLive;
 
         /// <summary>
-        /// Url to the audio stream
+        ///     Url to the audio stream
         /// </summary>
         [NotMapped]
         public string AudioStreamUrl
@@ -206,7 +194,7 @@ namespace SoundByte.Core.Items.Track
         private string _audioStreamUrl;
 
         /// <summary>
-        /// Url to the video stream
+        ///     Url to the video stream
         /// </summary>
         [NotMapped]
         public string VideoStreamUrl
@@ -224,7 +212,7 @@ namespace SoundByte.Core.Items.Track
         private string _videoStreamUrl;
 
         /// <summary>
-        /// Artwork link
+        ///     Artwork link
         /// </summary>
         [Column("artwork_url")]
         [JsonProperty("artwork_url")]
@@ -243,7 +231,7 @@ namespace SoundByte.Core.Items.Track
         private string _artworkUrl;
 
         /// <summary>
-        /// Title of the track
+        ///     Title of the track
         /// </summary>
         [Column("title")]
         [JsonProperty("title")]
@@ -262,7 +250,7 @@ namespace SoundByte.Core.Items.Track
         private string _title;
 
         /// <summary>
-        /// Description of the track
+        ///     Description of the track
         /// </summary>
         [Column("description")]
         [JsonProperty("description")]
@@ -281,7 +269,7 @@ namespace SoundByte.Core.Items.Track
         private string _description;
 
         /// <summary>
-        /// How long is the track
+        ///     How long is the track
         /// </summary>
         [Column("duration")]
         [JsonProperty("duration")]
@@ -300,7 +288,7 @@ namespace SoundByte.Core.Items.Track
         private TimeSpan _duation;
 
         /// <summary>
-        /// Date and time the track was created/uploaded
+        ///     Date and time the track was created/uploaded
         /// </summary>
         [Column("created")]
         [JsonProperty("created")]
@@ -319,7 +307,7 @@ namespace SoundByte.Core.Items.Track
         private DateTime _created;
 
         /// <summary>
-        /// Amount of likes
+        ///     Amount of likes
         /// </summary>
         [Column("like_count")]
         [JsonProperty("like_count")]
@@ -338,7 +326,7 @@ namespace SoundByte.Core.Items.Track
         private double _likeCount;
 
         /// <summary>
-        /// Amount of dislikes (if supported - YouTube)
+        ///     Amount of dislikes (if supported - YouTube)
         /// </summary>
         [Column("dislike_count")]
         [JsonProperty("dislike_count")]
@@ -357,7 +345,7 @@ namespace SoundByte.Core.Items.Track
         private double _dislikeCount;
 
         /// <summary>
-        /// Amount of views
+        ///     Amount of views
         /// </summary>
         [Column("view_count")]
         [JsonProperty("view_count")]
@@ -376,7 +364,7 @@ namespace SoundByte.Core.Items.Track
         private double _viewCount;
 
         /// <summary>
-        /// Amount of comments
+        ///     Amount of comments
         /// </summary>
         [Column("comment_count")]
         [JsonProperty("comment_count")]

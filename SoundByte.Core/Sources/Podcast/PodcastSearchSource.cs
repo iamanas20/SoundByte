@@ -22,14 +22,14 @@ using SoundByte.Core.Services;
 namespace SoundByte.Core.Sources.Podcast
 {
     [UsedImplicitly]
-    public class PodcastSearchSource : ISource<PodcastShow>
+    public class PodcastSearchSource : ISource<BasePodcast>
     {
         /// <summary>
         /// What we should search for
         /// </summary>
         public string SearchQuery { get; set; }
 
-        public async Task<SourceResponse<PodcastShow>> GetItemsAsync(int count, string token,
+        public async Task<SourceResponse<BasePodcast>> GetItemsAsync(int count, string token,
             CancellationTokenSource cancellationToken = default(CancellationTokenSource))
         {
             // Search for podcasts
@@ -42,18 +42,21 @@ namespace SoundByte.Core.Sources.Podcast
             // If there are no podcasts
             if (!podcasts.Items.Any())
             {
-                return new SourceResponse<PodcastShow>(null, null, false, "No results found", "Could not find any results for '" + SearchQuery + "'");
+                return new SourceResponse<BasePodcast>(null, null, false, "No results found", "Could not find any results for '" + SearchQuery + "'");
             }
 
+            // convert the items
+            var baseItems = podcasts.Items.Select(podcast => podcast.ToBasePodcast()).ToList();
+
             // return the items
-            return new SourceResponse<PodcastShow>(podcasts.Items, "eol");
+            return new SourceResponse<BasePodcast>(baseItems, "eol");
         }
 
         [JsonObject]
         private class Root
         {
             [JsonProperty("results")]
-            public List<PodcastShow> Items { get; set; }
+            public List<ITunesPodcast> Items { get; set; }
         }
     }
 }

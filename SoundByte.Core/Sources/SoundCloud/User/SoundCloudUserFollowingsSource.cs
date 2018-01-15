@@ -11,12 +11,18 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using SoundByte.Core.Items.User;
 
 namespace SoundByte.Core.Sources.SoundCloud.User
 {
-    class SoundCloudUserFollowingsSource
+    public class SoundCloudUserFollowingsSource : ISource<BaseUser>
     {
+        public Task<SourceResponse<BaseUser>> GetItemsAsync(int count, string token,
+            CancellationTokenSource cancellationToken = default(CancellationTokenSource))
+        {
+            throw new NotImplementedException();
+        }
     }
 }

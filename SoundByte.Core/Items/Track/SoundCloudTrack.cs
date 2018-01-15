@@ -1,16 +1,4 @@
-﻿/* |----------------------------------------------------------------|
- * | Copyright (c) 2017 - 2018 Grid Entertainment                   |
- * | All Rights Reserved                                            |
- * |                                                                |
- * | This source code is to only be used for educational            |
- * | purposes. Distribution of SoundByte source code in             |
- * | any form outside this repository is forbidden. If you          |
- * | would like to contribute to the SoundByte source code, you     |
- * | are welcome.                                                   |
- * |----------------------------------------------------------------|
- */
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,7 +12,7 @@ using System.Threading;
 namespace SoundByte.Core.Items.Track
 {
     /// <summary>
-    /// SoundCloud Specific Item
+    ///     SoundCloud Specific Item
     /// </summary>
     [JsonObject]
     public class SoundCloudTrack : ITrack
@@ -136,7 +124,7 @@ namespace SoundByte.Core.Items.Track
         public BaseTrack AsBaseTrack => ToBaseTrack();
 
         /// <summary>
-        /// Convert this SoundCloud specific track to a universal track.
+        ///     Convert this SoundCloud specific track to a universal track.
         /// </summary>
         /// <returns></returns>
         public BaseTrack ToBaseTrack()
@@ -164,7 +152,7 @@ namespace SoundByte.Core.Items.Track
         }
 
         /// <summary>
-        /// Gets a list of base comments for this track.
+        ///     Gets a list of base comments for this track.
         /// </summary>
         /// <param name="count">The amount of comments to get.</param>
         /// <param name="token">Position in the comments (depends on service)</param>

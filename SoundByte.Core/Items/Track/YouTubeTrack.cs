@@ -1,16 +1,4 @@
-﻿/* |----------------------------------------------------------------|
- * | Copyright (c) 2017 - 2018 Grid Entertainment                   |
- * | All Rights Reserved                                            |
- * |                                                                |
- * | This source code is to only be used for educational            |
- * | purposes. Distribution of SoundByte source code in             |
- * | any form outside this repository is forbidden. If you          |
- * | would like to contribute to the SoundByte source code, you     |
- * | are welcome.                                                   |
- * |----------------------------------------------------------------|
- */
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -166,7 +154,7 @@ namespace SoundByte.Core.Items.Track
                         { "part", "snippet,status"},
                     });
                 }
-                catch (Exception e)
+                catch
                 {
                     return false;
                 }
@@ -183,7 +171,7 @@ namespace SoundByte.Core.Items.Track
 
                 Id.PlaylistId = track.Id.VideoId;
             }
-            catch (Exception e)
+            catch
             {
                 return false;
             }
@@ -205,7 +193,7 @@ namespace SoundByte.Core.Items.Track
             {
                 await SoundByteService.Current.DeleteAsync(ServiceType.YouTube, "playlistItems/"+ LikedPlaylistId);
             }
-            catch (Exception e)
+            catch
             {
                 return false;
             }
