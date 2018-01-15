@@ -12,8 +12,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
@@ -21,7 +19,6 @@ using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Security.Credentials;
 using Windows.Storage;
-using Windows.Storage.FileProperties;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
@@ -706,6 +703,11 @@ namespace SoundByte.UWP
                   // TODO: NUGET FILE TOO LONG
 
                     break;
+                case ActivationKind.DialReceiver:
+                    if (e is DialReceiverActivatedEventArgs dialReceiverArgs)
+                        path =  dialReceiverArgs.Arguments;
+                    break;
+
                 case ActivationKind.VoiceCommand:
                     if (e is VoiceCommandActivatedEventArgs voiceArgs)
                         path = voiceArgs.Result.RulePath[0];
@@ -737,27 +739,33 @@ namespace SoundByte.UWP
             await InitializeShellAsync(path);
         }
 
-        protected override async void OnFileActivated(FileActivatedEventArgs args)
+        private List<string> supportedMediaTypes = new List<string>
         {
-            // Load the shell
-            LoggingService.Log(LoggingService.LogType.Debug, "App File Activation");
-            await InitializeShellAsync();
+            ".mp3",
+            ".wav",
+            ".ogg",
+            ".flac",
+            ".m4a",
+            ".aif",
+            ".wma"
+        };
 
-            // Start playing content
+        private List<BaseTrack> tracks = new List<BaseTrack>();
 
-            // Convert to base tracks
-            var tracks = new List<BaseTrack>();
+        private async void AddMusicFilesAsync(IEnumerable<IStorageItem> files, Random random)
+        {
+            if (files == null)
+                return;
 
-            var random = new Random();
-
-            foreach (var item in args.Files)
+            foreach (var item in files)
             {
                 var file = item as StorageFile;
 
                 if (file == null)
-                    continue;
+                   continue;
 
-               // var thumbnail = await file.GetThumbnailAsync(ThumbnailMode.MusicView, 512);
+                if (!supportedMediaTypes.Contains(file.FileType))
+                    continue;
 
                 var properties = await file.Properties.GetMusicPropertiesAsync();
 
@@ -779,7 +787,19 @@ namespace SoundByte.UWP
                 track.CustomProperties.Add("File", file);
 
                 tracks.Add(track);
+
             }
+        }
+
+        protected override async void OnFileActivated(FileActivatedEventArgs args)
+        {
+            // Load the shell
+            LoggingService.Log(LoggingService.LogType.Debug, "App File Activation");
+            await InitializeShellAsync();
+
+            var random = new Random();
+
+            AddMusicFilesAsync(args.Files, random);
 
             var result = await PlaybackService.Instance.InitilizePlaylistAsync<DummyTrackSource>(tracks);
 

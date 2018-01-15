@@ -16,6 +16,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.UserActivities;
 using Windows.Media;
 using Windows.Media.Core;
 using Windows.Media.Playback;
@@ -80,6 +81,11 @@ namespace SoundByte.UWP.Services
         private BaseTrack _currentTrack;
 
         /// <summary>
+        ///     Used for timeline activity
+        /// </summary>
+        private UserActivityChannel _userActivityChannel;
+
+        /// <summary>
         ///     Media Playback List that allows queuing of songs and 
         ///     gapless playback.
         /// </summary>
@@ -126,6 +132,8 @@ namespace SoundByte.UWP.Services
             // Assign event handlers
             MediaPlaybackList.CurrentItemChanged += MediaPlaybackListOnCurrentItemChanged;
             _mediaPlayer.CurrentStateChanged += MediaPlayerOnCurrentStateChanged;
+
+            _userActivityChannel = UserActivityChannel.GetDefault();
         }
 
         private void MediaPlayerOnCurrentStateChanged(MediaPlayer sender, object args)
@@ -192,6 +200,26 @@ namespace SoundByte.UWP.Services
                     {
                         await SoundByteService.Current.PostItemAsync(ServiceType.SoundByte, "history", track);
                     }
+                }
+                catch (Exception ex)
+                {
+                    var i = 0;
+                }
+
+                try
+                {
+                    var activity = await _userActivityChannel.GetOrCreateUserActivityAsync("SoundByte.Playback");
+
+                    activity.ActivationUri = new Uri($"soundbyte://core/track?id={track.TrackId}&service={track.ServiceType}");
+
+                    activity.FallbackUri = new Uri(track.Link);
+                    activity.ContentUri = new Uri(track.ArtworkUrl);
+
+                    activity.VisualElements.DisplayText = track.Title;
+                    activity.VisualElements.Description = track.Description;
+
+                    // Save the activity 
+                    await activity.SaveAsync();
                 }
                 catch (Exception ex)
                 {
