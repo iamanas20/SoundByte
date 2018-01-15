@@ -2,10 +2,10 @@
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
-using Microsoft.Azure.Mobile;
-using Microsoft.Azure.Mobile.Analytics;
-using Microsoft.Azure.Mobile.Crashes;
-using Microsoft.Azure.Mobile.Distribute;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
+using Microsoft.AppCenter.Distribute;
 using SoundByte.Android.Helpers;
 using SoundByte.Core;
 using SoundByte.Core.Items;
@@ -72,7 +72,7 @@ namespace SoundByte.Android.Activities
             // Init the V3 service
             SoundByteService.Current.Init(secretList);
 
-            MobileCenter.Start(AppKeysHelper.AppCenterClientId,
+            AppCenter.Start("eb2b3ff5-c4d4-444e-8916-456dee2303a5",
                 typeof(Analytics), typeof(Crashes), typeof(Distribute));
 
             // Start the main app activity

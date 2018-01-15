@@ -26,21 +26,26 @@ namespace SoundByte.Android
 		
 		public static void UpdateIdValues()
 		{
-			global::Microsoft.Azure.Mobile.Distribute.Resource.String.mobile_center_distribute_dialog_actioned_on_disabled_toast = global::SoundByte.Android.Resource.String.mobile_center_distribute_dialog_actioned_on_disabled_toast;
-			global::Microsoft.Azure.Mobile.Distribute.Resource.String.mobile_center_distribute_download_progress_number_format = global::SoundByte.Android.Resource.String.mobile_center_distribute_download_progress_number_format;
-			global::Microsoft.Azure.Mobile.Distribute.Resource.String.mobile_center_distribute_downloading_mandatory_update = global::SoundByte.Android.Resource.String.mobile_center_distribute_downloading_mandatory_update;
-			global::Microsoft.Azure.Mobile.Distribute.Resource.String.mobile_center_distribute_install = global::SoundByte.Android.Resource.String.mobile_center_distribute_install;
-			global::Microsoft.Azure.Mobile.Distribute.Resource.String.mobile_center_distribute_install_ready_message = global::SoundByte.Android.Resource.String.mobile_center_distribute_install_ready_message;
-			global::Microsoft.Azure.Mobile.Distribute.Resource.String.mobile_center_distribute_install_ready_title = global::SoundByte.Android.Resource.String.mobile_center_distribute_install_ready_title;
-			global::Microsoft.Azure.Mobile.Distribute.Resource.String.mobile_center_distribute_notification_category = global::SoundByte.Android.Resource.String.mobile_center_distribute_notification_category;
-			global::Microsoft.Azure.Mobile.Distribute.Resource.String.mobile_center_distribute_unknown_sources_dialog_message = global::SoundByte.Android.Resource.String.mobile_center_distribute_unknown_sources_dialog_message;
-			global::Microsoft.Azure.Mobile.Distribute.Resource.String.mobile_center_distribute_unknown_sources_dialog_settings = global::SoundByte.Android.Resource.String.mobile_center_distribute_unknown_sources_dialog_settings;
-			global::Microsoft.Azure.Mobile.Distribute.Resource.String.mobile_center_distribute_update_dialog_download = global::SoundByte.Android.Resource.String.mobile_center_distribute_update_dialog_download;
-			global::Microsoft.Azure.Mobile.Distribute.Resource.String.mobile_center_distribute_update_dialog_message_mandatory = global::SoundByte.Android.Resource.String.mobile_center_distribute_update_dialog_message_mandatory;
-			global::Microsoft.Azure.Mobile.Distribute.Resource.String.mobile_center_distribute_update_dialog_message_optional = global::SoundByte.Android.Resource.String.mobile_center_distribute_update_dialog_message_optional;
-			global::Microsoft.Azure.Mobile.Distribute.Resource.String.mobile_center_distribute_update_dialog_postpone = global::SoundByte.Android.Resource.String.mobile_center_distribute_update_dialog_postpone;
-			global::Microsoft.Azure.Mobile.Distribute.Resource.String.mobile_center_distribute_update_dialog_title = global::SoundByte.Android.Resource.String.mobile_center_distribute_update_dialog_title;
-			global::Microsoft.Azure.Mobile.Distribute.Resource.String.mobile_center_distribute_update_dialog_view_release_notes = global::SoundByte.Android.Resource.String.mobile_center_distribute_update_dialog_view_release_notes;
+			global::Microsoft.AppCenter.Distribute.Resource.String.appcenter_distribute_dialog_actioned_on_disabled_toast = global::SoundByte.Android.Resource.String.appcenter_distribute_dialog_actioned_on_disabled_toast;
+			global::Microsoft.AppCenter.Distribute.Resource.String.appcenter_distribute_download_progress_number_format = global::SoundByte.Android.Resource.String.appcenter_distribute_download_progress_number_format;
+			global::Microsoft.AppCenter.Distribute.Resource.String.appcenter_distribute_downloading_mandatory_update = global::SoundByte.Android.Resource.String.appcenter_distribute_downloading_mandatory_update;
+			global::Microsoft.AppCenter.Distribute.Resource.String.appcenter_distribute_install = global::SoundByte.Android.Resource.String.appcenter_distribute_install;
+			global::Microsoft.AppCenter.Distribute.Resource.String.appcenter_distribute_install_ready_message = global::SoundByte.Android.Resource.String.appcenter_distribute_install_ready_message;
+			global::Microsoft.AppCenter.Distribute.Resource.String.appcenter_distribute_install_ready_title = global::SoundByte.Android.Resource.String.appcenter_distribute_install_ready_title;
+			global::Microsoft.AppCenter.Distribute.Resource.String.appcenter_distribute_notification_category = global::SoundByte.Android.Resource.String.appcenter_distribute_notification_category;
+			global::Microsoft.AppCenter.Distribute.Resource.String.appcenter_distribute_unknown_sources_dialog_message = global::SoundByte.Android.Resource.String.appcenter_distribute_unknown_sources_dialog_message;
+			global::Microsoft.AppCenter.Distribute.Resource.String.appcenter_distribute_unknown_sources_dialog_settings = global::SoundByte.Android.Resource.String.appcenter_distribute_unknown_sources_dialog_settings;
+			global::Microsoft.AppCenter.Distribute.Resource.String.appcenter_distribute_update_dialog_download = global::SoundByte.Android.Resource.String.appcenter_distribute_update_dialog_download;
+			global::Microsoft.AppCenter.Distribute.Resource.String.appcenter_distribute_update_dialog_message_mandatory = global::SoundByte.Android.Resource.String.appcenter_distribute_update_dialog_message_mandatory;
+			global::Microsoft.AppCenter.Distribute.Resource.String.appcenter_distribute_update_dialog_message_optional = global::SoundByte.Android.Resource.String.appcenter_distribute_update_dialog_message_optional;
+			global::Microsoft.AppCenter.Distribute.Resource.String.appcenter_distribute_update_dialog_postpone = global::SoundByte.Android.Resource.String.appcenter_distribute_update_dialog_postpone;
+			global::Microsoft.AppCenter.Distribute.Resource.String.appcenter_distribute_update_dialog_title = global::SoundByte.Android.Resource.String.appcenter_distribute_update_dialog_title;
+			global::Microsoft.AppCenter.Distribute.Resource.String.appcenter_distribute_update_dialog_view_release_notes = global::SoundByte.Android.Resource.String.appcenter_distribute_update_dialog_view_release_notes;
+			global::Microsoft.AppCenter.Distribute.Resource.String.appcenter_distribute_update_failed_dialog_ignore = global::SoundByte.Android.Resource.String.appcenter_distribute_update_failed_dialog_ignore;
+			global::Microsoft.AppCenter.Distribute.Resource.String.appcenter_distribute_update_failed_dialog_message = global::SoundByte.Android.Resource.String.appcenter_distribute_update_failed_dialog_message;
+			global::Microsoft.AppCenter.Distribute.Resource.String.appcenter_distribute_update_failed_dialog_reinstall = global::SoundByte.Android.Resource.String.appcenter_distribute_update_failed_dialog_reinstall;
+			global::Microsoft.AppCenter.Distribute.Resource.String.appcenter_distribute_update_failed_dialog_title = global::SoundByte.Android.Resource.String.appcenter_distribute_update_failed_dialog_title;
+			global::Microsoft.AppCenter.Push.Android.Resource.String.library_name = global::SoundByte.Android.Resource.String.library_name;
 		}
 		
 		public partial class Animation
@@ -3190,11 +3195,68 @@ namespace SoundByte.Android
 			// aapt resource value: 0x7f080013
 			public const int abc_toolbar_collapse_description = 2131230739;
 			
-			// aapt resource value: 0x7f080039
-			public const int app_name = 2131230777;
+			// aapt resource value: 0x7f08003e
+			public const int app_name = 2131230782;
 			
 			// aapt resource value: 0x7f080022
 			public const int appbar_scrolling_view_behavior = 2131230754;
+			
+			// aapt resource value: 0x7f08002b
+			public const int appcenter_distribute_dialog_actioned_on_disabled_toast = 2131230763;
+			
+			// aapt resource value: 0x7f08002c
+			public const int appcenter_distribute_download_progress_number_format = 2131230764;
+			
+			// aapt resource value: 0x7f08002d
+			public const int appcenter_distribute_downloading_mandatory_update = 2131230765;
+			
+			// aapt resource value: 0x7f08002e
+			public const int appcenter_distribute_install = 2131230766;
+			
+			// aapt resource value: 0x7f08002f
+			public const int appcenter_distribute_install_ready_message = 2131230767;
+			
+			// aapt resource value: 0x7f080030
+			public const int appcenter_distribute_install_ready_title = 2131230768;
+			
+			// aapt resource value: 0x7f080031
+			public const int appcenter_distribute_notification_category = 2131230769;
+			
+			// aapt resource value: 0x7f080032
+			public const int appcenter_distribute_unknown_sources_dialog_message = 2131230770;
+			
+			// aapt resource value: 0x7f080033
+			public const int appcenter_distribute_unknown_sources_dialog_settings = 2131230771;
+			
+			// aapt resource value: 0x7f080034
+			public const int appcenter_distribute_update_dialog_download = 2131230772;
+			
+			// aapt resource value: 0x7f080035
+			public const int appcenter_distribute_update_dialog_message_mandatory = 2131230773;
+			
+			// aapt resource value: 0x7f080036
+			public const int appcenter_distribute_update_dialog_message_optional = 2131230774;
+			
+			// aapt resource value: 0x7f080037
+			public const int appcenter_distribute_update_dialog_postpone = 2131230775;
+			
+			// aapt resource value: 0x7f080038
+			public const int appcenter_distribute_update_dialog_title = 2131230776;
+			
+			// aapt resource value: 0x7f080039
+			public const int appcenter_distribute_update_dialog_view_release_notes = 2131230777;
+			
+			// aapt resource value: 0x7f08003a
+			public const int appcenter_distribute_update_failed_dialog_ignore = 2131230778;
+			
+			// aapt resource value: 0x7f08003b
+			public const int appcenter_distribute_update_failed_dialog_message = 2131230779;
+			
+			// aapt resource value: 0x7f08003c
+			public const int appcenter_distribute_update_failed_dialog_reinstall = 2131230780;
+			
+			// aapt resource value: 0x7f08003d
+			public const int appcenter_distribute_update_failed_dialog_title = 2131230781;
 			
 			// aapt resource value: 0x7f080023
 			public const int bottom_sheet_behavior = 2131230755;
@@ -3206,49 +3268,7 @@ namespace SoundByte.Android
 			public const int common_google_play_services_unknown_issue = 2131230720;
 			
 			// aapt resource value: 0x7f08002a
-			public const int mobile_center_distribute_dialog_actioned_on_disabled_toast = 2131230762;
-			
-			// aapt resource value: 0x7f08002b
-			public const int mobile_center_distribute_download_progress_number_format = 2131230763;
-			
-			// aapt resource value: 0x7f08002c
-			public const int mobile_center_distribute_downloading_mandatory_update = 2131230764;
-			
-			// aapt resource value: 0x7f08002d
-			public const int mobile_center_distribute_install = 2131230765;
-			
-			// aapt resource value: 0x7f08002e
-			public const int mobile_center_distribute_install_ready_message = 2131230766;
-			
-			// aapt resource value: 0x7f08002f
-			public const int mobile_center_distribute_install_ready_title = 2131230767;
-			
-			// aapt resource value: 0x7f080030
-			public const int mobile_center_distribute_notification_category = 2131230768;
-			
-			// aapt resource value: 0x7f080031
-			public const int mobile_center_distribute_unknown_sources_dialog_message = 2131230769;
-			
-			// aapt resource value: 0x7f080032
-			public const int mobile_center_distribute_unknown_sources_dialog_settings = 2131230770;
-			
-			// aapt resource value: 0x7f080033
-			public const int mobile_center_distribute_update_dialog_download = 2131230771;
-			
-			// aapt resource value: 0x7f080034
-			public const int mobile_center_distribute_update_dialog_message_mandatory = 2131230772;
-			
-			// aapt resource value: 0x7f080035
-			public const int mobile_center_distribute_update_dialog_message_optional = 2131230773;
-			
-			// aapt resource value: 0x7f080036
-			public const int mobile_center_distribute_update_dialog_postpone = 2131230774;
-			
-			// aapt resource value: 0x7f080037
-			public const int mobile_center_distribute_update_dialog_title = 2131230775;
-			
-			// aapt resource value: 0x7f080038
-			public const int mobile_center_distribute_update_dialog_view_release_notes = 2131230776;
+			public const int library_name = 2131230762;
 			
 			// aapt resource value: 0x7f080025
 			public const int password_toggle_content_description = 2131230757;
