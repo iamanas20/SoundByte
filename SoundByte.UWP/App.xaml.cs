@@ -36,8 +36,8 @@ using SoundByte.UWP.Dialogs;
 using SoundByte.UWP.Helpers;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.Views;
-using SoundByte.UWP.Views.Application;
 using WinRTXamlToolkit.Tools;
+using BlankView = SoundByte.UWP.Views.BlankView;
 
 namespace SoundByte.UWP
 {

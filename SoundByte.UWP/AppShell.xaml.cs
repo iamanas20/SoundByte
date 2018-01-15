@@ -40,9 +40,9 @@ using SoundByte.UWP.Helpers;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.ViewModels;
 using SoundByte.UWP.Views;
-using SoundByte.UWP.Views.Application;
 using SoundByte.UWP.Views.Me;
-using SearchView = SoundByte.UWP.Views.SearchView;
+using SoundByte.UWP.Views.Settings;
+using SoundByte.UWP.Views.SoundCloud;
 
 namespace SoundByte.UWP
 {

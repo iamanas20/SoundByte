@@ -17,6 +17,7 @@ using SoundByte.Core.Items.Track;
 using SoundByte.Core.Sources.Fanburst.Search;
 using SoundByte.Core.Sources.SoundCloud.Search;
 using SoundByte.Core.Sources.YouTube;
+using SoundByte.Core.Sources.YouTube.Search;
 using SoundByte.UWP.Helpers;
 using SoundByte.UWP.ViewModels.Generic;
 using SoundByte.UWP.Views.Generic;

@@ -19,7 +19,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using SoundByte.UWP.Helpers;
 using SoundByte.UWP.Services;
-using SoundByte.UWP.Views.Application;
+using SoundByte.UWP.Views.Settings;
 
 namespace SoundByte.UWP.ViewModels
 {

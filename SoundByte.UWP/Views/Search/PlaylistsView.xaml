@@ -1,0 +1,57 @@
+﻿<Page
+    x:Class="SoundByte.UWP.Views.Search.PlaylistsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:SoundByte.UWP.Controls">
+
+    <ScrollViewer>
+        <StackPanel>
+            <!-- SOUNDCLOUD HEADER -->
+            <controls:SectionHeader Title="SoundCloud" Margin="{ThemeResource PagePadding}">
+                <controls:SectionHeader.Buttons>
+                    <controls:AppButton IsExtended="True"
+                                        Click="{x:Bind ViewModel.NavigateSoundCloudPlaylists}"
+                                        Label="View All" 
+                                        Glyph="&#xE8A9;"/>
+                </controls:SectionHeader.Buttons>
+            </controls:SectionHeader>
+
+            <Grid Height="300" Padding="{ThemeResource PagePadding}" Margin="-10,0,0,0">
+                <controls:InfoPane VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+                                   Visibility="Collapsed" Canvas.ZIndex="50"
+                                   Header="{x:Bind ViewModel.SoundCloudPlaylists.ErrorHeader, Mode=OneWay}"
+                                   Text="{x:Bind ViewModel.SoundCloudPlaylists.ErrorDescription, Mode=OneWay}"
+                                   IsLoading="{x:Bind ViewModel.SoundCloudPlaylists.IsLoading, Mode=OneWay}"
+                                   IsError="{x:Bind ViewModel.SoundCloudPlaylists.IsError, Mode=OneWay}" />
+                <GridView Style="{StaticResource CompactSoundByteGridView}"
+                          ItemsSource="{x:Bind ViewModel.SoundCloudPlaylists, Mode=OneWay}"
+                          ItemClick="{x:Bind ViewModel.NavigatePlaylist}"                      
+                          ItemTemplate="{StaticResource PlaylistItem}" />
+            </Grid>
+
+            <!-- YOUTUBE HEADER -->
+            <controls:SectionHeader Title="YouTube" Margin="{ThemeResource PagePadding}">
+                <controls:SectionHeader.Buttons>
+                    <controls:AppButton IsExtended="True"
+                                        Click="{x:Bind ViewModel.NavigateYouTubePlaylists}"
+                                        Label="View All" 
+                                        Glyph="&#xE8A9;"/>
+                </controls:SectionHeader.Buttons>
+            </controls:SectionHeader>
+
+            <Grid Height="300" Padding="{ThemeResource PagePadding}" Margin="-10,0,0,0">
+                <controls:InfoPane VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+                                   Visibility="Collapsed" Canvas.ZIndex="50"
+                                   Header="{x:Bind ViewModel.YouTubePlaylists.ErrorHeader, Mode=OneWay}"
+                                   Text="{x:Bind ViewModel.YouTubePlaylists.ErrorDescription, Mode=OneWay}"
+                                   IsLoading="{x:Bind ViewModel.YouTubePlaylists.IsLoading, Mode=OneWay}"
+                                   IsError="{x:Bind ViewModel.YouTubePlaylists.IsError, Mode=OneWay}" />
+                <GridView Style="{StaticResource CompactSoundByteGridView}"
+                          ItemsSource="{x:Bind ViewModel.YouTubePlaylists, Mode=OneWay}"
+                          ItemClick="{x:Bind ViewModel.NavigatePlaylist}"                      
+                          ItemTemplate="{StaticResource PlaylistItem}" />
+            </Grid>
+            
+        </StackPanel>
+    </ScrollViewer>
+</Page>

@@ -3,7 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:SoundByte.UWP.Controls"
-    xmlns:searchViews="using:SoundByte.UWP.Views.SearchViews"
+    xmlns:search="using:SoundByte.UWP.Views.Search"
     Transitions="{StaticResource MainTransition}">
 
     <Grid Background="{ThemeResource ShellBackground}">
@@ -39,7 +39,7 @@
                     <TextBlock Text="Tracks" FontSize="18" FontWeight="SemiBold" />
                 </PivotItem.Header>
 
-                <searchViews:TracksView ViewModel="{x:Bind ViewModel.TracksViewModel}" />
+                <search:TracksView ViewModel="{x:Bind ViewModel.TracksViewModel}" />
             </PivotItem>
 
             <PivotItem>
@@ -47,7 +47,7 @@
                     <TextBlock Text="Playlists" FontSize="18" FontWeight="SemiBold" />
                 </PivotItem.Header>
 
-                <searchViews:PlaylistsView ViewModel="{x:Bind ViewModel.PlaylistsViewModel}" />
+                <search:PlaylistsView ViewModel="{x:Bind ViewModel.PlaylistsViewModel}" />
             </PivotItem>
 
             <PivotItem>
@@ -55,7 +55,7 @@
                     <TextBlock Text="Users" FontSize="18" FontWeight="SemiBold" />
                 </PivotItem.Header>
 
-                <searchViews:UsersView ViewModel="{x:Bind ViewModel.UsersViewModel}" />
+                <search:UsersView ViewModel="{x:Bind ViewModel.UsersViewModel}" />
             </PivotItem>
 
             <PivotItem>
@@ -63,7 +63,7 @@
                     <TextBlock Text="Podcasts" FontSize="18" FontWeight="SemiBold" />
                 </PivotItem.Header>
 
-                <searchViews:PodcastsView ViewModel="{x:Bind ViewModel.PodcastsViewModel}" />
+                <search:PodcastsView ViewModel="{x:Bind ViewModel.PodcastsViewModel}" />
             </PivotItem>
         </Pivot>
     </Grid>

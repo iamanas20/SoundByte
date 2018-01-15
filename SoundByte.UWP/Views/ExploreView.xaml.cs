@@ -68,7 +68,7 @@ namespace SoundByte.UWP.Views
 
         public void NavigateMoreCharts()
         {
-            App.NavigateTo(typeof(SoundCloudExploreView));
+            App.NavigateTo(typeof(SoundCloud.SoundCloudExploreView));
         }
 
         public async void PlayShuffleSoundCloud()

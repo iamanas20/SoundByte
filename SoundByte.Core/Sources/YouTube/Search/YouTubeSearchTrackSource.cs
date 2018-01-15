@@ -20,7 +20,7 @@ using SoundByte.Core.Items.Track;
 using SoundByte.Core.Items.YouTube;
 using SoundByte.Core.Services;
 
-namespace SoundByte.Core.Sources.YouTube
+namespace SoundByte.Core.Sources.YouTube.Search
 {
     [UsedImplicitly]
     public class YouTubeSearchTrackSource : ISource<BaseTrack>
