@@ -215,9 +215,16 @@ namespace SoundByte.UWP.Services
                 }
             });
 
+            
+
             // Find the index of this item and see if we are near the end
-            var currentIndex = MediaPlaybackList.Items.IndexOf(args.NewItem);
-            var maxIndex = MediaPlaybackList.Items.Count - 1;
+            var currentIndex = MediaPlaybackList.ShuffleEnabled 
+                ? MediaPlaybackList.ShuffledItems.ToList().IndexOf(args.NewItem) 
+                : MediaPlaybackList.Items.IndexOf(args.NewItem);
+
+            var maxIndex = MediaPlaybackList.ShuffleEnabled 
+                ? MediaPlaybackList.Items.Count - 1 
+                : MediaPlaybackList.ShuffledItems.Count - 1;
 
             // When we are three items from the end, load more items
             if (currentIndex >= maxIndex - 3)
