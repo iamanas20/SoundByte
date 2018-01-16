@@ -99,14 +99,14 @@ namespace SoundByte.Core.Items.Track
             return await Task.Run(() => new BaseTrack.CommentResponse { Comments = null, Token = "" });
         }
 
-        public Task<bool> LikeAsync()
+        public async Task<bool> LikeAsync()
         {
-            throw new NotImplementedException();
+            return false;
         }
 
-        public Task<bool> UnlikeAsync()
+        public async Task<bool> UnlikeAsync()
         {
-            throw new NotImplementedException();
+            return false;
         }
     }
 }

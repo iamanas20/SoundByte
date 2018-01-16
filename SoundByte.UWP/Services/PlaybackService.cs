@@ -223,8 +223,8 @@ namespace SoundByte.UWP.Services
                 : MediaPlaybackList.Items.IndexOf(args.NewItem);
 
             var maxIndex = MediaPlaybackList.ShuffleEnabled 
-                ? MediaPlaybackList.Items.Count - 1 
-                : MediaPlaybackList.ShuffledItems.Count - 1;
+                ? MediaPlaybackList.ShuffledItems.Count - 1 
+                : MediaPlaybackList.Items.Count - 1;
 
             // When we are three items from the end, load more items
             if (currentIndex >= maxIndex - 3)

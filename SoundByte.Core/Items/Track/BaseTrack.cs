@@ -490,7 +490,7 @@ namespace SoundByte.Core.Items.Track
             if (IsLiked)
                 return;
 
-            bool hasLiked;
+            var hasLiked = false;
 
             switch (ServiceType)
             {
@@ -504,9 +504,27 @@ namespace SoundByte.Core.Items.Track
                 case ServiceType.YouTube:
                     hasLiked = await new YouTubeTrack(TrackId).LikeAsync();
                     break;
+                case ServiceType.Local: // Don't support liking
+                    return;
+                case ServiceType.ITunesPodcast: // Use SoundByte like
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+
+            // SoundByte Like
+            try
+            {
+                if (SoundByteService.Current.IsSoundByteAccountConnected)
+                {
+                    await SoundByteService.Current.PostItemAsync(ServiceType.SoundByte, "likes", this);
+                }
+            }
+            catch (Exception e)
+            {
+                var i = 0;
+            }
+
 
             IsLiked = hasLiked;
         }
