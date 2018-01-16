@@ -19,12 +19,12 @@
             <StackPanel Orientation="Horizontal"
                             HorizontalAlignment="Right"
                             VerticalAlignment="Bottom">
-                <controls:AppButton Glyph="&#xE72C;" Label="Refresh" />
+                <controls:AppButton Glyph="&#xE72C;" Label="Refresh" Click="RefreshAll" />
             </StackPanel>
         </Grid>
 
 
-        <Pivot Grid.Row="1" Margin="10,0,0,0">
+        <Pivot Grid.Row="1" Margin="10,0,0,0" x:Name="Pivot">
             <Pivot.Resources>
                 <Style TargetType="PivotItem">
                     <Setter Property="Margin" Value="0,0,0,0"/>
@@ -37,7 +37,7 @@
                     <TextBlock Text="Likes" FontSize="18" FontWeight="SemiBold" />
                 </PivotItem.Header>
 
-                <collection:LikesView />
+                <collection:LikesView x:Name="LikesView" />
             </PivotItem>
 
             <PivotItem>
@@ -45,7 +45,7 @@
                     <TextBlock Text="Playlists" FontSize="18" FontWeight="SemiBold" />
                 </PivotItem.Header>
 
-                <collection:PlaylistsView />
+                <collection:PlaylistsView x:Name="PlaylistsView" />
             </PivotItem>
 
             <PivotItem>

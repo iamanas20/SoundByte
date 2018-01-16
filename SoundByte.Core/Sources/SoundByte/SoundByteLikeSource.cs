@@ -1,6 +1,10 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
+using SoundByte.Core.Helpers;
+using SoundByte.Core.Items.SoundByte;
 using SoundByte.Core.Items.Track;
 using SoundByte.Core.Services;
 
@@ -21,10 +25,33 @@ namespace SoundByte.Core.Sources.SoundByte
                         Resources.Resources.Sources_SoundByte_Like_NoAccount_Description));
             }
 
-            return await Task.Run(() =>
-                new SourceResponse<BaseTrack>(null, null, false,
-                    "Under Development",
-                    "This is still under development"));
+            var likes = await SoundByteService.Current.GetAsync<LikesOutputModel>(ServiceType.SoundByte, "likes", new Dictionary<string, string>
+            {
+                { "PageNumber", token },
+                { "PageSize", "30" }
+            }, cancellationToken).ConfigureAwait(false);
+
+            if (!likes.Items.Any())
+            {
+                return new SourceResponse<BaseTrack>(null, null, false, "No Likes", "Like a SoundCloud / Fanburst track or a YouTube music video to start!");
+            }
+
+            var nextPage = likes.Links.FirstOrDefault(x => x.Rel == "next_page");
+
+            if (nextPage == null)
+                return new SourceResponse<BaseTrack>(likes.Items, "eol");
+
+            var param = new QueryParameterCollection(nextPage.Href);
+            var nextToken = param.FirstOrDefault(x => x.Key == "PageNumber").Value;
+
+            return new SourceResponse<BaseTrack>(likes.Items, nextToken);
+        }
+
+        public class LikesOutputModel
+        {
+            public PagingHeader Paging { get; set; }
+            public List<LinkInfo> Links { get; set; }
+            public List<BaseTrack> Items { get; set; }
         }
     }
 }
