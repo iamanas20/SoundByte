@@ -8,16 +8,9 @@
     xmlns:track="using:SoundByte.Core.Items.Track"
     xmlns:controls="using:SoundByte.UWP.Controls"
     xmlns:controls1="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    NavigationCacheMode="Enabled">
+    NavigationCacheMode="Enabled"
+    Transitions="{StaticResource MainTransition}">
     
-    <Page.Transitions>
-        <TransitionCollection>
-            <NavigationThemeTransition>
-                <DrillInNavigationTransitionInfo />
-            </NavigationThemeTransition>
-        </TransitionCollection>
-    </Page.Transitions>
-
     <Grid Background="{ThemeResource ShellBackground}">
 
         <controls:InfoPane VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 

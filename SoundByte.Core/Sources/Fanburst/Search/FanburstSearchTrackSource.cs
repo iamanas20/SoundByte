@@ -25,6 +25,7 @@ namespace SoundByte.Core.Sources.Fanburst.Search
                 new Dictionary<string, string>
                 {
                     {"query", WebUtility.UrlEncode(SearchQuery)},
+                    { "page", token },
                     {"per_page", count.ToString()}
                 }, cancellationToken).ConfigureAwait(false);
 
@@ -38,8 +39,14 @@ namespace SoundByte.Core.Sources.Fanburst.Search
             var baseTracks = new List<BaseTrack>();
             tracks.Response.ForEach(x => baseTracks.Add(x.ToBaseTrack()));
 
+            tracks.Headers.TryGetValues("X-Next-Page", out var nextPage);
+            token = nextPage.FirstOrDefault();
+
+            if (string.IsNullOrEmpty(token))
+                token = "eol";
+
             // Return the items
-            return new SourceResponse<BaseTrack>(baseTracks, "eol");
+            return new SourceResponse<BaseTrack>(baseTracks, token);
         }
     }
 }

@@ -123,11 +123,23 @@
   <data name="HttpService_JsonError_Title" xml:space="preserve">
     <value>JSON Parsing Error</value>
   </data>
+  <data name="Sources_All_NoResults_Title" xml:space="preserve">
+    <value>No results found.</value>
+  </data>
   <data name="Sources_Fanburst_Like_NoAccount_Description" xml:space="preserve">
     <value>Please connect your Fanburst account to view your likes.</value>
   </data>
+  <data name="Sources_Fanburst_Like_NoItems_Description" xml:space="preserve">
+    <value>No Fanburst likes were found, like some tracks to get started.</value>
+  </data>
   <data name="Sources_Fanburst_NoAccount_Title" xml:space="preserve">
     <value>Fanburst Account Not Connected</value>
+  </data>
+  <data name="Sources_Fanburst_Playlist_NoAccount_Description" xml:space="preserve">
+    <value>Please connect your Fanburst Account to view playlists.</value>
+  </data>
+  <data name="Sources_Fanburst_Playlist_NoItems_Description" xml:space="preserve">
+    <value>No Fanburst playlists were found, create a playlist to get started.</value>
   </data>
   <data name="Sources_SoundByte_History_NoAccount_Description" xml:space="preserve">
     <value>Please login or create a SoundByte Account to view and save your history.</value>

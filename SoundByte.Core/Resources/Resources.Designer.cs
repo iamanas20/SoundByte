@@ -79,6 +79,15 @@ namespace SoundByte.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No results found..
+        /// </summary>
+        internal static string Sources_All_NoResults_Title {
+            get {
+                return ResourceManager.GetString("Sources_All_NoResults_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please connect your Fanburst account to view your likes..
         /// </summary>
         internal static string Sources_Fanburst_Like_NoAccount_Description {
@@ -88,11 +97,38 @@ namespace SoundByte.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No Fanburst likes were found, like some tracks to get started..
+        /// </summary>
+        internal static string Sources_Fanburst_Like_NoItems_Description {
+            get {
+                return ResourceManager.GetString("Sources_Fanburst_Like_NoItems_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Fanburst Account Not Connected.
         /// </summary>
         internal static string Sources_Fanburst_NoAccount_Title {
             get {
                 return ResourceManager.GetString("Sources_Fanburst_NoAccount_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please connect your Fanburst Account to view playlists..
+        /// </summary>
+        internal static string Sources_Fanburst_Playlist_NoAccount_Description {
+            get {
+                return ResourceManager.GetString("Sources_Fanburst_Playlist_NoAccount_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No Fanburst playlists were found, create a playlist to get started..
+        /// </summary>
+        internal static string Sources_Fanburst_Playlist_NoItems_Description {
+            get {
+                return ResourceManager.GetString("Sources_Fanburst_Playlist_NoItems_Description", resourceCulture);
             }
         }
         

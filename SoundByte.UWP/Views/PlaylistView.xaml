@@ -7,14 +7,8 @@
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
     xmlns:controls1="using:SoundByte.UWP.Controls"
-    NavigationCacheMode="Enabled">
-    <Page.Transitions>
-        <TransitionCollection>
-            <NavigationThemeTransition>
-                <DrillInNavigationTransitionInfo />
-            </NavigationThemeTransition>
-        </TransitionCollection>
-    </Page.Transitions>
+    NavigationCacheMode="Enabled"
+    Transitions="{StaticResource MainTransition}">
 
     <Grid Background="{ThemeResource ShellBackground}">
 
