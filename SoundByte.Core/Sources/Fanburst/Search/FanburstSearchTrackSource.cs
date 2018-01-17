@@ -40,7 +40,7 @@ namespace SoundByte.Core.Sources.Fanburst.Search
             tracks.Response.ForEach(x => baseTracks.Add(x.ToBaseTrack()));
 
             tracks.Headers.TryGetValues("X-Next-Page", out var nextPage);
-            token = nextPage.FirstOrDefault();
+            token = nextPage?.FirstOrDefault();
 
             if (string.IsNullOrEmpty(token))
                 token = "eol";

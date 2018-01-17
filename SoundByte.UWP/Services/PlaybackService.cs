@@ -122,8 +122,13 @@ namespace SoundByte.UWP.Services
             // Assign event handlers
             MediaPlaybackList.CurrentItemChanged += MediaPlaybackListOnCurrentItemChanged;
             _mediaPlayer.CurrentStateChanged += MediaPlayerOnCurrentStateChanged;
+            _mediaPlayer.MediaFailed += (sender, args) =>
+            {
+               Debug.WriteLine(args.ErrorMessage);
+            };
 
             _userActivityChannel = UserActivityChannel.GetDefault();
+
         }
 
         private void MediaPlayerOnCurrentStateChanged(MediaPlayer sender, object args)
@@ -532,6 +537,10 @@ namespace SoundByte.UWP.Services
                     var file = track.CustomProperties["File"] as StorageFile;
 
                     args.SetStorageFile(file);
+                }
+                else if (track.ServiceType == ServiceType.ITunesPodcast)
+                {
+                    args.SetUri(new Uri(track.AudioStreamUrl));
                 }
                 else
                 {

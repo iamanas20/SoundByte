@@ -45,6 +45,7 @@ namespace SoundByte.Core.Items.Track
             switch (ServiceType)
             {
                 case ServiceType.Local:
+                case ServiceType.ITunesPodcast:
                     // We already set the audio url
                     audioStream = AudioStreamUrl;
                     break;

@@ -50,14 +50,10 @@
 
             <PivotItem>
                 <PivotItem.Header>
-                    <TextBlock Text="Shows" FontSize="18" FontWeight="SemiBold" />
+                    <TextBlock Text="Podcasts" FontSize="18" FontWeight="SemiBold" />
                 </PivotItem.Header>
-            </PivotItem>
 
-            <PivotItem>
-                <PivotItem.Header>
-                    <TextBlock Text="Downloads" FontSize="18" FontWeight="SemiBold" />
-                </PivotItem.Header>
+                <collection:PodcastsView x:Name="PodcastsView" />
             </PivotItem>
         </Pivot>
     </Grid>

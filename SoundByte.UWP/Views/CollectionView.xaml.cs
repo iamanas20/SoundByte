@@ -28,6 +28,9 @@ namespace SoundByte.UWP.Views
                     PlaylistsView.YouTubePlaylists.RefreshItems();
                     PlaylistsView.FanburstPlaylists.RefreshItems();
                     break;
+                case 2: // Podcasts
+                    PodcastsView.SoundBytePodcasts.RefreshItems();
+                    break;
             }
         }
     } 

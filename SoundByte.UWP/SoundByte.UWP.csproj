@@ -268,11 +268,8 @@
     <Compile Include="Views\BlankView.xaml.cs">
       <DependentUpon>BlankView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Collection\DownloadsView.xaml.cs">
-      <DependentUpon>DownloadsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Collection\ShowsView.xaml.cs">
-      <DependentUpon>ShowsView.xaml</DependentUpon>
+    <Compile Include="Views\Collection\PodcastsView.xaml.cs">
+      <DependentUpon>PodcastsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ExploreView.xaml.cs">
       <DependentUpon>ExploreView.xaml</DependentUpon>
@@ -481,11 +478,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Collection\DownloadsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Collection\ShowsView.xaml">
+    <Page Include="Views\Collection\PodcastsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -696,6 +689,9 @@
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <BuildInParallel Condition="'$(BuildInParallel)' ==  ''">true</BuildInParallel>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

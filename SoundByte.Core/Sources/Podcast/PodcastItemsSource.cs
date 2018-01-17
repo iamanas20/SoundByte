@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -7,6 +8,7 @@ using JetBrains.Annotations;
 using SoundByte.Core.Exceptions;
 using SoundByte.Core.Items.Podcast;
 using SoundByte.Core.Items.Track;
+using SoundByte.Core.Items.User;
 using SoundByte.Core.Services;
 
 namespace SoundByte.Core.Sources.Podcast
@@ -27,6 +29,8 @@ namespace SoundByte.Core.Sources.Podcast
             if (Show == null)
                 throw new SoundByteException("Not Loaded", "Items not loaded yet.");
 
+            var tracks = new List<BaseTrack>();
+
             try
             {
                 using (var request = await HttpService.Instance.Client.GetAsync(Show.FeedUrl, cancellationToken.Token).ConfigureAwait(false))
@@ -35,19 +39,42 @@ namespace SoundByte.Core.Sources.Podcast
 
                     using (var stream = await request.Content.ReadAsStreamAsync())
                     {
+                        // Load the document
                         var xmlDocument = XDocument.Load(stream);
 
-                        return new SourceResponse<BaseTrack>(xmlDocument.Root?.Element("channel")?.Elements("item")
-                            .Select(x => new BaseTrack
+                        // Get channel
+                        var channel = xmlDocument.Root?.Element("channel");
+
+                        // Get all the feed items
+                        var feedItems = channel?.Elements("item");
+
+                        XNamespace ns = "http://www.itunes.com/dtds/podcast-1.0.dtd";
+
+                        foreach (var feedItem in feedItems)
+                        {
+                            tracks.Add(new BaseTrack
                             {
-                                Title = x.Element("title")?.Value
-                            }), "eol");
+                                TrackId = feedItem.Element("guid")?.Value,
+                                ServiceType = ServiceType.ITunesPodcast,
+                                Title = feedItem.Element("title")?.Value,
+                           //     Created = DateTime.Parse(feedItem.Element("pubDate")?.Value), //todo later
+                                ArtworkUrl = feedItem.Element(ns + "image")?.Value,
+                                AudioStreamUrl = feedItem.Element("enclosure").Attribute("url")?.Value,
+                            //    Duration = TimeSpan.Parse(feedItem.Element(ns + "duration")?.Value), //todo later
+                                User = new BaseUser { Username = channel?.Element(ns + "author")?.Value },
+                                Description = feedItem.Element("description")?.Value
+
+                            });
+
+                        }
                     }
                 }
+
+                return new SourceResponse<BaseTrack>(tracks, "eol");
             }
             catch (HttpRequestException hex)
             {
-                throw new SoundByteException("No connection?", hex.Message + "\n" + Show.FeedUrl);
+                throw new SoundByteException("Error", hex.Message + "\n" + Show.FeedUrl);
             }
         }
     }

@@ -1,4 +1,5 @@
-﻿using Windows.UI.Xaml.Navigation;
+﻿using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
 using SoundByte.Core.Items.Podcast;
 using SoundByte.UWP.ViewModels;
 

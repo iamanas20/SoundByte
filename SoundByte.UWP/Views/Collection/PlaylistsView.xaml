@@ -2,8 +2,7 @@
     x:Class="SoundByte.UWP.Views.Collection.PlaylistsView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:controls="using:SoundByte.UWP.Controls"
-    xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations">
+    xmlns:controls="using:SoundByte.UWP.Controls">
 
     <ScrollViewer>
         <StackPanel>
