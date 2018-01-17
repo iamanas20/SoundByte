@@ -108,10 +108,11 @@ namespace SoundByte.UWP.Services
 
             // Create the media player and disable auto play
             // as we are going to use a playback list. Set the
-            // source to the media playback list.
+            // source to the media playback list. Auto play is true so if
+            // we reach the end of a playlist (or source) start from the beginning.
             _mediaPlayer = new MediaPlayer
             {
-                AutoPlay = false,
+                AutoPlay = true,
                 Source = mediaPlaybackList
             };
 

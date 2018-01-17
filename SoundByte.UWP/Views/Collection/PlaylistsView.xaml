@@ -7,87 +7,110 @@
 
     <ScrollViewer>
         <StackPanel>
-            <!-- SoundByte Header -->
-            <Grid Margin="0,20,0,10" Padding="{ThemeResource PagePadding}">
-                <TextBlock Text="SoundByte" 
-                           Style="{StaticResource SubTitleStyle}"
-                           VerticalAlignment="Center"
-                           HorizontalAlignment="Left" />
-                <controls:AppButton HorizontalAlignment="Right"
-                                    VerticalAlignment="Bottom"                     
-                                    Label="View All" 
-                                    IsExtended="True"
-                                    Glyph="&#xE8A9;"/>
-            </Grid>
+            <!-- SOUNDBYTE HEADER -->
+            <controls:SectionHeader Title="SoundByte" Margin="{ThemeResource PagePadding}">
+                <controls:SectionHeader.Buttons>
+                    <controls:AppButton HorizontalAlignment="Right"
+                                        Click="{x:Bind ViewAllSoundByte}"
+                                        VerticalAlignment="Bottom"                     
+                                        Label="View All" 
+                                        IsExtended="True"
+                                        Glyph="&#xE8A9;"/>
+                </controls:SectionHeader.Buttons>
+            </controls:SectionHeader>
 
-            <Grid Height="260" Padding="{ThemeResource PagePadding}" Margin="-10,0,0,0">
-                <controls:InfoPane VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
-                                         Visibility="Collapsed" Canvas.ZIndex="50"  />
-                <GridView Height="280"
-                              ScrollViewer.HorizontalScrollMode="Disabled"
-                              ScrollViewer.VerticalScrollMode="Disabled"
-                              ScrollViewer.HorizontalScrollBarVisibility="Hidden"
-                              ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                              ItemTemplate="{StaticResource TrackItem}"
-                              SelectionMode="None"
-                              ItemContainerStyle="{StaticResource MainGridViewItem}"
-                              IsSwipeEnabled="False"
-                              IsItemClickEnabled="True"
-                              IsMultiSelectCheckBoxEnabled="False"       
-                              animations:ReorderGridAnimation.Duration="150"
-                              HorizontalAlignment="Stretch">
-                    <GridView.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <ItemsStackPanel Orientation="Horizontal" CacheLength="1.0" />
-                        </ItemsPanelTemplate>
-                    </GridView.ItemsPanel>
-                </GridView>
-            </Grid>
-
-            <!-- SoundCloud Header -->
-            <Grid Margin="0,20,0,10" Padding="{ThemeResource PagePadding}">
-                <TextBlock Text="SoundCloud" 
-                           Style="{StaticResource SubTitleStyle}"
-                           VerticalAlignment="Center"
-                           HorizontalAlignment="Left" />
-                <controls:AppButton HorizontalAlignment="Right"
-                                    VerticalAlignment="Bottom"                     
-                                    Label="View All" 
-                                    Click="{x:Bind ViewAllSoundCloud}"
-                                    IsExtended="True"
-                                    Glyph="&#xE8A9;"/>
-            </Grid>
-
-            <Grid Height="260" Padding="{ThemeResource PagePadding}" Margin="-10,0,0,0">
+            <!-- SOUNDBYTE CONTENT -->
+            <Grid Height="300" Padding="{ThemeResource PagePadding}" Margin="-10,0,0,0">
                 <controls:InfoPane VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
                                    Visibility="Collapsed" Canvas.ZIndex="50" 
-                                   Header="{x:Bind PlaylistModel.ErrorHeader, Mode=OneWay}"
-                                   Text="{x:Bind PlaylistModel.ErrorDescription, Mode=OneWay}"
-                                   IsLoading="{x:Bind PlaylistModel.IsLoading, Mode=OneWay}"
-                                   IsError="{x:Bind PlaylistModel.IsError, Mode=OneWay}"/>
-                <GridView Height="280"
+                                   Header="{x:Bind SoundBytePlaylists.ErrorHeader, Mode=OneWay}"
+                                   Text="{x:Bind SoundBytePlaylists.ErrorDescription, Mode=OneWay}"
+                                   IsLoading="{x:Bind SoundBytePlaylists.IsLoading, Mode=OneWay}"
+                                   IsError="{x:Bind SoundBytePlaylists.IsError, Mode=OneWay}"/>
+
+                <GridView Style="{StaticResource CompactSoundByteGridView}"
+                          ItemsSource="{x:Bind SoundBytePlaylists}"
                           ItemClick="{x:Bind NavigatePlaylist}"
-                          ItemsSource="{x:Bind PlaylistModel}"
-                          ScrollViewer.HorizontalScrollMode="Disabled"
-                          ScrollViewer.VerticalScrollMode="Disabled"
-                          ScrollViewer.HorizontalScrollBarVisibility="Hidden"
-                          ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                          ItemTemplate="{StaticResource PlaylistItem}"
-                          SelectionMode="None"
-                          ItemContainerStyle="{StaticResource MainGridViewItem}"
-                          IsSwipeEnabled="False"
-                          IsItemClickEnabled="True"
-                          IsMultiSelectCheckBoxEnabled="False"       
-                          animations:ReorderGridAnimation.Duration="150"
-                          HorizontalAlignment="Stretch">
-                    <GridView.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <ItemsStackPanel Orientation="Horizontal" CacheLength="1.0" />
-                        </ItemsPanelTemplate>
-                    </GridView.ItemsPanel>
-                </GridView>
+                          ItemTemplate="{StaticResource PlaylistItem}" />
             </Grid>
 
+            <!-- SOUNDCLOUD HEADER -->
+            <controls:SectionHeader Title="SoundCloud" Margin="{ThemeResource PagePadding}">
+                <controls:SectionHeader.Buttons>
+                    <controls:AppButton HorizontalAlignment="Right"
+                                        Click="{x:Bind ViewAllSoundCloud}"
+                                        VerticalAlignment="Bottom"                     
+                                        Label="View All" 
+                                        IsExtended="True"
+                                        Glyph="&#xE8A9;"/>
+                </controls:SectionHeader.Buttons>
+            </controls:SectionHeader>
+
+            <!-- SOUNDCLOUD CONTENT -->
+            <Grid Height="300" Padding="{ThemeResource PagePadding}" Margin="-10,0,0,0">
+                <controls:InfoPane VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+                                   Visibility="Collapsed" Canvas.ZIndex="50" 
+                                   Header="{x:Bind SoundCloudPlaylists.ErrorHeader, Mode=OneWay}"
+                                   Text="{x:Bind SoundCloudPlaylists.ErrorDescription, Mode=OneWay}"
+                                   IsLoading="{x:Bind SoundCloudPlaylists.IsLoading, Mode=OneWay}"
+                                   IsError="{x:Bind SoundCloudPlaylists.IsError, Mode=OneWay}"/>
+                <GridView Style="{StaticResource CompactSoundByteGridView}"
+                          ItemsSource="{x:Bind SoundCloudPlaylists}"
+                          ItemClick="{x:Bind NavigatePlaylist}"
+                          ItemTemplate="{StaticResource PlaylistItem}" />
+            </Grid>
+
+            <!-- YOUTUBE HEADER -->
+            <controls:SectionHeader Title="YouTube" Margin="{ThemeResource PagePadding}">
+                <controls:SectionHeader.Buttons>
+                    <controls:AppButton HorizontalAlignment="Right"
+                                        Click="{x:Bind ViewAllYouTube}"
+                                        VerticalAlignment="Bottom"                     
+                                        Label="View All" 
+                                        IsExtended="True"
+                                        Glyph="&#xE8A9;"/>
+                </controls:SectionHeader.Buttons>
+            </controls:SectionHeader>
+
+            <!-- YOUTUBE CONTENT -->
+            <Grid Height="300" Padding="{ThemeResource PagePadding}" Margin="-10,0,0,0">
+                <controls:InfoPane VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+                                   Visibility="Collapsed" Canvas.ZIndex="50" 
+                                   Header="{x:Bind YouTubePlaylists.ErrorHeader, Mode=OneWay}"
+                                   Text="{x:Bind YouTubePlaylists.ErrorDescription, Mode=OneWay}"
+                                   IsLoading="{x:Bind YouTubePlaylists.IsLoading, Mode=OneWay}"
+                                   IsError="{x:Bind YouTubePlaylists.IsError, Mode=OneWay}"/>
+                <GridView Style="{StaticResource CompactSoundByteGridView}"
+                          ItemsSource="{x:Bind YouTubePlaylists}"
+                          ItemClick="{x:Bind NavigatePlaylist}"
+                          ItemTemplate="{StaticResource PlaylistItem}" />
+            </Grid>
+
+            <!-- FANBURST HEADER -->
+            <controls:SectionHeader Title="Fanburst" Margin="{ThemeResource PagePadding}">
+                <controls:SectionHeader.Buttons>
+                    <controls:AppButton HorizontalAlignment="Right"
+                                        Click="{x:Bind ViewAllFanburst}"
+                                        VerticalAlignment="Bottom"                     
+                                        Label="View All" 
+                                        IsExtended="True"
+                                        Glyph="&#xE8A9;"/>
+                </controls:SectionHeader.Buttons>
+            </controls:SectionHeader>
+
+            <!-- FANBURST CONTENT -->
+            <Grid Height="300" Padding="{ThemeResource PagePadding}" Margin="-10,0,0,0">
+                <controls:InfoPane VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+                                   Visibility="Collapsed" Canvas.ZIndex="50" 
+                                   Header="{x:Bind FanburstPlaylists.ErrorHeader, Mode=OneWay}"
+                                   Text="{x:Bind FanburstPlaylists.ErrorDescription, Mode=OneWay}"
+                                   IsLoading="{x:Bind FanburstPlaylists.IsLoading, Mode=OneWay}"
+                                   IsError="{x:Bind FanburstPlaylists.IsError, Mode=OneWay}"/>
+                <GridView Style="{StaticResource CompactSoundByteGridView}"
+                          ItemsSource="{x:Bind FanburstPlaylists}"
+                          ItemClick="{x:Bind NavigatePlaylist}"
+                          ItemTemplate="{StaticResource PlaylistItem}" />
+            </Grid>
         </StackPanel>
     </ScrollViewer>
 </Page>

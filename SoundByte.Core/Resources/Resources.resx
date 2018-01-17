@@ -167,4 +167,7 @@
   <data name="Sources_YouTube_NoAccount_Title" xml:space="preserve">
     <value>YouTube Account Not Connected</value>
   </data>
+  <data name="Sources_YouTube_Playlist_NoAccount_Description" xml:space="preserve">
+    <value>Please connect your YouTube Account to view playlists.</value>
+  </data>
 </root>

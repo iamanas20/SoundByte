@@ -23,7 +23,10 @@ namespace SoundByte.UWP.Views
                     LikesView.FanburstLikes.RefreshItems();
                     break;
                 case 1: // Playlists
-                    PlaylistsView.PlaylistModel.RefreshItems();
+                    PlaylistsView.SoundBytePlaylists.RefreshItems();
+                    PlaylistsView.SoundCloudPlaylists.RefreshItems();
+                    PlaylistsView.YouTubePlaylists.RefreshItems();
+                    PlaylistsView.FanburstPlaylists.RefreshItems();
                     break;
             }
         }

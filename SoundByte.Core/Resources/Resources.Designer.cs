@@ -194,5 +194,14 @@ namespace SoundByte.Core.Resources {
                 return ResourceManager.GetString("Sources_YouTube_NoAccount_Title", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please connect your YouTube Account to view playlists..
+        /// </summary>
+        internal static string Sources_YouTube_Playlist_NoAccount_Description {
+            get {
+                return ResourceManager.GetString("Sources_YouTube_Playlist_NoAccount_Description", resourceCulture);
+            }
+        }
     }
 }
