@@ -9,6 +9,8 @@ namespace SoundByte.Core.Sources.Fanburst.User
     [UsedImplicitly]
     public class FanburstUserFollowersSource : ISource<BaseUser>
     {
+        //https://api.fanburst.com/me/followers
+
         public Task<SourceResponse<BaseUser>> GetItemsAsync(int count, string token,
             CancellationTokenSource cancellationToken = default(CancellationTokenSource))
         {

@@ -107,18 +107,18 @@ namespace SoundByte.Core.Services
                     switch (service.Service)
                     {
                         case ServiceType.Fanburst:
-                            service.CurrentUser = (await GetAsync<FanburstUser>(ServiceType.Fanburst, "/me").ConfigureAwait(false)).ToBaseUser();
+                            service.CurrentUser = (await GetAsync<FanburstUser>(ServiceType.Fanburst, "/me").ConfigureAwait(false)).Response.ToBaseUser();
                             break;
                         case ServiceType.SoundCloud:
                         case ServiceType.SoundCloudV2:
-                            service.CurrentUser = (await GetAsync<SoundCloudUser>(ServiceType.SoundCloud, "/me").ConfigureAwait(false)).ToBaseUser();
+                            service.CurrentUser = (await GetAsync<SoundCloudUser>(ServiceType.SoundCloud, "/me").ConfigureAwait(false)).Response.ToBaseUser();
                             break;
                         case ServiceType.YouTube:
                             service.CurrentUser = AsyncHelper.RunSync(async () => await GetAsync<YouTubeChannelHolder>(ServiceType.YouTube, "/channels", new Dictionary<string, string>
                             {
                                 { "mine", "true" },
                                 { "part", "snippet" }
-                            }).ConfigureAwait(false)).Channels.FirstOrDefault()?.ToBaseUser();
+                            }).ConfigureAwait(false)).Response.Channels.FirstOrDefault()?.ToBaseUser();
                             break;
                     }
                 }
@@ -426,7 +426,7 @@ namespace SoundByte.Core.Services
         /// <summary>
         ///     Fetches an object from the specified service API and returns it.
         /// </summary>
-        public async Task<T> GetAsync<T>(ServiceType type, string endpoint, Dictionary<string, string> optionalParams = null, CancellationTokenSource cancellationTokenSource = null)
+        public async Task<HttpReponse<T>> GetAsync<T>(ServiceType type, string endpoint, Dictionary<string, string> optionalParams = null, CancellationTokenSource cancellationTokenSource = null)
         {
             if (_isLoaded == false)
                 throw new SoundByteNotLoadedException();
@@ -463,7 +463,7 @@ namespace SoundByte.Core.Services
         ///     adds required OAuth token.
         ///     Returns if the PUT request has successful or not
         /// </summary>
-        public async Task<bool> PutAsync(ServiceType type, string endpoint, string content = null, CancellationTokenSource cancellationTokenSource = null)
+        public async Task<HttpReponse<bool>> PutAsync(ServiceType type, string endpoint, string content = null, CancellationTokenSource cancellationTokenSource = null)
         {
             if (_isLoaded == false)
                 throw new SoundByteNotLoadedException();
@@ -506,7 +506,7 @@ namespace SoundByte.Core.Services
         /// <summary>
         ///     Contacts the specified API and posts the content.
         /// </summary>
-        public async Task<T> PostAsync<T>(ServiceType type, string endpoint, string content = null,
+        public async Task<HttpReponse<T>> PostAsync<T>(ServiceType type, string endpoint, string content = null,
             Dictionary<string, string> optionalParams = null, CancellationTokenSource cancellationTokenSource = null)
         {
             if (_isLoaded == false)
@@ -543,7 +543,7 @@ namespace SoundByte.Core.Services
             }
         }
 
-        public async Task<T> PostItemAsync<T>(ServiceType type, string endpoint, T item, Dictionary<string, string> optionalParams = null,
+        public async Task<HttpReponse<T>> PostItemAsync<T>(ServiceType type, string endpoint, T item, Dictionary<string, string> optionalParams = null,
             CancellationTokenSource cancellationTokenSource = null)
         {
             if (_isLoaded == false)
@@ -579,7 +579,7 @@ namespace SoundByte.Core.Services
         /// <summary>
         ///    Attempts to delete an object from the specified API
         /// </summary>
-        public async Task<bool> DeleteAsync(ServiceType type, string endpoint, CancellationTokenSource cancellationTokenSource = null)
+        public async Task<HttpReponse<bool>> DeleteAsync(ServiceType type, string endpoint, CancellationTokenSource cancellationTokenSource = null)
         {
             if (_isLoaded == false)
                 throw new SoundByteNotLoadedException();
@@ -611,21 +611,21 @@ namespace SoundByte.Core.Services
                 }
                 catch
                 {
-                    return false;
+                    return new HttpReponse<bool>(false);
                 }
 
-                return false;
+                return new HttpReponse<bool>(false);
             }
             catch
             {
-                return false;
+                return new HttpReponse<bool>(false);
             }
         }
 
         /// <summary>
         ///     Checks to see if an items exists at the specified endpoint
         /// </summary>
-        public async Task<bool> ExistsAsync(ServiceType type, string endpoint, CancellationTokenSource cancellationTokenSource = null)
+        public async Task<HttpReponse<bool>> ExistsAsync(ServiceType type, string endpoint, CancellationTokenSource cancellationTokenSource = null)
         {
             if (_isLoaded == false)
                 throw new SoundByteNotLoadedException();
@@ -657,14 +657,14 @@ namespace SoundByte.Core.Services
                 }
                 catch
                 {
-                    return false;
+                    return new HttpReponse<bool>(false);
                 }
 
-                return false;
+                return new HttpReponse<bool>(false);
             }
             catch
             {
-                return false;
+                return new HttpReponse<bool>(false);
             }
         }
     }

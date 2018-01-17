@@ -1,4 +1,6 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using SoundByte.Core.Items.Track;
@@ -9,6 +11,8 @@ namespace SoundByte.Core.Sources.Fanburst
     [UsedImplicitly]
     public class FanburstLikeSource : ISource<BaseTrack>
     {
+        //https://api.fanburst.com/me/favorites
+
         public async Task<SourceResponse<BaseTrack>> GetItemsAsync(int count, string token,
             CancellationTokenSource cancellationToken = default(CancellationTokenSource))
         {
@@ -21,10 +25,25 @@ namespace SoundByte.Core.Sources.Fanburst
                         Resources.Resources.Sources_Fanburst_Like_NoAccount_Description));
             }
 
-            return await Task.Run(() =>
-                new SourceResponse<BaseTrack>(null, null, false,
-                    "Under Development",
-                    "This is still under development"));
+            // Get the users likes
+            var likes = await SoundByteService.Current.GetAsync<List<FanburstTrack>>(ServiceType.Fanburst, "me/favorites", new Dictionary<string, string>
+            {
+                { "page", token },
+                { "per_page", count.ToString() }
+            }, cancellationToken).ConfigureAwait(false);
+
+            // If there are no likes
+            if (!likes.Any())
+            {
+                return new SourceResponse<BaseTrack>(null, null, false, "No results found", "Like some items to start");
+            }
+
+            // Convert Fanburst specific tracks to base tracks
+            var baseTracks = new List<BaseTrack>();
+            likes.ForEach(x => baseTracks.Add(x.ToBaseTrack()));
+
+
+            return new SourceResponse<BaseTrack>(baseTracks, null);
         }
     }
 }

@@ -13,6 +13,7 @@ using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.System;
 using JetBrains.Annotations;
+using Microsoft.AppCenter.Crashes;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Newtonsoft.Json;
 using SoundByte.Core;
@@ -188,26 +189,6 @@ namespace SoundByte.UWP.Services
                     {
                         await SoundByteService.Current.PostItemAsync(ServiceType.SoundByte, "history", track);
                     }
-                }
-                catch (Exception ex)
-                {
-                    var i = 0;
-                }
-
-                try
-                {
-                    var activity = await _userActivityChannel.GetOrCreateUserActivityAsync("SoundByte.Playback");
-
-                    activity.ActivationUri = new Uri($"soundbyte://core/track?id={track.TrackId}&service={track.ServiceType}");
-
-                    activity.FallbackUri = new Uri(track.Link);
-                    activity.ContentUri = new Uri(track.ArtworkUrl);
-
-                    activity.VisualElements.DisplayText = track.Title;
-                    activity.VisualElements.Description = track.Description;
-
-                    // Save the activity 
-                    await activity.SaveAsync();
                 }
                 catch (Exception ex)
                 {

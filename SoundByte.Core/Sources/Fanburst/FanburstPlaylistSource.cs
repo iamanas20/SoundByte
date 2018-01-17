@@ -9,6 +9,8 @@ namespace SoundByte.Core.Sources.Fanburst
     [UsedImplicitly]
     public class FanburstPlaylistSource : ISource<BasePlaylist>
     {
+        //https://api.fanburst.com/me/playlists
+
         public Task<SourceResponse<BasePlaylist>> GetItemsAsync(int count, string token,
             CancellationTokenSource cancellationToken = default(CancellationTokenSource))
         {

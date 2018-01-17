@@ -10,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SoundByte.Core.Exceptions;
+using SoundByte.Core.Items;
 
 namespace SoundByte.Core.Services
 {
@@ -87,7 +88,7 @@ namespace SoundByte.Core.Services
         /// <param name="url">The url resource to get</param>
         /// <param name="cancellationTokenSource">Allows the ability to cancel the current task.</param>
         /// <returns>An object of T</returns>
-        public async Task<T> GetAsync<T>(string url, CancellationTokenSource cancellationTokenSource = null)
+        public async Task<HttpReponse<T>> GetAsync<T>(string url, CancellationTokenSource cancellationTokenSource = null)
         {
             // Create cancel token if not provided
             if (cancellationTokenSource == null)
@@ -103,6 +104,7 @@ namespace SoundByte.Core.Services
                     // Get the URL
                     using (var webRequest = await _client.GetAsync(escapedUri, HttpCompletionOption.ResponseContentRead, cancellationTokenSource.Token).ConfigureAwait(false))
                     {
+
                         // Ensure this request was successful
                         webRequest.EnsureSuccessStatusCode();
 
@@ -116,7 +118,11 @@ namespace SoundByte.Core.Services
                                 using (var textReader = new JsonTextReader(streamReader))
                                 {
                                     // Return the data
-                                    return _jsonSerializer.Deserialize<T>(textReader);
+                                    return new HttpReponse<T>
+                                    {
+                                        Response = _jsonSerializer.Deserialize<T>(textReader),
+                                        Headers = webRequest.Headers
+                                    };
                                 }
                             }
                         }
@@ -125,7 +131,7 @@ namespace SoundByte.Core.Services
             }
             catch (OperationCanceledException)
             {
-                return default(T);
+                return new HttpReponse<T>();
             }
             catch (JsonSerializationException jsex)
             {
@@ -145,7 +151,7 @@ namespace SoundByte.Core.Services
         /// <param name="bodyParamaters">string-string dictionary as the body</param>
         /// <param name="cancellationTokenSource">Allows the ability to cancel the current task.</param>
         /// <returns>An object of T</returns>
-        public async Task<T> PostAsync<T>(string url, Dictionary<string, string> bodyParamaters, CancellationTokenSource cancellationTokenSource = null)
+        public async Task<HttpReponse<T>> PostAsync<T>(string url, Dictionary<string, string> bodyParamaters, CancellationTokenSource cancellationTokenSource = null)
         {
             // Create cancel token if not provided
             if (cancellationTokenSource == null)
@@ -176,7 +182,11 @@ namespace SoundByte.Core.Services
                                 // Get the text from the stream
                                 using (var textReader = new JsonTextReader(streamReader))
                                 {
-                                    return _jsonSerializer.Deserialize<T>(textReader);
+                                    return new HttpReponse<T>
+                                    {
+                                        Response = _jsonSerializer.Deserialize<T>(textReader),
+                                        Headers = postQuery.Headers
+                                    };
                                 }
                             }
                         }
@@ -185,7 +195,7 @@ namespace SoundByte.Core.Services
             }
             catch (OperationCanceledException)
             {
-                return default(T);
+                return new HttpReponse<T>();
             }
             catch (JsonSerializationException jsex)
             {
@@ -203,7 +213,7 @@ namespace SoundByte.Core.Services
         /// <param name="body">json string as the body</param>
         /// <param name="cancellationTokenSource">Allows the ability to cancel the current task.</param>
         /// <returns>An object of T</returns>
-        public async Task<T> PostAsync<T>(string url, string body, CancellationTokenSource cancellationTokenSource = null)
+        public async Task<HttpReponse<T>> PostAsync<T>(string url, string body, CancellationTokenSource cancellationTokenSource = null)
         {
             // Create cancel token if not provided
             if (cancellationTokenSource == null)
@@ -234,7 +244,11 @@ namespace SoundByte.Core.Services
                                 // Get the text from the stream
                                 using (var textReader = new JsonTextReader(streamReader))
                                 {
-                                    return _jsonSerializer.Deserialize<T>(textReader);
+                                    return new HttpReponse<T>
+                                    {
+                                        Response = _jsonSerializer.Deserialize<T>(textReader),
+                                        Headers = postQuery.Headers
+                                    };
                                 }
                             }
                         }
@@ -243,7 +257,7 @@ namespace SoundByte.Core.Services
             }
             catch (OperationCanceledException)
             {
-                return default(T);
+                return new HttpReponse<T>();
             }
             catch (JsonSerializationException jsex)
             {
@@ -263,7 +277,7 @@ namespace SoundByte.Core.Services
         /// <param name="bodyParamaters">string-string dictionary as the body</param>
         /// <param name="cancellationTokenSource">Allows the ability to cancel the current task.</param>
         /// <returns>An object of T</returns>
-        public Task<T> PutAsync<T>(string url, Dictionary<string, string> bodyParamaters, CancellationTokenSource cancellationTokenSource = null)
+        public Task<HttpReponse<T>> PutAsync<T>(string url, Dictionary<string, string> bodyParamaters, CancellationTokenSource cancellationTokenSource = null)
         {
             throw new NotImplementedException();
         }
@@ -277,12 +291,12 @@ namespace SoundByte.Core.Services
         /// <param name="body">json string as the body</param>
         /// <param name="cancellationTokenSource">Allows the ability to cancel the current task.</param>
         /// <returns></returns>
-        public Task<T> PutAsync<T>(string url, string body, CancellationTokenSource cancellationTokenSource = null)
+        public Task<HttpReponse<T>> PutAsync<T>(string url, string body, CancellationTokenSource cancellationTokenSource = null)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<bool> PutAsync(string url, string body, CancellationTokenSource cancellationTokenSource = null)
+        public async Task<HttpReponse<bool>> PutAsync(string url, string body, CancellationTokenSource cancellationTokenSource = null)
         {
             // Create cancel token if not provided
             if (cancellationTokenSource == null)
@@ -301,13 +315,20 @@ namespace SoundByte.Core.Services
                     // Post this request to the url
                     using (var putQuery = await _client.PutAsync(escapedUri, encodedContent, cancellationTokenSource.Token).ConfigureAwait(false))
                     {
-                        return putQuery.IsSuccessStatusCode;
+                        return new HttpReponse<bool>
+                        {
+                            Response = putQuery.IsSuccessStatusCode,
+                            Headers = putQuery.Headers
+                        };
                     }
                 }).ConfigureAwait(false);
             }
             catch (OperationCanceledException)
             {
-                return false;
+                return new HttpReponse<bool>
+                {
+                    Response = false
+                };
             }
             catch (JsonSerializationException jsex)
             {
@@ -325,7 +346,7 @@ namespace SoundByte.Core.Services
         /// <param name="url">The url resource to delete</param>
         /// <param name="cancellationTokenSource">Allows the ability to cancel the current task.</param>
         /// <returns>True if the resource was deleted, false if not.</returns>
-        public async Task<bool> DeleteAsync(string url, CancellationTokenSource cancellationTokenSource = null)
+        public async Task<HttpReponse<bool>> DeleteAsync(string url, CancellationTokenSource cancellationTokenSource = null)
         {
             // Create cancel token if not provided
             if (cancellationTokenSource == null)
@@ -341,14 +362,21 @@ namespace SoundByte.Core.Services
                     // Get the URL
                     using (var webRequest = await _client.DeleteAsync(escapedUri, cancellationTokenSource.Token).ConfigureAwait(false))
                     {
-                        return webRequest.StatusCode == HttpStatusCode.OK;
+                        return new HttpReponse<bool>
+                        {
+                            Response = webRequest.StatusCode == HttpStatusCode.OK,
+                            Headers = webRequest.Headers
+                        };
                     }
 
                 }).ConfigureAwait(false);
             }
             catch (OperationCanceledException)
             {
-                return false;
+                return new HttpReponse<bool>
+                {
+                    Response = false
+                };
             }
             catch (JsonSerializationException jsex)
             {
@@ -367,7 +395,7 @@ namespace SoundByte.Core.Services
         /// <param name="url">The url to check</param>
         /// <param name="cancellationTokenSource">Allows the ability to cancel the current task.</param>
         /// <returns>True if resource exists, false if not.</returns>
-        public async Task<bool> ExistsAsync(string url, CancellationTokenSource cancellationTokenSource = null)
+        public async Task<HttpReponse<bool>> ExistsAsync(string url, CancellationTokenSource cancellationTokenSource = null)
         {
             // Create cancel token if not provided
             if (cancellationTokenSource == null)
@@ -385,14 +413,22 @@ namespace SoundByte.Core.Services
                         cancellationTokenSource.Token).ConfigureAwait(false))
                     {
                         // Return if the resource exists
-                        return webRequest.IsSuccessStatusCode;
+
+                        return new HttpReponse<bool>
+                        {
+                            Response = webRequest.IsSuccessStatusCode,
+                            Headers = webRequest.Headers
+                        };
                     }
 
                 }).ConfigureAwait(false);
             }
             catch (OperationCanceledException)
             {
-                return false;
+                return new HttpReponse<bool>
+                {
+                    Response = false
+                };
             }
             catch (JsonSerializationException jsex)
             {

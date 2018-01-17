@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SoundByte.Core.Items.User;
 using System.Threading;
+using SoundByte.Core.Services;
 
 namespace SoundByte.Core.Items.Track
 {
@@ -95,17 +96,28 @@ namespace SoundByte.Core.Items.Track
 
         public async Task<BaseTrack.CommentResponse> GetCommentsAsync(int count, string token, CancellationTokenSource cancellationTokenSource = null)
         {
+
+
             // Fanburst does not support comments
             return await Task.Run(() => new BaseTrack.CommentResponse { Comments = null, Token = "" });
         }
 
         public async Task<bool> LikeAsync()
         {
+            if (!SoundByteService.Current.IsServiceConnected(ServiceType.Fanburst))
+                return false;
+
+            return await SoundByteService.Current.PostAsync<bool>(ServiceType.SoundCloud,
+                $"/e1/me/track_likes/{Id}");
+
             return false;
         }
 
         public async Task<bool> UnlikeAsync()
         {
+            if (!SoundByteService.Current.IsServiceConnected(ServiceType.Fanburst))
+                return false;
+
             return false;
         }
     }

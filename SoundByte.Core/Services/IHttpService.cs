@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
+using SoundByte.Core.Items;
 
 namespace SoundByte.Core.Services
 {
@@ -19,7 +20,7 @@ namespace SoundByte.Core.Services
         /// <param name="url">The url resource to get</param>
         /// <param name="cancellationTokenSource">Allows the ability to cancel the current task.</param>
         /// <returns>An object of T</returns>
-        Task<T> GetAsync<T>(string url, CancellationTokenSource cancellationTokenSource = null);
+        Task<HttpReponse<T>> GetAsync<T>(string url, CancellationTokenSource cancellationTokenSource = null);
         #endregion
 
         #region POST
@@ -32,7 +33,7 @@ namespace SoundByte.Core.Services
         /// <param name="bodyParamaters">string-string dictionary as the body</param>
         /// <param name="cancellationTokenSource">Allows the ability to cancel the current task.</param>
         /// <returns>An object of T</returns>
-        Task<T> PostAsync<T>(string url, [NotNull] Dictionary<string, string> bodyParamaters, CancellationTokenSource cancellationTokenSource = null);
+        Task<HttpReponse<T>> PostAsync<T>(string url, [NotNull] Dictionary<string, string> bodyParamaters, CancellationTokenSource cancellationTokenSource = null);
 
         /// <summary>
         ///     Performs a POST request at a specified url. This version takes a JSON string
@@ -43,7 +44,7 @@ namespace SoundByte.Core.Services
         /// <param name="body">json string as the body</param>
         /// <param name="cancellationTokenSource">Allows the ability to cancel the current task.</param>
         /// <returns>An object of T</returns>
-        Task<T> PostAsync<T>(string url, string body, CancellationTokenSource cancellationTokenSource = null);
+        Task<HttpReponse<T>> PostAsync<T>(string url, string body, CancellationTokenSource cancellationTokenSource = null);
         #endregion
 
         #region PUT
@@ -56,7 +57,7 @@ namespace SoundByte.Core.Services
         /// <param name="bodyParamaters">string-string dictionary as the body</param>
         /// <param name="cancellationTokenSource">Allows the ability to cancel the current task.</param>
         /// <returns>An object of T</returns>
-        Task<T> PutAsync<T>(string url, [NotNull] Dictionary<string, string> bodyParamaters, CancellationTokenSource cancellationTokenSource = null);
+        Task<HttpReponse<T>> PutAsync<T>(string url, [NotNull] Dictionary<string, string> bodyParamaters, CancellationTokenSource cancellationTokenSource = null);
 
         /// <summary>
         ///     Performs a PUT request at a specified url. This version takes a JSON string
@@ -67,7 +68,7 @@ namespace SoundByte.Core.Services
         /// <param name="body">json string as the body</param>
         /// <param name="cancellationTokenSource">Allows the ability to cancel the current task.</param>
         /// <returns></returns>
-        Task<T> PutAsync<T>(string url, string body, CancellationTokenSource cancellationTokenSource = null);
+        Task<HttpReponse<T>> PutAsync<T>(string url, string body, CancellationTokenSource cancellationTokenSource = null);
 
         /// <summary>
         /// 
@@ -76,7 +77,7 @@ namespace SoundByte.Core.Services
         /// <param name="body"></param>
         /// <param name="cancellationTokenSource"></param>
         /// <returns></returns>
-        Task<bool> PutAsync(string url, string body, CancellationTokenSource cancellationTokenSource = null);
+        Task<HttpReponse<bool>> PutAsync(string url, string body, CancellationTokenSource cancellationTokenSource = null);
         #endregion
 
         #region DELETE
@@ -87,7 +88,7 @@ namespace SoundByte.Core.Services
         /// <param name="url">The url resource to delete</param>
         /// <param name="cancellationTokenSource">Allows the ability to cancel the current task.</param>
         /// <returns>True if the resource was deleted, false if not.</returns>
-        Task<bool> DeleteAsync(string url, CancellationTokenSource cancellationTokenSource = null);
+        Task<HttpReponse<bool>> DeleteAsync(string url, CancellationTokenSource cancellationTokenSource = null);
         #endregion
 
         #region EXISTS
@@ -99,7 +100,7 @@ namespace SoundByte.Core.Services
         /// <param name="url">The url to check</param>
         /// <param name="cancellationTokenSource">Allows the ability to cancel the current task.</param>
         /// <returns>True if resource exists, false if not.</returns>
-        Task<bool> ExistsAsync(string url, CancellationTokenSource cancellationTokenSource = null);
+        Task<HttpReponse<bool>> ExistsAsync(string url, CancellationTokenSource cancellationTokenSource = null);
         #endregion
     }
 }
