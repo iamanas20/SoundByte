@@ -40,13 +40,13 @@ namespace SoundByte.Core.Sources.Podcast
             }).ConfigureAwait(false);
 
             // If there are no podcasts
-            if (!podcasts.Items.Any())
+            if (!podcasts.Response.Items.Any())
             {
                 return new SourceResponse<BasePodcast>(null, null, false, "No results found", "Could not find any results for '" + SearchQuery + "'");
             }
 
             // convert the items
-            var baseItems = podcasts.Items.Select(podcast => podcast.ToBasePodcast()).ToList();
+            var baseItems = podcasts.Response.Items.Select(podcast => podcast.ToBasePodcast()).ToList();
 
             // return the items
             return new SourceResponse<BasePodcast>(baseItems, "eol");

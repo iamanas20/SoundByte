@@ -178,7 +178,7 @@ namespace SoundByte.UWP.ViewModels
                 ShowFollowButton = true;
 
                 // Check if we are following the user
-                if (await SoundByteService.Current.ExistsAsync(ServiceType.SoundCloud, "/me/followings/" + User.UserId))
+                if ((await SoundByteService.Current.ExistsAsync(ServiceType.SoundCloud, "/me/followings/" + User.UserId)).Response)
                 {
                     FollowUserIcon = "\uE1E0";
                     FollowUserText = "Unfollow User";
@@ -200,7 +200,7 @@ namespace SoundByte.UWP.ViewModels
                 ShowFollowButton = true;
 
                 // Check if we are following the user
-                if (await SoundByteService.Current.ExistsAsync(ServiceType.Fanburst, "/me/following/" + User.UserId))
+                if ((await SoundByteService.Current.ExistsAsync(ServiceType.Fanburst, "/me/following/" + User.UserId)).Response)
                 {
                     FollowUserIcon = "\uE1E0";
                     FollowUserText = "Unfollow User";
@@ -222,10 +222,10 @@ namespace SoundByte.UWP.ViewModels
             await App.SetLoadingAsync(true);
 
             // Check if we are following the user
-            if (await SoundByteService.Current.ExistsAsync(ServiceType.SoundCloud, "/me/followings/" + User.UserId))
+            if ((await SoundByteService.Current.ExistsAsync(ServiceType.SoundCloud, "/me/followings/" + User.UserId)).Response)
             {
                 // Unfollow the user
-                if (await SoundByteService.Current.DeleteAsync(ServiceType.SoundCloud, "/me/followings/" + User.UserId))
+                if ((await SoundByteService.Current.DeleteAsync(ServiceType.SoundCloud, "/me/followings/" + User.UserId)).Response)
                 {
                     App.Telemetry.TrackEvent("Unfollow User");
                     FollowUserIcon = "\uE8FA";
@@ -240,7 +240,7 @@ namespace SoundByte.UWP.ViewModels
             else
             {
                 // Follow the user
-                if (await SoundByteService.Current.PutAsync(ServiceType.SoundCloud, $"/me/followings/{User.UserId}"))
+                if ((await SoundByteService.Current.PutAsync(ServiceType.SoundCloud, $"/me/followings/{User.UserId}")).Response)
                 {
                     App.Telemetry.TrackEvent("Follow User");
                     FollowUserIcon = "\uE1E0";

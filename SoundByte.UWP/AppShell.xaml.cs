@@ -321,12 +321,12 @@ namespace SoundByte.UWP
                                 switch (parser["service"])
                                 {
                                     case "soundcloud":
-                                        track = (await SoundByteService.Current.GetAsync<SoundCloudTrack>(ServiceType.SoundCloud, $"/tracks/{parser["id"]}")).ToBaseTrack();
+                                        track = (await SoundByteService.Current.GetAsync<SoundCloudTrack>(ServiceType.SoundCloud, $"/tracks/{parser["id"]}")).Response.ToBaseTrack();
                                         break;
                                     case "youtube":
                                         break;
                                     case "fanburst":
-                                        track = (await SoundByteService.Current.GetAsync<FanburstTrack>(ServiceType.Fanburst, $"/videos/{parser["id"]}")).ToBaseTrack();
+                                        track = (await SoundByteService.Current.GetAsync<FanburstTrack>(ServiceType.Fanburst, $"/videos/{parser["id"]}")).Response.ToBaseTrack();
                                         break;
                                 }
 
@@ -349,11 +349,11 @@ namespace SoundByte.UWP
                             case "playlist":
                                 var playlist =
                                     await SoundByteService.Current.GetAsync<SoundCloudPlaylist>(ServiceType.SoundCloud, $"/playlists/{parser["id"]}");
-                                App.NavigateTo(typeof(PlaylistView), playlist.ToBasePlaylist());
+                                App.NavigateTo(typeof(PlaylistView), playlist.Response.ToBasePlaylist());
                                 return;
                             case "user":
                                 var user = await SoundByteService.Current.GetAsync<SoundCloudUser>(ServiceType.SoundCloud, $"/users/{parser["id"]}");
-                                App.NavigateTo(typeof(UserView), user.ToBaseUser());
+                                App.NavigateTo(typeof(UserView), user.Response.ToBaseUser());
                                 return;
                             case "changelog":
                                 await NavigationService.Current.CallDialogAsync<WhatsNewDialog>();

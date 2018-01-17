@@ -35,7 +35,7 @@ namespace SoundByte.Core.Sources.YouTube.Search
 
 
             // If there are no users
-            if (!users.Channels.Any())
+            if (!users.Response.Channels.Any())
             {
                 return new SourceResponse<BaseUser>(null, null, false, "No results found",
                     "Could not find any results for '" + SearchQuery + "'");
@@ -43,7 +43,7 @@ namespace SoundByte.Core.Sources.YouTube.Search
 
             // Convert YouTube specific channels to base users
             var baseUsers = new List<BaseUser>();
-            foreach (var user in users.Channels)
+            foreach (var user in users.Response.Channels)
             {
                 if (user.Id.Kind == "youtube#channel")
                 {
@@ -52,7 +52,7 @@ namespace SoundByte.Core.Sources.YouTube.Search
             }
 
             // Return the items
-            return new SourceResponse<BaseUser>(baseUsers, users.NextList);
+            return new SourceResponse<BaseUser>(baseUsers, users.Response.NextList);
         }
     }
 }

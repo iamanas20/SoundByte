@@ -30,18 +30,18 @@ namespace SoundByte.Core.Sources.SoundCloud
                     }, cancellationToken).ConfigureAwait(false);
 
                 // If there are no tracks
-                if (!items.Items.Any())
+                if (!items.Response.Items.Any())
                 {
                     return new SourceResponse<GroupedItem>(null, null, false, "No items", "Follow someone to get started.");
                 }
 
                 // Parse uri for cursor
-                var param = new QueryParameterCollection(items.NextList);
+                var param = new QueryParameterCollection(items.Response.NextList);
                 var nextToken = param.FirstOrDefault(x => x.Key == "cursor").Value;
 
                 // Convert the items to base items
                 var baseItems = new List<GroupedItem>();
-                foreach (var item in items.Items)
+                foreach (var item in items.Response.Items)
                 {
                     var type = ItemType.Unknown;
 

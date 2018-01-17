@@ -117,10 +117,10 @@ namespace SoundByte.Core.Items.Track
 
             // Convert our list of YouTube comments to base comments
             var baseCommentList = new List<BaseComment>();
-            youTubeComments.Items.ForEach(x => baseCommentList.Add(x.ToBaseComment()));
+            youTubeComments.Response.Items.ForEach(x => baseCommentList.Add(x.ToBaseComment()));
 
             // Return the data
-            return new BaseTrack.CommentResponse { Comments = baseCommentList, Token = youTubeComments.NextPageToken };
+            return new BaseTrack.CommentResponse { Comments = baseCommentList, Token = youTubeComments.Response.NextPageToken };
         }
 
         public async Task<bool> LikeAsync()
@@ -139,7 +139,7 @@ namespace SoundByte.Core.Items.Track
                 });
 
             // The soundbyte likes playlist
-            var soundByteLikes = userYouTubePlaylists.Playlists.FirstOrDefault(x => x.Snippet.Title == "SoundByte Likes");
+            var soundByteLikes = userYouTubePlaylists.Response.Playlists.FirstOrDefault(x => x.Snippet.Title == "SoundByte Likes");
 
             // If the playlist does not exist, we must create it
             if (soundByteLikes == null)
@@ -149,10 +149,11 @@ namespace SoundByte.Core.Items.Track
 
                 try
                 {
-                    soundByteLikes = await SoundByteService.Current.PostAsync<YouTubePlaylist>(ServiceType.YouTube, "playlists", json, new Dictionary<string, string>
-                    {
-                        { "part", "snippet,status"},
-                    });
+                    soundByteLikes = (await SoundByteService.Current.PostAsync<YouTubePlaylist>(ServiceType.YouTube,
+                        "playlists", json, new Dictionary<string, string>
+                        {
+                            {"part", "snippet,status"},
+                        })).Response;
                 }
                 catch
                 {
@@ -169,7 +170,7 @@ namespace SoundByte.Core.Items.Track
                     { "part", "snippet"},
                 });
 
-                Id.PlaylistId = track.Id.VideoId;
+                Id.PlaylistId = track.Response.Id.VideoId;
             }
             catch
             {

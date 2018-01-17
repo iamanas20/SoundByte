@@ -107,10 +107,8 @@ namespace SoundByte.Core.Items.Track
             if (!SoundByteService.Current.IsServiceConnected(ServiceType.Fanburst))
                 return false;
 
-            return await SoundByteService.Current.PostAsync<bool>(ServiceType.SoundCloud,
-                $"/e1/me/track_likes/{Id}");
-
-            return false;
+            return (await SoundByteService.Current.PostAsync<bool>(ServiceType.SoundCloud,
+                $"/e1/me/track_likes/{Id}")).Response;
         }
 
         public async Task<bool> UnlikeAsync()

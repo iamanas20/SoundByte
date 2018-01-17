@@ -29,18 +29,18 @@ namespace SoundByte.Core.Sources.SoundCloud.User
                 }, cancellationToken).ConfigureAwait(false);
 
             // If there are no tracks
-            if (!tracks.Tracks.Any())
+            if (!tracks.Response.Tracks.Any())
             {
                 return new SourceResponse<BaseTrack>(null, null, false, "Nothing to hear here", "Follow " + User.Username + " for updates on sounds they share in the future.");
             }
 
             // Parse uri for cursor
-            var param = new QueryParameterCollection(tracks.NextList);
+            var param = new QueryParameterCollection(tracks.Response.NextList);
             var nextToken = param.FirstOrDefault(x => x.Key == "offset").Value;
 
             // Convert SoundCloud specific tracks to base tracks
             var baseTracks = new List<BaseTrack>();
-            tracks.Tracks.ForEach(x => baseTracks.Add(x.ToBaseTrack()));
+            tracks.Response.Tracks.ForEach(x => baseTracks.Add(x.ToBaseTrack()));
 
             // Return the items
             return new SourceResponse<BaseTrack>(baseTracks, nextToken);

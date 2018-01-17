@@ -33,14 +33,14 @@ namespace SoundByte.Core.Sources.Fanburst
             }, cancellationToken).ConfigureAwait(false);
 
             // If there are no likes
-            if (!likes.Any())
+            if (!likes.Response.Any())
             {
                 return new SourceResponse<BaseTrack>(null, null, false, "No results found", "Like some items to start");
             }
 
             // Convert Fanburst specific tracks to base tracks
             var baseTracks = new List<BaseTrack>();
-            likes.ForEach(x => baseTracks.Add(x.ToBaseTrack()));
+            likes.Response.ForEach(x => baseTracks.Add(x.ToBaseTrack()));
 
 
             return new SourceResponse<BaseTrack>(baseTracks, null);

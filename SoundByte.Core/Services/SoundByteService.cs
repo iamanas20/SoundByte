@@ -157,18 +157,18 @@ namespace SoundByte.Core.Services
                     switch (service.Service)
                     {
                         case ServiceType.Fanburst:
-                            service.CurrentUser = AsyncHelper.RunSync(async () => await GetAsync<FanburstUser>(ServiceType.Fanburst, "/me").ConfigureAwait(false)).ToBaseUser();
+                            service.CurrentUser = AsyncHelper.RunSync(async () => await GetAsync<FanburstUser>(ServiceType.Fanburst, "/me").ConfigureAwait(false)).Response.ToBaseUser();
                             break;
                         case ServiceType.SoundCloud:
                         case ServiceType.SoundCloudV2:
-                            service.CurrentUser = AsyncHelper.RunSync(async () => await GetAsync<SoundCloudUser>(ServiceType.SoundCloud, "/me").ConfigureAwait(false)).ToBaseUser();
+                            service.CurrentUser = AsyncHelper.RunSync(async () => await GetAsync<SoundCloudUser>(ServiceType.SoundCloud, "/me").ConfigureAwait(false)).Response.ToBaseUser();
                             break;
                         case ServiceType.YouTube:
                             service.CurrentUser = AsyncHelper.RunSync(async () => await GetAsync<YouTubeChannelHolder>(ServiceType.YouTube, "/channels", new Dictionary<string, string>
                             {
                                 { "mine", "true" },
                                 { "part", "snippet" }
-                            }).ConfigureAwait(false)).Channels.FirstOrDefault()?.ToBaseUser();
+                            }).ConfigureAwait(false)).Response.Channels.FirstOrDefault()?.ToBaseUser();
                             break;
                     }
                 }
@@ -207,11 +207,11 @@ namespace SoundByte.Core.Services
                     switch (service.Service)
                     {
                         case ServiceType.Fanburst:
-                            service.CurrentUser = AsyncHelper.RunSync(async () => await GetAsync<FanburstUser>(ServiceType.Fanburst, "/me").ConfigureAwait(false)).ToBaseUser();
+                            service.CurrentUser = AsyncHelper.RunSync(async () => await GetAsync<FanburstUser>(ServiceType.Fanburst, "/me").ConfigureAwait(false)).Response.ToBaseUser();
                             break;
                         case ServiceType.SoundCloud:
                         case ServiceType.SoundCloudV2:
-                            service.CurrentUser = AsyncHelper.RunSync(async () => await GetAsync<SoundCloudUser>(ServiceType.SoundCloud, "/me").ConfigureAwait(false)).ToBaseUser();
+                            service.CurrentUser = AsyncHelper.RunSync(async () => await GetAsync<SoundCloudUser>(ServiceType.SoundCloud, "/me").ConfigureAwait(false)).Response.ToBaseUser();
                             break;
                         case ServiceType.YouTube:
                             // Do this later

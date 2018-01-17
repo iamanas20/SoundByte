@@ -97,9 +97,9 @@ namespace SoundByte.UWP.Dialogs
                         if (response != null)
                         {
                             // Change the UI to display that the track is in the playlist
-                            response.IsTrackInInternalSet = true;
+                            response.Response.IsTrackInInternalSet = true;
                             // Add the playlist to the UI
-                            Playlist.Insert(0, response);
+                            Playlist.Insert(0, response.Response);
 
                             dialog.Hide();
                             await ShowAsync();
@@ -167,7 +167,7 @@ namespace SoundByte.UWP.Dialogs
                 Playlist.Clear();
 
                 // Loop though all the playlists
-                foreach (var scPlaylist in userPlaylists)
+                foreach (var scPlaylist in userPlaylists.Response)
                 {
                     var playlist = scPlaylist.ToBasePlaylist();
 
@@ -214,14 +214,14 @@ namespace SoundByte.UWP.Dialogs
                 // Get the playlist object from the internet
                 var playlistObject = await SoundByteService.Current.GetAsync<SoundCloudPlaylist>(ServiceType.SoundCloud, "/playlists/" + playlistId);
                 // Get the track within the object
-                var trackObject = playlistObject.Tracks.FirstOrDefault(x => x.Id == int.Parse(Track?.TrackId));
+                var trackObject = playlistObject.Response.Tracks.FirstOrDefault(x => x.Id == int.Parse(Track?.TrackId));
 
                 // Check that the track exits
                 if (trackObject != null)
-                    playlistObject.Tracks.Remove(trackObject);
+                    playlistObject.Response.Tracks.Remove(trackObject);
 
                 // Start creating the json track string with the basic json
-                var json = playlistObject.Tracks.Aggregate("{\"playlist\":{\"tracks\":[",
+                var json = playlistObject.Response.Tracks.Aggregate("{\"playlist\":{\"tracks\":[",
                     (current, track) => current + "{\"id\":\"" + track.Id + "\"},");
 
                 // Loop through all the tracks adding the required json
@@ -232,7 +232,7 @@ namespace SoundByte.UWP.Dialogs
                 var response = await SoundByteService.Current.PutAsync(ServiceType.SoundCloud,  "/playlists/" + playlistId, json);
 
                 // Check that the remove was successful
-                if (!response)
+                if (!response.Response)
                 {
                     _blockItemsLoading = true;
                     ((CheckBox) e.OriginalSource).IsChecked = true;
@@ -280,16 +280,16 @@ namespace SoundByte.UWP.Dialogs
                 var playlistObject = await SoundByteService.Current.GetAsync<SoundCloudPlaylist>(ServiceType.SoundCloud, "/playlists/" + playlistId);
 
                 // Start creating the json track string with the basic json
-                var json = playlistObject.Tracks.Aggregate("{\"playlist\":{\"tracks\":[",
+                var json = playlistObject.Response.Tracks.Aggregate("{\"playlist\":{\"tracks\":[",
                     (current, track) => current + "{\"id\":\"" + track.Id + "\"},");
 
                 // Complete the json string by adding the current track
                 json += "{\"id\":\"" + Track?.TrackId + "\"}]}}";
                 // Create the http request
-                var response = await SoundByteService.Current.PutAsync(ServiceType.SoundCloud, $"/playlists/{playlistObject.Id}/?secret-token={playlistObject.SecretToken}", json);
+                var response = await SoundByteService.Current.PutAsync(ServiceType.SoundCloud, $"/playlists/{playlistObject.Response.Id}/?secret-token={playlistObject.Response.SecretToken}", json);
 
                 // Check that the update was successful
-                if (!response)
+                if (!response.Response)
                 {
                     _blockItemsLoading = true;
                     ((CheckBox) e.OriginalSource).IsChecked = false;

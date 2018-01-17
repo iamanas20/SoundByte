@@ -34,14 +34,14 @@ namespace SoundByte.Core.Sources.YouTube.Search
                 }, cancellationToken).ConfigureAwait(false);
 
             // If there are no playlists
-            if (!playlists.Playlists.Any())
+            if (!playlists.Response.Playlists.Any())
             {
                 return new SourceResponse<BasePlaylist>(null, null, false, "No results found",
                     "Could not find any results for '" + SearchQuery + "'");
             }
 
             // We now need to get the content details (ugh)
-            var youTubeIdList = string.Join(",", playlists.Playlists.Select(m => m.Id.PlaylistId));
+            var youTubeIdList = string.Join(",", playlists.Response.Playlists.Select(m => m.Id.PlaylistId));
 
             var extendedPlaylists = await SoundByteService.Current.GetAsync<YouTubePlaylistHolder>(ServiceType.YouTube,
                 "playlists",
@@ -54,7 +54,7 @@ namespace SoundByte.Core.Sources.YouTube.Search
 
             // Convert YouTube specific playlists to base playlists
             var basePlaylists = new List<BasePlaylist>();
-            foreach (var playlist in extendedPlaylists.Playlists)
+            foreach (var playlist in extendedPlaylists.Response.Playlists)
             {
                 if (playlist.Id.Kind == "youtube#playlist")
                 {
@@ -63,7 +63,7 @@ namespace SoundByte.Core.Sources.YouTube.Search
             }
 
             // Return the items
-            return new SourceResponse<BasePlaylist>(basePlaylists, playlists.NextList);
+            return new SourceResponse<BasePlaylist>(basePlaylists, playlists.Response.NextList);
         }
     }
 }

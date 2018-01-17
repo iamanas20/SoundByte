@@ -33,13 +33,13 @@ namespace SoundByte.Core.Sources.YouTube.Search
                 }, cancellationToken).ConfigureAwait(false);
 
             // If there are no tracks
-            if (!tracks.Tracks.Any())
+            if (!tracks.Response.Tracks.Any())
             {
                 return new SourceResponse<BaseTrack>(null, null, false, "No results found", "Could not find any results for '" + SearchQuery + "'");
             }
 
             // We now need to get the content details (ugh)
-            var youTubeIdList = string.Join(",", tracks.Tracks.Select(m => m.Id.VideoId));
+            var youTubeIdList = string.Join(",", tracks.Response.Tracks.Select(m => m.Id.VideoId));
 
             var extendedTracks = await SoundByteService.Current.GetAsync<YouTubeVideoHolder>(ServiceType.YouTube, "videos",
                 new Dictionary<string, string>
@@ -50,7 +50,7 @@ namespace SoundByte.Core.Sources.YouTube.Search
 
             // Convert YouTube specific tracks to base tracks
             var baseTracks = new List<BaseTrack>();
-            foreach (var track in extendedTracks.Tracks)
+            foreach (var track in extendedTracks.Response.Tracks)
             {
                 if (track.Id.Kind == "youtube#video")
                 {
@@ -59,7 +59,7 @@ namespace SoundByte.Core.Sources.YouTube.Search
             }
 
             // Return the items
-            return new SourceResponse<BaseTrack>(baseTracks, tracks.NextList);
+            return new SourceResponse<BaseTrack>(baseTracks, tracks.Response.NextList);
         }
     }
 }

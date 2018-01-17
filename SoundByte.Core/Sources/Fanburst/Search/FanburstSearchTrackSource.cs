@@ -29,14 +29,14 @@ namespace SoundByte.Core.Sources.Fanburst.Search
                 }, cancellationToken).ConfigureAwait(false);
 
             // If there are no tracks
-            if (!tracks.Any())
+            if (!tracks.Response.Any())
             {
                 return new SourceResponse<BaseTrack>(null, null, false, "No results found", "Could not find any results for '" + SearchQuery + "'");
             }
 
             // Convert Fanburst specific tracks to base tracks
             var baseTracks = new List<BaseTrack>();
-            tracks.ForEach(x => baseTracks.Add(x.ToBaseTrack()));
+            tracks.Response.ForEach(x => baseTracks.Add(x.ToBaseTrack()));
 
             // Return the items
             return new SourceResponse<BaseTrack>(baseTracks, "eol");

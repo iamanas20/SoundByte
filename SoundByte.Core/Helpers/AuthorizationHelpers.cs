@@ -32,12 +32,12 @@ namespace SoundByte.Core.Helpers
                         { "code", authCode }
                     });
 
-                if (!result.IsSuccess)
+                if (!result.Response.IsSuccess)
                 {
-                    throw new SoundByteException("Error Logging In", result.ErrorMessage);
+                    throw new SoundByteException("Error Logging In", result.Response.ErrorMessage);
                 }
 
-                return result.Token;
+                return result.Response.Token;
             }
             catch (HttpRequestException hex)
             {
@@ -60,12 +60,12 @@ namespace SoundByte.Core.Helpers
                         { "refreshtoken", refreshToken }
                     });
 
-                if (!result.IsSuccess)
+                if (!result.Response.IsSuccess)
                 {
-                    throw new SoundByteException("Error Refreshing Token", result.ErrorMessage);
+                    throw new SoundByteException("Error Refreshing Token", result.Response.ErrorMessage);
                 }
 
-                return result.Token;
+                return result.Response.Token;
             }
             catch (HttpRequestException hex)
             {
@@ -99,12 +99,12 @@ namespace SoundByte.Core.Helpers
                         { "version", version }
                     });
 
-                if (!result.Successful)
+                if (!result.Response.Successful)
                 {
-                    throw new SoundByteException(result.ErrorTitle, result.ErrorMessage);
+                    throw new SoundByteException(result.Response.ErrorTitle, result.Response.ErrorMessage);
                 }
 
-                return result;
+                return result.Response;
             }
             catch (HttpRequestException hex)
             {

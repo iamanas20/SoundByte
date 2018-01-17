@@ -50,7 +50,7 @@ namespace SoundByte.UWP.ViewModels
                     PinButtonText = resources.GetString("AppBarUI_Pin_Raw");
                 }
 
-                if (await SoundByteService.Current.ExistsAsync(ServiceType.SoundCloud, $"/e1/me/playlist_likes/{Playlist.PlaylistId}"))
+                if ((await SoundByteService.Current.ExistsAsync(ServiceType.SoundCloud, $"/e1/me/playlist_likes/{Playlist.PlaylistId}")).Response)
                     LikeButtonText = "Unlike Playlist";
                 else
                     LikeButtonText = "Like Playlist";
@@ -59,7 +59,7 @@ namespace SoundByte.UWP.ViewModels
                 {
                     // Get the playlist tracks
                     var playlistTracks =
-                        (await SoundByteService.Current.GetAsync<SoundCloudPlaylist>(ServiceType.SoundCloud, "/playlists/" + Playlist.PlaylistId)).Tracks;
+                        (await SoundByteService.Current.GetAsync<SoundCloudPlaylist>(ServiceType.SoundCloud, "/playlists/" + Playlist.PlaylistId)).Response.Tracks;
                     playlistTracks.ForEach(x => Tracks.Add(x.ToBaseTrack()));
                 }
                 catch (Exception)

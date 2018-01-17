@@ -27,14 +27,14 @@ namespace SoundByte.Core.Sources.YouTube
                 }, cancellationToken).ConfigureAwait(false);
 
             // If there are no tracks
-            if (!tracks.Tracks.Any())
+            if (!tracks.Response.Tracks.Any())
             {
                 return new SourceResponse<BaseTrack>(null, null, false, "No results found", "There are no trending YouTube items.");
             }
 
             // Convert YouTube specific tracks to base tracks
             var baseTracks = new List<BaseTrack>();
-            foreach (var track in tracks.Tracks)
+            foreach (var track in tracks.Response.Tracks)
             {
                 if (track.Id.Kind == "youtube#video")
                 {
@@ -43,7 +43,7 @@ namespace SoundByte.Core.Sources.YouTube
             }
 
             // Return the items
-            return new SourceResponse<BaseTrack>(baseTracks, tracks.NextList);
+            return new SourceResponse<BaseTrack>(baseTracks, tracks.Response.NextList);
         }
 
         [JsonObject]

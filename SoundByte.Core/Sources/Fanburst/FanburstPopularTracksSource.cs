@@ -18,14 +18,14 @@ namespace SoundByte.Core.Sources.Fanburst
             var tracks = await SoundByteService.Current.GetAsync<List<FanburstTrack>>(ServiceType.Fanburst, "tracks/trending", null, cancellationToken).ConfigureAwait(false);
 
             // If there are no tracks
-            if (!tracks.Any())
+            if (!tracks.Response.Any())
             {
                 return new SourceResponse<BaseTrack>(null, null, false, "No results found", "There are no popular Fanburst items.");
             }
 
             // Convert Fanburst specific tracks to base tracks
             var baseTracks = new List<BaseTrack>();
-            tracks.ForEach(x => baseTracks.Add(x.ToBaseTrack()));
+            tracks.Response.ForEach(x => baseTracks.Add(x.ToBaseTrack()));
 
             // Return the items
             return new SourceResponse<BaseTrack>(baseTracks, "eol");

@@ -170,12 +170,12 @@ namespace SoundByte.Core.Items.Track
                 }, cancellationTokenSource);
 
             // Parse the next URL and grab the token
-            var nextUri = new QueryParameterCollection(soundCloudComments.NextList);
+            var nextUri = new QueryParameterCollection(soundCloudComments.Response.NextList);
             var nextToken = nextUri.FirstOrDefault(x => x.Key == "offset").Value;
 
             // Convert our list of SoundCloud comments to base comments
             var baseCommentList = new List<BaseComment>();
-            soundCloudComments.Items.ForEach(x => baseCommentList.Add(x.ToBaseComment()));
+            soundCloudComments.Response.Items.ForEach(x => baseCommentList.Add(x.ToBaseComment()));
 
             // Return the data
             return new BaseTrack.CommentResponse {Comments = baseCommentList, Token = nextToken};
@@ -186,8 +186,8 @@ namespace SoundByte.Core.Items.Track
             if (!SoundByteService.Current.IsServiceConnected(ServiceType.SoundCloud))
                 return false;
 
-            return await SoundByteService.Current.PutAsync(ServiceType.SoundCloud,
-                $"/e1/me/track_likes/{Id}");
+            return (await SoundByteService.Current.PutAsync(ServiceType.SoundCloud,
+                $"/e1/me/track_likes/{Id}")).Response;
         }
 
         public async Task<bool> UnlikeAsync()
@@ -195,8 +195,8 @@ namespace SoundByte.Core.Items.Track
             if (!SoundByteService.Current.IsServiceConnected(ServiceType.SoundCloud))
                 return false;
 
-            return await SoundByteService.Current.DeleteAsync(ServiceType.SoundCloud,
-                $"/e1/me/track_likes/{Id}");
+            return (await SoundByteService.Current.DeleteAsync(ServiceType.SoundCloud,
+                $"/e1/me/track_likes/{Id}")).Response;
         }
 
         [JsonObject]

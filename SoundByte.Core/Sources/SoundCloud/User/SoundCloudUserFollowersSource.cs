@@ -38,18 +38,18 @@ namespace SoundByte.Core.Sources.SoundCloud.User
                 }, cancellationToken).ConfigureAwait(false);
 
             // If there are no users
-            if (!followings.Users.Any())
+            if (!followings.Response.Users.Any())
             {
                 return new SourceResponse<BaseUser>(null, null, false, "No users", "This user does not follow anything  have anyone following them");
             }
 
             // Parse uri for cursor
-            var param = new QueryParameterCollection(followings.NextList);
+            var param = new QueryParameterCollection(followings.Response.NextList);
             var nextToken = param.FirstOrDefault(x => x.Key == "cursor").Value;
 
             // Convert SoundCloud specific tracks to base tracks
             var baseUsers = new List<BaseUser>();
-            followings.Users.ForEach(x => baseUsers.Add(x.ToBaseUser()));
+            followings.Response.Users.ForEach(x => baseUsers.Add(x.ToBaseUser()));
 
             // Return the items
             return new SourceResponse<BaseUser>(baseUsers, nextToken);

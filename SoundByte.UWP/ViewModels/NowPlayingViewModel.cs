@@ -63,7 +63,7 @@ namespace SoundByte.UWP.ViewModels
                 PinButtonText = TileHelper.IsTilePinned("Track_" + newTrack.TrackId) ? "Unpin" : "Pin";
 
                 // Set the like button text
-                LikeButtonText = await SoundByteService.Current.ExistsAsync(ServiceType.SoundCloud, "/me/favorites/" + newTrack.TrackId)
+                LikeButtonText = (await SoundByteService.Current.ExistsAsync(ServiceType.SoundCloud, "/me/favorites/" + newTrack.TrackId)).Response
                     ? "Unlike"
                     : "Like";
 
@@ -341,7 +341,7 @@ namespace SoundByte.UWP.ViewModels
             if (RepostButtonText == "Unpost")
             {
                 // Delete the repost value and check if it was successful
-                if (await SoundByteService.Current.DeleteAsync(ServiceType.SoundCloud, "/e1/me/track_reposts/" + currentTrack.TrackId))
+                if ((await SoundByteService.Current.DeleteAsync(ServiceType.SoundCloud, "/e1/me/track_reposts/" + currentTrack.TrackId)).Response)
                 {
                     RepostButtonText = "Repost";
                     // Track Event
@@ -355,7 +355,7 @@ namespace SoundByte.UWP.ViewModels
             else
             {
                 // Put a value in the reposted tracks and see if successful
-                if (await SoundByteService.Current.PutAsync(ServiceType.SoundCloud, $"/e1/me/track_reposts/{currentTrack.TrackId}"))
+                if ((await SoundByteService.Current.PutAsync(ServiceType.SoundCloud, $"/e1/me/track_reposts/{currentTrack.TrackId}")).Response)
                 {
                     RepostButtonText = "Unpost";
                     // Track Event
@@ -384,7 +384,7 @@ namespace SoundByte.UWP.ViewModels
             if (LikeButtonText == "Unlike")
             {
                 // Delete the like from the users likes and see if successful
-                if (await SoundByteService.Current.DeleteAsync(ServiceType.SoundCloud, "/e1/me/track_likes/" + currentTrack.TrackId))
+                if ((await SoundByteService.Current.DeleteAsync(ServiceType.SoundCloud, "/e1/me/track_likes/" + currentTrack.TrackId)).Response)
                 {
                     LikeButtonText = "Like";
                     // Track Event
@@ -398,7 +398,7 @@ namespace SoundByte.UWP.ViewModels
             else
             {
                 // Add a like to the users likes and see if successful
-                if (await SoundByteService.Current.PutAsync(ServiceType.SoundCloud, $"/e1/me/track_likes/{currentTrack.TrackId}"))
+                if ((await SoundByteService.Current.PutAsync(ServiceType.SoundCloud, $"/e1/me/track_likes/{currentTrack.TrackId}")).Response)
                 {
                     LikeButtonText = "Unlike";
                     // Track Event
@@ -457,7 +457,7 @@ namespace SoundByte.UWP.ViewModels
             await App.SetLoadingAsync(false);
 
             // Navigate to the user page
-            App.NavigateTo(typeof(UserView), currentUser.ToBaseUser());
+            App.NavigateTo(typeof(UserView), currentUser.Response.ToBaseUser());
         }
 
         #endregion

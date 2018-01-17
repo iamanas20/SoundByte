@@ -56,16 +56,16 @@ namespace SoundByte.Core.Sources.SoundCloud.User
                     }, cancellationToken).ConfigureAwait(false);
 
                 // If there are no tracks
-                if (!playlists.Playlists.Any())
+                if (!playlists.Response.Playlists.Any())
                 {
                     return new SourceResponse<BasePlaylist>(null, null, false, "Nothing to hear here", "This user has uploaded no playlists");
                 }
 
                 // Parse uri for cursor
-                var param = new QueryParameterCollection(playlists.NextList);
+                var param = new QueryParameterCollection(playlists.Response.NextList);
                 nextToken = param.FirstOrDefault(x => x.Key == "offset").Value;
 
-                playlists.Playlists.ForEach(x => basePlaylists.Add(x.Playlist.ToBasePlaylist()));             
+                playlists.Response.Playlists.ForEach(x => basePlaylists.Add(x.Playlist.ToBasePlaylist()));             
             }
             else
             {
@@ -82,17 +82,17 @@ namespace SoundByte.Core.Sources.SoundCloud.User
                     }, cancellationToken).ConfigureAwait(false);
 
                 // If there are no tracks
-                if (!playlists.Playlists.Any())
+                if (!playlists.Response.Playlists.Any())
                 {
                     return new SourceResponse<BasePlaylist>(null, null, false, "Nothing to hear here", "This user has uploaded no playlists");
                 }
 
                 // Parse uri for cursor
-                var param = new QueryParameterCollection(playlists.NextList);
+                var param = new QueryParameterCollection(playlists.Response.NextList);
                 nextToken = param.FirstOrDefault(x => x.Key == "offset").Value;
 
               
-                playlists.Playlists.ForEach(x => basePlaylists.Add(x.ToBasePlaylist()));  
+                playlists.Response.Playlists.ForEach(x => basePlaylists.Add(x.ToBasePlaylist()));  
             }
 
             // Return the items

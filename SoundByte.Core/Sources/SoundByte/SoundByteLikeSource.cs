@@ -31,20 +31,20 @@ namespace SoundByte.Core.Sources.SoundByte
                 { "PageSize", "30" }
             }, cancellationToken).ConfigureAwait(false);
 
-            if (!likes.Items.Any())
+            if (!likes.Response.Items.Any())
             {
                 return new SourceResponse<BaseTrack>(null, null, false, "No Likes", "Like a SoundCloud / Fanburst track or a YouTube music video to start!");
             }
 
-            var nextPage = likes.Links.FirstOrDefault(x => x.Rel == "next_page");
+            var nextPage = likes.Response.Links.FirstOrDefault(x => x.Rel == "next_page");
 
             if (nextPage == null)
-                return new SourceResponse<BaseTrack>(likes.Items, "eol");
+                return new SourceResponse<BaseTrack>(likes.Response.Items, "eol");
 
             var param = new QueryParameterCollection(nextPage.Href);
             var nextToken = param.FirstOrDefault(x => x.Key == "PageNumber").Value;
 
-            return new SourceResponse<BaseTrack>(likes.Items, nextToken);
+            return new SourceResponse<BaseTrack>(likes.Response.Items, nextToken);
         }
 
         public class LikesOutputModel

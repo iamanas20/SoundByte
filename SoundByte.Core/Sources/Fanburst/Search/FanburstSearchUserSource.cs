@@ -30,14 +30,14 @@ namespace SoundByte.Core.Sources.Fanburst.Search
 
 
             // If there are no users
-            if (!users.Any())
+            if (!users.Response.Any())
             {
                 return new SourceResponse<BaseUser>(null, null, false, "No results found", "Could not find any results for '" + SearchQuery + "'");
             }
 
             // Convert Fanburst specific users to base users
             var baseUsers = new List<BaseUser>();
-            users.ForEach(x => baseUsers.Add(x.ToBaseUser()));
+            users.Response.ForEach(x => baseUsers.Add(x.ToBaseUser()));
 
             // Return the items
             return new SourceResponse<BaseUser>(baseUsers, "eol");

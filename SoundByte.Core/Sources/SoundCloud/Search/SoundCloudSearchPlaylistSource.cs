@@ -32,18 +32,18 @@ namespace SoundByte.Core.Sources.SoundCloud.Search
                 }, cancellationToken).ConfigureAwait(false);
 
             // If there are no playlists
-            if (!playlists.Playlists.Any())
+            if (!playlists.Response.Playlists.Any())
             {
                 return new SourceResponse<BasePlaylist>(null, null, false, "No results found", "Could not find any results for '" + SearchQuery + "'");
             }
 
             // Parse uri for offset
-            var param = new QueryParameterCollection(playlists.NextList);
+            var param = new QueryParameterCollection(playlists.Response.NextList);
             var nextToken = param.FirstOrDefault(x => x.Key == "offset").Value;
 
             // Convert SoundCloud specific playlists to base playlists
             var basePlaylists = new List<BasePlaylist>();
-            playlists.Playlists.ForEach(x => basePlaylists.Add(x.ToBasePlaylist()));
+            playlists.Response.Playlists.ForEach(x => basePlaylists.Add(x.ToBasePlaylist()));
 
             // Return the items
             return new SourceResponse<BasePlaylist>(basePlaylists, nextToken);
