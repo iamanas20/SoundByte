@@ -64,7 +64,8 @@ namespace SoundByte.Core.Items.Playlist
                 Genre = "YouTube",
                 Description = Snippet.Description,
                 CreationDate = DateTime.Parse(Snippet.PublishedAt),
-                ArtworkLink = Snippet.Thumbnails.HighSize.Url,
+                ArtworkUrl = Snippet.Thumbnails.HighSize.Url,
+                ThumbnailUrl = Snippet.Thumbnails.MediumSize.Url,
                 User = new BaseUser
                 {
                     UserId = Snippet.ChannelId,

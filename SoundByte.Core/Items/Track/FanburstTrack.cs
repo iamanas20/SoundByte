@@ -81,6 +81,7 @@ namespace SoundByte.Core.Items.Track
                 AudioStreamUrl = string.Empty,
                 VideoStreamUrl = string.Empty,
                 ArtworkUrl = Images.Square500,
+                ThumbnailUrl = Images.Square250,
                 Title = Title,
                 Description = string.Empty,
                 Duration = TimeSpan.FromSeconds(Duration),
@@ -96,8 +97,6 @@ namespace SoundByte.Core.Items.Track
 
         public async Task<BaseTrack.CommentResponse> GetCommentsAsync(int count, string token, CancellationTokenSource cancellationTokenSource = null)
         {
-
-
             // Fanburst does not support comments
             return await Task.Run(() => new BaseTrack.CommentResponse { Comments = null, Token = "" });
         }
@@ -107,7 +106,7 @@ namespace SoundByte.Core.Items.Track
             if (!SoundByteService.Current.IsServiceConnected(ServiceType.Fanburst))
                 return false;
 
-            return (await SoundByteService.Current.PostAsync<bool>(ServiceType.SoundCloud,
+            return (await SoundByteService.Current.PostAsync<bool>(ServiceType.Fanburst,
                 $"/e1/me/track_likes/{Id}")).Response;
         }
 

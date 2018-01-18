@@ -6,10 +6,14 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:audioVisualizer="using:AudioVisualizer"
+    xmlns:converters="using:SoundByte.UWP.Converters"
     mc:Ignorable="d"
     d:DesignHeight="64">
 
     <UserControl.Resources>
+        <converters:SliderValueConverter x:Key="SliderValueConverter" />
+        <converters:TrackLikeToIconConverter x:Key="TrackLikeToIconConverter" />
+        
         <Style x:Key="NowPlayingButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
             <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
@@ -135,7 +139,7 @@
                           Height="44" 
                           Width="44">
                         <Image Margin="-3"
-                               Source="{x:Bind PlaybackViewModel.CurrentTrack, Converter={StaticResource ArtworkConverter}, Mode=OneWay}" />
+                               Source="{x:Bind PlaybackViewModel.CurrentTrack.ThumbnailUrl, Mode=OneWay}" />
                     </Grid>
                 </controls:DropShadowPanel>
 

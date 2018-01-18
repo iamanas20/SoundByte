@@ -4,11 +4,18 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"   
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:converters="using:SoundByte.UWP.Converters"
     mc:Ignorable="d"
     d:DesignHeight="260"
     d:DesignWidth="200">
 
+    <UserControl.Resources>
+        <converters:TimeStampConverter x:Key="TimeStampConverter" />
+        <converters:ServiceToImageConverter x:Key="ServiceToImageConverter" />
+        <converters:TrackLikeToIconConverter x:Key="TrackLikeToIconConverter" />
+    </UserControl.Resources>
+    
     <Grid Height="250" 
           PointerEntered="OnPointerEntered"
           PointerExited="OnPointerExited"
@@ -28,8 +35,7 @@
             <Grid>
                 <!-- Track Image -->
                 <Image x:Name="TrackImage"
-                                  Source="{x:Bind Path=Track, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
-                       
+                                  Source="{x:Bind Path=Track.ThumbnailUrl, Mode=OneWay}"
                                   VerticalAlignment="Center"
                                   Width="170" 
                                   Height="170"

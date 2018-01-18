@@ -245,7 +245,7 @@
               Grid.RowSpan="2"
               Grid.Row="0"
               Margin="-40,0,0,0"
-              Visibility="Collapsed" Background="{ThemeResource ShellNavigationBackground}">
+              Visibility="Collapsed" Background="{ThemeResource ShellBackground}">
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                 <ProgressRing IsActive="True" Width="80" Height="80" />
                 <TextBlock TextAlignment="Center" Text="Loading..." FontSize="28" FontWeight="SemiBold"

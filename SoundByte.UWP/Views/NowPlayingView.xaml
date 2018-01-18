@@ -3,7 +3,6 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    NavigationCacheMode="Enabled"
     xmlns:converters="using:SoundByte.UWP.Converters"
     xmlns:track="using:SoundByte.Core.Items.Track"
     xmlns:comment="using:SoundByte.Core.Items.Comment">
@@ -17,6 +16,13 @@
 
     <Page.Resources>
         <converters:SliderValueConverter x:Key="SliderValueConverter" />
+        <converters:FormattedValueConverter x:Key="FormattedValueConverter" />
+        <converters:DateTimeConverter x:Key="ModernDateTimeConverter" />
+        <converters:TimeStampConverter x:Key="TimeStampConverter" />
+        <converters:BoolToFontWeightConverter x:Key="BoolToFontWeightConverter" />
+        <converters:ServiceToImageConverter x:Key="ServiceToImageConverter" />
+        <converters:TrackLikeToIconConverter x:Key="TrackLikeToIconConverter" />
+
         <!-- Related Items Template -->
         <DataTemplate x:DataType="track:BaseTrack" x:Key="RelatedItemTemplate">
             <Grid HorizontalAlignment="Stretch"
@@ -90,7 +96,7 @@
         <!-- Background Image -->
         <controls:ImageEx
             x:Name="BackgroundImage"
-            Source="{x:Bind ViewModel.PlaybackViewModel.CurrentTrack, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
+            Source="{x:Bind ViewModel.PlaybackViewModel.CurrentTrack.ArtworkUrl, Mode=OneWay}"
             PlaceholderSource="/Assets/PlaceholderBackground.png"
             PlaceholderStretch="UniformToFill"
             Stretch="UniformToFill"
@@ -156,7 +162,7 @@
                     <Image x:Name="ArtworkImage"
                            IsHitTestVisible="False"
                            Stretch="UniformToFill"
-                           Source="{x:Bind Path=ViewModel.PlaybackViewModel.CurrentTrack, Mode=OneWay, Converter={StaticResource ArtworkConverter}}" />
+                           Source="{x:Bind Path=ViewModel.PlaybackViewModel.CurrentTrack.ArtworkUrl, Mode=OneWay}" />
                 </Grid>
                 
                 
@@ -487,7 +493,7 @@
                                                  HorizontalAlignment="Left">
                                             <Ellipse.Fill>
                                                 <ImageBrush
-                                                    ImageSource="{x:Bind Path=ViewModel.PlaybackViewModel.CurrentTrack.User, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
+                                                    ImageSource="{x:Bind Path=ViewModel.PlaybackViewModel.CurrentTrack.User.ThumbnailUrl, Mode=OneWay}"
                                                     Stretch="UniformToFill" />
                                             </Ellipse.Fill>
                                         </Ellipse>
@@ -548,7 +554,7 @@
                                              Margin="5,0,0,0">
                                         <Ellipse.Fill>
                                             <ImageBrush
-                                                ImageSource="{x:Bind Path=User, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
+                                                ImageSource="{x:Bind Path=User.ThumbnailUrl, Mode=OneWay}"
                                                 Stretch="UniformToFill" />
                                         </Ellipse.Fill>
                                     </Ellipse>

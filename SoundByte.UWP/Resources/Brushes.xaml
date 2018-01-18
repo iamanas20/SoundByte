@@ -6,25 +6,14 @@
     <ResourceDictionary.ThemeDictionaries>
         <!-- Dark -->
         <ResourceDictionary x:Key="Dark">
-            <!-- Shell Colors -->
-            <Color x:Key="ShellNavigationBackgroundColor">#FF363636</Color>
             <Color x:Key="ShellBackgroundColor">#FF1D1D1D</Color>
             <Color x:Key="SoundByteButtonBackgroundColor">#AA2B2B2B</Color>
-            <!-- Grey Background Color -->
-            <SolidColorBrush x:Key="SecondaryBackgroundColor" Color="#0DFFFFFF" />
-            
-            
-            
-            
         </ResourceDictionary>
+        
         <!-- Light -->
         <ResourceDictionary x:Key="Light">
-            <!-- Shell Colors -->
-            <Color x:Key="ShellNavigationBackgroundColor">#FFF8F8F8</Color>
             <Color x:Key="ShellBackgroundColor">#FFF2F2F2</Color>
             <Color x:Key="SoundByteButtonBackgroundColor">#FFFFFFFF</Color>
-            <!-- Grey Background Color -->
-            <SolidColorBrush x:Key="SecondaryBackgroundColor" Color="#15000000" />
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 
@@ -36,13 +25,11 @@
 
     <AcrylicBrush x:Key="ContentDialogBackgroundAcrylicBrush"
                   BackgroundSource="Backdrop"
-                  TintColor="#22000000"
-                  
+                  TintColor="#22000000"          
                   TintOpacity="0.5"
                   FallbackColor="#88000000"/>
 
     <!-- Shell Brushes -->
-    <SolidColorBrush x:Key="ShellNavigationBackground" Color="{ThemeResource ShellNavigationBackgroundColor}" />
     <SolidColorBrush x:Key="ShellBackground" Color="{ThemeResource ShellBackgroundColor}" />
     <SolidColorBrush x:Key="SoundByteButtonBackground" Color="{ThemeResource SoundByteButtonBackgroundColor}" />
 </ResourceDictionary>

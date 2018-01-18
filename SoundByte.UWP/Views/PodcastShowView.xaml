@@ -8,8 +8,14 @@
     xmlns:track="using:SoundByte.Core.Items.Track"
     xmlns:controls="using:SoundByte.UWP.Controls"
     xmlns:controls1="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:converters="using:SoundByte.UWP.Converters"
     NavigationCacheMode="Enabled"
     Transitions="{StaticResource MainTransition}">
+    
+    <Page.Resources>
+        <converters:FormattedValueConverter x:Key="FormattedValueConverter" />
+        <converters:TimeStampConverter x:Key="TimeStampConverter" />
+    </Page.Resources>
     
     <Grid Background="{ThemeResource ShellBackground}">
 
@@ -145,7 +151,7 @@
                                   HorizontalAlignment="Stretch" 
                                   Width="220"
                                   Height="220">
-                                <Image Source="{x:Bind ViewModel.PodcastShow, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
+                                <Image Source="{x:Bind ViewModel.PodcastShow.ArtworkUrl, Mode=OneWay}"
                                        Stretch="UniformToFill" />
                             </Grid>
                         </Grid>

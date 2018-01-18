@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
@@ -41,9 +42,13 @@ namespace SoundByte.Core.Items.User
         [JsonProperty("username")]
         public string Username { get; set; }
 
-        [Column("artwork_link")]
-        [JsonProperty("artwork_link")]
-        public string ArtworkLink { get; set; }
+        [Column("artwork_url")]
+        [JsonProperty("artwork_url")]
+        public string ArtworkUrl { get; set; }
+
+        [Column("thumbnail_url")]
+        [JsonProperty("thumbnail_url")]
+        public string ThumbnailUrl { get; set; }
 
         [Column("country")]
         [JsonProperty("country")]
@@ -72,5 +77,12 @@ namespace SoundByte.Core.Items.User
         [Column("playlist_count")]
         [JsonProperty("playlist_count")]
         public double PlaylistCount { get; set; }
+
+        /// <summary>
+        ///     Custom properties you can set
+        /// </summary>
+        [NotMapped]
+        [JsonIgnore]
+        public Dictionary<string, object> CustomProperties { get; } = new Dictionary<string, object>();
     }
 }

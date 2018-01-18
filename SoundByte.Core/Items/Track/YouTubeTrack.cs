@@ -87,10 +87,11 @@ namespace SoundByte.Core.Items.Track
                 TrackId = Id.VideoId,
                 Link = $"https://www.youtube.com/watch?v={Id.VideoId}",
                 ArtworkUrl = Snippet.Thumbnails.HighSize.Url,
+                ThumbnailUrl = Snippet.Thumbnails.MediumSize.Url,
                 Title = Snippet.Title,
                 Description = Snippet.Description,
                 Created = DateTime.Parse(Snippet.PublishedAt),
-                Duration =  (ContentDetails != null) ? XmlConvert.ToTimeSpan(ContentDetails.Duration) : TimeSpan.FromMilliseconds(0),
+                Duration =  ContentDetails != null ? XmlConvert.ToTimeSpan(ContentDetails.Duration) : TimeSpan.FromMilliseconds(0),
                 Genre = "YouTube",
                 IsLive = Snippet.LiveBroadcastContent != "none",
                 User = new BaseUser

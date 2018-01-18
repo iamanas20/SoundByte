@@ -129,6 +129,22 @@ namespace SoundByte.Core.Items.Track
         /// <returns></returns>
         public BaseTrack ToBaseTrack()
         {
+            var user = User.ToBaseUser();
+
+            var thumbnailUrl = ArtworkUrl;
+            var artworkUrl = ArtworkUrl;
+
+            if (string.IsNullOrEmpty(ArtworkUrl))
+            {
+                thumbnailUrl = user.ThumbnailUrl;
+                artworkUrl = user.ArtworkUrl;
+            }
+            else if (ArtworkUrl.Contains("large"))
+            {
+                thumbnailUrl = ArtworkUrl.Replace("large", "t300x300");
+                artworkUrl = ArtworkUrl.Replace("large", "t500x500");
+            }
+
             return new BaseTrack
             {
                 ServiceType = ServiceType.SoundCloud,
@@ -136,7 +152,8 @@ namespace SoundByte.Core.Items.Track
                 Link = PermalinkUrl,
                 AudioStreamUrl = string.Empty,
                 VideoStreamUrl = string.Empty,
-                ArtworkUrl = ArtworkUrl,
+                ArtworkUrl = artworkUrl,
+                ThumbnailUrl = thumbnailUrl,
                 Title = Title,
                 Description = Description,
                 Duration = TimeSpan.FromMilliseconds(Duration), 
@@ -147,7 +164,7 @@ namespace SoundByte.Core.Items.Track
                 CommentCount = CommentCount,
                 Genre = Genre,
                 IsLiked = IsUserLiked.HasValue && IsUserLiked.Value,
-                User = User.ToBaseUser()
+                User = user
             };
         }
 

@@ -41,7 +41,8 @@ namespace SoundByte.Core.Items.Playlist
                 Title = Title,
                 Genre = "Unknown",
                 CreationDate = PublishedAt,
-                ArtworkLink = ImageUrl,
+                ArtworkUrl = ImageUrl,
+                ThumbnailUrl = ImageUrl,
                 User = User.ToBaseUser(),
                 LikesCount = 0,
                 TrackCount = TracksCount

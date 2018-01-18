@@ -74,7 +74,7 @@
         <controls:ImageEx
             Grid.Row="0"
             Grid.RowSpan="4"
-            Source="{x:Bind PlaybackViewModel.CurrentTrack, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
+            Source="{x:Bind PlaybackViewModel.CurrentTrack.ArtworkUrl, Mode=OneWay}"
             PlaceholderSource="/Assets/Misc/XboxBG.png"
             PlaceholderStretch="UniformToFill"
             Stretch="UniformToFill"

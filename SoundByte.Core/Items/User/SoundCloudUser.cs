@@ -63,12 +63,34 @@ namespace SoundByte.Core.Items.User
 
         public BaseUser ToBaseUser()
         {
+            var thumbnailUrl = AvatarUrl;
+            var artworkUrl = AvatarUrl;
+
+            if (string.IsNullOrEmpty(AvatarUrl))
+            {
+                thumbnailUrl = "http://a1.sndcdn.com/images/default_avatar_large.png";
+                artworkUrl = "http://a1.sndcdn.com/images/default_avatar_large.png";
+            }
+
+            if (AvatarUrl.Contains("large"))
+            {
+                thumbnailUrl = AvatarUrl.Replace("large", "t300x300");
+                artworkUrl = AvatarUrl.Replace("large", "t500x500");
+            }
+
+            if (AvatarUrl.Contains("default_avatar"))
+            {
+                thumbnailUrl = AvatarUrl;
+                artworkUrl = AvatarUrl;
+            }
+
             return new BaseUser
             {
                 ServiceType = ServiceType.SoundCloud,
                 UserId = Id.ToString(),
                 Username = Username,
-                ArtworkLink = AvatarUrl,
+                ArtworkUrl = artworkUrl,
+                ThumbnailUrl = thumbnailUrl,
                 Country = Country,
                 PermalinkUri = PermalinkUrl,
                 Description = Description,

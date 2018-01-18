@@ -57,7 +57,7 @@ namespace SoundByte.Core.Items.Comment
                 CommentTime = TimeSpan.Zero,
                 User = new BaseUser
                 {
-                    ArtworkLink = Snippet.Comment.Snippet.AuthorProfileUrl,
+                    ArtworkUrl = Snippet.Comment.Snippet.AuthorProfileUrl,
                     ServiceType = ServiceType.YouTube,
                     Username = Snippet.Comment.Snippet.AuthorName
                 }

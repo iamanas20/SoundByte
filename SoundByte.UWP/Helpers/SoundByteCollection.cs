@@ -160,6 +160,7 @@ namespace SoundByte.UWP.Helpers
                     {
                         await ShowErrorMessageAsync(response.Messages?.MessageTitle, response.Messages?.MessageContent);
 
+                        Token = "eol";
                         return new LoadMoreItemsResult { Count = 0 };
                     }
 

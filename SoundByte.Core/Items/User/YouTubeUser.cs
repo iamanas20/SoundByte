@@ -46,7 +46,8 @@ namespace SoundByte.Core.Items.User
                 ServiceType = ServiceType.YouTube,
                 UserId = Id.ChannelId,
                 Username = Snippet.Title,
-                ArtworkLink = Snippet.Thumbnails.HighSize.Url,
+                ArtworkUrl = Snippet.Thumbnails.HighSize.Url,
+                ThumbnailUrl = Snippet.Thumbnails.MediumSize.Url,
                 Description = Snippet.Description
             };
         }

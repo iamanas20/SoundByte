@@ -5,6 +5,14 @@
     xmlns:stateTriggers="using:SoundByte.UWP.StateTriggers"
     xmlns:controls="using:SoundByte.UWP.Controls">
 
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources/ShellResources.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+    
     <Grid Background="{ThemeResource ShellBackground}">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="DeviceStates">

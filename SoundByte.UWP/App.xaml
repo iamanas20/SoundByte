@@ -7,8 +7,6 @@
             <ResourceDictionary.MergedDictionaries>
                 <!-- Used for Track, User and Playlist items -->
                 <ResourceDictionary Source="Resources/DataTemplates.xaml" />
-                <!-- Contains Convertes used throughout the app -->
-                <ResourceDictionary Source="Resources/Converters.xaml" />
                 <!-- Color & Lighting brushes used throughout app -->
                 <ResourceDictionary Source="Resources/Brushes.xaml" />
                 <!-- Contains styles for default components (minimum changes)

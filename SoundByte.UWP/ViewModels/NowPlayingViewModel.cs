@@ -313,7 +313,7 @@ namespace SoundByte.UWP.ViewModels
                     // Create a live tile and check if it was created
                     if (await TileHelper.CreateTileAsync("Track_" + currentTrack.TrackId,
                         currentTrack.Title, "soundbyte://core/track?id=" + currentTrack.TrackId,
-                        new Uri(ArtworkConverter.ConvertObjectToImage(currentTrack)), ForegroundText.Light))
+                        new Uri(currentTrack.ThumbnailUrl), ForegroundText.Light))
                     {
                         PinButtonText = "Unpin";
                         // Track Event

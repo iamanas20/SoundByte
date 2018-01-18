@@ -5,10 +5,16 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:converters="using:SoundByte.UWP.Converters"
     mc:Ignorable="d"
     d:DesignHeight="260"
     d:DesignWidth="200">
 
+    <UserControl.Resources>
+        <converters:TimeStampConverter x:Key="TimeStampConverter" />
+        <converters:ServiceToImageConverter x:Key="ServiceToImageConverter" />
+    </UserControl.Resources>
+    
     <Grid Height="250" 
           PointerEntered="OnPointerEntered"
           PointerExited="OnPointerExited"
@@ -44,7 +50,7 @@
 
                 <!-- Playlist Image -->
                 <Image x:Name="PlaylistImage"
-                                  Source="{x:Bind Path=Playlist, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
+                                  Source="{x:Bind Path=Playlist.ThumbnailUrl, Mode=OneWay}"
                                   VerticalAlignment="Center"
                                   Width="170" 
                                   Height="170"

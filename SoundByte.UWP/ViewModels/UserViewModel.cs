@@ -283,7 +283,7 @@ namespace SoundByte.UWP.ViewModels
             {
                 // Create the tile
                 if (await TileHelper.CreateTileAsync("User_" + User.UserId, User.Username,
-                    "soundbyte://core/user?id=" + User.UserId, new Uri(ArtworkConverter.ConvertObjectToImage(User)),
+                    "soundbyte://core/user?id=" + User.UserId, new Uri(User.ThumbnailUrl),
                     ForegroundText.Light))
                 {
                     App.Telemetry.TrackEvent("Pin User");

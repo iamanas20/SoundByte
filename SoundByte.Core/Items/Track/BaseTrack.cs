@@ -124,302 +124,117 @@ namespace SoundByte.Core.Items.Track
         /// </summary>
         [Column("track_id")]
         [JsonProperty("track_id")]
-        public string TrackId
-        {
-            get => _trackId;
-            set
-            {
-                if (value == _trackId)
-                    return;
-
-                _trackId = value;
-                UpdateProperty();
-            }
-        }
-        private string _trackId;
+        public string TrackId { get; set; }
 
         /// <summary>
         ///     Link to the track
         /// </summary>
         [Column("link")]
         [JsonProperty("link")]
-        public string Link
-        {
-            get => _link;
-            set
-            {
-                if (value == _link)
-                    return;
-
-                _link = value;
-                UpdateProperty();
-            }
-        }
-        private string _link;
+        public string Link { get; set; }
 
         /// <summary>
         ///     Is the track currently live (used for YouTube videos)
         /// </summary>
         [Column("is_live")]
         [JsonProperty("is_live")]
-        public bool IsLive
-        {
-            get => _isLive;
-            set
-            {
-                if (value == _isLive)
-                    return;
-
-                _isLive = value;
-                UpdateProperty();
-            }
-        }
-        private bool _isLive;
+        public bool IsLive { get; set; }
 
         /// <summary>
         ///     Url to the audio stream
         /// </summary>
         [NotMapped]
-        public string AudioStreamUrl
-        {
-            get => _audioStreamUrl;
-            set
-            {
-                if (value == _audioStreamUrl)
-                    return;
-
-                _audioStreamUrl = value;
-                UpdateProperty();
-            }
-        }
-        private string _audioStreamUrl;
+        public string AudioStreamUrl { get; set; }
 
         /// <summary>
         ///     Url to the video stream
         /// </summary>
         [NotMapped]
-        public string VideoStreamUrl
-        {
-            get => _videoStreamUrl;
-            set
-            {
-                if (value == _videoStreamUrl)
-                    return;
-
-                _videoStreamUrl = value;
-                UpdateProperty();
-            }
-        }
-        private string _videoStreamUrl;
+        public string VideoStreamUrl { get; set; }
 
         /// <summary>
         ///     Artwork link
         /// </summary>
         [Column("artwork_url")]
         [JsonProperty("artwork_url")]
-        public string ArtworkUrl
-        {
-            get => _artworkUrl;
-            set
-            {
-                if (value == _artworkUrl)
-                    return;
+        public string ArtworkUrl { get; set; }
 
-                _artworkUrl = value;
-                UpdateProperty();
-            }
-        }
-        private string _artworkUrl;
+        /// <summary>
+        ///     Artwork link for thumbnails (smaller)
+        /// </summary>
+        [Column("thumbnail_url")]
+        [JsonProperty("thumbnail_url")]
+        public string ThumbnailUrl { get; set; }
 
         /// <summary>
         ///     Title of the track
         /// </summary>
         [Column("title")]
         [JsonProperty("title")]
-        public string Title
-        {
-            get => _title;
-            set
-            {
-                if (value == _title)
-                    return;
-
-                _title = value;
-                UpdateProperty();
-            }
-        }
-        private string _title;
+        public string Title { get; set; }
 
         /// <summary>
         ///     Description of the track
         /// </summary>
         [Column("description")]
         [JsonProperty("description")]
-        public string Description
-        {
-            get => _description;
-            set
-            {
-                if (value == _description)
-                    return;
-
-                _description = value;
-                UpdateProperty();
-            }
-        }
-        private string _description;
+        public string Description { get; set; }
 
         /// <summary>
         ///     How long is the track
         /// </summary>
         [Column("duration")]
         [JsonProperty("duration")]
-        public TimeSpan Duration
-        {
-            get => _duation;
-            set
-            {
-                if (value == _duation)
-                    return;
-
-                _duation = value;
-                UpdateProperty();
-            }
-        }
-        private TimeSpan _duation;
+        public TimeSpan Duration { get; set; }
 
         /// <summary>
         ///     Date and time the track was created/uploaded
         /// </summary>
         [Column("created")]
         [JsonProperty("created")]
-        public DateTime Created
-        {
-            get => _created;
-            set
-            {
-                if (value == _created)
-                    return;
-
-                _created = value;
-                UpdateProperty();
-            }
-        }
-        private DateTime _created;
+        public DateTime Created { get; set; }
 
         /// <summary>
         ///     Amount of likes
         /// </summary>
         [Column("like_count")]
         [JsonProperty("like_count")]
-        public double LikeCount
-        {
-            get => _likeCount;
-            set
-            {
-                if (value == _likeCount)
-                    return;
-
-                _likeCount = value;
-                UpdateProperty();
-            }
-        }
-        private double _likeCount;
+        public double LikeCount { get; set; }
 
         /// <summary>
         ///     Amount of dislikes (if supported - YouTube)
         /// </summary>
         [Column("dislike_count")]
         [JsonProperty("dislike_count")]
-        public double DislikeCount
-        {
-            get => _dislikeCount;
-            set
-            {
-                if (value == _dislikeCount)
-                    return;
-
-                _dislikeCount = value;
-                UpdateProperty();
-            }
-        }
-        private double _dislikeCount;
+        public double DislikeCount { get; set; }
 
         /// <summary>
         ///     Amount of views
         /// </summary>
         [Column("view_count")]
         [JsonProperty("view_count")]
-        public double ViewCount
-        {
-            get => _viewCount;
-            set
-            {
-                if (value == _viewCount)
-                    return;
-
-                _viewCount = value;
-                UpdateProperty();
-            }
-        }
-        private double _viewCount;
+        public double ViewCount { get; set; }
 
         /// <summary>
         ///     Amount of comments
         /// </summary>
         [Column("comment_count")]
         [JsonProperty("comment_count")]
-        public double CommentCount
-        {
-            get => _commentCount;
-            set
-            {
-                if (value == _commentCount)
-                    return;
-
-                _commentCount = value;
-                UpdateProperty();
-            }
-        }
-        private double _commentCount;
+        public double CommentCount { get; set; }
 
         /// <summary>
         ///     Track Genre
         /// </summary>
         [Column("genre")]
         [JsonProperty("genre")]
-        public string Genre
-        {
-            get => _genre;
-            set
-            {
-                if (value == _genre)
-                    return;
-
-                _genre = value;
-                UpdateProperty();
-            }
-        }
-        private string _genre;
+        public string Genre { get; set; }
 
         /// <summary>
         ///     Has this track been liked
         /// </summary>
         [Column("is_liked")]
         [JsonProperty("is_liked")]
-        public bool IsLiked
-        {
-            get => _isLiked;
-            set
-            {
-                if (value == _isLiked)
-                    return;
-
-                _isLiked = value;
-                UpdateProperty();
-            }
-        }
-        private bool _isLiked;
+        public bool IsLiked { get; set; }
 
 
         [Column("user_id")]
@@ -431,19 +246,7 @@ namespace SoundByte.Core.Items.Track
         /// </summary>
         [Column("user")]
         [JsonProperty("user")]
-        public BaseUser User
-        {
-            get => _user;
-            set
-            {
-                if (value == _user)
-                    return;
-
-                _user = value;
-                UpdateProperty();
-            }
-        }
-        private BaseUser _user;
+        public BaseUser User { get; set; }
 
         /// <summary>
         ///     Custom properties you can set

@@ -85,21 +85,41 @@ namespace SoundByte.Core.Items.Playlist
 
         public BasePlaylist ToBasePlaylist()
         {
-            return new BasePlaylist
+            var user = User.ToBaseUser();
+
+            var thumbnailUrl = ArtworkLink;
+            var artworkUrl = ArtworkLink;
+
+            if (string.IsNullOrEmpty(ArtworkLink))
+            {
+                thumbnailUrl = user.ThumbnailUrl;
+                artworkUrl = user.ArtworkUrl;
+            }
+            else if (ArtworkLink.Contains("large"))
+            {
+                thumbnailUrl = ArtworkLink.Replace("large", "t300x300");
+                artworkUrl = ArtworkLink.Replace("large", "t500x500");
+            }
+
+            var basePlaylist = new BasePlaylist
             {
                 ServiceType = ServiceType.SoundCloud,
                 PlaylistId = Id,
                 Duration = TimeSpan.FromMilliseconds(Duration),
                 Title = Title,
                 Genre = Genre,
-                SecretToken = SecretToken,
                 Description = Description,
                 CreationDate = CreationDate,
-                ArtworkLink = ArtworkLink,
+                ArtworkUrl = artworkUrl,
+                ThumbnailUrl = thumbnailUrl,
                 User = User.ToBaseUser(),
                 LikesCount = LikesCount ?? 0,
                 TrackCount = TrackCount ?? 0
             };
+
+            basePlaylist.CustomProperties.Add("SecretToken", SecretToken);
+
+            return basePlaylist;
         }
     }
 }

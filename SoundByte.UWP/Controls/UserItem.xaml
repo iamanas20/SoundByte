@@ -33,7 +33,8 @@
                      Height="170"
                      Stretch="Uniform">
                 <Ellipse.Fill>
-                    <ImageBrush ImageSource="{x:Bind Path=User, Converter={StaticResource ArtworkConverter}, Mode=OneWay}"
+                    <!-- TODO: This may need a converter -->
+                    <ImageBrush ImageSource="{x:Bind Path=User.ThumbnailUrl, Mode=OneWay}"
                                 Stretch="Uniform" />
                 </Ellipse.Fill>
             </Ellipse>

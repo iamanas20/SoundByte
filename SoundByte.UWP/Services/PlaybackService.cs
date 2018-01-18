@@ -498,7 +498,7 @@ namespace SoundByte.UWP.Services
             displayProperties.Type = MediaPlaybackType.Music;
             displayProperties.MusicProperties.Title = track.Title;
             displayProperties.MusicProperties.Artist = track.User.Username;
-            displayProperties.Thumbnail = RandomAccessStreamReference.CreateFromUri(new Uri(ArtworkConverter.ConvertObjectToImage(track)));
+            displayProperties.Thumbnail = RandomAccessStreamReference.CreateFromUri(new Uri(track.ThumbnailUrl));
 
             // Apply the properties
             mediaPlaybackItem.ApplyDisplayProperties(displayProperties);

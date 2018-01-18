@@ -38,151 +38,55 @@ namespace SoundByte.Core.Items.Podcast
         /// </summary>
         [Column("podcast_id")]
         [JsonProperty("podcast_id")]
-        public string PodcastId
-        {
-            get => _podcastId;
-            set
-            {
-                if (value == _podcastId)
-                    return;
-
-                _podcastId = value;
-                UpdateProperty();
-            }
-        }
-        private string _podcastId;
+        public string PodcastId { get; set; }
 
         /// <summary>
         ///     Username of the person who uploaded the podcast.
         /// </summary>
         [Column("username")]
         [JsonProperty("username")]
-        public string Username
-        {
-            get => _username;
-            set
-            {
-                if (value == _username)
-                    return;
-
-                _username = value;
-                UpdateProperty();
-            }
-        }
-        private string _username;
+        public string Username { get; set; }
 
         /// <summary>
         ///     Title of the podcast.
         /// </summary>
         [Column("title")]
         [JsonProperty("title")]
-        public string Title
-        {
-            get => _title;
-            set
-            {
-                if (value == _title)
-                    return;
-
-                _title = value;
-                UpdateProperty();
-            }
-        }
-        private string _title;
+        public string Title { get; set; }
 
         /// <summary>
         ///     Url to the podcast feed.
         /// </summary>
         [Column("feed_url")]
         [JsonProperty("feed_url")]
-        public string FeedUrl
-        {
-            get => _feedUrl;
-            set
-            {
-                if (value == _feedUrl)
-                    return;
-
-                _feedUrl = value;
-                UpdateProperty();
-            }
-        }
-        private string _feedUrl;
+        public string FeedUrl { get; set; }
 
         /// <summary>
         ///     Url to the artwork.
         /// </summary>
         [Column("artwork_url")]
         [JsonProperty("artwork_url")]
-        public string ArtworkUrl
-        {
-            get => _artworkUrl;
-            set
-            {
-                if (value == _artworkUrl)
-                    return;
-
-                _artworkUrl = value;
-                UpdateProperty();
-            }
-        }
-        private string _artworkUrl;
+        public string ArtworkUrl { get; set; }
 
         /// <summary>
         ///     Number of tracks in the podcast.
         /// </summary>
         [Column("track_count")]
         [JsonProperty("track_count")]
-        public int TrackCount
-        {
-            get => _trackCount;
-            set
-            {
-                if (value == _trackCount)
-                    return;
-
-                _trackCount = value;
-                UpdateProperty();
-            }
-        }
-        private int _trackCount;
+        public int TrackCount { get; set; }
 
         /// <summary>
         ///    Date and time this item was created.
         /// </summary>
         [Column("created")]
         [JsonProperty("created")]
-        public DateTime Created
-        {
-            get => _created;
-            set
-            {
-                if (value == _created)
-                    return;
-
-                _created = value;
-                UpdateProperty();
-            }
-        }
-        private DateTime _created;
+        public DateTime Created { get; set; }
 
         /// <summary>
         ///    Date and time this item was created.
         /// </summary>
         [Column("genre")]
         [JsonProperty("genre")]
-        public string Genre
-        {
-            get => _genre;
-            set
-            {
-                if (value == _genre)
-                    return;
-
-                _genre = value;
-                UpdateProperty();
-            }
-        }
-        private string _genre;
+        public string Genre { get; set; }
     }
 }

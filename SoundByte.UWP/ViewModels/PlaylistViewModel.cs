@@ -209,7 +209,7 @@ namespace SoundByte.UWP.ViewModels
                 // Create the tile
                 if (await TileHelper.CreateTileAsync("Playlist_" + Playlist.PlaylistId, Playlist.Title,
                     "soundbyte://core/playlist?id=" + Playlist.PlaylistId,
-                    new Uri(ArtworkConverter.ConvertObjectToImage(Playlist)), ForegroundText.Light))
+                    new Uri(Playlist.ThumbnailUrl), ForegroundText.Light))
                 {
                     PinButtonIcon = "\uE77A";
                     PinButtonText = resources.GetString("AppBarUI_Unpin_Raw");
