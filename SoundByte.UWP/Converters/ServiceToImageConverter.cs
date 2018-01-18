@@ -20,6 +20,8 @@ namespace SoundByte.UWP.Converters
                     return new BitmapImage(new Uri("ms-appx:///Assets/Services/soundcloud.png"));
                 case ServiceType.YouTube:
                     return new BitmapImage(new Uri("ms-appx:///Assets/Services/youtube.png"));
+                case ServiceType.ITunesPodcast:
+                    return new BitmapImage(new Uri("ms-appx:///Assets/Services/fanburst.png"));
                 default:
                     throw new ArgumentOutOfRangeException();
             }

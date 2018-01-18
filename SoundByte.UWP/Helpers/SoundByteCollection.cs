@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -14,19 +16,29 @@ namespace SoundByte.UWP.Helpers
 {
     public class SoundByteCollection<TSource, TType> : ObservableCollection<TType>, ISupportIncrementalLoading where TSource : ISource<TType>
     {
+        #region Private Variables
+        // Used to stop the UI from updating
+        private bool _suppressNotification;
+        #endregion
+
+        #region Getters and Setters
+        /// <summary>
+        ///     Source object telling the collection how to get the next
+        ///     set of items.
+        /// </summary>
         public TSource Source { get; }
 
-        public SoundByteCollection() : this(Activator.CreateInstance<TSource>())
-        { }
-
-        public SoundByteCollection(TSource source)
-        {
-            if (source == null)
-                throw new ArgumentNullException(nameof(source));
-
-            Source = source;
-        }
-
+        /// <summary>
+        ///     Current token for the next request. Will be eol if
+        ///     no more items are avaliable.
+        /// </summary>
+        public string Token { get; set; }
+        
+        /// <summary>
+        ///     Are there any more items in the collection
+        /// </summary>
+        public bool HasMoreItems => Token != "eol";
+        #endregion
 
         #region UI Bindings
         /// <summary>
@@ -98,55 +110,91 @@ namespace SoundByte.UWP.Helpers
         private string _errorDescription;
         #endregion
 
-        public string Token { get; set; }
+        #region Constructors
+        public SoundByteCollection() : this(Activator.CreateInstance<TSource>())
+        { }
 
+        public SoundByteCollection(TSource source)
+        {
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
 
+            Source = source;
+        }
+        #endregion
+
+        #region Load More Items Method
         public IAsyncOperation<LoadMoreItemsResult> LoadMoreItemsAsync(uint count)
         {
             return Task.Run(async () =>
             {
+                // Lower limit of 10 items
                 if (count <= 10)
                     count = 10;
 
+                // Upper limit of 50 items
                 if (count >= 50)
                     count = 50;
 
+                // The ammoung of new items added
                 var addedCount = 0;
+
+                // Start index (used for collection update method)
+                var startIndex = Count;
 
                 try
                 {
+                    // Show the loading bar
                     await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                     {
                         IsError = false;
                         IsLoading = true;
                     });
 
-                    var response = await Source.GetItemsAsync((int) count, Token);
+                    // Try get some more items
+                    var response = await Source.GetItemsAsync((int)count, Token);
 
-                    //
+                    // If not successful, show error
+                    // and return.
                     if (!response.IsSuccess)
-                        throw new SoundByteException(response.Messages?.MessageTitle,
-                            response.Messages?.MessageContent);
+                    {
+                        await ShowErrorMessageAsync(response.Messages?.MessageTitle, response.Messages?.MessageContent);
 
-                    // Set the token
+                        return new LoadMoreItemsResult { Count = 0 };
+                    }
+
+                    // Set the new token
                     Token = string.IsNullOrEmpty(response.Token) ? "eol" : response.Token;
 
-
+                    // Set the ammount of items added
                     addedCount = response.Items.Count();
-                    foreach (var item in response.Items)
+
+                    // Run on UI thread
+                    await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                     {
-                        await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
+                        // Don't perform UI updating
+                        _suppressNotification = true;
+
+                        // Add items to list
+                        foreach (var item in response.Items)
                         {
                             Add(item);
-                        });
-                    }
+                        }
+
+                        // Start performing UI updating
+                        _suppressNotification = false;
+
+                        // Update the Collection
+                        OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, new List<TType>(response.Items), startIndex));
+                        OnPropertyChanged(new PropertyChangedEventArgs("Count"));
+                        OnPropertyChanged(new PropertyChangedEventArgs("Item[]"));
+                    });
                 }
                 catch (SoundByteException ex)
                 {
                     Token = "eol";
 
                     await ShowErrorMessageAsync(ex.ErrorTitle, ex.ErrorDescription);
-
                 }
                 finally
                 {
@@ -160,9 +208,9 @@ namespace SoundByte.UWP.Helpers
 
             }).AsAsyncOperation();
         }
+        #endregion
 
-        public bool HasMoreItems => Token != "eol";
-
+        #region Methods
         /// <summary>
         ///     Refresh the list by removing any
         ///     existing items and reseting the token.
@@ -182,10 +230,19 @@ namespace SoundByte.UWP.Helpers
                 ErrorDescription = description;
             });
         }
+        #endregion
 
+        #region Internal Methods
         private void UpdateProperty([CallerMemberName] string propertyName = "")
         {
             OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
         }
+
+        protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
+        {
+            if (!_suppressNotification)
+                base.OnCollectionChanged(e);
+        }
+        #endregion
     }
 }
