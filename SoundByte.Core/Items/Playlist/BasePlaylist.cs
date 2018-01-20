@@ -14,7 +14,7 @@ namespace SoundByte.Core.Items.Playlist
     ///     the UI.
     /// </summary>
     [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
-    [Table("playlists", Schema = "data")]
+    [Table("playlists", Schema = "sb_data")]
     // ReSharper disable once PartialTypeWithSinglePart
     public partial class BasePlaylist : BaseItem
     {

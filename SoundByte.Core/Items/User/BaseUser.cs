@@ -13,7 +13,7 @@ namespace SoundByte.Core.Items.User
     ///     the UI.
     /// </summary>
     [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
-    [Table("users", Schema = "data")]
+    [Table("users", Schema = "sb_data")]
     // ReSharper disable once PartialTypeWithSinglePart
     public partial class BaseUser : BaseItem
     {

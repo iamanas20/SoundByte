@@ -23,7 +23,7 @@ namespace SoundByte.Core.Items.Track
     ///     the UI.
     /// </summary>
     [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
-    [Table("tracks", Schema = "data")]
+    [Table("tracks", Schema = "sb_data")]
     // ReSharper disable once PartialTypeWithSinglePart
     public partial class BaseTrack : BaseItem
     {
@@ -143,13 +143,15 @@ namespace SoundByte.Core.Items.Track
         /// <summary>
         ///     Url to the audio stream
         /// </summary>
-        [NotMapped]
+        [Column("audio_stream_url")]
+        [JsonProperty("audio_stream_url")]
         public string AudioStreamUrl { get; set; }
 
         /// <summary>
         ///     Url to the video stream
         /// </summary>
-        [NotMapped]
+        [Column("video_stream_url")]
+        [JsonProperty("video_stream_url")]
         public string VideoStreamUrl { get; set; }
 
         /// <summary>

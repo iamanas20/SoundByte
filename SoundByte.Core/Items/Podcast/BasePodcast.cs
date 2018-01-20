@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
@@ -12,7 +13,7 @@ namespace SoundByte.Core.Items.Podcast
     ///     the UI.
     /// </summary>
     [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
-    [Table("podcasts", Schema = "data")]
+    [Table("podcasts", Schema = "sb_data")]
     // ReSharper disable once PartialTypeWithSinglePart
     public partial class BasePodcast : BaseItem
     {
@@ -68,6 +69,10 @@ namespace SoundByte.Core.Items.Podcast
         [JsonProperty("artwork_url")]
         public string ArtworkUrl { get; set; }
 
+        [Column("thumbnail_url")]
+        [JsonProperty("thumbnail_url")]
+        public string ThumbnailUrl { get; set; }
+
         /// <summary>
         ///     Number of tracks in the podcast.
         /// </summary>
@@ -88,5 +93,12 @@ namespace SoundByte.Core.Items.Podcast
         [Column("genre")]
         [JsonProperty("genre")]
         public string Genre { get; set; }
+
+        /// <summary>
+        ///     Custom properties you can set
+        /// </summary>
+        [NotMapped]
+        [JsonIgnore]
+        public Dictionary<string, object> CustomProperties { get; } = new Dictionary<string, object>();
     }
 }
