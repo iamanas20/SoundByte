@@ -20,6 +20,7 @@ namespace SoundByte.UWP.Services
         private BackendService()
         {
             _mobileHub = new HubConnection(_backendServiceUrl);
+
             LoginHub = _mobileHub.CreateHubProxy("LoginHub");
         }
 

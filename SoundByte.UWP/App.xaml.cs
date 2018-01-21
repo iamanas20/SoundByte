@@ -35,6 +35,11 @@ namespace SoundByte.UWP
 
         public static ITelemetryService Telemetry { get; } = new TelemetryService();
 
+        /// <summary>
+        ///     Used for roaming content accross devices and platforms.
+        /// </summary>
+        public static RoamingService RoamingService { get; } = new RoamingService();
+
         private bool _isInit;
 
         #region App Setup
@@ -78,6 +83,8 @@ namespace SoundByte.UWP
             // Enter and Leaving background handlers
             EnteredBackground += AppEnteredBackground;
             LeavingBackground += AppLeavingBackground;
+
+            Suspending += AppSuspending;
 
             // During the transition from foreground to background the
             // memory limit allowed for the application changes. The application
@@ -149,7 +156,7 @@ namespace SoundByte.UWP
                     // Ignore
                 }           
             };
-
+            
             // Run this code when a service is disconencted from SoundByte
             SoundByteService.Current.OnServiceDisconnected += type =>
             {
@@ -194,6 +201,12 @@ namespace SoundByte.UWP
             };
         }
 
+        private async void AppSuspending(object sender, SuspendingEventArgs e)
+        {
+            var currentPosition = PlaybackService.Instance.MediaPlayer?.PlaybackSession?.Position;
+            await RoamingService.StopActivityAsync(currentPosition);
+        }
+
         private LoginToken GetLoginTokenFromVault(string vaultName, ServiceType service)
         {
             // Get the password vault
@@ -222,7 +235,7 @@ namespace SoundByte.UWP
             catch
             {
                 // Ignore. In version 17.10, refresh and expire times were not used,
-                // so the above will cause an exception when updaating to the latest version.
+                // so the above will cause an exception when updating to the latest version.
                 // Normally the crash would indicate that the user is not logged in, but in fact
                 // they are. So we just ignore this.
             }

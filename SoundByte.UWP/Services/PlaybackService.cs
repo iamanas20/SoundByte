@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.UserActivities;
 using Windows.Media;
 using Windows.Media.Core;
 using Windows.Media.Playback;
@@ -12,7 +11,6 @@ using Windows.Media.Streaming.Adaptive;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.System;
-using AudioVisualizer;
 using JetBrains.Annotations;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Newtonsoft.Json;
@@ -22,6 +20,7 @@ using SoundByte.Core.Items.Track;
 using SoundByte.Core.Services;
 using SoundByte.Core.Sources;
 using SoundByte.UWP.Extensions;
+using WinRTXamlToolkit.Tools;
 using YoutubeExplode;
 
 namespace SoundByte.UWP.Services
@@ -60,12 +59,7 @@ namespace SoundByte.UWP.Services
         /// <summary>
         ///     Shared media player used throughout the app.
         /// </summary>
-        private MediaPlayer _mediaPlayer;
-
-        /// <summary>
-        ///     Used for audio visualization
-        /// </summary>
-        public PlaybackSource VisualizationSource { get; }
+        public MediaPlayer MediaPlayer { get; }
 
         /// <summary>
         ///     The currently playing track
@@ -74,15 +68,11 @@ namespace SoundByte.UWP.Services
         private BaseTrack _currentTrack;
 
         /// <summary>
-        ///     Used for timeline activity
-        /// </summary>
-        private UserActivityChannel _userActivityChannel;
-
-        /// <summary>
         ///     Media Playback List that allows queuing of songs and 
         ///     gapless playback.
         /// </summary>
-        private MediaPlaybackList MediaPlaybackList => _mediaPlayer.Source as MediaPlaybackList;
+        public MediaPlaybackList MediaPlaybackList => MediaPlayer.Source as MediaPlaybackList;
+
 
         /// <summary>
         ///     The current playlist token (next items in the list)
@@ -114,27 +104,22 @@ namespace SoundByte.UWP.Services
             // as we are going to use a playback list. Set the
             // source to the media playback list. Auto play is true so if
             // we reach the end of a playlist (or source) start from the beginning.
-            _mediaPlayer = new MediaPlayer
+            MediaPlayer = new MediaPlayer
             {
                 AutoPlay = true,
                 Source = mediaPlaybackList
             };
-
-            // Setup the source
-            VisualizationSource = new PlaybackSource(_mediaPlayer);
 
             // Create the youtube client used to parse YouTube streams.
             _youTubeClient = new YoutubeClient();
 
             // Assign event handlers
             MediaPlaybackList.CurrentItemChanged += MediaPlaybackListOnCurrentItemChanged;
-            _mediaPlayer.CurrentStateChanged += MediaPlayerOnCurrentStateChanged;
-            _mediaPlayer.MediaFailed += (sender, args) =>
+            MediaPlayer.CurrentStateChanged += MediaPlayerOnCurrentStateChanged;
+            MediaPlayer.MediaFailed += (sender, args) =>
             {
                Debug.WriteLine(args.ErrorMessage);
             };
-
-            _userActivityChannel = UserActivityChannel.GetDefault();
 
         }
 
@@ -209,7 +194,9 @@ namespace SoundByte.UWP.Services
                 }
             });
 
-            
+            // Update roaming activity
+            await App.RoamingService.UpdateActivityAsync(_playlistSource, track, 
+                MediaPlaybackList.Items.Select(x => x.Source.AsBaseTrack()), _playlistToken);
 
             // Find the index of this item and see if we are near the end
             var currentIndex = MediaPlaybackList.ShuffleEnabled 
@@ -261,19 +248,19 @@ namespace SoundByte.UWP.Services
         /// <summary>
         ///     Is the current track muted
         /// </summary>
-        public bool IsTrackMuted => _mediaPlayer.IsMuted;
+        public bool IsTrackMuted => MediaPlayer.IsMuted;
 
         /// <summary>
         ///     Will the current track repeat when finished.
         /// </summary>
-        public bool IsTrackRepeating => _mediaPlayer.IsLoopingEnabled;
+        public bool IsTrackRepeating => MediaPlayer.IsLoopingEnabled;
 
         /// <summary>
         ///     Volume of the current playing track.
         /// </summary>
-        public double TrackVolume => _mediaPlayer.Volume;
+        public double TrackVolume => MediaPlayer.Volume;
 
-        public MediaPlaybackState CurrentPlaybackState => _mediaPlayer.PlaybackSession.PlaybackState;
+        public MediaPlaybackState CurrentPlaybackState => MediaPlayer.PlaybackSession.PlaybackState;
         #endregion
 
         /// <summary>
@@ -294,23 +281,23 @@ namespace SoundByte.UWP.Services
 
         public void MuteTrack(bool mute)
         {
-            _mediaPlayer.IsMuted = mute;
+            MediaPlayer.IsMuted = mute;
         }
 
         public void SetTrackVolume(double volume)
         {
-            _mediaPlayer.Volume = volume;
+            MediaPlayer.Volume = volume;
         }
 
-        public void SetTrackPosition(TimeSpan value) => _mediaPlayer.PlaybackSession.Position = value;
+        public void SetTrackPosition(TimeSpan value) => MediaPlayer.PlaybackSession.Position = value;
 
-        public TimeSpan GetTrackPosition() => _mediaPlayer.PlaybackSession.Position;
+        public TimeSpan GetTrackPosition() => MediaPlayer.PlaybackSession.Position;
 
-        public TimeSpan GetTrackDuration() => _mediaPlayer.PlaybackSession.NaturalDuration;
+        public TimeSpan GetTrackDuration() => MediaPlayer.PlaybackSession.NaturalDuration;
 
         public void RepeatTrack(bool repeat)
         {
-            _mediaPlayer.IsLoopingEnabled = repeat;
+            MediaPlayer.IsLoopingEnabled = repeat;
         }
 
         /// <summary>
@@ -318,7 +305,7 @@ namespace SoundByte.UWP.Services
         /// </summary>
         public void NextTrack()
         {
-            _mediaPlayer.SystemMediaTransportControls.PlaybackStatus = MediaPlaybackStatus.Changing;
+            MediaPlayer.SystemMediaTransportControls.PlaybackStatus = MediaPlaybackStatus.Changing;
             MediaPlaybackList.MoveNext();
         }
 
@@ -327,7 +314,7 @@ namespace SoundByte.UWP.Services
         /// </summary>
         public void PreviousTrack()
         {
-            _mediaPlayer.SystemMediaTransportControls.PlaybackStatus = MediaPlaybackStatus.Changing;
+            MediaPlayer.SystemMediaTransportControls.PlaybackStatus = MediaPlaybackStatus.Changing;
             MediaPlaybackList.MovePrevious();
         }
 
@@ -336,8 +323,8 @@ namespace SoundByte.UWP.Services
         /// </summary>
         public void PauseTrack()
         {
-            if (_mediaPlayer.CanPause)
-                _mediaPlayer.Pause();
+            if (MediaPlayer.CanPause)
+                MediaPlayer.Pause();
 
             if (SoundByteService.Current.IsSoundByteAccountConnected)
             {
@@ -350,7 +337,7 @@ namespace SoundByte.UWP.Services
         /// </summary>
         public void PlayTrack()
         {
-            _mediaPlayer.Play();
+            MediaPlayer.Play();
 
             if (SoundByteService.Current.IsSoundByteAccountConnected)
             {
@@ -363,11 +350,11 @@ namespace SoundByte.UWP.Services
         {
             MediaPlaybackList.ShuffleEnabled = false;
 
-            _mediaPlayer.Pause();
+            MediaPlayer.Pause();
 
             if (trackToPlay == null)
             {
-                _mediaPlayer.Play();
+                MediaPlayer.Play();
                 return;
             }
 
@@ -393,7 +380,10 @@ namespace SoundByte.UWP.Services
                     MediaPlaybackList.MoveTo((uint)index);
 
                     // Begin playing
-                    _mediaPlayer.Play();
+                    MediaPlayer.Play();
+
+                    await App.RoamingService.StopActivityAsync();
+                    await App.RoamingService.StartActivityAsync(_playlistSource, trackToPlay, MediaPlaybackList.Items.Select(x => x.Source.AsBaseTrack()), _playlistToken);
 
                     return;
                 }
@@ -403,8 +393,9 @@ namespace SoundByte.UWP.Services
                     await Task.Delay(200);
                 }
             }
+
             // Just play the first item
-            _mediaPlayer.Play();
+            MediaPlayer.Play();
         }
 
         public async Task StartRandomTrackAsync()
@@ -439,10 +430,10 @@ namespace SoundByte.UWP.Services
             _playlistToken = token;
 
             // We are changing media
-            _mediaPlayer.SystemMediaTransportControls.PlaybackStatus = MediaPlaybackStatus.Changing;
+            MediaPlayer.SystemMediaTransportControls.PlaybackStatus = MediaPlaybackStatus.Changing;
 
             // Pause the media player and clear the currenst playlist
-            _mediaPlayer.Pause();
+            MediaPlayer.Pause();
             MediaPlaybackList.Items.Clear();
 
             // If the playlist does not exist, or was not passed in, we

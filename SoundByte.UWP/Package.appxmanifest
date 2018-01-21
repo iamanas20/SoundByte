@@ -69,16 +69,6 @@
       </uap:ApplicationContentUriRules>
     </Application>
   </Applications>
-
-  <Extensions>
-    <Extension Category="windows.activatableClass.inProcessServer">
-      <InProcessServer>
-        <Path>AudioVisualizer.dll</Path>
-        <ActivatableClass ActivatableClassId="AudioVisualizer.MediaAnalyzer" ThreadingModel="both" />
-      </InProcessServer>
-    </Extension>
-  </Extensions>
-  
   <Capabilities>
     <Capability Name="internetClient" />
     <Capability Name="privateNetworkClientServer" />

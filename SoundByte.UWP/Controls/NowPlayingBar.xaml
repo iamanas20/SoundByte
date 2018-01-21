@@ -5,7 +5,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:audioVisualizer="using:AudioVisualizer"
     xmlns:converters="using:SoundByte.UWP.Converters"
     mc:Ignorable="d"
     d:DesignHeight="64">
@@ -106,19 +105,7 @@
             <ColumnDefinition Width="350" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-
-
-
-        <audioVisualizer:SpectrumVisualizer  Grid.Column="0" 
-                                            Grid.ColumnSpan="2"
-                                             Canvas.ZIndex="5" 
-                                            x:Name="Visualizer" 
-                                             Visibility="Collapsed"
-                                            HorizontalAlignment="Stretch" 
-                                            VerticalAlignment="Bottom" 
-                                            Height="64"  />
-
-
+        
         <Button Grid.Column="0"      
                 Canvas.ZIndex="10"
                 Click="{x:Bind NavigateTrack}"

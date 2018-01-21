@@ -223,6 +223,7 @@
     <Compile Include="Services\LoggingService.cs" />
     <Compile Include="Services\NavigationService.cs" />
     <Compile Include="Services\PlaybackService.cs" />
+    <Compile Include="Services\RoamingService.cs" />
     <Compile Include="Services\SettingsService.cs" />
     <Compile Include="Services\TelemetryService.cs" />
     <Compile Include="StateTriggers\DeviceStateTrigger.cs" />
@@ -600,9 +601,6 @@
     <PackageReference Include="HockeySDK.UWP">
       <Version>4.1.6</Version>
     </PackageReference>
-    <PackageReference Include="ksemenenko.ColorThief">
-      <Version>1.1.0.3</Version>
-    </PackageReference>
     <PackageReference Include="Microsoft.AppCenter.Analytics">
       <Version>1.1.0</Version>
     </PackageReference>
@@ -611,9 +609,6 @@
     </PackageReference>
     <PackageReference Include="Microsoft.AspNet.SignalR.Client">
       <Version>2.2.2</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Azure.Mobile.Client">
-      <Version>4.0.2</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite">
       <Version>2.0.1</Version>
@@ -659,9 +654,6 @@
     </PackageReference>
     <PackageReference Include="UWP.SDKforGoogleAnalytics.Managed">
       <Version>1.5.2</Version>
-    </PackageReference>
-    <PackageReference Include="UWPAudioVisualizer">
-      <Version>0.1.96</Version>
     </PackageReference>
     <PackageReference Include="Win2D.uwp">
       <Version>1.21.0</Version>
