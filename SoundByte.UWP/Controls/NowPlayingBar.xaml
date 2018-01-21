@@ -107,12 +107,17 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-       
 
-        <audioVisualizer:CustomVisualizer  Grid.Column="0" Grid.ColumnSpan="2" Canvas.ZIndex="5" x:Name="Visualizer"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="64"  />
-        
 
-     
+        <audioVisualizer:SpectrumVisualizer  Grid.Column="0" 
+                                            Grid.ColumnSpan="2"
+                                             Canvas.ZIndex="5" 
+                                            x:Name="Visualizer" 
+                                             Visibility="Collapsed"
+                                            HorizontalAlignment="Stretch" 
+                                            VerticalAlignment="Bottom" 
+                                            Height="64"  />
+
 
         <Button Grid.Column="0"      
                 Canvas.ZIndex="10"

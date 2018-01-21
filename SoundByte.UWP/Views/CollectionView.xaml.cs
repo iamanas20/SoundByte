@@ -10,6 +10,7 @@ namespace SoundByte.UWP.Views
         public CollectionView()
         {
             InitializeComponent();
+
         }
 
         private void RefreshAll(object sender, RoutedEventArgs e)

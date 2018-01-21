@@ -12,8 +12,8 @@ using Windows.Media.Streaming.Adaptive;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.System;
+using AudioVisualizer;
 using JetBrains.Annotations;
-using Microsoft.AppCenter.Crashes;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Newtonsoft.Json;
 using SoundByte.Core;
@@ -21,7 +21,6 @@ using SoundByte.Core.Items.Generic;
 using SoundByte.Core.Items.Track;
 using SoundByte.Core.Services;
 using SoundByte.Core.Sources;
-using SoundByte.UWP.Converters;
 using SoundByte.UWP.Extensions;
 using YoutubeExplode;
 
@@ -62,6 +61,11 @@ namespace SoundByte.UWP.Services
         ///     Shared media player used throughout the app.
         /// </summary>
         private MediaPlayer _mediaPlayer;
+
+        /// <summary>
+        ///     Used for audio visualization
+        /// </summary>
+        public PlaybackSource VisualizationSource { get; }
 
         /// <summary>
         ///     The currently playing track
@@ -115,6 +119,9 @@ namespace SoundByte.UWP.Services
                 AutoPlay = true,
                 Source = mediaPlaybackList
             };
+
+            // Setup the source
+            VisualizationSource = new PlaybackSource(_mediaPlayer);
 
             // Create the youtube client used to parse YouTube streams.
             _youTubeClient = new YoutubeClient();
@@ -485,7 +492,10 @@ namespace SoundByte.UWP.Services
         {
             // Create a media binding for later (this is used to
             // load the track streams as we need them).
-            var binder = new MediaBinder { Token = track.TrackId };
+            var binder = new MediaBinder
+            {
+                Token = JsonConvert.SerializeObject(track)
+            };
             binder.Binding += BindMediaSource;
 
             // Create the source, bind track metadata and use it to
@@ -513,9 +523,7 @@ namespace SoundByte.UWP.Services
             var deferal = args.GetDeferral();
 
             // Get the track data
-            var track = MediaPlaybackList.Items.ToList()
-                .FirstOrDefault(x => x.Source.AsBaseTrack().TrackId == args.MediaBinder.Token)
-                ?.Source?.AsBaseTrack();
+            var track = JsonConvert.DeserializeObject<BaseTrack>(args.MediaBinder.Token);
 
             // Only run if the track exists
             if (track != null)
