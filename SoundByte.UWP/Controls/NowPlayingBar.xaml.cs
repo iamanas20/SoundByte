@@ -51,22 +51,5 @@ namespace SoundByte.UWP.Controls
         {
             await App.SwitchToCompactView();
         }
-
-        private void ChangeVisualizatorStyle(object sender, SelectionChangedEventArgs e)
-        {
-            ChangeVisualizator(vistyle.SelectedIndex);
-        }
-
-        private void ChangeVisualizator(int t)
-        {
-            switch (t)
-            {
-                case 0: Visualizer.VisualizationStyle = SpectrumVisualizationStyle.Bars; break;
-                case 1: Visualizer.VisualizationStyle = SpectrumVisualizationStyle.TopBar; break;
-                case 2: Visualizer.VisualizationStyle = SpectrumVisualizationStyle.Blocks; break;
-                case 3: Visualizer.VisualizationStyle = SpectrumVisualizationStyle.TopBlock; break;
-                case 4: Visualizer.VisualizationStyle = SpectrumVisualizationStyle.Line; break;
-            }
-        }
     }
 }
