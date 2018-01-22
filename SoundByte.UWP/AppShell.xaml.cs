@@ -65,14 +65,14 @@ namespace SoundByte.UWP
             // updates the required layout for the now
             // playing bar.
             PlaybackService.Instance.OnTrackChange += InstanceOnOnCurrentTrackChanged;
-            
+
 
             // Create a shell frame shadow for mobile and desktop
             if (DeviceHelper.IsDesktop)
             {
                 ShellFrame.CreateElementShadow(new Vector3(4, 0, 0), 40, new Color { A = 82, R = 0, G = 0, B = 0 },
                     ShellFrameShadow);
-            }                
+            }
 
             // Events for Xbox
             if (DeviceHelper.IsXbox)
@@ -232,7 +232,7 @@ namespace SoundByte.UWP
             if (string.IsNullOrEmpty(storedAppVersionString))
             {
                 //todo: show welcome dialog
-              //  await NavigationService.Current.CallDialogAsync<WhatsNewDialog>();
+                //  await NavigationService.Current.CallDialogAsync<WhatsNewDialog>();
             }
             else
             {
@@ -306,12 +306,13 @@ namespace SoundByte.UWP
 
                     var parser = DeepLinkParser.Create(path);
 
-                    var section = parser.Root.Split('/')[0].ToLower();
-                    var page = parser.Root.Split('/')[1].ToLower();
+                    var section = parser.Root?.Split('/')[0]?.ToLower();
 
                     await App.SetLoadingAsync(true);
                     if (section == "core")
                     {
+                        var page = parser.Root?.Split('/')[1]?.ToLower();
+
                         switch (page)
                         {
                             case "track":
@@ -359,89 +360,77 @@ namespace SoundByte.UWP
                                 await NavigationService.Current.CallDialogAsync<WhatsNewDialog>();
                                 break;
                         }
-                    }     
-                    else if (section == "remote")
+                    }
+                    else if (section == "rs" || section == "remote-subsystem")
                     {
-                        switch (page)
+                        try
                         {
-                            case "remote-subsystem-fail":
-                                var reason = parser["reason"];
-                                await NavigationService.Current.CallMessageDialogAsync(reason, "The remote protocol subsystem failed.");
-                                break;
+                            await App.SetLoadingAsync(true);
 
-                            case "remote-subsystem":
+                            parser.TryGetValue("d", out var data);
+                            parser.TryGetValue("t", out var timespan);
 
-                                try
-                                {
-                                    await App.SetLoadingAsync(true);
+                            var result = App.RoamingService.DecodeActivityParameters(data);
 
-                                    var id = parser["id"];
-                                    var timespan = parser["timespan"]; // Optional
+                            // Get the current track object
+                            BaseTrack currentTrack = null;
+                            var tracks = new List<BaseTrack>();
 
-                                    var result = await App.RoamingService.GetActivityAsync(id);
-
-                                    // Get the current track object
-                                    BaseTrack currentTrack = null;
-                                    var tracks = new List<BaseTrack>();
-
-                                    switch (result.CurrentTrack.Service)
-                                    {
-                                        case ServiceType.Fanburst:
-                                            break;
-                                        case ServiceType.SoundCloud:
-                                        case ServiceType.SoundCloudV2:
-                                            currentTrack = (await SoundByteService.Current.GetAsync<SoundCloudTrack>(ServiceType.SoundCloud, $"/tracks/{result.CurrentTrack.TrackId}")).Response.ToBaseTrack();
-                                            break;
-                                        case ServiceType.YouTube:
-                                            break;
-                                        case ServiceType.ITunesPodcast:
-                                            // TODO: THIS
-                                            break;
-                                    }
-
-                                    //TODO: List has to be put back into wanted order.
-
-                                    var soundCloudIds = string.Join(',', result.Tracks.Where(x => x.Service == ServiceType.SoundCloud || x.Service == ServiceType.SoundCloudV2).Select(x => x.TrackId));
-                                    var fanburstIds = string.Join(',', result.Tracks.Where(x => x.Service == ServiceType.Fanburst).Select(x => x.TrackId));
-                                    var youTubeIds = string.Join(',', result.Tracks.Where(x => x.Service == ServiceType.YouTube).Select(x => x.TrackId));
-
-                                    tracks.AddRange((await SoundByteService.Current.GetAsync<List<SoundCloudTrack>>(ServiceType.SoundCloud, $"/tracks?ids={soundCloudIds}")).Response.Select(x => x.ToBaseTrack()));
-
-                                    // TODO: Hook up source
-                                    var startPlayback = await PlaybackService.Instance.InitilizePlaylistAsync<DummyTrackSource>(tracks);
-
-                                    if (startPlayback.Success)
-                                    {
-                                        await PlaybackService.Instance.StartTrackAsync(currentTrack);
-
-                                        if (!string.IsNullOrEmpty(timespan))
-                                        {
-                                            var timespanConverted = TimeSpan.FromMilliseconds(double.Parse(timespan));
-                                            PlaybackService.Instance.MediaPlayer.PlaybackSession.Position = timespanConverted;
-                                        }
-
-                                    }
-                                    else
-                                    {
-                                        await NavigationService.Current.CallMessageDialogAsync(startPlayback.Message,"The remote protocol subsystem failed.");
-                                    }
-
-                                    await App.SetLoadingAsync(false);
-                                }
-                                catch (Exception e)
-                                {
-                                    await App.SetLoadingAsync(false);
-                                    await NavigationService.Current.CallMessageDialogAsync(e.Message, "The remote protocol subsystem failed.");
-                                }
-
-                                break;
+                            switch (result.CurrentTrack.Service)
+                            {
+                                case ServiceType.Fanburst:
+                                    break;
+                                case ServiceType.SoundCloud:
+                                case ServiceType.SoundCloudV2:
+                                    currentTrack = (await SoundByteService.Current.GetAsync<SoundCloudTrack>(ServiceType.SoundCloud, $"/tracks/{result.CurrentTrack.TrackId}")).Response.ToBaseTrack();
+                                    break;
+                                case ServiceType.YouTube:
+                                    break;
+                                case ServiceType.ITunesPodcast:
+                                    // TODO: THIS
+                                    break;
                             }
+
+                            //TODO: List has to be put back into wanted order.
+
+                            var soundCloudIds = string.Join(',', result.Tracks.Where(x => x.Service == ServiceType.SoundCloud || x.Service == ServiceType.SoundCloudV2).Select(x => x.TrackId));
+                            var fanburstIds = string.Join(',', result.Tracks.Where(x => x.Service == ServiceType.Fanburst).Select(x => x.TrackId));
+                            var youTubeIds = string.Join(',', result.Tracks.Where(x => x.Service == ServiceType.YouTube).Select(x => x.TrackId));
+
+                            tracks.AddRange((await SoundByteService.Current.GetAsync<List<SoundCloudTrack>>(ServiceType.SoundCloud, $"/tracks?ids={soundCloudIds}")).Response.Select(x => x.ToBaseTrack()));
+
+                            // TODO: Hook up source
+                            var startPlayback = await PlaybackService.Instance.InitilizePlaylistAsync<DummyTrackSource>(tracks);
+
+                            if (startPlayback.Success)
+                            {
+                                await PlaybackService.Instance.StartTrackAsync(currentTrack);
+
+                                if (!string.IsNullOrEmpty(timespan))
+                                {
+                                    var timespanConverted = TimeSpan.FromMilliseconds(double.Parse(timespan));
+                                    PlaybackService.Instance.MediaPlayer.PlaybackSession.Position = timespanConverted;
+                                }
+
+                            }
+                            else
+                            {
+                                await NavigationService.Current.CallMessageDialogAsync(startPlayback.Message, "The remote protocol subsystem failed.");
+                            }
+
+                            await App.SetLoadingAsync(false);
+                        }
+                        catch (Exception e)
+                        {
+                            await App.SetLoadingAsync(false);
+                            await NavigationService.Current.CallMessageDialogAsync(e.Message, "The remote protocol subsystem failed.");
+                        }
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     await NavigationService.Current.CallMessageDialogAsync(
-                        "The specified protocol is not correct. App will now launch as normal.");
+                        "The specified protocol is not correct. App will now launch as normal.\n\n" + ex.Message);
                 }
                 await App.SetLoadingAsync(false);
             }
@@ -460,7 +449,7 @@ namespace SoundByte.UWP
         private void ShellFrame_Navigated(object sender, NavigationEventArgs e)
         {
             // Update the side bar
-            switch (((Frame) sender).SourcePageType.Name)
+            switch (((Frame)sender).SourcePageType.Name)
             {
                 case nameof(SoundCloudStreamView):
                     NavView.SelectedItem = NavigationItemSoundCloudStream;
@@ -488,12 +477,12 @@ namespace SoundByte.UWP
                     break;
             }
 
-            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = ((Frame)sender).CanGoBack 
-                ? AppViewBackButtonVisibility.Visible 
+            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = ((Frame)sender).CanGoBack
+                ? AppViewBackButtonVisibility.Visible
                 : AppViewBackButtonVisibility.Collapsed;
 
             // Update the UI depending if we are logged in or not
-            if (SoundByteService.Current.IsServiceConnected(ServiceType.SoundCloud) || 
+            if (SoundByteService.Current.IsServiceConnected(ServiceType.SoundCloud) ||
                 SoundByteService.Current.IsServiceConnected(ServiceType.YouTube) ||
                 SoundByteService.Current.IsServiceConnected(ServiceType.Fanburst))
                 ShowLoginContent();
@@ -522,7 +511,7 @@ namespace SoundByte.UWP
                     else
                         ShowNowPlayingBar();
                 }
-            }            
+            }
 
             RootFrame.Focus(FocusState.Programmatic);
             RootFrame.Focus(FocusState.Keyboard);
@@ -625,6 +614,6 @@ namespace SoundByte.UWP
             App.NavigateTo(typeof(SearchView), args.QueryText);
         }
 
-     
+
     }
 }

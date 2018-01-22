@@ -33,13 +33,15 @@
         </uap:InitialRotationPreference>
       </uap:VisualElements>
       <Extensions>
-        <uap:Extension Category="windows.autoPlayContent">
-          <uap:AutoPlayContent>
-            <uap:LaunchAction Verb="play" ActionDisplayName="Play Music" ContentEvent="PlayMusicFilesOnArrival" />
-          </uap:AutoPlayContent>
+        <uap:Extension Category="windows.protocol">
+          <uap:Protocol Name="sb">
+            <uap:DisplayName>SoundByte Protocol (Short)</uap:DisplayName>
+          </uap:Protocol>
         </uap:Extension>
-        <uap:Extension Category="windows.dialProtocol">
-          <uap:DialProtocol Name="musiccasting" />
+        <uap:Extension Category="windows.protocol">
+          <uap:Protocol Name="soundbyte">
+            <uap:DisplayName>SoundByte Protocol</uap:DisplayName>
+          </uap:Protocol>
         </uap:Extension>
         <uap:Extension Category="windows.fileTypeAssociation">
           <uap:FileTypeAssociation Name="audio_file">
@@ -58,10 +60,13 @@
             </uap:SupportedFileTypes>
           </uap:FileTypeAssociation>
         </uap:Extension>
-        <uap:Extension Category="windows.protocol">
-          <uap:Protocol Name="soundbyte">
-            <uap:DisplayName>SoundByte Protocol</uap:DisplayName>
-          </uap:Protocol>
+        <uap:Extension Category="windows.dialProtocol">
+          <uap:DialProtocol Name="musiccasting" />
+        </uap:Extension>
+        <uap:Extension Category="windows.autoPlayContent">
+          <uap:AutoPlayContent>
+            <uap:LaunchAction Verb="play" ActionDisplayName="Play Music" ContentEvent="PlayMusicFilesOnArrival" />
+          </uap:AutoPlayContent>
         </uap:Extension>
       </Extensions>
       <uap:ApplicationContentUriRules>

@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.UserActivities;
+using Windows.Security.Cryptography;
 using Windows.UI.Shell;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Newtonsoft.Json;
@@ -21,19 +24,70 @@ namespace SoundByte.UWP.Services
         private UserActivitySession _currentUserActivitySession;
         private UserActivityChannel _channel;
 
-        public UserActivitySession GetCurrentActivitySession()
-        {
-            return _currentUserActivitySession;
-        }
-
         public RoamingService()
         {
             _channel = UserActivityChannel.GetDefault();
         }
 
-        public async Task<UserActivityObject> GetActivityAsync(string id)
+        public UserActivityObject DecodeActivityParameters(string compressedData)
         {
-            return (await SoundByteService.Current.GetAsync<UserActivityObject>(ServiceType.SoundByte, "remote-subsystem/" + id)).Response;
+            // Get the raw data string
+            var data = UnZip(Uri.UnescapeDataString(compressedData));
+
+            // Get from url
+            var paramCollection = data.Split('&');
+
+            // Get raw objects
+            var currentTrack = paramCollection.FirstOrDefault(x => x.Split('=')[0] == "c")?.Split('=')[1];
+            var sourceName = paramCollection.FirstOrDefault(x => x.Split('=')[0] == "s")?.Split('=')[1];
+            var playlistToken = paramCollection.FirstOrDefault(x => x.Split('=')[0] == "t")?.Split('=')[1];
+            var tracksRaw = paramCollection.FirstOrDefault(x => x.Split('=')[0] == "p")?.Split('=')[1];
+
+            // Parse current track
+            var currentTrackService = (ServiceType) int.Parse(currentTrack.Split('-')[0]);
+            var currentTrackId = currentTrack.Split('-')[1];
+
+            // Pass playlist of tracks
+            var tracks = new List<TrackServicePair>();
+
+            foreach (var trackPair in tracksRaw.Split(','))
+            {
+                var trackService = (ServiceType)int.Parse(trackPair.Split('-')[0]);
+                var trackId = trackPair.Split('-')[1];
+
+                tracks.Add(new TrackServicePair
+                {
+                    TrackId = trackId,
+                    Service = trackService
+                });
+            }
+
+            return new UserActivityObject
+            {
+                Tracks = tracks,
+                CurrentTrack = new TrackServicePair
+                {
+                    TrackId = currentTrackId,
+                    Service = currentTrackService
+                },
+                PlaylistToken = playlistToken,
+                SourceName = sourceName
+            };
+
+        }
+
+        public string EncodeActivityParameters(ISource<BaseTrack> source, BaseTrack track,
+            IEnumerable<BaseTrack> playlist, string token)
+        {
+            // Conver to raw objects
+            var currentTrack = $"c={(int)track.ServiceType}-{track.TrackId}";
+            var sourceName = $"s={source.GetType().Name}";
+            var playlistToken = $"t={token}";
+            var tracks = $"p={string.Join(',', playlist.Select(x => $"{(int)x.ServiceType}-{x.TrackId}"))}";
+
+            // Format into url
+            var data = $"{currentTrack}&{sourceName}&{playlistToken}&{tracks}";
+            return Uri.EscapeDataString(Zip(data));
         }
 
         public async Task<UserActivity> UpdateActivityAsync(ISource<BaseTrack> source, BaseTrack track, IEnumerable<BaseTrack> playlist, string token)
@@ -44,33 +98,10 @@ namespace SoundByte.UWP.Services
             var continueText = $"Continue listening to {track.Title} by {track.User.Username}";
             activity.VisualElements.Content = AdaptiveCardBuilder.CreateAdaptiveCardFromJson("{\"$schema\": \"http://adaptivecards.io/schemas/adaptive-card.json\",\"type\":\"AdaptiveCard\",\"backgroundImage\":\"" + track.ArtworkUrl + "\",\"version\": \"1.0\",\"body\":[{\"type\":\"Container\",\"items\":[{\"type\":\"TextBlock\",\"text\":\"Now Playing\",\"weight\":\"bolder\",\"size\":\"large\",\"wrap\":true,\"maxLines\":3},{\"type\":\"TextBlock\",\"text\":\"" + continueText + ".\",\"size\": \"default\",\"wrap\": true,\"maxLines\": 3}]}]}");
 
-            // Tell the server to update the track
-            try
-            {
-                var result = await SoundByteService.Current.PostItemAsync(ServiceType.SoundByte, "remote-subsystem",
-                    new UserActivityObject
-                    {
-                        DeviceId = SettingsService.Instance.AppId,
-                        CurrentTrack = new TrackServicePair
-                        {
-                            Service = track.ServiceType,
-                            TrackId = track.TrackId
-                        },
-                        PlaylistToken = token,
-                        SourceName = source.GetType().Name,
-                        Tracks = playlist.Select(x => new TrackServicePair { Service  = x.ServiceType, TrackId = x.TrackId })
-                    });
-
-                // Set the activation url
-                activity.ActivationUri = new Uri($"soundbyte://remote/remote-subsystem?id={result.Response.ActivityId}");
-            }
-            catch (Exception ex)
-            {
-                activity.ActivationUri = new Uri($"soundbyte://remote/remote-subsystem-fail?reason={ex.Message}");
-            }
+            // Set the activation url using shorthand protocol
+            activity.ActivationUri = new Uri($"sb://rs?d={EncodeActivityParameters(source, track, playlist, token)}");
 
             await activity.SaveAsync();
-
             return activity;
         }
 
@@ -90,25 +121,11 @@ namespace SoundByte.UWP.Services
             public ServiceType Service { get; set; }
         }
 
-
         public class UserActivityObject
         {
-            [JsonProperty("tracks")]
             public IEnumerable<TrackServicePair> Tracks { get; set; }
-
-            [JsonProperty("track")]
             public TrackServicePair CurrentTrack { get; set; }
-
-            [JsonProperty("playlist_token")]
             public string PlaylistToken { get; set; }
-
-            [JsonProperty("device_id")]
-            public string DeviceId { get; set; }
-
-            [JsonProperty("activity_id")]
-            public string ActivityId { get; set; }
-
-            [JsonProperty("source")]
             public string SourceName { get; set; }
         }
 
@@ -119,12 +136,53 @@ namespace SoundByte.UWP.Services
             {
                 var activity = await _channel.GetOrCreateUserActivityAsync("SoundByte.Playback");
                 activity.ActivationUri = new Uri(activity.ActivationUri + "&timespan=" + currentPosition.Value.TotalMilliseconds);
+
                 await activity.SaveAsync();
             }
 
-
             if (_currentUserActivitySession != null)
                 _currentUserActivitySession.Dispose();
+        }
+
+        public static string Zip(string text)
+        {
+            byte[] buffer = System.Text.Encoding.Unicode.GetBytes(text);
+            MemoryStream ms = new MemoryStream();
+            using (System.IO.Compression.GZipStream zip = new System.IO.Compression.GZipStream(ms, System.IO.Compression.CompressionMode.Compress, true))
+            {
+                zip.Write(buffer, 0, buffer.Length);
+            }
+
+            ms.Position = 0;
+            MemoryStream outStream = new MemoryStream();
+
+            byte[] compressed = new byte[ms.Length];
+            ms.Read(compressed, 0, compressed.Length);
+
+            byte[] gzBuffer = new byte[compressed.Length + 4];
+            System.Buffer.BlockCopy(compressed, 0, gzBuffer, 4, compressed.Length);
+            System.Buffer.BlockCopy(BitConverter.GetBytes(buffer.Length), 0, gzBuffer, 0, 4);
+            return Convert.ToBase64String(gzBuffer);
+        }
+
+        public static string UnZip(string compressedText)
+        {
+            byte[] gzBuffer = Convert.FromBase64String(compressedText);
+            using (MemoryStream ms = new MemoryStream())
+            {
+                int msgLength = BitConverter.ToInt32(gzBuffer, 0);
+                ms.Write(gzBuffer, 4, gzBuffer.Length - 4);
+
+                byte[] buffer = new byte[msgLength];
+
+                ms.Position = 0;
+                using (System.IO.Compression.GZipStream zip = new System.IO.Compression.GZipStream(ms, System.IO.Compression.CompressionMode.Decompress))
+                {
+                    zip.Read(buffer, 0, buffer.Length);
+                }
+
+                return System.Text.Encoding.Unicode.GetString(buffer, 0, buffer.Length);
+            }
         }
 
     }
