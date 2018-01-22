@@ -404,14 +404,12 @@ namespace SoundByte.UWP
 
                             if (startPlayback.Success)
                             {
-                                await PlaybackService.Instance.StartTrackAsync(currentTrack);
+                                TimeSpan? timeSpan = null;
 
                                 if (!string.IsNullOrEmpty(timespan))
-                                {
-                                    var timespanConverted = TimeSpan.FromMilliseconds(double.Parse(timespan));
-                                    PlaybackService.Instance.MediaPlayer.PlaybackSession.Position = timespanConverted;
-                                }
+                                    timeSpan = TimeSpan.FromMilliseconds(double.Parse(timespan));
 
+                                await PlaybackService.Instance.StartTrackAsync(currentTrack, timeSpan);
                             }
                             else
                             {

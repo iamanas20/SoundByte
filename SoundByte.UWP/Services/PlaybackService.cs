@@ -346,7 +346,7 @@ namespace SoundByte.UWP.Services
         }
         #endregion
 
-        public async Task StartTrackAsync(BaseTrack trackToPlay = null)
+        public async Task StartTrackAsync(BaseTrack trackToPlay = null, TimeSpan? startTime = null)
         {
             MediaPlaybackList.ShuffleEnabled = false;
 
@@ -381,6 +381,10 @@ namespace SoundByte.UWP.Services
 
                     // Begin playing
                     MediaPlayer.Play();
+
+                    // Set the position if we supply one
+                    if (startTime.HasValue)
+                        MediaPlayer.PlaybackSession.Position = startTime.Value;
 
                     await App.RoamingService.StopActivityAsync();
                     await App.RoamingService.StartActivityAsync(_playlistSource, trackToPlay, MediaPlaybackList.Items.Select(x => x.Source.AsBaseTrack()), _playlistToken);

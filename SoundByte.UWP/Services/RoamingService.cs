@@ -96,6 +96,10 @@ namespace SoundByte.UWP.Services
             activity.FallbackUri = new Uri("https://soundbytemedia.com/pages/remote-subsystem");
 
             var continueText = $"Continue listening to {track.Title} by {track.User.Username}";
+
+            activity.VisualElements.DisplayText = "Now Playing";
+            activity.VisualElements.Description = continueText;
+
             activity.VisualElements.Content = AdaptiveCardBuilder.CreateAdaptiveCardFromJson("{\"$schema\": \"http://adaptivecards.io/schemas/adaptive-card.json\",\"type\":\"AdaptiveCard\",\"backgroundImage\":\"" + track.ArtworkUrl + "\",\"version\": \"1.0\",\"body\":[{\"type\":\"Container\",\"items\":[{\"type\":\"TextBlock\",\"text\":\"Now Playing\",\"weight\":\"bolder\",\"size\":\"large\",\"wrap\":true,\"maxLines\":3},{\"type\":\"TextBlock\",\"text\":\"" + continueText + ".\",\"size\": \"default\",\"wrap\": true,\"maxLines\": 3}]}]}");
 
             // Set the activation url using shorthand protocol

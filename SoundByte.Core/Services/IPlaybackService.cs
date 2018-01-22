@@ -70,7 +70,8 @@ namespace SoundByte.Core.Services
         ///     will be played).
         /// </summary>
         /// <param name="trackToPlay">The track to play, must exist in the playlist.</param>
-        Task StartTrackAsync(BaseTrack trackToPlay);
+        /// <param name="startTime">Time to start playing the track</param>
+        Task StartTrackAsync(BaseTrack trackToPlay, TimeSpan? startTime = null);
 
         /// <summary>
         ///     Start playlist a random tracks

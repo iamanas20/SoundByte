@@ -172,7 +172,7 @@ namespace SoundByte.Android.Services
             StartService(intent);
         }
 
-        public Task StartTrackAsync(BaseTrack trackToPlay)
+        public Task StartTrackAsync(BaseTrack trackToPlay, TimeSpan? startTime = null)
         {
             throw new NotImplementedException();
         }
