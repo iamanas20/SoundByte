@@ -16,6 +16,16 @@ namespace SoundByte.Core.Sources.SoundCloud
     [UsedImplicitly]
     public class SoundCloudStreamSource : ISource<GroupedItem>
     {
+        public Dictionary<string, object> GetParameters()
+        {
+            return new Dictionary<string, object>();
+        }
+
+        public void ApplyParameters(Dictionary<string, object> data)
+        {
+            // Not used
+        }
+
         public async Task<SourceResponse<GroupedItem>> GetItemsAsync(int count, string token, CancellationTokenSource cancellationToken = null)
         {
             if (SoundByteService.Current.IsServiceConnected(ServiceType.SoundCloud))

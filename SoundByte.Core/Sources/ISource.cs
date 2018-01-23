@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SoundByte.Core.Sources
@@ -9,6 +10,16 @@ namespace SoundByte.Core.Sources
     /// </summary>
     public interface ISource<TSource>
     {
+        /// <summary>
+        ///     Get parameters for the current source.
+        /// </summary>
+        Dictionary<string, object> GetParameters();
+
+        /// <summary>
+        ///     Apply parameters to the current source.
+        /// </summary>
+        void ApplyParameters(Dictionary<string, object> data);
+
         /// <summary>
         /// This method returns a list of items depending on the count and token
         /// </summary>

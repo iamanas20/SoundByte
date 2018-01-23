@@ -18,6 +18,7 @@ using SoundByte.Core;
 using SoundByte.Core.Items;
 using SoundByte.Core.Items.Track;
 using SoundByte.Core.Items.User;
+using SoundByte.Core.Managers;
 using SoundByte.Core.Services;
 using SoundByte.Core.Sources;
 using SoundByte.UWP.Dialogs;
@@ -39,6 +40,8 @@ namespace SoundByte.UWP
         ///     Used for roaming content accross devices and platforms.
         /// </summary>
         public static RoamingService RoamingService { get; } = new RoamingService();
+
+        public static SourceManager SourceManager { get; } = new SourceManager();
 
         private bool _isInit;
 
@@ -76,6 +79,9 @@ namespace SoundByte.UWP
             NavigationService.Current.RegisterTypeAsDialog<ShareDialog>();
             NavigationService.Current.RegisterTypeAsDialog<LoginDialog>();
             NavigationService.Current.RegisterTypeAsDialog<WhatsNewDialog>();
+
+            // Register sources
+            SourceManager.RegisterDefaultSources();
 
             // Handle App Crashes
             CrashHelper.HandleAppCrashes(Current);

@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using SoundByte.Core.Items.Podcast;
@@ -8,6 +9,16 @@ namespace SoundByte.Core.Sources.SoundByte
 {
     public class SoundBytePodcastsSource : ISource<BasePodcast>
     {
+        public Dictionary<string, object> GetParameters()
+        {
+            return new Dictionary<string, object>();
+        }
+
+        public void ApplyParameters(Dictionary<string, object> data)
+        {
+            // Not used
+        }
+
         [UsedImplicitly]
         public async Task<SourceResponse<BasePodcast>> GetItemsAsync(int count, string token,
             CancellationTokenSource cancellationToken = default(CancellationTokenSource))

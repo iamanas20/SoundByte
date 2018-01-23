@@ -20,7 +20,6 @@ using SoundByte.Core.Items.Track;
 using SoundByte.Core.Services;
 using SoundByte.Core.Sources;
 using SoundByte.UWP.Extensions;
-using WinRTXamlToolkit.Tools;
 using YoutubeExplode;
 
 namespace SoundByte.UWP.Services
@@ -330,6 +329,27 @@ namespace SoundByte.UWP.Services
             {
                 // TODO: Remote features.
             }
+        }
+
+        /// <summary>
+        /// Move to the specified base track.
+        /// </summary>
+        /// <param name="track"></param>
+        public void MoveTo([CanBeNull]BaseTrack track)
+        {
+            if (track == null)
+                return;
+
+            // find the index of the track in the playlist
+            var index = MediaPlaybackList.Items.ToList()
+                .FindIndex(item => item.Source.AsBaseTrack().TrackId ==
+                                   track.TrackId);
+
+            if (index == -1)
+                return;
+
+            // Move to the track
+            MediaPlaybackList.MoveTo((uint)index);
         }
 
         /// <summary>

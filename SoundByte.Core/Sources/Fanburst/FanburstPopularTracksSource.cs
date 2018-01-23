@@ -11,6 +11,16 @@ namespace SoundByte.Core.Sources.Fanburst
     [UsedImplicitly]
     public class FanburstPopularTracksSource : ISource<BaseTrack>
     {
+        public Dictionary<string, object> GetParameters()
+        {
+            return new Dictionary<string, object>();
+        }
+
+        public void ApplyParameters(Dictionary<string, object> data)
+        {
+            // Not used
+        }
+
         public async Task<SourceResponse<BaseTrack>> GetItemsAsync(int count, string token,
             CancellationTokenSource cancellationToken = default(CancellationTokenSource))
         {

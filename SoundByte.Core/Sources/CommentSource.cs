@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
@@ -12,6 +13,27 @@ namespace SoundByte.Core.Sources
     {
         [CanBeNull]
         public BaseTrack Track { get; set; }
+
+        public Dictionary<string, object> GetParameters()
+        {
+            return new Dictionary<string, object>
+            {
+                { "t", Track?.TrackId },
+                { "s", Track?.ServiceType }
+            };
+        }
+
+        public void ApplyParameters(Dictionary<string, object> data)
+        {
+            data.TryGetValue("t", out var trackId);
+            data.TryGetValue("s", out var service);
+
+            Track = new BaseTrack
+            {
+                ServiceType = (ServiceType)service,
+                TrackId = trackId.ToString()
+            };
+        }
 
         public async Task<SourceResponse<BaseComment>> GetItemsAsync(int count, string token,
             CancellationTokenSource cancellationToken = default(CancellationTokenSource))

@@ -25,6 +25,27 @@ namespace SoundByte.Core.Sources.SoundCloud.User
         [CanBeNull]
         public string Type { get; set; }
 
+        public Dictionary<string, object> GetParameters()
+        {
+            return new Dictionary<string, object>
+            {
+                { "u", User?.UserId },
+                { "t", Type }
+            };
+        }
+
+        public void ApplyParameters(Dictionary<string, object> data)
+        {
+            data.TryGetValue("t", out var type);
+            Type = type.ToString();
+
+            data.TryGetValue("u", out var userId);
+            User = new BaseUser
+            {
+                UserId = userId.ToString()
+            };
+        }
+
         public async Task<SourceResponse<BaseUser>> GetItemsAsync(int count, string token,
             CancellationTokenSource cancellationToken = default(CancellationTokenSource))
         {

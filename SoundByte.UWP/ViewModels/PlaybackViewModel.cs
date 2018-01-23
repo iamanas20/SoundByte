@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Core;
 using Windows.Media.Playback;
@@ -11,6 +12,7 @@ using SoundByte.Core;
 using SoundByte.Core.Items.Track;
 using SoundByte.Core.Items.User;
 using SoundByte.Core.Services;
+using SoundByte.UWP.Extensions;
 using SoundByte.UWP.Helpers;
 using SoundByte.UWP.Services;
 
@@ -250,6 +252,7 @@ namespace SoundByte.UWP.ViewModels
 
             // Update the current track to whatever is playing
             CurrentTrack = PlaybackService.Instance.GetCurrentTrack();
+            UpdateUpNext();
 
             Application.Current.LeavingBackground += CurrentOnLeavingBackground;
 
@@ -391,6 +394,8 @@ namespace SoundByte.UWP.ViewModels
         public void ToggleShuffle()
         {
             IsShuffleEnabled = !IsShuffleEnabled;
+
+            UpdateUpNext();
         }
 
         /// <summary>
@@ -450,6 +455,21 @@ namespace SoundByte.UWP.ViewModels
         }
 
         #endregion
+
+        private void UpdateUpNext()
+        {
+            // Get and convert tracks
+            var playlist = (PlaybackService.Instance.MediaPlaybackList.ShuffleEnabled) 
+                ? PlaybackService.Instance.MediaPlaybackList.ShuffledItems.Select(x => x.Source.AsBaseTrack())
+                : PlaybackService.Instance.MediaPlaybackList.Items.Select(x => x.Source.AsBaseTrack());
+
+            // Clear playlist and add items
+            Playlist.Clear();
+            foreach (var baseTrack in playlist)
+            {
+                Playlist.Add(baseTrack);
+            }
+        }
 
         #region Methods
         public async void OnPlayingSliderChange()
@@ -522,6 +542,8 @@ namespace SoundByte.UWP.ViewModels
                     CurrentTimeValue = 1;
                     MaxTimeValue = 1;
                 }
+
+                UpdateUpNext();
 
                 if (CurrentTrack?.ServiceType == ServiceType.SoundCloud)
                 {

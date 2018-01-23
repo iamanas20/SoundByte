@@ -18,6 +18,20 @@ namespace SoundByte.Core.Sources.YouTube.Search
         /// </summary>
         public string SearchQuery { get; set; }
 
+        public Dictionary<string, object> GetParameters()
+        {
+            return new Dictionary<string, object>
+            {
+                { "q", SearchQuery }
+            };
+        }
+
+        public void ApplyParameters(Dictionary<string, object> data)
+        {
+            data.TryGetValue("q", out var query);
+            SearchQuery = query.ToString();
+        }
+
         public async Task<SourceResponse<BaseTrack>> GetItemsAsync(int count, string token,
             CancellationTokenSource cancellationToken = default(CancellationTokenSource))
         {

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -20,6 +19,23 @@ namespace SoundByte.Core.Sources.Podcast
         ///     Podcast show source
         /// </summary>
         public BasePodcast Show { get; set; }
+
+        public Dictionary<string, object> GetParameters()
+        {
+            return new Dictionary<string, object>
+            {
+                { "s", Show.FeedUrl }
+            };
+        }
+
+        public void ApplyParameters(Dictionary<string, object> data)
+        {
+            data.TryGetValue("s", out var show);
+            Show = new BasePodcast
+            {
+                FeedUrl = show.ToString()
+            };
+        }
 
         public async Task<SourceResponse<BaseTrack>> GetItemsAsync(int count, string token, CancellationTokenSource cancellationToken = default(CancellationTokenSource))
         {

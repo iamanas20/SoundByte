@@ -23,6 +23,24 @@ namespace SoundByte.Core.Sources.SoundCloud
         /// </summary>
         public string Kind { get; set; } = "top";
 
+        public Dictionary<string, object> GetParameters()
+        {
+            return new Dictionary<string, object>
+            {
+                { "g", Genre },
+                { "k", Kind }
+            };
+        }
+
+        public void ApplyParameters(Dictionary<string, object> data)
+        {
+            data.TryGetValue("g", out var genre);
+            Genre = genre.ToString();
+
+            data.TryGetValue("k", out var kind);
+            Kind = kind.ToString();
+        }
+
         public async Task<SourceResponse<BaseTrack>> GetItemsAsync(int count, string token,
             CancellationTokenSource cancellationToken = default(CancellationTokenSource))
         {

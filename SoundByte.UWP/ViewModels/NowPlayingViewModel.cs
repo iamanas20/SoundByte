@@ -268,18 +268,9 @@ namespace SoundByte.UWP.ViewModels
         /// <summary>
         ///     Navigate to the selected track in the playlist
         /// </summary>
-        public async void GotoRelatedTrack(object sender, ItemClickEventArgs e)
+        public void GotoRelatedTrack(object sender, ItemClickEventArgs e)
         {
-            var startPlayback = await PlaybackService.Instance.InitilizePlaylistAsync<DummyTrackSource>(PlaybackViewModel.Playlist);
-
-            if (!startPlayback.Success)
-            {
-                await NavigationService.Current.CallMessageDialogAsync(startPlayback.Message,
-                    "Error playing related track.");
-                return;
-            }
-
-            await PlaybackService.Instance.StartTrackAsync(e.ClickedItem as BaseTrack);
+            PlaybackService.Instance.MoveTo(e.ClickedItem as BaseTrack);
         }
 
         /// <summary>
