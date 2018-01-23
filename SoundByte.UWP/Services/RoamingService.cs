@@ -25,6 +25,16 @@ namespace SoundByte.UWP.Services
             _channel = UserActivityChannel.GetDefault();
         }
 
+        private string GetParameterString(string[] parameters, string key)
+        {
+            var item = parameters.Where(x => x.Contains("=")).FirstOrDefault(x => x.Split('=')[0] == key);
+
+            if (string.IsNullOrEmpty(item))
+                return item;
+
+            return item.Split('=')[1];
+        }
+
         public UserActivityObject DecodeActivityParameters(string compressedData)
         {
             // Get the raw data string
@@ -34,28 +44,36 @@ namespace SoundByte.UWP.Services
             var paramCollection = data.Split('&');
 
             // Get raw objects
-            var currentTrack = paramCollection.FirstOrDefault(x => x.Split('=')[0] == "c")?.Split('=')[1];
-            var sourceName = paramCollection.FirstOrDefault(x => x.Split('=')[0] == "s")?.Split('=')[1];
-            var playlistToken = paramCollection.FirstOrDefault(x => x.Split('=')[0] == "t")?.Split('=')[1];
-            var tracksRaw = paramCollection.FirstOrDefault(x => x.Split('=')[0] == "p")?.Split('=')[1];
+            var currentTrack = GetParameterString(paramCollection, "c"); 
+            var sourceName = GetParameterString(paramCollection, "s");
+            var sourceDetails = GetParameterString(paramCollection, "d");
+            var playlistToken = GetParameterString(paramCollection, "t");
+            var tracksRaw = GetParameterString(paramCollection, "p");
 
             // Parse current track
-            var currentTrackService = (ServiceType) int.Parse(currentTrack.Split('-')[0]);
-            var currentTrackId = currentTrack.Split('-')[1];
+            var currentTrackService = (ServiceType) int.Parse(currentTrack?.Split('-')[0]);
+            var currentTrackId = currentTrack?.Split('-')[1];
+
+            // generate the source
+            var detailDict = sourceDetails.Split(',').ToDictionary(x => x.Split('-')[0], x => (object)x.Split('-')[1]);
+            var sourceRaw = App.SourceManager.GetTrackSource(sourceName, detailDict);
 
             // Pass playlist of tracks
             var tracks = new List<TrackServicePair>();
 
-            foreach (var trackPair in tracksRaw.Split(','))
+            if (tracksRaw != null)
             {
-                var trackService = (ServiceType)int.Parse(trackPair.Split('-')[0]);
-                var trackId = trackPair.Split('-')[1];
-
-                tracks.Add(new TrackServicePair
+                foreach (var trackPair in tracksRaw.Split(','))
                 {
-                    TrackId = trackId,
-                    Service = trackService
-                });
+                    var trackService = (ServiceType)int.Parse(trackPair.Split('-')[0]);
+                    var trackId = trackPair.Split('-')[1];
+
+                    tracks.Add(new TrackServicePair
+                    {
+                        TrackId = trackId,
+                        Service = trackService
+                    });
+                }
             }
 
             return new UserActivityObject
@@ -67,7 +85,7 @@ namespace SoundByte.UWP.Services
                     Service = currentTrackService
                 },
                 PlaylistToken = playlistToken,
-                SourceName = sourceName
+                Source = sourceRaw
             };
 
         }
@@ -77,17 +95,30 @@ namespace SoundByte.UWP.Services
         {
             // Conver to raw objects
             var currentTrack = $"c={(int)track.ServiceType}-{track.TrackId}";
-            var sourceName = $"s={source.GetType().Name}";
-            var playlistToken = $"t={token}";
-            var tracks = $"p={string.Join(',', playlist.Select(x => $"{(int)x.ServiceType}-{x.TrackId}"))}";
+            var sourceName = $"&s={source.GetType().Name}";
+            var sourceDetails = $"&d={string.Join(',', source.GetParameters().Select(x => $"{x.Key}-{x.Value}"))}";
+            var playlistToken = $"&t={token}";
+            var tracks = $"&p={string.Join(',', playlist.Select(x => $"{(int)x.ServiceType}-{x.TrackId}"))}";
+
+            // If we don't have a token, we do not need to send the tracks
+            // unless this is a dummy source. This is because our source can 
+            // load the first set of items.
+            if (string.IsNullOrEmpty(token) && source.GetType() != typeof(DummyTrackSource))
+                tracks = "";
 
             // Format into url
-            var data = $"{currentTrack}&{sourceName}&{playlistToken}&{tracks}";
+            var data = $"{currentTrack}{sourceName}{sourceDetails}{playlistToken}{tracks}";
             return Uri.EscapeDataString(StringHelpers.CompressString(data));
         }
 
         public async Task<UserActivity> UpdateActivityAsync(ISource<BaseTrack> source, BaseTrack track, IEnumerable<BaseTrack> playlist, string token)
-        {           
+        {
+            // We do not support these items
+            if (track.ServiceType == ServiceType.ITunesPodcast ||
+                track.ServiceType == ServiceType.Local ||
+                track.ServiceType == ServiceType.Unknown)
+                return null;
+
             var activity = await _channel.GetOrCreateUserActivityAsync("SoundByte.Playback");
             activity.FallbackUri = new Uri("https://soundbytemedia.com/pages/remote-subsystem");
 
@@ -107,6 +138,12 @@ namespace SoundByte.UWP.Services
 
         public async Task StartActivityAsync(ISource<BaseTrack> source, BaseTrack track, IEnumerable<BaseTrack> playlist, string token) 
         {
+            // We do not support these items
+            if (track.ServiceType == ServiceType.ITunesPodcast ||
+                track.ServiceType == ServiceType.Local ||
+                track.ServiceType == ServiceType.Unknown)
+                return;
+
             var activity = await UpdateActivityAsync(source, track, playlist, token);
 
             await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
@@ -126,7 +163,10 @@ namespace SoundByte.UWP.Services
             public IEnumerable<TrackServicePair> Tracks { get; set; }
             public TrackServicePair CurrentTrack { get; set; }
             public string PlaylistToken { get; set; }
-            public string SourceName { get; set; }
+
+
+
+            public ISource<BaseTrack> Source { get; set; }
         }
 
         public async Task StopActivityAsync(TimeSpan? currentPosition = null)

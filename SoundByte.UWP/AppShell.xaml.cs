@@ -20,6 +20,7 @@ using SoundByte.Core.Items.Generic;
 using SoundByte.Core.Items.Playlist;
 using SoundByte.Core.Items.Track;
 using SoundByte.Core.Items.User;
+using SoundByte.Core.Items.YouTube;
 using SoundByte.Core.Services;
 using SoundByte.Core.Sources;
 using SoundByte.Core.Sources.SoundCloud;
@@ -385,6 +386,11 @@ namespace SoundByte.UWP
                                     currentTrack = (await SoundByteService.Current.GetAsync<SoundCloudTrack>(ServiceType.SoundCloud, $"/tracks/{result.CurrentTrack.TrackId}")).Response.ToBaseTrack();
                                     break;
                                 case ServiceType.YouTube:
+                                    currentTrack = (await SoundByteService.Current.GetAsync<YouTubeVideoHolder>(ServiceType.YouTube, "videos", new Dictionary<string, string>
+                                    {
+                                        {"part", "snippet,contentDetails"},
+                                        { "id", result.CurrentTrack.TrackId }
+                                    })).Response.Tracks.FirstOrDefault()?.ToBaseTrack();
                                     break;
                                 case ServiceType.ITunesPodcast:
                                     // TODO: THIS
@@ -397,10 +403,18 @@ namespace SoundByte.UWP
                             var fanburstIds = string.Join(',', result.Tracks.Where(x => x.Service == ServiceType.Fanburst).Select(x => x.TrackId));
                             var youTubeIds = string.Join(',', result.Tracks.Where(x => x.Service == ServiceType.YouTube).Select(x => x.TrackId));
 
+                            // SoundCloud tracks
                             tracks.AddRange((await SoundByteService.Current.GetAsync<List<SoundCloudTrack>>(ServiceType.SoundCloud, $"/tracks?ids={soundCloudIds}")).Response.Select(x => x.ToBaseTrack()));
 
-                            // TODO: Hook up source
-                            var startPlayback = await PlaybackService.Instance.InitilizePlaylistAsync<DummyTrackSource>(tracks);
+                            // YouTube Tracks
+                            tracks.AddRange((await SoundByteService.Current.GetAsync<YouTubeVideoHolder>(ServiceType.YouTube, "videos", new Dictionary<string, string>
+                            {
+                                { "part", "snippet,contentDetails"},
+                                { "id", youTubeIds }
+
+                            })).Response.Tracks.Select(x => x.ToBaseTrack()));
+
+                            var startPlayback = await PlaybackService.Instance.InitilizePlaylistAsync(result.Source, tracks);
 
                             if (startPlayback.Success)
                             {
