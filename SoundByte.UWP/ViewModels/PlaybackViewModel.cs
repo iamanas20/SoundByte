@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using Windows.ApplicationModel;
 using Windows.ApplicationModel.Core;
 using Windows.Media.Playback;
 using Windows.UI.Core;
@@ -250,10 +251,19 @@ namespace SoundByte.UWP.ViewModels
             // Update the current track to whatever is playing
             CurrentTrack = PlaybackService.Instance.GetCurrentTrack();
 
+            Application.Current.LeavingBackground += CurrentOnLeavingBackground;
+
             // Start the timer if ready
             if (!_updateInformationTimer.IsEnabled)
                 _updateInformationTimer.Start();
         }
+
+        private void CurrentOnLeavingBackground(object sender, LeavingBackgroundEventArgs leavingBackgroundEventArgs)
+        {
+            // Call the track change method
+            OnTrackChange(PlaybackService.Instance.GetCurrentTrack());
+        }
+
         #endregion
 
         #region Timer Methods
@@ -585,6 +595,8 @@ namespace SoundByte.UWP.ViewModels
             // Unbind timer methods
             _updateInformationTimer.Tick -= UpdateInformation;
             _audioVideoSyncTimer.Tick -= SyncAudioVideo;
+
+            Application.Current.LeavingBackground -= CurrentOnLeavingBackground;
 
             base.Dispose();
         }

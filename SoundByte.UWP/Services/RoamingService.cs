@@ -1,17 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.UserActivities;
-using Windows.Security.Cryptography;
 using Windows.UI.Shell;
 using Microsoft.Toolkit.Uwp.Helpers;
-using Newtonsoft.Json;
 using SoundByte.Core;
+using SoundByte.Core.Helpers;
 using SoundByte.Core.Items.Track;
-using SoundByte.Core.Services;
 using SoundByte.Core.Sources;
 
 namespace SoundByte.UWP.Services
@@ -32,7 +28,7 @@ namespace SoundByte.UWP.Services
         public UserActivityObject DecodeActivityParameters(string compressedData)
         {
             // Get the raw data string
-            var data = UnZip(Uri.UnescapeDataString(compressedData));
+            var data = StringHelpers.DecompressString(Uri.UnescapeDataString(compressedData));
 
             // Get from url
             var paramCollection = data.Split('&');
@@ -87,7 +83,7 @@ namespace SoundByte.UWP.Services
 
             // Format into url
             var data = $"{currentTrack}&{sourceName}&{playlistToken}&{tracks}";
-            return Uri.EscapeDataString(Zip(data));
+            return Uri.EscapeDataString(StringHelpers.CompressString(data));
         }
 
         public async Task<UserActivity> UpdateActivityAsync(ISource<BaseTrack> source, BaseTrack track, IEnumerable<BaseTrack> playlist, string token)
@@ -147,47 +143,5 @@ namespace SoundByte.UWP.Services
             if (_currentUserActivitySession != null)
                 _currentUserActivitySession.Dispose();
         }
-
-        public static string Zip(string text)
-        {
-            byte[] buffer = System.Text.Encoding.Unicode.GetBytes(text);
-            MemoryStream ms = new MemoryStream();
-            using (System.IO.Compression.GZipStream zip = new System.IO.Compression.GZipStream(ms, System.IO.Compression.CompressionMode.Compress, true))
-            {
-                zip.Write(buffer, 0, buffer.Length);
-            }
-
-            ms.Position = 0;
-            MemoryStream outStream = new MemoryStream();
-
-            byte[] compressed = new byte[ms.Length];
-            ms.Read(compressed, 0, compressed.Length);
-
-            byte[] gzBuffer = new byte[compressed.Length + 4];
-            System.Buffer.BlockCopy(compressed, 0, gzBuffer, 4, compressed.Length);
-            System.Buffer.BlockCopy(BitConverter.GetBytes(buffer.Length), 0, gzBuffer, 0, 4);
-            return Convert.ToBase64String(gzBuffer);
-        }
-
-        public static string UnZip(string compressedText)
-        {
-            byte[] gzBuffer = Convert.FromBase64String(compressedText);
-            using (MemoryStream ms = new MemoryStream())
-            {
-                int msgLength = BitConverter.ToInt32(gzBuffer, 0);
-                ms.Write(gzBuffer, 4, gzBuffer.Length - 4);
-
-                byte[] buffer = new byte[msgLength];
-
-                ms.Position = 0;
-                using (System.IO.Compression.GZipStream zip = new System.IO.Compression.GZipStream(ms, System.IO.Compression.CompressionMode.Decompress))
-                {
-                    zip.Read(buffer, 0, buffer.Length);
-                }
-
-                return System.Text.Encoding.Unicode.GetString(buffer, 0, buffer.Length);
-            }
-        }
-
     }
 }
