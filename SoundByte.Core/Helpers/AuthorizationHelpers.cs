@@ -84,13 +84,17 @@ namespace SoundByte.Core.Helpers
         /// <param name="version">Version of the app</param>
         /// <param name="appId">The Unique app install ID for this app</param>
         /// <param name="requestNewKeys">Tell the server that we want new app keys.</param>
+        /// <param name="useProxy">Only used for app init. It's possible for the main site to be blocked, so run this logic through a proxy</param>
         /// <returns></returns>
         public static async Task<AppInitializationResult> OnlineAppInitAsync(string platform, string version, string appId,
-            bool requestNewKeys)
+            bool requestNewKeys, bool useProxy = false)
         {
             try
             {
-                var result = await HttpService.Instance.PostAsync<AppInitializationResult>("https://soundbytemedia.com/api/v1/app/init",
+                var requestUrl = "https://soundbytemedia.com/api/v1/app/init";
+                if (useProxy) requestUrl = "https://gridentertainment.net/proxy?url=https://soundbytemedia.com/api/v1/app/init";
+
+                var result = await HttpService.Instance.PostAsync<AppInitializationResult>(requestUrl,
                     new Dictionary<string, string>
                     {
                         { "requestnewkeys", requestNewKeys.ToString() },
@@ -108,11 +112,20 @@ namespace SoundByte.Core.Helpers
             }
             catch (HttpRequestException hex)
             {
-                throw new SoundByteException("SoundByte Server Error", "There is currently an error with the SoundByte services. Please try again later. Message: " + hex.Message);
+                // Proxy failed, dump error at user
+                if (useProxy)
+                    throw new SoundByteException("SoundByte Server Error", "There is currently an error with the SoundByte services. Please try again later. Message: " + hex.Message);
+
+                return await OnlineAppInitAsync(platform, version, appId, requestNewKeys, true);
+
             }
             catch (Exception ex)
             {
-                throw new SoundByteException("Error Init App", ex.Message);
+                // Proxy failed, dump error at user
+                if (useProxy)
+                    throw new SoundByteException("Error Init App", ex.Message);
+
+                return await OnlineAppInitAsync(platform, version, appId, requestNewKeys, true);
             }
         }
     }

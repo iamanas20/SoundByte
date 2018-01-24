@@ -54,10 +54,6 @@ namespace SoundByte.Core.Services
 
         #endregion
 
-        #region Getters and Setters
-
-        #endregion
-
         #region Instance Setup
         private static readonly Lazy<SoundByteService> InstanceHolder =
             new Lazy<SoundByteService>(() => new SoundByteService());
