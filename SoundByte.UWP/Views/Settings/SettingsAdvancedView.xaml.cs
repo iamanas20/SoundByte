@@ -1,4 +1,6 @@
-﻿using Windows.UI.Xaml;
+﻿using System.Collections.ObjectModel;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Navigation;
 using SoundByte.UWP.Services;
 using WinRTXamlToolkit.Tools;
 
@@ -9,9 +11,22 @@ namespace SoundByte.UWP.Views.Settings
     /// </summary>
     public sealed partial class SettingsAdvancedView
     {
+        public ObservableCollection<string> Logs { get; set; } = new ObservableCollection<string>();
+
+
         public SettingsAdvancedView()
         {
             InitializeComponent();
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            Logs.Clear();
+
+            foreach (var log in LoggingService.Logs)
+            {
+                Logs.Add(log);
+            }
         }
 
         private async void ButtonBase_OnClick(object sender, RoutedEventArgs e)

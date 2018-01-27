@@ -65,25 +65,13 @@
                         <ToggleSwitch OffContent="No" OnContent="Yes"
                               FontSize="16" IsOn="{x:Bind SettingsService.IsSyncSettingsEnabled, Mode=TwoWay}" />
 
-                        <TextBlock Text="UI Look and Feel" 
-                           Style="{StaticResource SubTitleStyle}" />
-
-                        <!-- Use high quality artwork -->
-                        <ToggleSwitch FontSize="16"
-                              OnContent="Adjust for Appearance"
-                              OffContent="Adjust for Performance"
-                              IsOn="{x:Bind SettingsService.IsHighQualityArtwork, Mode=TwoWay}" />
-
-
-
-                       
 
                         <TextBlock Text="Advanced" 
                            Style="{StaticResource SubTitleStyle}" />
 
                         <HyperlinkButton Click="{x:Bind ViewModel.NavigateDebugOptions}" 
                                  Style="{StaticResource LinkStyle}"
-                                 Content="Advanced Settings" />
+                                 Content="Debug Settings" />
 
                         <HyperlinkButton Click="{x:Bind ViewModel.ClearAppCache}" 
                                  Style="{StaticResource LinkStyle}"
@@ -118,7 +106,7 @@
 
 
                         <!-- App version -->
-                        <TextBlock Text="Version" 
+                        <TextBlock Text="App Information" 
                            Style="{StaticResource SubTitleStyle}"/>
                         <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
                             <TextBlock Text="Version: "
@@ -162,7 +150,7 @@
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
-                            <TextBlock Text="App Id: "
+                            <TextBlock Text="App ID: "
                                        Margin="0,0,5,0"
                                        FontSize="16" />
                             <TextBlock x:Name="AppId"

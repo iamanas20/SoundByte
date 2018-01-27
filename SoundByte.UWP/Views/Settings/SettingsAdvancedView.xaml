@@ -7,18 +7,47 @@
     Transitions="{StaticResource MainTransition}"
     mc:Ignorable="d">
     <Grid Background="{ThemeResource ShellBackground}">
-        <StackPanel Padding="{ThemeResource PagePadding}">
-            <TextBlock Style="{StaticResource TitleStyle}" 
-                       Text="Advanced Settings" />
-            <TextBlock Text="Navigation Service (Dialog)"     
-                       Style="{StaticResource SubTitleStyle}" />
-            <TextBlock Text="Debug registered soundbyte dialogs by typing in the name of the dialog below. For example `PendingUpdateDialog`. Invokes the navigation service." 
-                       Style="{StaticResource TextStyle}" />
-            <TextBox x:Name="Command" />
-            <Button Content="Run Command" Click="ButtonBase_OnClick" />
-            <Button Content="Get Dialog List" Click="GetDialogList" />
-        </StackPanel>
+        <ScrollViewer>
+            <StackPanel Padding="{ThemeResource PagePadding}">
+                <TextBlock Style="{StaticResource TitleStyle}" 
+                           Text="Debug Settings" />
+                <TextBlock Text="Dialog Navigation Service"     
+                           Style="{StaticResource SubTitleStyle}" />
+                <TextBlock Text="Invokes the Navigation Service to display a specified dialog by typing in the name of the dialog below. For example `PendingUpdateDialog`. 'Show Dialog List' calls the Navigation Service to get all registered dialogs." 
+                           Style="{StaticResource TextStyle}" />
+                
+                <TextBox x:Name="Command" 
+                         BorderThickness="1" />
+
+                <Button Content="Run Command" 
+                        Click="ButtonBase_OnClick" 
+                        Foreground="White"
+                        Background="{ThemeResource SystemControlBackgroundAccentBrush}"
+                        BorderBrush="{ThemeResource SystemControlHighlightAltListAccentLowBrush}"
+                        BorderThickness="1"
+                        Padding="10"
+                        Margin="0,10,0,0" />
+
+                <Button Content="Show Dialog List" 
+                        Click="GetDialogList" 
+                        Foreground="White"
+                        Background="{ThemeResource SystemControlBackgroundAccentBrush}"
+                        BorderBrush="{ThemeResource SystemControlHighlightAltListAccentLowBrush}"
+                        BorderThickness="1"
+                        Padding="10"
+                        Margin="0,10,0,0" />
+
+                <!-- App Log -->
+                <TextBlock Text="Local App Log"     
+                           Style="{StaticResource SubTitleStyle}" />
+
+                <TextBlock Text="Please Note: This information is stored on the local device and is not shared." 
+                           Style="{StaticResource TextStyle}" />
+                
+                <ListView ItemsSource="{x:Bind Logs}" />
+
+
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
-    
-    
 </Page>
