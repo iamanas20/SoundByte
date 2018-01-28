@@ -1,8 +1,14 @@
-﻿using SoundByte.Core.Items.Track;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using Windows.System;
+using SoundByte.Core.Items.Track;
 using SoundByte.UWP.Services;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using SoundByte.Core;
+using SoundByte.Core.Items.SoundByte;
 using SoundByte.Core.Services;
 using SoundByte.Core.Sources.Fanburst;
 using SoundByte.Core.Sources.SoundCloud;
@@ -32,7 +38,11 @@ namespace SoundByte.UWP.Views
         public SoundByteCollection<SoundCloudExploreSource, BaseTrack> SoundCloudTracks { get; } =
             new SoundByteCollection<SoundCloudExploreSource, BaseTrack>();
 
+        public ObservableCollection<AppBanner> AppBanners { get; } = 
+            new ObservableCollection<AppBanner>();
         #endregion
+
+        private DispatcherTimer _flipViewTimer;
 
         public ExploreView() 
         {
@@ -41,11 +51,39 @@ namespace SoundByte.UWP.Views
             NavigationCacheMode = NavigationCacheMode.Enabled;
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             // If we have a connected SoundByte account, don't show the banner
             SoundByteAccountBanner.Visibility = SoundByteService.Current.IsSoundByteAccountConnected 
                 ? Visibility.Collapsed : Visibility.Visible;
+
+            AppBanners.Clear();
+            var appBanners = await SoundByteService.Current.GetAsync<List<AppBanner>>(ServiceType.SoundByte, "app/banner");
+            appBanners.Response.ForEach(AppBanners.Add);
+
+            _flipViewTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(10) };
+            _flipViewTimer.Tick += FlipViewTimerOnTick;
+            _flipViewTimer.Start();
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            _flipViewTimer.Stop();
+            _flipViewTimer.Tick -= FlipViewTimerOnTick;
+            _flipViewTimer = null;
+        }
+
+        int _change = 1;
+        private void FlipViewTimerOnTick(object sender, object o)
+        {
+            // If we'd go out of bounds then reverse
+            var newIndex = FlipView.SelectedIndex + _change;
+            if (newIndex >= FlipView.Items.Count || newIndex < 0)
+            {
+                _change *= -1;
+            }
+
+            FlipView.SelectedIndex += _change;
         }
 
         #region SoundCloud
@@ -131,6 +169,14 @@ namespace SoundByte.UWP.Views
         {
             // Second pivot is the soundbyte account pivot
             App.NavigateTo(typeof(AccountManagerView), new AccountManagerView.AccountManagerArgs { PivotIndex = 1 });
+        }
+
+        private async void BannerButtonClick(object sender, RoutedEventArgs e)
+        {
+            var banner = (e.OriginalSource as Button)?.DataContext as AppBanner;
+
+            await Launcher.LaunchUriAsync(new Uri(banner?.ButtonLink));
+
         }
     }
 }
