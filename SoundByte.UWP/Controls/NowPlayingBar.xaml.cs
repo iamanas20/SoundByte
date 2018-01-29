@@ -24,14 +24,14 @@ namespace SoundByte.UWP.Controls
             };
         }
 
-        private void NavigateTrack()
-        {
-            App.NavigateTo(typeof(NowPlayingView));
-        }
-
         public async void ShowCompactView()
         {
             await App.SwitchToCompactView();
+        }
+
+        private void NavigateNowPlaying(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            App.NavigateTo(typeof(NowPlayingView));
         }
     }
 }

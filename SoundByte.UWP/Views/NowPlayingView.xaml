@@ -493,7 +493,7 @@
                                                  HorizontalAlignment="Left">
                                             <Ellipse.Fill>
                                                 <ImageBrush
-                                                    ImageSource="{x:Bind Path=ViewModel.PlaybackViewModel.CurrentTrack.User.ThumbnailUrl, Mode=OneWay}"
+                                                    ImageSource="{x:Bind Path=ViewModel.PlaybackViewModel.CurrentTrack.User.ArtworkUrl, Mode=OneWay}"
                                                     Stretch="UniformToFill" />
                                             </Ellipse.Fill>
                                         </Ellipse>
