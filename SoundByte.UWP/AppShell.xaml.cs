@@ -487,6 +487,9 @@ namespace SoundByte.UWP
                 case nameof(DeviceView):
                     NavView.SelectedItem = NavigationItemDownloads;
                     break;
+             //   default:
+             //       NavView.SelectedItem = NavigationItemOther;
+              //      break;
             }
 
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = ((Frame)sender).CanGoBack
@@ -538,7 +541,7 @@ namespace SoundByte.UWP
         private void ShowNowPlayingBar()
         {
             NowPlaying.Visibility = Visibility.Visible;
-            NavView.Margin = new Thickness { Bottom = 64 };
+            NavView.Margin = new Thickness { Bottom = 80 };
         }
 
         // Login and Logout events. This is used to display what pages
@@ -616,6 +619,11 @@ namespace SoundByte.UWP
                     break;
                 case "mydevice":
                     RootFrame.Navigate(typeof(DeviceView));
+                    break;
+                case "now-playing":
+                    App.NavigateTo(typeof(NowPlayingView));
+                    break;
+                case "addons":
                     break;
 
             }

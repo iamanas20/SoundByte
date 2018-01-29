@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using Windows.Media.Streaming.Adaptive;
 using Windows.UI.StartScreen;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml.Controls;
@@ -14,6 +16,8 @@ using SoundByte.UWP.Dialogs;
 using SoundByte.UWP.Helpers;
 using SoundByte.UWP.Services;
 using SoundByte.UWP.Views;
+using YoutubeExplode.Models.MediaStreams;
+using System.Threading.Tasks;
 
 namespace SoundByte.UWP.ViewModels
 {
@@ -196,7 +200,7 @@ namespace SoundByte.UWP.ViewModels
         /// <summary>
         ///     Setup the view model
         /// </summary>
-        public void SetupModel()
+        public async Task SetupModelAsync()
         {
             PlaybackViewModel = new PlaybackViewModel();
 
@@ -215,7 +219,26 @@ namespace SoundByte.UWP.ViewModels
 
                 if (currentTrack.ServiceType == ServiceType.YouTube)
                 {
-                    overlay.Source = new Uri(currentTrack.VideoStreamUrl);
+                    var mediaStreams = await PlaybackService.Instance.YouTubeClient.GetVideoMediaStreamInfosAsync(currentTrack.TrackId);
+
+                    if (currentTrack.IsLive)
+                    {
+                        var source = await AdaptiveMediaSource.CreateFromUriAsync(new Uri(mediaStreams.HlsLiveStreamUrl));
+                        if (source.Status == AdaptiveMediaSourceCreationStatus.Success)
+                        {
+                            overlay.SetMediaStreamSource(source.MediaSource);
+                        }
+                    }
+                    else
+                    {
+                        var videoStreamUrl = mediaStreams.Video.FirstOrDefault(x => x.VideoQuality == VideoQuality.High1080)?.Url;
+
+                        if (string.IsNullOrEmpty(videoStreamUrl))
+                            videoStreamUrl = mediaStreams.Video.OrderBy(s => s.VideoQuality).Last()?.Url;
+
+                        overlay.Source = new Uri(videoStreamUrl);
+                    }
+
                     overlay.Play();
                 }
                 else

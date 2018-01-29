@@ -58,7 +58,7 @@ namespace SoundByte.Core.Items.Track
                     // keys are provided by the web service (so more can be added when needed) so chances of expiring the key should
                     // be rare (especially when users start using YouTube and Fanburst Playback instead).
 
-                    // TODO: THIS CAN FAIL (due to 17.10.x using old system). If this fails, the song wont play. Minor issue. 
+                    // TODO: THIS CAN FAIL (due to 17.10.x using old system). If this fails, the song wont play.
 
                     // Create list of keys with our default key
                     var apiKeys = new List<string>();
@@ -75,25 +75,9 @@ namespace SoundByte.Core.Items.Track
                     // Get the video streams
                     var mediaStreams = await youTubeClient.GetVideoMediaStreamInfosAsync(TrackId);
 
-                    // Set the audio stream URL to the highest quality
-                    // TODO: Set it at an alright quality.
-                    audioStream = mediaStreams.Audio.OrderBy(q => q.AudioEncoding).Last()?.Url;
-
-                    // 720p is max quality we want
-                    // If 720p does not exit, set it to the
-                    // higest this video supports.
-                    VideoStreamUrl = mediaStreams.Video
-                        .FirstOrDefault(x => x.VideoQuality == VideoQuality.High720)?.Url;
-
-                    if (string.IsNullOrEmpty(VideoStreamUrl))
-                        VideoStreamUrl = mediaStreams.Video.OrderBy(s => s.VideoQuality).Last()?.Url;
-
-                    if (IsLive)
-                    {
-                         VideoStreamUrl = mediaStreams.HlsLiveStreamUrl;
-                         audioStream = mediaStreams.HlsLiveStreamUrl;
-                    }
-
+                    audioStream = IsLive 
+                        ? mediaStreams.HlsLiveStreamUrl 
+                        : mediaStreams.Audio.OrderByDescending(q => q.Bitrate).Last()?.Url;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

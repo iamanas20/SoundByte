@@ -45,10 +45,10 @@ namespace SoundByte.UWP.Views
         /// <summary>
         ///     Setup the view model, passing in the navigation events.
         /// </summary>
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             // Setup view model
-            ViewModel.SetupModel();
+            await ViewModel.SetupModelAsync();
 
             // Track Event
             App.Telemetry.TrackPage("Now Playing View");

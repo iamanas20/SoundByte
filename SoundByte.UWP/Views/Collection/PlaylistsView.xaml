@@ -10,6 +10,11 @@
             <controls:SectionHeader Title="SoundByte" Margin="{ThemeResource PagePadding}">
                 <controls:SectionHeader.Buttons>
                     <controls:AppButton HorizontalAlignment="Right"
+                                        VerticalAlignment="Bottom"                     
+                                        Label="New Playlist" 
+                                        IsExtended="False"
+                                        Glyph="&#xE710;"/>
+                    <controls:AppButton HorizontalAlignment="Right"
                                         Click="{x:Bind ViewAllSoundByte}"
                                         VerticalAlignment="Bottom"                     
                                         Label="View All" 
@@ -37,6 +42,11 @@
             <controls:SectionHeader Title="SoundCloud" Margin="{ThemeResource PagePadding}">
                 <controls:SectionHeader.Buttons>
                     <controls:AppButton HorizontalAlignment="Right"
+                                        VerticalAlignment="Bottom"                     
+                                        Label="New Playlist" 
+                                        IsExtended="False"
+                                        Glyph="&#xE710;"/>
+                    <controls:AppButton HorizontalAlignment="Right"
                                         Click="{x:Bind ViewAllSoundCloud}"
                                         VerticalAlignment="Bottom"                     
                                         Label="View All" 
@@ -63,6 +73,11 @@
             <controls:SectionHeader Title="YouTube" Margin="{ThemeResource PagePadding}">
                 <controls:SectionHeader.Buttons>
                     <controls:AppButton HorizontalAlignment="Right"
+                                        VerticalAlignment="Bottom"                     
+                                        Label="New Playlist" 
+                                        IsExtended="False"
+                                        Glyph="&#xE710;"/>
+                    <controls:AppButton HorizontalAlignment="Right"
                                         Click="{x:Bind ViewAllYouTube}"
                                         VerticalAlignment="Bottom"                     
                                         Label="View All" 
@@ -88,6 +103,11 @@
             <!-- FANBURST HEADER -->
             <controls:SectionHeader Title="Fanburst" Margin="{ThemeResource PagePadding}">
                 <controls:SectionHeader.Buttons>
+                    <controls:AppButton HorizontalAlignment="Right"
+                                        VerticalAlignment="Bottom"                     
+                                        Label="New Playlist" 
+                                        IsExtended="False"
+                                        Glyph="&#xE710;"/>
                     <controls:AppButton HorizontalAlignment="Right"
                                         Click="{x:Bind ViewAllFanburst}"
                                         VerticalAlignment="Bottom"                     

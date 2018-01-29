@@ -743,39 +743,48 @@
                                           FontWeight="{ThemeResource SliderHeaderThemeFontWeight}"
                                           Margin="{ThemeResource SliderHeaderThemeMargin}" TextWrapping="Wrap"
                                           Visibility="Collapsed" x:DeferLoadStrategy="Lazy" />
-                        <Grid x:Name="SliderContainer" Background="Transparent" Control.IsTemplateFocusTarget="True"
+                        <Grid x:Name="SliderContainer" 
+                              Background="Transparent" 
+                              Control.IsTemplateFocusTarget="True"
+                              Height="40"
                               Grid.Row="1">
-                            <Grid x:Name="HorizontalTemplate" MinHeight="44">
+                            <Grid x:Name="HorizontalTemplate">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="18" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="18" />
-                                </Grid.RowDefinitions>
-                                <Rectangle RadiusX="2" RadiusY="2" x:Name="HorizontalTrackRect" Grid.ColumnSpan="3"
-                                           Fill="{TemplateBinding Background}" Height="4px" Grid.Row="1" Opacity="0.5" />
-                                <Rectangle RadiusX="2" RadiusY="2" x:Name="HorizontalDecreaseRect"
-                                           Fill="{ThemeResource AppBarItemForegroundThemeBrush}" Grid.Row="1"
+
+                                <Rectangle RadiusX="2" RadiusY="2" 
+                                           Height="4"
+                                           x:Name="HorizontalTrackRect" 
+                                           Grid.ColumnSpan="3"
+                                           Grid.Column="0"
+                                           Fill="{TemplateBinding Background}" 
+                                           Opacity="0.5" />
+
+                                <Rectangle RadiusX="2" RadiusY="2" 
+                                           Grid.Column="0"
+                                           Height="4"
+                                           x:Name="HorizontalDecreaseRect"
+                                           Fill="{ThemeResource AppBarItemForegroundThemeBrush}"
                                            Opacity="0.6" />
-                                <TickBar x:Name="TopTickBar" Grid.ColumnSpan="3"
-                                         Fill="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
-                                         Height="{ThemeResource SliderOutsideTickBarThemeHeight}" Margin="0,0,0,4"
-                                         Visibility="Collapsed" VerticalAlignment="Bottom" />
-                                <TickBar x:Name="HorizontalInlineTickBar" Grid.ColumnSpan="3"
-                                         Fill="{ThemeResource SystemControlBackgroundAltHighBrush}" Height="4px"
-                                         Grid.Row="1" Visibility="Collapsed" />
-                                <TickBar x:Name="BottomTickBar" Grid.ColumnSpan="3"
-                                         Fill="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
-                                         Height="{ThemeResource SliderOutsideTickBarThemeHeight}" Margin="0,4,0,0"
-                                         Grid.Row="2" Visibility="Collapsed" VerticalAlignment="Top" />
-                                <Thumb x:Name="HorizontalThumb" AutomationProperties.AccessibilityView="Raw"
-                                       Background="{ThemeResource AppBarItemForegroundThemeBrush}" Opacity="0.0"
-                                       Grid.Column="1" DataContext="{TemplateBinding Value}" Height="4" Grid.Row="0"
-                                       Grid.RowSpan="3" Style="{StaticResource SliderThumbStyle}" Width="0" />
+
+                                <TickBar x:Name="HorizontalInlineTickBar" 
+                                         Grid.Column="0"
+                                         Height="4"
+                                         Grid.ColumnSpan="3"
+                                         Fill="{ThemeResource SystemControlBackgroundAltHighBrush}" 
+                                         Visibility="Collapsed" />
+
+                                <Thumb x:Name="HorizontalThumb" 
+                                       Height="4"
+                                       Background="{ThemeResource AppBarItemForegroundThemeBrush}" 
+                                       Opacity="0.0"
+                                       Grid.Column="1" 
+                                       DataContext="{TemplateBinding Value}" 
+                                       Style="{StaticResource SliderThumbStyle}" 
+                                       Width="0" />
                             </Grid>
                             <Grid x:Name="VerticalTemplate" MinWidth="44" Visibility="Collapsed">
                                 <Grid.ColumnDefinitions>
@@ -879,15 +888,14 @@
         </Setter>
     </Style>
 
-    <Style x:Key="XboxCircleButtonStyle" TargetType="Button">
-        <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
-        <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
-        <Setter Property="BorderBrush" Value="{ThemeResource SystemControlForegroundTransparentBrush}" />
-        <Setter Property="BorderThickness" Value="{ThemeResource ButtonBorderThemeThickness}" />
+    <Style x:Key="CircleButtonStyle" TargetType="Button" BasedOn="{StaticResource ButtonRevealStyle}">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{ThemeResource ButtonForeground}" />
+        <Setter Property="BorderBrush" Value="{ThemeResource ButtonRevealBorderBrush}" />
+        <Setter Property="Padding" Value="8,4,8,4" />
         <Setter Property="FocusVisualPrimaryThickness" Value="0" />
         <Setter Property="FocusVisualMargin" Value="0" />
         <Setter Property="FocusVisualSecondaryThickness" Value="0" />
-        <Setter Property="Padding" Value="8,4,8,4" />
         <Setter Property="HorizontalAlignment" Value="Left" />
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
@@ -898,104 +906,75 @@
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <Grid x:Name="RootGrid">
+
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal">
+
                                     <Storyboard>
                                         <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
                                     </Storyboard>
                                 </VisualState>
-                                <VisualState x:Name="Focused">
-                                    <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="BorderCircle"
-                                                         Storyboard.TargetProperty="Opacity" From="0" To="0.3"
-                                                         Duration="0:0:0.15" />
-                                    </Storyboard>
-                                </VisualState>
 
                                 <VisualState x:Name="PointerOver">
-                                    <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="BorderCircle"
-                                                         Storyboard.TargetProperty="Opacity" From="0" To="0.3"
-                                                         Duration="0:0:0.15" />
-                                    </Storyboard>
-                                </VisualState>
-                                <VisualState x:Name="Pressed">
-                                    <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="BorderCircle"
-                                                         Storyboard.TargetProperty="Opacity" From="0.3" To="0.5"
-                                                         Duration="0:0:0.15" />
-                                    </Storyboard>
-                                </VisualState>
-                            </VisualStateGroup>
-                        </VisualStateManager.VisualStateGroups>
-                        <Ellipse x:Name="BorderCircle" Stroke="{TemplateBinding BorderBrush}" StrokeThickness="2"
-                                 Fill="White" Opacity="0" />
-                        <ContentPresenter x:Name="ContentPresenter" VerticalAlignment="Center"
-                                          AutomationProperties.AccessibilityView="Raw"
-                                          ContentTemplate="{TemplateBinding ContentTemplate}"
-                                          Content="{TemplateBinding Content}" HorizontalContentAlignment="Center"
-                                          Padding="{TemplateBinding Padding}"
-                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
-                    </Grid>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
+                                    <VisualState.Setters>
+                                        <Setter Target="BorderCircle.(RevealBrush.State)" Value="PointerOver" />
+                                        <Setter Target="BorderCircle.Fill" Value="{ThemeResource ButtonRevealBackgroundPointerOver}" />
+                                        <Setter Target="BorderCircle.Stroke" Value="{ThemeResource ButtonRevealBorderBrushPointerOver}" />
+                                    </VisualState.Setters>
 
-    <Style x:Key="CircleButtonStyle" TargetType="Button">
-        <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
-        <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
-        <Setter Property="BorderBrush" Value="{ThemeResource SystemControlForegroundTransparentBrush}" />
-        <Setter Property="BorderThickness" Value="{ThemeResource ButtonBorderThemeThickness}" />
-        <Setter Property="Padding" Value="8,4,8,4" />
-        <Setter Property="HorizontalAlignment" Value="Left" />
-        <Setter Property="VerticalAlignment" Value="Center" />
-        <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
-        <Setter Property="FontWeight" Value="Normal" />
-        <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
-        <Setter Property="UseSystemFocusVisuals" Value="True" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="Button">
-                    <Grid x:Name="RootGrid">
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup x:Name="CommonStates">
-                                <VisualState x:Name="Normal">
                                     <Storyboard>
                                         <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
                                     </Storyboard>
                                 </VisualState>
+
                                 <VisualState x:Name="Focused">
+                                    <VisualState.Setters>
+                                        <Setter Target="BorderCircle.(RevealBrush.State)" Value="PointerOver" />
+                                        <Setter Target="BorderCircle.Fill" Value="{ThemeResource ButtonRevealBackgroundPointerOver}" />
+                                        <Setter Target="BorderCircle.Stroke" Value="{ThemeResource ButtonRevealBorderBrushPointerOver}" />
+                                    </VisualState.Setters>
+
                                     <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="ContentPresenter"
-                                                         Storyboard.TargetProperty="Opacity" From="1" To="0.5"
-                                                         Duration="0:0:0.05" />
+                                        <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
                                     </Storyboard>
                                 </VisualState>
 
-                                <VisualState x:Name="PointerOver">
+                                <VisualState x:Name="Pressed">
+                                    <VisualState.Setters>
+                                        <Setter Target="BorderCircle.(RevealBrush.State)" Value="Pressed" />
+                                        <Setter Target="BorderCircle.Fill" Value="{ThemeResource ButtonRevealBackgroundPressed}" />
+                                        <Setter Target="BorderCircle.Stroke" Value="{ThemeResource ButtonRevealBorderBrushPressed}" />
+                                    </VisualState.Setters>
+
                                     <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="ContentPresenter"
-                                                         Storyboard.TargetProperty="Opacity" From="1" To="0.5"
-                                                         Duration="0:0:0.05" />
+                                        <PointerDownThemeAnimation Storyboard.TargetName="RootGrid" />
                                     </Storyboard>
                                 </VisualState>
-                                <VisualState x:Name="Pressed">
-                                    <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="ContentPresenter"
-                                                         Storyboard.TargetProperty="Opacity" From="0.5" To="0.2"
-                                                         Duration="0:0:0.05" />
-                                    </Storyboard>
+
+                                <VisualState x:Name="Disabled">
+                                    <VisualState.Setters>
+                                        <Setter Target="BorderCircle.Fill" Value="{ThemeResource ButtonRevealBackgroundDisabled}" />
+                                        <Setter Target="BorderCircle.Stroke" Value="{ThemeResource ButtonRevealBorderBrushDisabled}" />
+                                    </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
+
                         </VisualStateManager.VisualStateGroups>
-                        <ContentPresenter x:Name="ContentPresenter" Opacity="1" VerticalAlignment="Center"
-                                          AutomationProperties.AccessibilityView="Raw"
-                                          ContentTemplate="{TemplateBinding ContentTemplate}"
-                                          Content="{TemplateBinding Content}" HorizontalContentAlignment="Center"
-                                          Padding="{TemplateBinding Padding}"
-                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+
+                        <Ellipse x:Name="BorderCircle" Stroke="{TemplateBinding BorderBrush}" 
+                                 StrokeThickness="1"
+                                 Fill="{TemplateBinding Background}" />
+
+                        <ContentPresenter x:Name="ContentPresenter"
+                            BorderThickness="0"
+                            Content="{TemplateBinding Content}"
+                            ContentTransitions="{TemplateBinding ContentTransitions}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            Padding="{TemplateBinding Padding}"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                            AutomationProperties.AccessibilityView="Raw" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

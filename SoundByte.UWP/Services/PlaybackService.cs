@@ -49,11 +49,12 @@ namespace SoundByte.UWP.Services
         #endregion
 
         #region Private Variables
+
         /// <summary>
         ///     Used for working with YouTube video streams. This is a shared
         ///     instance to increase performance.
         /// </summary>
-        private YoutubeClient _youTubeClient;
+        public YoutubeClient YouTubeClient { get; }
 
         /// <summary>
         ///     Shared media player used throughout the app.
@@ -110,7 +111,7 @@ namespace SoundByte.UWP.Services
             };
 
             // Create the youtube client used to parse YouTube streams.
-            _youTubeClient = new YoutubeClient();
+            YouTubeClient = new YoutubeClient();
 
             // Assign event handlers
             MediaPlaybackList.CurrentItemChanged += MediaPlaybackListOnCurrentItemChanged;
@@ -544,7 +545,7 @@ namespace SoundByte.UWP.Services
             if (track != null)
             {
                 // Get the audio stream url for this track
-                var audioStreamUri = await track.GetAudioStreamAsync(_youTubeClient);
+                var audioStreamUri = await track.GetAudioStreamAsync(YouTubeClient);
 
                 // If we are live and youtube, we get an adaptive stream url
                 if (track.ServiceType == ServiceType.YouTube && track.IsLive)

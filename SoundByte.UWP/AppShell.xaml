@@ -127,7 +127,17 @@
                         <FontIcon Glyph="&#xEF3B;"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                
+
+                <NavigationViewItem Content="Now Playing" 
+                                    Style="{StaticResource NavStyle}" 
+                                    x:Name="NavigationItemNowPlaying"
+                                    Tag="now-playing">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xEC4F;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+
+                <NavigationViewItemSeparator />
                 <NavigationViewItemSeparator />
 
                 <NavigationViewItem Content="Account" 
@@ -136,6 +146,15 @@
                                     Tag="accounts">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE77B;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+
+                <NavigationViewItem Content="Addons" 
+                                    Style="{StaticResource NavStyle}" 
+                                    x:Name="NavigationItemAddons"
+                                    Tag="addons">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE74C;"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
 
@@ -157,6 +176,8 @@
                         <FontIcon Glyph="&#xE719;"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
+
+                <NavigationViewItem x:Name="NavigationItemOther" Visibility="Collapsed" />
             </NavigationView.MenuItems>
 
 
