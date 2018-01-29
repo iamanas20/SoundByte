@@ -11,9 +11,7 @@
 
     <UserControl.Resources>
         <converters:SliderValueConverter x:Key="SliderValueConverter" />
-        <converters:TrackLikeToIconConverter x:Key="TrackLikeToIconConverter" />
     </UserControl.Resources>
-
 
     <!-- Content -->
     <Grid x:Name="RootGrid"
@@ -37,7 +35,7 @@
                     VerticalAlignment="Center" 
                     VerticalContentAlignment="Center"
                     HorizontalContentAlignment="Left" 
-                    Click="{x:Bind NavigateNowPlaying}"
+                    Click="{x:Bind PlaybackViewModel.NavigateNowPlaying}"
                     Style="{ThemeResource ButtonRevealStyle}"
                     Background="Transparent"
                     Padding="0"
@@ -98,6 +96,7 @@
                 <!-- Shuffle -->
                 <Button Margin="5,0" 
                         Style="{StaticResource CircleButtonStyle}" 
+                        Click="{x:Bind PlaybackViewModel.ToggleShuffle}"
                         Width="40" Height="40">
                     <ToolTipService.ToolTip>
                         <ToolTip Content="Toggle Shuffle" />
@@ -161,6 +160,7 @@
                 <!-- Repeat -->
                 <Button Margin="5,0" 
                         Style="{StaticResource CircleButtonStyle}" 
+                        Click="{x:Bind PlaybackViewModel.ToggleRepeat}"
                         Width="40" Height="40">
                     <ToolTipService.ToolTip>
                         <ToolTip Content="Toggle Repeat" />
@@ -277,7 +277,7 @@
                 
                 <!-- Now Playing -->
                 <Button Margin="5,0" 
-                        Click="NavigateNowPlaying"
+                        Click="{x:Bind PlaybackViewModel.NavigateNowPlaying}"
                         Style="{StaticResource CircleButtonStyle}" 
                         Width="40" Height="40">
                     <ToolTipService.ToolTip>
@@ -341,14 +341,14 @@
                                 </Grid>
 
                                 <StackPanel Grid.Row="1">
-                                    <MenuFlyoutItem Text="Like" />
-                                    <MenuFlyoutItem Text="Add To" />
-                                    <MenuFlyoutItem Text="Share" />
+                                    <MenuFlyoutItem Text="Like" Click="{x:Bind PlaybackViewModel.CurrentTrack.ToggleLike}" />
+                                    <MenuFlyoutItem Text="Add To"  />
+                                    <MenuFlyoutItem Text="Share" Click="{x:Bind PlaybackViewModel.ShareTrack}" />
 
                                     <MenuFlyoutSeparator Opacity="0.4" />
-                                    
-                                    <MenuFlyoutItem Text="View Artist" />
-                                    <MenuFlyoutItem Text="View Track" />
+
+                                    <MenuFlyoutItem Text="View Artist" Click="{x:Bind PlaybackViewModel.ViewArtist}" />
+                                    <MenuFlyoutItem Text="View Track" Click="{x:Bind PlaybackViewModel.NavigateNowPlaying}" />
                                 </StackPanel>
                             </Grid>
                         </Flyout>

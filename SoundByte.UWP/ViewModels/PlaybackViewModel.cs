@@ -12,9 +12,11 @@ using SoundByte.Core;
 using SoundByte.Core.Items.Track;
 using SoundByte.Core.Items.User;
 using SoundByte.Core.Services;
+using SoundByte.UWP.Dialogs;
 using SoundByte.UWP.Extensions;
 using SoundByte.UWP.Helpers;
 using SoundByte.UWP.Services;
+using SoundByte.UWP.Views;
 
 namespace SoundByte.UWP.ViewModels
 {
@@ -409,6 +411,23 @@ namespace SoundByte.UWP.ViewModels
             // Update the UI
             VolumeIcon = PlaybackService.Instance.IsTrackMuted ? "\uE74F" : "\uE767";
         }
+
+        public void NavigateNowPlaying()
+        {
+            App.NavigateTo(typeof(NowPlayingView));
+        }
+
+        public async void ShareTrack()
+        {
+            await NavigationService.Current.CallDialogAsync<ShareDialog>(PlaybackService.Instance.GetCurrentTrack());
+        }
+
+        public void ViewArtist()
+        {
+            App.NavigateTo(typeof(UserView), PlaybackService.Instance.GetCurrentTrack()?.User);
+        }
+
+
         #endregion
 
         #region Track Playback State
@@ -470,6 +489,8 @@ namespace SoundByte.UWP.ViewModels
                 Playlist.Add(baseTrack);
             }
         }
+
+
 
         #region Methods
         public async void OnPlayingSliderChange()

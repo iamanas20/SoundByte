@@ -1,4 +1,7 @@
-﻿using SoundByte.UWP.ViewModels;
+﻿using Microsoft.Identity.Client;
+using SoundByte.UWP.Dialogs;
+using SoundByte.UWP.Services;
+using SoundByte.UWP.ViewModels;
 using SoundByte.UWP.Views;
 
 namespace SoundByte.UWP.Controls
@@ -6,7 +9,6 @@ namespace SoundByte.UWP.Controls
     public sealed partial class NowPlayingBar
     {
         public PlaybackViewModel PlaybackViewModel { get; private set; }
-
 
         public NowPlayingBar()
         {
@@ -29,9 +31,6 @@ namespace SoundByte.UWP.Controls
             await App.SwitchToCompactView();
         }
 
-        private void NavigateNowPlaying(object sender, Windows.UI.Xaml.RoutedEventArgs e)
-        {
-            App.NavigateTo(typeof(NowPlayingView));
-        }
+      
     }
 }
