@@ -57,19 +57,31 @@ namespace SoundByte.UWP.Views
             SoundByteAccountBanner.Visibility = SoundByteService.Current.IsSoundByteAccountConnected 
                 ? Visibility.Collapsed : Visibility.Visible;
 
-            AppBanners.Clear();
-            var appBanners = await SoundByteService.Current.GetAsync<List<AppBanner>>(ServiceType.SoundByte, "app/banner");
-            appBanners.Response.ForEach(AppBanners.Add);
+            try
+            {
+                AppBanners.Clear();
+                var appBanners =
+                    await SoundByteService.Current.GetAsync<List<AppBanner>>(ServiceType.SoundByte, "app/banner");
+                appBanners.Response.ForEach(AppBanners.Add);
 
-            _flipViewTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(10) };
-            _flipViewTimer.Tick += FlipViewTimerOnTick;
-            _flipViewTimer.Start();
+                _flipViewTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(10) };
+                _flipViewTimer.Tick += FlipViewTimerOnTick;
+                _flipViewTimer.Start();
+            }
+            catch
+            {
+
+            }
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            _flipViewTimer.Stop();
-            _flipViewTimer.Tick -= FlipViewTimerOnTick;
+            if (_flipViewTimer != null)
+            {
+                _flipViewTimer.Stop();
+                _flipViewTimer.Tick -= FlipViewTimerOnTick;
+            }
+
             _flipViewTimer = null;
         }
 
