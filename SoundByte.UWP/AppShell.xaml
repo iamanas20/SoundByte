@@ -69,6 +69,7 @@
                         AlwaysShowHeader="False"
                         ItemInvoked="NavView_OnItemInvoked"
                         SelectionChanged="NavView_OnSelectionChanged"
+                        DisplayModeChanged="NavView_OnDisplayModeChanged"
                         OpenPaneLength="320" 
                         CompactPaneLength="64"
                         CompactModeThresholdWidth="560"                        
@@ -137,7 +138,6 @@
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
 
-                <NavigationViewItemSeparator />
                 <NavigationViewItemSeparator />
 
                 <NavigationViewItem Content="Account" 

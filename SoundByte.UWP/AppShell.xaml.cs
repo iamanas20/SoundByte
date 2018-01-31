@@ -487,9 +487,12 @@ namespace SoundByte.UWP
                 case nameof(DeviceView):
                     NavView.SelectedItem = NavigationItemDownloads;
                     break;
-             //   default:
-             //       NavView.SelectedItem = NavigationItemOther;
-              //      break;
+                case nameof(AddonsView):
+                    NavView.SelectedItem = NavigationItemAddons;
+                    break;
+                default:
+                    NavView.SelectedItem = NavigationItemOther;
+                    break;
             }
 
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = ((Frame)sender).CanGoBack
@@ -624,6 +627,7 @@ namespace SoundByte.UWP
                     App.NavigateTo(typeof(NowPlayingView));
                     break;
                 case "addons":
+                    App.NavigateTo(typeof(AddonsView));
                     break;
 
             }
@@ -635,5 +639,17 @@ namespace SoundByte.UWP
         }
 
 
+        /// <summary>
+        ///     Hide SoundByte title on nav collapse (desktop)
+        /// </summary>
+        private void NavView_OnDisplayModeChanged(NavigationView sender, NavigationViewDisplayModeChangedEventArgs args)
+        {
+            if (DeviceHelper.IsDesktop)
+            {
+                AppTitle.Visibility = args.DisplayMode == NavigationViewDisplayMode.Expanded 
+                    ? Visibility.Visible 
+                    : Visibility.Collapsed;
+            }
+        }
     }
 }

@@ -33,11 +33,11 @@
 
                 <TextBlock Text="Donate within the app" 
                            Style="{StaticResource SubTitleStyle}" />
-              
-                <HyperlinkButton Content="Loose Change ($--.--)" Style="{StaticResource LinkStyle}" IsEnabled="False"  />
-                <HyperlinkButton Content="Small Coffee ($--.--)" Style="{StaticResource LinkStyle}" IsEnabled="False"  />
-                <HyperlinkButton Content="Regular Coffee ($--.--)" Style="{StaticResource LinkStyle}" IsEnabled="False"  />
-                <HyperlinkButton Content="Large Coffee ($--.--)" Style="{StaticResource LinkStyle}" IsEnabled="False"  />
+
+                <HyperlinkButton x:Name="LooseChangePrice" Content="Loose Change ($--.--)?" Style="{StaticResource LinkStyle}" Click="DonateLooseChange" />
+                <HyperlinkButton x:Name="SmallCoffeePrice" Content="Small Coffee ($--.--)?" Style="{StaticResource LinkStyle}" Click="DonateSmall"  />
+                <HyperlinkButton x:Name="RegularCoffeePrice" Content="Regular Coffee ($--.--)?" Style="{StaticResource LinkStyle}" Click="DonateRegular" />
+                <HyperlinkButton x:Name="LargeCoffeePrice" Content="Large Coffee ($--.--)?" Style="{StaticResource LinkStyle}" Click="DonateLarge"  />
 
 
                 <TextBlock Text="Donate using other methods" 

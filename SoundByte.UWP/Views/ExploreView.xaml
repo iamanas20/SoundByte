@@ -10,7 +10,7 @@
         <ScrollViewer x:Name="ScrollViewer">
             <StackPanel Orientation="Vertical" >
                 <!-- Main Carousel (featuring new content)  -->
-                <FlipView Height="350" ItemsSource="{x:Bind Path=AppBanners, Mode=OneWay}" x:Name="FlipView">
+                <FlipView Height="300" ItemsSource="{x:Bind Path=AppBanners, Mode=OneWay}" x:Name="FlipView">
                     <FlipView.ItemTemplate>
                         <DataTemplate x:DataType="model:AppBanner">
                             <Grid>

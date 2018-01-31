@@ -97,7 +97,9 @@ namespace SoundByte.Core.Items.Track
                 User = new BaseUser
                 {
                     UserId = Snippet.ChannelId,
-                    Username = Snippet.ChannelTitle
+                    Username = Snippet.ChannelTitle,
+                    ArtworkUrl = "http://a1.sndcdn.com/images/default_avatar_large.png",
+                    ThumbnailUrl = "http://a1.sndcdn.com/images/default_avatar_large.png"
                 }
             };
 
