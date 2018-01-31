@@ -188,7 +188,7 @@
                            FontWeight="SemiBold"
                            Text="{x:Bind PlaybackViewModel.TimeListened, Mode=OneWay}"
                            Opacity="0.8"
-                           FontSize="13" />
+                           FontSize="14" />
 
                 <Slider Grid.Column="1"
                         Style="{StaticResource MainSliderStyle}"
@@ -205,7 +205,7 @@
                            FontWeight="SemiBold"
                            Text="{x:Bind PlaybackViewModel.TimeRemaining, Mode=OneWay}"
                            Opacity="0.8"
-                           FontSize="13" />
+                           FontSize="14" />
             </Grid>
             
             <!-- Misc Buttons -->
