@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
@@ -13,6 +14,7 @@ using Windows.UI.Core;
 using Windows.UI.Notifications;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 using Microsoft.Toolkit.Uwp.Helpers;
 using SoundByte.Core;
@@ -67,7 +69,6 @@ namespace SoundByte.UWP
             // playing bar.
             PlaybackService.Instance.OnTrackChange += InstanceOnOnCurrentTrackChanged;
 
-
             // Create a shell frame shadow for mobile and desktop
             if (DeviceHelper.IsDesktop)
             {
@@ -75,13 +76,15 @@ namespace SoundByte.UWP
                     ShellFrameShadow);
             }
 
-            // Events for Xbox
-            if (DeviceHelper.IsXbox)
+            RootFrame.GotFocus += (s,e) =>
             {
-                // Make xbox selection easy to see
-                Application.Current.Resources["CircleButtonStyle"] =
-                    Application.Current.Resources["XboxCircleButtonStyle"];
-            }
+                var focus = FocusManager.GetFocusedElement() as FrameworkElement;
+                if (focus != null)
+                {
+                    Debug.WriteLine("got focus: " + focus.Name + " (" +
+                                    focus.GetType().ToString() + ")");
+                }
+            };
 
             RootFrame.Focus(FocusState.Keyboard);
         }

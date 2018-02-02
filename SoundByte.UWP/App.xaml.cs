@@ -446,7 +446,9 @@ namespace SoundByte.UWP
 
             // If on xbox display the screen to the full width and height
             if (DeviceHelper.IsXbox)
+            {
                 ApplicationView.GetForCurrentView().SetDesiredBoundsMode(ApplicationViewBoundsMode.UseCoreWindow);
+            }
 
             // Activate the window
             LoggingService.Log(LoggingService.LogType.Debug, "Activiating Window");

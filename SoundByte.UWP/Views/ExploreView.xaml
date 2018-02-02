@@ -10,7 +10,10 @@
         <ScrollViewer x:Name="ScrollViewer">
             <StackPanel Orientation="Vertical" >
                 <!-- Main Carousel (featuring new content)  -->
-                <FlipView Height="300" ItemsSource="{x:Bind Path=AppBanners, Mode=OneWay}" x:Name="FlipView">
+                <FlipView Height="300" 
+                          ItemsSource="{x:Bind Path=AppBanners, Mode=OneWay}" 
+                          IsFocusEngagementEnabled="True"
+                          x:Name="FlipView">
                     <FlipView.ItemTemplate>
                         <DataTemplate x:DataType="model:AppBanner">
                             <Grid>
@@ -141,6 +144,7 @@
 
                 <Grid Height="300" Padding="{ThemeResource PagePadding}" Margin="-10,0,0,0">
                     <controls:InfoPane VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+                                       IsHitTestVisible="False"
                                          Visibility="Collapsed" Canvas.ZIndex="50"
                                          Header="{x:Bind SoundCloudTracks.ErrorHeader, Mode=OneWay}"
                                          Text="{x:Bind SoundCloudTracks.ErrorDescription, Mode=OneWay}"
@@ -148,6 +152,7 @@
                                          IsError="{x:Bind SoundCloudTracks.IsError, Mode=OneWay}" />
                     <GridView Style="{StaticResource CompactSoundByteGridView}"
                               ItemsSource="{x:Bind Path=SoundCloudTracks, Mode=OneWay}"
+                              IsFocusEngagementEnabled="True"
                               ItemTemplate="{StaticResource TrackItem}"
                               ItemClick="{x:Bind PlayChartItem}" />
                 </Grid>
@@ -170,6 +175,7 @@
 
                 <Grid Height="300" Padding="{ThemeResource PagePadding}" Margin="-10,0,0,0">
                     <controls:InfoPane VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+                                       IsHitTestVisible="False"
                                          Visibility="Collapsed" Canvas.ZIndex="50"
                                          Header="{x:Bind YouTubeTracks.ErrorHeader, Mode=OneWay}"
                                          Text="{x:Bind YouTubeTracks.ErrorDescription, Mode=OneWay}"
@@ -177,6 +183,7 @@
                                          IsError="{x:Bind YouTubeTracks.IsError, Mode=OneWay}" />
                     <GridView Style="{StaticResource CompactSoundByteGridView}"
                               ItemsSource="{x:Bind Path=YouTubeTracks, Mode=OneWay}"
+                              IsFocusEngagementEnabled="True"
                               ItemTemplate="{StaticResource TrackItem}"
                               ItemClick="{x:Bind PlayYouTubeItem}" />
                 </Grid>
@@ -185,12 +192,15 @@
                 <controls:SectionHeader Title="Popular Fanburst Tracks" Margin="{ThemeResource PagePadding}">
                     <controls:SectionHeader.Buttons>
                         <controls:AppButton Label="Play All" 
+                                            x:Name="FanburstPlayAll"
                                             Click="{x:Bind PlayFanburst}"
                                             Glyph="&#xE768;" />
                         <controls:AppButton Label="Shuffle Play" 
+                                            x:Name="FanburstShufflePlay"
                                             Click="{x:Bind PlayShuffleFanburst}"
                                             Glyph="&#xE8B1;" />
                         <controls:AppButton IsExtended="True"
+                                            x:Name="FanburstViewAll"
                                             Click="{x:Bind NavigateMoreFanburst}"
                                             Label="View All" 
                                             Glyph="&#xE8A9;"/>
@@ -199,13 +209,17 @@
 
                 <Grid Height="300" Padding="{ThemeResource PagePadding}" Margin="-10,0,0,0">
                     <controls:InfoPane VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+                                       IsHitTestVisible="False"
                                          Visibility="Collapsed" Canvas.ZIndex="50"
                                          Header="{x:Bind FanburstTracks.ErrorHeader, Mode=OneWay}"
                                          Text="{x:Bind FanburstTracks.ErrorDescription, Mode=OneWay}"
                                          IsLoading="{x:Bind FanburstTracks.IsLoading, Mode=OneWay}"
                                          IsError="{x:Bind FanburstTracks.IsError, Mode=OneWay}" />
-                    <GridView Style="{StaticResource CompactSoundByteGridView}"                         
+                    
+                    <GridView Style="{StaticResource CompactSoundByteGridView}"  
+                              XYFocusUp="{x:Bind FanburstPlayAll}"
                               ItemsSource="{x:Bind Path=FanburstTracks, Mode=OneWay}"
+                              IsFocusEngagementEnabled="True"
                               ItemTemplate="{StaticResource TrackItem}"                        
                               ItemClick="{x:Bind PlayFanburstItem}" />
                 </Grid>
