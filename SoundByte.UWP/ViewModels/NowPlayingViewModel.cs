@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using Windows.Media.Streaming.Adaptive;
-using Windows.UI.StartScreen;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml.Controls;
 using Microsoft.Toolkit.Uwp.Helpers;
@@ -11,7 +10,6 @@ using SoundByte.Core.Items.Track;
 using SoundByte.Core.Items.User;
 using SoundByte.Core.Services;
 using SoundByte.Core.Sources;
-using SoundByte.UWP.Converters;
 using SoundByte.UWP.Dialogs;
 using SoundByte.UWP.Helpers;
 using SoundByte.UWP.Services;
@@ -62,14 +60,6 @@ namespace SoundByte.UWP.ViewModels
                         overlay.Source = null;
                     }
                 }
-
-                // Set the pin button text
-                PinButtonText = TileHelper.IsTilePinned("Track_" + newTrack.TrackId) ? "Unpin" : "Pin";
-
-                // Set the like button text
-                LikeButtonText = (await SoundByteService.Current.ExistsAsync(ServiceType.SoundCloud, "/me/favorites/" + newTrack.TrackId)).Response
-                    ? "Unlike"
-                    : "Like";
 
                 // Reload all the comments
                 CommentItems.Source.Track = newTrack;
@@ -126,73 +116,6 @@ namespace SoundByte.UWP.ViewModels
             }
         }
         private PlaybackViewModel _playbackViewModel;
-
-
-        /// <summary>
-        ///     The text on the pin button
-        /// </summary>
-        public string PinButtonText
-        {
-            get => _pinButtonText;
-            set
-            {
-                if (_pinButtonText == value)
-                    return;
-
-                _pinButtonText = value;
-                UpdateProperty();
-            }
-        }
-
-        /// <summary>
-        ///     The text on the like button
-        /// </summary>
-        public string LikeButtonText
-        {
-            get => _likeButtonText;
-            set
-            {
-                if (_likeButtonText == value)
-                    return;
-
-                _likeButtonText = value;
-                UpdateProperty();
-            }
-        }
-
-        /// <summary>
-        ///     The text on the repost button
-        /// </summary>
-        public string RepostButtonText
-        {
-            get => _repostButtonText;
-            set
-            {
-                if (_repostButtonText == value)
-                    return;
-
-                _repostButtonText = value;
-                UpdateProperty();
-            }
-        }
-
-        /// <summary>
-        ///     The comment text for the comment box
-        /// </summary>
-        public string CommentText
-        {
-            get => _commentText;
-
-            set
-            {
-                if (_commentText == value)
-                    return;
-
-                _commentText = value;
-                UpdateProperty();
-            }
-        }
-
         #endregion
 
         #region Enter and Leave ViewModel Handlers
@@ -294,135 +217,6 @@ namespace SoundByte.UWP.ViewModels
         public void GotoRelatedTrack(object sender, ItemClickEventArgs e)
         {
             PlaybackService.Instance.MoveTo(e.ClickedItem as BaseTrack);
-        }
-
-        /// <summary>
-        ///     Pin the tile to the start menu
-        /// </summary>
-        public async void PinTile()
-        {
-            var currentTrack = PlaybackService.Instance.GetCurrentTrack();
-
-            if (currentTrack != null)
-            {
-                // Check if the tile exists
-                var tileExists = TileHelper.IsTilePinned("Track_" + currentTrack.TrackId);
-
-                if (tileExists)
-                {
-                    // Remove the tile and check if it was successful
-                    if (await TileHelper.RemoveTileAsync("Track_" + currentTrack.TrackId))
-                    {
-                        PinButtonText = "Pin";
-                        // Track Event
-                        App.Telemetry.TrackEvent("Unpin Track");
-                    }
-                    else
-                    {
-                        PinButtonText = "Unpin";
-                    }
-                }
-                else
-                {
-                    // Create a live tile and check if it was created
-                    if (await TileHelper.CreateTileAsync("Track_" + currentTrack.TrackId,
-                        currentTrack.Title, "soundbyte://core/track?id=" + currentTrack.TrackId,
-                        new Uri(currentTrack.ThumbnailUrl), ForegroundText.Light))
-                    {
-                        PinButtonText = "Unpin";
-                        // Track Event
-                        App.Telemetry.TrackEvent("Pin Track");
-                    }
-                    else
-                    {
-                        PinButtonText = "Pin";
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        ///     Repost the current track to the users stream
-        /// </summary>
-        public async void RepostTrack()
-        {
-            var currentTrack = PlaybackService.Instance.GetCurrentTrack();
-
-            if (currentTrack == null)
-                return;
-
-            // Check to see what the existing string is
-            if (RepostButtonText == "Unpost")
-            {
-                // Delete the repost value and check if it was successful
-                if ((await SoundByteService.Current.DeleteAsync(ServiceType.SoundCloud, "/e1/me/track_reposts/" + currentTrack.TrackId)).Response)
-                {
-                    RepostButtonText = "Repost";
-                    // Track Event
-                    App.Telemetry.TrackEvent("Unpost Track");
-                }
-                else
-                {
-                    RepostButtonText = "Unpost";
-                }
-            }
-            else
-            {
-                // Put a value in the reposted tracks and see if successful
-                if ((await SoundByteService.Current.PutAsync(ServiceType.SoundCloud, $"/e1/me/track_reposts/{currentTrack.TrackId}")).Response)
-                {
-                    RepostButtonText = "Unpost";
-                    // Track Event
-                    App.Telemetry.TrackEvent("Repost Track");
-                }
-                else
-                {
-                    RepostButtonText = "Repost";
-                }
-            }
-        }
-
-        /// <summary>
-        ///     Like the current track
-        /// </summary>
-        public async void LikeTrack()
-        {
-            var currentTrack = PlaybackService.Instance.GetCurrentTrack();
-
-
-
-            if (currentTrack == null)
-                return;
-
-            // Check to see what the existing string is
-            if (LikeButtonText == "Unlike")
-            {
-                // Delete the like from the users likes and see if successful
-                if ((await SoundByteService.Current.DeleteAsync(ServiceType.SoundCloud, "/e1/me/track_likes/" + currentTrack.TrackId)).Response)
-                {
-                    LikeButtonText = "Like";
-                    // Track Event
-                    App.Telemetry.TrackEvent("Unlike Track");
-                }
-                else
-                {
-                    LikeButtonText = "Unlike";
-                }
-            }
-            else
-            {
-                // Add a like to the users likes and see if successful
-                if ((await SoundByteService.Current.PutAsync(ServiceType.SoundCloud, $"/e1/me/track_likes/{currentTrack.TrackId}")).Response)
-                {
-                    LikeButtonText = "Unlike";
-                    // Track Event
-                    App.Telemetry.TrackEvent("Like Track");
-                }
-                else
-                {
-                    LikeButtonText = "Like";
-                }
-            }
         }
 
         /// <summary>

@@ -70,7 +70,7 @@
             
             <MenuFlyoutSeparator Opacity="0.4" />
             
-            <MenuFlyoutItem Click="{x:Bind ViewModel.PinTile}" Text="{x:Bind ViewModel.PinButtonText, Mode=TwoWay}" />
+        
 
             <MenuFlyoutItem Click="{x:Bind ViewModel.PlaybackViewModel.ToggleShuffle}" Text="Shuffle"
                             FontWeight="{x:Bind ViewModel.PlaybackViewModel.IsShuffleEnabled, Mode=OneWay, Converter={StaticResource BoolToFontWeightConverter}}" />

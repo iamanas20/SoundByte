@@ -5,6 +5,7 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Core;
 using Windows.Media.Playback;
 using Windows.UI.Core;
+using Windows.UI.StartScreen;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using JetBrains.Annotations;
@@ -29,6 +30,40 @@ namespace SoundByte.UWP.ViewModels
         /// Current playlist of items
         /// </summary>
         public ObservableCollection<BaseTrack> Playlist { get; } = new ObservableCollection<BaseTrack>();
+
+        /// <summary>
+        ///     Is reposting enabled (only soundcloud)
+        /// </summary>
+        public bool IsRepostEnabled
+        {
+            get => _isRepostEnabled;
+            set
+            {
+                if (_isRepostEnabled == value)
+                    return;
+
+                _isRepostEnabled = value;
+                UpdateProperty();
+            }
+        }
+        private bool _isRepostEnabled;
+
+        /// <summary>
+        ///     Has the tile been pined to the start menu
+        /// </summary>
+        public bool IsTilePined
+        {
+            get => _isTilePinned;
+            set
+            {
+                if (_isTilePinned == value)
+                    return;
+
+                _isTilePinned = value;
+                UpdateProperty();
+            }
+        }
+        private bool _isTilePinned;
 
         /// <summary>
         /// The current playing track
@@ -252,8 +287,8 @@ namespace SoundByte.UWP.ViewModels
             _updateInformationTimer.Tick += UpdateInformation;
             _audioVideoSyncTimer.Tick += SyncAudioVideo;
 
-            // Update the current track to whatever is playing
-            CurrentTrack = PlaybackService.Instance.GetCurrentTrack();
+            // Update info to current track
+            OnTrackChange(PlaybackService.Instance.GetCurrentTrack());
             UpdateUpNext();
 
             Application.Current.LeavingBackground += CurrentOnLeavingBackground;
@@ -566,8 +601,16 @@ namespace SoundByte.UWP.ViewModels
 
                 UpdateUpNext();
 
+                // If the current track is a soundcloud track, enabled reposting.
+                IsRepostEnabled = track.ServiceType == ServiceType.SoundCloud;
+
+                // Update the tile value
+                IsTilePined = TileHelper.IsTilePinned("Track_" + track.TrackId);
+
                 if (CurrentTrack?.ServiceType == ServiceType.SoundCloud)
                 {
+
+
                     try
                     {
                         CurrentTrack.IsLiked = (await SoundByteService.Current.ExistsAsync(ServiceType.SoundCloud,
@@ -643,5 +686,134 @@ namespace SoundByte.UWP.ViewModels
 
             base.Dispose();
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region Method Bindings
+        /// <summary>
+        ///     Toggle if the track has been liked or not
+        /// </summary>
+        public async void ToggleLikeTrack()
+        {
+            // Track must exist
+            if (CurrentTrack == null)
+            {
+                await NavigationService.Current.CallMessageDialogAsync("No track is currently playing.", "Like Error");
+                return;
+            }
+
+            // User is not logged in
+            if (!SoundByteService.Current.IsServiceConnected(CurrentTrack.ServiceType))
+            {
+                await NavigationService.Current.CallMessageDialogAsync($"You must connect your {CurrentTrack.ServiceType} account to do this.", "Like Error");
+                return;
+            }
+
+            // Toggle like status
+            CurrentTrack.ToggleLike();
+        }
+
+        /// <summary>
+        ///     Toggle is a track has been reposted or not
+        /// </summary>
+        public async void ToggleRepostTrack()
+        {
+            // Track must exist
+            if (CurrentTrack == null)
+            {
+                await NavigationService.Current.CallMessageDialogAsync("No track is currently playing.", "Repost Error");
+                return;
+            }
+
+            // Must be SoundCloud track
+            if (CurrentTrack.ServiceType != ServiceType.SoundCloud &&
+                CurrentTrack.ServiceType != ServiceType.SoundCloudV2)
+            {
+                await NavigationService.Current.CallMessageDialogAsync("Reposting is only supported on SoundCloud tracks.", "Repost Error");
+                return;
+            }
+
+            // User is not logged in
+            if (!SoundByteService.Current.IsServiceConnected(ServiceType.SoundCloud))
+            {
+                await NavigationService.Current.CallMessageDialogAsync("You must connect your SoundCloud account to do this.", "Repost Error");
+                return;
+            }
+
+            try
+            {
+                if (!(await SoundByteService.Current.PutAsync(ServiceType.SoundCloud, $"/e1/me/track_reposts/{CurrentTrack.TrackId}")).Response)
+                {
+                    await NavigationService.Current.CallMessageDialogAsync("Unknown Error", "Repost Error");
+                }
+            }
+            catch (Exception e)
+            {
+                await NavigationService.Current.CallMessageDialogAsync(e.Message, "Repost Error");
+            }
+        }
+
+        public async void TogglePinTile()
+        {
+            // Track must exist
+            if (CurrentTrack == null)
+            {
+                await NavigationService.Current.CallMessageDialogAsync("No track is currently playing.", "Pin Tile Error");
+                return;
+            }
+
+            // Check if the tile exists
+            var tileExists = TileHelper.IsTilePinned("Track_" + CurrentTrack.TrackId);
+
+            if (tileExists)
+            {
+                // Remove the tile and check if it was successful
+                if (await TileHelper.RemoveTileAsync("Track_" + CurrentTrack.TrackId))
+                {
+                    IsTilePined = false;
+                }
+                else
+                {
+                    IsTilePined = true;
+                }
+            }
+            else
+            {
+                // Create a live tile and check if it was created
+                if (await TileHelper.CreateTileAsync("Track_" + CurrentTrack.TrackId,
+                    CurrentTrack.Title, "soundbyte://core/track?id=" + CurrentTrack.TrackId,
+                    new Uri(CurrentTrack.ThumbnailUrl), ForegroundText.Light))
+                {
+                    IsTilePined = true;
+                }
+                else
+                {
+                    IsTilePined = false;
+                }
+            }
+        }
+
+
+
+        public async void DisplayPlaylist()
+        {
+            await NavigationService.Current.CallDialogAsync<PlaylistDialog>(PlaybackService.Instance.GetCurrentTrack());
+        }
+
+
+
+
+        #endregion
     }
 }

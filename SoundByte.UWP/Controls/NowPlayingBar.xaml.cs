@@ -1,8 +1,4 @@
-﻿using Microsoft.Identity.Client;
-using SoundByte.UWP.Dialogs;
-using SoundByte.UWP.Services;
-using SoundByte.UWP.ViewModels;
-using SoundByte.UWP.Views;
+﻿using SoundByte.UWP.ViewModels;
 
 namespace SoundByte.UWP.Controls
 {
@@ -30,7 +26,5 @@ namespace SoundByte.UWP.Controls
         {
             await App.SwitchToCompactView();
         }
-
-      
     }
 }
