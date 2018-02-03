@@ -42,7 +42,7 @@ namespace SoundByte.UWP.ViewModels
         /// </summary>
         private async void Instance_OnCurrentTrackChanged(BaseTrack newTrack)
         {
-            await DispatcherHelper.ExecuteOnUIThreadAsync(async () =>
+            await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
             {
                 var overlay = App.CurrentFrame.FindName("VideoOverlay") as MediaElement;
 

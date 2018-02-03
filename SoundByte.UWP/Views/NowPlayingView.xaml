@@ -71,14 +71,12 @@
             <MenuFlyoutSeparator Opacity="0.4" />
             
         
-
             <MenuFlyoutItem Click="{x:Bind ViewModel.PlaybackViewModel.ToggleShuffle}" Text="Shuffle"
                             FontWeight="{x:Bind ViewModel.PlaybackViewModel.IsShuffleEnabled, Mode=OneWay, Converter={StaticResource BoolToFontWeightConverter}}" />
 
             <MenuFlyoutItem Click="{x:Bind ViewModel.PlaybackViewModel.ToggleRepeat}" Text="Repeat"
                             FontWeight="{x:Bind ViewModel.PlaybackViewModel.IsRepeatEnabled, Mode=OneWay, Converter={StaticResource BoolToFontWeightConverter}}" />
-           
-           
+                  
         </MenuFlyout>
 
         <AcrylicBrush x:Key="TrackBackgroundAcrylicBrush"

@@ -32,4 +32,6 @@
     <!-- Shell Brushes -->
     <SolidColorBrush x:Key="ShellBackground" Color="{ThemeResource ShellBackgroundColor}" />
     <SolidColorBrush x:Key="SoundByteButtonBackground" Color="{ThemeResource SoundByteButtonBackgroundColor}" />
+    <SolidColorBrush x:Key="TransparentBrush" Color="Transparent" />
+
 </ResourceDictionary>

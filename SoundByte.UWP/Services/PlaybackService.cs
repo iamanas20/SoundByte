@@ -269,8 +269,16 @@ namespace SoundByte.UWP.Services
         /// <param name="shuffle">True to shuffle, false to not.</param>
         public async void ShufflePlaylist(bool shuffle)
         {
-            // Start a random track
-            await StartRandomTrackAsync();
+            if (shuffle)
+            {
+                // Start a random track
+                await StartRandomTrackAsync();
+            }
+            else
+            {
+                // Disable shuffle
+                MediaPlaybackList.ShuffleEnabled = false;
+            }
 
             // Track event
             App.Telemetry.TrackEvent("Shuffle Playlist", new Dictionary<string, string>

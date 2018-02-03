@@ -226,27 +226,28 @@ namespace SoundByte.UWP.ViewModels
         /// </summary>
         public bool IsShuffleEnabled
         {
-            get => PlaybackService.Instance.IsPlaylistShuffled;
+            get => _isShuffledEnabled;
             set
             {
-                // Set the new value and force the UI to update
-                PlaybackService.Instance.ShufflePlaylist(value);
+                _isShuffledEnabled = value;
                 UpdateProperty();
             }
         }
+        private bool _isShuffledEnabled;
 
         /// <summary>
         ///     Is the song going to repeat when finished
         /// </summary>
         public bool IsRepeatEnabled
         {
-            get => PlaybackService.Instance.IsTrackRepeating;
+            get => _isRepeatEnabled;
             set
             {
-                PlaybackService.Instance.RepeatTrack(value);
+                _isRepeatEnabled = value;
                 UpdateProperty();
             }
         }
+        private bool _isRepeatEnabled;
 
         #endregion
 
@@ -422,7 +423,16 @@ namespace SoundByte.UWP.ViewModels
         /// </summary>
         public void ToggleRepeat()
         {
-            IsRepeatEnabled = !IsRepeatEnabled;
+            if (PlaybackService.Instance.IsTrackRepeating)
+            {
+                IsRepeatEnabled = false;
+                PlaybackService.Instance.RepeatTrack(false);
+            }
+            else
+            {
+                IsRepeatEnabled = true;
+                PlaybackService.Instance.RepeatTrack(true);
+            }
         }
 
         /// <summary>
@@ -430,7 +440,16 @@ namespace SoundByte.UWP.ViewModels
         /// </summary>
         public void ToggleShuffle()
         {
-            IsShuffleEnabled = !IsShuffleEnabled;
+            if (PlaybackService.Instance.IsPlaylistShuffled)
+            {
+                IsShuffleEnabled = false;
+                PlaybackService.Instance.ShufflePlaylist(false);
+            }
+            else
+            {
+                IsShuffleEnabled = true;
+                PlaybackService.Instance.ShufflePlaylist(true);
+            }
 
             UpdateUpNext();
         }

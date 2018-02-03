@@ -16,6 +16,11 @@
         <converters:BoolToTextConverter x:Key="PinTextConverter" TrueValue="Unpin Tile" FalseValue="Pin Tile" />
 
 
+        <converters:BoolToBrushConverter x:Key="BoolToBrushConverter" 
+                                         FalseColor="TransparentBrush" 
+                                         TrueColor="ButtonRevealBackgroundPointerOver" />
+
+
         <converters1:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
     </UserControl.Resources>
 
@@ -93,7 +98,7 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            
+
             <!-- Buttons -->
             <StackPanel Orientation="Horizontal"  
                         Grid.Column="0" 
@@ -102,6 +107,7 @@
                 <!-- Shuffle -->
                 <Button Margin="5,0" 
                         Style="{StaticResource CircleButtonStyle}" 
+                        Background="{x:Bind PlaybackViewModel.IsShuffleEnabled, Converter={StaticResource BoolToBrushConverter}, Mode=OneWay}"
                         Click="{x:Bind PlaybackViewModel.ToggleShuffle}"
                         Width="40" Height="40">
                     <ToolTipService.ToolTip>
@@ -166,6 +172,7 @@
                 <!-- Repeat -->
                 <Button Margin="5,0" 
                         Style="{StaticResource CircleButtonStyle}" 
+                        Background="{x:Bind PlaybackViewModel.IsRepeatEnabled, Converter={StaticResource BoolToBrushConverter}, Mode=OneWay}"
                         Click="{x:Bind PlaybackViewModel.ToggleRepeat}"
                         Width="40" Height="40">
                     <ToolTipService.ToolTip>
@@ -179,7 +186,7 @@
                     </Button.Content>
                 </Button>
             </StackPanel>
-            
+
             <!-- Slider -->
             <Grid Grid.Column="1" Margin="20,0,20,0" VerticalAlignment="Center" >
                 <Grid.ColumnDefinitions>
@@ -213,13 +220,13 @@
                            Opacity="0.8"
                            FontSize="14" />
             </Grid>
-            
+
             <!-- Misc Buttons -->
             <StackPanel Orientation="Horizontal"
                         Margin="0,0,30,0"
                         VerticalAlignment="Center"
                         Grid.Column="2">
-                
+
                 <!-- Sound -->
                 <Button Margin="5,0" 
                         Style="{StaticResource CircleButtonStyle}" 
@@ -280,7 +287,7 @@
                                    TextAlignment="Center" />
                     </Button.Content>
                 </Button>
-                
+
                 <!-- Now Playing -->
                 <Button Margin="5,0" 
                         Click="{x:Bind PlaybackViewModel.NavigateNowPlaying}"
@@ -317,7 +324,7 @@
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="*" />
                                 </Grid.RowDefinitions>
-                                
+
                                 <!-- Track Info -->
                                 <Grid Grid.Row="0">
                                     <Border Background="Black" 
@@ -347,38 +354,33 @@
                                 </Grid>
 
                                 <StackPanel Grid.Row="1">
-                                    <MenuFlyoutPresenter HorizontalAlignment="Stretch" 
-                                                         Width="Auto"
-                                                         HorizontalContentAlignment="Stretch">
-                                        <!-- Like Track -->
-                                        <MenuFlyoutItem Text="{x:Bind PlaybackViewModel.CurrentTrack.IsLiked, Converter={StaticResource LikeTextConverter}, Mode=OneWay}" 
+                                    <!-- Like Track -->
+                                    <MenuFlyoutItem Text="{x:Bind PlaybackViewModel.CurrentTrack.IsLiked, Converter={StaticResource LikeTextConverter}, Mode=OneWay}" 
                                                         Click="{x:Bind PlaybackViewModel.ToggleLikeTrack}">
-                                            <MenuFlyoutItem.Icon>
-                                                <SymbolIcon  Symbol="Like" />
-                                            </MenuFlyoutItem.Icon>                              
-                                            
-                                        </MenuFlyoutItem>
-                                    
-                                        <!-- Repost only enabled for SoundCloud tracks -->
-                                        <MenuFlyoutItem Text="Repost" 
+                                        <MenuFlyoutItem.Icon>
+                                            <SymbolIcon  Symbol="Like" />
+                                        </MenuFlyoutItem.Icon>
+                                    </MenuFlyoutItem>
+
+                                    <!-- Repost only enabled for SoundCloud tracks -->
+                                    <MenuFlyoutItem Text="Repost" 
                                                         Visibility="{x:Bind PlaybackViewModel.IsRepostEnabled, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}"
                                                         Click="{x:Bind PlaybackViewModel.ToggleRepostTrack}" />
-                                    
-                                        <!-- Pin Tile -->
-                                        <MenuFlyoutItem Text="{x:Bind PlaybackViewModel.IsTilePined, Converter={StaticResource PinTextConverter}, Mode=OneWay}" 
+
+                                    <!-- Pin Tile -->
+                                    <MenuFlyoutItem Text="{x:Bind PlaybackViewModel.IsTilePined, Converter={StaticResource PinTextConverter}, Mode=OneWay}" 
                                                         Click="{x:Bind PlaybackViewModel.TogglePinTile}" />
 
-                                        <!-- Add to a playlist -->
-                                        <MenuFlyoutItem Text="Add To" Click="{x:Bind PlaybackViewModel.DisplayPlaylist}" />
-                                    
-                                        <!-- Share -->
-                                        <MenuFlyoutItem Text="Share" Click="{x:Bind PlaybackViewModel.ShareTrack}" />
+                                    <!-- Add to a playlist -->
+                                    <MenuFlyoutItem Text="Add To" Click="{x:Bind PlaybackViewModel.DisplayPlaylist}" />
 
-                                        <MenuFlyoutSeparator Opacity="0.4" />
+                                    <!-- Share -->
+                                    <MenuFlyoutItem Text="Share" Click="{x:Bind PlaybackViewModel.ShareTrack}" />
 
-                                        <MenuFlyoutItem Text="View Artist" Click="{x:Bind PlaybackViewModel.ViewArtist}" />
-                                        <MenuFlyoutItem Text="View Track" Click="{x:Bind PlaybackViewModel.NavigateNowPlaying}" />
-                                    </MenuFlyoutPresenter>
+                                    <MenuFlyoutSeparator Opacity="0.4" />
+
+                                    <MenuFlyoutItem Text="View Artist" Click="{x:Bind PlaybackViewModel.ViewArtist}" />
+                                    <MenuFlyoutItem Text="View Track" Click="{x:Bind PlaybackViewModel.NavigateNowPlaying}" />
                                 </StackPanel>
                             </Grid>
                         </Flyout>
